@@ -20,6 +20,15 @@ class ResultAccessError(ResultError):
 class Result(ABC, Generic[ResultType, ErrorType]):
     @property
     @abstractmethod
+    def error(self) -> ErrorType:
+        """
+        Returns the error if the Result is Err.
+        Raises ResultAccessError if the Result is Ok.
+        """
+        pass
+
+    @property
+    @abstractmethod
     def value(self) -> ResultType:
         """
         Returns the value if the Result is Ok.
@@ -27,14 +36,23 @@ class Result(ABC, Generic[ResultType, ErrorType]):
         """
         pass
 
-    @property
-    @abstractmethod
-    def error(self) -> ErrorType:
+    def is_ok(self) -> bool:
         """
-        Returns the error if the Result is Err.
-        Raises ResultAccessError if the Result is Ok.
+        Check if the Result is Ok.
+
+        Returns:
+            bool: True if the Result is Ok, False otherwise.
         """
-        pass
+        return isinstance(self, Ok)
+
+    def is_err(self) -> bool:
+        """
+        Check if the Result is Err.
+
+        Returns:
+            bool: True if the Result is Err, False otherwise.
+        """
+        return isinstance(self, Err)
 
 
 class Ok(Result, Generic[ResultType, ErrorType]):
