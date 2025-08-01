@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Hashable
+from typing import Tuple
 
 
 class ValueObject(ABC):
@@ -23,6 +24,8 @@ class ValueObject(ABC):
 
     Example:
         >>> class Email(ValueObject):
+        ...     __slots__ = ("_value",)
+        ...
         ...     def __init__(self, value: str):
         ...         if "@" not in value:
         ...             raise ValueError("Invalid email format")
@@ -81,7 +84,7 @@ class ValueObject(ABC):
         return self.__str__()
 
     @abstractmethod
-    def _equality_components(self) -> tuple[Hashable, ...]:
+    def _equality_components(self) -> Tuple[Hashable, ...]:
         """
         Return the components used for equality comparison.
 
