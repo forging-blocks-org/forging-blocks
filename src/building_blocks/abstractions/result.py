@@ -12,12 +12,21 @@ class ResultError(Exception):
 
 
 class ResultAccessError(ResultError):
-    """Raised when accessing value or error inappropriately on a Result variant."""
+    """Raised when accessing value or errors inappropriately on a Result variant."""
 
     pass
 
 
 class Result(ABC, Generic[ResultType, ErrorType]):
+    @property
+    @abstractmethod
+    def value(self) -> ResultType:
+        """
+        Returns the value if the Result is Ok.
+        Raises ResultAccessError if the Result is Err.
+        """
+        pass
+
     @property
     @abstractmethod
     def error(self) -> ErrorType:
@@ -28,30 +37,11 @@ class Result(ABC, Generic[ResultType, ErrorType]):
         pass
 
     @property
-    @abstractmethod
-    def value(self) -> ResultType:
-        """
-        Returns the value if the Result is Ok.
-        Raises ResultAccessError if the Result is Err.
-        """
-        pass
-
     def is_ok(self) -> bool:
-        """
-        Check if the Result is Ok.
-
-        Returns:
-            bool: True if the Result is Ok, False otherwise.
-        """
         return isinstance(self, Ok)
 
+    @property
     def is_err(self) -> bool:
-        """
-        Check if the Result is Err.
-
-        Returns:
-            bool: True if the Result is Err, False otherwise.
-        """
         return isinstance(self, Err)
 
 

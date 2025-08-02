@@ -5,50 +5,77 @@ from building_blocks.abstractions.result import Err, Ok, Result, ResultAccessErr
 
 class FakeOk(Ok[str, None]):
     def __init__(self, value: str) -> None:
-        self._value = value
+        super().__init__(value)
 
 
 class FakeErr(Err[None, str]):
     def __init__(self, error: str) -> None:
-        self._error = error
+        super().__init__(error)
 
 
 class TestResult:
-    def test_value_when_is_ok_then_return_value(self) -> None:
-        result: Ok[str, str] = Ok("success")
+    def test_value_when_ok_result_then_returns_value(self) -> None:
+        # Arrange
+        value = "success"
+        result: Ok[str, str] = Ok(value)
+        # Act
+        actual_value = result.value
+        # Assert
+        assert actual_value == value
 
-        expected_value = "success"
-        assert result.value == expected_value
-
-        with pytest.raises(ResultAccessError):
-            _ = Err("failure").value
-
-    def test_err_is_err(self) -> None:
+    def test_value_when_err_result_then_raises_result_access_error(self) -> None:
+        # Arrange
         result: Err[str, str] = Err("failure")
-
-        expected_error = "failure"
-        assert result.error == expected_error
-
+        # Act / Assert
         with pytest.raises(ResultAccessError):
-            _ = Ok("success").error
+            _ = result.value
 
-    def test_ok_repr(self) -> None:
-        result: Ok[int, int] = Ok(42)
+    def test_error_when_err_result_then_returns_error(self) -> None:
+        # Arrange
+        error = "failure"
+        result: Err[str, str] = Err(error)
+        # Act
+        actual_error = result.error
+        # Assert
+        assert actual_error == error
 
-        assert repr(result) == "Ok(42)"
+    def test_error_when_ok_result_then_raises_result_access_error(self) -> None:
+        # Arrange
+        result: Ok[str, str] = Ok("success")
+        # Act / Assert
+        with pytest.raises(ResultAccessError):
+            _ = result.error
 
-    def test_err_repr(self) -> None:
-        result: Err[str, str] = Err("bad things")
+    def test_repr_when_ok_result_then_returns_expected_string(self) -> None:
+        # Arrange
+        value = 42
+        result: Ok[int, int] = Ok(value)
+        # Act
+        result_str = repr(result)
+        # Assert
+        assert result_str == "Ok(42)"
 
-        assert repr(result) == "Err('bad things')"
+    def test_repr_when_err_result_then_returns_expected_string(self) -> None:
+        # Arrange
+        error = "bad things"
+        result: Err[str, str] = Err(error)
+        # Act
+        result_str = repr(result)
+        # Assert
+        assert result_str == "Err('bad things')"
 
-    def test_inheritance(self) -> None:
-        res: Result[int, str] = Ok(5)
+    def test_isinstance_when_ok_result_then_is_instance_of_ok_and_result(self) -> None:
+        # Arrange
+        result: Result[int, str] = Ok(5)
+        # Act & Assert
+        assert isinstance(result, Result)
+        assert isinstance(result, Ok)
 
-        assert isinstance(res, Result) is True
-        assert isinstance(res, Ok)
-
-        res2: Result[int, str] = Err("fail")
-
-        assert isinstance(res2, Result)
-        assert isinstance(res2, Err)
+    def test_isinstance_when_err_result_then_is_instance_of_err_and_result(
+        self,
+    ) -> None:
+        # Arrange
+        result: Result[int, str] = Err("fail")
+        # Act & Assert
+        assert isinstance(result, Result)
+        assert isinstance(result, Err)
