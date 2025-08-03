@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
@@ -5,35 +7,32 @@ ResultType = TypeVar("ResultType")
 ErrorType = TypeVar("ErrorType")
 
 
-class ResultError(Exception):
-    """Base exception for Result errors."""
+class ResultAccessError(Exception):
+    def __init__(self, message: str = "ResultAccessError") -> None:
+        super().__init__(message)
 
-    pass
+    @classmethod
+    def cannot_access_value(cls) -> ResultAccessError:
+        return cls("Cannot access value from an Err Result.")
 
+    @classmethod
+    def cannot_access_error(cls) -> ResultAccessError:
+        return cls("Cannot access error from an Ok Result.")
 
-class ResultAccessError(ResultError):
-    """Raised when accessing value or errors inappropriately on a Result variant."""
-
-    pass
+    @property
+    def message(self) -> str:
+        return str(self.args[0])
 
 
 class Result(ABC, Generic[ResultType, ErrorType]):
     @property
     @abstractmethod
     def value(self) -> ResultType:
-        """
-        Returns the value if the Result is Ok.
-        Raises ResultAccessError if the Result is Err.
-        """
         pass
 
     @property
     @abstractmethod
     def error(self) -> ErrorType:
-        """
-        Returns the error if the Result is Err.
-        Raises ResultAccessError if the Result is Ok.
-        """
         pass
 
     @property
@@ -45,8 +44,8 @@ class Result(ABC, Generic[ResultType, ErrorType]):
         return isinstance(self, Err)
 
 
-class Ok(Result, Generic[ResultType, ErrorType]):
-    def __init__(self, value: ResultType) -> None:
+class Ok(Result[ResultType, None], Generic[ResultType]):
+    def __init__(self, value) -> None:
         self._value = value
 
     @property
@@ -54,24 +53,18 @@ class Ok(Result, Generic[ResultType, ErrorType]):
         return self._value
 
     @property
-    def error(self) -> ErrorType:
-        raise ResultAccessError("Cannot access error from an Ok Result.")
-
-    def __repr__(self) -> str:
-        return f"Ok({self.value!r})"
+    def error(self) -> None:
+        raise ResultAccessError.cannot_access_error()
 
 
-class Err(Result, Generic[ResultType, ErrorType]):
-    def __init__(self, error: ErrorType) -> None:
+class Err(Result[None, ErrorType], Generic[ErrorType]):
+    def __init__(self, error) -> None:
         self._error = error
 
     @property
-    def value(self) -> ResultType:
-        raise ResultAccessError("Cannot access value from an Err Result.")
+    def value(self) -> None:
+        raise ResultAccessError.cannot_access_value()
 
     @property
     def error(self) -> ErrorType:
         return self._error
-
-    def __repr__(self) -> str:
-        return f"Err({self.error!r})"
