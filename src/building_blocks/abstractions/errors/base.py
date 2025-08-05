@@ -22,7 +22,12 @@ class Error:
         return self._metadata
 
     def __str__(self) -> str:
-        return self.message.value
+        return f"{self.message.value}{self._format_context()}"
+
+    def _format_context(self) -> str:
+        if self.metadata.context:
+            return f" | Context: {self.metadata.context}"
+        return ""
 
 
 class Errors:
@@ -52,7 +57,7 @@ class Errors:
         return len(self._errors)
 
     def __str__(self) -> str:
-        error_messages = "\n".join([f" - {str(error)}" for error in self._errors])
+        error_messages = "\n".join(f" - {str(error)}" for error in self.errors)
         return f"Errors for field '{self.field.value}':\n{error_messages}"
 
     def _initialize_errors(self, errors: Optional[Collection[Error]]) -> None:
