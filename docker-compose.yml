@@ -24,7 +24,7 @@ services:
       SECRET_KEY: supersecretkey
       ACCESS_TOKEN_EXPIRES_IN: 3600
       REFRESH_TOKEN_EXPIRES_IN: 604800
-      EXAMPLE: tasker_primitive_obsession
+      EXAMPLE: tasker_primitive_obsession # Pass the example name via ENV
     depends_on:
       - postgres
     networks:
@@ -32,7 +32,33 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./examples/tasker_primitive_obsession:/app/examples/tasker_primitive_obsession
+      - .:/app # Mount the entire project root to /app
+    working_dir: /app # Set working directory to /app for the entrypoint script
+    # Remove the 'command' line here. The ENTRYPOINT in your Dockerfile will now run
+    # and use the EXAMPLE env var to start the correct app with --reload.
+
+  tasker_strongly_typed:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      ENVIRONMENT: development
+      DATABASE_URL: postgresql+asyncpg://postgres:password@postgres:5432/postgres
+      SECRET_KEY: supersecretkey
+      ACCESS_TOKEN_EXPIRES_IN: 3600
+      REFRESH_TOKEN_EXPIRES_IN: 604800
+      EXAMPLE: tasker_strongly_typed # Pass the example name via ENV
+    depends_on:
+      - postgres
+    networks:
+      - shared_net
+    ports:
+      - "8001:8000"
+    volumes:
+      - .:/app # Mount the entire project root to /app
+    working_dir: /app # Set working directory to /app for the entrypoint script
+    # Remove the 'command' line here. The ENTRYPOINT in your Dockerfile will now run
+    # and use the EXAMPLE env var to start the correct app with --reload.
 
 volumes:
   pgdata:
