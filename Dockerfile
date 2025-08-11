@@ -12,6 +12,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     gcc \
     libpq-dev \
+    postgresql-client \
     # Add any other build dependencies your project might need here
     && rm -rf /var/lib/apt/lists/*
 
