@@ -11,6 +11,7 @@ import pytest
 
 from building_blocks.domain.aggregate_root import AggregateRoot, AggregateVersion
 from building_blocks.domain.entity import Entity
+from building_blocks.domain.errors.entity_id_errors import EntityIdCannotBeNoneError
 from building_blocks.domain.messages.event import Event
 from building_blocks.domain.messages.message import MessageMetadata
 
@@ -119,7 +120,7 @@ class TestAggregateRoot:
 
     def test_init_when_no_id_then_raises_type_error(self):
         """Test that initializing without an ID raises ValueError."""
-        with pytest.raises(ValueError, match="Entity ID cannot be None"):
+        with pytest.raises(EntityIdCannotBeNoneError):
             FakeAggregateRoot(None, self._name)  # type: ignore
 
     def test_init_when_invalid_id_type_then_raises_type_error(self):

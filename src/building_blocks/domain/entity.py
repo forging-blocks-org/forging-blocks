@@ -1,11 +1,9 @@
 """
-Domain entities module.
-
-This module provides the base entity classes for implementing domain entities,
-following the principles of Domain-Driven Design (DDD).
-
-- `TransientEntity`: For entities whose id may be None (not yet persisted).
-- `Entity`: For entities whose id must always be present (never None).
+Base entity classes for domain-driven design (DDD) entities.
+Includes:
+- BaseEntity: Common logic for identity handling.
+- Entity: Persisted entities (must have ID at creation).
+- DraftEntity: Non-persisted entities (ID may be None until saved).
 """
 
 from __future__ import annotations
@@ -14,70 +12,81 @@ from abc import ABC
 from collections.abc import Hashable
 from typing import Generic, Optional, TypeVar
 
-TId = TypeVar("TId", bound=Hashable)  # Type variable for the entity's unique identifier
+from building_blocks.domain.errors.entity_id_errors import (
+    DraftEntityIsNotHashableError,
+    EntityIdCannotBeNoneError,
+)
+
+TId = TypeVar("TId", bound=Hashable)
 
 
-class TransientEntity(Generic[TId], ABC):
+class BaseEntity(Generic[TId], ABC):
     """
-    Base class for domain entities whose id may be None (not yet persisted).
-
-    Use this for entities where the id is assigned by a persistence mechanism
-    (e.g., database auto-increment), and so may be None until after persistence.
-
-    Example:
-        >>> class Task(TransientEntity[int]):
-        ...     def __init__(self, id: Optional[int], title: str) -> None:
-        ...         super().__init__(id)
-        ...         self.title = title
+    Base class for domain entities.
+    Identity is immutable once set.
     """
 
-    def __init__(self, id: Optional[TId] = None) -> None:
-        self._id = id
+    __slots__ = ("_id",)
+
+    def __init__(self, entity_id: Optional[TId]) -> None:
+        self._id: Optional[TId] = entity_id
 
     @property
     def id(self) -> Optional[TId]:
-        """Returns the (possibly None) unique identifier of the entity."""
+        """The unique identifier of the entity (may be None for drafts)."""
         return self._id
 
-    def is_persisted(self) -> bool:
-        """Returns True if the entity has a non-None id (i.e., has been persisted)."""
-        return self._id is not None
-
     def __eq__(self, other: object) -> bool:
-        if not isinstance(other, TransientEntity):
-            return False
-        return self.id is not None and other.id is not None and self.id == other.id
+        """
+        Default equality:
+        - For persisted entities: same type & same ID.
+        - For drafts: overridden in DraftEntity.
+        """
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return self.id == other.id
 
     def __hash__(self) -> int:
+        """Entities can only be hashed if they have a non-null ID."""
+        if self.id is None:
+            raise TypeError(f"Unhashable {self.__class__.__name__}: id is None")
         return hash(self.id)
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(id={self.id})"
 
     def __repr__(self) -> str:
-        return self.__str__()
+        return str(self)
 
 
-class Entity(TransientEntity[TId], ABC):
+class Entity(BaseEntity[TId], ABC):
     """
-    Base class for domain entities whose id must always be set (never None).
-
-    Use this for entities where the id is always present, such as those with UUIDs
-    or any entity after it has been persisted.
-
-    Example:
-        >>> class User(Entity[str]):
-        ...     def __init__(self, id: str, name: str):
-        ...         super().__init__(id)
-        ...         self.name = name
+    Base class for entities that must have an ID at creation.
     """
 
-    def __init__(self, id: TId) -> None:
-        if id is None:
-            raise ValueError("Entity ID cannot be None")
-        super().__init__(id)
+    def __init__(self, entity_id: TId) -> None:
+        if entity_id is None:
+            raise EntityIdCannotBeNoneError()
+        super().__init__(entity_id)
 
-    @property
-    def id(self) -> TId:
-        """Returns the unique identifier of the entity (never None)."""
-        return self._id  # type: ignore
+
+class DraftEntity(BaseEntity[TId], ABC):
+    """
+    Base class for entities that may start without an ID (drafts).
+    Drafts:
+    - Compare equal only if they are the same instance when id is None.
+    - Are never hashable.
+    """
+
+    def __init__(self, entity_id: Optional[TId] = None) -> None:
+        super().__init__(entity_id)
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        if self.id is None or other.id is None:
+            return self is other
+        return self.id == other.id
+
+    def __hash__(self) -> int:
+        raise DraftEntityIsNotHashableError()

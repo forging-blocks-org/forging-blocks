@@ -2,130 +2,174 @@ from typing import Optional
 
 import pytest
 
-from building_blocks.domain.entity import Entity, TransientEntity
+from building_blocks.domain.entity import BaseEntity, DraftEntity, Entity
+from building_blocks.domain.errors.entity_id_errors import (
+    DraftEntityIsNotHashableError,
+    EntityIdCannotBeNoneError,
+)
 
 
-class FakeTransientEntity(TransientEntity[int]):
-    def __init__(self, id: Optional[int] = None, name: str = ""):
+class FakeEntity(BaseEntity[str]):
+    def __init__(self, id: Optional[str]):
         super().__init__(id)
-        self.name = name
 
 
-class FakeEntity(Entity[str]):
-    def __init__(self, id: str, name: str = ""):
+class DefinedIdEntity(Entity[str]):
+    def __init__(self, id: str):
         super().__init__(id)
-        self.name = name
 
 
-class TestTransientEntity:
-    def test_eq_when_other_entity_with_same_non_none_id_then_true(self) -> None:
-        entity1 = FakeTransientEntity(1)
-        entity2 = FakeTransientEntity(1)
+class IdToDefineEntity(DraftEntity[int]):
+    def __init__(self, id: Optional[int] = None):
+        super().__init__(id)
+
+
+class TestBaseEntitty:
+    def test_init_when_id_then_set_id(self):
+        id_ = "123"
+
+        entity = FakeEntity(id_)
+
+        assert entity.id == id_, "Entity ID should be set correctly"
+
+    def test_id_property_when_id_exists_then_return_id(self):
+        id_ = "123"
+        entity = FakeEntity(id_)
+
+        result = entity.id
+
+        expected_result = id_
+        assert result == expected_result, "ID property should return the correct ID"
+
+    def test__eq_when_another_entity_with_the_same_id_then_true(self):
+        entity1 = FakeEntity("123")
+        entity2 = FakeEntity("123")
 
         result = entity1 == entity2
 
-        assert result is True, "Entities with the same non-None ID should be equal"
+        expected_result = True
+        assert result is expected_result, "Entities with the same ID should be equal"
 
-    def test_eq_when_one_id_none_then_false(self) -> None:
-        entity1 = FakeTransientEntity(1)
-        entity2 = FakeTransientEntity(None)
-
-        result = entity1 == entity2
-
-        assert (
-            result is False
-        ), "Entity with None ID should not be equal to entity with non-None ID"
-
-    def test_eq_when_both_id_none_then_false(self) -> None:
-        entity1 = FakeTransientEntity(None)
-        entity2 = FakeTransientEntity(None)
+    def test__eq_when_another_entity_with_different_id_then_false(self):
+        entity1 = FakeEntity("123")
+        entity2 = FakeEntity("456")
 
         result = entity1 == entity2
 
-        assert result is False, "Entities with None IDs should not be equal"
+        expected_result = False
+        result_assertion = result is expected_result
+        assert result_assertion, "Entities with different IDs should not be equal"
 
-    def test_eq_when_other_object_then_false(self) -> None:
-        entity = FakeTransientEntity(1)
+    def test__eq_when_another_object_then_false(self):
+        entity = FakeEntity("123")
         other_object = object()
 
         result = entity == other_object
 
-        assert result is False, "Entity should not be equal to a non-entity object"
+        expected_result = False
+        result_assertion = result is expected_result
+        assert result_assertion, "Entity should not be equal to a non-entity object"
 
-    def test_is_persisted_when_id_is_none_then_false(self) -> None:
-        entity = FakeTransientEntity(None)
+    def test_hash_when_id_then_hash_id(self):
+        id_ = "123"
+        entity = FakeEntity(id_)
 
-        result = entity.is_persisted()
+        hash1 = hash(entity)
 
-        assert result is False, "Entity with None ID should not be persisted"
+        expected_hash = hash(id_)
+        assert (
+            hash1 == expected_hash
+        ), "Hash values should be equal for entities with the same ID"
 
-    def test_is_persisted_when_id_is_not_none_then_true(self) -> None:
-        entity = FakeTransientEntity(42)
+    def test_hash_when_id_is_not_set_then_raises_type_error(self):
+        entity = FakeEntity(None)
 
-        result = entity.is_persisted()
+        with pytest.raises(TypeError, match="Unhashable FakeEntity: id is None"):
+            hash(entity)
 
-        assert result is True, "Entity with non-None ID should be persisted"
+    def test_str_representation(self):
+        entity = FakeEntity("123")
 
-    def test_str_and_repr(self) -> None:
-        entity = FakeTransientEntity(7, name="Test")
+        result = str(entity)
 
-        str_result = str(entity)
-        repr_result = repr(entity)
+        expected_result = "FakeEntity(id=123)"
+        assert (
+            result == expected_result
+        ), f"String representation should be '{expected_result}'"
 
-        expected = "FakeTransientEntity(id=7)"
-        assert str_result == expected
-        assert repr_result == expected
+    def test_repr_representation(self):
+        entity = FakeEntity("123")
 
-    def test_hash_when_id_then_hash_id(self) -> None:
-        entity = FakeTransientEntity(123)
+        result = repr(entity)
 
-        result = hash(entity)
-
-        assert result == hash(123)
+        expected_result = "FakeEntity(id=123)"
+        assert (
+            result == expected_result
+        ), f"Repr representation should be '{expected_result}'"
 
 
 class TestEntity:
-    def test_eq_when_other_entity_with_same_id_then_true(self) -> None:
-        entity1 = FakeEntity("abc")
-        entity2 = FakeEntity("abc")
+    def test_init_when_id_then_set_id(self):
+        id_ = "123"
+
+        entity = DefinedIdEntity(id_)
+
+        assert entity.id == id_, "Entity ID should be set correctly"
+
+    def test_init_wheh_id_is_none_then_raises_type_error(self):
+        with pytest.raises(EntityIdCannotBeNoneError):
+            DefinedIdEntity(None)  # type: ignore
+
+
+class TestDraftEntity:
+    def test_init_when_id_is_none_then_set_id_to_none(self):
+        entity = IdToDefineEntity()
+
+        assert entity.id is None, "ID should be None for DraftEntity without ID"
+
+    def test_init_when_id_is_provided_then_set_id(self):
+        id_ = 123
+        entity = IdToDefineEntity(id_)
+
+        assert entity.id == id_, "ID should be set correctly for DraftEntity with ID"
+
+    def test_eq_when_another_entity_with_the_same_id_then_true(self) -> None:
+        entity1 = IdToDefineEntity(123)
+        entity2 = IdToDefineEntity(123)
 
         result = entity1 == entity2
 
-        assert result is True, "Entities with the same ID should be equal"
+        expected_result = True
+        assert (
+            result is expected_result
+        ), "DraftEntities with the same ID should be equal"
 
-    def test_eq_when_other_entity_with_different_id_then_false(self) -> None:
-        entity1 = FakeEntity("abc")
-        entity2 = FakeEntity("def")
+    def test_eq_when_another_entity_with_different_id_then_false(self) -> None:
+        entity1 = IdToDefineEntity(123)
+        entity2 = IdToDefineEntity(456)
 
         result = entity1 == entity2
 
-        assert result is False, "Entities with different IDs should not be equal"
+        expected_result = False
+        result_assertion = result is expected_result
+        assert result_assertion, "DraftEntities with different IDs should not be equal"
 
-    def test_eq_when_other_object_then_false(self) -> None:
-        entity = FakeEntity("abc")
+    def test_eq_when_another_object_then_false(self) -> None:
+        entity = IdToDefineEntity(123)
         other_object = object()
 
         result = entity == other_object
 
-        assert result is False, "Entity should not be equal to a non-entity object"
+        expected_result = False
+        result_assertion = result is expected_result
+        assert (
+            result_assertion
+        ), "DraftEntity should not be equal to a non-entity object"
 
-    def test_str_and_repr(self) -> None:
-        entity = FakeEntity("xyz")
+    def test_hash_when_draft_entity_then_raises_draft_entity_is_not_hashable(
+        self,
+    ) -> None:
+        entity = IdToDefineEntity()
 
-        str_result = str(entity)
-        repr_result = repr(entity)
-
-        expected = "FakeEntity(id=xyz)"
-        assert str_result == expected
-        assert repr_result == expected
-
-    def test_hash_when_id_then_hash_id(self) -> None:
-        entity = FakeEntity("some-id")
-
-        result = hash(entity)
-
-        assert result == hash("some-id")
-
-    def test_init_when_id_is_none_then_raises(self) -> None:
-        with pytest.raises(ValueError, match="Entity ID cannot be None"):
-            FakeEntity(None)  # type: ignore
+        with pytest.raises(DraftEntityIsNotHashableError):
+            hash(entity)

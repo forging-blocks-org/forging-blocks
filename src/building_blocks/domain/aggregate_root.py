@@ -1,8 +1,9 @@
 """
-AggregateRoot module for Domain-Driven Design.
-
-This module provides the AggregateRoot base class for implementing domain aggregates
-following Domain-Driven Design (DDD) principles, using Vaughn Vernon's approach.
+AggregateRoot and DraftAggregateRoot base class and related components for Domain-Driven
+Design.
+Inspired by Vaughn Vernon's "Implementing Domain-Driven Design".
+This module provides the foundational classes for creating aggregate roots,
+managing their versions, and handling domain events in a DDD context.
 """
 
 from __future__ import annotations
@@ -14,7 +15,7 @@ from building_blocks.domain.entity import Entity
 from building_blocks.domain.messages.event import Event
 from building_blocks.domain.value_object import ValueObject
 
-TId = TypeVar("TId")
+TId = TypeVar("TId", bound=Hashable)
 
 
 class AggregateVersion(ValueObject):
@@ -58,14 +59,25 @@ class AggregateVersion(ValueObject):
 
 class AggregateRoot(Entity[TId], Generic[TId], ABC):
     """
-    Base class for all domain aggregate roots.
+    Base class for aggregate roots in Domain-Driven Design.
 
-    An aggregate root is the only entry point to an aggregate. It ensures consistency
-    and business rules within the aggregate boundary. It also manages domain events
-    that represent important business occurrences.
+    An AggregateRoot is a special type of Entity that serves as the entry point
+    for managing a cluster of related entities and value objects. It encapsulates
+    the business logic and invariants of the aggregate, ensuring that all changes
+    to the aggregate are made through its methods. This class is designed to
+    follow the principles of Domain-Driven Design (DDD) and is inspired by Vaughn
+    Vernon's approach in "Implementing Domain-Driven Design".
+
+    This implementation provides methods for managing the aggregate version,
+    recording uncommitted domain events, and marking changes as committed.
+    It is intended to be subclassed to create specific aggregate roots that
+    represent business concepts in the domain.
 
     This implementation follows Vaughn Vernon's approach from
-    "Implementing Domain-Driven Design".
+    "Implementing Domain-Driven Design" and is designed to be used in and
+    with a Domain-Driven Design context.
+    It provides a foundation for building aggregates that encapsulate business
+    logic and maintain consistency across related entities and value objects.
     """
 
     _uncommitted_events: List[Event]
@@ -83,19 +95,14 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
         """
         super().__init__(aggregate_id)
         self._version = version or AggregateVersion(0)
-        self._uncommitted_events = []
+        self._uncommitted_events: List[Event] = []
 
     @property
     def version(self) -> AggregateVersion:
         """
         Get the current version of this aggregate.
-
-        Used for optimistic concurrency control to prevent conflicting updates.
-
-        Returns:
-            int: The current version number
         """
-        return self._version  # ✅ Make sure this returns the right attribute
+        return self._version
 
     def uncommitted_changes(self) -> List[Event]:
         """
