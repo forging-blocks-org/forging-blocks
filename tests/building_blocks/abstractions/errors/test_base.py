@@ -1,5 +1,5 @@
-from building_blocks.abstractions.errors.base import CombinedErrors, Error, FieldErrors
-from building_blocks.abstractions.errors.core import (
+from building_blocks.foundation.errors.base import CombinedErrors, Error, FieldErrors
+from building_blocks.foundation.errors.core import (
     ErrorMessage,
     ErrorMetadata,
     FieldReference,

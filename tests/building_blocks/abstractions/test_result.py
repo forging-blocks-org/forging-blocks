@@ -1,6 +1,6 @@
 import pytest
 
-from building_blocks.abstractions.result import Err, Ok, ResultAccessError
+from building_blocks.foundation.result import Err, Ok, ResultAccessError
 
 
 class FakeOk(Ok[str, str]):

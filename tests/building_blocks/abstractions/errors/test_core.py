@@ -1,6 +1,6 @@
 import pytest
 
-from building_blocks.abstractions.errors.core import (
+from building_blocks.foundation.errors.core import (
     ErrorMetadata,
 )
 

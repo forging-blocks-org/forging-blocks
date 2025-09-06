@@ -1,5 +1,5 @@
-from building_blocks.abstractions.errors.core import ErrorMessage, FieldReference
-from building_blocks.abstractions.errors.validation_error import (
+from building_blocks.foundation.errors.core import ErrorMessage, FieldReference
+from building_blocks.foundation.errors.validation_error import (
     CombinedValidationErrors,
     ValidationError,
     ValidationFieldErrors,
