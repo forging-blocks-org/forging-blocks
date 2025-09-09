@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Hashable
-from typing import Tuple
 
 
 class ValueObject(ABC):
@@ -84,12 +83,12 @@ class ValueObject(ABC):
         return self.__str__()
 
     @abstractmethod
-    def _equality_components(self) -> Tuple[Hashable, ...]:
+    def _equality_components(self) -> tuple[Hashable, ...]:
         """
         Get the components that define equality for the value object.
-        This method should be implemented by subclasses to return a Tuple
+        This method should be implemented by subclasses to return a tuple
         of Hashable components that uniquely identify the value object.
         Returns:
-            Tuple[Hashable, ...]: Components for equality comparison
+            tuple[Hashable, ...]: Components for equality comparison
         """
         pass

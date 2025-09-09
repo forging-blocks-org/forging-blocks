@@ -4,7 +4,7 @@ Unit tests for the AggregateRoot module.
 Tests for AggregateRoot class using Vaughn Vernon's approach.
 """
 
-from typing import Any, List, Optional
+from typing import Any
 from uuid import UUID, uuid4
 
 import pytest
@@ -17,9 +17,9 @@ from building_blocks.domain.messages.message import MessageMetadata
 
 
 class FakeEvent(Event):
-    """A fake event for testing."""
+    """A fake message for testing."""
 
-    def __init__(self, data: str, metadata: Optional[MessageMetadata] = None):
+    def __init__(self, data: str, metadata: MessageMetadata | None = None):
         super().__init__(metadata)
         self._data = data
 
@@ -28,7 +28,7 @@ class FakeEvent(Event):
         return self._data
 
     @property
-    def payload(self) -> dict[str, Any]:
+    def _payload(self) -> dict[str, Any]:
         return {"data": self._data}
 
 
@@ -36,29 +36,29 @@ class FakeAggregateRoot(AggregateRoot[UUID]):
     """A fake aggregate root for testing."""
 
     def __init__(
-        self, aggregate_id: UUID, name: str, version: Optional[AggregateVersion] = None
+        self, aggregate_id: UUID, name: str, version: AggregateVersion | None = None
     ):
         super().__init__(aggregate_id, version)
         if not isinstance(aggregate_id, UUID):
             raise TypeError(f"Expected UUID, got {type(aggregate_id).__name__}")
         self._name = name
-        self._actions: List[str] = []
+        self._actions: list[str] = []
 
     @property
     def name(self) -> str:
         return self._name
 
     @property
-    def actions(self) -> List[str]:
+    def actions(self) -> list[str]:
         return self._actions.copy()
 
     def perform_action(self, action: str) -> None:
-        """Perform an action that records a domain event."""
+        """Perform an action that records a domain message."""
         self._actions.append(action)
 
-        # Record a domain event using Vernon's approach
-        event = FakeEvent(f"Action performed: {action}")
-        self.record_event(event)
+        # Record a domain message using Vernon's approach
+        message = FakeEvent(f"Action performed: {action}")
+        self.record_event(message)
 
     def change_name(self, new_name: str) -> None:
         """Change the name and increment version."""
@@ -66,12 +66,12 @@ class FakeAggregateRoot(AggregateRoot[UUID]):
         self._name = new_name
         self._increment_version()
 
-        # Record a domain event using Vernon's approach
-        event = FakeEvent(f"Name changed from {old_name} to {new_name}")
-        self.record_event(event)
+        # Record a domain message using Vernon's approach
+        message = FakeEvent(f"Name changed from {old_name} to {new_name}")
+        self.record_event(message)
 
     def perform_business_operation(self) -> None:
-        """A business operation that records multiple events."""
+        """A business operation that records multiple messages."""
         self.record_event(FakeEvent("Operation started"))
         self.record_event(FakeEvent("Operation in progress"))
         self.record_event(FakeEvent("Operation completed"))
@@ -148,7 +148,7 @@ class TestAggregateRoot:
         assert aggregate.version == expected_version
         assert aggregate.uncommitted_changes() == []
 
-    def test_record_event_when_called_then_event_recorded(self):
+    def test_record_event_when_called_then_message_recorded(self):
         aggregate_id = uuid4()
         aggregate = FakeAggregateRoot(aggregate_id, self._name)
 
@@ -157,9 +157,9 @@ class TestAggregateRoot:
         changes = aggregate.uncommitted_changes()
         assert len(changes) == 1
         assert isinstance(changes[0], FakeEvent)
-        fake_event = changes[0]  # Type narrowing for mypy
-        assert isinstance(fake_event, FakeEvent)
-        assert fake_event.data == "Action performed: test_action"
+        fake_message = changes[0]  # Type narrowing for mypy
+        assert isinstance(fake_message, FakeEvent)
+        assert fake_message.data == "Action performed: test_action"
 
     def test_uncommitted_changes_when_called_then_returns_copy(self):
         aggregate_id = uuid4()
@@ -175,31 +175,31 @@ class TestAggregateRoot:
         # But with same content
         assert changes1 == changes2
 
-        # Modifying returned List shouldn't affect aggregate
+        # Modifying returned list shouldn't affect aggregate
         changes1.clear()
         assert len(aggregate.uncommitted_changes()) == 1
 
-    def test_mark_changes_as_committed_clears_events_and_increments_version(
+    def test_mark_changes_as_committed_clears_messages_and_increments_version(
         self,
     ):
         aggregate_id = uuid4()
         actual_version = AggregateVersion(value=3)
         aggregate = FakeAggregateRoot(aggregate_id, self._name, version=actual_version)
 
-        # Record some events
-        aggregate.perform_business_operation()  # Records 3 events
+        # Record some messages
+        aggregate.perform_business_operation()  # Records 3 messages
         assert len(aggregate.uncommitted_changes()) == 3
         assert aggregate.version.value == 3
 
         # Mark as committed
         aggregate.mark_changes_as_committed()
 
-        # Events should be cleared and version incremented
+        # messages should be cleared and version incremented
         expected_version = AggregateVersion(value=4)
         assert len(aggregate.uncommitted_changes()) == 0
         assert aggregate.version == expected_version
 
-    def test_multiple_operations_when_performed_then_events_accumulate(self):
+    def test_multiple_operations_when_performed_then_messages_accumulate(self):
         aggregate_id = uuid4()
         aggregate = FakeAggregateRoot(aggregate_id, self._name)
 
@@ -212,11 +212,11 @@ class TestAggregateRoot:
         assert len(changes) == expected_changes_length
 
         # Type narrowing for mypy
-        fake_events = [change for change in changes if isinstance(change, FakeEvent)]
-        assert len(fake_events) == 3
-        assert fake_events[0].data == "Action performed: action1"
-        assert fake_events[1].data == "Action performed: action2"
-        assert fake_events[2].data == f"Name changed from {self._name} to new_name"
+        fake_messages = [change for change in changes if isinstance(change, FakeEvent)]
+        assert len(fake_messages) == 3
+        assert fake_messages[0].data == "Action performed: action1"
+        assert fake_messages[1].data == "Action performed: action2"
+        assert fake_messages[2].data == f"Name changed from {self._name} to new_name"
 
     def test_version_control_scenario_tracks_version_correctly(self):
         aggregate_id = uuid4()
@@ -273,7 +273,7 @@ class TestAggregateRoot:
         aggregate_id = uuid4()
         aggregate = FakeAggregateRoot(aggregate_id, "order")
 
-        # 1. Perform business operations (record events)
+        # 1. Perform business operations (record messages)
         aggregate.perform_action("create")
         aggregate.perform_action("validate")
         aggregate.change_name("validated_order")
@@ -283,9 +283,9 @@ class TestAggregateRoot:
         assert len(changes) == 3
         assert aggregate.version.value == 1  # Only change_name increments version
 
-        # 3. Simulate publishing events (get copy before committing)
-        events_to_publish = aggregate.uncommitted_changes()
-        assert len(events_to_publish) == 3
+        # 3. Simulate publishing messages (get copy before committing)
+        messages_to_publish = aggregate.uncommitted_changes()
+        assert len(messages_to_publish) == 3
 
         # 4. Mark changes as committed after successful publishing and persistence
         aggregate.mark_changes_as_committed()
@@ -298,25 +298,25 @@ class TestAggregateRoot:
         assert aggregate.version.value == 2  # Version only incremented on commit
 
 
-class TestDomainEventManagement:
-    """Tests focused on domain event management using Vernon's approach."""
+class TestDomainmessageManagement:
+    """Tests focused on domain message management using Vernon's approach."""
 
-    def test_event_ordering_when_multiple_events_then_preserves_order(self):
+    def test_message_ordering_when_multiple_messages_then_preserves_order(self):
         aggregate_id = uuid4()
         aggregate = FakeAggregateRoot(aggregate_id, "test")
 
-        # Events should be recorded in order
+        # messages should be recorded in order
         aggregate.perform_action("first")
         aggregate.perform_action("second")
         aggregate.perform_action("third")
 
         changes = aggregate.uncommitted_changes()
-        fake_events = [change for change in changes if isinstance(change, FakeEvent)]
-        assert fake_events[0].data == "Action performed: first"
-        assert fake_events[1].data == "Action performed: second"
-        assert fake_events[2].data == "Action performed: third"
+        fake_messages = [change for change in changes if isinstance(change, FakeEvent)]
+        assert fake_messages[0].data == "Action performed: first"
+        assert fake_messages[1].data == "Action performed: second"
+        assert fake_messages[2].data == "Action performed: third"
 
-    def test_event_immutability_cannot_modify_internally(self):
+    def test_message_immutability_cannot_modify_internally(self):
         aggregate_id = uuid4()
         aggregate = FakeAggregateRoot(aggregate_id, "test")
 
@@ -326,26 +326,26 @@ class TestDomainEventManagement:
         changes = aggregate.uncommitted_changes()
         original_count = len(changes)
 
-        # Try to modify returned List (should not affect aggregate)
-        changes.append(FakeEvent("malicious_event"))
+        # Try to modify returned list (should not affect aggregate)
+        changes.append(FakeEvent("malicious_message"))
         changes.clear()
 
-        # Aggregate's events should be unchanged
+        # Aggregate's messages should be unchanged
         assert len(aggregate.uncommitted_changes()) == original_count
-        fake_event = aggregate.uncommitted_changes()[0]
-        assert isinstance(fake_event, FakeEvent)
-        assert fake_event.data == "Action performed: test"
+        fake_message = aggregate.uncommitted_changes()[0]
+        assert isinstance(fake_message, FakeEvent)
+        assert fake_message.data == "Action performed: test"
 
-    def test_event_metadata_when_event_recorded_then_has_proper_metadata(self):
+    def test_message_metadata_when_message_recorded_then_has_proper_metadata(self):
         aggregate_id = uuid4()
         aggregate = FakeAggregateRoot(aggregate_id, "test")
 
         aggregate.perform_action("test")
 
-        event = aggregate.uncommitted_changes()[0]
-        assert event.event_id is not None
-        assert event.occurred_at is not None
-        assert event.message_type == "FakeEvent"
+        message = aggregate.uncommitted_changes()[0]
+        assert message.message_id is not None
+        assert message.occurred_at is not None
+        assert message.message_type == "FakeEvent"
 
     def test_vernon_approach_method_names_follows_conventions(self):
         """Test that we're following Vernon's naming conventions."""
@@ -358,7 +358,7 @@ class TestDomainEventManagement:
         assert hasattr(aggregate, "mark_changes_as_committed")
 
         # Use Vernon's approach
-        aggregate.record_event(FakeEvent("direct_event"))
+        aggregate.record_event(FakeEvent("direct_message"))
         changes = aggregate.uncommitted_changes()
         assert len(changes) == 1
 

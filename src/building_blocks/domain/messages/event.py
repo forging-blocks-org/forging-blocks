@@ -1,5 +1,6 @@
+from abc import abstractmethod
 from datetime import datetime
-from uuid import UUID
+from typing import Any
 
 from building_blocks.domain.messages.message import Message
 
@@ -21,7 +22,7 @@ class Event(Message):
         ...         order_id: str,
         ...         customer_id: str,
         ...         total: float,
-        ...         metadata: Optional[MessageMetadata] = None
+        ...         metadata: MessageMetadata | None = None
         ...     ):
         ...         super().__init__(metadata)
         ...         self._order_id = order_id
@@ -41,7 +42,7 @@ class Event(Message):
         ...         return self._total
         ...
         ...     @property
-        ...     def payload(self) -> Dict[str, Any]:
+        ...     def payload(self) -> dict[str, Any]:
         ...         return {
         ...             "order_id": self._order_id,
         ...             "customer_id": self._customer_id,
@@ -50,21 +51,22 @@ class Event(Message):
     """
 
     @property
-    def event_id(self) -> UUID:
-        """
-        Convenience property to get the event ID.
-
-        Returns:
-            UUID: The unique event identifier (same as message_id)
-        """
-        return self.message_id
-
-    @property
     def occurred_at(self) -> datetime:
         """
-        Convenience property to get when the event occurred.
+        Get the timestamp when this event occurred.
 
         Returns:
-            datetime: When the event occurred (same as created_at)
+            datetime: When the event occurred (UTC timezone)
         """
         return self.created_at
+
+    @property
+    @abstractmethod
+    def _payload(self) -> dict[str, Any]:
+        """
+        Get the domain-specific data carried by this event.
+
+        Returns:
+            dict[str, object]: The event payload as a dictionary
+        """
+        pass

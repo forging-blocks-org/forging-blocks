@@ -5,7 +5,7 @@ Tests for MessageMetadata and Message classes.
 """
 
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 from uuid import UUID, uuid4
 
 import pytest
@@ -16,7 +16,7 @@ from building_blocks.domain.messages.message import Message, MessageMetadata
 class FakeMessage(Message):
     """A fake message for testing the abstract Message class."""
 
-    def __init__(self, data: str, metadata: Optional[MessageMetadata] = None):
+    def __init__(self, data: str, metadata: MessageMetadata | None = None):
         super().__init__(metadata)
         self._data = data
 
@@ -25,7 +25,7 @@ class FakeMessage(Message):
         return self._data
 
     @property
-    def payload(self) -> dict[str, Any]:
+    def _payload(self) -> dict[str, Any]:
         return {"data": self._data}
 
 
@@ -183,7 +183,7 @@ class TestMessage:
             "message_id": str(message_id),
             "created_at": "2025-06-11T19:44:14+00:00",
             "message_type": "FakeMessage",
-            "data": "test_data",
+            "payload": {"data": "test_data"},
         }
         assert result == expected
 

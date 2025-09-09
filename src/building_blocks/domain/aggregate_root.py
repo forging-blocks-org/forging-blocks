@@ -9,7 +9,7 @@ managing their versions, and handling domain events in a DDD context.
 from __future__ import annotations
 
 from abc import ABC
-from typing import Generic, Hashable, List, Optional, Tuple, TypeVar
+from typing import Generic, Hashable, TypeVar
 
 from building_blocks.domain.entity import Entity
 from building_blocks.domain.messages.event import Event
@@ -48,7 +48,7 @@ class AggregateVersion(ValueObject):
         """
         return AggregateVersion(self._value + 1)
 
-    def _equality_components(self) -> Tuple[Hashable, ...]:
+    def _equality_components(self) -> tuple[Hashable, ...]:
         """
         Return the components used for equality comparison.
 
@@ -80,10 +80,10 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
     logic and maintain consistency across related entities and value objects.
     """
 
-    _uncommitted_events: List[Event]
+    _uncommitted_events: list[Event]
 
     def __init__(
-        self, aggregate_id: TId, version: Optional[AggregateVersion] = None
+        self, aggregate_id: TId, version: AggregateVersion | None = None
     ) -> None:
         """
         Initialize the aggregate root.
@@ -94,8 +94,9 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
                      If not provided, defaults to AggregateVersion(0).
         """
         super().__init__(aggregate_id)
+        self._id = aggregate_id
         self._version = version or AggregateVersion(0)
-        self._uncommitted_events: List[Event] = []
+        self._uncommitted_events: list[Event] = []
 
     @property
     def version(self) -> AggregateVersion:
@@ -104,7 +105,7 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
         """
         return self._version
 
-    def uncommitted_changes(self) -> List[Event]:
+    def uncommitted_changes(self) -> list[Event]:
         """
         Get the uncommitted domain events raised by this aggregate.
 
@@ -112,7 +113,7 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
         Following Vaughn Vernon's naming convention.
 
         Returns:
-            List[Event]: Copy of uncommitted domain events
+            list[Event]: Copy of uncommitted domain events
         """
         return self._uncommitted_events.copy()
 

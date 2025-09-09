@@ -1,4 +1,6 @@
+from abc import abstractmethod
 from datetime import datetime
+from typing import Any
 from uuid import UUID
 
 from building_blocks.domain.messages.message import Message
@@ -20,7 +22,7 @@ class Command(Message):
         ...         self,
         ...         customer_id: str,
         ...         items: list,
-        ...         metadata: Optional[MessageMetadata] = None
+        ...         metadata: MessageMetadata | None = None
         ...     ):
         ...         super().__init__(metadata)
         ...         self._customer_id = customer_id
@@ -45,8 +47,7 @@ class Command(Message):
     @property
     def command_id(self) -> UUID:
         """
-        Convenience property to get the command ID.
-
+        Get the unique identifier for this command.
         Returns:
             UUID: The unique command identifier (same as message_id)
         """
@@ -55,9 +56,14 @@ class Command(Message):
     @property
     def issued_at(self) -> datetime:
         """
-        Convenience property to get when the command was issued.
+        Get the timestamp when this command was issued.
 
         Returns:
             datetime: When the command was issued (same as created_at)
         """
         return self.created_at
+
+    @property
+    @abstractmethod
+    def _payload(self) -> dict[str, Any]:
+        pass

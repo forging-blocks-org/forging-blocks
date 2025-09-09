@@ -1,7 +1,7 @@
 """
 Base entity classes for domain-driven design (DDD) entities.
 Includes:
-- BaseEntity: Common logic for identity handling.
+- _BaseEntity: Common logic for identity handling.
 - Entity: Persisted entities (must have ID at creation).
 - DraftEntity: Non-persisted entities (ID may be None until saved).
 """
@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from abc import ABC
 from collections.abc import Hashable
-from typing import Generic, Optional, TypeVar
+from typing import Generic, TypeVar
 
 from building_blocks.domain.errors.entity_id_errors import (
     DraftEntityIsNotHashableError,
@@ -20,7 +20,7 @@ from building_blocks.domain.errors.entity_id_errors import (
 TId = TypeVar("TId", bound=Hashable)
 
 
-class BaseEntity(Generic[TId], ABC):
+class _BaseEntity(Generic[TId], ABC):
     """
     Base class for domain entities.
     Identity is immutable once set.
@@ -28,13 +28,17 @@ class BaseEntity(Generic[TId], ABC):
 
     __slots__ = ("_id",)
 
-    def __init__(self, entity_id: Optional[TId]) -> None:
-        self._id: Optional[TId] = entity_id
+    def __init__(self, entity_id: TId | None) -> None:
+        self._id: TId | None = entity_id
 
     @property
-    def id(self) -> Optional[TId]:
+    def id(self) -> TId | None:
         """The unique identifier of the entity (may be None for drafts)."""
         return self._id
+
+    def is_persisted(self) -> bool:
+        """Check if the entity has been persisted (i.e., has a non-null ID)."""
+        return self.id is not None
 
     def __eq__(self, other: object) -> bool:
         """
@@ -59,7 +63,7 @@ class BaseEntity(Generic[TId], ABC):
         return str(self)
 
 
-class Entity(BaseEntity[TId], ABC):
+class Entity(_BaseEntity[TId], ABC):
     """
     Base class for entities that must have an ID at creation.
     """
@@ -70,7 +74,7 @@ class Entity(BaseEntity[TId], ABC):
         super().__init__(entity_id)
 
 
-class DraftEntity(BaseEntity[TId], ABC):
+class DraftEntity(_BaseEntity[TId], ABC):
     """
     Base class for entities that may start without an ID (drafts).
     Drafts:
@@ -78,7 +82,7 @@ class DraftEntity(BaseEntity[TId], ABC):
     - Are never hashable.
     """
 
-    def __init__(self, entity_id: Optional[TId] = None) -> None:
+    def __init__(self, entity_id: TId | None = None) -> None:
         super().__init__(entity_id)
 
     def __eq__(self, other: object) -> bool:
@@ -90,3 +94,6 @@ class DraftEntity(BaseEntity[TId], ABC):
 
     def __hash__(self) -> int:
         raise DraftEntityIsNotHashableError()
+
+
+__all__ = ["Entity", "DraftEntity"]

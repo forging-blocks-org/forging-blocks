@@ -1,16 +1,14 @@
-from typing import Optional
-
 import pytest
 
-from building_blocks.domain.entity import BaseEntity, DraftEntity, Entity
+from building_blocks.domain.entity import DraftEntity, Entity, _BaseEntity
 from building_blocks.domain.errors.entity_id_errors import (
     DraftEntityIsNotHashableError,
     EntityIdCannotBeNoneError,
 )
 
 
-class FakeEntity(BaseEntity[str]):
-    def __init__(self, id: Optional[str]):
+class FakeEntity(_BaseEntity[str]):
+    def __init__(self, id: str | None):
         super().__init__(id)
 
 
@@ -20,7 +18,7 @@ class DefinedIdEntity(Entity[str]):
 
 
 class IdToDefineEntity(DraftEntity[int]):
-    def __init__(self, id: Optional[int] = None):
+    def __init__(self, id: int | None = None):
         super().__init__(id)
 
 

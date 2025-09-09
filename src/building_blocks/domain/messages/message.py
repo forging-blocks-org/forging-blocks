@@ -9,10 +9,14 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 from uuid import UUID, uuid4
 
 from building_blocks.domain.value_object import ValueObject
+
+
+def now() -> datetime:
+    return datetime.now(timezone.utc)
 
 
 class MessageMetadata(ValueObject):
@@ -22,7 +26,9 @@ class MessageMetadata(ValueObject):
     Contains infrastructure-level information about messages such as:
     - Unique message identifier
     - When the message was created
-    - Future: correlation ID, causation ID, user context, etc.
+    - correlation_id is used to trace related messages across systems.
+    - correlation_id is used to link messages that belong to the same business process.
+    - causation_id is used to identify the immediate predecessor message that caused
 
     This separation allows messages to focus on domain data while keeping
     infrastructure concerns in metadata.
@@ -37,7 +43,11 @@ class MessageMetadata(ValueObject):
     """
 
     def __init__(
-        self, message_id: Optional[UUID] = None, created_at: Optional[datetime] = None
+        self,
+        message_id: UUID | None = None,
+        created_at: datetime | None = None,
+        correlation_id: UUID | None = None,
+        causation_id: UUID | None = None,
     ) -> None:
         """
         Initialize message metadata.
@@ -47,7 +57,9 @@ class MessageMetadata(ValueObject):
             created_at: When the message was created. If None, uses current UTC time.
         """
         self._message_id = message_id or uuid4()
-        self._created_at = created_at or datetime.now(timezone.utc)
+        self._created_at = created_at or now()
+        self._correlation_id = correlation_id or uuid4()
+        self._causation_id = causation_id or uuid4()
 
     @property
     def message_id(self) -> UUID:
@@ -69,16 +81,7 @@ class MessageMetadata(ValueObject):
         """
         return self._created_at
 
-    def _equality_components(self) -> Tuple[Any, ...]:
-        """
-        Message metadata equality is based on message ID and timestamp.
-
-        Returns:
-            tuple[Any, ...]: Tuple containing message_id and created_at
-        """
-        return (self._message_id, self._created_at)
-
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """
         Convert metadata to dictionary representation.
 
@@ -89,6 +92,15 @@ class MessageMetadata(ValueObject):
             "message_id": str(self._message_id),
             "created_at": self._created_at.isoformat(),
         }
+
+    def _equality_components(self) -> tuple[Any, ...]:
+        """
+        Message metadata equality is based on message ID and timestamp.
+
+        Returns:
+            tuple[Any, ...]: tuple containing message_id and created_at
+        """
+        return (self._message_id, self._created_at)
 
 
 class Message(ValueObject, ABC):
@@ -108,7 +120,7 @@ class Message(ValueObject, ABC):
     This class should not be used directly. Use Event or Command instead.
     """
 
-    def __init__(self, metadata: Optional[MessageMetadata] = None) -> None:
+    def __init__(self, metadata: MessageMetadata | None = None) -> None:
         """
         Initialize the message with metadata.
 
@@ -162,7 +174,7 @@ class Message(ValueObject, ABC):
 
     @property
     @abstractmethod
-    def payload(self) -> Dict[str, Any]:
+    def _payload(self) -> dict[str, Any]:
         """
         Get the domain-specific data carried by this message.
 
@@ -174,18 +186,7 @@ class Message(ValueObject, ABC):
         """
         pass
 
-    def _equality_components(self) -> Tuple[Any, ...]:
-        """
-        Messages are equal if they have the same message ID.
-
-        Each message instance is unique, even if they have the same domain data.
-
-        Returns:
-            tuple[Any, ...]: Tuple containing the message ID for equality comparison
-        """
-        return (self._metadata.message_id,)
-
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """
         Convert the message to a dictionary representation.
 
@@ -197,5 +198,16 @@ class Message(ValueObject, ABC):
         return {
             **self._metadata.to_dict(),
             "message_type": self.message_type,
-            **self.payload,
+            "payload": self._payload,
         }
+
+    def _equality_components(self) -> tuple[Any, ...]:
+        """
+        Messages are equal if they have the same message ID.
+
+        Each message instance is unique, even if they have the same domain data.
+
+        Returns:
+            tuple[Any, ...]: tuple containing the message ID for equality comparison
+        """
+        return (self._metadata.message_id,)

@@ -1,5 +1,5 @@
-from building_blocks.abstractions.errors.base import Error
-from building_blocks.abstractions.errors.core import ErrorMessage
+from building_blocks.foundation.errors.base import Error
+from building_blocks.foundation.errors.core import ErrorMessage
 
 
 class EntityIdCannotBeNoneError(Error):
