@@ -1,10 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import Generic, Protocol, TypeVar
 
-TNotification = TypeVar("TNotification")
+TNotification = TypeVar("TNotification", contravariant=True)
 
 
-class AsyncNotifier(ABC, Generic[TNotification]):
+class Notifier(Protocol, Generic[TNotification]):
     """
     Asynchronous notifier interface for sending notifications.
 
@@ -14,7 +13,6 @@ class AsyncNotifier(ABC, Generic[TNotification]):
     or push notifications.
     """
 
-    @abstractmethod
     async def notify(self, message: TNotification) -> None:
         """
         Send a notification with the given message.
@@ -22,25 +20,4 @@ class AsyncNotifier(ABC, Generic[TNotification]):
         Args:
             message: The message to be sent in the notification.
         """
-        pass
-
-
-class SyncNotifier(ABC, Generic[TNotification]):
-    """
-    Synchronous notifier interface for sending notifications.
-
-    This interface defines the contract for sending notifications in a sync
-    manner.
-    It can be implemented by various notification services, such as email, SMS
-    or push notifications.
-    """
-
-    @abstractmethod
-    def notify(self, message: TNotification) -> None:
-        """
-        Send a notification with the given message.
-
-        Args:
-            message: The message to be sent in the notification.
-        """
-        pass
+        ...
