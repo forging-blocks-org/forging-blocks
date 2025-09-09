@@ -25,23 +25,29 @@ class ResultAccessError(Exception):
 
 class Result(Protocol, Generic[ResultType, ErrorType]):
     @property
+    def is_ok(self) -> bool: ...
+
+    @property
+    def is_err(self) -> bool: ...
+
+    @property
     def value(self) -> ResultType: ...
 
     @property
     def error(self) -> ErrorType: ...
 
-    @property
-    def is_ok(self) -> bool:
-        return isinstance(self, Ok)
-
-    @property
-    def is_err(self) -> bool:
-        return isinstance(self, Err)
-
 
 class Ok(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
     def __init__(self, value) -> None:
         self._value = value
+
+    @property
+    def is_err(self) -> bool:
+        return False
+
+    @property
+    def is_ok(self) -> bool:
+        return True
 
     @property
     def value(self) -> ResultType:
@@ -51,10 +57,21 @@ class Ok(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
     def error(self) -> None:
         raise ResultAccessError.cannot_access_error()
 
+    def __repr__(self) -> str:
+        return f"Ok({self._value!r})"
+
 
 class Err(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
     def __init__(self, error) -> None:
         self._error = error
+
+    @property
+    def is_err(self) -> bool:
+        return True
+
+    @property
+    def is_ok(self) -> bool:
+        return False
 
     @property
     def value(self) -> None:
@@ -63,3 +80,6 @@ class Err(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
     @property
     def error(self) -> ErrorType:
         return self._error
+
+    def __repr__(self) -> str:
+        return f"Err({self._error!r})"

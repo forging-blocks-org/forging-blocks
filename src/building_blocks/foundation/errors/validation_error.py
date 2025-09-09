@@ -1,4 +1,4 @@
-from .base import CombinedErrors, Error, FieldErrors
+from building_blocks.foundation.errors.base import CombinedErrors, Error, FieldErrors
 
 
 class ValidationError(Error):

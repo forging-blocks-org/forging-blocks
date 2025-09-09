@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any, Dict
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -13,7 +13,7 @@ class ErrorMessage:
 class ErrorMetadata:
     """Represents metadata about the error."""
 
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)

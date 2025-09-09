@@ -1,4 +1,4 @@
-from .base import CombinedErrors, Error
+from building_blocks.foundation.errors.base import CombinedErrors, Error
 
 
 class RuleViolationError(Error):

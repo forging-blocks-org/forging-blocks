@@ -1,8 +1,11 @@
 from typing import Any, Collection, Generic, Iterator, Sequence, TypeVar
 
 from building_blocks.foundation.debuggable import Debuggable
-
-from .core import ErrorMessage, ErrorMetadata, FieldReference
+from building_blocks.foundation.errors.core import (
+    ErrorMessage,
+    ErrorMetadata,
+    FieldReference,
+)
 
 ErrorType = TypeVar("ErrorType", bound=Debuggable)
 
