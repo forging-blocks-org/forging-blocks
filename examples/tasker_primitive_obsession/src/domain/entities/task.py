@@ -35,7 +35,7 @@ from building_blocks.abstractions.errors.validation_error import (
     ValidationError,
     ValidationFieldErrors,
 )
-from building_blocks.abstractions.result import Err, Ok, Result
+from building_blocks.foundation.result import Err, Ok, Result
 from building_blocks.domain.aggregate_root import AggregateRoot, AggregateVersion
 from building_blocks.domain.entity import DraftEntity
 
