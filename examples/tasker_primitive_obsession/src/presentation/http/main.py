@@ -30,7 +30,6 @@ app = FastAPI(
 )
 app.add_exception_handler(Exception, generic_error_handler)
 
-#
 validate_token_use_case = get_validate_token_use_case()
 
 app.add_middleware(
