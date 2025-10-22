@@ -63,7 +63,3 @@ class Command(Message):
         """
         return self.created_at
 
-    @property
-    @abstractmethod
-    def _payload(self) -> dict[str, Any]:
-        pass
