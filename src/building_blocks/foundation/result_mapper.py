@@ -4,23 +4,23 @@ from typing import Generic, Protocol, TypeVar
 from building_blocks.foundation.mapper import Mapper
 from building_blocks.foundation.result import Result
 
-SuccessIn = TypeVar("SuccessIn", contravariant=True)
-ErrorIn = TypeVar("ErrorIn", contravariant=True)
-SuccessOut = TypeVar("SuccessOut", covariant=True)
-ErrorOut = TypeVar("ErrorOut", covariant=True)
+SuccessInputType = TypeVar("SuccessInputType", contravariant=True)
+ErrorInputType = TypeVar("ErrorInputType", contravariant=True)
+SuccessOutputType = TypeVar("SuccessOutputType", covariant=True)
+ErrorOutputType = TypeVar("ErrorOutputType", covariant=True)
 
 
 class ResultMapper(
     Mapper[
-        Result[SuccessIn, ErrorIn],
-        Result[SuccessOut, ErrorOut],
+        Result[SuccessInputType, ErrorInputType],
+        Result[SuccessOutputType, ErrorOutputType],
     ],
     Protocol,
-    Generic[SuccessIn, ErrorIn, SuccessOut, ErrorOut],
+    Generic[SuccessInputType, ErrorInputType, SuccessOutputType, ErrorOutputType],
 ):
     """
-    Maps a Result[SuccessIn, ErrorIn] from one layer or representation
-    to another Result[SuccessOut, ErrorOut].
+    Maps a Result[SuccessInputType, ErrorInputType] from one layer or representation
+    to another Result[SuccessOutputType, ErrorOutputType].
 
     Example:
         ApplicationResult = Result[CreateTaskResponse, CombinedValidationErrors]
@@ -48,5 +48,5 @@ class ResultMapper(
     """
 
     def map(
-        self, result: Result[SuccessIn, ErrorIn]
-    ) -> Result[SuccessOut, ErrorOut]: ...
+        self, result: Result[SuccessInputType, ErrorInputType]
+    ) -> Result[SuccessOutputType, ErrorOutputType]: ...

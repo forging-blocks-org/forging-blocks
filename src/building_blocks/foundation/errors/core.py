@@ -1,3 +1,9 @@
+"""
+This module contains core error components used throughout the application.
+These components provide structured representations for error messages,
+metadata, and field references, facilitating consistent error handling and reporting.
+"""
+
 from dataclasses import dataclass, field
 from typing import Any
 
