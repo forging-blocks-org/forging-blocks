@@ -1,3 +1,8 @@
+"""Mapper module.
+
+Auto-generated minimal module docstring.
+"""
+
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
@@ -6,8 +11,7 @@ TargetType = TypeVar("TargetType")
 
 
 class Mapper(ABC, Generic[SourceType, TargetType]):
-    """
-    A generic contract for mapping objects from one representation to another.
+    """A generic contract for mapping objects from one representation to another.
 
     This abstraction can be implemented in any layer of an application—
     for example, it can map:
@@ -30,10 +34,11 @@ class Mapper(ABC, Generic[SourceType, TargetType]):
 
     @abstractmethod
     def map(self, source: SourceType) -> TargetType:
-        """
-        Map a source object of type SourceType to a target object of type TargetType.
+        """Map a source object of type SourceType to a target object of type TargetType.
+
         Args:
             source (SourceType): The source object to be mapped.
+
         Returns:
             TargetType: The mapped target object.
         """

@@ -1,5 +1,4 @@
-"""
-Read-only repository interface for CQRS query scenarios.
+"""Read-only repository interface for CQRS query scenarios.
 
 This module provides read-only repository contracts with full type safety,
 useful for CQRS implementations where you separate command and query responsibilities.
@@ -15,8 +14,7 @@ TId = TypeVar("TId")
 
 
 class AsyncReadOnlyRepository(ABC, Generic[TAggregateRoot, TId]):
-    """
-    Read-only async repository interface for CQRS query scenarios.
+    """Read-only async repository interface for CQRS query scenarios.
 
     This interface is parameterized by both the aggregate root type and its ID type,
     providing type safety for query-side operations in CQRS architectures.
@@ -66,8 +64,7 @@ class AsyncReadOnlyRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     async def find_by_id(self, id: TId) -> Optional[TAggregateRoot]:
-        """
-        Find an aggregate by its unique identifier.
+        """Find an aggregate by its unique identifier.
 
         This is optimized for query performance and may read from:
         - Read replicas
@@ -84,8 +81,7 @@ class AsyncReadOnlyRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     async def find_all(self) -> List[TAggregateRoot]:
-        """
-        Find all aggregates in the repository.
+        """Find all aggregates in the repository.
 
         Note: In CQRS scenarios, this might be reading from optimized
         read models rather than the authoritative command store.
@@ -96,8 +92,7 @@ class AsyncReadOnlyRepository(ABC, Generic[TAggregateRoot, TId]):
 
 
 class SyncReadOnlyRepository(ABC, Generic[TAggregateRoot, TId]):
-    """
-    Read-only sync repository interface for CQRS query scenarios.
+    """Read-only sync repository interface for CQRS query scenarios.
 
     This interface is parameterized by both the aggregate root type and its ID type,
     providing type safety for query-side operations in CQRS architectures.
@@ -147,8 +142,7 @@ class SyncReadOnlyRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     def find_by_id(self, id: TId) -> Optional[TAggregateRoot]:
-        """
-        Find an aggregate by its unique identifier.
+        """Find an aggregate by its unique identifier.
 
         This is optimized for query performance and may read from:
         - Read replicas
@@ -165,8 +159,7 @@ class SyncReadOnlyRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     def find_all(self) -> List[TAggregateRoot]:
-        """
-        Find all aggregates in the repository.
+        """Find all aggregates in the repository.
 
         Note: In CQRS scenarios, this might be reading from optimized
         read models rather than the authoritative command store.

@@ -1,3 +1,8 @@
+"""Notifier module.
+
+Auto-generated minimal module docstring.
+"""
+
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
@@ -5,8 +10,7 @@ TNotification = TypeVar("TNotification")
 
 
 class AsyncNotifier(ABC, Generic[TNotification]):
-    """
-    Asynchronous notifier interface for sending notifications.
+    """Asynchronous notifier interface for sending notifications.
 
     This interface defines the contract for sending notifications in an asynchronous
     manner.
@@ -16,8 +20,7 @@ class AsyncNotifier(ABC, Generic[TNotification]):
 
     @abstractmethod
     async def notify(self, message: TNotification) -> None:
-        """
-        Send a notification with the given message.
+        """Send a notification with the given message.
 
         Args:
             message: The message to be sent in the notification.
@@ -26,8 +29,7 @@ class AsyncNotifier(ABC, Generic[TNotification]):
 
 
 class SyncNotifier(ABC, Generic[TNotification]):
-    """
-    Synchronous notifier interface for sending notifications.
+    """Synchronous notifier interface for sending notifications.
 
     This interface defines the contract for sending notifications in a sync
     manner.
@@ -37,8 +39,7 @@ class SyncNotifier(ABC, Generic[TNotification]):
 
     @abstractmethod
     def notify(self, message: TNotification) -> None:
-        """
-        Send a notification with the given message.
+        """Send a notification with the given message.
 
         Args:
             message: The message to be sent in the notification.

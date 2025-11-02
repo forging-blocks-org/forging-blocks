@@ -53,6 +53,7 @@ class FakeAggregateRoot(AggregateRoot[UUID]):
 
     def perform_action(self, action: str) -> None:
         """Perform an action that records a domain event."""
+
         self._actions.append(action)
 
         # Record a domain event using Vernon's approach
@@ -61,6 +62,7 @@ class FakeAggregateRoot(AggregateRoot[UUID]):
 
     def change_name(self, new_name: str) -> None:
         """Change the name and increment version."""
+
         old_name = self._name
         self._name = new_name
         self._increment_version()
@@ -71,6 +73,7 @@ class FakeAggregateRoot(AggregateRoot[UUID]):
 
     def perform_business_operation(self) -> None:
         """A business operation that records multiple events."""
+
         self.record_event(FakeEvent("Operation started"))
         self.record_event(FakeEvent("Operation in progress"))
         self.record_event(FakeEvent("Operation completed"))
@@ -81,16 +84,19 @@ class TestAggregateVersion:
 
     def test_init_when_value_is_negative_then_raises_value_error(self):
         """Test that initializing with a negative value raises ValueError."""
+
         with pytest.raises(ValueError, match="Version cannot be negative"):
             AggregateVersion(-1)
 
     def test_init_when_value_is_not_int_then_raises_type_error(self):
         """Test that initializing with a non-integer value raises TypeError."""
+
         with pytest.raises(TypeError, match="Expected int, got str"):
             AggregateVersion("invalid_value")  # type: ignore
 
     def test_increment_increases_version_by_one(self):
         """Test that incrementing the version works correctly."""
+
         version = AggregateVersion(1)
         new_version = version.increment()
         assert new_version.value == 2
@@ -119,11 +125,13 @@ class TestAggregateRoot:
 
     def test_init_when_no_id_then_raises_type_error(self):
         """Test that initializing without an ID raises ValueError."""
+
         with pytest.raises(ValueError, match="Entity ID cannot be None"):
             FakeAggregateRoot(None, self._name)  # type: ignore
 
     def test_init_when_invalid_id_type_then_raises_type_error(self):
         """Test that initializing with an invalid ID type raises TypeError."""
+
         with pytest.raises(TypeError, match="Expected UUID, got str"):
             FakeAggregateRoot("invalid_id", self._name)  # type: ignore
 
@@ -260,6 +268,7 @@ class TestAggregateRoot:
 
     def test_equality_when_different_id_then_not_equal(self):
         """Test that different IDs are not equal."""
+
         version = AggregateVersion(value=1)
         aggregate1 = FakeAggregateRoot(uuid4(), "test", version=version)
         aggregate2 = FakeAggregateRoot(uuid4(), "test", version=version)
@@ -269,6 +278,7 @@ class TestAggregateRoot:
 
     def test_vernon_naming_convention_integration_full_cycle_works(self):
         """Integration test using Vernon's naming conventions."""
+
         aggregate_id = uuid4()
         aggregate = FakeAggregateRoot(aggregate_id, "order")
 
@@ -348,6 +358,7 @@ class TestDomainEventManagement:
 
     def test_vernon_approach_method_names_follows_conventions(self):
         """Test that we're following Vernon's naming conventions."""
+
         aggregate_id = uuid4()
         aggregate = FakeAggregateRoot(aggregate_id, "test")
 

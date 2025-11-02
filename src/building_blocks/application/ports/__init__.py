@@ -1,5 +1,5 @@
-"""
-Application inbound ports module.
+"""Application inbound ports module.
+
 Contains inbound and outbound port definitions.
 """
 

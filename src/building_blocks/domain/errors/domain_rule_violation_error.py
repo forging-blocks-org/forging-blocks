@@ -1,3 +1,8 @@
+"""Domain rule violation error module.
+
+Auto-generated minimal module docstring.
+"""
+
 from typing import Dict, Optional
 
 from building_blocks.domain.errors.domain_error import DomainError

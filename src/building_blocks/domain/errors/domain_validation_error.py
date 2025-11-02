@@ -1,11 +1,16 @@
+"""Domain validation error module.
+
+Auto-generated minimal module docstring.
+"""
+
 from typing import Dict, Optional
 
 from .domain_error import DomainError
 
 
 class DomainValidationError(DomainError):
-    """
-    Raised when one or more fields fail domain validation.
+    """Raised when one or more fields fail domain validation.
+
     Contains a mapping of field_name -> error_message(s).
     """
 

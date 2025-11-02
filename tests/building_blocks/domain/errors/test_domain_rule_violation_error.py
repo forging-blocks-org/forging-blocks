@@ -36,3 +36,13 @@ class TestDomainRuleViolationError:
         assert error.message == "Test exception"
         assert error.context == {"error": "details"}
         assert str(error) == "Test exception | Context: {'error': 'details'}"
+
+    def test_domain_rule_violation_error_with_context(self):
+        error = DomainRuleViolationError(
+            "Some rule violated", rule="RULE_1", context={"field": "value"}
+        )
+        assert str(error) == "[RULE_1] Some rule violated | Context: {'field': 'value'}"
+
+    def test_domain_rule_violation_error_without_context(self):
+        error = DomainRuleViolationError("Some rule violated", rule="RULE_1")
+        assert str(error) == "[RULE_1] Some rule violated"

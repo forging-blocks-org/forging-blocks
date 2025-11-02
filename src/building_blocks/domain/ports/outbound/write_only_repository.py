@@ -1,5 +1,4 @@
-"""
-Write-only repository interface for CQRS command scenarios.
+"""Write-only repository interface for CQRS command scenarios.
 
 This module provides write-only repository contracts with full type safety,
 useful for CQRS implementations where you separate command and query responsibilities.
@@ -15,8 +14,7 @@ IdType = TypeVar("IdType")
 
 
 class AsyncWriteOnlyRepository(ABC, Generic[AggregateRootType, IdType]):
-    """
-    Write-only async repository interface for CQRS command scenarios.
+    """Write-only async repository interface for CQRS command scenarios.
 
     This interface is parameterized by the aggregate root type, providing
     type safety for command-side operations in CQRS architectures.
@@ -57,14 +55,11 @@ class AsyncWriteOnlyRepository(ABC, Generic[AggregateRootType, IdType]):
 
     @abstractmethod
     async def save(self, aggregate: AggregateRootType) -> None:
-        """
-        Save an aggregate.
-        """
+        """Save an aggregate."""
 
     @abstractmethod
     async def delete_by_id(self, id: IdType) -> None:
-        """
-        Delete an aggregate using its id.
+        """Delete an aggregate using its id.
 
         Args:
             id: The ID of the aggregate to delete.
@@ -75,8 +70,7 @@ class AsyncWriteOnlyRepository(ABC, Generic[AggregateRootType, IdType]):
 
 
 class SyncWriteOnlyRepository(ABC, Generic[AggregateRootType, IdType]):
-    """
-    Write-only repository interface for CQRS command scenarios.
+    """Write-only repository interface for CQRS command scenarios.
 
     This interface is parameterized by the aggregate root type, providing
     type safety for command-side operations in CQRS architectures.
@@ -118,8 +112,7 @@ class SyncWriteOnlyRepository(ABC, Generic[AggregateRootType, IdType]):
 
     @abstractmethod
     def save(self, aggregate: AggregateRootType) -> None:
-        """
-        Save an aggregate to the command store.
+        """Save an aggregate to the command store.
 
         In CQRS scenarios, this typically involves:
         - Persisting to the authoritative command database
@@ -137,8 +130,7 @@ class SyncWriteOnlyRepository(ABC, Generic[AggregateRootType, IdType]):
 
     @abstractmethod
     def delete_by_id(self, id: IdType) -> None:
-        """
-        Delete an aggregate from the command store.
+        """Delete an aggregate from the command store.
 
         In CQRS scenarios, this might involve:
         - Soft deletion with domain events

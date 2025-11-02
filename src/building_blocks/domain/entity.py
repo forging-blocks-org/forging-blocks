@@ -1,5 +1,4 @@
-"""
-Domain entities module.
+"""Domain entities module.
 
 This module provides the base Entity class for implementing domain entities.
 following the principles of Domain-Driven Design (DDD).
@@ -17,8 +16,7 @@ TId = TypeVar("TId", bound=Hashable)  # Type variable for the entity's unique id
 
 
 class Entity(Generic[TId], ABC):
-    """
-    Base class for all domain entities with identity.
+    """Base class for all domain entities with identity.
 
     Entities are objects that have a distinct identity that runs through time and
     different states. They are defined by their identity rather than their attributes.
@@ -59,8 +57,7 @@ class Entity(Generic[TId], ABC):
 
     @property
     def id(self) -> TId:
-        """
-        Returns the unique identifier of the entity.
+        """Returns the unique identifier of the entity.
 
         Returns:
             TId: The unique identifier of the entity.

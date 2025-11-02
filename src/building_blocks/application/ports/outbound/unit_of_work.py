@@ -1,5 +1,4 @@
-"""
-Unit of Work interface for managing transactions.
+"""Unit of Work interface for managing transactions.
 
 The Unit of Work pattern maintains a list of objects affected by a business
 transaction and coordinates writing out changes and resolving concurrency problems.
@@ -13,8 +12,7 @@ from typing import Optional
 
 
 class AsyncUnitOfWork(ABC):
-    """
-    Unit of Work interface for managing transactions.
+    """Unit of Work interface for managing transactions.
 
     The Unit of Work pattern maintains a list of objects affected by a business
     transaction and coordinates writing out changes and resolving concurrency problems.
@@ -24,8 +22,7 @@ class AsyncUnitOfWork(ABC):
     """
 
     async def __aenter__(self) -> AsyncUnitOfWork:
-        """
-        Enter the unit of work context.
+        """Enter the unit of work context.
 
         This method should be called at the beginning of a unit of work.
         It can be used to initialize resources or set up the transaction context.
@@ -38,8 +35,7 @@ class AsyncUnitOfWork(ABC):
         exc_value: Optional[BaseException],
         traceback: Optional[types.TracebackType],
     ) -> None:
-        """
-        Exit the unit of work context.
+        """Exit the unit of work context.
 
         This method should be called at the end of a unit of work.
         It can be used to clean up resources or handle exceptions.
@@ -52,8 +48,7 @@ class AsyncUnitOfWork(ABC):
 
     @abstractmethod
     async def commit(self) -> None:
-        """
-        Commit all changes in the unit of work.
+        """Commit all changes in the unit of work.
 
         This should:
         - Persist all registered changes
@@ -66,8 +61,7 @@ class AsyncUnitOfWork(ABC):
 
     @abstractmethod
     async def rollback(self) -> None:
-        """
-        Rollback all changes in the unit of work.
+        """Rollback all changes in the unit of work.
 
         Raises:
             UnitOfWorkException: If rollback fails
@@ -75,8 +69,7 @@ class AsyncUnitOfWork(ABC):
 
 
 class SyncUnitOfWork(ABC):
-    """
-    Unit of Work interface for managing transactions.
+    """Unit of Work interface for managing transactions.
 
     The Unit of Work pattern maintains a list of objects affected by a business
     transaction and coordinates writing out changes and resolving concurrency problems.
@@ -86,8 +79,7 @@ class SyncUnitOfWork(ABC):
     """
 
     def __enter__(self) -> SyncUnitOfWork:
-        """
-        Enter the unit of work context.
+        """Enter the unit of work context.
 
         This method should be called at the beginning of a unit of work.
         It can be used to initialize resources or set up the transaction context.
@@ -100,8 +92,7 @@ class SyncUnitOfWork(ABC):
         exc_value: Optional[BaseException],
         traceback: Optional[types.TracebackType],
     ) -> None:
-        """
-        Exit the unit of work context.
+        """Exit the unit of work context.
 
         This method should be called at the end of a unit of work.
         It can be used to clean up resources or handle exceptions.
@@ -114,8 +105,7 @@ class SyncUnitOfWork(ABC):
 
     @abstractmethod
     def commit(self) -> None:
-        """
-        Commit all changes in the unit of work.
+        """Commit all changes in the unit of work.
 
         This should:
         - Persist all registered changes
@@ -128,8 +118,7 @@ class SyncUnitOfWork(ABC):
 
     @abstractmethod
     def rollback(self) -> None:
-        """
-        Rollback all changes in the unit of work.
+        """Rollback all changes in the unit of work.
 
         Raises:
             UnitOfWorkException: If rollback fails

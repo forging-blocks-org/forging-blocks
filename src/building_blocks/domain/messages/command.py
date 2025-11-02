@@ -1,3 +1,8 @@
+"""Command module.
+
+Auto-generated minimal module docstring.
+"""
+
 from datetime import datetime
 from uuid import UUID
 
@@ -5,8 +10,7 @@ from building_blocks.domain.messages.message import Message
 
 
 class Command(Message):
-    """
-    Base class for all domain commands.
+    """Base class for all domain commands.
 
     Commands represent an intent to do something in the domain.
     They are requests that may succeed or fail, and they are handled by command handler.
@@ -44,8 +48,7 @@ class Command(Message):
 
     @property
     def command_id(self) -> UUID:
-        """
-        Convenience property to get the command ID.
+        """Convenience property to get the command ID.
 
         Returns:
             UUID: The unique command identifier (same as message_id)
@@ -54,8 +57,7 @@ class Command(Message):
 
     @property
     def issued_at(self) -> datetime:
-        """
-        Convenience property to get when the command was issued.
+        """Convenience property to get when the command was issued.
 
         Returns:
             datetime: When the command was issued (same as created_at)

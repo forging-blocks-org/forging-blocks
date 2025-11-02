@@ -1,3 +1,8 @@
+"""Event publisher module.
+
+Auto-generated minimal module docstring.
+"""
+
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
@@ -7,9 +12,7 @@ TEvent = TypeVar("TEvent", bound=Event)
 
 
 class AsyncEventPublisher(ABC, Generic[TEvent]):
-    """
-    Asynchronous outbound port for publishing events.
-
+    """Asynchronous outbound port for publishing events.
 
     This interface defines the contract for publishing domain events in a
     CQRS architecture. It is designed to be implemented by event bus or
@@ -24,8 +27,7 @@ class AsyncEventPublisher(ABC, Generic[TEvent]):
 
     @abstractmethod
     async def publish(self, event: TEvent) -> None:
-        """
-        Publish an event synchronously.
+        """Publish an event synchronously.
 
         Args:
             event: The domain event to be published.
@@ -33,8 +35,7 @@ class AsyncEventPublisher(ABC, Generic[TEvent]):
 
 
 class SyncEventPublisher(ABC, Generic[TEvent]):
-    """
-    Synchronous outbound port for publishing events.
+    """Synchronous outbound port for publishing events.
 
     This interface defines the contract for publishing domain events in a
     CQRS architecture. It is designed to be implemented by event bus or
@@ -49,8 +50,7 @@ class SyncEventPublisher(ABC, Generic[TEvent]):
 
     @abstractmethod
     def publish(self, event: TEvent) -> None:
-        """
-        Publish an event asynchronously.
+        """Publish an event asynchronously.
 
         Args:
             event: The domain event to be published.

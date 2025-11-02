@@ -1,77 +1,95 @@
 [tool.poetry]
 name = "building-blocks"
 version = "0.1.0"
-description = "A clean architecture Python library following hexagonal principles"
+description = "Composable toolkit for clean, testable, and maintainable Python applications"
 authors = ["Glauber Brennon <glauberbrennon@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "building_blocks", from = "src"}]
+packages = [{ include = "building_blocks", from = "src" }]
 keywords = [
-    "clean architecture",
-    "hexagonal architecture",
-    "python library",
-    "framework agnostic",
-    "domain-driven design",
-    "ddd",
-    "software architecture",
-    "software design",
-    "software engineering",
-    "framework-agnostic",
+  "python library",
+  "clean architecture",
+  "hexagonal architecture",
+  "domain-driven design",
+  "ddd",
+  "framework-agnostic",
+  "software architecture",
+  "software design",
+  "software engineering",
+  "ports and adapters",
+  "adapter pattern",
+  "application service",
+  "repository pattern",
+  "message bus",
+  "notifier pattern",
+  "data mapper",
+  "result pattern",
+  "result monad",
+  "ok",
+  "err",
+  "either type",
+  "debuggable",
+  "use case",
+  "domain layer",
+  "application layer",
+  "presentation layer",
+  "foundation",
+  "building blocks",
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.12"
 
 [tool.poetry.group.dev.dependencies]
-mypy = "1.16.1"
-bandit = "*"
-pre-commit = "4.2.0"
-pytest = "*"
-pytest-cov = "*"
-pytest-asyncio = "*"
-ruff = "0.12.3"
-sqlalchemy = {extras = ["asyncio"], version = "^2.0.41"}
-fastapi = {extras = ["standard"], version = "^0.115.13"}
-httpx = "^0.28.1"
-pydantic-settings = "^2.10.0"
-uvicorn = "^0.35.0"
-python-dotenv = "^1.1.1"
-asyncpg = "^0.29.0"
-aiosqlite = "^0.20.0"
-psycopg2-binary = "^2.9.9"
-alembic = "^1.16.3"
+pyright = "^1.1.404"
+mypy = "^1.16.1"
+ruff = "^0.14.3"
 black = "^25.1.0"
-bcrypt = "^4.3.0"
-pyjwt = "^2.10.1"
+pytest = "^8.3.3"
+pytest-cov = "^5.0.0"
+pytest-asyncio = "^0.25.0"
+bandit = "^1.7.10"
+pre-commit = "^4.2.0"
+poethepoet = "^0.37.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
-line-length = 88
-target-version = "py39"
+target-version = "py312"
+line-length = 100
 src = ["src", "tests", "scripts"]
 fix = true
+extend-exclude = ["site"]
 
 [tool.ruff.lint]
-select = [
-    "E",
-    "W",
-    "F",
-    "I",
-    "B",
-    "C4",
-]
+select = ["E", "W", "F", "I", "B", "C4", "D"]
 ignore = [
-    "D203",
-    "D213",
-    "B008"
+  "D203",  # No blank line before class (conflicts with D211)
+  "D213",  # Multi-line summary on second line (Google prefers same line)
+  "B008",  # Function call in default arg
+  "D105",  # Magic methods like __repr__, __eq__, etc. (MOVED HERE)
+  "D106",  # Nested classes (MOVED HERE)
+  "D107",  # __init__ docstring (MOVED HERE)
 ]
-extend-ignore = ["UP007"]  # Ignore "Use `X | Y` for type annotations" (Python 3.10+ only)
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+known-first-party = ["building_blocks"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*" = ["D"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
@@ -88,31 +106,50 @@ module = "tests.*"
 ignore_missing_imports = true
 disallow_untyped_defs = false
 
-[tool.bandit]
-exclude_dirs = ["tests"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 asyncio_mode = "auto"
 addopts = [
-    "--strict-markers",
-    "--strict-config",
-    "--cov=building_blocks",
-    "--cov-report=term-missing",
-]
-
-[tool.coverage.run]
-omit = [
-    "*/__init__.py",
-    "src/building_blocks/application/ports/**/*.py",
-    "src/building_blocks/domain/ports/**/*.py",
-    "src/building_blocks/abstractions/**/*.py",
+  "--strict-markers",
+  "--strict-config",
+  "--cov=building_blocks",
+  "--cov-report=term-missing",
 ]
 
 [tool.coverage.report]
 exclude_lines = [
-    "pragma: no cover",
-    "@(abc\\.)?abstractmethod",
-    "raise NotImplementedError"
+    "@abstractmethod"
+]
+
+[tool.coverage.run]
+omit = [
+    "src/building_blocks/abstractions/*.py",
+    "src/building_blocks/application/ports/inbound/*.py",
+    "src/building_blocks/application/ports/outbound/*.py",
+    "src/building_blocks/domain/ports/outbound/*.py"
+]
+
+[tool.poe.tasks]
+lint = "ruff check ."
+"lint:docs" = "ruff check --select D100,D101,D102,D103,D104 src"
+format.sequence = [
+  { cmd = "ruff check . --fix" },
+  { cmd = "ruff check --select D --fix --unsafe-fixes src" },
+]
+"format:docstrings" = "ruff check --select D --fix --unsafe-fixes src"
+"type:pyright" = "pyright"
+"type:mypy" = "mypy --config-file pyproject.toml src"
+bandit = "bandit -r src -x tests"
+pre-commit = "pre-commit run --all-files"
+test = "pytest -q"
+"test:quick" = "pytest -x -q"
+"test:strict" = "pytest -x --strict-markers"
+"test:nocov" = "pytest -q --no-cov"
+"mkdocs:serve" = "mkdocs serve"
+"mkdocs:build" = "mkdocs build"
+"mkdocs:deploy" = "mkdocs gh-deploy --clean"
+"docs:check" = [
+  { cmd = "ruff check --select D100,D101,D102,D103,D104 src" },
+  { cmd = "mkdocs build --strict" },
 ]

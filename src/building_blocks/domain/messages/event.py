@@ -1,3 +1,8 @@
+"""Event module.
+
+Auto-generated minimal module docstring.
+"""
+
 from datetime import datetime
 from uuid import UUID
 
@@ -5,8 +10,7 @@ from building_blocks.domain.messages.message import Message
 
 
 class Event(Message):
-    """
-    Base class for all domain events.
+    """Base class for all domain events.
 
     Domain events represent something significant that happened in the domain.
     They are immutable facts about the past that other parts of the system can react to.
@@ -51,8 +55,7 @@ class Event(Message):
 
     @property
     def event_id(self) -> UUID:
-        """
-        Convenience property to get the event ID.
+        """Convenience property to get the event ID.
 
         Returns:
             UUID: The unique event identifier (same as message_id)
@@ -61,8 +64,7 @@ class Event(Message):
 
     @property
     def occurred_at(self) -> datetime:
-        """
-        Convenience property to get when the event occurred.
+        """Convenience property to get when the event occurred.
 
         Returns:
             datetime: When the event occurred (same as created_at)

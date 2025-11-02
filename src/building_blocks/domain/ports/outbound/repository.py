@@ -1,5 +1,4 @@
-"""
-Generic repository interfaces for Domain-Driven Design.
+"""Generic repository interfaces for Domain-Driven Design.
 
 This module provides a generic repository interface that is parameterized
 by the aggregate root type and its ID type, providing both flexibility
@@ -16,8 +15,7 @@ TId = TypeVar("TId")
 
 
 class SyncRepository(ABC, Generic[TAggregateRoot, TId]):
-    """
-    Generic sync repository interface for aggregate roots.
+    """Generic sync repository interface for aggregate roots.
 
     This interface is parameterized by both the aggregate root type and its ID type,
     providing type safety while maintaining flexibility and reusability.
@@ -59,8 +57,7 @@ class SyncRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     def find_by_id(self, id: TId) -> Optional[TAggregateRoot]:
-        """
-        Find an aggregate by its unique identifier.
+        """Find an aggregate by its unique identifier.
 
         Returns None if the aggregate is not found, rather than raising
         an exception. This follows the "Tell, Don't Ask" principle and
@@ -75,8 +72,7 @@ class SyncRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     def save(self, aggregate: TAggregateRoot) -> None:
-        """
-        Save an aggregate to the repository.
+        """Save an aggregate to the repository.
 
         This method handles both create and update operations.
         The repository implementation should:
@@ -94,8 +90,7 @@ class SyncRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     def delete_by_id(self, id: TId) -> None:
-        """
-        Attempts to delete an aggregate using its id.
+        """Attempts to delete an aggregate using its id.
 
         Args:
             id: (TId) The primary key of the aggregate to delete.
@@ -103,8 +98,7 @@ class SyncRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     def find_all(self) -> List[TAggregateRoot]:
-        """
-        Find all aggregates in the repository.
+        """Find all aggregates in the repository.
 
         Note: Use with caution in production systems with large datasets.
         Consider pagination or specific query methods instead.
@@ -115,8 +109,7 @@ class SyncRepository(ABC, Generic[TAggregateRoot, TId]):
 
 
 class AsyncRepository(ABC, Generic[TAggregateRoot, TId]):
-    """
-    Generic async repository interface for aggregate roots.
+    """Generic async repository interface for aggregate roots.
 
     This interface is parameterized by both the aggregate root type and its ID type,
     providing type safety while maintaining flexibility and reusability.
@@ -158,8 +151,7 @@ class AsyncRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     async def find_by_id(self, id: TId) -> Optional[TAggregateRoot]:
-        """
-        Find an aggregate by its unique identifier.
+        """Find an aggregate by its unique identifier.
 
         Returns None if the aggregate is not found, rather than raising
         an exception. This follows the "Tell, Don't Ask" principle and
@@ -174,8 +166,7 @@ class AsyncRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     async def save(self, aggregate: TAggregateRoot) -> None:
-        """
-        Save an aggregate to the repository.
+        """Save an aggregate to the repository.
 
         This method handles both create and update operations.
         The repository implementation should:
@@ -193,8 +184,7 @@ class AsyncRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     async def delete_by_id(self, id: TId) -> None:
-        """
-        Attempts to delete an aggregate using its id.
+        """Attempts to delete an aggregate using its id.
 
         Args:
             id: (TId) The primary key of the aggregate to delete.
@@ -202,8 +192,7 @@ class AsyncRepository(ABC, Generic[TAggregateRoot, TId]):
 
     @abstractmethod
     async def find_all(self) -> List[TAggregateRoot]:
-        """
-        Find all aggregates in the repository.
+        """Find all aggregates in the repository.
 
         Note: Use with caution in production systems with large datasets.
         Consider pagination or specific query methods instead.
