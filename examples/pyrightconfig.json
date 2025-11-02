@@ -1,7 +1,0 @@
-{
-    "include": [
-        "."
-    ],
-    "reportMissingImports": true,
-    "reportMissingTypeStubs": false
-}
