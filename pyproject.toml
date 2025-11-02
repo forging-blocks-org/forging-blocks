@@ -84,13 +84,6 @@ ignore = [
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
-select = [
-    "D100",  # Public module docstring (RE-ADDED)
-    "D101",  # Public class docstring (RE-ADDED)
-    "D102",  # Public method docstring (RE-ADDED)
-    "D103",  # Public function docstring (RE-ADDED)
-    "D104",  # Public package docstring (RE-ADDED)
-]
 
 [tool.ruff.lint.isort]
 known-first-party = ["building_blocks"]
