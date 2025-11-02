@@ -40,7 +40,6 @@ Building Blocks provides a foundation for implementing clean architecture patter
 - 🧩 **Domain-Driven Design**: Building blocks for DDD
 - 🔒 **Type Safe**: Full type annotations with mypy support
 - 🧪 **Well Tested**: Comprehensive test coverage
-- 📚 **Well Documented**: Clear documentation and examples
 - ⚡ **Modern Python**: Built for Python 3.9+ with modern syntax
 
 ---
@@ -58,12 +57,6 @@ pip install building-blocks
 ## Quick Start
 
 For a detailed guide, see the [Getting Started Guide](docs/getting-started.md).
-
----
-
-## Examples
-
-Check out the [`examples/`](examples/) directory for real-world applications built with this library. An overview of all examples can be found in the [Examples Overview](docs/examples-overview.md).
 
 ---
 

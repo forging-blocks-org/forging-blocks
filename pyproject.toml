@@ -51,11 +51,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.ruff]
 line-length = 88
 target-version = "py39"
-src = ["src", "tests", "examples", "scripts"]
+src = ["src", "tests", "scripts"]
 fix = true
-exclude = [
-    "**/migrations/**",
-]
 
 [tool.ruff.lint]
 select = [
