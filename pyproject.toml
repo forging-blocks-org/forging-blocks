@@ -117,6 +117,19 @@ addopts = [
   "--cov-report=term-missing",
 ]
 
+[tool.coverage.report]
+exclude_lines = [
+    "@abstractmethod"
+]
+
+[tool.coverage.run]
+omit = [
+    "src/building_blocks/abstractions/*.py",
+    "src/building_blocks/application/ports/inbound/*.py",
+    "src/building_blocks/application/ports/outbound/*.py",
+    "src/building_blocks/domain/ports/outbound/*.py"
+]
+
 [tool.poe.tasks]
 lint = "ruff check ."
 "lint:docs" = "ruff check --select D100,D101,D102,D103,D104 src"
