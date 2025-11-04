@@ -69,17 +69,18 @@ target-version = "py312"
 line-length = 100
 src = ["src", "tests", "scripts"]
 fix = true
-extend-exclude = ["site"]  # Ignore MkDocs build directory
+extend-exclude = ["site"]
 
 [tool.ruff.lint]
 select = ["E", "W", "F", "I", "B", "C4", "D"]
 ignore = [
-    "D203",  # No blank line before class (conflicts with D211)
-    "D213",  # Multi-line summary on second line (Google prefers same line)
-    "B008",  # Function call in default arg
-    "D105",  # Magic methods like __repr__, __eq__, etc. (MOVED HERE)
-    "D106",  # Nested classes (MOVED HERE)
-    "D107",  # __init__ docstring (MOVED HERE)
+    "B008",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "D203",
+    "D213",
 ]
 
 [tool.ruff.lint.pydocstyle]
@@ -89,7 +90,7 @@ convention = "google"
 known-first-party = ["building_blocks"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*" = ["D"]  # Ignore docstring rules in tests
+"tests/**/*" = ["D"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -151,9 +152,9 @@ lint = "ruff check ."
 "lint:docs" = "ruff check --select D100,D101,D102,D103,D104"
 format.sequence = [
   { cmd = "ruff check . --fix" },
-  { cmd = "ruff check --select D --fix --unsafe-fixes" },
+  { cmd = "ruff check --fix --unsafe-fixes" },
 ]
-"format:docstrings" = "ruff check --select D --fix --unsafe-fixes"
+"format:docstrings" = "ruff check --fix --unsafe-fixes"
 mypy = "mypy --config-file pyproject.toml src tests scripts"
 bandit = "bandit -r src -x tests"
 pre-commit = "pre-commit run --all-files"
