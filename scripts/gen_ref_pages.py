@@ -1,6 +1,5 @@
 # scripts/gen_ref_pages.py
-"""
-Auto-generate placeholder pages for the reference section.
+"""Auto-generate placeholder pages for the reference section.
 
 This prevents mkdocs-gen-files from failing when no generation logic exists yet.
 You can later expand this to dynamically scan your src/ directory.
