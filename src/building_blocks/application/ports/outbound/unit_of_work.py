@@ -6,8 +6,10 @@ from abc import ABC, abstractmethod
 from types import TracebackType
 from typing import Any
 
+from building_blocks.foundation.errors.base import Error
 
-class UnitOfWorkError(Exception):
+
+class UnitOfWorkError(Error):
     """Exception raised for errors in the unit of work."""
 
     pass
@@ -63,9 +65,5 @@ class UnitOfWork(ABC):
 
     @abstractmethod
     async def rollback(self) -> None:
-        """Rollback all changes in the unit of work.
-
-        Raises:
-            UnitOfWorkError: If rollback fails
-        """
+        """Rollback changes in transaction."""
         ...
