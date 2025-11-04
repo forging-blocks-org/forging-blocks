@@ -156,9 +156,7 @@ class TestFieldErrors:
 
         actual_str = str(errors)
 
-        expected_str = (
-            f"FieldErrors for field '{field.value}':\n - Error: An error occurred"
-        )
+        expected_str = f"FieldErrors for field '{field.value}':\n - Error: An error occurred"
         assert actual_str == expected_str
 
     def test__repr__when_errors_defined_then_returns_repr_string(self) -> None:
@@ -221,8 +219,7 @@ class TestCombinedErrors:
         actual_str = str(combined_errors)
 
         expected_str = (
-            "CombinedErrors:\n- FieldErrors for field 'username':\n - Error: An error "
-            "occurred"
+            "CombinedErrors:\n- FieldErrors for field 'username':\n - Error: An error " "occurred"
         )
         assert actual_str == expected_str
 

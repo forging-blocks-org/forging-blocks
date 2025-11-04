@@ -1,85 +1,152 @@
+"""Result type implementation inspired by Rust's Result enum."""
+
 from __future__ import annotations
 
 from typing import Generic, Protocol, TypeVar
+
+from building_blocks.foundation.errors.base import Error
+from building_blocks.foundation.errors.core import ErrorMessage
 
 ResultType = TypeVar("ResultType", covariant=True)
 ErrorType = TypeVar("ErrorType", covariant=True)
 
 
-class ResultAccessError(Exception):
-    def __init__(self, message: str = "ResultAccessError") -> None:
+class ResultAccessError(Error):
+    """Exception raised when trying to access value or err from an inappropriate Result variant."""
+
+    def __init__(self, message: ErrorMessage | None = None) -> None:
+        """Initialize ResultAccessError with a message."""
+        message = message or ErrorMessage("Invalid access on Result.")
+        print(message)
         super().__init__(message)
 
     @classmethod
     def cannot_access_value(cls) -> ResultAccessError:
-        return cls("Cannot access value from an Err Result.")
+        """Create an error for accessing value from an Err Result."""
+        error_message = ErrorMessage("Cannot access value from an Err Result.")
+        return cls(error_message)
 
     @classmethod
     def cannot_access_error(cls) -> ResultAccessError:
-        return cls("Cannot access error from an Ok Result.")
+        """Create an error for accessing error from an Ok Result."""
+        error_message = ErrorMessage("Cannot access error from an Ok Result.")
+        return cls(error_message)
 
     @property
     def message(self) -> str:
+        """Property to return the actual message."""
         return str(self.args[0])
 
 
 class Result(Protocol, Generic[ResultType, ErrorType]):
-    @property
-    def is_ok(self) -> bool: ...
+    """A type that represents either a success (Ok) or an error (Err)."""
 
     @property
-    def is_err(self) -> bool: ...
+    def is_ok(self) -> bool:
+        """Guard method to check if that Result if an ok."""
+        ...
 
     @property
-    def value(self) -> ResultType: ...
+    def is_err(self) -> bool:
+        """Guard method to check if that Result if an err."""
+        ...
 
     @property
-    def error(self) -> ErrorType: ...
+    def value(self) -> ResultType:
+        """Method to return the actual value."""
+        ...
+
+    @property
+    def error(self) -> ErrorType:
+        """Method to return the actual error."""
+        ...
 
 
 class Ok(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
+    """Represents a successful result."""
+
     def __init__(self, value) -> None:
         self._value = value
 
     @property
     def is_err(self) -> bool:
+        """Check if the result is an error."""
         return False
 
     @property
     def is_ok(self) -> bool:
+        """Check if the result is ok."""
         return True
 
     @property
     def value(self) -> ResultType:
+        """Get the successful value."""
         return self._value
 
     @property
     def error(self) -> None:
+        """Attempting to get error from an Ok result raises an error."""
         raise ResultAccessError.cannot_access_error()
 
     def __repr__(self) -> str:
+        """Return a string representation of the Ok result."""
         return f"Ok({self._value!r})"
+
+    def __eq__(self, other: object) -> bool:
+        """Check equality with another Ok result."""
+        if not isinstance(other, Ok):
+            return NotImplemented
+        return self._value == other._value
+
+    def __hash__(self) -> int:
+        """Return the hash of the Ok result."""
+        return hash(self._value)
+
+    def __str__(self) -> str:
+        """Return a string representation of the Ok result."""
+        return f"Ok({self._value})"
 
 
 class Err(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
+    """Represents an error result."""
+
     def __init__(self, error) -> None:
         self._error = error
 
     @property
     def is_err(self) -> bool:
+        """Check if the result is an error."""
         return True
 
     @property
     def is_ok(self) -> bool:
+        """Check if the result is ok."""
         return False
 
     @property
     def value(self) -> None:
+        """Attempting to get value from an Err result raises an error."""
         raise ResultAccessError.cannot_access_value()
 
     @property
     def error(self) -> ErrorType:
+        """Get the error value."""
         return self._error
 
     def __repr__(self) -> str:
+        """Return a string representation of the Err result."""
         return f"Err({self._error!r})"
+
+    def __eq__(self, other: object) -> bool:
+        """Check equality with another Ok result."""
+        if not isinstance(other, Err):
+            return NotImplemented
+        return self._error == other._error
+
+    def __hash__(self) -> int:
+        """Return the hash of the Ok result."""
+        return hash(self._error)
+
+    def __str__(self) -> str:
+        """Return a string representation of the Ok result."""
+        return f"Ok({self._error})"

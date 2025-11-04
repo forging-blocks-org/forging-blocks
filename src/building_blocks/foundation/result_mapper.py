@@ -1,3 +1,36 @@
+"""This module defines a Protocol/Interface for mapping Result between different layers.
+
+This modules defines a protocol for mapping Result types between different layers or
+representations.
+
+You can implement this protocol to create mappers that convert Result types from one form to
+another, facilitating data transformation across application layers.
+
+Example:
+    ApplicationResult = Result[CreateTaskResponse, CombinedValidationErrors]
+    HttpResult = Result[JSONResponse, ErrorResponse]
+
+    class CreateTaskHttpResultMapper(
+        ResultMapper[
+            CreateTaskResponse,
+            CombinedValidationErrors,
+            JSONResponse,
+            ErrorResponse
+        ]
+    ):
+        def __init__(self, success_mapper: Mapper, error_mapper: Mapper):
+            self.success_mapper = success_mapper
+            self.error_mapper = error_mapper
+
+        def map(self, result: ApplicationResult) -> HttpResult:
+            if result.is_ok():
+                data = self.success_mapper.map(result.unwrap())
+                return Result.ok(data)
+            else:
+                error = self.error_mapper.map(result.unwrap_err())
+                return Result.err(error)
+"""
+
 # pragma: no cover
 from typing import Generic, Protocol, TypeVar
 
@@ -18,9 +51,7 @@ class ResultMapper(
     Protocol,
     Generic[SuccessInputType, ErrorInputType, SuccessOutputType, ErrorOutputType],
 ):
-    """
-    Maps a Result[SuccessInputType, ErrorInputType] from one layer or representation
-    to another Result[SuccessOutputType, ErrorOutputType].
+    """Interface for mapping between two Result. That can be applied for mapping between layers.
 
     Example:
         ApplicationResult = Result[CreateTaskResponse, CombinedValidationErrors]
@@ -45,8 +76,23 @@ class ResultMapper(
                 else:
                     error = self.error_mapper.map(result.unwrap_err())
                     return Result.err(error)
+
     """
+
+    ...
 
     def map(
         self, result: Result[SuccessInputType, ErrorInputType]
-    ) -> Result[SuccessOutputType, ErrorOutputType]: ...
+    ) -> Result[SuccessOutputType, ErrorOutputType]:
+        """Map a Result from one representation to another.
+
+        Args:
+            result (Result[SuccessInputType, ErrorInputType]): The input Result to between
+            mapped.
+
+        Returns:
+            Result[SuccessOutputType, ErrorOutputType]: The mapped Result.
+
+        Result[SuccessOutputType, ErrorOutputType]: The mapped Result.
+        """
+        ...

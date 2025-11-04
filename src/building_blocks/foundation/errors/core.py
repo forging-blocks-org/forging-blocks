@@ -1,7 +1,6 @@
-"""
-This module contains core error components used throughout the application.
-These components provide structured representations for error messages,
-metadata, and field references, facilitating consistent error handling and reporting.
+"""Core error components for the building blocks foundation.
+
+Defines fundamental data structures for error messages, metadata, and field references.
 """
 
 from dataclasses import dataclass, field

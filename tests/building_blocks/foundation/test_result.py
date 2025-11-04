@@ -1,9 +1,25 @@
 import pytest
 
+from building_blocks.foundation.errors.core import ErrorMessage
 from building_blocks.foundation.result import Err, Ok, ResultAccessError
 
 
 class TestResultAccessError:
+    def test_constructor_with_message(self) -> None:
+        actual_message = ErrorMessage("Test Message")
+
+        error = ResultAccessError(actual_message)
+
+        assert isinstance(error, ResultAccessError)
+        assert error.message == "Test Message"
+
+    def test_constructor_without_message_uses_default(self) -> None:
+        error = ResultAccessError()
+
+        expected_error_message = "Invalid access on Result."
+        assert isinstance(error, ResultAccessError)
+        assert error.message == expected_error_message
+
     def test_cannot_access_value_when_err_then_returns_itself_cant_access_value(
         self,
     ) -> None:
@@ -21,7 +37,7 @@ class TestResultAccessError:
         assert method_result.message == "Cannot access error from an Ok Result."
 
     def test_message_property_returns_message(self) -> None:
-        actual_message = "Test Message"
+        actual_message = ErrorMessage("Test Message")
 
         error = ResultAccessError(actual_message)
 
@@ -31,7 +47,7 @@ class TestResultAccessError:
     def test_message_property_returns_default_message_when_none(self) -> None:
         error = ResultAccessError()
 
-        expected_message = "ResultAccessError"
+        expected_message = "Invalid access on Result."
         assert error.message == expected_message
 
 
@@ -66,7 +82,8 @@ class TestOk:
         with pytest.raises(ResultAccessError) as exc_info:
             _ = result.error
 
-        assert str(exc_info.value) == "Cannot access error from an Ok Result."
+        expected_error_value = "ResultAccessError: Cannot access error from an Ok Result."
+        assert expected_error_value == str(exc_info.value)
 
     def test_repr_returns_expected_string(self) -> None:
         result = Ok("value")
@@ -84,7 +101,8 @@ class TestErr:
         with pytest.raises(ResultAccessError) as exc_info:
             _ = result.value
 
-        assert str(exc_info.value) == "Cannot access value from an Err Result."
+        expected_error_value = "ResultAccessError: Cannot access value from an Err Result."
+        assert expected_error_value == str(exc_info.value)
 
     def test_error_property_returns_error(self) -> None:
         result = Err("error")
