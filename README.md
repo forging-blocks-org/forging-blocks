@@ -1,4 +1,4 @@
-# Building Blocks 🧩
+# BuildingBlocks 🧩
 
 Composable **abstractions and interfaces** for clean, testable, and maintainable Python applications.
 

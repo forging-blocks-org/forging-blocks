@@ -1,79 +1,182 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap");
 
-/* --- Badwolf-inspired palette --- */
+/* ---------------------------------------------------------------------------
+   Badwolf Terminal Palette
+--------------------------------------------------------------------------- */
 :root {
-  --md-primary-fg-color: #d7af5f;  /* Softer amber */
-  --md-typeset-link-color: #d7af5f;
-  --md-accent-fg-color: #d7875f;   /* Warm secondary */
+  --bw-bg: #1c1c1c;
+  --bw-bg-alt: #202020;
+  --bw-fg: #f8f6f2;
+  --bw-muted: #a8a898;
+  --bw-strong: #ffffaf;
+  --bw-orange: #ffaf00;
+  --bw-orange-light: #ffd75f;
+  --bw-border: #3a3a3a;
 }
 
-/* --- Typography --- */
-.md-typeset {
+/* ---------------------------------------------------------------------------
+   Global Layout
+--------------------------------------------------------------------------- */
+body {
+  background-color: var(--bw-bg);
+  color: var(--bw-fg);
   font-family: "JetBrains Mono", monospace;
-  line-height: 1.6;
+  letter-spacing: 0.02em;
 }
 
-/* --- Headings --- */
+.md-main__inner {
+  max-width: 72rem !important;
+  padding: 0 3rem !important;
+}
+
+.md-content {
+  background-color: var(--bw-bg-alt);
+  padding: 3rem 4rem;
+  border-radius: 8px;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------------------------------------------------------------------------
+   Header
+--------------------------------------------------------------------------- */
+.md-header {
+  background-color: var(--bw-bg-alt);
+  border-bottom: 1px solid var(--bw-border);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+.md-header__title,
+.md-header__topic,
+.md-logo {
+  color: var(--bw-orange-light) !important;
+}
+
+/* hide the github link at the right side of the header */
+.md-header__source {
+  display: none !important;
+}
+
+/* logo size + style */
+.md-logo img {
+  height: 36px;
+  width: auto;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 4px rgba(255, 175, 0, 0.3));
+}
+
+/* optional: hide site name text next to logo */
+.md-header__title {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Sidebar
+--------------------------------------------------------------------------- */
+.md-sidebar {
+  background-color: var(--bw-bg);
+}
+
+.md-nav__title,
+.md-nav__link {
+  color: var(--bw-muted) !important;
+  font-size: 0.9rem;
+}
+
+.md-nav__link--active {
+  color: var(--bw-orange-light) !important;
+  font-weight: 600;
+}
+
+.md-nav__link:hover {
+  color: var(--bw-orange);
+}
+
+/* ---------------------------------------------------------------------------
+   Typography
+--------------------------------------------------------------------------- */
 .md-typeset h1,
 .md-typeset h2,
 .md-typeset h3 {
-  color: #ffaf00;
-  border-bottom: 1px solid #3a3a3a;
+  color: var(--bw-orange-light);
+  border-bottom: 1px solid var(--bw-border);
   padding-bottom: 0.2em;
+  margin-top: 2em;
 }
 
-/* --- Code blocks --- */
+.md-typeset p,
+.md-typeset li {
+  color: var(--bw-fg);
+  line-height: 1.75;
+}
+
+/* ---------------------------------------------------------------------------
+   Links
+--------------------------------------------------------------------------- */
+a,
+a:hover,
+a:focus {
+  color: var(--bw-strong);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--bw-orange-light);
+}
+
+/* ---------------------------------------------------------------------------
+   Code Blocks
+--------------------------------------------------------------------------- */
 .md-typeset code,
 pre code {
-  background-color: #2a2a2a !important;
-  color: #d7d7af !important;
+  background-color: var(--bw-bg-alt) !important;
+  color: var(--bw-strong) !important;
   border-radius: 6px;
   padding: 0.2em 0.4em;
 }
 
 .md-typeset pre {
-  background-color: #262626 !important;
-  border-left: 3px solid #ffaf00;
-  padding: 0.8em;
+  background-color: #111 !important;
+  border-left: 3px solid var(--bw-orange);
+  padding: 1em;
+  overflow-x: auto;
 }
 
-/* --- Links --- */
-a, a:hover, a:focus {
-  color: #ffaf00;
-  text-decoration: none;
-}
-
-/* --- Sidebar / Nav --- */
-.md-nav__link,
-.md-nav__title {
-  color: #d7d7af !important;
-}
-
-.md-sidebar__scrollwrap {
-  background-color: #1c1c1c;
-}
-
-/* --- Tables --- */
-.md-typeset table {
-  border-color: #3a3a3a;
-}
+/* ---------------------------------------------------------------------------
+   Tables
+--------------------------------------------------------------------------- */
 .md-typeset th {
   background-color: #303030;
-  color: #ffaf00;
+  color: var(--bw-orange-light);
 }
+
 .md-typeset td {
-  background-color: #1c1c1c;
-  color: #d7d7af;
+  background-color: var(--bw-bg);
+  color: var(--bw-fg);
 }
 
-/* --- Footer --- */
+/* ---------------------------------------------------------------------------
+   Admonitions
+--------------------------------------------------------------------------- */
+.md-typeset .admonition {
+  border-left: 4px solid var(--bw-orange);
+  background-color: var(--bw-bg-alt);
+  color: var(--bw-fg);
+}
+
+/* ---------------------------------------------------------------------------
+   Footer
+--------------------------------------------------------------------------- */
 .md-footer {
-  background-color: #1c1c1c;
-  color: #808080;
-  border-top: 1px solid #3a3a3a;
+  background-color: var(--bw-bg);
+  border-top: 1px solid var(--bw-border);
+  color: var(--bw-muted);
 }
 
-/* --- Scrollbar --- */
+/* ---------------------------------------------------------------------------
+   Scrollbar
+--------------------------------------------------------------------------- */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -83,56 +186,4 @@ a, a:hover, a:focus {
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: #666;
-}
-
-/* --- Spacing adjustments (FastAPI-like rhythm) --- */
-.md-typeset p,
-.md-typeset ul,
-.md-typeset ol,
-.md-typeset pre,
-.md-typeset table {
-  margin-top: 0.75em;
-  margin-bottom: 0.75em;
-}
-
-.md-typeset h1,
-.md-typeset h2,
-.md-typeset h3,
-.md-typeset h4 {
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-}
-
-/* --- Lists --- */
-.md-typeset ul li,
-.md-typeset ol li {
-  margin-bottom: 0.3em;
-}
-
-/* --- Code blocks spacing --- */
-.md-typeset pre {
-  margin-top: 1em;
-  margin-bottom: 1em;
-  border-radius: 8px;
-}
-
-/* --- Increase line height for readability --- */
-.md-typeset {
-  line-height: 1.8;
-  letter-spacing: 0.015em;
-}
-
-/* --- Section dividers for readability --- */
-.md-typeset hr {
-  border: 0;
-  height: 1px;
-  background-color: #3a3a3a;
-  margin: 2em 0;
-}
-
-/* --- Page container --- */
-.md-content {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 1.5rem;
 }

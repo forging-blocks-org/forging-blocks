@@ -1,4 +1,4 @@
-# Building Blocks 🧩
+# BuildingBlocks 🧩
 
 A composable **architecture toolkit** for building clean, testable, and maintainable Python applications.
 

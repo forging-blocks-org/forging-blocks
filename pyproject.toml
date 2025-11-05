@@ -59,6 +59,9 @@ mkdocstrings = { extras = ["python"], version = "^0.30.1" }
 mkdocs-gen-files = "^0.5.0"
 mkdocs-literate-nav = "^0.6.2"
 mkdocs-section-index = "^0.3.10"
+mkdocs-git-revision-date-localized-plugin = "^1.5.0"
+mkdocs-minify-plugin = "^0.8.0"
+mkdocs-autorefs = "^1.4.3"
 
 [build-system]
 requires = ["poetry-core"]
