@@ -157,7 +157,9 @@ class TestOk:
         # Assert
         assert result is True
 
-    def test___eq___when_comparing_different_ok_results_then_returns_false(self) -> None:
+    def test___eq___when_comparing_different_ok_results_then_returns_false(
+        self,
+    ) -> None:
         # Arrange
         a = Ok(1)
         b = Ok(2)
@@ -168,7 +170,9 @@ class TestOk:
         # Assert
         assert result is False
 
-    def test___eq___when_comparing_with_different_class_then_returns_not_implemented(self) -> None:
+    def test___eq___when_comparing_with_different_class_then_returns_not_implemented(
+        self,
+    ) -> None:
         # Arrange
         ok = Ok(1)
         other = object()
@@ -261,7 +265,9 @@ class TestErr:
         # Assert
         assert result == "Err('boom')"
 
-    def test___eq___when_comparing_two_equal_err_results_then_returns_true(self) -> None:
+    def test___eq___when_comparing_two_equal_err_results_then_returns_true(
+        self,
+    ) -> None:
         # Arrange
         a = Err("x")
         b = Err("x")
@@ -272,7 +278,9 @@ class TestErr:
         # Assert
         assert result is True
 
-    def test___eq___when_comparing_different_err_results_then_returns_false(self) -> None:
+    def test___eq___when_comparing_different_err_results_then_returns_false(
+        self,
+    ) -> None:
         # Arrange
         a = Err("x")
         b = Err("y")

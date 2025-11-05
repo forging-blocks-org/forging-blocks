@@ -26,7 +26,9 @@ class TestValueObject:
         with pytest.raises(ValueError):
             Email("invalid")
 
-    def test___setattr___when_object_is_frozen_then_raises_attribute_error(self) -> None:
+    def test___setattr___when_object_is_frozen_then_raises_attribute_error(
+        self,
+    ) -> None:
         email = Email("a@example.com")
         with pytest.raises(AttributeError):
             email._value = "b@example.com"  # type: ignore

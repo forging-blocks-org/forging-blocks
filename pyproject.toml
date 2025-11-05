@@ -139,6 +139,10 @@ omit = [
     "src/building_blocks/foundation/result_mapper.py"
 ]
 
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
 [tool.poe.tasks]
 lint = "ruff check ."
 "lint:docs" = "ruff check --select D100,D101,D102,D103,D104 src"
