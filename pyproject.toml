@@ -41,7 +41,6 @@ keywords = [
 python = "^3.12"
 
 [tool.poetry.group.dev.dependencies]
-pyright = "^1.1.404"
 mypy = "^1.16.1"
 ruff = "^0.14.3"
 black = "^25.1.0"
@@ -50,7 +49,19 @@ pytest-cov = "^5.0.0"
 pytest-asyncio = "^0.25.0"
 bandit = "^1.7.10"
 pre-commit = "^4.2.0"
+pyright = "^1.1.404"
 poethepoet = "^0.37.0"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.6.1"
+mkdocs-material = "^9.6.23"
+mkdocstrings = { extras = ["python"], version = "^0.30.1" }
+mkdocs-gen-files = "^0.5.0"
+mkdocs-literate-nav = "^0.6.2"
+mkdocs-section-index = "^0.3.10"
+mkdocs-git-revision-date-localized-plugin = "^1.5.0"
+mkdocs-minify-plugin = "^0.8.0"
+mkdocs-autorefs = "^1.4.3"
 
 [build-system]
 requires = ["poetry-core"]
@@ -66,12 +77,13 @@ extend-exclude = ["site"]
 [tool.ruff.lint]
 select = ["E", "W", "F", "I", "B", "C4", "D"]
 ignore = [
-  "D203",  # No blank line before class (conflicts with D211)
-  "D213",  # Multi-line summary on second line (Google prefers same line)
-  "B008",  # Function call in default arg
-  "D105",  # Magic methods like __repr__, __eq__, etc. (MOVED HERE)
-  "D106",  # Nested classes (MOVED HERE)
-  "D107",  # __init__ docstring (MOVED HERE)
+    "B008",  # Function call in default arg
+    "D104",
+    "D105",  # Magic methods like __repr__, __eq__, etc.
+    "D106",  # Nested classes
+    "D107",  # __init__ docstring
+    "D203",  # No blank line before class (conflicts with D211)
+    "D213",  # Multi-line summary on second line (Google prefers same line)
 ]
 
 [tool.ruff.lint.pydocstyle]
@@ -93,18 +105,28 @@ python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
-disallow_incomplete_defs = true
-check_untyped_defs = true
+disallow_incomplete_defs = false
+allow_untyped_globals = true
+check_untyped_defs = false
 no_implicit_optional = true
 warn_redundant_casts = true
 warn_unused_ignores = true
 strict_equality = true
+show_error_codes = true
 mypy_path = "src"
+exclude = ["^tests/"]
+
+[[tool.mypy.overrides]]
+module = "src.*"
+disallow_incomplete_defs = true
+check_untyped_defs = true
 
 [[tool.mypy.overrides]]
 module = "tests.*"
-ignore_missing_imports = true
-disallow_untyped_defs = false
+disallow_untyped_defs = true
+disallow_incomplete_defs = false
+check_untyped_defs = false
+allow_untyped_globals = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -124,18 +146,24 @@ exclude_lines = [
 
 [tool.coverage.run]
 omit = [
-    "src/building_blocks/abstractions/*.py",
     "src/building_blocks/application/ports/inbound/*.py",
     "src/building_blocks/application/ports/outbound/*.py",
-    "src/building_blocks/domain/ports/outbound/*.py"
+    "src/building_blocks/foundation/mapper.py",
+    "src/building_blocks/foundation/result_mapper.py",
+    "src/building_blocks/foundation/ports.py",
+    "src/building_blocks/foundation/debuggable.py"
 ]
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
 
 [tool.poe.tasks]
 lint = "ruff check ."
 "lint:docs" = "ruff check --select D100,D101,D102,D103,D104 src"
 format.sequence = [
   { cmd = "ruff check . --fix" },
-  { cmd = "ruff check --select D --fix --unsafe-fixes src" },
+  { cmd = "ruff check --fix --unsafe-fixes src" },
 ]
 "format:docstrings" = "ruff check --select D --fix --unsafe-fixes src"
 "type:pyright" = "pyright"
@@ -146,10 +174,11 @@ test = "pytest -q"
 "test:quick" = "pytest -x -q"
 "test:strict" = "pytest -x --strict-markers"
 "test:nocov" = "pytest -q --no-cov"
+"test:pipeline" = "pytest --cov=src --cov-report=xml --cov-fail-under=80"
 "mkdocs:serve" = "mkdocs serve"
 "mkdocs:build" = "mkdocs build"
 "mkdocs:deploy" = "mkdocs gh-deploy --clean"
 "docs:check" = [
-  { cmd = "ruff check --select D100,D101,D102,D103,D104 src" },
+  { cmd = "ruff check --select D" },
   { cmd = "mkdocs build --strict" },
 ]

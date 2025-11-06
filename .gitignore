@@ -69,3 +69,6 @@ Thumbs.db
 .env.*
 .idea/
 *.swp
+
+# MkDocs
+/site/

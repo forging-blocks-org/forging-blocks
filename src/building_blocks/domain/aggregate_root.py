@@ -1,22 +1,19 @@
-"""AggregateRoot module for Domain-Driven Design.
-
-This module provides the AggregateRoot base class for implementing domain aggregates
-following Domain-Driven Design (DDD) principles, using Vaughn Vernon's approach.
-"""
+"""Module providing the base classes for Aggregate Roots."""
 
 from __future__ import annotations
 
 from abc import ABC
-from typing import Generic, Hashable, List, Optional, Tuple, TypeVar
+from typing import Generic, Hashable, TypeVar
 
 from building_blocks.domain.entity import Entity
+from building_blocks.domain.errors.entity_id_none_error import EntityIdNoneError
 from building_blocks.domain.messages.event import Event
 from building_blocks.domain.value_object import ValueObject
 
-TId = TypeVar("TId")
+TId = TypeVar("TId", bound=Hashable)
 
 
-class AggregateVersion(ValueObject):
+class AggregateVersion(ValueObject[int]):
     """Value object representing the version of an aggregate root.
 
     This is used for optimistic concurrency control to ensure that updates
@@ -32,21 +29,14 @@ class AggregateVersion(ValueObject):
 
     @property
     def value(self) -> int:
-        """Get the integer value of the aggregate version."""
+        """Get the raw integer version value."""
         return self._value
 
     def increment(self) -> AggregateVersion:
-        """Increment version value by 1 and return a new AggregateVersion instance.
-
-        This is used to track changes to the aggregate state and ensure
-        optimistic concurrency control.
-
-        Returns:
-            AggregateVersion: A new instance with the incremented version value.
-        """
+        """Return a new AggregateVersion incremented by one."""
         return AggregateVersion(self._value + 1)
 
-    def _equality_components(self) -> Tuple[Hashable, ...]:
+    def _equality_components(self) -> tuple[Hashable, ...]:
         """Return the components used for equality comparison.
 
         This is used by the ValueObject base class to determine equality.
@@ -55,21 +45,30 @@ class AggregateVersion(ValueObject):
 
 
 class AggregateRoot(Entity[TId], Generic[TId], ABC):
-    """Base class for all domain aggregate roots.
+    """Base class for aggregate roots.
 
-    An aggregate root is the only entry point to an aggregate. It ensures consistency
-    and business rules within the aggregate boundary. It also manages domain events
-    that represent important business occurrences.
+    An AggregateRoot is a special type of Entity that serves as the entry point for managing a
+    cluster of related entities and value objects. It encapsulates the business logic and
+    invariants of the aggregate, ensuring that all changes to the aggregate are made through its
+    methods.
+    This class is designed to follow the principles of Domain-Driven Design (DDD) and is inspired
+    by Vaughn Vernon's approach in "Implementing Domain-Driven Design".
+
+    This implementation provides methods for managing the aggregate version,
+    recording uncommitted domain events, and marking changes as committed.
+    It is intended to be subclassed to create specific aggregate roots that
+    represent business concepts in the domain.
 
     This implementation follows Vaughn Vernon's approach from
-    "Implementing Domain-Driven Design".
+    "Implementing Domain-Driven Design" and is designed to be used in and
+    with a Domain-Driven Design context.
+    It provides a foundation for building aggregates that encapsulate business
+    logic and maintain consistency across related entities and value objects.
     """
 
-    _uncommitted_events: List[Event]
+    _uncommitted_events: list[Event]
 
-    def __init__(
-        self, aggregate_id: TId, version: Optional[AggregateVersion] = None
-    ) -> None:
+    def __init__(self, aggregate_id: TId, version: AggregateVersion | None = None) -> None:
         """Initialize the aggregate root.
 
         Args:
@@ -78,28 +77,24 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
                      If not provided, defaults to AggregateVersion(0).
         """
         super().__init__(aggregate_id)
+        if not aggregate_id:
+            raise EntityIdNoneError(self.__class__.__name__)
         self._version = version or AggregateVersion(0)
-        self._uncommitted_events = []
+        self._uncommitted_events: list[Event] = []
 
     @property
     def version(self) -> AggregateVersion:
-        """Get the current version of this aggregate.
+        """Get the current version of this aggregate."""
+        return self._version
 
-        Used for optimistic concurrency control to prevent conflicting updates.
-
-        Returns:
-            int: The current version number
-        """
-        return self._version  # ✅ Make sure this returns the right attribute
-
-    def uncommitted_changes(self) -> List[Event]:
+    def uncommitted_changes(self) -> list[Event]:
         """Get the uncommitted domain events raised by this aggregate.
 
         Returns a copy to prevent external modification.
         Following Vaughn Vernon's naming convention.
 
         Returns:
-            List[Event]: Copy of uncommitted domain events
+            list[Event]: Copy of uncommitted domain events
         """
         return self._uncommitted_events.copy()
 

@@ -1,11 +1,10 @@
-"""
-Unit tests for the Message module.
+"""Unit tests for the Message module.
 
 Tests for MessageMetadata and Message classes.
 """
 
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 from uuid import UUID, uuid4
 
 import pytest
@@ -13,64 +12,89 @@ import pytest
 from building_blocks.domain.messages.message import Message, MessageMetadata
 
 
-class FakeMessage(Message):
+class FakeMessage(Message[str]):
     """A fake message for testing the abstract Message class."""
 
-    def __init__(self, data: str, metadata: Optional[MessageMetadata] = None):
+    def __init__(self, data: str, metadata: MessageMetadata | None = None):
         super().__init__(metadata)
         self._data = data
 
     @property
-    def data(self) -> str:
+    def value(self) -> str:
         return self._data
 
     @property
-    def payload(self) -> dict[str, Any]:
+    def _payload(self) -> dict[str, Any]:
         return {"data": self._data}
 
 
 class TestMessageMetadata:
     """Tests for MessageMetadata class."""
 
+    causation_id = uuid4()
+    created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
+    correlation_id = uuid4()
+    message_id = uuid4()
+    message_type = "FakeMessage"
+
     def test_init_when_no_params_then_generates_id_and_timestamp(self):
-        metadata = MessageMetadata()
+        metadata = MessageMetadata(message_type=self.message_type)
 
         assert isinstance(metadata.message_id, UUID)
         assert isinstance(metadata.created_at, datetime)
         assert metadata.created_at.tzinfo == timezone.utc
 
     def test_init_when_custom_params_then_uses_provided_values(self):
-        custom_id = uuid4()
-        custom_time = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
+        metadata = MessageMetadata(
+            message_type=self.message_type,
+            message_id=self.message_id,
+            created_at=self.created_at,
+            correlation_id=self.correlation_id,
+            causation_id=self.causation_id,
+        )
 
-        metadata = MessageMetadata(message_id=custom_id, created_at=custom_time)
-
-        assert metadata.message_id == custom_id
-        assert metadata.created_at == custom_time
+        assert metadata.causation_id == self.causation_id
+        assert metadata.correlation_id == self.correlation_id
+        assert metadata.message_type == self.message_type
+        assert metadata.message_id == self.message_id
+        assert metadata.created_at == self.created_at
 
     def test_init_when_partial_params_then_generates_missing_values(self):
-        custom_id = uuid4()
+        metadata = MessageMetadata(message_type=self.message_type, message_id=self.message_id)
 
-        metadata = MessageMetadata(message_id=custom_id)
-
-        assert metadata.message_id == custom_id
+        assert metadata.message_id == self.message_id
         assert isinstance(metadata.created_at, datetime)
         assert metadata.created_at.tzinfo == timezone.utc
+        assert isinstance(metadata.correlation_id, UUID)
+        assert isinstance(metadata.causation_id, UUID)
 
     def test_eq_when_same_id_and_timestamp_then_true(self):
-        message_id = uuid4()
-        created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
-
-        metadata1 = MessageMetadata(message_id=message_id, created_at=created_at)
-        metadata2 = MessageMetadata(message_id=message_id, created_at=created_at)
+        metadata1 = MessageMetadata(
+            message_type=self.message_type,
+            message_id=self.message_id,
+            created_at=self.created_at,
+        )
+        metadata2 = MessageMetadata(
+            message_type=self.message_type,
+            message_id=self.message_id,
+            created_at=self.created_at,
+        )
 
         assert metadata1 == metadata2
 
     def test_eq_when_different_id_then_false(self):
         created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
 
-        metadata1 = MessageMetadata(message_id=uuid4(), created_at=created_at)
-        metadata2 = MessageMetadata(message_id=uuid4(), created_at=created_at)
+        metadata1 = MessageMetadata(
+            created_at=created_at,
+            message_id=uuid4(),
+            message_type=self.message_type,
+        )
+        metadata2 = MessageMetadata(
+            created_at=created_at,
+            message_id=uuid4(),
+            message_type=self.message_type,
+        )
 
         assert metadata1 != metadata2
 
@@ -78,10 +102,12 @@ class TestMessageMetadata:
         message_id = uuid4()
 
         metadata1 = MessageMetadata(
+            message_type=self.message_type,
             message_id=message_id,
             created_at=datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc),
         )
         metadata2 = MessageMetadata(
+            message_type=self.message_type,
             message_id=message_id,
             created_at=datetime(2025, 6, 11, 19, 44, 15, tzinfo=timezone.utc),
         )
@@ -92,27 +118,33 @@ class TestMessageMetadata:
         message_id = uuid4()
         created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
 
-        metadata = MessageMetadata(message_id=message_id, created_at=created_at)
+        metadata = MessageMetadata(
+            message_type=self.message_type, message_id=message_id, created_at=created_at
+        )
         result = metadata.to_dict()
 
-        expected = {
-            "message_id": str(message_id),
-            "created_at": "2025-06-11T19:44:14+00:00",
-        }
-        assert result == expected
+        assert result["message_id"] == str(message_id)
+        assert result["created_at"] == "2025-06-11T19:44:14+00:00"
+        assert result["message_type"] == self.message_type
+        UUID(result["correlation_id"])
+        UUID(result["causation_id"])
 
     def test_hash_when_same_values_then_same_hash(self):
         message_id = uuid4()
         created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
 
-        metadata1 = MessageMetadata(message_id=message_id, created_at=created_at)
-        metadata2 = MessageMetadata(message_id=message_id, created_at=created_at)
+        metadata1 = MessageMetadata(
+            message_type=self.message_type, message_id=message_id, created_at=created_at
+        )
+        metadata2 = MessageMetadata(
+            message_type=self.message_type, message_id=message_id, created_at=created_at
+        )
 
         assert hash(metadata1) == hash(metadata2)
 
     def test_hash_when_different_values_then_different_hash(self):
-        metadata1 = MessageMetadata()
-        metadata2 = MessageMetadata()
+        metadata1 = MessageMetadata(message_type="Message")
+        metadata2 = MessageMetadata(message_type="AnotherMessage")
 
         assert hash(metadata1) != hash(metadata2)
 
@@ -129,6 +161,7 @@ class TestMessage:
 
     def test_init_when_custom_metadata_then_uses_provided_metadata(self):
         custom_metadata = MessageMetadata(
+            message_type="CustomType",
             message_id=uuid4(),
             created_at=datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc),
         )
@@ -141,6 +174,7 @@ class TestMessage:
 
     def test_convenience_properties_when_called_then_delegates_to_metadata(self):
         custom_metadata = MessageMetadata(
+            message_type="CustomType",
             message_id=uuid4(),
             created_at=datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc),
         )
@@ -153,15 +187,12 @@ class TestMessage:
     def test_message_type_when_called_then_returns_class_name(self):
         message = FakeMessage("test_data")
 
-        assert message.message_type == "FakeMessage"
+        assert message.metadata.message_type == "FakeMessage"
 
     def test_eq_when_same_message_id_then_true(self):
-        metadata = MessageMetadata()
-
+        metadata = MessageMetadata(message_type="CustomType")
         message1 = FakeMessage("data1", metadata=metadata)
-        message2 = FakeMessage(
-            "data2", metadata=metadata
-        )  # Different data, same metadata
+        message2 = FakeMessage("data2", metadata=metadata)
 
         assert message1 == message2
 
@@ -174,21 +205,23 @@ class TestMessage:
     def test_to_dict_when_called_then_includes_metadata_type_and_payload(self):
         message_id = uuid4()
         created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
-        metadata = MessageMetadata(message_id=message_id, created_at=created_at)
+        metadata = MessageMetadata(
+            message_type="FakeMessage", message_id=message_id, created_at=created_at
+        )
 
         message = FakeMessage("test_data", metadata=metadata)
         result = message.to_dict()
 
-        expected = {
-            "message_id": str(message_id),
-            "created_at": "2025-06-11T19:44:14+00:00",
-            "message_type": "FakeMessage",
-            "data": "test_data",
-        }
-        assert result == expected
+        meta = result["metadata"]
+        assert meta["message_id"] == str(message_id)
+        assert meta["created_at"] == "2025-06-11T19:44:14+00:00"
+        assert meta["message_type"] == "FakeMessage"
+        UUID(meta["correlation_id"])
+        UUID(meta["causation_id"])
+        assert result["payload"] == {"data": "test_data"}
 
     def test_hash_when_same_message_id_then_same_hash(self):
-        metadata = MessageMetadata()
+        metadata = MessageMetadata("FakeMessage", message_id=uuid4())
 
         message1 = FakeMessage("data1", metadata=metadata)
         message2 = FakeMessage("data2", metadata=metadata)

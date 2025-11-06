@@ -1,35 +1,38 @@
-# Building Blocks 🏗️
+# BuildingBlocks 🧩
 
-A clean architecture Python library following hexagonal principles for building robust, maintainable applications.
+Composable **abstractions and interfaces** for clean, testable, and maintainable Python applications.
 
-[![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Poetry](https://img.shields.io/badge/poetry-dependency%20management-blue.svg)](https://python-poetry.org/)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
+[![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![Poetry](https://img.shields.io/badge/packaging-poetry-blue.svg)](https://python-poetry.org/)
 [![Type checked: mypy](https://img.shields.io/badge/type%20checked-mypy-blue.svg)](https://mypy-lang.org/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
-[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 ---
 
 ## Why Building Blocks?
 
-**The Problem** 🤔
-Most Python applications start simple but become maintenance nightmares.
+> Most Python projects start simple but eventually entangle infrastructure and business logic.
 
-**The Solution** ✨
-Building Blocks separates what your app does from how it does it.
+**Building Blocks** provides **composable abstractions** — not a framework —
+to help you define clear boundaries, separate concerns, and model intent
+without enforcing any specific architectural style.
+
+You can use it:
+- as a **foundation** for Clean or Hexagonal Architecture
+- as **standalone interfaces** (`Result`, `Mapper`, `Port`, `EventBus`)
+- or as a **teaching toolkit** for domain-driven, strongly typed design
 
 ---
 
 ## Overview
 
-Building Blocks provides a foundation for implementing clean architecture patterns in Python applications. It is framework-agnostic and helps you build maintainable, testable, and scalable software following Domain-Driven Design (DDD) and hexagonal architecture principles.
+This toolkit offers minimal, explicit abstractions for:
 
-**Learn more:**
-- [Architecture Guide](docs/architecture.md)
-- [Getting Started](docs/getting-started.md)
-- [API Reference](docs/api-reference.md)
+- Entities, Value Objects, and Domain Events
+- Application Services and Use Cases
+- Safe result types for explicit success/failure
+- Event buses, Repositories, and Mappers
 
 ---
 
@@ -56,13 +59,39 @@ pip install building-blocks
 
 ## Quick Start
 
-For a detailed guide, see the [Getting Started Guide](docs/getting-started.md).
+```python
+from building_blocks.foundation import Result, Ok, Err
+
+def divide(a: int, b: int) -> Result[int, str]:
+    if b == 0:
+        return Err("division by zero")
+    return Ok(a // b)
+
+result = divide(10, 2)
+if result.is_ok():
+    print(result.value)   # → 5
+```
+
+---
+
+## Learn More
+
+- [Architecture Guide](guide/architecture.md)
+- [Getting Started](guide/getting-started.md)
+- [API Reference](reference/index.md)
+
+---
+
+## Examples
+
+Examples are being migrated to a dedicated repository — link coming soon.
 
 ---
 
 ## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+Contributions are welcome!
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions.
 
 ---
 
@@ -72,24 +101,4 @@ MIT — see [LICENSE](LICENSE)
 
 ---
 
-## Roadmap
-
-- [ ] **v0.1.0**: Domain building blocks (Current)
-- [ ] **v0.2.0**: Application layer with application ports
-- [ ] **v0.3.0**: Infrastructure abstractions and adapters
-- [ ] **v0.4.0**: Presentation layer helpers for multiple frameworks
-- [ ] **v0.5.0**: Event sourcing support
-- [ ] **v0.6.0**: CQRS implementation
-- [ ] **v1.0.0**: Stable API with full documentation
-
----
-
-## Support
-
-- 📧 Email: glauberbrennon@gmail.com
-- 🐛 [GitHub Issues](https://github.com/gbrennon/building-blocks/issues)
-- 💬 [GitHub Discussions](https://github.com/gbrennon/building-blocks/discussions)
-
----
-
-_Built with ❤️ by [Glauber Brennon](https://github.com/gbrennon)_
+_Built with ❤️ by [Glauber Brennon](https://github.com/gbrennon) and the [Building Blocks](https://github.com/building-blocks-org) community._

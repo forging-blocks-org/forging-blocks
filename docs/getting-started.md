@@ -163,7 +163,7 @@ They are split into:
 
 ```python
 # application/services/loyalty_discount_policy.py
-from domain.ports.inbound.discount_policy import DiscountPolicy
+from application.ports.inbound.discount_policy import DiscountPolicy
 
 class LoyaltyDiscountPolicy(DiscountPolicy):
     """
@@ -200,7 +200,7 @@ class LoyaltyDiscountPolicy(DiscountPolicy):
 
 ```python
 # infrastructure/persistence/repositories/order_repository.py
-from domain.ports.outbound.async_repository import AsyncRepository
+from application.ports.outbound.async_repository import AsyncRepository
 from domain.aggregates.order import Order
 
 class SQLAlchemyOrderRepository(AsyncRepository[Order, UUID]):

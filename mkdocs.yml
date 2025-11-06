@@ -1,0 +1,81 @@
+site_name: Building Blocks 🧩
+site_description: A composable architecture toolkit for clean, testable, and maintainable Python applications.
+site_author: Glauber Brennon
+repo_url: https://github.com/building-blocks-org/building-blocks
+repo_name: building-blocks-org/building-blocks
+
+theme:
+  name: material
+  language: en
+  font: false
+  palette:
+    - scheme: slate
+      primary: custom
+      accent: amber
+  logo: assets/logo.png        # your main logo
+  favicon: assets/favicon.ico  # your transparent cube favicon
+
+  features:
+    - navigation.tabs
+    - navigation.instant
+    - toc.follow
+    - content.code.copy
+    - content.action.edit
+    - content.tabs.link
+
+extra_css:
+  - stylesheets/badwolf.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      use_pygments: true
+      pygments_style: monokai
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+plugins:
+  - search
+  - autorefs
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: ["src"]
+          options:
+            show_source: true
+            heading_level: 2
+            docstring_style: google
+            separate_signature: true
+            show_if_no_docstring: false
+            filters: ["!^_"]
+  - git-revision-date-localized:
+      fallback_to_build_date: true
+      enable_creation_date: true
+  - minify:
+      minify_html: true
+
+nav:
+  - 🏠 Home: index.md
+  - 🚀 Getting Started: getting-started.md
+  - 🧠 Guide:
+      - Architecture: guide/architecture.md
+  - 🧩 Reference:
+      - Overview: reference/index.md
+      - Foundation: reference/foundation.md
+      - Domain: reference/domain.md
+      - Application: reference/application.md
+      - Infrastructure: reference/infrastructure.md
+      - Presentation: reference/presentation.md
+  - 🛠️ Contributing: CONTRIBUTING.md
+  - 📜 License: LICENSE.md

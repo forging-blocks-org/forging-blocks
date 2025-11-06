@@ -1,15 +1,15 @@
-"""Command module.
-
-Auto-generated minimal module docstring.
-"""
+"""Module defining the Command base class for domain commands."""
 
 from datetime import datetime
+from typing import TypeVar
 from uuid import UUID
 
 from building_blocks.domain.messages.message import Message
 
+CommandRawType = TypeVar("CommandRawType", covariant=True)
 
-class Command(Message):
+
+class Command(Message[CommandRawType]):
     """Base class for all domain commands.
 
     Commands represent an intent to do something in the domain.
@@ -24,7 +24,7 @@ class Command(Message):
         ...         self,
         ...         customer_id: str,
         ...         items: list,
-        ...         metadata: Optional[MessageMetadata] = None
+        ...         metadata: MessageMetadata | None = None
         ...     ):
         ...         super().__init__(metadata)
         ...         self._customer_id = customer_id
@@ -39,7 +39,7 @@ class Command(Message):
         ...         return self._items
         ...
         ...     @property
-        ...     def payload(self) -> dict[str, Any]:
+        ...     def _payload(self) -> dict[str, Any]:
         ...         return {
         ...             "customer_id": self._customer_id,
         ...             "items": self._items
@@ -48,7 +48,7 @@ class Command(Message):
 
     @property
     def command_id(self) -> UUID:
-        """Convenience property to get the command ID.
+        """Get the unique identifier for this command.
 
         Returns:
             UUID: The unique command identifier (same as message_id)
@@ -57,7 +57,7 @@ class Command(Message):
 
     @property
     def issued_at(self) -> datetime:
-        """Convenience property to get when the command was issued.
+        """Get the timestamp when this command was issued.
 
         Returns:
             datetime: When the command was issued (same as created_at)

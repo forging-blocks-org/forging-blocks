@@ -8,24 +8,31 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Hashable
+from typing import Any, Generic, TypeVar
+
+RawValueType = TypeVar("RawValueType", covariant=True)
 
 
-class ValueObject(ABC):
+class ValueObject(ABC, Generic[RawValueType]):
     """Base class for all domain value objects.
 
-    Value objects are immutable objects that are defined by their attributes
-    rather than their identity. Two value objects with the same attributes
+    Value objects are immutable objects defined entirely by their attributes
+    rather than by an identity. Two value objects with the same attributes
     are considered equal.
 
-    Value objects should be implemented as immutable by using properties
-    without setters and avoiding direct attribute modification.
+    This base class enforces immutability after initialization by blocking
+    all further attribute assignments once frozen.
 
     Example:
-        >>> class Email(ValueObject):
+        >>> class Email(ValueObject[str]):
+        ...     __slots__ = ("_value",)
+        ...
         ...     def __init__(self, value: str):
+        ...         super().__init__()
         ...         if "@" not in value:
         ...             raise ValueError("Invalid email format")
         ...         self._value = value
+        ...         self._freeze()
         ...
         ...     @property
         ...     def value(self) -> str:
@@ -35,54 +42,53 @@ class ValueObject(ABC):
         ...         return (self._value,)
     """
 
+    __is_frozen: bool = False
+
+    def __init__(self) -> None:
+        """Initialize the value object in a mutable state (for setup)."""
+        object.__setattr__(self, "_ValueObject__is_frozen", False)
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        """Prevent modification once frozen."""
+        immutability_error_message = (
+            f"{self.__class__.__name__} is immutable: cannot modify '{name}' after initialization"
+        )
+        if getattr(self, "_ValueObject__is_frozen", False):
+            raise AttributeError(immutability_error_message)
+        object.__setattr__(self, name, value)
+
+    def _freeze(self) -> None:
+        """Freeze the object to enforce immutability."""
+        object.__setattr__(self, "_ValueObject__is_frozen", True)
+
     def __eq__(self, other: object) -> bool:
-        """Check equality based on equality components.
-
-        Args:
-            other: Object to compare with
-
-        Returns:
-            bool: True if objects are equal, False otherwise
-        """
+        """Check equality based on equality components."""
         if not isinstance(other, self.__class__):
             return False
         return self._equality_components() == other._equality_components()
 
     def __hash__(self) -> int:
-        """Generate hash based on equality components.
-
-        Returns:
-            int: Hash value for the object
-        """
+        """Generate hash based on equality components."""
         return hash(self._equality_components())
 
     def __str__(self) -> str:
-        """String representation of the value object.
-
-        Returns:
-            str: String representation
-        """
+        """Return a user-friendly string representation."""
         components = self._equality_components()
         if len(components) == 1:
-            return f"{self.__class__.__name__}({components[0]})"
-        return f"{self.__class__.__name__}{components}"
+            return f"{self.__class__.__name__}({components[0]!r})"
+        return f"{self.__class__.__name__}{components!r}"
 
     def __repr__(self) -> str:
-        """Developer representation of the value object.
-
-        Returns:
-            str: Developer representation
-        """
+        """Return a developer-friendly string representation."""
         return self.__str__()
+
+    @property
+    @abstractmethod
+    def value(self) -> RawValueType:
+        """Get the primary raw value encapsulated by the ValueObject."""
+        pass
 
     @abstractmethod
     def _equality_components(self) -> tuple[Hashable, ...]:
-        """Return the components used for equality comparison.
-
-        This method should return a tuple containing all the attributes
-        that define the value object's equality.
-
-        Returns:
-            tuple[Hashable, ...]: Tuple of components for equality comparison
-        """
+        """Return the components used for equality comparison."""
         pass
