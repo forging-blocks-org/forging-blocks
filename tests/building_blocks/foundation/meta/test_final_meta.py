@@ -117,9 +117,6 @@ class TestFinalMeta:
                     return "overridden"
 
     def test___new___when_final_method_inherited_then_raises_type_error(self) -> None:
-        # Arrange
-        # (DirectChildOfGrandParent already defined)
-
         # Action & Assert
         with pytest.raises(
             TypeError,
@@ -131,9 +128,6 @@ class TestFinalMeta:
                     return "overridden"
 
     def test___new___when_no_base_classes_then_creates_class(self) -> None:
-        # Arrange
-        # (StandaloneBaseWithFinal already defined)
-
         # Action
         instance = StandaloneBaseWithFinal()
 
@@ -141,9 +135,6 @@ class TestFinalMeta:
         assert instance.final_method() == "base"
 
     def test___new___when_non_final_method_in_base_then_allows_override(self) -> None:
-        # Arrange
-        # (ChildOverridingNonFinalMethod already defined)
-
         # Action
         instance = ChildOverridingNonFinalMethod()
 
@@ -153,9 +144,6 @@ class TestFinalMeta:
     def test___new___when_final_method_not_in_namespace_then_creates_class(
         self,
     ) -> None:
-        # Arrange
-        # (ChildWithAdditionalMethod already defined)
-
         # Action
         instance = ChildWithAdditionalMethod()
 

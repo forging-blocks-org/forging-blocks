@@ -8,7 +8,7 @@ RequestType = TypeVar("RequestType", contravariant=True)
 ResponseType = TypeVar("ResponseType", covariant=True)
 
 
-class UseCase(InboundPort[RequestType, ResponseType], Protocol):  # type: ignore[misc]
+class UseCase(InboundPort[RequestType, ResponseType], Protocol):
     """Application inbound port for asynchronous use cases.
 
     Use cases orchestrate interactions between domain services, repositories,

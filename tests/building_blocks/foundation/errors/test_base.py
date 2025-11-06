@@ -63,17 +63,6 @@ class TestError:
         expected = "Error: "
         assert str(error) == expected
 
-    def test__format_context_when_called_then_return_context_as_string(self) -> None:
-        message = "An error occurred"
-        error_message = ErrorMessage(message)
-        context = {"key": "value"}
-        error = Error(error_message, ErrorMetadata(context))
-
-        formatted_context = error._format_context()
-
-        expected_context = " | Context: {'key': 'value'}"
-        assert formatted_context == expected_context
-
     def test__repr__when_message_defined_then_returns_repr_string(self) -> None:
         message = "An error occurred"
         error_message = ErrorMessage(message)

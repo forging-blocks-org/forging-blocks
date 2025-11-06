@@ -430,11 +430,11 @@ See Also:
 
 from typing import Generic, Protocol, TypeVar
 
-InputType = TypeVar("InputType")
-OutputType = TypeVar("OutputType")
+InputType = TypeVar("InputType", covariant=True)
+OutputType = TypeVar("OutputType", covariant=True)
 
 
-class Port(Protocol, Generic[InputType, OutputType]):  # type: ignore[misc]
+class Port(Protocol, Generic[InputType, OutputType]):
     """Base protocol for defining interface contracts.
 
     Port is a generic Protocol that serves as the foundation for interface
@@ -499,7 +499,7 @@ class Port(Protocol, Generic[InputType, OutputType]):  # type: ignore[misc]
     ...
 
 
-class InboundPort(Port[InputType, OutputType], Protocol):  # type: ignore[misc]
+class InboundPort(Port[InputType, OutputType], Protocol):
     """Protocol foundation for defining inbound operation interfaces.
 
     ``InboundPort`` is intended for operations that receive input and produce
@@ -568,7 +568,7 @@ class InboundPort(Port[InputType, OutputType], Protocol):  # type: ignore[misc]
     ...
 
 
-class OutboundPort(Port[InputType, OutputType], Protocol):  # type: ignore[misc]
+class OutboundPort(Port[InputType, OutputType], Protocol):
     """Protocol foundation for defining outbound operation interfaces.
 
     ``OutboundPort`` is intended for operations that interact with external
