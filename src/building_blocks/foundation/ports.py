@@ -428,9 +428,10 @@ See Also:
 - typing.Protocol — Python's Protocol implementation
 """
 
+# pyright: reportInvalidTypeVarUse=false
 from typing import Generic, Protocol, TypeVar
 
-InputType = TypeVar("InputType", covariant=True)
+InputType = TypeVar("InputType", contravariant=True)
 OutputType = TypeVar("OutputType", covariant=True)
 
 

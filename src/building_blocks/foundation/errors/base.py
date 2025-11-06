@@ -91,7 +91,7 @@ class NoneNotAllowedError(Error):
     """Error indicating that a None value was provided where it is not allowed."""
 
 
-class FieldErrors:
+class FieldErrors(Error):
     """Base class for errors associated with a specific field."""
 
     def __init__(self, field: FieldReference, errors: Iterable[Error]) -> None:
