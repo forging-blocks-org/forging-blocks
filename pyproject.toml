@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "building-blocks"
+name = "building-blocks-test"
 version = "0.3.0"
 description = "Composable toolkit for clean, testable, and maintainable Python applications"
 authors = ["BuildingBlocks Org <buildingblocksorganization91@gmail.com>"]
@@ -64,6 +64,7 @@ mkdocs-section-index = "^0.3.10"
 mkdocs-git-revision-date-localized-plugin = "^1.5.0"
 mkdocs-minify-plugin = "^0.8.0"
 mkdocs-autorefs = "^1.4.3"
+mkdocs-mermaid2-plugin = "^1.2.3"
 
 [build-system]
 requires = ["poetry-core"]
