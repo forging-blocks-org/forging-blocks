@@ -60,11 +60,9 @@ mkdocstrings = { extras = ["python"], version = "^0.30.1" }
 mkdocs-gen-files = "^0.5.0"
 mkdocs-literate-nav = "^0.6.2"
 mkdocs-section-index = "^0.3.10"
-mkdocs-git-revision-date-localized-plugin = "^1.5.0"
-mkdocs-minify-plugin = "^0.8.0"
 mkdocs-autorefs = "^1.4.3"
 mkdocs-mermaid2-plugin = "^1.2.3"
-mkdocs-terminal = "^4.7.0"
+mkdocs-material = "^9.6.23"
 
 [build-system]
 requires = ["poetry-core"]
@@ -195,6 +193,11 @@ test = { cmd = "pytest -q" }
 "mkdocs:build" = { cmd = "mkdocs build" }
 "mkdocs:clean" = { cmd = "mkdocs build --clean" }
 "mkdocs:deploy" = { cmd = "mkdocs gh-deploy --clean" }
+"docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
+"docs:serve".sequence = [
+    { cmd = "mkdocs build --clean" },
+    { cmd = "mkdocs serve" },
+]
 "docs:check".sequence = [
   { cmd = "ruff check --select D" },
   { cmd = "mkdocs build --strict" },
