@@ -1,43 +1,30 @@
-name: Setup Poetry Environment
-description: Install Python and Poetry with caching for reproducible builds
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v4
 
-inputs:
-  python-version:
-    description: Python version to use
-    default: "3.12"
-  poetry-version:
-    description: Poetry version to install
-    default: "1.8.3"
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12' # Use your required Python version
 
-runs:
-  using: composite
-  steps:
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ inputs.python-version }}
-        cache: "poetry"
+      - name: 📦 Install Poetry via pip
+        run: |
+          pip install poetry
 
-    - name: Install Poetry
-      shell: bash
-      run: |
-        pip install --upgrade pip
-        pip install poetry==${{ inputs.poetry-version }}
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: ➕ Add Poetry bin to PATH
+        run: |
+          # Use 'python -m site --user-base' to find the user's base directory,
+          # which contains the 'bin' folder where the 'poetry' executable lives.
+          echo "$(python -m site --user-base)/bin" >> $GITHUB_PATH
 
-    - name: Verify Poetry installation
-      shell: bash
-      run: |
-        echo "Poetry version check:"
-        which poetry || echo "❌ Poetry not found in PATH!"
-        poetry --version || echo "⚠️ Poetry installation failed!"
+      - name: ⚙️ Run Custom Setup-Poetry Action (Optional)
+        run: ./.github/actions/setup-poetry
 
-    - name: Cache virtual environments
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.cache/pypoetry
-          .venv
-        key: ${{ runner.os }}-poetry-${{ inputs.poetry-version }}-${{ hashFiles('**/poetry.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-poetry-
+      - name: 🌐 Install dependencies
+        run: poetry install --no-interaction --no-root
+
+      - name: ▶️ Run tests
+        run: poetry run pytest
