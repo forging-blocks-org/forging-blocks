@@ -1,6 +1,7 @@
 # Testing Strategy 🧪
 
 Testing in **BuildingBlocks** focuses on **behavior, not framework integration**.
+
 Because each layer is decoupled, tests can target functionality at the right abstraction level.
 
 ---

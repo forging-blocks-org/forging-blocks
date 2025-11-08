@@ -55,6 +55,7 @@ flowchart LR
 ```
 
 The **command side** updates aggregates and emits events.
+
 The **query side** responds to read requests with dedicated data models.
 
 ---

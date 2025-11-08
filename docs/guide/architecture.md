@@ -1,6 +1,7 @@
 # Architecture Guide 🧠
 
 The **BuildingBlocks** toolkit follows a composable architecture model based on clear **boundaries**, **contracts**, and **abstractions**.
+
 It enables developers to design systems that are **testable**, **maintainable**, and **framework-agnostic**.
 
 ---
@@ -10,6 +11,7 @@ It enables developers to design systems that are **testable**, **maintainable**,
 > “Architecture is about intent — code is about implementation.”
 
 BuildingBlocks helps you express *intent* explicitly through **interfaces** (Ports) and **domain-driven abstractions** (Entities, Value Objects, Events).
+
 This approach supports **Clean Architecture**, **Hexagonal Architecture**, and **DDD**, without enforcing any strict style.
 
 ---
@@ -42,16 +44,21 @@ graph TD
 ## 🧱 Design Principles
 
 ### 1. Explicit Boundaries
+
 Each layer exposes only **what it must** and depends only on **contracts**, not implementations.
 
 ### 2. Dependency Inversion
+
 High-level modules (domain and application) define interfaces.
+
 Low-level modules (infrastructure, presentation) implement them.
 
 ### 3. Immutability
+
 Entities and Value Objects are immutable by default, ensuring consistency and safe concurrency.
 
 ### 4. Composability
+
 All abstractions (e.g., `Result`, `Port`, `Mapper`) can be reused and composed without framework dependencies.
 
 ---
@@ -59,9 +66,13 @@ All abstractions (e.g., `Result`, `Port`, `Mapper`) can be reused and composed w
 ## 🧩 Flow Example
 
 1. **Presentation Layer** receives a command or query.
+
 2. It invokes an **Application Use Case** through an **Inbound Port**.
+
 3. The Use Case interacts with **Domain Entities** and **Value Objects**.
+
 4. It delegates to **Outbound Ports** implemented by the **Infrastructure Layer**.
+
 5. Results flow back as explicit `Result` objects (`Ok` / `Err`).
 
 ```mermaid
@@ -104,4 +115,5 @@ flowchart LR
 ## ✅ Summary
 
 BuildingBlocks is **not a framework** — it’s a **foundation**.
+
 It helps you express intent, isolate concerns, and design systems that evolve gracefully.

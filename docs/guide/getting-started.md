@@ -36,10 +36,16 @@ if result.is_ok():
 ## 🧠 Why Use BuildingBlocks?
 
 Most Python codebases grow messy because boundaries are not explicit.
-**BuildingBlocks** provides abstractions that make intent and responsibility clear.
+
+**BuildingBlocks** provides abstractions that make intent and responsibility clear and help you to write decoupled applications.
 
 You can use it to:
 
+* Improve code organization
+* Enhance testability
+* Facilitate maintenance and evolution
+* Teach architecture principles
+* Structure new projects with clear layers
 * Build layered systems (Clean, Hexagonal, DDD, CQRS, etc.)
 * Experiment with architecture concepts safely
 * Learn decoupling, ports/adapters, and type-safe composition

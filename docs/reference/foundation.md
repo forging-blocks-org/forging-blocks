@@ -33,12 +33,40 @@ The base abstraction for communication boundaries between layers.
 
 ```python
 class Port(Generic[InputType, OutputType], Protocol):
-    def execute(self, data: InputType) -> OutputType: ...
+    def execute(self, data: InputType) -> OutputType:
+        ...
+```
+
+You can use as a marker for inbound and outbound ports.
+
+### InboundPort
+
+Marker for application entry points.
+
+```python
+class InboundPort(Port[InputType, OutputType], Protocol):
+    ...
+```
+
+### OutboundPort
+
+Marker for application dependencies.
+
+```python
+class OutboundPort(Port[InputType, OutputType], Protocol):
+    ...
 ```
 
 ### Mapper
 
 Defines safe type transformations between layers.
+
+```python
+class Mapper(Generic[SourceType, TargetType], Protocol):
+    def map(self, source: SourceType) -> TargetType:
+        ...
+```
+
 
 ### Event Bus
 
