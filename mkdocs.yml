@@ -39,7 +39,13 @@ markdown_extensions:
 plugins:
   - search
   - mermaid2
-
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            render_module_path: true
+            show_root_heading: true
+            show_source: true
 nav:
   - Home: index.md
 
