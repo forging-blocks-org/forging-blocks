@@ -1,0 +1,58 @@
+/* Background color for the diagram */
+.diagram-container {
+    background-color: #282828; /* Gruvbox dark background */
+}
+
+/* Nodes styling */
+rect {
+    fill: #3c3836; /* Gruvbox medium dark background for nodes */
+    stroke: #7c6f64; /* Gruvbox light brown stroke for nodes */
+    stroke-width: 2px;
+}
+
+text {
+    fill: #ebdbb2; /* Gruvbox light text */
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 14px;
+}
+
+/* Arrow styles */
+path {
+    stroke: #d5c4a1; /* Gruvbox light contrast lines */
+    stroke-width: 2px;
+}
+
+/* Highlighted nodes for special roles */
+rect.highlighted {
+    fill: #d65d0e; /* Gruvbox orange for highlighted nodes */
+    stroke: #9d0006; /* Darker orange for outline */
+}
+
+/* Edges for highlighted paths */
+path.highlighted {
+    stroke: #458588; /* Gruvbox aqua for highlighted arrows */
+    stroke-width: 3px;
+}
+
+/* Subgraph Styling */
+.subgraph-container {
+    background-color: #3c3836; /* Gruvbox medium dark */
+    border: 1px solid #fb4934; /* Gruvbox red for subgraph borders */
+    border-radius: 6px;
+}
+
+.subgraph-title {
+    fill: #fabd2f; /* Gruvbox yellow for subgraph titles */
+    font-size: 16px;
+}
+
+/* Add hover effect for interactive elements */
+rect:hover {
+    fill: #5c6370; /* Brighter gray on hover */
+    cursor: pointer;
+}
+
+path:hover {
+    stroke: #83a598; /* Gruvbox aqua for hovered edges */
+    cursor: pointer;
+}

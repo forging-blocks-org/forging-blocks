@@ -1,32 +1,28 @@
-document.addEventListener("DOMContentLoaded", () => {
-     (!window.mermaid) return;
+document.addEventListener("DOMContentLoaded", function {
+    // Function to render Mermaid diagrams
+    function renderMermaidDiagrams() {
+        if (window.mermaid) {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: "dark", // Use the dark theme for better visual consistency
+                securityLevel: "strict",
+                themeVariables: {
+                    background: "#1d2021", // Gruvbox background
+                    primaryColor: "#fabd2f", // Gruvbox yellow
+                    edgeLabelBackground: "#282828", // Gruvbox dark
+                    labelColor: "#ebdbb2", // Gruvbox text
+                },
+            });
 
-    rmaid.initialize({
-        tOnLoad: false,
-        e: "dark",
-        eVariables: {
-            ound: "#1d2021",
-            yColor: "#3c3836",
-            yTextColor: "#ebdbb2",
-            yBorderColor: "#928374",
-            lor: "#928374",
-            aryColor: "#282828",
-            ryColor: "#504945",
+            mermaid.init(undefined, document.querySelectorAll(".mermaid"));
+        }
+    }
 
-        rityLevel: "loose",
-    ;
+    // Render Mermaid diagrams initially
+    renderMermaidDiagrams();
 
-    nst codeBlocks = document.querySelectorAll("pre code.language-mermaid");
-    deBlocks.forEach((codeBlock) => {
-        t pre = codeBlock.parentElement;
-        t graphDefinition = codeBlock.textContent.trim();
-
-        t mermaidDiv = document.createElement("div");
-        aidDiv.classList.add("mermaid");
-        aidDiv.textContent = graphDefinition;
-
-        parentElement.replaceChild(mermaidDiv, pre);
-    ;
-
-    rmaid.run();
+    // Monitor navigation changes for re-rendering
+    document.addEventListener('navigation', function() {
+        renderMermaidDiagrams();
+    });
 });

@@ -6,13 +6,26 @@ Welcome to **BuildingBlocks** — a toolkit to help you write clean, testable, a
 
 ## 📦 Installation
 
-You can install it via Poetry or pip:
+You can install it via Poetry
 
 ```bash
 poetry add building-blocks
-# or
+```
+
+Using pip
+
+```bash
+
 pip install building-blocks
 ```
+
+Using UV
+
+```bash
+uv install building-blocks
+```
+
+or any tool that supports PyPI packages.
 
 ---
 
