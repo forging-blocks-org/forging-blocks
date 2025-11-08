@@ -1,0 +1,80 @@
+/* Primary Navbar Background */
+.md-header {
+    background-color: #d65d0e; /* Rich Gruvbox dark orange */
+    color: #ffffff; /* White text for contrast */
+}
+
+/* Secondary Bar (Search and Links) */
+.md-header__meta {
+    background-color: #cc4e02; /* Slightly darker orange for secondary bar */
+    color: #ffffff; /* White text for readability */
+}
+
+/* Icon and clipboard hover styling */
+.md-header__meta .md-clipboard {
+    color: #ffffff; /* Maintain contrast with secondary bar */
+}
+
+.md-header__meta .md-clipboard:hover {
+    color: #fabd2f; /* Bright Gruvbox yellow for hover */
+}
+
+/* Navigation Tabs */
+.md-tabs {
+    background-color: #d65d0e; /* Primary orange tone for tabs */
+    border-bottom: 2px solid #282828; /* Divider for tabs */
+}
+
+.md-tabs .md-tab {
+    color: #ebdbb2; /* Gruvbox light-text for tabs */
+}
+
+.md-tabs .md-tab:hover {
+    background: #cc4e02; /* Slightly darker hover state */
+    color: #ffffff; /* White text for hover */
+}
+
+/* Sidebar and TOC Styling */
+.md-sidebar__title,
+.md-nav__title,
+.md-nav__link {
+    background-color: #1d2021; /* Gruvbox very dark background */
+    color: #fabd2f; /* Bright yellow Gruvbox text */
+}
+
+.md-nav__link:hover {
+    background-color: #32302f; /* Subtle hover effect */
+    color: #83a598; /* Gruvbox aqua for hover text */
+}
+
+/* Body Content */
+.md-content {
+    color: #ebdbb2; /* Gruvbox light text */
+    background-color: #282828; /* Gruvbox dark background */
+}
+
+/* Code block styling */
+.md-typeset pre code {
+    color: #bdae93; /* Gruvbox muted text */
+    background-color: #1d2021; /* Gruvbox very dark */
+    border-radius: 4px; /* Rounded edges */
+    border: 1px solid #3c3836; /* Subtle border */
+}
+
+/* Buttons */
+.md-button {
+    background-color: #d65d0e; /* Primary orange for button background */
+    color: #ffffff; /* White text */
+    border: 1px solid #cc4e02; /* Slightly darker orange border */
+}
+
+.md-button:hover {
+    background-color: #cc4e02; /* Rich orange hover state */
+    color: #ffffff; /* Maintain white text */
+}
+
+/* Footer Styling */
+.md-footer {
+    background-color: #1d2021; /* Gruvbox very dark background */
+    color: #fabd2f; /* Gruvbox yellow text */
+}
