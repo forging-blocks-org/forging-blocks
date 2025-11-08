@@ -3,7 +3,7 @@
 - Scans all Python modules under `src/building_blocks/`
 - Extracts top-level docstrings
 - Generates .md files under `docs/reference/autodoc/`
-- Updates mkdocs.yml under "Auto-Generated API Docs"
+- Updates mkdocs.yml under "Auto-Generated API Docs" with proper hierarchical nesting
 """
 
 #!/usr/bin/env python3
@@ -31,7 +31,7 @@ def read_docstring(file: Path) -> str:
 
 
 def module_title(path: Path) -> str:
-    """Convert a module path to a title."""
+    """Convert a module path to a readable title."""
     return path.stem.replace("_", " ").title()
 
 
@@ -47,7 +47,7 @@ def ensure_dir(path: Path) -> None:
 
 
 def find_source_files(base: Path) -> list[Path]:
-    """Find all Python source files under a base directory, excluding __init__.py."""
+    """Find all Python source files under the base directory, excluding __init__.py."""
     return [p for p in base.rglob("*.py") if p.name != "__init__.py"]
 
 
@@ -72,27 +72,43 @@ def generate_markdown(src: Path) -> Path:
     out.write_text("\n".join(content), encoding="utf-8")
 
     print(f"✅ Generated: {out}")
-
     return out
 
 
 def build_autodoc_section(files: list[Path], indent="  ") -> str:
     """Build the MkDocs navigation section for autodoc pages."""
-    grouped: dict[str, list[tuple[str, str]]] = {}
-    for f in files:
-        parts = f.relative_to(OUT_DIR).parts
-        if len(parts) < 2:
-            continue
-        layer = parts[0].title()
-        title = parts[-1].replace("_", " ").removesuffix(".md").title()
-        path = f"reference/autodoc/{'/'.join(parts)}"
-        grouped.setdefault(layer, []).append((title, path))
+    grouped: dict[str, dict[str, list[tuple[str, str]]]] = {}
 
+    for file in files:
+        parts = file.relative_to(OUT_DIR).parts
+        if len(parts) < 2:  # Skip entries with insufficient depth
+            continue
+
+        # Top-level layer (e.g., "application", "domain")
+        layer = parts[0].capitalize()
+
+        # Sub-layer for further nesting (e.g., "ports/inbound")
+        sublayer = parts[1].replace("_", " ").title() if len(parts) > 2 else None
+
+        # Title and file path for markdown files
+        title = parts[-1].removesuffix(".md").replace("_", " ").title()
+        path = f"reference/autodoc/{'/'.join(parts)}"
+
+        grouped.setdefault(layer, {}).setdefault(sublayer, []).append((title, path))
+
+    # Start generating the navigation section
     lines = [f"{indent}- Auto-Generated API Docs:"]
-    for layer, entries in sorted(grouped.items()):
+    for layer, subgroups in sorted(grouped.items()):
         lines.append(f"{indent}  - {layer}:")
-        for name, link in sorted(entries):
-            lines.append(f"{indent}    - {name}: {link}")
+        # Handle sublayers and direct entries separately
+        for sublayer, entries in sorted(subgroups.items(), key=lambda x: (x[0] is None, x[0])):
+            if sublayer is None:  # Direct entries under the main layer
+                for name, link in sorted(entries):
+                    lines.append(f"{indent}    - {name}: {link}")
+            else:  # Nested sublayers
+                lines.append(f"{indent}    - {sublayer}:")
+                for name, link in sorted(entries):
+                    lines.append(f"{indent}      - {name}: {link}")
     return "\n".join(lines)
 
 
@@ -101,10 +117,14 @@ def update_nav(mkdocs: str, section: str) -> str:
     pattern = r"(?ms)^\s*- Auto-Generated API Docs:.*?(?=^\s*- [A-Z]|^[a-z_]+:|\Z)"
     if re.search(pattern, mkdocs):
         return re.sub(pattern, section, mkdocs)
+
+    # Append to Reference section
     ref_pos = re.search(r"(?m)^\s*- Reference:", mkdocs)
     if ref_pos:
         insert = ref_pos.end()
         return mkdocs[:insert] + "\n" + section + "\n" + mkdocs[insert:]
+
+    # Add at the end if Reference section missing
     return mkdocs.rstrip() + "\n" + section + "\n"
 
 
@@ -118,8 +138,8 @@ def main() -> None:
 
     mkdocs_text = MKDOCS_YML.read_text(encoding="utf-8")
     section = build_autodoc_section(files)
-    updated = update_nav(mkdocs_text, section)
-    MKDOCS_YML.write_text(updated, encoding="utf-8")
+    updated_mkdocs = update_nav(mkdocs_text, section)
+    MKDOCS_YML.write_text(updated_mkdocs, encoding="utf-8")
 
     print("\n📘 Autodoc generation complete.\n")
 
