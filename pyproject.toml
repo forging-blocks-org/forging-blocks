@@ -170,66 +170,53 @@ omit = [
     "src/building_blocks/foundation/debuggable.py"
 ]
 
-# ---------------------------------------------------------------------------
-# Black Configuration
-# ---------------------------------------------------------------------------
 [tool.black]
 line-length = 100
 target-version = ["py312"]
 
-# ---------------------------------------------------------------------------
-# Poe the Poet Tasks
-# ---------------------------------------------------------------------------
 [tool.poe.tasks]
-# ---------------------------------------------------------------------------
-# 🧹 Code Quality
-# ---------------------------------------------------------------------------
-bandit = "bandit -r src -x tests"
+lint = { cmd = "ruff check ." }
 
-# ---------------------------------------------------------------------------
-# 🧪 Testing
-# ---------------------------------------------------------------------------
-"test" = "pytest -q"
-"test:nocov" = "pytest -q --no-cov"
-"test:pipeline" = "pytest --cov=src --cov-report=xml --cov-fail-under=80"
-"test:quick" = "pytest -x -q"
-"test:strict" = "pytest -x --strict-markers"
+"lint:docs" = { cmd = "ruff check --select D100,D101,D102,D103,D104 src" }
 
-# ---------------------------------------------------------------------------
-# 🧠 Typing and Static Analysis
-# ---------------------------------------------------------------------------
-"type:mypy" = "mypy --config-file pyproject.toml src"
-"type:pyright" = "pyright"
+"lint:fix" = { cmd = "ruff check . --fix" }
 
-# ---------------------------------------------------------------------------
-# 🧱 Linting and Formatting
-# ---------------------------------------------------------------------------
-"lint" = "ruff check ."
-"lint:docs" = "ruff check --select D100,D101,D102,D103,D104 src"
-"lint:fix" = "ruff check . --fix"
-"format" = [
-  "ruff check . --fix --unsafe-fixes",
-  "black ."
+format.sequence = [
+  { cmd = "ruff check . --fix" },
+  { cmd = "ruff check --fix --unsafe-fixes src" },
 ]
-"format:docs" = "ruff check --select D --fix --unsafe-fixes src"
 
-# ---------------------------------------------------------------------------
-# 📦 Pre-commit Automation
-# ---------------------------------------------------------------------------
-"pre-commit" = "pre-commit run --all-files"
+"format:docs" = { cmd = "ruff check --select D --fix --unsafe-fixes src" }
 
-# ---------------------------------------------------------------------------
-# 📚 Documentation and MkDocs
-# ---------------------------------------------------------------------------
-"docs:check" = [
+"type:mypy" = { cmd = "mypy --config-file pyproject.toml src" }
+
+"type:pyright" = { cmd = "pyright" }
+
+bandit = { cmd = "bandit -r src -x tests" }
+
+pre-commit = { cmd = "pre-commit run --all-files" }
+
+test = { cmd = "pytest -q" }
+
+"test:quick" = { cmd = "pytest -x -q" }
+
+"test:strict" = { cmd = "pytest -x --strict-markers" }
+
+"test:nocov" = { cmd = "pytest -q --no-cov" }
+
+"test:pipeline" = { cmd = "pytest --cov=src --cov-report=xml --cov-fail-under=80" }
+
+"mkdocs:serve" = { cmd = "mkdocs serve" }
+
+"mkdocs:build" = { cmd = "mkdocs build" }
+
+"mkdocs:clean" = { cmd = "mkdocs build --clean" }
+
+"mkdocs:deploy" = { cmd = "mkdocs gh-deploy --clean" }
+
+"docs:check".sequence = [
   { cmd = "ruff check --select D" },
   { cmd = "mkdocs build --strict" },
 ]
-"docs:regen" = [
-  { cmd = "python scripts/generate_autodoc_pages.py" },
-  { cmd = "mkdocs serve" },
-]
-"mkdocs:build" = "mkdocs build"
-"mkdocs:clean" = "mkdocs build --clean"
-"mkdocs:deploy" = "mkdocs gh-deploy --clean"
-"mkdocs:serve" = "mkdocs serve"
+
+"docs:regen" = { cmd = "python scripts/generate_autodoc_pages.py" }
