@@ -33,7 +33,10 @@ jobs:
       - name: Run tests
         run: poetry run poe test:pipeline
 
-      - name: Build documentation
+      # Only validate docs build on PRs, actual deployment happens in deploy-docs.yml
+      - name: Validate documentation build
+        if: github.event_name == 'pull_request'
         run: |
           poetry run python scripts/generate_autodoc_pages.py
           poetry run mkdocs build --strict
+          git restore mkdocs.yml

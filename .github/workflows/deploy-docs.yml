@@ -4,7 +4,7 @@ on:
   push:
     branches: ["main"]
     tags:
-      - "v*.*.*"  # optional: rebuild docs when tagging new releases
+      - "v*.*.*"
 
 permissions:
   contents: write
@@ -26,6 +26,11 @@ jobs:
       - name: Install dependencies
         run: poetry install --with docs
 
+      - name: Configure Git for deployment
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Generate autodoc pages
         run: poetry run python scripts/generate_autodoc_pages.py
 
@@ -42,10 +47,5 @@ jobs:
       - name: Deploy to GitHub Pages
         run: poetry run mkdocs gh-deploy --force
 
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Deploy to GitHub Pages
-        run: poetry run mkdocs gh-deploy --force
+      - name: Restore mkdocs.yml
+        run: git restore mkdocs.yml
