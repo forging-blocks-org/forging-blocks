@@ -42,4 +42,4 @@ itself.
 -   [Application](application.md)
 -   [Infrastructure](infrastructure.md)
 -   [Presentation](presentation.md)
--   [Example Tests](example_tests.md)
+-   [Example Tests](../guide/example_tests.md)
