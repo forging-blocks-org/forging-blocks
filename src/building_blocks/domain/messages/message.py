@@ -57,12 +57,13 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
 
         Args:
             message_type: The type/name of the message.
-            correlation_id: Identifier to correlate related messages. If None, generates
-            a new UUID.
-            causation_id: Identifier of the message that caused this one. If None,
-            generates a new UUID.
-            message_id: Uniqu identifier for the message. If None, generates a new UUID.
+            message_id: Unique identifier for the message. If None, generates a
+                new UUID.
             created_at: When the message was created. If None, uses current UTC time.
+            correlation_id: Identifier to correlate related messages. If None,
+                generates a new UUID.
+            causation_id: Identifier of the message that caused this one. If None,
+                generates a new UUID.
         """
         self._message_type = message_type
         self._message_id = message_id or uuid4()
@@ -75,7 +76,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         """Get the unique identifier for this message.
 
         Returns:
-            UUID: The unique message identifier
+            The unique message identifier.
         """
         return self._message_id
 
@@ -84,7 +85,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         """Get the type of this message.
 
         Returns:
-            str: The message type name
+            The message type name.
         """
         return self._message_type
 
@@ -93,7 +94,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         """Get the causation ID for this message.
 
         Returns:
-            UUID: The causation identifier
+            The causation identifier.
         """
         return self._causation_id
 
@@ -102,7 +103,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         """Get the timestamp when this message was created.
 
         Returns:
-            datetime: When the message was created (UTC timezone)
+            When the message was created (UTC timezone).
         """
         return self._created_at
 
@@ -111,7 +112,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         """Get the correlation ID for this message.
 
         Returns:
-            UUID: The correlation identifier
+            The correlation identifier.
         """
         return self._correlation_id
 
@@ -128,14 +129,21 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
 
     @classmethod
     def create(cls, message_type: str) -> MessageMetadata:
-        """Factory for creating a new metadata instance with a given type."""
+        """Factory for creating a new metadata instance with a given type.
+
+        Args:
+            message_type: The type/name of the message.
+
+        Returns:
+            A new MessageMetadata instance with generated ID and current timestamp.
+        """
         return cls(message_type=message_type)
 
     def to_dict(self) -> dict[str, Any]:
         """Convert metadata to dictionary representation.
 
         Returns:
-            dict[str, Any]: dictionary representation of the metadata
+            Dictionary representation of the metadata.
         """
         return self.value
 
@@ -143,7 +151,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         """Message metadata equality is based on message ID and timestamp.
 
         Returns:
-            tuple[Any, ...]: tuple containing message_id and created_at
+            Tuple containing message_id and created_at.
         """
         return (self._message_id, self._created_at)
 
@@ -152,8 +160,8 @@ class Message(ValueObject[MessageRawType], ABC):
     """Base class for all domain messages.
 
     Messages are immutable value objects that represent intent or facts in the domain.
-    This is the base class for Events (something that happened) and Commands (something
-    to do).
+    This is the base class for Events (something that happened) and Commands
+    (something to do).
 
     Features:
     - Immutable by design (inherits from ValueObject)
@@ -168,8 +176,8 @@ class Message(ValueObject[MessageRawType], ABC):
         """Initialize the message with metadata.
 
         Args:
-            metadata: Message metadata. If None, creates new metadata with generated ID
-            and current timestamp.
+            metadata: Message metadata. If None, creates new metadata with
+                generated ID and current timestamp.
         """
         effective_type = self.__class__.__name__
         self._metadata = metadata or MessageMetadata(message_type=effective_type)
@@ -188,7 +196,7 @@ class Message(ValueObject[MessageRawType], ABC):
         """Get the message metadata.
 
         Returns:
-            MessageMetadata: The message metadata containing ID, timestamp, etc.
+            The message metadata containing ID, timestamp, etc.
         """
         return self._metadata
 
@@ -197,7 +205,7 @@ class Message(ValueObject[MessageRawType], ABC):
         """Convenience property to get the message ID.
 
         Returns:
-            UUID: The unique message identifier
+            The unique message identifier.
         """
         return self._metadata.message_id
 
@@ -206,7 +214,7 @@ class Message(ValueObject[MessageRawType], ABC):
         """Convenience property to get when the message was created.
 
         Returns:
-            datetime: When the message was created
+            When the message was created.
         """
         return self._metadata.created_at
 
@@ -215,11 +223,11 @@ class Message(ValueObject[MessageRawType], ABC):
     def _payload(self) -> dict[str, Any]:
         """Get the domain-specific data carried by this message.
 
-        Subclasses must implement this property to provide their specific message data.
-        This makes the Message class truly abstract.
+        Subclasses must implement this property to provide their specific message
+        data. This makes the Message class truly abstract.
 
         Returns:
-            dict[str, Any]: The message payload
+            The message payload.
         """
         pass
 
@@ -229,7 +237,7 @@ class Message(ValueObject[MessageRawType], ABC):
         Combines metadata, message type, and domain data.
 
         Returns:
-            dict[str, Any]: Complete dictionary representation of the message
+            Complete dictionary representation of the message.
         """
         return {
             "metadata": self._metadata.to_dict(),
@@ -242,6 +250,6 @@ class Message(ValueObject[MessageRawType], ABC):
         Each message instance is unique, even if they have the same domain data.
 
         Returns:
-            tuple[Any, ...]: tuple containing the message ID for equality comparison
+            Tuple containing the message ID for equality comparison.
         """
         return (self._metadata.message_id,)

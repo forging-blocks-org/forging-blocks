@@ -5,13 +5,13 @@ from typing import Generic, Protocol, TypeVar
 from building_blocks.application.ports.inbound.message_handler import MessageHandler
 from building_blocks.domain.messages.message import Message
 
-TResponse = TypeVar("TResponse", covariant=True)
+MessageBusResponse = TypeVar("MessageBusResponse", covariant=True)
 
 
-class MessageBus(Protocol, Generic[TResponse]):
+class MessageBus(Protocol, Generic[MessageBusResponse]):
     """Asynchronous outbound port for a message bus."""
 
-    async def dispatch(self, message: Message) -> TResponse:
+    async def dispatch(self, message: Message) -> MessageBusResponse:
         """Dispatch a message asynchronously."""
         ...
 

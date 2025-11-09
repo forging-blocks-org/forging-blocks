@@ -3,8 +3,8 @@
 This modules defines a protocol for mapping Result types between different layers or
 representations.
 
-You can implement this protocol to create mappers that convert Result types from one form to
-another, facilitating data transformation across application layers.
+You can implement this protocol to create mappers that convert Result types from one
+form to another, facilitating data transformation across application layers.
 
 Example:
     ApplicationResult = Result[CreateTaskResponse, CombinedValidationErrors]
@@ -50,7 +50,7 @@ class ResultMapper(
     Protocol,
     Generic[SuccessInputType, ErrorInputType, SuccessOutputType, ErrorOutputType],
 ):
-    """Interface for mapping between two Result. That can be applied for mapping between layers.
+    """Interface for mapping between two Result types across application layers.
 
     Example:
         ApplicationResult = Result[CreateTaskResponse, CombinedValidationErrors]
@@ -75,7 +75,6 @@ class ResultMapper(
                 else:
                     error = self.error_mapper.map(result.unwrap_err())
                     return Result.err(error)
-
     """
 
     ...
@@ -86,12 +85,9 @@ class ResultMapper(
         """Map a Result from one representation to another.
 
         Args:
-            result (Result[SuccessInputType, ErrorInputType]): The input Result to between
-            mapped.
+            result: The input Result to be mapped from one type to another.
 
         Returns:
-            Result[SuccessOutputType, ErrorOutputType]: The mapped Result.
-
-        Result[SuccessOutputType, ErrorOutputType]: The mapped Result.
+            The mapped Result with transformed success and error types.
         """
         ...

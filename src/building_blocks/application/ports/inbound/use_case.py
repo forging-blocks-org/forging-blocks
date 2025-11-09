@@ -1,4 +1,4 @@
-"""Asynchronous use case inbound port definition."""
+"""UseCase application inbound port for application use cases."""
 
 from typing import Protocol, TypeVar
 
@@ -9,7 +9,7 @@ ResponseType = TypeVar("ResponseType", covariant=True)
 
 
 class UseCase(InboundPort[RequestType, ResponseType], Protocol):
-    """Application inbound port for asynchronous use cases.
+    """Marker Protocol application inbound port for use cases.
 
     Use cases orchestrate interactions between domain services, repositories,
     and other components to fulfill application-specific operations.
@@ -28,11 +28,10 @@ class UseCase(InboundPort[RequestType, ResponseType], Protocol):
             request: The request object containing input data for the use case.
 
         Returns:
-            ResponseType: The response object containing the result of the use case
-            execution.
+            The response object containing the result of the use case execution.
 
         Raises:
-            Exception: Any exceptions that occur during execution should be
-            handled appropriately, such as validation errors or service failures.
+            ValidationError: When request validation fails.
+            ServiceError: When a service operation fails during execution.
         """
         ...

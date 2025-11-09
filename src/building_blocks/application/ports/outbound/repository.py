@@ -91,7 +91,7 @@ class ReadOnlyRepository(Generic[TReadAggregateRoot, TId], Protocol):
         """
         ...
 
-    async def find_all(self) -> Sequence[TReadAggregateRoot]:
+    async def list_all(self) -> Sequence[TReadAggregateRoot]:
         """Find all aggregates in the repository.
 
         Note: In CQRS scenarios, this might be reading from optimized

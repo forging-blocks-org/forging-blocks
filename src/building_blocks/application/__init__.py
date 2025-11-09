@@ -1,4 +1,1 @@
-"""Init module.
-
-Auto-generated minimal module docstring.
-"""
+"""BuildingBlocks for application-specific modules."""

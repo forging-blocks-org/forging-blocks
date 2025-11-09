@@ -1,10 +1,12 @@
 [tool.poetry]
 name = "building-blocks"
-version = "0.1.0"
+version = "0.3.0"
 description = "Composable toolkit for clean, testable, and maintainable Python applications"
-authors = ["Glauber Brennon <glauberbrennon@gmail.com>"]
+authors = ["BuildingBlocks Org <buildingblocksorganization91@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/building-blocks-org/building-blocks"
+homepage = "https://building-blocks-org.github.io/building-blocks/"
 packages = [{ include = "building_blocks", from = "src" }]
 keywords = [
   "python library",
@@ -55,13 +57,12 @@ poethepoet = "^0.37.0"
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.6.1"
 mkdocs-material = "^9.6.23"
-mkdocstrings = { extras = ["python"], version = "^0.30.1" }
+mkdocstrings = {extras = ["python"], version = "^0.30.1"}
 mkdocs-gen-files = "^0.5.0"
 mkdocs-literate-nav = "^0.6.2"
-mkdocs-section-index = "^0.3.10"
-mkdocs-git-revision-date-localized-plugin = "^1.5.0"
-mkdocs-minify-plugin = "^0.8.0"
 mkdocs-autorefs = "^1.4.3"
+mkdocs-mermaid2-plugin = "^1.2.3"
+mkdocs-section-index = "^0.3.10"
 
 [build-system]
 requires = ["poetry-core"]
@@ -77,13 +78,12 @@ extend-exclude = ["site"]
 [tool.ruff.lint]
 select = ["E", "W", "F", "I", "B", "C4", "D"]
 ignore = [
-    "B008",  # Function call in default arg
-    "D104",
-    "D105",  # Magic methods like __repr__, __eq__, etc.
-    "D106",  # Nested classes
-    "D107",  # __init__ docstring
-    "D203",  # No blank line before class (conflicts with D211)
-    "D213",  # Multi-line summary on second line (Google prefers same line)
+    "B008",
+    "D105",
+    "D106",
+    "D107",
+    "D203",
+    "D213",
 ]
 
 [tool.ruff.lint.pydocstyle]
@@ -94,12 +94,16 @@ known-first-party = ["building_blocks"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*" = ["D"]
+"scripts/*.py" = ["D100", "D101", "D102", "D103", "D104", "D105", "D106", "D107"]
 
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
 docstring-code-format = true
 
+# ---------------------------------------------------------------------------
+# Mypy Configuration
+# ---------------------------------------------------------------------------
 [tool.mypy]
 python_version = "3.12"
 warn_return_any = true
@@ -128,6 +132,9 @@ disallow_incomplete_defs = false
 check_untyped_defs = false
 allow_untyped_globals = true
 
+# ---------------------------------------------------------------------------
+# Pytest Configuration
+# ---------------------------------------------------------------------------
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
@@ -139,6 +146,9 @@ addopts = [
   "--cov-report=term-missing",
 ]
 
+# ---------------------------------------------------------------------------
+# Coverage Configuration
+# ---------------------------------------------------------------------------
 [tool.coverage.report]
 exclude_lines = [
     "@abstractmethod"
@@ -159,26 +169,58 @@ line-length = 100
 target-version = ["py312"]
 
 [tool.poe.tasks]
-lint = "ruff check ."
-"lint:docs" = "ruff check --select D100,D101,D102,D103,D104 src"
+lint = { cmd = "ruff check ." }
+
+"lint:docs" = { cmd = "ruff check --select D100,D101,D102,D103,D104 src" }
+
+"lint:fix" = { cmd = "ruff check . --fix" }
+
 format.sequence = [
   { cmd = "ruff check . --fix" },
   { cmd = "ruff check --fix --unsafe-fixes src" },
 ]
-"format:docstrings" = "ruff check --select D --fix --unsafe-fixes src"
-"type:pyright" = "pyright"
-"type:mypy" = "mypy --config-file pyproject.toml src"
-bandit = "bandit -r src -x tests"
-pre-commit = "pre-commit run --all-files"
-test = "pytest -q"
-"test:quick" = "pytest -x -q"
-"test:strict" = "pytest -x --strict-markers"
-"test:nocov" = "pytest -q --no-cov"
-"test:pipeline" = "pytest --cov=src --cov-report=xml --cov-fail-under=80"
-"mkdocs:serve" = "mkdocs serve"
-"mkdocs:build" = "mkdocs build"
-"mkdocs:deploy" = "mkdocs gh-deploy --clean"
-"docs:check" = [
+"format:docs" = { cmd = "ruff check --select D --fix --unsafe-fixes src" }
+"type:mypy" = { cmd = "mypy --config-file pyproject.toml src" }
+"type:pyright" = { cmd = "pyright" }
+bandit = { cmd = "bandit -r src -x tests" }
+pre-commit = { cmd = "pre-commit run --all-files" }
+test = { cmd = "pytest -q" }
+"test:quick" = { cmd = "pytest -x -q" }
+"test:strict" = { cmd = "pytest -x --strict-markers" }
+"test:nocov" = { cmd = "pytest -q --no-cov" }
+"test:pipeline" = { cmd = "pytest --cov=src --cov-report=xml --cov-fail-under=80" }
+"mkdocs:serve" = { cmd = "mkdocs serve" }
+"mkdocs:build" = { cmd = "mkdocs build" }
+"mkdocs:clean" = { cmd = "mkdocs build --clean" }
+"mkdocs:deploy" = { cmd = "mkdocs gh-deploy --clean" }
+"docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
+"docs:serve".sequence = [
+    { cmd = "mkdocs build --clean" },
+    { cmd = "mkdocs serve" },
+]
+"docs:check".sequence = [
   { cmd = "ruff check --select D" },
   { cmd = "mkdocs build --strict" },
+]
+"docs:clean" = { cmd = "git restore mkdocs.yml" }
+"ci:simulate".sequence = [
+  { cmd = "poetry install --with dev,docs" },
+  { cmd = "poetry run poe lint" },
+  { cmd = "poetry run poe type:mypy" },
+  { cmd = "poetry run poe test:pipeline" },
+  { cmd = "poetry run python scripts/generate_autodoc_pages.py" },
+  { cmd = "poetry run mkdocs build --strict" },
+  { cmd = "git restore mkdocs.yml" }  # revert autogenerated changes
+]
+"ci:clean".sequence = [
+  { cmd = "rm -rf .venv ~/.cache/pypoetry" },
+  { cmd = "poetry env use 3.12" },
+  { cmd = "poetry lock --no-update" },
+  { cmd = "poetry install --with dev,docs" },
+  { cmd = "poetry run poe lint" },
+  { cmd = "poetry run poe type:mypy" },
+  { cmd = "poetry run poe test:pipeline" },
+  { cmd = "poetry run python scripts/generate_autodoc_pages.py" },
+  { cmd = "poetry run mkdocs build --strict" },
+  { cmd = "git restore mkdocs.yml" }  # clean after run
 ]

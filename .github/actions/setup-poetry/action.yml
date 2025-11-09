@@ -1,34 +1,47 @@
-name: "Setup Poetry"
-description: "Setup Python, install Poetry, cache and install dependencies"
+name: Setup Poetry Environment
+description: Install Python and Poetry with caching for reproducible builds
+
 inputs:
   python-version:
-    description: "Python version"
-    required: true
+    description: Python version to use
+    default: "3.12"
   poetry-version:
-    description: "Poetry version"
-    default: "1.8.2"
+    description: Poetry version to install
+    default: "1.8.3"
 
 runs:
-  using: "composite"
+  using: composite
   steps:
-    - uses: actions/setup-python@v5
+    - name: Set up Python
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
 
     - name: Install Poetry
-      run: pip install poetry==${{ inputs.poetry-version }}
       shell: bash
+      run: |
+        pip install --upgrade pip
+        pip install poetry==${{ inputs.poetry-version }}
 
-    - name: Cache Poetry and pip
-      uses: actions/cache@v3
+    - name: Add Poetry to PATH
+      shell: bash
+      run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+    - name: Verify Python and Poetry
+      shell: bash
+      run: |
+        echo "Python version:"
+        python --version
+        echo "Poetry version:"
+        poetry --version
+
+    - name: Cache Poetry dependencies
+      uses: actions/cache@v4
       with:
         path: |
-          ~/.cache/pip
           ~/.cache/pypoetry
-        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}-${{ inputs.python-version }}
+          .venv
+        key: ${{ runner.os }}-poetry-${{ inputs.poetry-version }}-py${{ inputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
         restore-keys: |
-          ${{ runner.os }}-poetry-${{ inputs.python-version }}
-
-    - name: Install dependencies
-      run: poetry install --no-interaction
-      shell: bash
+          ${{ runner.os }}-poetry-${{ inputs.poetry-version }}-py${{ inputs.python-version }}-
+          ${{ runner.os }}-poetry-

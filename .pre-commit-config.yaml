@@ -1,25 +1,40 @@
 repos:
+  # Ruff - linting and auto-fixing
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.3
+    rev: v0.14.3
     hooks:
       - id: ruff
         args: ["--config=pyproject.toml"]
 
+  # Core pre-commit hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+        name: Check YAML
+        entry: check-yaml
+        args: ["--allow-multiple-documents", "--unsafe"]
       - id: check-added-large-files
-        exclude: "^docs/assets/"  # ignore docs/images
+        exclude: "^docs/assets/"
       - id: check-merge-conflict
       - id: debug-statements
       - id: check-toml
 
+  # Black formatter
   - repo: https://github.com/psf/black
     rev: 25.1.0
     hooks:
       - id: black
         language_version: python3.12
         args: ["--config=pyproject.toml"]
+
+  # Local hook to prevent committing generated mkdocs.yml
+  - repo: local
+    hooks:
+      - id: prevent-mkdocs-yml-change
+        name: Prevent committing modified mkdocs.yml
+        entry: bash -c 'git diff --cached --name-only | grep -q "^mkdocs.yml$" && { echo "❌ mkdocs.yml changes are not allowed to be committed!"; exit 1; } || exit 0'
+        language: system
+        types: [file]
