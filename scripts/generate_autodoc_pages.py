@@ -6,7 +6,6 @@
 - Updates mkdocs.yml under "Auto-Generated API Docs" with proper hierarchical nesting
 """
 
-#!/usr/bin/env python3
 from __future__ import annotations
 
 import ast
@@ -47,7 +46,7 @@ def ensure_dir(path: Path) -> None:
 
 
 def find_source_files(base: Path) -> list[Path]:
-    """Find all Python source files under the base directory, excluding __init__.py."""
+    """Find all Python source files, excluding __init__.py."""
     return [p for p in base.rglob("*.py") if p.name != "__init__.py"]
 
 
@@ -75,56 +74,70 @@ def generate_markdown(src: Path) -> Path:
     return out
 
 
-def build_autodoc_section(files: list[Path], indent="  ") -> str:
+def build_autodoc_section(files: list[Path], indent: str = "      ") -> str:
     """Build the MkDocs navigation section for autodoc pages."""
-    grouped: dict[str, dict[str, list[tuple[str, str]]]] = {}
+    grouped: dict[str, dict[str | None, list[tuple[str, str]]]] = {}
 
     for file in files:
         parts = file.relative_to(OUT_DIR).parts
-        if len(parts) < 2:  # Skip entries with insufficient depth
+        if len(parts) < 1:
             continue
 
-        # Top-level layer (e.g., "application", "domain")
+        # Top-level layer (e.g., "application", "domain", "foundation")
         layer = parts[0].capitalize()
 
-        # Sub-layer for further nesting (e.g., "ports/inbound")
-        sublayer = parts[1].replace("_", " ").title() if len(parts) > 2 else None
+        # Determine sublayer and title
+        if len(parts) == 2:
+            # Direct file under layer: foundation/result.md
+            sublayer = None
+            title = parts[1].removesuffix(".md").replace("_", " ").title()
+        else:
+            # Nested file: application/ports/inbound/use_case.md
+            # Sublayer: "Ports" (parts[1])
+            sublayer_parts = parts[1:-1]
+            sublayer = " / ".join(p.replace("_", " ").title() for p in sublayer_parts)
+            title = parts[-1].removesuffix(".md").replace("_", " ").title()
 
-        # Title and file path for markdown files
-        title = parts[-1].removesuffix(".md").replace("_", " ").title()
         path = f"reference/autodoc/{'/'.join(parts)}"
-
         grouped.setdefault(layer, {}).setdefault(sublayer, []).append((title, path))
 
-    # Start generating the navigation section
-    lines = [f"{indent}- Auto-Generated API Docs:"]
+    # Generate navigation
+    lines = [f"{indent}- API Reference:"]
     for layer, subgroups in sorted(grouped.items()):
         lines.append(f"{indent}  - {layer}:")
-        # Handle sublayers and direct entries separately
-        for sublayer, entries in sorted(subgroups.items(), key=lambda x: (x[0] is None, x[0])):
-            if sublayer is None:  # Direct entries under the main layer
+
+        # Sort: None (direct) first, then alphabetically
+        for sublayer, entries in sorted(
+            subgroups.items(), key=lambda x: ("" if x[0] is None else x[0])
+        ):
+            if sublayer is None:
+                # Direct entries
                 for name, link in sorted(entries):
                     lines.append(f"{indent}    - {name}: {link}")
-            else:  # Nested sublayers
+            else:
+                # Nested sublayers
                 lines.append(f"{indent}    - {sublayer}:")
                 for name, link in sorted(entries):
                     lines.append(f"{indent}      - {name}: {link}")
+
     return "\n".join(lines)
 
 
 def update_nav(mkdocs: str, section: str) -> str:
     """Update the MkDocs navigation section with the autodoc section."""
-    pattern = r"(?ms)^\s*- Auto-Generated API Docs:.*?(?=^\s*- [A-Z]|^[a-z_]+:|\Z)"
+    # Try to find and replace existing API Reference section
+    pattern = r"(?ms)^      - API Reference:.*?(?=^      - [A-Z]|^  - [A-Z]|^[a-z_]+:|\Z)"
     if re.search(pattern, mkdocs):
-        return re.sub(pattern, section, mkdocs)
+        return re.sub(pattern, section + "\n", mkdocs)
 
-    # Append to Reference section
-    ref_pos = re.search(r"(?m)^\s*- Reference:", mkdocs)
-    if ref_pos:
-        insert = ref_pos.end()
-        return mkdocs[:insert] + "\n" + section + "\n" + mkdocs[insert:]
+    # Insert after Reference section
+    ref_pattern = r"(^  - Reference:\n(?:^      - .*\n)*)"
+    match = re.search(ref_pattern, mkdocs, re.MULTILINE)
+    if match:
+        insert_pos = match.end()
+        return mkdocs[:insert_pos] + section + "\n" + mkdocs[insert_pos:]
 
-    # Add at the end if Reference section missing
+    # Fallback: add at the end
     return mkdocs.rstrip() + "\n" + section + "\n"
 
 
