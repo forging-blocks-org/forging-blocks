@@ -5,32 +5,16 @@ on:
     tags:
       - "v*.*.*"
 
-permissions:
-  contents: write
-  id-token: write
-
 jobs:
-  publish:
-    name: Build and Publish Package (OIDC)
+  build-and-publish:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
-
       - name: Install dependencies
-        run: poetry install --only main
-
+        run: poetry install
       - name: Build package
         run: poetry build
-
-      - name: Publish to PyPI via OIDC
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_PUBLISH_TOKEN || '' }}
-        run: |
-          echo "Publishing to PyPI via OIDC..."
-          poetry config pypi-token.pypi ""
-          poetry publish --build
+      - name: Publish to PyPI
+        run: poetry publish --build --username __token__ --password ${{ secrets.PYPI_TOKEN }}
