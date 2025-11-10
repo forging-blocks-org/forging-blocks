@@ -42,15 +42,19 @@ jobs:
 
       - name: Publish to TestPyPI via OIDC
         if: steps.detect.outputs.target == 'test-pypi'
+        env:
+          POETRY_PYPI_TOKEN_TESTPYPI: ${{ secrets.TEST_PYPI_PUBLISH_TOKEN }}
         run: |
           echo "Publishing to TestPyPI..."
-          poetry publish --build --username __token__ --password ${{ PYPI_API_TOKEN || '' }} --repository testpypi
+          poetry publish --build --username __token__ --password ${{ secrets.TEST_PYPI_PUBLISH_TOKEN }} --repository testpypi
 
       - name: Publish to PyPI via OIDC
         if: steps.detect.outputs.target == 'pypi'
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_PUBLISH_TOKEN }}
         run: |
           echo "Publishing to PyPI..."
-          poetry publish --build --username __token__ --password ${{ PYPI_API_TOKEN || '' }}
+          poetry publish --build --username __token__ --password ${{ secrets.PYPI_PUBLISH_TOKEN }}
 
       - name: Create GitHub Release
         env:
