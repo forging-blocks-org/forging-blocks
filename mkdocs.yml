@@ -4,6 +4,7 @@ site_author: Glauber Brennon
 site_url: https://building-blocks-org.github.io/building-blocks/
 repo_url: https://github.com/building-blocks-org/building-blocks
 repo_name: building-blocks-org/building-blocks
+edit_uri: edit/main/docs/
 
 theme:
   name: material
@@ -29,12 +30,16 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
+          paths: [src]
           options:
             docstring_style: google
             show_source: true
             show_root_heading: true
             show_root_full_path: false
+            show_signature_annotations: true
             members_order: source
+            extra:
+              warnings_as_errors: false
   - autorefs
   - mermaid2:
       javascript: https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
@@ -48,8 +53,8 @@ markdown_extensions:
       permalink: true
 
 extra_css:
-  - "assets/css/theme.css"
-  - "assets/css/mermaid-theme.css"
+  - assets/css/theme.css
+  - assets/css/mermaid-theme.css
 
 nav:
   - Home: index.md
