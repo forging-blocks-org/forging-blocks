@@ -118,15 +118,15 @@ class Err(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
         return f"Err({self._error!r})"
 
     def __str__(self) -> str:
-        """Return a string representation of the Ok result."""
+        """Return a string representation of the Err result."""
         return f"Err({self._error})"
 
     def __eq__(self, other: object) -> bool:
-        """Check equality with another Ok result."""
+        """Check equality with another Err result."""
         return isinstance(other, Err) and self._error == other._error
 
     def __hash__(self) -> int:
-        """Return the hash of the Ok result."""
+        """Return the hash of the Err result."""
         return hash(self._error)
 
     @property
