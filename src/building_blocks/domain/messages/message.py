@@ -81,15 +81,6 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         return self._message_id
 
     @property
-    def message_type(self) -> str:
-        """Get the type of this message.
-
-        Returns:
-            The message type name.
-        """
-        return self._message_type
-
-    @property
     def causation_id(self) -> UUID:
         """Get the causation ID for this message.
 
@@ -115,6 +106,15 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
             The correlation identifier.
         """
         return self._correlation_id
+
+    @property
+    def message_type(self) -> str:
+        """Get the type of this message.
+
+        Returns:
+            The message type name.
+        """
+        return self._message_type
 
     @property
     def value(self) -> dict[str, Any]:

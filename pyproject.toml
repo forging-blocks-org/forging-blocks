@@ -53,6 +53,7 @@ bandit = "^1.7.10"
 pre-commit = "^4.2.0"
 pyright = "^1.1.404"
 poethepoet = "^0.37.0"
+libcst = "^1.8.6"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.6.1"
@@ -167,6 +168,24 @@ omit = [
 [tool.black]
 line-length = 100
 target-version = ["py312"]
+
+[tool.flake8]
+max-line-length = 100
+extend-ignore = "E203,W503"
+class-order-style = "google"
+
+[tool.flake8-class-attributes-order]
+order = [
+  "__new__",
+  "__init__",
+  "classmethod",
+  "staticmethod",
+  "property",
+  "method",
+  "dunder"
+]
+
+class_attributes_order_style = "custom"
 
 [tool.poe.tasks]
 lint = { cmd = "ruff check ." }

@@ -57,10 +57,6 @@ class ValueObject(ABC, Generic[RawValueType]):
             raise AttributeError(immutability_error_message)
         object.__setattr__(self, name, value)
 
-    def _freeze(self) -> None:
-        """Freeze the object to enforce immutability."""
-        object.__setattr__(self, "_ValueObject__is_frozen", True)
-
     def __eq__(self, other: object) -> bool:
         """Check equality based on equality components."""
         if not isinstance(other, self.__class__):
@@ -87,6 +83,10 @@ class ValueObject(ABC, Generic[RawValueType]):
     def value(self) -> RawValueType:
         """Get the primary raw value encapsulated by the ValueObject."""
         pass
+
+    def _freeze(self) -> None:
+        """Freeze the object to enforce immutability."""
+        object.__setattr__(self, "_ValueObject__is_frozen", True)
 
     @abstractmethod
     def _equality_components(self) -> tuple[Hashable, ...]:

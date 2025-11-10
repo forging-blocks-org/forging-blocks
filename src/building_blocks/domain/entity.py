@@ -1,7 +1,4 @@
-"""Domain entities module.
-
-This module provides base classes for domain entities.
-"""
+"""Base Entity class for domain layer."""
 
 from __future__ import annotations
 
@@ -17,17 +14,10 @@ TId = TypeVar("TId", bound=Hashable)
 
 
 class Entity(Generic[TId], ABC):
-    """Base class for domain entities.
+    """Base class for all domain entities.
 
-    Entities represent objects with identity. The identity (ID) may be:
-      - `None`: Draft entity before persistence (e.g., DB autogenerates ID)
-      - A valid ID: Assigned before or during construction
-
-    Behavior:
-      - Equality: by ID if both have IDs, otherwise by identity (`is`)
-      - Hashing: allowed only for persisted entities (ID is not None)
-      - ID immutability: `_id` cannot be modified or deleted once set
-      - No `set_id()` method — lifecycle controlled by Python data model
+    An entity is defined by its identity rather than its attributes. Two entities with the same
+    identifier are considered equal, regardless of their other attributes.
     """
 
     _id: TId | None
@@ -38,50 +28,57 @@ class Entity(Generic[TId], ABC):
         object.__setattr__(self, "_Entity__is_frozen", True)
 
     def __setattr__(self, name: str, value: Any) -> None:
-        """Prevent reassignment of the ID after initialization."""
-        if name == "_id" and getattr(self, "_id", None) is not None:
-            raise AttributeError(f"Cannot modify 'id' once set ({self._id!r}).")
+        """Prevent modification of '_id' once set."""
+        if (
+            getattr(self, "_Entity__is_frozen", False)
+            and name == "_id"
+            and getattr(self, "_id", None) is not None
+            and value != self._id
+        ):
+            raise AttributeError(
+                f"{self.__class__.__name__}: cannot modify '{name}' once set "
+                f"(current value={self._id!r})."
+            )
         object.__setattr__(self, name, value)
 
     def __delattr__(self, name: str) -> None:
-        """Prevent deletion of the ID."""
+        """Prevent deletion of '_id'."""
         if name == "_id":
-            raise AttributeError("Cannot delete 'id'.")
+            raise AttributeError(f"{self.__class__.__name__}: cannot delete 'id'.")
         object.__delattr__(self, name)
 
-    @property
-    def id(self) -> TId | None:
-        """Unique identifier (may be None for drafts)."""
-        return self._id
-
-    def is_persisted(self) -> bool:
-        """Check if the entity has a defined (non-None) ID."""
-        return self._id is not None
-
     def __eq__(self, other: object) -> bool:
-        """Entity equality comparison magic method.
-
-        Entities are equal if:
-        - They are of the same class AND
-        - Both have IDs and IDs are equal
-        Otherwise, identity equality (same instance).
-        """
-        if not isinstance(other, self.__class__):
-            return NotImplemented
+        """Check equality based on type and identifier."""
+        if type(self) is not type(other):
+            return False
+        assert isinstance(other, Entity)
         if self._id is None or other._id is None:
             return self is other
         return self._id == other._id
 
     def __hash__(self) -> int:
-        """Hash based on ID; drafts are not hashable."""
+        """Return the hash based on the entity's identifier.
+
+        Raises:
+            DraftEntityIsNotHashableError: If the entity is a draft (id is None).
+        """
         if self._id is None:
             raise DraftEntityIsNotHashableError.from_class_name(self.__class__.__name__)
         return hash(self._id)
 
     def __str__(self) -> str:
-        """Readable representation showing ID."""
+        """Return a user-friendly string representation of the entity."""
         return f"{self.__class__.__name__}(id={self._id})"
 
     def __repr__(self) -> str:
-        """Concise representation for debugging."""
+        """Return a developer-friendly string representation of the entity."""
         return str(self)
+
+    @property
+    def id(self) -> TId | None:
+        """Return the entity's identifier, or None if it's a draft entity."""
+        return self._id
+
+    def is_persisted(self) -> bool:
+        """Return True if the entity has a defined identifier (i.e., is persisted)."""
+        return self._id is not None

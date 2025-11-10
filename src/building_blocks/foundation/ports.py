@@ -499,10 +499,6 @@ class Port(Protocol, Generic[InputType, OutputType]):
 
     ...
 
-    def __port_variance__(self, __x: InputType) -> OutputType:
-        """Private helper to make type variance explicit (for static checkers)."""
-        ...
-
 
 class InboundPort(Port[InputType, OutputType], Protocol):
     """Protocol foundation for defining inbound operation interfaces.

@@ -23,16 +23,6 @@ class UnitOfWork(ABC):
     problems.
     """
 
-    @property
-    @abstractmethod
-    def session(self) -> Any | None:
-        """Get the underlying session or transaction context.
-
-        Returns:
-            The session or transaction context, or None if not applicable.
-        """
-        ...
-
     async def __aenter__(self) -> UnitOfWork:
         """Enter the unit of work context."""
         return self
@@ -48,6 +38,16 @@ class UnitOfWork(ABC):
             await self.commit()
         else:
             await self.rollback()
+
+    @property
+    @abstractmethod
+    def session(self) -> Any | None:
+        """Get the underlying session or transaction context.
+
+        Returns:
+            The session or transaction context, or None if not applicable.
+        """
+        ...
 
     @abstractmethod
     async def commit(self) -> None:

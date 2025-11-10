@@ -20,6 +20,15 @@ class ResultAccessError(Error):
         self._error_message = message
         super().__init__(message)
 
+    def __str__(self) -> str:
+        """Readable string representation."""
+        return self._error_message.value
+
+    @property
+    def message(self) -> ErrorMessage:
+        """Return the stored message as a string."""
+        return self._error_message
+
     @classmethod
     def cannot_access_value(cls) -> ResultAccessError:
         """Create an error for accessing value from an Err Result."""
@@ -29,15 +38,6 @@ class ResultAccessError(Error):
     def cannot_access_error(cls) -> ResultAccessError:
         """Create an error for accessing error from an Ok Result."""
         return cls(ErrorMessage("Cannot access error from an Ok Result."))
-
-    @property
-    def message(self) -> ErrorMessage:
-        """Return the stored message as a string."""
-        return self._error_message
-
-    def __str__(self) -> str:
-        """Readable string representation."""
-        return self._error_message.value
 
 
 class Result(Protocol, Generic[ResultType, ErrorType]):
@@ -70,6 +70,22 @@ class Ok(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
     def __init__(self, value: ResultType) -> None:
         self._value = value
 
+    def __str__(self) -> str:
+        """Return a string representation of the Ok result."""
+        return f"Ok({self._value})"
+
+    def __repr__(self) -> str:
+        """Return a string representation of the Ok result."""
+        return f"Ok({self._value!r})"
+
+    def __eq__(self, other: object) -> bool:
+        """Check equality with another Ok result."""
+        return isinstance(other, Ok) and self._value == other._value
+
+    def __hash__(self) -> int:
+        """Return the hash of the Ok result."""
+        return hash(self._value)
+
     @property
     def is_err(self) -> bool:
         """Check if the result is an error."""
@@ -90,28 +106,28 @@ class Ok(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
         """Attempting to get error from an Ok result raises an error."""
         raise ResultAccessError.cannot_access_error()
 
-    def __repr__(self) -> str:
-        """Return a string representation of the Ok result."""
-        return f"Ok({self._value!r})"
-
-    def __eq__(self, other: object) -> bool:
-        """Check equality with another Ok result."""
-        return isinstance(other, Ok) and self._value == other._value
-
-    def __hash__(self) -> int:
-        """Return the hash of the Ok result."""
-        return hash(self._value)
-
-    def __str__(self) -> str:
-        """Return a string representation of the Ok result."""
-        return f"Ok({self._value})"
-
 
 class Err(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
     """Represents an error result."""
 
     def __init__(self, error: ErrorType) -> None:
         self._error = error
+
+    def __repr__(self) -> str:
+        """Return a string representation of the Err result."""
+        return f"Err({self._error!r})"
+
+    def __str__(self) -> str:
+        """Return a string representation of the Ok result."""
+        return f"Err({self._error})"
+
+    def __eq__(self, other: object) -> bool:
+        """Check equality with another Ok result."""
+        return isinstance(other, Err) and self._error == other._error
+
+    def __hash__(self) -> int:
+        """Return the hash of the Ok result."""
+        return hash(self._error)
 
     @property
     def is_err(self) -> bool:
@@ -132,19 +148,3 @@ class Err(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
     def error(self) -> ErrorType:
         """Get the error value."""
         return self._error
-
-    def __repr__(self) -> str:
-        """Return a string representation of the Err result."""
-        return f"Err({self._error!r})"
-
-    def __eq__(self, other: object) -> bool:
-        """Check equality with another Ok result."""
-        return isinstance(other, Err) and self._error == other._error
-
-    def __hash__(self) -> int:
-        """Return the hash of the Ok result."""
-        return hash(self._error)
-
-    def __str__(self) -> str:
-        """Return a string representation of the Ok result."""
-        return f"Err({self._error})"

@@ -52,15 +52,15 @@ class Error(Exception, Debuggable):
         self._message = message
         self._metadata = metadata or ErrorMetadata(context={})
 
+    def __str__(self) -> str:
+        context_str = f" | Context: {self._metadata.context}" if self._metadata.context else ""
+        return f"{self.__class__.__name__}: {self._message.value}{context_str}"
+
     def __repr__(self) -> str:
         return (
             f"<{self.__class__.__name__} message={self._message.value!r} "
             f"context={self._metadata.context!r}>"
         )
-
-    def __str__(self) -> str:
-        context_str = f" | Context: {self._metadata.context}" if self._metadata.context else ""
-        return f"{self.__class__.__name__}: {self._message.value}{context_str}"
 
     @property
     def message(self) -> ErrorMessage:
@@ -164,6 +164,14 @@ class CombinedErrors(Error, Generic[ErrorType]):
         error_details = "\n".join(f"- {str(error)}" for error in self._errors)
         return f"{self._get_title_prefix()}:\n{error_details}"
 
+    def __iter__(self) -> Iterator[ErrorType]:
+        """Iterate over the combined errors."""
+        return iter(self._errors)
+
+    def __len__(self) -> int:
+        """Return the number of combined errors."""
+        return len(self._errors)
+
     @property
     def errors(self) -> Sequence[ErrorType]:
         """The collection of combined errors."""
@@ -181,14 +189,6 @@ class CombinedErrors(Error, Generic[ErrorType]):
             + "  ]\n"
             ")"
         )
-
-    def __iter__(self) -> Iterator[ErrorType]:
-        """Iterate over the combined errors."""
-        return iter(self._errors)
-
-    def __len__(self) -> int:
-        """Return the number of combined errors."""
-        return len(self._errors)
 
     def _get_title_prefix(self) -> str:
         """Get the title prefix for this combined error type."""

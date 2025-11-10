@@ -37,16 +37,9 @@ repos:
 
   - repo: local
     hooks:
-      - id: flake8-class-attributes-order
-        name: Enforce class/method order
-        entry: poetry run flake8
-        language: system
-        types: [python]
-
-  - repo: local
-    hooks:
       - id: order-class-members
-        name: Reorder class members automatically
+        name: Reorder class members automatically (Google Style)
         entry: poetry run python scripts/order_members.py
         language: system
         types: [python]
+        pass_filenames: true

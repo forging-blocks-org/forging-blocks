@@ -4,6 +4,7 @@ from building_blocks.domain.value_object import ValueObject
 
 
 class Email(ValueObject[str]):
+
     __slots__ = ("_value",)
 
     def __init__(self, value: str):
