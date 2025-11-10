@@ -1,4 +1,4 @@
-# BuildingBlocks 🧩
+# 🧩 BuildingBlocks
 
 Composable **abstractions and interfaces** for writing clean, testable, and maintainable Python code.
 
@@ -10,7 +10,7 @@ Composable **abstractions and interfaces** for writing clean, testable, and main
 
 ---
 
-## 🌱 What Is BuildingBlocks?
+## 🌱 Overview
 
 > Not a framework — a **toolkit** of composable contracts and abstractions.
 
@@ -26,14 +26,13 @@ You can use it to:
 - Learn and apply **architecture and design principles**
 - Build **decoupled applications** that scale safely
 - Model systems with **type safety and explicit intent**
-- Experiment with **Clean**, **Hexagonal**, **DDD**, or **message-driven** styles
+- Experiment with **Clean**, **Hexagonal**, **DDD**, or **Message-Driven** styles
 
 ---
 
-## 🧩 Core Idea
+## 🧩 Core Concepts
 
-> Foundations, not frameworks.
-> You choose the architecture — BuildingBlocks provides the language.
+> Foundations, not frameworks — BuildingBlocks provides the *language* for clean architecture.
 
 This toolkit defines **layer-agnostic foundations** that compose into any design:
 
@@ -74,9 +73,11 @@ if result.is_ok():
 
 ## 📚 Learn More
 
-- [Getting Started Guide](guide/getting-started.md)
-- [Architecture Guide](guide/architecture.md)
-- [API Reference](reference/index.md)
+- [📘 Documentation](https://building-blocks-org.github.io/building-blocks/)
+- [🚀 Getting Started Guide](docs/guide/getting-started.md)
+- [🏗️ Architecture Overview](docs/guide/architecture.md)
+- [🧱 Packages & Layers](docs/guide/packages_and_layers.md)
+- [🧩 Release Process](docs/guide/release_guide.md)
 
 ---
 
@@ -86,21 +87,23 @@ Most systems fail not because of missing features,
 but because of **tight coupling**, **implicit dependencies**, and **unclear responsibilities**.
 
 **BuildingBlocks** helps you *design code intentionally* —
-so that your system remains testable, extensible, and adaptable as it grows.
-
----
-
-## 💡 Examples
-
-Educational examples are being migrated to a dedicated repository (coming soon).
-They include both **good practices** and **intentional anti-patterns** to teach design reasoning.
+so your system remains testable, extensible, and adaptable as it grows.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome!
-See [CONTRIBUTING.md](CONTRIBUTING.md) for environment setup and workflow.
+Contributions are welcome! 🎉
+
+1. Fork the repository
+2. Install dependencies with Poetry
+3. Run tests and lint checks:
+   ```bash
+   poetry run poe ci:simulate
+   ```
+4. Submit a pull request with a clear description of your improvement
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 
 ---
 
@@ -110,4 +113,4 @@ MIT — see [LICENSE](LICENSE)
 
 ---
 
-_Built with ❤️ by [Glauber Brennon](https://github.com/gbrennon) and the [Building Blocks](https://github.com/building-blocks-org) community._
+_**BuildingBlocks Toolkit** — foundations for clean, testable, and maintainable Python architectures._
