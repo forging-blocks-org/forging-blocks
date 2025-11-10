@@ -1,13 +1,11 @@
 repos:
-  # Ruff - linting and auto-fixing
-  - repo: https://github.com/astral-sh/ruff-pre-commit
+  - repo: git@github.com:astral-sh/ruff-pre-commit.git
     rev: v0.14.3
     hooks:
       - id: ruff
         args: ["--config=pyproject.toml"]
 
-  # Core pre-commit hooks
-  - repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: git@github.com:pre-commit/pre-commit-hooks.git
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
@@ -22,15 +20,13 @@ repos:
       - id: debug-statements
       - id: check-toml
 
-  # Black formatter
-  - repo: https://github.com/psf/black
+  - repo: git@github.com:psf/black.git
     rev: 25.1.0
     hooks:
       - id: black
         language_version: python3.12
         args: ["--config=pyproject.toml"]
 
-  # Local hook to prevent committing generated mkdocs.yml
   - repo: local
     hooks:
       - id: prevent-mkdocs-yml-change
@@ -38,3 +34,19 @@ repos:
         entry: bash -c 'git diff --cached --name-only | grep -q "^mkdocs.yml$" && { echo "❌ mkdocs.yml changes are not allowed to be committed!"; exit 1; } || exit 0'
         language: system
         types: [file]
+
+  - repo: local
+    hooks:
+      - id: flake8-class-attributes-order
+        name: Enforce class/method order
+        entry: poetry run flake8
+        language: system
+        types: [python]
+
+  - repo: local
+    hooks:
+      - id: order-class-members
+        name: Reorder class members automatically
+        entry: poetry run python scripts/order_members.py
+        language: system
+        types: [python]
