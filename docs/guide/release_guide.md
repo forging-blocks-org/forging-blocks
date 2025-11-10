@@ -77,4 +77,4 @@ git push origin vX.Y.Z
 ---
 
 ✅ Once complete, verify your package here:
-👉 [https://pypi.org/project/forging-blocks-toolkit/](https://pypi.org/project/forging-blocks-toolkit/)
+👉 [https://pypi.org/project/forging-blocks/](https://pypi.org/project/forging-blocks-toolkit/)

@@ -9,20 +9,20 @@ Welcome to **ForgingBlocks** — a toolkit to help you write clean, testable, an
 You can install it via Poetry
 
 ```bash
-poetry add forging-blocks-toolkit
+poetry add forging-blocks
 ```
 
 Using pip
 
 ```bash
 
-pip install forging-blocks-toolkit
+pip install forging-blocks
 ```
 
 Using UV
 
 ```bash
-uv install forging-blocks-toolkit
+uv install forging-blocks
 ```
 
 or any tool that supports PyPI packages.
