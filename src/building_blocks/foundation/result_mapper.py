@@ -42,7 +42,7 @@ SuccessOut = TypeVar("SuccessOut", covariant=True)
 ErrorOut = TypeVar("ErrorOut", covariant=True)
 
 
-class ResultMapper(
+class ResultMapper(  # type: ignore[misc]
     Generic[SuccessIn, ErrorIn, SuccessOut, ErrorOut],
     Mapper[
         Result[SuccessIn, ErrorIn],
@@ -58,13 +58,22 @@ class ResultMapper(
     This specialization makes the intent clear: we're mapping Results to Results,
     handling both success and error cases appropriately.
 
-    Type Parameters:
-        SuccessIn: Success type of input Result
-        ErrorIn: Error type of input Result
-        SuccessOut: Success type of output Result
-        ErrorOut: Error type of output Result
+    The protocol uses variance annotations to ensure type safety:
 
-    Example:
+    - ``SuccessIn`` and ``ErrorIn`` are **contravariant**: accepts the declared types or supertypes
+    - ``SuccessOut`` and ``ErrorOut`` are **covariant**: returns the declared types or subtypes
+
+    ------
+
+    **Type Parameters**
+    -------------------
+    - SuccessIn: Success type of input Result
+    - ErrorIn: Error type of input Result
+    - SuccessOut: Success type of output Result
+    - ErrorOut: Error type of output Result
+
+    ------
+    **Example Usage**
         >>> class TaskResultMapper(
         ...     ResultMapper[TaskDTO, DomainError, JSONResponse, ErrorResponse]
         ... ):
