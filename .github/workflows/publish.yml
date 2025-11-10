@@ -27,6 +27,6 @@ jobs:
       - name: Build package
         run: poetry build
 
-      # ✅ This is the *only* step that handles OIDC-based publish correctly
+      # Publishes to PyPI using OIDC authentication for secure, trusted publishing
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
