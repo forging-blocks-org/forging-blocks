@@ -5,16 +5,28 @@ on:
     tags:
       - "v*.*.*"
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
-  build-and-publish:
+  publish:
+    name: Build and Publish to PyPI via OIDC
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
+
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --only main
+
       - name: Build package
         run: poetry build
+
+      # Publishes to PyPI using OIDC authentication for secure, trusted publishing
       - name: Publish to PyPI
-        run: poetry publish --build --username __token__ --password ${{ secrets.PYPI_TOKEN }}
+        uses: pypa/gh-action-pypi-publish@release/v1
