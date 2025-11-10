@@ -121,7 +121,8 @@ def classify_attribute(name: str) -> str:
     Returns:
         The attribute classification.
     """
-    # Class constants: CAPS_WITH_UNDER (must be all uppercase and contain an underscore, or be longer than one character)
+    # Class constants: CAPS_WITH_UNDER (must be all uppercase and contain an underscore, or be
+    # longer than one character)
     if name.isupper() and (len(name) > 1 or "_" in name):
         return "class_constant"
 
