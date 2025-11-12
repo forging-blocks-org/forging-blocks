@@ -6,43 +6,12 @@ repo_url: https://github.com/forging-blocks-org/forging-blocks
 repo_name: forging-blocks-org/forging-blocks
 edit_uri: edit/main/docs/
 
-theme:
-  name: material
-  language: en
-  palette:
-    scheme: slate
-    primary: orange
-    accent: amber
-  logo: assets/logo-transparent.png
-  favicon: assets/favicon.ico
-  features:
-    - navigation.tabs
-    - navigation.instant
-    - navigation.sections
-    - toc.follow
-    - content.code.copy
-    - content.action.edit
-    - content.tabs.link
-
-plugins:
-  - search
-  - section-index
-  - mkdocstrings:
-      handlers:
-        python:
-          paths: [src]
-          options:
-            docstring_style: google
-            show_source: true
-            show_root_heading: true
-            show_root_full_path: false
-            show_signature_annotations: true
-            members_order: source
-            extra:
-              warnings_as_errors: false
-  - autorefs
-  - mermaid2:
-      javascript: https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
+extra:
+  version:
+    provider: mike
+extra_css:
+  - assets/css/theme.css
+  - assets/css/mermaid-theme.css
 
 markdown_extensions:
   - admonition
@@ -51,10 +20,6 @@ markdown_extensions:
   - footnotes
   - toc:
       permalink: true
-
-extra_css:
-  - assets/css/theme.css
-  - assets/css/mermaid-theme.css
 
 nav:
   - Home: index.md
@@ -75,3 +40,43 @@ nav:
       - Presentation: reference/presentation.md
   - License: LICENSE.md
   - Contributing: CONTRIBUTING.md
+
+theme:
+  name: material
+  language: en
+  palette:
+    scheme: slate
+    primary: orange
+    accent: amber
+  logo: assets/logo-transparent.png
+  favicon: assets/favicon.ico
+  features:
+    - navigation.tabs
+    - navigation.instant
+    - navigation.sections
+    - toc.follow
+    - content.code.copy
+    - content.action.edit
+    - content.tabs.link
+
+plugins:
+  - autorefs
+  - mermaid2:
+      javascript: https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
+  - mermaid2
+  - mike
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            extra:
+              warnings_as_errors: false
+            members_order: source
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_signature_annotations: true
+  - search
+  - section-index
