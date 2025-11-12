@@ -1,6 +1,13 @@
-name: Deploy Documentation
+name: Deploy Versioned Documentation
 
 on:
+  push:
+    branches: ["main"]
+    paths:
+      - "docs/**"
+      - "src/**"
+      - "mkdocs.yml"
+      - "scripts/**"
   release:
     types: [published]
 
@@ -11,14 +18,14 @@ permissions:
 
 jobs:
   deploy-docs:
-    name: Build and Deploy MkDocs Site
+    name: Build and Deploy Versioned Docs
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # required for mkdocs-git-revision-date plugin
+          fetch-depth: 0
 
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
@@ -31,24 +38,20 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Generate autodoc pages
-        run: poetry run python scripts/generate_autodoc_pages.py
+      - name: Install mike
+        run: poetry run pip install mike
 
-      - name: Build documentation
-        run: poetry run mkdocs build --strict
+      - name: Build autodocs and deploy latest docs
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          poetry run python scripts/generate_autodoc_pages.py
+          poetry run mike deploy --push --update-aliases latest
+          poetry run mike set-default latest
 
-      - name: Upload built documentation as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: built-site
-          path: site/
-          retention-days: 7
-
-      - name: Deploy to GitHub Pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: poetry run mkdocs gh-deploy --force --clean --verbose
-
-      - name: Restore mkdocs.yml
-        if: always()
-        run: git restore mkdocs.yml
+      - name: Build release docs and freeze version
+        if: github.event_name == 'release'
+        run: |
+          VERSION=${GITHUB_REF_NAME}
+          poetry run python scripts/generate_autodoc_pages.py
+          poetry run mike deploy --push $VERSION stable
+          poetry run mike set-default latest
