@@ -9,6 +9,7 @@ edit_uri: edit/main/docs/
 extra:
   version:
     provider: mike
+
 extra_css:
   - assets/css/theme.css
   - assets/css/mermaid-theme.css
@@ -48,7 +49,7 @@ theme:
     scheme: slate
     primary: orange
     accent: amber
-  logo: assets/logo-transparent.png
+  logo: assets/logo.png
   favicon: assets/favicon.ico
   features:
     - navigation.tabs
@@ -63,7 +64,6 @@ plugins:
   - autorefs
   - mermaid2:
       javascript: https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
-  - mermaid2
   - mike
   - mkdocstrings:
       handlers:
