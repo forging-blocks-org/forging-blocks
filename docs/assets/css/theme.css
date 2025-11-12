@@ -249,14 +249,6 @@ hr {
   font-weight: 500;
 }
 
-/* Hover/focus: higher contrast + subtle bg */
-.md-header + .md-tabs .md-tabs__link:hover,
-.md-header + .md-tabs .md-tabs__link:focus {
-  /*color: #f8f6f2 !important;            /* light beige/white for max contrast */
-  background-color: #35322d;            /* deepergravel */
-  border-radius: 4px;
-}
-
 /* Active/current page: bold + visible underline */
 .md-header + .md-tabs .md-tabs__link[aria-selected="true"],
 .md-header + .md-tabs .md-tabs__link[aria-current="page"],
@@ -283,5 +275,13 @@ hr {
 .md-header__button:hover {
   color: #f8f6f2 !important;
   fill:  #f8f6f2 !important;
+}
+
+/* Hover/focus: higher contrast + subtle bg */
+.md-header + .md-tabs .md-tabs__link:hover,
+.md-header + .md-tabs .md-tabs__link:focus,
+.md-tabs .md-tabs__link:hover {
+  color: #f4cf86;
+  text-decoration: underline;
 }
 
