@@ -88,10 +88,9 @@ omit = [
 
 [tool.coverage.report]
 exclude_lines = [
-  "@abstractmethod",
-  "@runtime_checkable",
-  "@typing.overload",
-  "class .*Protocol",
+  "# pragma: no cover",
+  "class .*\\(.*Protocol.*\\):",
+  "@abstractmethod"
 ]
 
 
@@ -115,42 +114,55 @@ addopts = [
 ]
 
 [tool.poe.tasks]
+# ---------------- Quality and security ----------------
 lint = { cmd = "ruff check ." }
 "lint:fix" = { cmd = "ruff check . --fix" }
 "type" = { cmd = "mypy src" }
-test = { cmd = "pytest -q" }
+test = { cmd = "pytest -q --disable-warnings" }
 bandit = { cmd = "bandit -r src -x tests" }
+
+# ---------------- Documentation ----------------
 "docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
+
 "docs:serve".sequence = [
-  { cmd = "python scripts/generate_autodoc_pages.py" },
-  { cmd = "mkdocs serve" }
+  { cmd = "poetry run python scripts/generate_autodoc_pages.py" },
+  { cmd = "poetry run mkdocs serve" }
 ]
+
 "docs:build".sequence = [
-  { cmd = "python scripts/generate_autodoc_pages.py" },
-  { cmd = "mkdocs build --strict" }
+  { cmd = "poetry run python scripts/generate_autodoc_pages.py" },
+  { cmd = "poetry run mkdocs build --strict" }
 ]
+
 "docs:deploy".sequence = [
-  { cmd = "python scripts/generate_autodoc_pages.py" },
-  { cmd = "mkdocs gh-deploy --force --clean" }
+  { cmd = "poetry run python scripts/generate_autodoc_pages.py" },
+  { cmd = "poetry run mkdocs gh-deploy --force --clean" }
 ]
+
+# ---------------- CI Pipelines ----------------
+"ci:check".sequence = [
+  "lint",
+  "type",
+  "test",
+  "bandit"
+]
+
 "ci:simulate".sequence = [
-  { cmd = "poetry install --with dev,docs" },
-  { cmd = "poetry run poe lint" },
-  { cmd = "poetry run poe type" },
-  { cmd = "poetry run poe test" },
-  { cmd = "poetry run poe bandit" },
-  { cmd = "poetry run poe docs:build" }
+  "ci:check",
+  "docs:build"
 ]
+
 "ci:release".sequence = [
-  { cmd = "poetry install --with dev,docs" },
-  { cmd = "poetry run poe ci:simulate" },
+  "ci:simulate",
   { cmd = "poetry build" },
   { shell = "VERSION=$(poetry version -s)" },
   { shell = "echo 'Release candidate validated for version $VERSION'" }
 ]
+
+# ---------------- Release workflow ----------------
 "release:prepare".sequence = [
   { shell = "VERSION=$(poetry version -s)" },
-  { shell = "git add pyproject.toml README.md mkdocs.yml docs/" },
+  { cmd = "git add pyproject.toml README.md mkdocs.yml docs/" },
   { shell = "git commit -m 'release: $VERSION'" },
   { shell = "git tag v$VERSION" },
   { shell = "echo 'Tagged v$VERSION — push to trigger CI/CD release'" }
