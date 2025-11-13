@@ -11,32 +11,13 @@ permissions:
 
 jobs:
   build:
-    name: Build and Test
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
-
       - name: Install dependencies
         run: poetry install --with dev,docs
-
-      - name: Lint
-        run: poetry run poe lint
-
-      - name: Type check
-        run: poetry run poe type:mypy
-
-      - name: Run tests
-        run: poetry run poe test:pipeline
-
-      # Only validate docs build on PRs, actual deployment happens in deploy-docs.yml
-      - name: Validate documentation build
-        if: github.event_name == 'pull_request'
-        run: |
-          poetry run python scripts/generate_autodoc_pages.py
-          poetry run mkdocs build --strict
-          git restore mkdocs.yml
+      - name: Run validation pipeline
+        run: poetry run poe ci:simulate

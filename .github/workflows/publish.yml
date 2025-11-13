@@ -1,4 +1,4 @@
-name: Publish Package
+name: Publish Package and Docs
 
 on:
   push:
@@ -6,27 +6,30 @@ on:
       - "v*.*.*"
 
 permissions:
+  contents: write
   id-token: write
-  contents: read
 
 jobs:
   publish:
-    name: Build and Publish to PyPI via OIDC
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
-
+        with:
+          fetch-depth: 0
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
-
       - name: Install dependencies
-        run: poetry install --only main
-
+        run: poetry install --with dev,docs
+      - name: Validate release candidate
+        run: poetry run poe ci:release
       - name: Build package
         run: poetry build
-
-      # Publishes to PyPI using OIDC authentication for secure, trusted publishing
       - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
+        run: poetry publish
+      - name: Deploy latest docs to GitHub Pages
+        run: |
+          poetry run python scripts/generate_autodoc_pages.py
+          poetry run mkdocs gh-deploy --force --clean

@@ -1,57 +1,23 @@
-name: Deploy Versioned Documentation
+name: Deploy Documentation
 
 on:
   push:
     branches: ["main"]
-    paths:
-      - "docs/**"
-      - "src/**"
-      - "mkdocs.yml"
-      - "scripts/**"
-  release:
-    types: [published]
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   deploy-docs:
-    name: Build and Deploy Versioned Docs
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
-
-      - name: Install dependencies
+      - name: Install docs dependencies
         run: poetry install --with docs
-
-      - name: Configure Git for deployment
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Install mike
-        run: poetry run pip install mike
-
-      - name: Build autodocs and deploy latest docs
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          poetry run python scripts/generate_autodoc_pages.py
-          poetry run mike deploy --push --update-aliases latest
-          poetry run mike set-default latest
-
-      - name: Build release docs and freeze version
-        if: github.event_name == 'release'
-        run: |
-          VERSION=${GITHUB_REF_NAME}
-          poetry run python scripts/generate_autodoc_pages.py
-          poetry run mike deploy --push $VERSION stable
-          poetry run mike set-default latest
+      - name: Generate autodoc pages
+        run: poetry run python scripts/generate_autodoc_pages.py
+      - name: Deploy docs
+        run: poetry run mkdocs gh-deploy --force --clean
