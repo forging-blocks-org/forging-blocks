@@ -1,58 +1,74 @@
-/* Background color for the diagram */
-.diagram-container {
-    background-color: #282828; /* Gruvbox dark background */
-}
+/* ================================
+   BADWOLF / GRUVBOX MERMAID THEME
+   Scoped to Mermaid diagrams only
+   ================================ */
 
-/* Nodes styling */
-rect {
-    fill: #3c3836; /* Gruvbox medium dark background for nodes */
-    stroke: #7c6f64; /* Gruvbox light brown stroke for nodes */
-    stroke-width: 2px;
-}
-
-text {
-    fill: #ebdbb2; /* Gruvbox light text */
-    font-family: Roboto, Arial, sans-serif;
-    font-size: 14px;
-}
-
-/* Arrow styles */
-path {
-    stroke: #d5c4a1; /* Gruvbox light contrast lines */
-    stroke-width: 2px;
-}
-
-/* Highlighted nodes for special roles */
-rect.highlighted {
-    fill: #d65d0e; /* Gruvbox orange for highlighted nodes */
-    stroke: #9d0006; /* Darker orange for outline */
-}
-
-/* Edges for highlighted paths */
-path.highlighted {
-    stroke: #458588; /* Gruvbox aqua for highlighted arrows */
-    stroke-width: 3px;
-}
-
-/* Subgraph Styling */
-.subgraph-container {
-    background-color: #3c3836; /* Gruvbox medium dark */
-    border: 1px solid #fb4934; /* Gruvbox red for subgraph borders */
+.mermaid {
+    background-color: #282828 !important; /* dark background */
+    padding: 1rem;
     border-radius: 6px;
 }
 
-.subgraph-title {
-    fill: #fabd2f; /* Gruvbox yellow for subgraph titles */
-    font-size: 16px;
+/* Nodes */
+.mermaid rect {
+    fill: #3c3836 !important;
+    stroke: #7c6f64 !important;
+    stroke-width: 2px !important;
+    rx: 6px;
+    ry: 6px;
 }
 
-/* Add hover effect for interactive elements */
-rect:hover {
-    fill: #5c6370; /* Brighter gray on hover */
+/* Node Text */
+.mermaid text {
+    fill: #ebdbb2 !important;
+    font-family: Roboto, Arial, sans-serif !important;
+    font-size: 14px !important;
+}
+
+/* Edges (arrows, connectors) */
+.mermaid path {
+    stroke: #d5c4a1 !important;
+    stroke-width: 2px !important;
+}
+
+/* Marker arrows (fix arrowheads in flowcharts & sequences) */
+.mermaid marker path {
+    stroke: none !important;
+    fill: #d5c4a1 !important;
+}
+
+/* Highlighted nodes */
+.mermaid rect.highlighted {
+    fill: #d65d0e !important;
+    stroke: #9d0006 !important;
+}
+
+/* Highlighted arrows */
+.mermaid .highlighted path {
+    stroke: #458588 !important;
+    stroke-width: 3px !important;
+}
+
+/* Subgraphs */
+.mermaid .cluster rect {
+    fill: #3c3836 !important;
+    stroke: #fb4934 !important; /* red frame */
+    stroke-width: 2px !important;
+}
+
+.mermaid .cluster text {
+    fill: #fabd2f !important; /* yellow title */
+    font-size: 16px !important;
+    font-weight: bold;
+}
+
+/* Hover effects */
+.mermaid g:hover rect {
+    fill: #504945 !important;
     cursor: pointer;
 }
 
-path:hover {
-    stroke: #83a598; /* Gruvbox aqua for hovered edges */
+.mermaid g:hover path {
+    stroke: #83a598 !important;
     cursor: pointer;
 }

@@ -1,77 +1,181 @@
-# Domain Package 🏛️
 
-The **domain** package defines the *core business rules* and *ubiquitous language* of your system.
-It expresses *what the system is* — not *what it does*.
+# 🧩 Domain Layer
 
----
+The **Domain Layer** defines your system’s *core meaning* — its rules, invariants, identity model, and ubiquitous language.
+In ForgingBlocks, the domain is intentionally **pure**, **framework‑agnostic**, and **behavior‑centric**.
 
-## 🧩 Purpose
-
-The domain layer is the **heart of your application**.
-It models behavior through **Entities**, **Value Objects**, and **Aggregate Roots**.
+It models **what the system *is***, not *how* it interacts with databases, APIs, or frameworks.
 
 ---
 
-## ⚙️ Core Components
+## 🧠 Purpose
 
-### ValueObject
+The domain layer expresses:
 
-An immutable object defined by its attributes, not identity.
+- **Entities** — identity-based concepts
+- **Value Objects** — immutable concepts defined by value
+- **Aggregate Roots** — consistency boundaries with event recording
+- **Domain Messages** — Commands, Events, Queries
+- **Domain Errors** — guards for invariants and misuse
+
+Everything here is **side‑effect free** and **does not depend** on infrastructure, presentation, or application layers.
+
+---
+
+## 📁 Directory Structure
+
+```
+domain/
+├── entity.py
+├── value_object.py
+├── aggregate_root.py
+├── errors/
+│   ├── entity_id_none_error.py
+│   └── draft_entity_is_not_hashable_error.py
+└── messages/
+    ├── message.py
+    ├── command.py
+    ├── event.py
+    └── query.py
+```
+
+---
+
+# 🧩 Core Building Blocks
+
+## 🪪 1. Entities
+
+Entities are defined by **identity**, not attributes.
+
+- Once set, identity is **immutable**
+- Draft entities (`id=None`) are **not hashable**
+- Equality is based on the entity’s ID
+
+Example:
 
 ```python
-class Coordinate(ValueObject):
-    x: float
-    y: float
+class User(Entity[UUID]):
+    def __init__(self, user_id: UUID, email: Email):
+        super().__init__(user_id)
+        self._email = email
 ```
 
-### Entity
+Behind the scenes, the `Entity` implementation enforces:
 
-An object with a unique identity that encapsulates behavior and state.
+- freezing of `_id`
+- defensive equality
+- draft protection
+
+---
+
+## 🧱 2. Value Objects
+
+A Value Object:
+
+- is **immutable after initialization**
+- is compared by **value**
+- is hashable (based on its equality components)
+
+Example:
 
 ```python
-class User(AggregateRoot[UUID]):
-    id: UUID
-    name: str
+class Email(ValueObject[str]):
+    def __init__(self, value: str):
+        super().__init__()
+        if "@" not in value:
+            raise ValueError("Invalid email")
+        self._value = value
+        self._freeze()
+
+    @property
+    def value(self): return self._value
+    def _equality_components(self): return (self._value,)
 ```
 
-### AggregateRoot
+---
 
-A cluster of entities treated as a single unit of consistency.
+## 🏛️ 3. Aggregate Roots
+
+Aggregates enforce consistency and record events.
+
+Key features:
+
+- maintain an `AggregateVersion` for optimistic locking
+- record events through `record_event`
+- expose events through `collect_events()`, which also increments the version
+
+Example:
 
 ```python
-class Order(Entity[UUID]):
-    id: UUID
-    items: list[OrderItem]
-
-    def add_item(self, item: OrderItem) -> None:
-        self.items.append(item)
+class Order(AggregateRoot[UUID]):
+    def add_item(self, item: OrderItem):
+        self._items.append(item)
+        self.record_event(OrderItemAdded(...))
 ```
 
 ---
 
-## 🧩 Diagram
+## ✉️ 4. Domain Messages
 
-```mermaid
-graph TD
-    A[Entity] --> B[AggregateRoot]
-    B --> C[DomainEvent]
-    A --> D[ValueObject]
+Messages are immutable value objects used to express:
+
+- **Commands** — intent to change state
+- **Events** — facts about what happened
+- **Queries** — requests for information
+
+All messages:
+
+- inherit from `Message`
+- include automatic `MessageMetadata`
+- define a `_payload` part describing domain information
+
+Example Event:
+
+```python
+class OrderCreated(Event):
+    @property
+    def _payload(self):
+        return {"order_id": self._order_id}
 ```
 
 ---
 
-## 🧭 Cross-links
+## ⚠️ 5. Domain Errors
 
-- See also: [Application Layer](application.md) — orchestrates domain operations.
-- See also: [Foundation Layer](foundation.md) — provides base contracts like `Result` and `Port`.
+The domain protects its invariants using explicit domain‑level errors:
+
+- `EntityIdNoneError` — ID must never be None for persisted entities
+- `DraftEntityIsNotHashableError` — prevents hashing unpersisted entities
+
+These errors ensure correctness inside the domain boundary.
 
 ---
 
-## ✅ Summary
+# 🔗 Cross‑Layer Interaction
 
-| Aspect | Description |
-|--------|--------------|
-| **Responsibility** | Express and enforce business rules |
-| **Depends on** | Foundation |
-| **Used by** | Application, Infrastructure |
-| **Should not depend on** | Infrastructure, Presentation |
+```
+Application → Domain
+Domain ↛ Application
+Domain ↛ Infrastructure
+```
+
+The domain layer is the **center** — everything points *toward* it, but it points to nothing outside itself.
+
+---
+
+# 📝 Summary
+
+| Concept | Responsibility |
+|--------|----------------|
+| **Entity** | Identity + behavior |
+| **Value Object** | Immutable domain concept |
+| **AggregateRoot** | Boundary + event recording + versioning |
+| **Command** | Intent |
+| **Event** | Fact |
+| **Query** | Retrieval request |
+| **Errors** | Enforce invariants |
+
+---
+
+Forge your domain with clarity, purity, and intention.
+This layer is the *truth* of your system.

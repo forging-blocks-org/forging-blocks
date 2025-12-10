@@ -1,8 +1,8 @@
-# Packages and Layers 🧩
+# Recommended Blocks Structure 🧩
 
-**ForgingBlocks** organizes your code into *layered packages* that make large systems easier to reason about, test, and extend.
+**ForgingBlocks** organizes your code into *blocked blocks* that make large systems easier to reason about, test, and extend.
 
-Each package has a clear responsibility and communicates with others through **explicit boundaries (Ports)**.
+Each block has a clear responsibility and communicates with others through **explicit boundaries (Ports)**.
 
 ---
 
@@ -10,44 +10,50 @@ Each package has a clear responsibility and communicates with others through **e
 
 > “Good architecture is about knowing where things belong.”
 
-**ForgingBlocks** follows a layered architecture model:
+**ForgingBlocks** follows a blocked architecture model:
 
-- each package represents a *boundary of responsibility*.
+- each block represents a *boundary of responsibility*.
+## 🏗️ Organizational Blocks
+
+Each block represents a **boundary of responsibility**.
+
+ForgingBlocks provides abstractions that help you keep these boundaries clear and well-defined.
+
+- The **Foundation** block provides the core building blocks reused across the system.
+- The **Domain** block contains the business rules and domain types.
+- The **Application** block defines use cases and orchestrates application logic.
+- The **Infrastructure** block implements external system adapters.
+- The **Presentation** block contains the entry points to your system.
 
 ```mermaid
-graph TD
-    A[Presentation Layer] -->|Invokes| B[Application Layer]
-    B -->|Uses| C[Domain Layer]
-    C -->|Depends on| D[Foundation Layer]
-    B -->|Delegates to| E[Infrastructure Layer]
-    style A fill:#2a2a2a,stroke:#555,color:#fff
-    style B fill:#333,stroke:#555,color:#fff
-    style C fill:#444,stroke:#555,color:#fff
-    style D fill:#555,stroke:#777,color:#fff
-    style E fill:#222,stroke:#666,color:#fff
+flowchart TD
+    A[Presentation block] -->|Invokes| B[Application Block]
+    B -->|Uses| C[Domain block]
+    C -->|Depends on| D[Foundation block]
+    B -->|Delegates to| E[Infrastructure block]
 ```
 
 ---
 
-## 📦 Packages Overview
+## 📦 Blocks Overview
 
-| Package | Responsibility | Depends On |
+| Block | Responsibility | Depends On |
 |----------|----------------|------------|
 | `foundation` | Core abstractions (`Result`, `Port`, `Mapper`) | None |
 | `domain` | Business rules, Entities, Value Objects, Domain Events | Foundation |
-| `application` | Use cases and orchestration logic | Domain, Foundation |
+| `application` | Ports and orchestration logic | Domain, Foundation |
 | `infrastructure` | Technical adapters (DB, message brokers, APIs) | Application, Domain |
 | `presentation` | Entry points (API, CLI, UI) | Application |
 
 ---
 
-## 🧩 Packages in Detail
+## 🧩 Blocks in Detail
 
-### 1. **Foundation Package**
+### 1. **Foundation Block**
 
 **Purpose:**
 
-Defines reusable, *layer-agnostic abstractions* that enforce consistency and composability.
+Defines reusable, *block-agnostic abstractions* that enforce consistency and composability.
 
 **Includes:**
 
@@ -58,7 +64,7 @@ Defines reusable, *layer-agnostic abstractions* that enforce consistency and com
 
 **Usage:**
 
-Imported by all other layers; has **no dependencies** on any domain logic.
+Imported by all other blocks; has **no dependencies** on any domain logic.
 
 ```mermaid
 graph TD
@@ -70,7 +76,7 @@ graph TD
 
 ---
 
-### 2. **Domain Package**
+### 2. **Domain Block**
 
 **Purpose:**
 
@@ -91,7 +97,7 @@ This is the **heart of the system** — everything else exists to support it.
 
 ---
 
-### 3. **Application Package**
+### 3. **Application Block**
 
 **Purpose:**
 
@@ -127,7 +133,7 @@ graph TD
 
 ---
 
-### 4. **Infrastructure Package**
+### 4. **Infrastructure Block**
 
 **Purpose:**
 
@@ -137,16 +143,16 @@ Implements the *technical details* that fulfill the application’s outbound con
 
 - Repository adapters (SQLAlchemy, Mongo, In-Memory)
 - Message/Event Bus implementations (RabbitMQ, Redis, etc.)
-- External API clients and persistence layers
+- External API clients and persistence blocks
 
 **Usage:**
 
-Provides real implementations for the abstract ports defined in the application layer.
+Provides real implementations for the ports defined in the application block.
 You can replace or mock these components without changing your core logic.
 
 ---
 
-### 5. **Presentation Package**
+### 5. **Presentation Block**
 
 **Purpose:**
 
@@ -160,7 +166,7 @@ Handles all **inbound interactions** — user requests, CLI commands, or externa
 
 **Usage:**
 
-Translates external inputs into **commands or queries** sent to the application layer.
+Translates external inputs into **commands or queries** sent to the application block.
 
 ---
 
@@ -170,7 +176,7 @@ To keep your docs and code consistent:
 
 | Term | Meaning | Example |
 |------|----------|---------|
-| **Package** | A directory with `__init__.py` representing a namespace or layer | `foundation/`, `domain/`, `application/` |
+| **Block** | A directory with `__init__.py` representing a namespace or block | `foundation/`, `domain/`, `application/` |
 | **Module** | A single `.py` file implementing one concept | `foundation/result.py` → *Result module* |
 
 Use **“package”** for architectural boundaries and **“module”** for individual building blocks.
@@ -179,8 +185,8 @@ Use **“package”** for architectural boundaries and **“module”** for indi
 
 ## 🧠 Why It Matters?
 
-- Encourages **isolation** — layers evolve independently.
-- Simplifies **testing** — test behavior per layer.
+- Encourages **isolation** — blocks evolve independently.
+- Simplifies **testing** — test behavior per block.
 - Promotes **clarity** — intent and dependencies are visible.
 - Supports **teaching** — concepts are self-contained and discoverable.
 
@@ -188,8 +194,8 @@ Use **“package”** for architectural boundaries and **“module”** for indi
 
 ## ✅ Summary Rule
 
-> **Package = boundary of responsibility**
+> **Block = boundary of responsibility**
 
 > **Module = reusable building block inside a package**
 
-Together, they make your architecture **composable, testable, and teachable** — one layer at a time.
+Together, they make your architecture **composable, testable, and teachable** — one block at a time.

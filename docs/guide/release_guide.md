@@ -1,80 +1,105 @@
-# 🚀 Release Guide
+# 🚢 Release Guide
 
-This document describes how to safely create and publish a new release of **ForgingBlocks** to **PyPI**.
-
----
-
-## 🧭 Step 1 — Increment the Version
-
-Use **Poetry** to automatically bump the version number in `pyproject.toml`.
-
-```bash
-poetry version patch   # for small fixes (e.g., 0.3.5 → 0.3.6)
-poetry version minor   # for new features (e.g., 0.3.5 → 0.4.0)
-poetry version major   # for breaking changes (e.g., 0.3.5 → 1.0.0)
-```
-
-> Alternatively, if you use `uv`, run:
-> ```bash
-> uv version patch
-> ```
+This guide outlines a simple, repeatable process for releasing new versions of ForgingBlocks (or any project that uses it as a dependency). Adapt it to your own workflow, tooling, and automation.
 
 ---
 
-## 🧩 Step 2 — Commit the Version Update
+## 1. Choose the Version Bump
 
-After bumping the version, commit the change:
+Base your version bump on the nature of the changes:
 
-```bash
-git add pyproject.toml
-git commit -m "chore: bump version to vX.Y.Z"
-```
+- **PATCH** — bug fixes, internal refactoring, documentation only, no breaking changes.
+- **MINOR** — new features or types added in a backward-compatible way.
+- **MAJOR** — breaking changes to public APIs or contracts.
 
----
-
-## 🏷️ Step 3 — Tag the Commit
-
-Create an **annotated tag** (required for the GitHub Actions pipeline to trigger):
-
-```bash
-git tag -a vX.Y.Z -m "Release vX.Y.Z"
-```
-
-Verify the tag:
-
-```bash
-git tag --list
-```
-
-If needed, remove or re-create a tag:
-
-```bash
-git tag -d vX.Y.Z
-git push --delete origin vX.Y.Z
-git tag -a vX.Y.Z -m "Release vX.Y.Z (fixed)"
-```
+Example: from `0.3.1` to `0.3.2`, `0.4.0`, or `1.0.0`.
 
 ---
 
-## ☁️ Step 4 — Push the Commit and Tag
+## 2. Update Version Metadata
 
-Push both the branch and tag to trigger the GitHub Actions **Publish Package** workflow:
+If you use `pyproject.toml`:
 
-```bash
-git push origin <branch-name>
-git push origin vX.Y.Z
+```toml
+[project]
+name = "forging-blocks"
+version = "0.4.0"
 ```
 
----
+Also ensure that:
 
-## 🧠 Notes
-
-- Tags **must** match the pattern `v*.*.*` (e.g., `v0.3.6`) for the pipeline to publish.
-- The workflow automatically detects whether to publish to **TestPyPI** or **PyPI**, depending on the tag type.
-- The **publish.yml** workflow uses **OIDC authentication** — no API token is required in secrets.
-- Typical availability on PyPI after release: **30–60 seconds**.
+- Changelog is updated.
+- Documentation reflects new concepts or changes.
+- Any examples and tests are still valid.
 
 ---
 
-✅ Once complete, verify your package here:
-👉 [https://pypi.org/project/forging-blocks/](https://pypi.org/project/forging-blocks/)
+## 3. Run the Full Check Suite
+
+Before releasing, run:
+
+- linters
+- type checkers
+- tests
+- docs build, if applicable
+
+Example with Poetry:
+
+```bash
+poetry run pytest
+poetry run mypy .
+poetry run poe docs:build  # if you use poe & MkDocs
+```
+
+Adjust commands to match your own tooling.
+
+---
+
+## 4. Build the Distribution
+
+Using `python -m build` or a Poetry command, for example:
+
+```bash
+poetry build
+```
+
+This should produce `.whl` and `.tar.gz` artifacts under `dist/`.
+
+---
+
+## 5. Publish to Package Index (Optional)
+
+If you publish to PyPI or a private index, you might use:
+
+```bash
+poetry publish --repository pypi
+```
+
+or your preferred upload command.
+
+Use TestPyPI or an internal index if you want to validate distribution behavior before a public release.
+
+---
+
+## 6. Tag the Release
+
+Tag the release in version control:
+
+```bash
+git tag -a v0.4.0 -m "Release 0.4.0"
+git push origin v0.4.0
+```
+
+Tags make it easier to track what changed when and to generate release notes later.
+
+---
+
+## 7. Announce Changes
+
+Ensure consumers of your project can see what changed:
+
+- Update the changelog.
+- Mention the release in your project README or docs.
+- If relevant, highlight any migration notes for breaking changes.
+
+ForgingBlocks itself aims to keep changes incremental, explicit, and well-documented so adopters can upgrade with confidence.

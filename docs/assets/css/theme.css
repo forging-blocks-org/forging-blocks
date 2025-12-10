@@ -1,14 +1,10 @@
-/* --- ForgingBlocks MkDocs Theme (Terminal-Like Badwolf + Gruvbox Orange Navbar) --- */
-
-/* Primary Navbar (orange, terminal-like text) */
 .md-header {
-  background-color: #d65d0e; /* Gruvbox orange */
+  background-color: #d65d0e;
   border-bottom: 1px solid #35322d;
-  --md-primary-fg-color: #c4b7a6; /* slightly darker beige text */
+  --md-primary-fg-color: #c4b7a6;
   --md-primary-bg-color: #d65d0e;
 }
 
-/* Title and nav links */
 .md-header,
 .md-header__inner,
 .md-header__title,
@@ -17,7 +13,7 @@
 .md-header__button.md-icon,
 .md-header__link,
 .md-nav__link--primary {
-  color: #d9cec3 !important; /* Badwolf brightgravel */
+  color: #d9cec3 !important;
   fill: #d9cec3 !important;
   font-weight: 500;
   text-transform: none;
@@ -93,6 +89,20 @@
   background-color: #1c1b1a;
 }
 
+.md-content h1, .md-content h2, .md-content h3, .md-content h4, .md-content h5, .md-content h6 {
+    margin: 0;
+}
+
+.md-content h1 {
+    color: #d65d0e;
+}
+
+
+.md-typeset {
+  color: #d9cec3;
+  background-color: #1c1b1a;
+}
+
 /* Code */
 .md-typeset pre code {
   color: #d9cec3;
@@ -101,7 +111,6 @@
   border: 1px solid #35322d;
 }
 
-/* Buttons */
 .md-button {
   background-color: #d65d0e;
   color: #f8f6f2;
@@ -113,13 +122,11 @@
   color: #f4cf86;
 }
 
-/* Footer */
 .md-footer {
   background-color: #1c1b1a;
   color: #998f84;
 }
 
-/* Links */
 a,
 .md-typeset a {
   color: #f4cf86;
@@ -130,7 +137,6 @@ a:hover,
   color: #ffa724;
 }
 
-/* Tables */
 .md-typeset table {
   background-color: #1c1b1a;
   border: 1px solid #35322d;
@@ -146,20 +152,17 @@ a:hover,
   color: #998f84;
 }
 
-/* Blockquotes */
 .md-typeset blockquote {
   border-left: 4px solid #c7915b;
   background-color: #242321;
   color: #d9cec3;
 }
 
-/* Horizontal rule */
 hr {
   border: 0;
   border-top: 1px solid #35322d;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -177,11 +180,10 @@ hr {
   background-color: #45413b;
 }
 
-/* --- FINAL FIX: force Badwolf terminal tone for navbar text --- */
 :root {
-  --md-primary-fg-color: #d9cec3 !important; /* beige text for header */
-  --md-primary-fg-color--light: #f4cf86 !important; /* hover accent */
-  --md-primary-fg-color--dark: #998f84 !important; /* muted contrast */
+  --md-primary-fg-color: #d9cec3 !important;
+  --md-primary-fg-color--light: #f4cf86 !important;
+  --md-primary-fg-color--dark: #998f84 !important;
 }
 
 .md-header,
@@ -206,7 +208,6 @@ hr {
   fill: var(--md-primary-fg-color--light) !important;
 }
 
-/* Keep active top nav link bold and visible */
 .md-tabs__link[aria-selected="true"],
 .md-tabs .md-tab--active {
   color: var(--md-primary-fg-color--light) !important;
@@ -215,21 +216,20 @@ hr {
 }
 
 
-/* --- FORCE Navbar Text Color (terminal beige) --- */
 .md-header .md-header__title,
 .md-header .md-header__topic,
 .md-header .md-tabs__link,
 .md-header a,
 .md-header__button,
 .md-header__button.md-icon {
-  color: #d9cec3 !important; /* Badwolf brightgravel */
+  color: #d9cec3 !important;
   color: #333 !important;
   fill: #d9cec3 !important;
 }
 
 .md-header a:hover,
 .md-header__button:hover {
-  color: #f4cf86 !important; /* dirtyblonde hover */
+  color: #f4cf86 !important;
   fill: #f4cf86 !important;
 }
 
@@ -241,25 +241,20 @@ hr {
   border-bottom: 2px solid #f4cf86 !important;
 }
 
-/* ===== TOP NAV TABS: readable, hover, and active ===== */
-
-/* Default state on the dark bar */
 .md-header + .md-tabs .md-tabs__link {
-  color: #d9cec3 !important;           /* Badwolf brightgravel */
+  color: #d9cec3 !important;
   font-weight: 500;
 }
 
-/* Active/current page: bold + visible underline */
 .md-header + .md-tabs .md-tabs__link[aria-selected="true"],
 .md-header + .md-tabs .md-tabs__link[aria-current="page"],
 .md-header + .md-tabs .md-tab--active .md-tabs__link,
 .md-header + .md-tabs .md-tabs__item--active > .md-tabs__link {
-  color: #f4cf86 !important;            /* dirtyblonde highlight */
+  color: #f4cf86 !important;
   font-weight: 700 !important;
-  box-shadow: inset 0 -2px 0 #f4cf86 !important; /* underline */
+  box-shadow: inset 0 -2px f4cf86 !important;
 }
 
-/* Ensure navbar title/links are not white */
 .md-header,
 .md-header__inner,
 .md-header__title,
@@ -270,14 +265,12 @@ hr {
   fill:  #d9cec3 !important;
 }
 
-/* Hover on items in orange header */
 .md-header a:hover,
 .md-header__button:hover {
   color: #f8f6f2 !important;
   fill:  #f8f6f2 !important;
 }
 
-/* Hover/focus: higher contrast + subtle bg */
 .md-header + .md-tabs .md-tabs__link:hover,
 .md-header + .md-tabs .md-tabs__link:focus,
 .md-tabs .md-tabs__link:hover {
@@ -285,3 +278,39 @@ hr {
   text-decoration: underline;
 }
 
+/* -------------------------------------------
+   Badwolf-style Admonitions (Abstract only)
+   ------------------------------------------- */
+.md-typeset .admonition.abstract,
+.md-typeset details.abstract {
+    border: 3px solid #d65d0e;
+    background-color: #1c1c1c;
+    color: #e4e4e4;
+    padding: 0.8em 1.2em;
+    border-radius: 6px;
+    margin: 0.2em;
+}
+
+/* Title bar */
+.md-typeset .admonition.abstract > .admonition-title,
+.md-typeset details.abstract > summary {
+    background-color: #262626;      /* Slightly lighter dark */
+    color: #d65d0e;                 /* Gold title */
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 0.4em 0.6em;
+    margin: -0.8em -1.2em 0.8em -1.2em;
+}
+
+/* Icon color */
+.md-typeset .admonition.abstract .admonition-title::before {
+    color: #d7af5f !important;      /* Gold icon */
+}
+
+/* Remove icon from abstract admonition titles */
+.md-typeset .admonition.abstract .admonition-title::before,
+.md-typeset details.abstract > summary::before {
+    content: none !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+}

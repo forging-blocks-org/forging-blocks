@@ -1,75 +1,77 @@
-# Architectural Principles 🧭
+# 🌱 Principles
 
-**ForgingBlocks** is grounded in timeless software design principles that make systems robust, adaptable, and maintainable.
-
----
-
-## 🧩 1. Separation of Concerns
-
-Each layer in the architecture has a distinct purpose:
-
-- **Foundation** — core abstractions, no dependencies.
-- **Domain** — pure business rules.
-- **Application** — orchestration and coordination logic.
-- **Infrastructure** — external integrations and persistence.
-- **Presentation** — entry points and delivery mechanisms.
-
-This separation avoids coupling between technical and business concerns.
+ForgingBlocks is designed around a small set of practical principles that help you write software that is easy to understand, change, and test — without prescribing a specific architecture or framework.
 
 ---
 
-## 🧱 2. Dependency Inversion Principle (DIP)
+## 1. Clarity Over Cleverness
 
-High-level modules (domain, application) define **interfaces (Ports)**.
+Code should communicate intent first.
 
-Low-level modules (infrastructure, presentation) implement those interfaces.
+- Names should describe *what* and *why*, not *how*.
+- Behavior should be discoverable from the types and contracts.
+- Error paths should be visible, not implicit.
 
-> “Depend on abstractions, not on concretions.” — Robert C. Martin
-
----
-
-## 🔄 3. Explicit Boundaries
-
-Every dependency is made explicit through **ports** or **contracts**.
-
-You always know what a layer depends on — there are no hidden side effects.
+ForgingBlocks favors explicit Results, well-named ports, and small abstractions over magical behavior.
 
 ---
 
-## 🧠 4. Immutability and Safety
+## 2. Boundaries as First-Class Concepts
 
-Entities and Value Objects are **immutable by default**, ensuring that business rules cannot be violated through uncontrolled mutations.
+Boundaries make large systems manageable.
 
----
+- A **Port** represents a communication boundary.
+- A use case object can depend on protocols instead of concrete implementations.
+- Domain concerns can remain independent from technical details.
 
-## ⚙️ 5. Composability
-
-Everything in ForgingBlocks can be combined like LEGO pieces:
-
-each class, protocol, and helper is small, explicit, and self-contained.
+Blocks (foundation, domain, application, infrastructure, presentation) are a vocabulary for thinking about these boundaries, not a mandatory structure.
 
 ---
 
-## 🧪 6. Testability
+## 3. Explicit Outcomes
 
-Because boundaries are explicit, layers can be **tested in isolation**.
+Silent failure and hidden control flow create fragility.
 
-Mocking or substituting ports becomes trivial.
+- `Result`, `Ok`, and `Err` make success and failure explicit.
+- Callers are nudged to handle both paths.
+- You can compose Results to build larger workflows.
 
----
-
-## 🏗️ 7. Framework Independence
-
-ForgingBlocks does not force you into a specific runtime or web framework.
-
-You can use it with **FastAPI**, **Django**, **Flask**, **Click**, or even plain scripts — the design remains consistent.
+This applies at any scale — from a function that parses input to a routine that coordinates multiple operations.
 
 ---
 
-## ✅ Summary
+## 4. Decoupling From Tools
 
-ForgingBlocks promotes **intentional design**:
+Frameworks, libraries, and infrastructure tend to change faster than core domain rules.
 
-- Each boundary is explicit.
-- Each dependency is visible.
-- Each decision is reversible.
+ForgingBlocks encourages keeping:
+
+- core behavior independent of frameworks, ORMs, HTTP stacks, queues, etc.
+- domain and application code defined in terms of ports and simple contracts.
+- infrastructure code as adapters that plug into those contracts.
+
+You remain free to choose (or change) the surrounding tools.
+
+---
+
+## 5. Small, Composable Abstractions
+
+Instead of large base classes or deep inheritance trees, ForgingBlocks prefers:
+
+- simple protocols
+- focused types
+- combinable Result and mapping helpers
+
+You can adopt individual pieces in isolation. There is no need to “buy into” the entire toolkit at once.
+
+---
+
+## 6. Teachable by Design
+
+The toolkit is intended to help teams learn and reason together.
+
+- Concepts have clear names.
+- Examples aim to be small and focused.
+- Blocks and boundaries are presented as options, not mandates.
+
+The goal is not to enforce a “correct” architecture, but to give you language and building blocks that support thoughtful design.

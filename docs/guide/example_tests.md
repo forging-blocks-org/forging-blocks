@@ -1,147 +1,134 @@
-# Example Tests 🧩
+# 🧪 Example Tests
 
-**For developers using ForgingBlocks** this guide shows *how* to write tests for each layer.
+This page contains a few self-contained test examples that show how ForgingBlocks can be used in practice. They are illustrative, not prescriptive — adapt them to your own testing style and framework.
 
-It complements the conceptual [Testing Strategy](testing.md) page.
+All examples use `pytest`, but you can translate them to `unittest` or any other tool.
 
-------------------------------------------------------------------------
+---
 
-## 🧱 Domain Example
+## 1. Testing Result Composition
 
-Your tests should be written against your domain models to verify their behavior.
+```python
+from forging_blocks.foundation import Result, Ok, Err
 
-Entity methods represents domain logic and should be testedin any possible scenario that may arise.
+def parse_int(value: str) -> Result[int, str]:
+    try:
+        return Ok(int(value))
+    except ValueError:
+        return Err(f"invalid integer: {value!r}")
 
-``` python
-from __future__ import annotations
+def reciprocal(value: int) -> Result[float, str]:
+    if value == 0:
+        return Err("division by zero")
+    return Ok(1 / value)
 
-from uuid import UUID
-
-from forging_blocks.domain import Entity
-
-class User(Entity[UUID]):
-    id: UUID
-    name: str
-
-    @classmethod
-    def register(cls, id: int, name: str) -> User:
-        return cls(id=id, name=name)
-
-class TestUser:
-    def test_register_when_called_2_times_same_names_but_different_id(self) -> None:
-        # Arrange
-        actual_name = "Alice"
-
-        # Act
-        created_user_a = User.register(name=actual_name)
-        created_user_b = User.register(name=actual_name)
-
-        # Assert
-        expected_name = actual_name
-        assert created_user_a.name == expected_name
-        assert created_user_b.name == expected_name
-        assert created_user_a.id != created_user_b.id
+def parse_reciprocal(raw: str) -> Result[float, str]:
+    first = parse_int(raw)
+    if isinstance(first, Err):
+        return first
+    return reciprocal(first.ok)
 ```
 
-------------------------------------------------------------------------
+Tests:
 
-## ⚙️ Application Example --- Use Case
+```python
+from forging_blocks.foundation import Ok, Err
+from your_module import parse_reciprocal
 
-``` python
+def test_parse_reciprocal_when_valid_number_then_returns_ok() -> None:
+    result = parse_reciprocal("4")
+    assert isinstance(result, Ok)
+    assert result.ok == 0.25
+
+def test_parse_reciprocal_when_invalid_number_then_returns_err() -> None:
+    result = parse_reciprocal("foo")
+    assert isinstance(result, Err)
+    assert "invalid integer" in result.err
+
+def test_parse_reciprocal_when_zero_then_returns_err() -> None:
+    result = parse_reciprocal("0")
+    assert isinstance(result, Err)
+    assert "division by zero" in result.err
+```
+
+---
+
+## 2. Testing a Simple Use Case
+
+```python
 from dataclasses import dataclass
+from forging_blocks.foundation import Result, Ok, Err
 
-from forging_blocks.application import UseCase
-from forging_blocks.foundation import Error, Ok, Err, Result
+@dataclass
+class CreateTaskInput:
+    title: str
 
-@dataclass(frozen=True)
-class DivideNumbersRequest:
-    dividend: int
-    divisor: int
+class TaskRepository:
+    def add(self, title: str) -> Result[int, str]:
+        ...
 
-@dataclass(frozen=True)
-class DivideNumbersResponse:
-    quotient: int
+class CreateTask:
+    def __init__(self, repo: TaskRepository) -> None:
+        self._repo = repo
 
-class DivideNumbersError(Error):
-    reason: str
-
-DivideNumbersResult = Result[DivideNumbersResponse, DivideNumbersError]
-
-class DivideNumbersUseCase(UseCase[DivideNumbersRequest, DivideNumbersResult]):
-    def execute(self, request: DivideNumbersRequest) -> DivideNumbersResult:
-        a, b = request.dividend, request.divisor
-        if b == 0:
-            return Err(DivideNumbersError("division by zero"))
-        return Ok(DivideNumbersResponse(a // b))
-
-class TestDivideNumbersUseCase:
-    def test_execute_when_divisor_is_zero_then_division_by_zero_error(self) -> None:
-        dividend = 10
-        divisor = 0
-        request = DivideNumbersRequest(dividend, divisor)
-        use_case = DivideNumbersUseCase()
-
-        result = use_case.execute(request)
-
-        expected_reason = "division by zero"
-        expected_is_err = True
-        assert result.is_err() == expected_is_err
-        assert result.error.reason == expected_reason
-
-    def test_execute_when_dividend_is_10_and_divisor_is_5_then_2(self) -> None:
-        dividend = 10
-        divisor = 5
-        request = DivideNumbersRequest(dividend, divisor)
-        use_case = DivideNumbersUseCase()
-
-        result = use_case.execute(request)
-
-        expected_quotient = 2
-        assert result.is_ok()
-        assert result.value.quotient == expected_quotient
+    def execute(self, data: CreateTaskInput) -> Result[int, str]:
+        if not data.title.strip():
+            return Err("title required")
+        return self._repo.add(data.title)
 ```
 
-------------------------------------------------------------------------
+A fake repository for tests:
 
-## 🧩 Infrastructure Example --- Repository Adapter
+```python
+class InMemoryTaskRepository:
+    def __init__(self) -> None:
+        self.tasks: dict[int, str] = {}
+        self._next_id = 1
+        self.should_fail: bool = False
 
-``` python
-from forging_blocks.application import Repository
-from forging_blocks.domain import Entity
-
-class User(Entity):
-    id: int
-    name: str
-
-class InMemoryUserRepository(Repository[User]):
-    def __init__(self, data: dict[int, User]) -> None:
-        self._data = data
-
-    async def delete_by_id(self, user_id: int) -> None:
-        self._data.pop(user_id, None)
-
-    async def get_by_id(self, user_id: int) -> User | None:
-        return self._data.get(user_id)
-
-    async def list_all(self) -> list[User]:
-        return list(self._data.values())
-
-    async def save(self, user: User) -> None:
-        self._data[user.id] = user
-
-class TestInMemoryUserRepository:
-    async def test_save_when_user_is_added_then_persist_data_source(self) -> None:
-        data = {}
-        user = User(id=1, name="Alice")
-        repo = InMemoryUserRepository(data)
-
-        await repo.save(user)
-
-        persisted_user = data.get(1)
-        assert retrieved_user == user
+    def add(self, title: str):
+        if self.should_fail:
+            return Err("database down")
+        task_id = self._next_id
+        self._next_id += 1
+        self.tasks[task_id] = title
+        return Ok(task_id)
 ```
 
-------------------------------------------------------------------------
+Tests:
 
-> Continue exploring the [Testing Strategy](../guide/testing.md) page for the
-> underlying principles behind these examples.
+```python
+from forging_blocks.foundation import Ok, Err
+from your_module import CreateTask, CreateTaskInput, InMemoryTaskRepository
+
+def test_create_task_when_valid_title_then_persists_and_returns_id() -> None:
+    repo = InMemoryTaskRepository()
+    use_case = CreateTask(repo)
+
+    result = use_case.execute(CreateTaskInput(title="Write docs"))
+
+    assert isinstance(result, Ok)
+    assert result.ok in repo.tasks
+    assert repo.tasks[result.ok] == "Write docs"
+
+def test_create_task_when_missing_title_then_returns_err() -> None:
+    repo = InMemoryTaskRepository()
+    use_case = CreateTask(repo)
+
+    result = use_case.execute(CreateTaskInput(title="  "))
+
+    assert isinstance(result, Err)
+    assert "title required" in result.err
+
+def test_create_task_when_repo_fails_then_propagates_err() -> None:
+    repo = InMemoryTaskRepository()
+    repo.should_fail = True
+    use_case = CreateTask(repo)
+
+    result = use_case.execute(CreateTaskInput(title="Write tests"))
+
+    assert isinstance(result, Err)
+    assert "database down" in result.err
+```
+
+These examples show how ForgingBlocks can fit into ordinary testing practices without requiring a specific structure.

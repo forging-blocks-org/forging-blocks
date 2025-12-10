@@ -1,84 +1,130 @@
-# Getting Started 🚀
+# 🚀 Getting Started
 
-Welcome to **ForgingBlocks** — a toolkit to help you write clean, testable, and maintainable Python code.
+This guide walks you through installing **ForgingBlocks** and using a few of its core building blocks in a small, self-contained example.
+
+ForgingBlocks is a **toolkit**, not a framework. You can adopt as little or as much as you like.
 
 ---
 
-## 📦 Installation
+## 1. Install the Toolkit
 
-You can install it via Poetry
+You can install it with **Poetry**, **pip**, or **uv**:
 
 ```bash
 poetry add forging-blocks
-```
-
-Using pip
-
-```bash
-
+# or
 pip install forging-blocks
+# or
+uv add forging-blocks
 ```
 
-Using UV
-
-```bash
-uv install forging-blocks
-```
-
-or any tool that supports PyPI packages.
+ForgingBlocks supports **Python 3.12+** and depends only on the standard library.
 
 ---
 
-## 🧩 Quick Example
+## 2. Your First Result
+
+The `Result` type helps you make success and failure explicit.
 
 ```python
 from forging_blocks.foundation import Result, Ok, Err
 
-def divide(a: int, b: int) -> Result[int, str]:
-    if b == 0:
-        return Err("division by zero")
-    return Ok(a // b)
+def parse_int(value: str) -> Result[int, str]:
+    try:
+        return Ok(int(value))
+    except ValueError:
+        return Err(f"Invalid integer: {value!r}")
+```
 
-result = divide(10, 2)
-if result.is_ok():
-    print(result.value)  # → 5
+You can then handle outcomes clearly:
+
+```python
+result = parse_int("42")
+
+match result:
+    case Ok(value):
+        print(f"Parsed value: {value}")
+    case Err(error):
+        print(f"Could not parse: {error}")
 ```
 
 ---
 
-## 🧠 Why Use ForgingBlocks?
+## 3. Defining a Port
 
-Most Python codebases grow messy because boundaries are not explicit.
+A **Port** defines a boundary — for example, between an application rule and an external system.
 
-**ForgingBlocks** provides abstractions that make intent and responsibility clear and help you to write decoupled applications.
+```python
+from typing import Protocol
+from forging_blocks.foundation import Result, Ok, Err
 
-You can use it to:
+class UserNotifier(Protocol):
+    def send_welcome(self, email: str) -> Result[None, str]:
+        ...
+```
 
-* Improve code organization
-* Enhance testability
-* Facilitate maintenance and evolution
-* Teach architecture principles
-* Structure new projects with clear layers
-* Build layered systems (Clean, Hexagonal, DDD, CQRS, etc.)
-* Experiment with architecture concepts safely
-* Learn decoupling, ports/adapters, and type-safe composition
+A simple implementation:
 
----
+```python
+class ConsoleNotifier:
+    def send_welcome(self, email: str) -> Result[None, str]:
+        print(f"[welcome] Sent to: {email}")
+        return Ok(None)
+```
 
-## 🧱 The Core Components
-
-| Component | Role |
-|--------|----------|
-| **Foundation** | Core utilities (`Result`, `Port`, `Mapper`) that compose the layers below. It is not an architectural layer. |
-| **Domain** | The heart of the system; contains the business rules and domain models (`AggregateRoot`, `Entity`, `ValueObject`). |
-| **Application** | Defines the use cases ports (e.g., `CreateUser`, `ProcessOrder`), implement them and orchestrates domain logic. |
-| **Infrastructure** | *Adapters* for external concerns (Databases, APIs, Emailing, File Systems). |
-| **Presentation** | The *entry points* to your system (REST API endpoints, CLI commands, Message Queue listeners). |
+Nothing here depends on frameworks or infrastructure.
 
 ---
 
-## 🧭 Next Steps
+## 4. A Small Use Case
 
-- Read the [Architecture Guide](architecture.md)
-- Explore [Packages & Layers](packages_and_layers.md)
-- Check the [Reference](../reference/index.md)
+You can structure simple use cases with clear inputs, outputs, and boundaries:
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class RegisterUserInput:
+    email: str
+
+class RegisterUser:
+    def __init__(self, notifier: UserNotifier) -> None:
+        self._notifier = notifier
+
+    def execute(self, data: RegisterUserInput) -> Result[None, str]:
+        if "@" not in data.email:
+            return Err("invalid email")
+
+        # In a real system, you might persist the user here.
+        return self._notifier.send_welcome(data.email)
+```
+
+Usage:
+
+```python
+use_case = RegisterUser(ConsoleNotifier())
+result = use_case.execute(RegisterUserInput(email="user@example.com"))
+
+if isinstance(result, Ok):
+    print("User registered.")
+else:
+    print(f"Error: {result.err}")
+```
+
+This small example already demonstrates:
+
+- explicit success/failure
+- clear boundaries
+- decoupled behavior
+
+---
+
+## 5. Next Steps
+
+From here, you can:
+
+- Explore the [Organizational Blocks](recommended_blocks_structure.md).
+- Learn more about the [core principles](principles.md).
+- Look at [testing examples](example_tests.md).
+
+ForgingBlocks stays out of your way — you decide how much structure you want to introduce.

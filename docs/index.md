@@ -1,71 +1,28 @@
 # 🧩 ForgingBlocks
 
-Composable **abstractions and interfaces** for writing clean, testable, and maintainable Python systems.
+**ForgingBlocks** provides a set of small, composable **foundational contracts** that help you design software with **clarity**, **intent**, and **expressiveness**.
 
-> Not a framework — a **toolkit** for forging your own architectural blocks.
+It doesn’t enforce any framework, library, or architectural approach.
 
----
+Instead, it gives you a **vocabulary** and **building blocks** for structuring ideas in a way that fits your project and your style.
 
-## 🌱 What Is ForgingBlocks?
-
-ForgingBlocks provides **foundations** — small, composable contracts that help you design software with **clarity**, **intent**, and **resilience**.
-
-It doesn’t enforce a specific framework or runtime.
-Instead, it gives you the *language* to express architectural ideas such as:
-
-- Clean Architecture  
-- Hexagonal / Ports & Adapters  
-- Domain-Driven Design (DDD)  
-- CQRS and Event-Driven Systems  
-
-You decide the style.  
-ForgingBlocks ensures the structure stays clear and consistent.
-
----
-
-## 🧠 Core Concepts
-
-| Concept | Purpose |
-|----------|----------|
-| **Result / Ok / Err** | Represent success or failure explicitly |
-| **Port / Inbound / Outbound** | Define clear communication boundaries |
-| **Entity / ValueObject / AggregateRoot** | Model domain consistency and behavior |
-| **Event / EventBus / CommandHandler** | Express orchestration through messaging |
-| **Repository / UnitOfWork** | Abstract persistence and coordination |
-
----
-
-## 🏗️ Architectural Layers
-
-```mermaid
-graph TD
-    A[Presentation Layer] -->|Invokes| B[Application Layer]
-    B -->|Uses| C[Domain Layer]
-    C -->|Depends on| D[Foundation Layer]
-    B -->|Delegates to| E[Infrastructure Layer]
-    style A fill:#2a2a2a,stroke:#555,color:#fff
-    style B fill:#333,stroke:#555,color:#fff
-    style C fill:#444,stroke:#555,color:#fff
-    style D fill:#555,stroke:#777,color:#fff
-    style E fill:#222,stroke:#666,color:#fff
-```
-
-Each layer is a **boundary of responsibility**.  
-The toolkit’s abstractions ensure dependencies flow inward — never outward.
+ForgingBlocks relies only on standard features available in **Python 3.12+** (such as Protocols, Generics, and Type Hints), keeping it lightweight and broadly compatible.
 
 ---
 
 ## 🚀 Getting Started
 
-Install using Poetry or pip:
+Install using Poetry, pip or UV:
 
 ```bash
 poetry add forging-blocks
 # or
 pip install forging-blocks
+# or
+uv add forging-blocks
 ```
 
-Quick example:
+**Quick example**:
 
 ```python
 from forging_blocks.foundation import Result, Ok, Err
@@ -76,6 +33,66 @@ def divide(a: int, b: int) -> Result[int, str]:
     return Ok(a // b)
 ```
 
+## 🛠️ How can ForgingBlocks help me?
+
+ForgingBlocks helps you keep your project’s structure **clear, intentional, and easy to reason about**.
+
+It offers small, composable **abstractions and interfaces** that support writing clean, testable, and maintainable **Python** code — without tying you to any framework, architecture, or library.
+
+> Not a framework and not an architecture — a **toolkit** you use to forge your own blocks of organization and behavior.
+
+ForgingBlocks does not prescribe how your system must be structured.
+Instead, it works alongside whatever style you prefer and can assist with ideas such as:
+
+- Making success and failure **explicit**.
+- Creating **clear boundaries** between parts of your system.
+- Modeling concepts in ways that express **intent and behavior**.
+- Keeping your core logic **independent of technical details**.
+
+You remain in control.
+
+You set the guidelines and conventions that fit your project.
+
+ForgingBlocks simply provides **building blocks** that help you learn, evolve, and write **clean, testable, decoupled, and high-quality** code — fully independent from frameworks or architectural rules.
+
+---
+
+## 🧠 Core Concepts
+
+| Concept | Purpose |
+|----------|----------|
+| **Result / Ok / Err** | Represents success or failure explicitly. |
+| **Mapper / ResultMapper** | Represents a type to map the return into another type. |
+| **Debuggable** | Protocol (interface) to force **consistency in how an object's internal state is represented for debugging and logging purposes.**
+| **Port / InboundPort / OutboundPort** | Define clear communication boundaries. |
+
+---
+
+## 🏗️ Organizational Blocks
+
+Each block represents a **boundary of responsibility**.
+
+ForgingBlocks provides small abstractions that help you keep these boundaries intentional and easy to understand.
+
+- The **Foundation** block offers the core building blocks reused throughout the system.
+- The **Domain** block defines the concepts and rules that model your problem space.
+- The **Application** block expresses use cases and coordinates domain behavior.
+- The **Infrastructure** block supplies adapters to external systems.
+- The **Presentation** block handles incoming interactions with your application.
+
+!!! abstract "Block vs Layer"
+    In ForgingBlocks, the term *block* is intentionally architecture-neutral.
+
+    You may interpret a block as a *layer* if that mental model helps, but this toolkit does not require or enforce any architectural style.
+
+---
+
+## 🧭 Why It Matters
+
+Many systems become difficult to evolve not because of missing features, but due to **coupling**, **implicit assumptions**, and **unclear responsibilities**.
+
+ForgingBlocks helps you shape software that is **clear**, **testable**, and **maintainable** by encouraging intentional structure — block by block.
+
 ---
 
 ## 📚 Learn More
@@ -85,12 +102,3 @@ def divide(a: int, b: int) -> Result[int, str]:
 - [Packages & Layers](guide/packages_and_layers.md)
 - [Reference Index](reference/index.md)
 - [Release Guide](guide/release_guide.md)
-
----
-
-## 🧭 Why It Matters
-
-Most systems fail not because of missing features, but due to **tight coupling** and **unclear boundaries**.
-
-ForgingBlocks helps you forge software that **teaches architecture by design** —  
-**clear**, **testable**, and **maintainable**, block by block.
