@@ -45,27 +45,29 @@ class Result(Generic[ResultType, ErrorType], Protocol):
 
     @property
     def is_ok(self) -> bool:
-        """Guard method to check if that Result if an ok."""
+        """Guard method to check if that Result is an ok."""
         ...
 
     @property
     def is_err(self) -> bool:
-        """Guard method to check if that Result if an err."""
+        """Guard method to check if that Result is an err."""
         ...
 
     @property
     def value(self) -> ResultType | None:
-        """Method to return the actual value."""
+        """Method to return the actual value. May raise an error if Result is an Err."""
         ...
 
     @property
     def error(self) -> ErrorType | None:
-        """Method to return the actual error."""
+        """Method to return the actual error. May raise an error if Result is an Ok."""
         ...
 
 
 class Ok(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
     """Represents a successful result."""
+
+    __match_args__ = ("_value",)
 
     def __init__(self, value: ResultType) -> None:
         self._value = value
@@ -109,6 +111,8 @@ class Ok(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
 
 class Err(Result[ResultType, ErrorType], Generic[ResultType, ErrorType]):
     """Represents an error result."""
+
+    __match_args__ = ("_error",)
 
     def __init__(self, error: ErrorType) -> None:
         self._error = error
