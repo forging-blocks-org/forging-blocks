@@ -2,6 +2,9 @@
 .mermaid {
     background-color: #1c1b1a !important;
     padding: 1rem;
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
 }
 
 /* Nodes */
@@ -66,10 +69,4 @@
 .mermaid g:hover path {
     stroke: #83a598 !important;
     cursor: pointer;
-}
-
-.mermaid {
-  display: flex;
-  justify-content: center;
-  margin: 2rem 0;
 }
