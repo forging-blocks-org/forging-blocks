@@ -66,6 +66,7 @@ nav:
   - Contributing:
       - Contribution Guide: CONTRIBUTING.md
       - Docs Conventions: contributing/docs_conventions.md
+      - Release Guide: RELEASE_GUIDE.md
 
   - License: LICENSE.md
 
