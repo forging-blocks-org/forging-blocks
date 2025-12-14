@@ -1,14 +1,10 @@
 site_name: ForgingBlocks
 site_description: A composable architecture toolkit for clean, testable, and maintainable Python applications.
 site_author: Glauber Brennon
-site_url: https://forging-blocks-org.github.io/forging-blocks/
+site_url: https://forging-blocks-org.github.io
 repo_url: https://github.com/forging-blocks-org/forging-blocks
 repo_name: forging-blocks-org/forging-blocks
 edit_uri: edit/main/docs/
-
-extra:
-  version:
-    provider: mike
 
 extra_css:
   - assets/css/theme.css
@@ -19,19 +15,38 @@ markdown_extensions:
   - attr_list
   - def_list
   - footnotes
+  - nl2br
   - toc:
       permalink: true
+  - pymdownx.snippets:
+      base_path: .
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
 
 nav:
   - Home: index.md
+
   - Guide:
-      - Overview: guide/index.md
+      - Introduction: guide/index.md
       - Getting Started: guide/getting-started.md
-      - Architecture: guide/architecture.md
-      - Packages & Layers: guide/packages_and_layers.md
-      - Principles: guide/principles.md
-      - Testing Strategy: guide/testing.md
+
+      - Testing: guide/testing.md
       - Example Tests: guide/example_tests.md
+      - Examples: guide/examples.md
+
+      - Principles: guide/principles.md
+      - Recommended Blocks Structure: guide/recommended_blocks_structure.md
+
+      - Release Guide: guide/release_guide.md
+
   - Reference:
       - Overview: reference/index.md
       - Foundation: reference/foundation.md
@@ -39,8 +54,20 @@ nav:
       - Application: reference/application.md
       - Infrastructure: reference/infrastructure.md
       - Presentation: reference/presentation.md
+
+  - Architectural Styles:
+      - Overview: architectural-styles/index.md
+      - Clean Architecture: architectural-styles/clean-architecture.md
+      - Hexagonal Architecture: architectural-styles/hexagonal-architecture.md
+      - Layered Architecture: architectural-styles/layered-architecture.md
+      - CQRS: architectural-styles/cqrs.md
+      - Event-Driven: architectural-styles/event-driven.md
+
+  - Contributing:
+      - Contribution Guide: CONTRIBUTING.md
+      - Docs Conventions: contributing/docs_conventions.md
+
   - License: LICENSE.md
-  - Contributing: CONTRIBUTING.md
 
 theme:
   name: material
@@ -61,22 +88,22 @@ theme:
     - content.tabs.link
 
 plugins:
+  - search
   - autorefs
-  - mermaid2:
-      javascript: https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
-  - mike
+  - section-index
+
+#  - mermaid2:
+#      javascript: https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
+
   - mkdocstrings:
       handlers:
         python:
           paths: [src]
           options:
             docstring_style: google
-            extra:
-              warnings_as_errors: false
             members_order: source
             show_source: true
             show_root_heading: true
             show_root_full_path: false
             show_signature_annotations: true
-  - search
-  - section-index
+            warnings_as_errors: false
