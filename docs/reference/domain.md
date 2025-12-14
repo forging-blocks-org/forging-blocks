@@ -1,181 +1,245 @@
+# Domain
+## Reference
 
-# 🧩 Domain Layer
+The **Domain** block represents the **problem space** your system is concerned with.
 
-The **Domain Layer** defines your system’s *core meaning* — its rules, invariants, identity model, and ubiquitous language.
-In ForgingBlocks, the domain is intentionally **pure**, **framework‑agnostic**, and **behavior‑centric**.
+It contains the concepts, rules, and constraints that give meaning to your software,
+independent of frameworks, databases, delivery mechanisms, or deployment concerns.
 
-It models **what the system *is***, not *how* it interacts with databases, APIs, or frameworks.
-
----
-
-## 🧠 Purpose
-
-The domain layer expresses:
-
-- **Entities** — identity-based concepts
-- **Value Objects** — immutable concepts defined by value
-- **Aggregate Roots** — consistency boundaries with event recording
-- **Domain Messages** — Commands, Events, Queries
-- **Domain Errors** — guards for invariants and misuse
-
-Everything here is **side‑effect free** and **does not depend** on infrastructure, presentation, or application layers.
+The goal of the Domain block is **clarity of intent**, not architectural purity.
 
 ---
 
-## 📁 Directory Structure
+## Purpose of the Domain block
 
-```
-domain/
-├── entity.py
-├── value_object.py
-├── aggregate_root.py
-├── errors/
-│   ├── entity_id_none_error.py
-│   └── draft_entity_is_not_hashable_error.py
-└── messages/
-    ├── message.py
-    ├── command.py
-    ├── event.py
-    └── query.py
-```
+The Domain block exists to:
+
+- Express problem-space concepts explicitly
+- Encode rules and constraints close to the data they govern
+- Make invalid states explicit
+- Remain stable as external concerns change
+
+The Domain block depends only on **Foundation** and must not depend on Application, Infrastructure, or Presentation.
 
 ---
 
-# 🧩 Core Building Blocks
-
-## 🪪 1. Entities
-
-Entities are defined by **identity**, not attributes.
-
-- Once set, identity is **immutable**
-- Draft entities (`id=None`) are **not hashable**
-- Equality is based on the entity’s ID
-
-Example:
-
-```python
-class User(Entity[UUID]):
-    def __init__(self, user_id: UUID, email: Email):
-        super().__init__(user_id)
-        self._email = email
-```
-
-Behind the scenes, the `Entity` implementation enforces:
-
-- freezing of `_id`
-- defensive equality
-- draft protection
+!!! note "On architectural neutrality"
+    ForgingBlocks does not require you to follow a specific architectural style.
+    The Domain block can be used in layered, hexagonal, clean, or ad-hoc architectures.
+    The abstractions provided here are optional tools, not mandatory patterns.
 
 ---
 
-## 🧱 2. Value Objects
+## Core domain abstractions
 
-A Value Object:
+The Domain block provides **core abstractions** that help model meaning without relying on language primitives alone.
 
-- is **immutable after initialization**
-- is compared by **value**
-- is hashable (based on its equality components)
-
-Example:
-
-```python
-class Email(ValueObject[str]):
-    def __init__(self, value: str):
-        super().__init__()
-        if "@" not in value:
-            raise ValueError("Invalid email")
-        self._value = value
-        self._freeze()
-
-    @property
-    def value(self): return self._value
-    def _equality_components(self): return (self._value,)
-```
+These abstractions exist to make intent explicit, behavior testable, and rules discoverable.
 
 ---
 
-## 🏛️ 3. Aggregate Roots
+## Entities
 
-Aggregates enforce consistency and record events.
+An **Entity** represents a concept whose **identity** matters over time.
 
-Key features:
+Characteristics:
 
-- maintain an `AggregateVersion` for optimistic locking
-- record events through `record_event`
-- expose events through `collect_events()`, which also increments the version
+- Identity-based equality
+- Explicit lifecycle
+- Mutable state governed by rules
 
-Example:
-
-```python
-class Order(AggregateRoot[UUID]):
-    def add_item(self, item: OrderItem):
-        self._items.append(item)
-        self.record_event(OrderItemAdded(...))
-```
+Entities are appropriate when it is important to distinguish *which* instance is being referred to, even if its attributes change.
 
 ---
 
-## ✉️ 4. Domain Messages
-
-Messages are immutable value objects used to express:
-
-- **Commands** — intent to change state
-- **Events** — facts about what happened
-- **Queries** — requests for information
-
-All messages:
-
-- inherit from `Message`
-- include automatic `MessageMetadata`
-- define a `_payload` part describing domain information
-
-Example Event:
-
-```python
-class OrderCreated(Event):
-    @property
-    def _payload(self):
-        return {"order_id": self._order_id}
-```
+!!! note "Influence: Eric Evans"
+    The focus on identity as a defining characteristic is inspired by *Domain-Driven Design* by Eric Evans.
+    ForgingBlocks adopts this idea without requiring a full DDD tactical model.
 
 ---
 
-## ⚠️ 5. Domain Errors
+## Value Objects
 
-The domain protects its invariants using explicit domain‑level errors:
+A **Value Object** represents an immutable concept defined entirely by its values.
 
-- `EntityIdNoneError` — ID must never be None for persisted entities
-- `DraftEntityIsNotHashableError` — prevents hashing unpersisted entities
+Characteristics:
 
-These errors ensure correctness inside the domain boundary.
+- Immutable
+- Equality by value
+- Hashable
+- No independent identity
 
----
-
-# 🔗 Cross‑Layer Interaction
-
-```
-Application → Domain
-Domain ↛ Application
-Domain ↛ Infrastructure
-```
-
-The domain layer is the **center** — everything points *toward* it, but it points to nothing outside itself.
+Value Objects are well-suited for modeling concepts such as identifiers, measurements, or descriptive values where identity is not meaningful.
 
 ---
 
-# 📝 Summary
-
-| Concept | Responsibility |
-|--------|----------------|
-| **Entity** | Identity + behavior |
-| **Value Object** | Immutable domain concept |
-| **AggregateRoot** | Boundary + event recording + versioning |
-| **Command** | Intent |
-| **Event** | Fact |
-| **Query** | Retrieval request |
-| **Errors** | Enforce invariants |
+!!! note "Avoiding Primitive Obsession"
+    Value Objects help prevent domain rules from being scattered across the codebase.
+    By wrapping meaning in explicit types, constraints become visible, reusable, and testable.
 
 ---
 
-Forge your domain with clarity, purity, and intention.
-This layer is the *truth* of your system.
+## Aggregate Roots
+
+An **Aggregate Root** defines a **consistency boundary**.
+
+It acts as the authoritative entry point for modifying related state and enforcing rules that span multiple objects.
+
+Typical responsibilities include:
+
+- Protecting invariants
+- Coordinating state changes
+- Recording domain-relevant occurrences
+
+---
+
+!!! note "Influence: Vaughn Vernon"
+    The emphasis on consistency boundaries and controlled mutation is inspired by the work of Vaughn Vernon.
+    ForgingBlocks provides aggregates when boundaries matter, without requiring their use everywhere.
+
+---
+
+## Domain Messages
+
+The Domain block defines **Domain Messages** as first-class concepts.
+
+Domain Messages express *what can be said* in the problem space, independent of how messages are transported, stored, or handled.
+
+All domain messages are immutable and meaningful without infrastructure.
+
+---
+
+### Message
+
+A **Message** is the base abstraction for all domain messages.
+
+It encapsulates:
+
+- An immutable domain payload
+- Message metadata such as identity, timestamps, or correlation information
+
+Metadata is intentionally separated from domain data to avoid leaking technical concerns into domain logic.
+
+---
+
+### Command
+
+A **Command** represents an **intent to perform an action**.
+
+Characteristics:
+
+- Imperative meaning
+- Expresses a request to change state
+- May be accepted or rejected
+
+Commands model *what someone wants to do* in the domain.
+
+---
+
+### Event
+
+An **Event** represents a **fact that has already occurred**.
+
+Characteristics:
+
+- Expressed in the past tense
+- Immutable and irreversible
+- Records something that happened
+
+Events model *what is known to be true* after a state transition.
+
+---
+
+### Query
+
+A **Query** represents an **intent to retrieve information**.
+
+Characteristics:
+
+- Does not modify domain state
+- Expresses interest, not behavior
+- Side-effect free
+
+Queries model *what someone wants to know* about the domain.
+
+---
+
+!!! note "Influence: CQRS literature"
+    The distinction between Commands, Events, and Queries is inspired by CQRS concepts described by multiple authors, including Greg Young and Vaughn Vernon.
+    ForgingBlocks treats these as semantic roles, not architectural mandates.
+
+---
+
+## Domain Errors
+
+The Domain block defines **Domain Errors** to represent invalid states or rule violations within the problem space.
+
+Domain Errors:
+
+- Express domain meaning
+- Indicate invariant violations
+- Are not technical failures
+
+They make incorrect states explicit and testable.
+
+---
+
+!!! note "On error semantics"
+    Domain Errors describe *why* something is invalid in domain terms.
+    They should not encode transport, persistence, or framework concerns.
+
+---
+
+## What the Domain block does not do
+
+The Domain block does **not**:
+
+- Orchestrate workflows or use cases
+- Perform I/O or persistence
+- Depend on frameworks or external systems
+- Handle transport or presentation concerns
+
+Those responsibilities belong to outer blocks.
+
+---
+
+!!! note "Influence: Robert C. Martin"
+    The separation between domain policy and external details reflects principles described by Robert C. Martin.
+    The Domain block is intended to be the most stable part of the system.
+
+---
+
+## Summary
+
+The Domain block provides **clear, explicit abstractions** for modeling meaning in the problem space.
+
+You may use all of these abstractions, some of them, or none at all.
+Their purpose is to support clarity and correctness—not to enforce a methodology.
+
+---
+
+## Glossary
+
+!!! note "Entity"
+    A domain concept with a stable identity that persists over time, even as its attributes change.
+
+!!! note "Value Object"
+    An immutable domain concept defined entirely by its values, without independent identity.
+
+!!! note "Aggregate Root"
+    A domain concept that defines a consistency boundary and controls access to related state.
+
+!!! note "Domain Message"
+    An immutable object that expresses intent, facts, or questions within the problem space, independent of transport or handling.
+
+!!! note "Command"
+    A domain message that represents an intent to perform an action.
+
+!!! note "Event"
+    A domain message that represents a fact that has already occurred.
+
+!!! note "Query"
+    A domain message that represents an intent to retrieve information without modifying domain state.
+
+!!! note "Domain Error"
+    An explicit representation of an invalid domain state or rule violation, expressed in domain terms rather than technical terms.

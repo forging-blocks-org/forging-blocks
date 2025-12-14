@@ -1,146 +1,152 @@
-# ✅ Testing With ForgingBlocks
+# Testing
+## How ForgingBlocks supports testable designs
 
-ForgingBlocks is designed to make testing straightforward by encouraging clear boundaries and explicit outcomes. This guide focuses on how to test code that *uses* ForgingBlocks, not on any particular testing framework.
+ForgingBlocks encourages designs where behavior and outcomes are explicit.
+This makes your code easier to test without relying on internal details.
 
-You can use `pytest`, the standard library’s `unittest`, or any other testing tool.
+This guide focuses on **what to test and why**, not on any specific testing framework.
+You can use `pytest`, `unittest`, or any other tool you prefer.
 
 ---
 
-## 1. Testing Functions That Return Result
+## 1. Testing pure functions
 
-A simple function using `Result`:
+Pure functions are the easiest place to start.
+When a function returns a `Result`, success and failure are part of the contract.
 
 ```python
 from forging_blocks.foundation import Result, Ok, Err
 
-def divide(a: int, b: int) -> Result[int, str]:
-    if b == 0:
-        return Err("division by zero")
-    return Ok(a // b)
+
+def is_even(value: int) -> Result[bool, str]:
+    if value < 0:
+        return Err("negative value")
+    return Ok(value % 2 == 0)
 ```
 
-A couple of tests with `pytest`:
+### Example tests
+
+Tests should focus on **intent first**, not on how the `Result` is represented.
 
 ```python
-from forging_blocks.foundation import Ok, Err
-from your_module import divide
+from your_module import is_even
 
-def test_divide_when_valid_input_then_returns_ok() -> None:
-    result = divide(6, 3)
-    assert isinstance(result, Ok)
-    assert result.ok == 2
 
-def test_divide_when_division_by_zero_then_returns_err() -> None:
-    result = divide(1, 0)
-    assert isinstance(result, Err)
-    assert "division by zero" in result.err
+def test_is_even_when_value_is_even_then_succeeds() -> None:
+    result = is_even(4)
+
+    assert result.is_ok
+
+
+def test_is_even_when_value_is_odd_then_succeeds() -> None:
+    result = is_even(3)
+
+    assert result.is_ok
+
+
+def test_is_even_when_value_is_negative_then_fails() -> None:
+    result = is_even(-1)
+
+    assert result.is_err
 ```
 
-The key idea: **you assert on explicit outcomes**, not on thrown exceptions or side effects.
+Only inspect returned values when they matter to the test’s intent:
+
+```python
+from forging_blocks.foundation import Ok
+
+
+def test_is_even_returns_false_for_odd_numbers() -> None:
+    result = is_even(3)
+
+    assert result.is_ok
+
+    match result:
+        case Ok(value):
+            assert value is False
+```
 
 ---
 
-## 2. Testing Code That Depends on a Port
+## 2. Testing code that depends on a Port (using fakes)
 
-Given a port:
+When code depends on a **Port**, you can replace that dependency in tests.
+This lets you verify behavior without involving infrastructure.
 
 ```python
-from typing import Protocol
-from forging_blocks.foundation import Result
+from forging_blocks.foundation import Result, Port
 
-class Notifier(Protocol):
-    def send(self, message: str) -> Result[None, str]:
+
+class IdGenerator(Port):
+    def generate(self) -> Result[str, str]:
         ...
 ```
 
-And a use case:
+Business logic:
 
 ```python
-from dataclasses import dataclass
+def create_user_id(generator: IdGenerator) -> Result[str, str]:
+    return generator.generate()
+```
+
+A simple fake implementation:
+
+```python
 from forging_blocks.foundation import Result, Ok, Err
 
-@dataclass
-class SendWelcomeInput:
-    email: str
 
-class SendWelcome:
-    def __init__(self, notifier: Notifier) -> None:
-        self._notifier = notifier
+class FakeIdGenerator:
+    def __init__(self, ids: list[str]) -> None:
+        self._ids = ids
 
-    def execute(self, data: SendWelcomeInput) -> Result[None, str]:
-        if "@" not in data.email:
-            return Err("invalid email")
-
-        return self._notifier.send(f"Welcome, {data.email}!")
+    def generate(self) -> Result[str, str]:
+        if not self._ids:
+            return Err("no more ids")
+        return Ok(self._ids.pop(0))
 ```
 
-You can test behavior by supplying a fake implementation:
+### Example tests
 
 ```python
-from forging_blocks.foundation import Ok, Err
-from your_module import SendWelcome, SendWelcomeInput
+from your_module import create_user_id, FakeIdGenerator
 
-class FakeNotifier:
-    def __init__(self) -> None:
-        self.messages: list[str] = []
-        self.should_fail: bool = False
 
-    def send(self, message: str):
-        if self.should_fail:
-            return Err("send failed")
-        self.messages.append(message)
-        return Ok(None)
+def test_create_user_id_when_id_is_available_then_succeeds() -> None:
+    generator = FakeIdGenerator(["id-1"])
 
-def test_send_welcome_when_valid_email_then_sends_message() -> None:
-    notifier = FakeNotifier()
-    use_case = SendWelcome(notifier)
+    result = create_user_id(generator)
 
-    result = use_case.execute(SendWelcomeInput(email="user@example.com"))
+    assert result.is_ok
 
-    assert isinstance(result, Ok)
-    assert notifier.messages == ["Welcome, user@example.com!"]
 
-def test_send_welcome_when_invalid_email_then_returns_err() -> None:
-    notifier = FakeNotifier()
-    use_case = SendWelcome(notifier)
+def test_create_user_id_when_no_ids_left_then_fails() -> None:
+    generator = FakeIdGenerator([])
 
-    result = use_case.execute(SendWelcomeInput(email="invalid"))
+    result = create_user_id(generator)
 
-    assert isinstance(result, Err)
-    assert notifier.messages == []
+    assert result.is_err
 ```
-
-You are not forced into any layering scheme — you simply test behavior at the granularity that makes sense.
 
 ---
 
-## 3. Testing Adapters (Optional)
+## 3. When to use pattern matching in tests
 
-If you introduce an adapter that implements a port, for example:
+Pattern matching is useful when:
+- the returned value is meaningful to the behavior
+- you need to inspect error information
+- multiple outcomes must be distinguished
 
-```python
-class ConsoleNotifier:
-    def send(self, message: str):
-        print(message)
-        return Ok(None)
-```
-
-You can:
-
-- test it directly, or
-- stub or mock it when testing higher-level behavior.
-
-ForgingBlocks does not require a specific testing strategy. It only encourages designs where testing is natural because behavior and boundaries are explicit.
+It should **support the test**, not dominate it.
 
 ---
 
-## 4. Example Test Layout
+## 4. Fakes vs mocks
 
-One possible (not required) way to organize tests:
+Both approaches work well with Ports.
 
-- `tests/foundation/` — tests for Result, mappers, and helpers you define.
-- `tests/domain/` — tests for domain concepts and rules.
-- `tests/application/` — tests for use cases and coordination.
-- `tests/infrastructure/` — tests for adapters to external systems.
+- **Fakes** emphasize state and behavior.
+- **Mocks** emphasize interactions.
 
-You can adapt this to your own project structure. The important part is that tests exercise meaningful behavior, not framework wiring.
+Choose the approach that makes the test’s intent most obvious.
+
+ForgingBlocks does not enforce a testing style — it encourages clarity.

@@ -1,51 +1,66 @@
-# 🧼 Clean Architecture (Optional Style)
+# Clean Architecture
 
-!!! abstract "Important"
+!!! note "Important"
     ForgingBlocks does **not** require Clean Architecture.
-    This is only an example showing how its building blocks can fit into a Clean-style approach.
 
-Clean Architecture emphasizes:
+    Clean Architecture is a structured variant of layered/hexagonal principles emphasizing strict inward dependencies and explicit use cases.
 
-- inward-facing dependency rules
-- use cases coordinating behavior
-- separation between core logic and technical details
+---
 
-## Diagram
+# 1. Clean Architecture — Layer Responsibilities
+
 
 ```mermaid
-flowchart TD
-    UI[Interface / UI] --> UC[Use Cases]
-    UC --> ENT[Entities & Domain Rules]
-    UC --> GW[Gateways / Interfaces]
-    ADP[Adapters & Frameworks] --> GW
+flowchart LR
+    PresentationLayer["Presentation Layer<br/>Controllers • Handlers • UI"] --> ApplicationLayer["Application Layer<br/>Use Cases • Interactors"]
+    ApplicationLayer --> DomainLayer["Domain Layer<br/>Aggregates • Entities • Value Objects • Events"]
+    ApplicationLayer --> OutboundPorts["Outbound Ports <br/>(Output Boundaries)"]
+    InboundPorts["Inbound Ports<br/>(Input Boundaries)"] --> ApplicationLayer
+    OutboundPorts --> InfrastructureLayer["Infrastructure Layer<br/>Adapters • Implementations"]
 ```
 
-## Example
+---
 
-```python
-from typing import Protocol
-from dataclasses import dataclass
-from forging_blocks.foundation import Result, Ok, Err
+# 2. Domain Composition
 
-@dataclass
-class User:
-    email: str
-
-class UserGateway(Protocol):
-    def save(self, user: User) -> Result[None, str]:
-        ...
-
-@dataclass
-class RegisterUserInput:
-    email: str
-
-class RegisterUser:
-    def __init__(self, gateway: UserGateway) -> None:
-        self._gateway = gateway
-
-    def execute(self, data: RegisterUserInput) -> Result[None, str]:
-        if "@" not in data.email:
-            return Err("invalid email")
-
-        return self._gateway.save(User(email=data.email))
+```mermaid
+flowchart TB
+    Aggregate[Aggregate] --> Entity[Entities]
+    Entity --> ValueObject[Value Objects]
+    Aggregate --> Event[Events]
 ```
+
+---
+
+# 3. Ports & Adapters (Clean Architecture)
+
+```mermaid
+flowchart LR
+    Presentation["Presentation Layer"]
+        --> InputBoundary["Inbound Port<br/>(Input Boundary)"]
+
+    InputBoundary
+        --> UseCase["Application Service<br/>Use Case Interactor"]
+
+    UseCase
+        --> OutputBoundary["Outbound Port<br/>(Output Boundary)"]
+
+    OutputBoundary
+        --> Adapter["Infrastructure Adapter"]
+```
+
+
+
+---
+
+# 4. Summary
+
+Clean Architecture is a refined layered model with strict dependency direction and explicit use cases.
+
+ForgingBlocks integrates cleanly with this structure without enforcing it.
+
+---
+
+# 5. Traditional Clean Architecture Diagram
+
+![Clean Architecture – Concentric Model](../assets/svg/clean-architecture.svg)

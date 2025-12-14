@@ -89,10 +89,6 @@
   background-color: #1c1b1a;
 }
 
-.md-content h1, .md-content h2, .md-content h3, .md-content h4, .md-content h5, .md-content h6 {
-    margin: 0;
-}
-
 .md-content h1 {
     color: #d65d0e;
 }
@@ -107,7 +103,6 @@
 .md-typeset pre code {
   color: #d9cec3;
   background-color: #242321;
-  border-radius: 4px;
   border: 1px solid #35322d;
 }
 
@@ -173,7 +168,6 @@ hr {
 
 ::-webkit-scrollbar-thumb {
   background-color: #35322d;
-  border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -279,38 +273,55 @@ hr {
 }
 
 /* -------------------------------------------
-   Badwolf-style Admonitions (Abstract only)
+   Badwolf-style Admonitions (note only)
    ------------------------------------------- */
-.md-typeset .admonition.abstract,
-.md-typeset details.abstract {
+.md-typeset .admonition.note,
+.md-typeset details.note {
     border: 3px solid #d65d0e;
     background-color: #1c1c1c;
     color: #e4e4e4;
     padding: 0.8em 1.2em;
-    border-radius: 6px;
     margin: 0.2em;
 }
 
 /* Title bar */
-.md-typeset .admonition.abstract > .admonition-title,
-.md-typeset details.abstract > summary {
+.md-typeset .admonition.note > .admonition-title,
+.md-typeset details.note > summary {
     background-color: #262626;      /* Slightly lighter dark */
     color: #d65d0e;                 /* Gold title */
     font-weight: 600;
-    border-radius: 4px;
     padding: 0.4em 0.6em;
     margin: -0.8em -1.2em 0.8em -1.2em;
 }
 
 /* Icon color */
-.md-typeset .admonition.abstract .admonition-title::before {
+.md-typeset .admonition.note .admonition-title::before {
     color: #d7af5f !important;      /* Gold icon */
 }
 
-/* Remove icon from abstract admonition titles */
-.md-typeset .admonition.abstract .admonition-title::before,
-.md-typeset details.abstract > summary::before {
+/* Remove icon from note admonition titles */
+.md-typeset .admonition.note .admonition-title::before,
+.md-typeset details.note > summary::before {
     content: none !important;
     padding-right: 0 !important;
     margin-right: 0 !important;
+}
+
+/* Flat border */
+.md-typeset .admonition.note,
+.md-typeset details.note {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.md-typeset ul li {
+    margin-bottom: 0;
+}
+
+.md-typeset h1 {
+    margin-bottom: .5rem;
+}
+
+.md-typeset h2 {
+    margin-top: .2rem;
 }

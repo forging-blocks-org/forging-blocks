@@ -1,105 +1,23 @@
-# 🧩 ForgingBlocks
+# Guide
+## How to read the documentation
 
-**ForgingBlocks** provides a set of small, composable **foundational contracts** that help you design software with **clarity**, **intent**, and **expressiveness**.
+This guide is organized to support different ways of learning.
 
-It doesn’t enforce any framework, library, or organizational approach.
+You can follow the sections in the suggested order below, or jump directly to the parts that are most relevant to you.
+You can use **all** of them or only some of them.
 
-Instead, it gives you a **vocabulary** and **building blocks** for shaping ideas in a way that fits your project and your style.
+## 📚 Learning Path
 
-ForgingBlocks relies only on standard features available in **Python 3.12+** (such as Protocols, Generics, and Type Hints), keeping it lightweight and broadly compatible.
+A common reading path is:
 
----
+1. **[Getting Started](getting-started.md)** – a small, complete example to get familiar with the toolkit.
+2. **[Testing](testing.md)** – how ForgingBlocks encourages explicit, testable designs.
+3. **[Example Tests](example_tests.md)** – larger examples that show how those ideas fit together.
+4. **[Examples](examples.md)** – focused usage scenarios you can explore independently.
+5. **[Principles](principles.md)** – the design values and mindset behind the toolkit.
+6. **[Recommended Blocks Structure](recommended_blocks_structure.md)** – guidance on organizing responsibilities and boundaries.
+7. **[Release Guide](release_guide.md)** – notes on packaging and releasing projects that use ForgingBlocks.
 
-## 🚀 Getting Started
-
-Install using Poetry, pip or UV:
-
-```bash
-poetry add forging-blocks
-# or
-pip install forging-blocks
-# or
-uv add forging-blocks
-```
-
-**Quick example**:
-
-```python
-from forging_blocks.foundation import Result, Ok, Err
-
-def divide(a: int, b: int) -> Result[int, str]:
-    if b == 0:
-        return Err("division by zero")
-    return Ok(a // b)
-```
-
----
-
-## 🛠️ How can ForgingBlocks help me?
-
-ForgingBlocks helps you keep your project’s structure **clear, intentional, and easy to reason about**.
-
-It offers small, composable **abstractions and interfaces** that support writing clean, testable, and maintainable **Python** code — without tying you to any framework, convention, or architectural pattern.
-
-> Not a framework and not an architecture — a **toolkit** you use to forge your own blocks of organization and behavior.
-
-ForgingBlocks does not prescribe how your system must be structured.
-Instead, it works alongside whatever style you prefer and can support ideas such as:
-
-- Making success and failure **explicit**.
-- Creating **clear boundaries** between parts of your system.
-- Modeling concepts in ways that express **intent and behavior**.
-- Keeping your core logic **independent of technical details**.
-
-You remain in control.
-
-You define the guidelines and conventions that fit your project.
-
-ForgingBlocks simply provides **building blocks** that help you learn, evolve, and write **clean, testable, decoupled, and high-quality** code — fully independent of frameworks or architectural rules.
-
----
-
-## 🧠 Core Concepts
-
-| Concept | Purpose |
-|----------|----------|
-| **Result / Ok / Err** | Represents success or failure explicitly. |
-| **Mapper / ResultMapper** | Transforms values or Results into another type. |
-| **Debuggable** | Protocol ensuring an object exposes a clear, consistent debug representation. |
-| **Port / InboundPort / OutboundPort** | Define explicit communication boundaries. |
-
----
-
-## 🏗️ Organizational Blocks
-
-Each block represents a **boundary of responsibility**.
-
-ForgingBlocks provides small abstractions that help you keep these boundaries intentional and easy to understand.
-
-- The **Foundation** block offers the core building blocks reused throughout the system.
-- The **Domain** block defines the concepts and rules that model your problem space.
-- The **Application** block expresses use cases and coordinates domain behavior.
-- The **Infrastructure** block supplies adapters to external systems.
-- The **Presentation** block handles incoming interactions with your application.
-
-!!! abstract "Block vs Layer"
-    In ForgingBlocks, the term *block* is intentionally architecture-neutral.
-    You may interpret a block as a *layer* if that mental model helps, but this toolkit does not require or enforce any structural pattern.
-
----
-
-## 🧭 Why It Matters
-
-Many systems become difficult to evolve not because of missing features, but due to **coupling**, **implicit assumptions**, and **unclear responsibilities**.
-
-ForgingBlocks helps you shape software that is **clear**, **testable**, and **maintainable** by encouraging intentional structure — block by block.
-
----
-
-## 📚 Learn More
-
-- [Getting Started](guide/getting-started.md)
-- [Blocks Overview](guide/blocks_overview.md)
-- [Organizing Your Project](guide/organization.md)
-- [Reference Index](reference/index.md)
-- [Release Guide](guide/release_guide.md)
+If you are interested in architectural patterns, you can also explore the
+**[Architectural Styles](../architectural-styles/index.md)** section.
+Those documents are optional and not required to use the toolkit.

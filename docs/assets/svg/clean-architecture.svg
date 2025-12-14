@@ -1,0 +1,85 @@
+<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text {
+      fill: #ebdbb2;
+      font-family: Inter, system-ui, sans-serif;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+
+    .ring {
+      stroke: #fabd2f;
+      stroke-width: 3;
+    }
+
+    .outer {
+      font-size: 20px;
+    }
+
+    .middle {
+      font-size: 18px;
+    }
+
+    .inner {
+      font-size: 16px;
+    }
+
+    .core {
+      font-size: 16px;
+      font-weight: 600;
+    }
+  </style>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#1d2021"/>
+
+  <!-- Rings -->
+  <circle cx="400" cy="400" r="320" fill="#3c3836" class="ring"/>
+  <circle cx="400" cy="400" r="230" fill="#504945" class="ring"/>
+  <circle cx="400" cy="400" r="150" fill="#665c54" class="ring"/>
+  <circle cx="400" cy="400" r="80"  fill="#282828" class="ring"/>
+
+  <!-- Labels -->
+
+  <!-- Frameworks & Drivers -->
+  <text x="400" y="125" class="outer">
+    Frameworks &amp; Drivers
+  </text>
+
+  <!-- Interface Adapters -->
+  <text x="400" y="210" class="middle">
+    Interface Adapters
+  </text>
+
+  <!-- Application Business Rules (split correctly) -->
+  <text x="400" y="275" class="inner">
+    Application
+  </text>
+  <text x="400" y="300" class="inner">
+    Business Rules
+  </text>
+
+  <!-- Enterprise Business Rules (core) -->
+  <text x="400" y="395" class="core">
+    Enterprise
+  </text>
+  <text x="400" y="420" class="core">
+    Business Rules
+  </text>
+
+  <!-- Dependency Arrow -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10"
+            refX="5" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#d65d0e"/>
+    </marker>
+  </defs>
+
+  <line x1="400" y1="720" x2="400" y2="480"
+        stroke="#d65d0e" stroke-width="3"
+        marker-end="url(#arrow)"/>
+
+  <text x="400" y="745" font-size="14" fill="#ebdbb2">
+    Dependencies point inward
+  </text>
+</svg>

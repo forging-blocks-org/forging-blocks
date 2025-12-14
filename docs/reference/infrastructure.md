@@ -1,24 +1,42 @@
-# Infrastructure Package 🏗️
+# Infrastructure
+## Technical adapters to external systems
 
-The **infrastructure** package contains *technical implementations* of outbound ports defined in the application layer.
-
----
-
-## 🧠 Purpose
-
-Implements **adapters** that connect the application to external systems such as databases, APIs, and message brokers.
+The **Infrastructure** block provides concrete implementations of ports defined in the Application block.
+It contains all technical details.
 
 ---
 
-## ⚙️ Components
+## Purpose
 
-### Repository Implementations
+- Fulfill outbound ports using real technology.
+- Integrate with databases, APIs, queues, filesystems, etc.
+- Keep technical concerns separate from behavior and rules.
 
-```python
-class SqlUserRepository(UserRepository):
-    '''SQL-based implementation of the UserRepository outbound port.'''
-    async def save(self, user: User) -> None:
-        '''Persist a user to the database.'''
-        await db.execute("INSERT INTO users (id, username, email) VALUES (:id, :username, :email)", user.to_dict())
+---
+
+```mermaid
+flowchart TD
+    A[Application<br/>Ports] --> I[Infrastructure<br/>Adapters]
+    I --> EXT[(External Systems)]
 ```
+
 ---
+
+## Typical Elements
+
+### **Repositories**
+SQL, NoSQL, in‑memory, key‑value stores.
+
+### **Message Brokers & Event Systems**
+Adapters for RabbitMQ, Redis, Kafka, etc.
+
+### **External API Clients**
+HTTP, gRPC, or other remote integrations.
+
+---
+
+## Characteristics
+
+- May use frameworks and libraries.
+- Swappable implementations.
+- Contains I/O, serialization, networking, persistence.

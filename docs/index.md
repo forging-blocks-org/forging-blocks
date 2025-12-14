@@ -2,11 +2,11 @@
 
 **ForgingBlocks** provides a set of small, composable **foundational contracts** that help you design software with **clarity**, **intent**, and **expressiveness**.
 
-It doesn’t enforce any framework, library, or architectural approach.
+It doesn’t enforce any framework, library, or organizational approach.
 
-Instead, it gives you a **vocabulary** and **building blocks** for structuring ideas in a way that fits your project and your style.
+Instead, it gives you a **vocabulary** and **building blocks** for shaping ideas in a way that fits your project and your style.
 
-ForgingBlocks relies only on standard features available in **Python 3.12+** (such as Protocols, Generics, and Type Hints), keeping it lightweight and broadly compatible.
+ForgingBlocks relies only on standard features available in **Python 3.12+** (such as `Protocols`, `Generics`, and Type Hints), keeping it lightweight and broadly compatible.
 
 ---
 
@@ -15,9 +15,9 @@ ForgingBlocks relies only on standard features available in **Python 3.12+** (su
 Install using Poetry, pip or UV:
 
 ```bash
-poetry add forging-blocks
-# or
 pip install forging-blocks
+# or
+poetry add forging-blocks
 # or
 uv add forging-blocks
 ```
@@ -27,33 +27,51 @@ uv add forging-blocks
 ```python
 from forging_blocks.foundation import Result, Ok, Err
 
-def divide(a: int, b: int) -> Result[int, str]:
-    if b == 0:
-        return Err("division by zero")
-    return Ok(a // b)
+def divide_quotient_only(dividend: int, divisor: int) -> Result[int, str]:
+    if divisor == 0:
+        return Err("Division by zero")
+
+    quotient = dividend // divisor
+
+    return Ok(quotient)
 ```
 
-## 🛠️ How can ForgingBlocks help me?
+Or that operation with a remainder:
 
-ForgingBlocks helps you keep your project’s structure **clear, intentional, and easy to reason about**.
+```python
+def divide_with_remainder(dividend: int, divisor: int) -> Result[tuple[int, int], str]:
+    if divisor == 0:
+        return Err("Division by zero")
 
-It offers small, composable **abstractions and interfaces** that support writing clean, testable, and maintainable **Python** code — without tying you to any framework, architecture, or library.
+    quotient = dividend // divisor
+    remainder = dividend % divisor
 
-> Not a framework and not an architecture — a **toolkit** you use to forge your own blocks of organization and behavior.
+    return Ok((quotient, remainder))
+```
 
-ForgingBlocks does not prescribe how your system must be structured.
-Instead, it works alongside whatever style you prefer and can assist with ideas such as:
+---
 
-- Making success and failure **explicit**.
-- Creating **clear boundaries** between parts of your system.
-- Modeling concepts in ways that express **intent and behavior**.
-- Keeping your core logic **independent of technical details**.
+🛠️ How can ForgingBlocks help me?
 
-You remain in control.
+ForgingBlocks helps you keep your project's structure clear, intentional, and easy to reason about.
 
-You set the guidelines and conventions that fit your project.
+It provides small, composable abstractions that support writing clean, testable, and maintainable Python code — without tying you to any framework or architectural pattern.
 
-ForgingBlocks simply provides **building blocks** that help you learn, evolve, and write **clean, testable, decoupled, and high-quality** code — fully independent from frameworks or architectural rules.
+**Not a framework. Not an architecture. A toolkit for forging your own building blocks.**
+
+ForgingBlocks doesn't prescribe how your system must be structured.
+Instead, it works alongside your preferred style and supports practices like:
+
+- Making success and failure explicit
+- Creating clear boundaries between components
+- Modeling domain concepts that express intent
+- Keeping core logic independent of infrastructure concerns
+
+**You remain in control.**
+
+You define the guidelines and conventions that fit your project.
+
+ForgingBlocks simply provides the building blocks that help you write decoupled, testable, high-quality code — free from framework lock-in.
 
 ---
 
@@ -62,9 +80,9 @@ ForgingBlocks simply provides **building blocks** that help you learn, evolve, a
 | Concept | Purpose |
 |----------|----------|
 | **Result / Ok / Err** | Represents success or failure explicitly. |
-| **Mapper / ResultMapper** | Represents a type to map the return into another type. |
-| **Debuggable** | Protocol (interface) to force **consistency in how an object's internal state is represented for debugging and logging purposes.**
-| **Port / InboundPort / OutboundPort** | Define clear communication boundaries. |
+| **Mapper / ResultMapper** | Transforms values or Results into another type. |
+| **Debuggable** | Protocol ensuring an object exposes a clear, consistent debug representation. |
+| **Port / InboundPort / OutboundPort** | Define explicit communication boundaries. |
 
 ---
 
@@ -80,10 +98,9 @@ ForgingBlocks provides small abstractions that help you keep these boundaries in
 - The **Infrastructure** block supplies adapters to external systems.
 - The **Presentation** block handles incoming interactions with your application.
 
-!!! abstract "Block vs Layer"
+!!! note "Block vs Layer"
     In ForgingBlocks, the term *block* is intentionally architecture-neutral.
-
-    You may interpret a block as a *layer* if that mental model helps, but this toolkit does not require or enforce any architectural style.
+    You may interpret a block as a *layer* if that mental model helps, but this toolkit does not require or enforce any structural pattern.
 
 ---
 
@@ -98,7 +115,7 @@ ForgingBlocks helps you shape software that is **clear**, **testable**, and **ma
 ## 📚 Learn More
 
 - [Getting Started](guide/getting-started.md)
-- [Architecture Overview](guide/architecture.md)
-- [Packages & Layers](guide/packages_and_layers.md)
+- [Blocks Overview](guide/recommended_blocks_structure.md)
+- [Organizing Your Project](guide/principles.md)
 - [Reference Index](reference/index.md)
 - [Release Guide](guide/release_guide.md)

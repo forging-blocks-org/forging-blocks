@@ -1,105 +1,129 @@
-# 🚢 Release Guide
+# Release Guide
+## Releasing projects that use ForgingBlocks
 
-This guide outlines a simple, repeatable process for releasing new versions of ForgingBlocks (or any project that uses it as a dependency). Adapt it to your own workflow, tooling, and automation.
+This guide describes a **simple, repeatable process** for releasing a project that uses ForgingBlocks.
 
----
-
-## 1. Choose the Version Bump
-
-Base your version bump on the nature of the changes:
-
-- **PATCH** — bug fixes, internal refactoring, documentation only, no breaking changes.
-- **MINOR** — new features or types added in a backward-compatible way.
-- **MAJOR** — breaking changes to public APIs or contracts.
-
-Example: from `0.3.1` to `0.3.2`, `0.4.0`, or `1.0.0`.
+It does not depend on any particular tooling, but examples refer to common tools such as **Poetry** and **PyPI**.
 
 ---
 
-## 2. Update Version Metadata
+## 1. Decide the kind of release
 
-If you use `pyproject.toml`:
+Use semantic-style versioning as a guideline:
+
+- **PATCH** – bug fixes, internal changes, or documentation only.
+- **MINOR** – new features added in a backward-compatible way.
+- **MAJOR** – breaking changes to public contracts or behaviors.
+
+Example: `0.3.1` → `0.3.2`, `0.4.0`, or `1.0.0`.
+
+---
+
+## 2. Update version metadata
+
+If you are using `pyproject.toml`:
 
 ```toml
 [project]
-name = "forging-blocks"
+name = "your-project-name"
 version = "0.4.0"
 ```
 
-Also ensure that:
+Also review:
 
-- Changelog is updated.
-- Documentation reflects new concepts or changes.
-- Any examples and tests are still valid.
+- the changelog,
+- important documentation pages,
+- examples and tests.
+
+Make sure they describe the new behavior accurately.
 
 ---
 
-## 3. Run the Full Check Suite
+## 3. Run checks
 
-Before releasing, run:
+Before releasing, run your full check pipeline:
 
+- tests
 - linters
 - type checkers
-- tests
-- docs build, if applicable
+- documentation build (if you publish docs)
 
 Example with Poetry:
 
 ```bash
 poetry run pytest
 poetry run mypy .
-poetry run poe docs:build  # if you use poe & MkDocs
+poetry run poe docs:build  # if you use poe + MkDocs
 ```
 
-Adjust commands to match your own tooling.
+Adapt these commands to your own setup.
 
 ---
 
-## 4. Build the Distribution
+## 4. Build the distribution
 
-Using `python -m build` or a Poetry command, for example:
+If you publish a library:
 
 ```bash
 poetry build
 ```
 
-This should produce `.whl` and `.tar.gz` artifacts under `dist/`.
+This should create artifacts (such as `.whl` and `.tar.gz`) in the `dist/` directory.
+
+If you publish a service or application, this step may be replaced by building an image or packaging an artifact in another format.
 
 ---
 
-## 5. Publish to Package Index (Optional)
+## 5. Publish (optional)
 
-If you publish to PyPI or a private index, you might use:
+To upload to PyPI or another index:
 
 ```bash
 poetry publish --repository pypi
 ```
 
-or your preferred upload command.
+If you are unsure, test with a private index or TestPyPI first.
 
-Use TestPyPI or an internal index if you want to validate distribution behavior before a public release.
+For internal services, this step might mean:
+
+- pushing a container image,
+- deploying to a staging environment,
+- or tagging a release in your internal Git server.
 
 ---
 
-## 6. Tag the Release
+## 6. Tag the release
 
-Tag the release in version control:
+Tagging helps track what changed and when:
 
 ```bash
 git tag -a v0.4.0 -m "Release 0.4.0"
 git push origin v0.4.0
 ```
 
-Tags make it easier to track what changed when and to generate release notes later.
+You can also create GitHub/GitLab release entries that link to your changelog.
 
 ---
 
-## 7. Announce Changes
+## 7. Communicate the changes
 
-Ensure consumers of your project can see what changed:
+Especially when others depend on your project:
 
-- Update the changelog.
-- Mention the release in your project README or docs.
-- If relevant, highlight any migration notes for breaking changes.
+- document breaking changes clearly,
+- give examples of new features,
+- mention any migration steps.
 
-ForgingBlocks itself aims to keep changes incremental, explicit, and well-documented so adopters can upgrade with confidence.
+ForgingBlocks aims to keep changes incremental and explicit, so that teams can upgrade with confidence.
+
+---
+
+## 8. Releasing ForgingBlocks itself
+
+If you are working on ForgingBlocks or a similar toolkit, the same ideas apply:
+
+- be clear about what changed,
+- keep reference and guide documentation updated,
+- maintain examples that showcase new capabilities,
+- treat your building blocks as contracts that other developers rely on.
+
+Good releases are not just about publishing artifacts; they are about **setting clear expectations** for the people who will use your work.

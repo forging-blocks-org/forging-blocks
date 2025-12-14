@@ -1,36 +1,25 @@
-# 🧱 Layered Architecture
+# Layered Architecture
 
-!!! abstract "Important"
-    ForgingBlocks does **not** require layered architecture.
-    You may map blocks into layers if that mental model helps.
+!!! note "Important"
+    ForgingBlocks does **not** require classical layered architecture.
+    Layered Architecture is the simplest conceptual model and often the foundation of Clean and Hexagonal styles.
 
-## Diagram
+---
+
+# 1. Traditional Layer Stack
 
 ```mermaid
-flowchart TD
-    PRES[Presentation] --> APP[Application]
-    APP --> DOM[Domain]
-    APP --> INF[Infrastructure]
+flowchart TB
+    PresentationLayer[Presentation Layer<br/>Controllers • UI • Handlers]
+        --> ApplicationLayer[Application Layer<br/>Services • Orchestrators]
+    ApplicationLayer --> DomainLayer[Domain Layer<br/>Entities • Value Objects • Events]
+    DomainLayer --> InfrastructureLayer[Infrastructure Layer<br/>Database • APIs • Messaging]
 ```
 
-## Example
+---
 
-```python
-from dataclasses import dataclass
-from forging_blocks.foundation import Result, Ok, Err
+# 2. Notes
 
-@dataclass
-class Order:
-    id: int
-    total: int
-
-class OrderService:
-    def __init__(self, tax_rate: float) -> None:
-        self._tax_rate = tax_rate
-
-    def compute_total(self, base: int) -> Result[Order, str]:
-        if base < 0:
-            return Err("base amount must be non-negative")
-        total = int(base * (1 + self._tax_rate))
-        return Ok(Order(id=1, total=total))
-```
+- Dependencies traditionally flow **downwards**.
+- Application uses domain, Presentation uses application, etc.
+- Unlike Clean/Hexagonal, strict inward rules are not required unless imposed by convention.

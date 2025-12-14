@@ -1,29 +1,30 @@
-# 📎 Examples
+# Examples
+## Small, architecture-neutral usage snippets
 
-This page contains a small set of **neutral, self-contained examples** that use ForgingBlocks building blocks without assuming any particular architecture, framework, or library.
+This page collects small, focused examples that show how to use ForgingBlocks concepts in isolation.
 
-For examples that demonstrate how ForgingBlocks can be used *inside* classical architectural styles (such as Clean Architecture or Hexagonal Architecture), see the [Optional Architectural Approaches](../optional-architectures/index.md).
+Each example is **self-contained** and does not assume any particular project structure.
 
 ---
 
-## 1. Handling Input Validation With Result
+## 1. Validation with Result
 
 ```python
 from dataclasses import dataclass
 from forging_blocks.foundation import Result, Ok, Err
 
-@dataclass
+
+@dataclass(frozen=True)
 class RegisterUserInput:
     email: str
     name: str
 
-def validate_input(data: RegisterUserInput) -> Result[RegisterUserInput, str]:
+
+def validate_registration(data: RegisterUserInput) -> Result[RegisterUserInput, str]:
     if "@" not in data.email:
         return Err("invalid email")
-
     if not data.name.strip():
         return Err("name required")
-
     return Ok(data)
 ```
 
@@ -31,7 +32,7 @@ Usage:
 
 ```python
 incoming = RegisterUserInput(email="user@example.com", name="Alice")
-result = validate_input(incoming)
+result = validate_registration(incoming)
 
 match result:
     case Ok(valid):
@@ -42,10 +43,11 @@ match result:
 
 ---
 
-## 2. Modeling a Simple Domain Concept
+## 2. Simple domain-like type
 
 ```python
 from dataclasses import dataclass
+
 
 @dataclass(frozen=True)
 class Task:
@@ -57,22 +59,24 @@ class Task:
         return Task(id=self.id, title=self.title, completed=True)
 ```
 
-You can combine this with `Result` and ports to build richer behavior, if desired.
+This type does not rely on any infrastructure. It can be tested directly, extended easily, and used in a wide range of designs.
 
 ---
 
-## 3. Using a Port With a Simple Adapter
+## 3. Using a port and adapter
 
 ```python
 from typing import Protocol
-from forging_blocks.foundation import Result, Ok, Err
 
-class EmailSender(Protocol):
+from forging_blocks.foundation import Err, Ok, Port, Result
+
+
+class EmailSender(Port):
     def send(self, to: str, subject: str, body: str) -> Result[None, str]:
         ...
 ```
 
-Console-based adapter:
+A console-based implementation:
 
 ```python
 class ConsoleEmailSender:
@@ -81,29 +85,28 @@ class ConsoleEmailSender:
         return Ok(None)
 ```
 
-A small routine using the port:
+A small function using the port:
 
 ```python
 def send_reset_email(sender: EmailSender, email: str) -> Result[None, str]:
     if "@" not in email:
         return Err("invalid email")
-
     body = "Click here to reset your password."
-    return sender.send(to=email, subject="Reset", body=body)
+    return sender.send(to=email, subject="Reset your password", body=body)
 ```
 
-This design remains independent of any HTTP, database, or queueing technology.
+The design is:
+
+- clear to read,
+- easy to test with a fake `EmailSender`,
+- independent of any particular mail provider or framework.
 
 ---
 
-## 4. Where to Go Next
+## 4. What to explore next
 
-If you want to see how these ideas can be applied in the context of well-known architectural styles, explore:
+Once you are comfortable with these examples, you can:
 
-- [Clean Architecture](../optional-architectures/clean-architecture.md)
-- [Hexagonal Architecture](../optional-architectures/hexagonal-architecture.md)
-- [Layered Architecture](../optional-architectures/layered-architecture.md)
-- [CQRS](../optional-architectures/cqrs.md)
-- [Event-Driven Approaches](../optional-architectures/event-driven.md)
-
-These are **optional** examples — ForgingBlocks does not require or depend on any of them.
+- read [Principles](principles.md) to understand why the toolkit is structured this way,
+- map examples into blocks using [Recommended Blocks Structure](recommended_blocks_structure.md),
+- and explore architectural mappings in the **Architectural Styles** section if you want to see how these ideas can appear inside well-known styles.

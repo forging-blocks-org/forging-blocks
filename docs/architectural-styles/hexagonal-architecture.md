@@ -1,46 +1,37 @@
-# ⬡ Hexagonal Architecture (Ports & Adapters)
+# Hexagonal Architecture (Ports & Adapters)
 
-!!! abstract "Important"
+!!! note "Important"
     ForgingBlocks does **not** require Hexagonal Architecture.
-    This page shows how its abstractions align with a Ports & Adapters style.
+    Hexagonal Architecture focuses on isolating the core domain behind ports, with adapters surrounding it.
 
-Hexagonal Architecture focuses on:
+---
 
-- clear inbound and outbound ports
-- adapters that implement ports
-- isolation of core logic
-
-## Diagram
+# 1. Core Hexagonal Model
 
 ```mermaid
-flowchart TD
-    IN[Inbound Adapter] --> CORE[Application Core]
-    CORE --> PORT[Outbound Port]
-    PORT --> ADP[Outbound Adapter]
+flowchart LR
+    AdapterIn[Inbound Adapter<br/>REST • CLI • Message Listener] --> InPort[Inbound Port]
+    InPort --> ApplicationService[Application Service]
+    ApplicationService --> DomainCore[Domain Core<br/>Aggregates • Entities • Value Objects • Events]
+    ApplicationService --> OutPort[Outbound Port]
+    OutPort --> AdapterOut[Outbound Adapter<br/>Database • API • Email • MQ]
 ```
 
-## Example
+---
 
-```python
-from typing import Protocol
-from dataclasses import dataclass
-from forging_blocks.foundation import Result, Ok, Err
+# 2. Hexagon Shape Representation
 
-class PaymentPort(Protocol):
-    def charge(self, user_id: int, amount: int) -> Result[None, str]:
-        ...
-
-@dataclass
-class ChargeUserInput:
-    user_id: int
-    amount: int
-
-class ChargeUser:
-    def __init__(self, payments: PaymentPort) -> None:
-        self._payments = payments
-
-    def execute(self, data: ChargeUserInput) -> Result[None, str]:
-        if data.amount <= 0:
-            return Err("amount must be positive")
-        return self._payments.charge(data.user_id, data.amount)
+```mermaid
+flowchart TB
+    InAdapters[Inbound Adapters] --> Core[Domain + Application Core]
+    OutAdapters[Outbound Adapters] --> Core
 ```
+
+---
+
+# 3. Key Points
+
+- Domain Core is the **center** of the hexagon.
+- Communication happens only through **ports**, never directly.
+- Adapters are replaceable.
+- The architecture is driven by **runtime boundaries**, not concentric layers.

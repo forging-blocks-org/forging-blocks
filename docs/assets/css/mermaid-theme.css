@@ -1,12 +1,6 @@
-/* ================================
-   BADWOLF / GRUVBOX MERMAID THEME
-   Scoped to Mermaid diagrams only
-   ================================ */
-
 .mermaid {
-    background-color: #282828 !important; /* dark background */
+    background-color: #282828 !important;
     padding: 1rem;
-    border-radius: 6px;
 }
 
 /* Nodes */
@@ -52,12 +46,12 @@
 /* Subgraphs */
 .mermaid .cluster rect {
     fill: #3c3836 !important;
-    stroke: #fb4934 !important; /* red frame */
+    stroke: #fb4934 !important;
     stroke-width: 2px !important;
 }
 
 .mermaid .cluster text {
-    fill: #fabd2f !important; /* yellow title */
+    fill: #fabd2f !important;
     font-size: 16px !important;
     font-weight: bold;
 }
@@ -71,4 +65,10 @@
 .mermaid g:hover path {
     stroke: #83a598 !important;
     cursor: pointer;
+}
+
+.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
 }

@@ -1,15 +1,18 @@
-# 🧪 Example Tests
+# Example Tests
+## Putting testing ideas into practice
 
-This page contains a few self-contained test examples that show how ForgingBlocks can be used in practice. They are illustrative, not prescriptive — adapt them to your own testing style and framework.
+This page shows larger, more realistic examples that build on the
+concepts introduced in the [Testing](testing.md) guide.
 
-All examples use `pytest`, but you can translate them to `unittest` or any other tool.
+The focus here is on **observable behavior**, not on testing the toolkit itself.
 
 ---
 
-## 1. Testing Result Composition
+## 1. Composing behavior with Result
 
 ```python
 from forging_blocks.foundation import Result, Ok, Err
+
 
 def parse_int(value: str) -> Result[int, str]:
     try:
@@ -17,118 +20,149 @@ def parse_int(value: str) -> Result[int, str]:
     except ValueError:
         return Err(f"invalid integer: {value!r}")
 
+
 def reciprocal(value: int) -> Result[float, str]:
     if value == 0:
         return Err("division by zero")
     return Ok(1 / value)
 
+
 def parse_reciprocal(raw: str) -> Result[float, str]:
-    first = parse_int(raw)
-    if isinstance(first, Err):
-        return first
-    return reciprocal(first.ok)
+    result = parse_int(raw)
+
+    if result.is_err:
+        return result
+
+    match result:
+        case Ok(value):
+            return reciprocal(value)
 ```
 
-Tests:
+### Tests
 
 ```python
-from forging_blocks.foundation import Ok, Err
 from your_module import parse_reciprocal
 
-def test_parse_reciprocal_when_valid_number_then_returns_ok() -> None:
+
+def test_parse_reciprocal_when_valid_input_then_succeeds() -> None:
     result = parse_reciprocal("4")
-    assert isinstance(result, Ok)
-    assert result.ok == 0.25
 
-def test_parse_reciprocal_when_invalid_number_then_returns_err() -> None:
+    assert result.is_ok
+
+
+def test_parse_reciprocal_when_invalid_input_then_fails() -> None:
     result = parse_reciprocal("foo")
-    assert isinstance(result, Err)
-    assert "invalid integer" in result.err
 
-def test_parse_reciprocal_when_zero_then_returns_err() -> None:
+    assert result.is_err
+
+
+def test_parse_reciprocal_when_zero_then_fails() -> None:
     result = parse_reciprocal("0")
-    assert isinstance(result, Err)
-    assert "division by zero" in result.err
+
+    assert result.is_err
 ```
 
 ---
 
-## 2. Testing a Simple Use Case
+## 2. Testing a simple use case
 
 ```python
 from dataclasses import dataclass
-from forging_blocks.foundation import Result, Ok, Err
+
+from forging_blocks.application import UseCase
+from forging_blocks.foundation import Result, Err
+
 
 @dataclass
 class CreateTaskInput:
     title: str
 
+
 class TaskRepository:
-    def add(self, title: str) -> Result[int, str]:
+    def save(self, title: str) -> Result[int, str]:
         ...
 
-class CreateTask:
+
+class CreateTaskUseCase(UseCase):
+    def execute(self, data: CreateTaskInput) -> Result[int, str]:
+        ...
+
+
+class CreateTaskService(CreateTaskUseCase):
     def __init__(self, repo: TaskRepository) -> None:
         self._repo = repo
 
     def execute(self, data: CreateTaskInput) -> Result[int, str]:
         if not data.title.strip():
             return Err("title required")
-        return self._repo.add(data.title)
+
+        return self._repo.save(data.title)
 ```
 
-A fake repository for tests:
+### Fake repository
 
 ```python
+from forging_blocks.foundation import Result, Ok
+
+
 class InMemoryTaskRepository:
     def __init__(self) -> None:
         self.tasks: dict[int, str] = {}
         self._next_id = 1
-        self.should_fail: bool = False
 
-    def add(self, title: str):
-        if self.should_fail:
-            return Err("database down")
+    def save(self, title: str) -> Result[int, str]:
+        for task_id, existing in self.tasks.items():
+            if existing == title:
+                return Ok(task_id)
+
         task_id = self._next_id
         self._next_id += 1
         self.tasks[task_id] = title
         return Ok(task_id)
 ```
 
-Tests:
+### Tests
 
 ```python
-from forging_blocks.foundation import Ok, Err
-from your_module import CreateTask, CreateTaskInput, InMemoryTaskRepository
+from your_module import CreateTaskService, CreateTaskInput, InMemoryTaskRepository
 
-def test_create_task_when_valid_title_then_persists_and_returns_id() -> None:
+
+def test_create_task_when_valid_title_then_succeeds() -> None:
     repo = InMemoryTaskRepository()
-    use_case = CreateTask(repo)
+    service = CreateTaskService(repo)
 
-    result = use_case.execute(CreateTaskInput(title="Write docs"))
+    result = service.execute(CreateTaskInput(title="Write docs"))
 
-    assert isinstance(result, Ok)
-    assert result.ok in repo.tasks
-    assert repo.tasks[result.ok] == "Write docs"
+    assert result.is_ok
+    assert len(repo.tasks) == 1
 
-def test_create_task_when_missing_title_then_returns_err() -> None:
+
+def test_create_task_when_duplicate_title_then_reuses_task() -> None:
     repo = InMemoryTaskRepository()
-    use_case = CreateTask(repo)
+    service = CreateTaskService(repo)
 
-    result = use_case.execute(CreateTaskInput(title="  "))
+    first = service.execute(CreateTaskInput(title="Write docs"))
+    second = service.execute(CreateTaskInput(title="Write docs"))
 
-    assert isinstance(result, Err)
-    assert "title required" in result.err
+    assert first.is_ok
+    assert second.is_ok
+    assert len(repo.tasks) == 1
 
-def test_create_task_when_repo_fails_then_propagates_err() -> None:
+
+def test_create_task_when_missing_title_then_fails() -> None:
     repo = InMemoryTaskRepository()
-    repo.should_fail = True
-    use_case = CreateTask(repo)
+    service = CreateTaskService(repo)
 
-    result = use_case.execute(CreateTaskInput(title="Write tests"))
+    result = service.execute(CreateTaskInput(title=" "))
 
-    assert isinstance(result, Err)
-    assert "database down" in result.err
+    assert result.is_err
 ```
 
-These examples show how ForgingBlocks can fit into ordinary testing practices without requiring a specific structure.
+---
+
+## Key takeaway
+
+Tests should describe **what happened**, not **how the toolkit represents it**.
+
+Use pattern matching when you need data.
+Otherwise, assert success or failure and move on.

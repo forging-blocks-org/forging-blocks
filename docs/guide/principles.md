@@ -1,77 +1,135 @@
-# 🌱 Principles
+# Principles
+## The mindset behind ForgingBlocks
 
-ForgingBlocks is designed around a small set of practical principles that help you write software that is easy to understand, change, and test — without prescribing a specific architecture or framework.
+ForgingBlocks is designed around a set of practical principles that help teams write code that is easy to **understand**, **change**, and **test** over time.
 
----
+These principles are **architecture-neutral**.
 
-## 1. Clarity Over Cleverness
+You can apply them whether your project is:
 
-Code should communicate intent first.
+- Small
+- Large
+- Monolithic
+- Distributed
+- Layered
 
-- Names should describe *what* and *why*, not *how*.
-- Behavior should be discoverable from the types and contracts.
-- Error paths should be visible, not implicit.
-
-ForgingBlocks favors explicit Results, well-named ports, and small abstractions over magical behavior.
-
----
-
-## 2. Boundaries as First-Class Concepts
-
-Boundaries make large systems manageable.
-
-- A **Port** represents a communication boundary.
-- A use case object can depend on protocols instead of concrete implementations.
-- Domain concerns can remain independent from technical details.
-
-Blocks (foundation, domain, application, infrastructure, presentation) are a vocabulary for thinking about these boundaries, not a mandatory structure.
+or none of the above.
 
 ---
 
-## 3. Explicit Outcomes
+## 1. Clarity over cleverness
 
-Silent failure and hidden control flow create fragility.
+Readable code wins in the long run.
 
-- `Result`, `Ok`, and `Err` make success and failure explicit.
-- Callers are nudged to handle both paths.
-- You can compose Results to build larger workflows.
+- Names should express **intent**, not implementation details.
+- Types and contracts should reveal how to use something safely.
+- Error paths should be visible and explicit.
 
-This applies at any scale — from a function that parses input to a routine that coordinates multiple operations.
-
----
-
-## 4. Decoupling From Tools
-
-Frameworks, libraries, and infrastructure tend to change faster than core domain rules.
-
-ForgingBlocks encourages keeping:
-
-- core behavior independent of frameworks, ORMs, HTTP stacks, queues, etc.
-- domain and application code defined in terms of ports and simple contracts.
-- infrastructure code as adapters that plug into those contracts.
-
-You remain free to choose (or change) the surrounding tools.
+ForgingBlocks encourages this by giving you explicit `Result` types, clear port contracts, and small building blocks instead of complex inheritance or magic.
 
 ---
 
-## 5. Small, Composable Abstractions
+## 2. Boundaries as first-class concepts
 
-Instead of large base classes or deep inheritance trees, ForgingBlocks prefers:
+Large systems remain understandable when their **boundaries** are clear.
 
-- simple protocols
-- focused types
-- combinable Result and mapping helpers
+Boundaries answer questions like:
 
-You can adopt individual pieces in isolation. There is no need to “buy into” the entire toolkit at once.
+- “Who is allowed to talk to whom?”
+- “Where does this external dependency touch my system?”
+- “Which part of the code is responsible for this decision?”
+
+```mermaid
+flowchart TD
+    EXT[External World] --> PRES[Presentation<br/>Entry Points]
+    PRES --> APP[Application<br/>Business workflows]
+    APP --> DOM[Domain<br/>Concepts & Rules]
+    APP --> PORTS[Ports<br/>Interfaces]
+    INFRA[Infrastructure<br/>Adapters] -.->|Implements| PORTS
+
+    style DOM fill: #665c54,stroke:#fe8019,color:#ebdbb2
+    style PORTS fill:#5f6d2e
+    style INFRA fill: #454157,stroke:#b8bb26, color:#ebdbb2
+    style PRES fill:#3c3836,stroke:#fabd2f, color:#ebdbb2
+    style APP fill:#504945, stroke:#fabd2f, color:#ebdbb2
+```
+
+ForgingBlocks uses **Ports** (interfaces), **blocks** (logical groupings), and explicit contracts to make these boundaries visible.
+
+The solid arrows show call flow.
+
+The dotted arrow shows that Infrastructure implements Port interfaces, keeping Application decoupled from technical details.
 
 ---
 
-## 6. Teachable by Design
+## 3. Explicit outcomes
 
-The toolkit is intended to help teams learn and reason together.
+Hidden failures and implicit control flow make systems fragile.
 
-- Concepts have clear names.
-- Examples aim to be small and focused.
-- Blocks and boundaries are presented as options, not mandates.
+With `Result`, you can model outcomes directly:
 
-The goal is not to enforce a “correct” architecture, but to give you language and building blocks that support thoughtful design.
+- `Ok(value)` – successful operation with a value.
+- `Err(error)` – operation that failed with an explanation.
+
+This encourages calling code to handle both cases intentionally and avoids “surprise” exceptions flowing through call stacks.
+
+!!! note "Inpiration for Result"
+    The `Result` type is inspired by similar constructs in languages like Rust, Haskell, and Scala.
+
+    Rust contains a built-in `Result` type to make success and failure explicit.
+    Haskell and Scala contains `Either` type to make success and failure explicit.
+
+---
+
+## 4. Decoupling from tools
+
+Frameworks, ORMs, and infrastructure libraries change frequently.
+Core domain rules usually change more slowly.
+
+ForgingBlocks helps you:
+
+- Express core behavior **without** coupling it to databases, HTTP frameworks, or queues,
+- Keep external concerns inside **Infrastructure** and **Presentation** blocks,
+- Depend on **ports and protocols**, not concrete implementations.
+
+This does not forbid you from using any tool. It simply keeps your options open.
+
+---
+
+## 5. Small, composable abstractions
+
+Instead of large base classes or deep hierarchies, ForgingBlocks favors:
+
+- Small protocols
+- Focused types
+- Composition using `Result` and mappers
+
+You can adopt a single abstraction (for example `Result`) without adopting the rest of the toolkit. There is no “all or nothing” requirement.
+
+---
+
+## 6. Teachable by design
+
+The toolkit is intentionally designed to be **teachable**:
+
+- Concepts are separated and named.
+- Examples are small and focused.
+- Blocks describe responsibilities in plain language.
+
+The goal is that a junior engineer can read the Guide and understand:
+
+- How to express a boundary,
+- How to model an outcome,
+- How to organize code so it remains understandable.
+
+Senior engineers can then use these same concepts to shape larger designs or introduce specific architectural styles if they choose to.
+
+---
+
+## 7. Respecting existing ideas, without enforcing them
+
+Words like “Domain” are influenced by ideas from **Domain-Driven Design (DDD)**, and terms like “Port” appear in several architectural styles.
+
+ForgingBlocks acknowledges this history, but it does **not** attempt to implement or enforce DDD, Hexagonal Architecture, or any other style.
+
+You can use those styles if they help your project, but they are always **optional**.

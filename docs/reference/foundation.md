@@ -1,230 +1,118 @@
-# Foundation Package 🧩
+# Foundation
+## Foundational abstractions and contracts
 
-The **foundation** package provides minimal, architecture‑neutral primitives.
-Nothing in this package assumes Domain‑Driven Design, Hexagonal Architecture,
-Clean Architecture, MVC, CQRS, Event Sourcing, or any other structural pattern.
+The **Foundation** block provides low-level, reusable abstractions that are shared
+across the entire system.
 
-It is intentionally generic and reusable in *any* Python application.
+It contains **no domain logic**, **no application orchestration**, and
+**no infrastructure concerns**.
 
----
-
-## 🧠 Purpose
-
-The goal of the foundation layer is to define **core low‑level contracts** that
-support:
-
-- type‑safe communication interfaces
-- result handling without exceptions
-- structured error representations
-- generic data transformation
-- optional rich debugging output
-
-These abstractions impose **no architectural boundaries** and can be used
-with any style of software design.
+Foundation exists to define **stable contracts and primitives** on top of which
+all other blocks are built.
 
 ---
 
-## ⚙️ Components
+## Purpose
+
+- Supply **primitive abstractions** (`Result`, `Port`, `Mapper`).
+- Enable explicit, intention-revealing boundaries.
+- Support structured and predictable error handling.
+- Provide a stable base reused by all other blocks.
 
 ---
 
-## Result
+## Dependency position
 
-A generic type representing either success (**Ok**) or failure (**Err**).
-Inspired by Rust's `Result`, but intentionally minimal.
-
-**Key properties:**
-
-- `is_ok` — whether the result is successful
-- `is_err` — whether it is an error
-- `value` — the underlying success value (raises if accessed on an Err)
-- `error` — the underlying error (raises if accessed on an Ok)
-
-### Example
-
-```python
-from forging_blocks.foundation import Ok, Err
-
-def divide(a: int, b: int):
-    if b == 0:
-        return Err("division by zero")
-    return Ok(a // b)
+```mermaid
+flowchart TD
+    D[Domain] -->|depends on| F[Foundation]
+    A[Application] -->|depends on| F
+    I[Infrastructure] -->|depends on| A
+    I -->|depends on| F
 ```
 
----
-
-## Mapper
-
-A generic protocol for transforming one type into another.
-
-```python
-class Mapper(Generic[SourceType, TargetType], Protocol):
-    def map(self, source: SourceType) -> TargetType:
-        ...
-```
-
-This is entirely architectural‑agnostic: it is just a typed transformation.
+Foundation depends on nothing.
+All other blocks may depend on Foundation.
 
 ---
 
-## ResultMapper
+## Core concepts
 
-A specialization of `Mapper` for mapping `Result` objects.
+### Result
 
-This is useful when crossing boundaries such as:
+`Result` models the **explicit outcome** of an operation.
 
-- converting domain outputs into HTTP responses
-- converting validation outputs into DTOs
-- converting infrastructural results into application results
+It is used when failure is part of normal behavior, such as:
 
-But the abstraction itself does **not** depend on any architectural layering.
+- validation
+- parsing
+- rule evaluation
+- boundary checks
 
-```python
-class ResultMapper(
-    Generic[AIn, EIn, AOut, EOut],
-    Mapper[Result[AIn, EIn], Result[AOut, EOut]],
-    Protocol,
-):
-    ...
-```
+A `Result` represents either success (`Ok`) or failure (`Err`), without relying on
+exceptions for control flow.
+
+Result is about **flow**, not about error representation.
 
 ---
 
-## Port
+### Errors
 
-A minimal protocol representing an interface.
+Foundation defines a structured **error model**.
 
-No assumptions are made about what kind of port it is.
-No behavior is prescribed.
-There is **no requirement** for application/domain layers.
+Errors represent **what went wrong**, not **how control flows**.
 
-```python
-class Port(Generic[InputType, OutputType], Protocol):
-    ...
-```
+They are:
 
-Aliases exist only for readability:
+- structured objects (message + metadata)
+- debuggable
+- composable and aggregatable
+- usable both as return values and raised exceptions
 
-- `InboundPort`
-- `OutboundPort`
-- `InputPort`
-- `OutputPort`
+Errors are commonly carried inside `Err`, but the two concepts are distinct:
 
-These aliases **do not enforce** inbound/outbound concepts — they are just names.
+- `Result` answers *whether* an operation succeeded.
+- `Error` answers *why* it failed.
 
----
+Foundation provides reusable error categories such as:
 
-## Debuggable
+- validation errors
+- rule violation errors
+- structural or invariant errors
 
-A protocol for exposing a safe string representation for debugging.
-
-This is **not** tied to any architecture and does not prescribe formatting.
-
-```python
-class Debuggable(Protocol):
-    def as_debug_string(self) -> str:
-        ...
-```
-
-**Guidelines** (not requirements):
-
-- deterministic output
-- no I/O or side effects
-- avoid leaking secrets
-- use multi‑line formats when helpful
-
-Errors implement this for richer diagnostics.
+These error types are architecture-neutral and reusable across domains.
 
 ---
 
-## Error System
+### Port
 
-The foundation includes a structured error system that supports:
+A `Port` represents a **boundary between components**.
 
-- immutable error messages
-- optional metadata
-- multi‑error aggregation
-- field‑level error grouping
-- debuggability through `as_debug_string()`
-
-### Core types
-
-- `ErrorMessage` — immutable wrapper around a string
-- `ErrorMetadata` — structured context
-- `FieldReference` — identifies a specific field
-
-### Base Error
-
-All structured errors derive from:
-
-```python
-class Error(Exception, Debuggable):
-    ...
-```
-
-Common behavior includes:
-
-- structured message
-- optional metadata
-- readable `__str__` and `__repr__`
-- detailed debug output
-
-### FieldErrors and CombinedErrors
-
-These allow grouping multiple errors:
-
-- errors for a *single field*
-- aggregations of multiple errors
-
-They support iteration and debug string introspection.
-
-### Specializations
-
-Examples include:
-
-- `ValidationError`
-- `ValidationFieldErrors`
-- `CombinedValidationErrors`
-- `RuleViolationError`
-- `CombinedRuleViolationErrors`
-- `CantModifyImmutableAttributeError`
-
-Each one builds on the generic error primitives,
-without dictating any usage pattern.
+Ports define *what is expected*, not *how it is implemented*.
+They enable replacement, testing, and decoupling without imposing an architecture.
 
 ---
 
-## 📦 Public API (Recommended)
+### Mapper
 
-```python
-from forging_blocks.foundation import (
-    Result, Ok, Err,
-    Mapper, ResultMapper,
-    Port, InboundPort, OutboundPort,
-    Debuggable,
-    Error, ErrorMessage, ErrorMetadata, FieldReference,
-    FieldErrors, CombinedErrors,
-    ValidationError, ValidationFieldErrors, CombinedValidationErrors,
-    RuleViolationError, CombinedRuleViolationErrors,
-    CantModifyImmutableAttributeError,
-)
-```
+`Mapper` and `ResultMapper` define **explicit transformations** between types.
 
-This exposes the full foundation without imposing any structural model.
+They make data conversion intentional and observable,
+avoiding hidden or implicit mappings.
 
 ---
 
-## 🧾 Summary
+### Debuggable
 
-| Aspect | Description |
-|--------|-------------|
-| **Nature** | Generic, architecture‑neutral primitives |
-| **Purpose** | Reusable abstractions for any Python project |
-| **Dependencies** | None |
-| **Coupling** | Zero architectural assumptions |
-| **Usage** | Anywhere in the codebase |
+`Debuggable` is a lightweight contract for exposing structured debug information.
+
+It enables introspection without leaking internal state or implementation details.
 
 ---
 
-This package forms a small, stable core upon which *any* architecture can be built — or none at all.
-It provides clarity and consistency without enforcing boundaries.
+## Characteristics
+
+- Pure Python (standard library only).
+- Architecture-neutral.
+- Stable, low-level abstractions.
+- Used by all other blocks.
