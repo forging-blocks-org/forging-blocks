@@ -1,6 +1,6 @@
 import pytest
 
-from forging_blocks.foundation.errors.core import (
+from forging_blocks.foundation import (
     ErrorMetadata,
 )
 

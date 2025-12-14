@@ -2,10 +2,13 @@
 
 from .errors import (
     CantModifyImmutableAttributeError,
+    CombinedErrors,
+    CombinedRuleViolationErrors,
     CombinedValidationErrors,
     Error,
     ErrorMessage,
     ErrorMetadata,
+    FieldErrors,
     FieldReference,
     NoneNotAllowedError,
     RuleViolationError,
@@ -13,6 +16,7 @@ from .errors import (
     ValidationFieldErrors,
 )
 from .mapper import Mapper
+from .meta import FinalMeta, runtime_final
 from .ports import (
     InboundPort,
     InputPort,
@@ -22,7 +26,7 @@ from .ports import (
     OutputType,
     Port,
 )
-from .result import Err, Ok, Result
+from .result import Err, Ok, Result, ResultAccessError
 from .result_mapper import ResultMapper
 
 __all__ = [
@@ -43,9 +47,15 @@ __all__ = [
     "CombinedValidationErrors",
     "NoneNotAllowedError",
     "CantModifyImmutableAttributeError",
+    "CombinedErrors",
+    "CombinedRuleViolationErrors",
     "ErrorMessage",
     "ErrorMetadata",
     "FieldReference",
+    "FieldErrors",
     "RuleViolationError",
     "ValidationError",
+    "FinalMeta",
+    "runtime_final",
+    "ResultAccessError",
 ]

@@ -1,8 +1,9 @@
-from forging_blocks.foundation.errors.core import ErrorMessage, FieldReference
-from forging_blocks.foundation.errors.validation_error import (
+from forging_blocks.foundation import (
     CombinedValidationErrors,
     ValidationError,
     ValidationFieldErrors,
+    ErrorMessage,
+    FieldReference,
 )
 
 

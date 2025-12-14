@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from forging_blocks.foundation.meta.final_meta import FinalMeta, runtime_final
+from forging_blocks.foundation import FinalMeta, runtime_final
 
 
 class BaseWithFinalMethod(metaclass=FinalMeta):

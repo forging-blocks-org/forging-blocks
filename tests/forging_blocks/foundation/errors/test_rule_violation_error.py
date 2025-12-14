@@ -1,6 +1,6 @@
-from forging_blocks.foundation.errors.core import ErrorMessage
-from forging_blocks.foundation.errors.rule_violation_error import (
+from forging_blocks.foundation import (
     CombinedRuleViolationErrors,
+    ErrorMessage,
     RuleViolationError,
 )
 
