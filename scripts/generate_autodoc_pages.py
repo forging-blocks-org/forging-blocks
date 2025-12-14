@@ -1,9 +1,9 @@
-"""Autodoc generator for MkDocs — ForgingBlocks Edition.
+"""
+API Reference generator for ForgingBlocks.
 
-- Scans all Python modules under `src/forging_blocks/`
-- Extracts top-level docstrings
-- Generates .md files under `docs/reference/autodoc/`
-- Updates mkdocs.yml under "Auto-Generated API Docs" with proper hierarchical nesting
+This script generates API-level documentation from docstrings.
+It is intended for contributors and advanced users, not as a replacement
+for curated Guide or Reference documentation.
 """
 
 from __future__ import annotations
@@ -126,7 +126,9 @@ def build_autodoc_section(files: list[Path], indent: str = "      ") -> str:
 def update_nav(mkdocs: str, section: str) -> str:
     """Update the MkDocs navigation section with the autodoc section."""
     # Try to find and replace existing API Reference section
-    pattern = r"(?ms)^      - API Reference:.*?(?=^      - [A-Z]|^  - [A-Z]|^[a-z_]+:|\Z)"
+    pattern = (
+        r"(?ms)^      - API Reference:.*?(?=^      - [A-Z]|^  - [A-Z]|^[a-z_]+:|\Z)"
+    )
     if re.search(pattern, mkdocs):
         return re.sub(pattern, section + "\n", mkdocs)
 
@@ -139,6 +141,26 @@ def update_nav(mkdocs: str, section: str) -> str:
 
     # Fallback: add at the end
     return mkdocs.rstrip() + "\n" + section + "\n"
+
+
+def ensure_autodoc_index(out_dir: Path) -> None:
+    index_file = out_dir / "index.md"
+
+    if index_file.exists():
+        return
+
+    index_file.write_text(
+        """# API Reference
+
+!!! note "About this section"
+    This section is generated automatically from code docstrings.
+    It documents the public API surface of ForgingBlocks.
+
+    For architectural intent, design rationale, and usage guidance,
+    refer to the hand-written **Guide** and **Reference** sections.
+""",
+        encoding="utf-8",
+    )
 
 
 def main() -> None:
