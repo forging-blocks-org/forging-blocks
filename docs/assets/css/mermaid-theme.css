@@ -1,5 +1,6 @@
+/* Dark theme for Mermaid.js diagrams */
 .mermaid {
-    background-color: #282828 !important;
+    background-color: #1c1b1a !important;
     padding: 1rem;
 }
 

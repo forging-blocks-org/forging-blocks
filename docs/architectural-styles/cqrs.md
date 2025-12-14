@@ -1,40 +1,37 @@
-# 🔀 CQRS (Command Query Responsibility Segregation)
+# CQRS
 
-!!! abstract "Important"
+Command Query Responsibility Segregation separates write behavior from read behavior.
+
+This page shows how **ForgingBlocks concepts can be projected** to support a CQRS-style design.
+
+!!! note "Important"
     ForgingBlocks does **not** require CQRS.
-    This example demonstrates how CQRS-style separation can be expressed.
+    This page presents it as an **architectural pattern**, not a requirement.
 
-## Diagram
+## Conceptual mapping
+
+- Commands express intent to change state.
+- Queries retrieve information.
+- Read and write responsibilities are separated.
+- Models may diverge over time.
+
+The diagram below shows a **canonical CQRS view** from the literature.
 
 ```mermaid
-flowchart TD
-    UI[Client] --> CMD[Command Handler]
-    UI --> QRY[Query Handler]
-    CMD --> WRITE[Write Model]
-    QRY --> READ[Read Model]
+---
+title: CQRS (Command Query Responsibility Segregation)
+---
+graph LR
+    Client -->|send| CommandHandler[Command Handler]
+    Client -->|fetch| QueryHandler[Query Handler]
+    CommandHandler -->|save| WriteStore[Write Store<br/>Repository]
+    QueryHandler -->|get_by_id/list_all| ReadStore[Read Store<br/>ReadOnlyRepository]
+    WriteStore -.->|replicate| ReadStore
 ```
 
-## Example
 
-```python
-from dataclasses import dataclass
-from typing import Protocol
-from forging_blocks.foundation import Result, Ok, Err
+## When this style fits
 
-@dataclass
-class CreateTaskCommand:
-    title: str
-
-class TaskWriter(Protocol):
-    def create(self, title: str) -> Result[int, str]:
-        ...
-
-class CreateTaskHandler:
-    def __init__(self, writer: TaskWriter) -> None:
-        self._writer = writer
-
-    def handle(self, cmd: CreateTaskCommand) -> Result[int, str]:
-        if not cmd.title.strip():
-            return Err("title required")
-        return self._writer.create(cmd.title)
-```
+- Read and write workloads differ significantly.
+- Scalability concerns dominate.
+- Eventual consistency is acceptable.

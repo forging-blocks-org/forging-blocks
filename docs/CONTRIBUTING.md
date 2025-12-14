@@ -1,3 +1,1 @@
-# Contributing
-
-Guidelines for contributing to the ForgingBlocks project.
+--8<-- "CONTRIBUTING.md"

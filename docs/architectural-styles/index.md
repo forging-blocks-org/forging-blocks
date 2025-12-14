@@ -1,15 +1,47 @@
-# 🧱 Architectural Styles
+# Architectural Styles
 
-ForgingBlocks does **not** enforce any architectural style.
+## How to read these pages
 
-This section presents well‑known styles from software literature and shows how ForgingBlocks can participate in each—purely as optional examples.
+This section explores **well-known architectural styles** as they appear in the software architecture literature.
 
-Use these styles for learning, comparison, or inspiration.
+These pages are not a source of definitions.
+They are intended to help you **relate ForgingBlocks concepts** to architectural styles you may already know.
 
-## Available Styles
+You can read any page in isolation.
+You can also ignore this section entirely.
 
-- [Clean Architecture](clean-architecture.md)
-- [Hexagonal Architecture](hexagonal-architecture.md)
-- [Layered Architecture](layered-architecture.md)
-- [CQRS](cqrs.md)
-- [Event‑Driven](event-driven.md)
+---
+
+## What these pages are
+
+Each page in this section:
+
+- Describes a single architectural style.
+- Uses neutral, literature-aligned terminology.
+- Shows how ForgingBlocks concepts can be *projected* onto that style.
+
+The intent is explanatory, not prescriptive.
+
+---
+
+## What these pages are not
+
+These pages do **not**:
+
+- Define the meaning of Domain, Application, or Infrastructure.
+- Impose a preferred architecture.
+- Recommend one style over another.
+
+The **Reference** section remains the source of truth for responsibilities and boundaries.
+
+---
+
+## When this section is useful
+
+You may find this section helpful if you:
+
+- Are familiar with an architectural style and want to map it to ForgingBlocks.
+- Want to compare styles using a shared vocabulary.
+- Are exploring design trade-offs.
+
+If none of those apply, you can safely skip this section.

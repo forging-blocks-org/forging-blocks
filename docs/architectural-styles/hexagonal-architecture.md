@@ -1,37 +1,35 @@
-# Hexagonal Architecture (Ports & Adapters)
+# Hexagonal Architecture
+
+Hexagonal Architecture, also known as Ports and Adapters, emphasizes separation between core behavior and external systems.
+
+This page shows how **ForgingBlocks concepts can be projected** onto a hexagonal arrangement.
 
 !!! note "Important"
-    ForgingBlocks does **not** require Hexagonal Architecture.
-    Hexagonal Architecture focuses on isolating the core domain behind ports, with adapters surrounding it.
+    ForgingBlocks does **not** enforce Hexagonal Architecture.
+    This page presents it as an **interpretation** of responsibilities defined in the Reference section.
 
----
+## Conceptual mapping
 
-# 1. Core Hexagonal Model
+- The core contains Domain and Application logic.
+- Inbound ports define how behavior is triggered.
+- Outbound ports define required external capabilities.
+- Adapters implement those ports.
+- Dependencies point toward the core.
 
-```mermaid
-flowchart LR
-    AdapterIn[Inbound Adapter<br/>REST • CLI • Message Listener] --> InPort[Inbound Port]
-    InPort --> ApplicationService[Application Service]
-    ApplicationService --> DomainCore[Domain Core<br/>Aggregates • Entities • Value Objects • Events]
-    ApplicationService --> OutPort[Outbound Port]
-    OutPort --> AdapterOut[Outbound Adapter<br/>Database • API • Email • MQ]
-```
-
----
-
-# 2. Hexagon Shape Representation
+The diagram below shows a **canonical hexagonal view** from the literature, independent of ForgingBlocks.
 
 ```mermaid
-flowchart TB
-    InAdapters[Inbound Adapters] --> Core[Domain + Application Core]
-    OutAdapters[Outbound Adapters] --> Core
+---
+title: Hexagonal Architecture
+---
+graph LR
+    InboundAdapters[Inbound Adapters<br/>HTTP, CLI, Events] -->|execute/handle| ApplicationCore[Application Core<br/>Use Cases & Handlers]
+    ApplicationCore -->|dispatch/persist/notify| OutboundAdapters[Outbound Adapters<br/>Repositories, Message Bus]
 ```
 
----
 
-# 3. Key Points
+## When this style fits
 
-- Domain Core is the **center** of the hexagon.
-- Communication happens only through **ports**, never directly.
-- Adapters are replaceable.
-- The architecture is driven by **runtime boundaries**, not concentric layers.
+- External systems change frequently.
+- Testing without infrastructure is important.
+- Inbound and outbound interactions must be isolated.

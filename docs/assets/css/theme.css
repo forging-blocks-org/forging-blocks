@@ -5,6 +5,7 @@
   --md-primary-bg-color: #d65d0e;
 }
 
+
 .md-header,
 .md-header__inner,
 .md-header__title,
@@ -25,7 +26,7 @@
 .md-header__link:hover,
 .md-header__title:hover,
 .md-header__topic:hover {
-  color: #f4cf86 !important; /* dirtyblonde hover */
+  color: #f4cf86 !important;
   fill: #f4cf86 !important;
 }
 
@@ -33,9 +34,9 @@
 .md-header a.md-nav__link--active,
 .md-header a.md-nav__link--primary.md-nav__link--active,
 .md-tabs .md-tab--active {
-  color: #f4cf86 !important; /* golden highlight */
-  font-weight: 700 !important; /* bold active link */
-  border-bottom: 2px solid #f4cf86; /* underline accent */
+  color: #f4cf86 !important;
+  font-weight: 700 !important;
+  border-bottom: 2px solid #f4cf86;
 }
 
 /* Secondary meta bar */
@@ -44,9 +45,14 @@
   color: #d9cec3 !important;
 }
 
+body {
+  background-color: #1c1b1a;
+  color: #d9cec3;
+}
+
 /* Tabs styling */
 .md-tabs {
-  background-color: #1c1b1a; /* blackgravel */
+  background-color: #1c1b1a;
   border-bottom: 1px solid #35322d;
 }
 
@@ -66,6 +72,23 @@
 }
 
 /* Sidebar */
+.md-sidebar {
+  background-color: #1c1b1a;
+  border-right: 1px solid #35322d;
+}
+
+.md-sidebar--primary .md-nav__title {
+  color: #d65d0e;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Optional: slightly dim inactive headers */
+.md-sidebar--primary .md-nav__title:not(.md-nav__title--active) {
+  opacity: 0.9;
+}
+
+
 .md-sidebar__title,
 .md-nav__title,
 .md-nav__link {
@@ -79,7 +102,6 @@
 }
 
 .md-nav__link--active {
-  color: #f4cf86 !important;
   font-weight: 600;
 }
 
@@ -230,9 +252,9 @@ hr {
 .md-tabs__link[aria-selected="true"],
 .md-tabs .md-tab--active,
 .md-tabs__item--active > .md-tabs__link {
-  color: #f4cf86 !important;
+  color: #d65d0e !important;
   font-weight: 700 !important;
-  border-bottom: 2px solid #f4cf86 !important;
+  border-bottom: 2px solid #d65d0e !important;
 }
 
 .md-header + .md-tabs .md-tabs__link {
@@ -287,8 +309,8 @@ hr {
 /* Title bar */
 .md-typeset .admonition.note > .admonition-title,
 .md-typeset details.note > summary {
-    background-color: #262626;      /* Slightly lighter dark */
-    color: #d65d0e;                 /* Gold title */
+    background-color: #262626;
+    color: #d65d0e;
     font-weight: 600;
     padding: 0.4em 0.6em;
     margin: -0.8em -1.2em 0.8em -1.2em;
@@ -296,7 +318,7 @@ hr {
 
 /* Icon color */
 .md-typeset .admonition.note .admonition-title::before {
-    color: #d7af5f !important;      /* Gold icon */
+    color: #d7af5f !important;
 }
 
 /* Remove icon from note admonition titles */
@@ -324,4 +346,24 @@ hr {
 
 .md-typeset h2 {
     margin-top: .2rem;
+}
+
+.md-sidebar--primary {
+  background-color: #1c1b1a !important;
+}
+
+.md-sidebar--primary .md-nav__list > .md-nav__item:first-child > .md-nav__link {
+  color: #d65d0e !important;
+}
+
+
+.md-sidebar--primary .md-nav__list > .md-nav__item:first-child .md-nav__link {
+  color: #d65d0e !important;
+}
+
+
+.md-sidebar--primary,
+.md-sidebar--primary .md-sidebar__scrollwrap,
+.md-sidebar--primary .md-sidebar__inner {
+  background-color: #1c1b1a !important;
 }

@@ -1,45 +1,35 @@
-# 📣 Event‑Driven Architecture
+# Event-Driven Architecture
 
-!!! abstract "Important"
-    ForgingBlocks does **not** require event‑driven design.
-    This example shows how events can be modeled using its abstractions.
+Event-Driven Architecture focuses on reacting to events and propagating facts across system boundaries.
 
-## Diagram
+This page shows how **ForgingBlocks abstractions can participate** in an event-driven design.
+
+!!! note "Important"
+    ForgingBlocks does **not** require an event-driven architecture.
+    This page presents it as a **pattern**, not a mandate.
+
+## Conceptual mapping
+
+- Domain events represent facts that occurred.
+- Event handlers react to those events.
+- Message buses route events between components.
+- Components remain loosely coupled.
+
+The diagram below shows a **canonical event-driven flow** from the literature.
 
 ```mermaid
-flowchart TD
-    A[Producer] --> EVT[Event Bus]
-    EVT --> H1[Handler 1]
-    EVT --> H2[Handler 2]
+---
+title: Event-Driven Architecture
+---
+graph LR
+    Producer[Producer<br/>Use Case] -->|publish| EventBus[Event Bus<br/>Message Bus]
+    EventBus -->|dispatch| ConsumerA[Consumer A<br/>Event Handler]
+    EventBus -->|dispatch| ConsumerB[Consumer B<br/>Event Handler]
 ```
 
-## Example
 
-```python
-from dataclasses import dataclass
-from typing import Protocol, Iterable
-from forging_blocks.foundation import Result, Ok, Err
+## When this style fits
 
-@dataclass(frozen=True)
-class UserRegisteredEvent:
-    email: str
-
-class EventPublisher(Protocol):
-    def publish(self, events: Iterable[object]) -> Result[None, str]:
-        ...
-
-@dataclass
-class RegisterUserInput:
-    email: str
-
-class RegisterUser:
-    def __init__(self, publisher: EventPublisher) -> None:
-        self._publisher = publisher
-
-    def execute(self, data: RegisterUserInput) -> Result[None, str]:
-        if "@" not in data.email:
-            return Err("invalid email")
-        return self._publisher.publish(
-            [UserRegisteredEvent(email=data.email)]
-        )
-```
+- Loose coupling is required.
+- Asynchronous processing is desirable.
+- Integration with external systems is frequent.

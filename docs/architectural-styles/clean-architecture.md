@@ -1,66 +1,40 @@
 # Clean Architecture
 
+Clean Architecture organizes software around **behavioral boundaries** and dependency rules that protect core policies from external details.
+
+This page shows how **ForgingBlocks concepts can be projected** onto a Clean Architecture arrangement.
+
 !!! note "Important"
-    ForgingBlocks does **not** require Clean Architecture.
+    ForgingBlocks does **not** enforce Clean Architecture.
+    This page presents it as an **interpretation**, not a required structure.
 
-    Clean Architecture is a structured variant of layered/hexagonal principles emphasizing strict inward dependencies and explicit use cases.
+## Conceptual mapping
 
----
+- The inner layers contain Domain and Application policies.
+- The outer layers contain delivery mechanisms and technical details.
+- Dependencies always point inward.
 
-# 1. Clean Architecture — Layer Responsibilities
-
-
-```mermaid
-flowchart LR
-    PresentationLayer["Presentation Layer<br/>Controllers • Handlers • UI"] --> ApplicationLayer["Application Layer<br/>Use Cases • Interactors"]
-    ApplicationLayer --> DomainLayer["Domain Layer<br/>Aggregates • Entities • Value Objects • Events"]
-    ApplicationLayer --> OutboundPorts["Outbound Ports <br/>(Output Boundaries)"]
-    InboundPorts["Inbound Ports<br/>(Input Boundaries)"] --> ApplicationLayer
-    OutboundPorts --> InfrastructureLayer["Infrastructure Layer<br/>Adapters • Implementations"]
-```
-
----
-
-# 2. Domain Composition
+The diagram below shows the **canonical Clean Architecture view** from the literature, independent of ForgingBlocks.
 
 ```mermaid
-flowchart TB
-    Aggregate[Aggregate] --> Entity[Entities]
-    Entity --> ValueObject[Value Objects]
-    Aggregate --> Event[Events]
-```
-
 ---
-
-# 3. Ports & Adapters (Clean Architecture)
-
-```mermaid
-flowchart LR
-    Presentation["Presentation Layer"]
-        --> InputBoundary["Inbound Port<br/>(Input Boundary)"]
-
-    InputBoundary
-        --> UseCase["Application Service<br/>Use Case Interactor"]
-
-    UseCase
-        --> OutputBoundary["Outbound Port<br/>(Output Boundary)"]
-
-    OutputBoundary
-        --> Adapter["Infrastructure Adapter"]
+title: Clean Architecture
+---
+graph TD
+    Frameworks[Frameworks & Drivers<br/>DB, Web, External APIs] -->|implement| Adapters[Interface Adapters<br/>Controllers, Presenters, Gateways]
+    Adapters -->|execute/handle| Application[Application Business Rules<br/>Use Cases, Handlers]
+    Application -->|coordinate| Domain[Enterprise Business Rules<br/>Entities, Value Objects]
 ```
 
 
+## When this style fits
 
----
+- Long-term maintainability is a priority.
+- Strict separation between policy and details is required.
+- Multiple delivery mechanisms are expected.
 
-# 4. Summary
+## When to consider alternatives
 
-Clean Architecture is a refined layered model with strict dependency direction and explicit use cases.
-
-ForgingBlocks integrates cleanly with this structure without enforcing it.
-
----
-
-# 5. Traditional Clean Architecture Diagram
-
-![Clean Architecture – Concentric Model](../assets/svg/clean-architecture.svg)
+- Simplicity outweighs flexibility.
+- Strict dependency rules add unnecessary overhead.
+- The system is small or short-lived.
