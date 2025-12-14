@@ -204,6 +204,13 @@ class TestMessage:
 
         assert message1 != message2
 
+    def test_eq_when_type_different_than_message_then_false(self) -> None:
+        metadata = MessageMetadata(message_type="CustomType")
+        message = FakeMessage("data", metadata=metadata)
+        another_type_instance = 5
+
+        assert message != another_type_instance
+
     def test_to_dict_when_called_then_includes_metadata_type_and_payload(self):
         message_id = uuid4()
         created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)

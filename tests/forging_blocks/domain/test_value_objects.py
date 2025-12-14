@@ -22,6 +22,25 @@ class Email(ValueObject[str]):
         return (self._value,)
 
 
+class AnotherEmailType(ValueObject[str]):
+
+    __slots__ = ("_value",)
+
+    def __init__(self, value: str):
+        super().__init__()
+        if "@" not in value:
+            raise ValueError("Invalid email format")
+        self._value = value
+        self._freeze()
+
+    @property
+    def value(self) -> str:
+        return self._value
+
+    def _equality_components(self) -> tuple[str]:
+        return (self._value,)
+
+
 class TestValueObject:
     def test___init___when_invalid_email_then_raises_value_error(self) -> None:
         with pytest.raises(ValueError):
@@ -42,6 +61,13 @@ class TestValueObject:
     def test___eq___when_values_differ_then_returns_false(self) -> None:
         e1 = Email("a@example.com")
         e2 = Email("b@example.com")
+        assert e1 != e2
+
+    def test___eq___when_values_equal_but_different_type_then_returns_false(
+        self,
+    ) -> None:
+        e1 = Email("a@example.com")
+        e2 = AnotherEmailType("b@example.com")
         assert e1 != e2
 
     def test___hash___when_values_are_equal_then_hashes_match(self) -> None:
