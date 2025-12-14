@@ -130,7 +130,7 @@ addopts = [
 lint = { cmd = "ruff check ." }
 "lint:fix" = { cmd = "ruff check . --fix" }
 type = { cmd = "mypy src" }
-test = { cmd = "pytest -q --strict-markers" }
+test = { cmd = "pytest --strict-markers --tb=line" }
 bandit = { cmd = "bandit -r src -x tests" }
 
 "docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
