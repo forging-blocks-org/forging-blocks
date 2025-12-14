@@ -1,7 +1,7 @@
-from forging_blocks.domain.errors.draft_entity_is_not_hashable_error import (
+from forging_blocks.domain import (
     DraftEntityIsNotHashableError,
 )
-from forging_blocks.foundation.errors.core import ErrorMessage
+from forging_blocks.foundation import ErrorMessage
 
 
 class TestDraftEntityIsNotHashableError:

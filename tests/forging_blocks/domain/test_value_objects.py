@@ -1,6 +1,6 @@
 import pytest
 
-from forging_blocks.domain.value_object import ValueObject
+from forging_blocks.domain import ValueObject
 
 
 class Email(ValueObject[str]):

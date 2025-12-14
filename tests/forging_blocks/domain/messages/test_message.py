@@ -9,7 +9,7 @@ from uuid import UUID, uuid4
 
 import pytest
 
-from forging_blocks.domain.messages.message import Message, MessageMetadata
+from forging_blocks.domain import Message, MessageMetadata
 
 
 class FakeMessage(Message[str]):
@@ -60,7 +60,9 @@ class TestMessageMetadata:
         assert metadata.created_at == self.created_at
 
     def test_init_when_partial_params_then_generates_missing_values(self):
-        metadata = MessageMetadata(message_type=self.message_type, message_id=self.message_id)
+        metadata = MessageMetadata(
+            message_type=self.message_type, message_id=self.message_id
+        )
 
         assert metadata.message_id == self.message_id
         assert isinstance(metadata.created_at, datetime)

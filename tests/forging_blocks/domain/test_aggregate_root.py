@@ -1,8 +1,11 @@
 import pytest
 
-from forging_blocks.domain.aggregate_root import AggregateRoot, AggregateVersion
-from forging_blocks.domain.errors.entity_id_none_error import EntityIdNoneError
-from forging_blocks.domain.messages.event import Event
+from forging_blocks.domain import (
+    AggregateRoot,
+    AggregateVersion,
+    EntityIdNoneError,
+    Event,
+)
 
 raw_event = dict[str, str]
 
@@ -21,7 +24,9 @@ class DummyEvent(Event[raw_event]):
 
 
 class OrderAggregate(AggregateRoot[int]):
-    def __init__(self, aggregate_id: int, version: AggregateVersion | None = None) -> None:
+    def __init__(
+        self, aggregate_id: int, version: AggregateVersion | None = None
+    ) -> None:
         super().__init__(aggregate_id, version)
 
 
@@ -39,7 +44,9 @@ class TestAggregateVersion:
         result = version.value
         assert result == 3
 
-    def test_increment_when_called_then_returns_new_instance_with_value_incremented(self) -> None:
+    def test_increment_when_called_then_returns_new_instance_with_value_incremented(
+        self,
+    ) -> None:
         version = AggregateVersion(2)
         result = version.increment()
         assert result.value == 3
@@ -61,7 +68,9 @@ class TestAggregateRoot:
         with pytest.raises(EntityIdNoneError):
             OrderAggregate(None)  # type: ignore
 
-    def test___init___when_id_is_valid_then_initializes_with_default_version_zero(self) -> None:
+    def test___init___when_id_is_valid_then_initializes_with_default_version_zero(
+        self,
+    ) -> None:
         aggregate = OrderAggregate(1)
         assert aggregate.id == 1
         assert aggregate.version.value == 0
@@ -87,7 +96,9 @@ class TestAggregateRoot:
         assert isinstance(result, AggregateVersion)
         assert result.value == 0
 
-    def test_uncommitted_changes_when_no_events_recorded_then_returns_empty_list(self) -> None:
+    def test_uncommitted_changes_when_no_events_recorded_then_returns_empty_list(
+        self,
+    ) -> None:
         aggregate = OrderAggregate(1)
         result = aggregate.uncommitted_changes()
         assert result == []
@@ -113,7 +124,9 @@ class TestAggregateRoot:
         assert aggregate.uncommitted_changes() == []
         assert aggregate.version.value == old_version.value + 1
 
-    def test__increment_version_when_called_then_increments_version_by_one(self) -> None:
+    def test__increment_version_when_called_then_increments_version_by_one(
+        self,
+    ) -> None:
         aggregate = OrderAggregate(1)
         old_version = aggregate.version.value
         aggregate._increment_version()
