@@ -5,6 +5,7 @@ from .ports import (
     CommandSender,
     EventHandler,
     EventPublisher,
+    MessageBus,
     MessageHandler,
     QueryFetcher,
     QueryHandler,
@@ -24,4 +25,5 @@ __all__ = [
     "UseCase",
     "QueryFetcher",
     "UnitOfWork",
+    "MessageBus",
 ]

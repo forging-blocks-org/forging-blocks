@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock
 import pytest
 from pytest import fixture
 
-from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWork
+from forging_blocks.application import UnitOfWork
 
 
 class FakeUnitOfWork(UnitOfWork):

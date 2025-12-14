@@ -3,9 +3,8 @@ from unittest.mock import AsyncMock, MagicMock
 
 from pytest import fixture
 
-from forging_blocks.application.ports.outbound.command_sender import CommandSender
-from forging_blocks.application.ports.outbound.message_bus import MessageBus
-from forging_blocks.domain.messages.command import Command
+from forging_blocks.application import CommandSender, MessageBus
+from forging_blocks.domain import Command
 
 
 class FakeCommand(Command[str]):
@@ -25,7 +24,9 @@ class TestCommandSender:
 
         return bus
 
-    def test_init_when_called_then_set_message_bus(self, message_bus: MagicMock) -> None:
+    def test_init_when_called_then_set_message_bus(
+        self, message_bus: MagicMock
+    ) -> None:
         sender = CommandSender(message_bus)
 
         assert sender._message_bus == message_bus

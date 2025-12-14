@@ -16,7 +16,7 @@ Non-Responsibilities:
 
 from typing import Protocol, TypeVar
 
-from forging_blocks.foundation.ports import OutboundPort
+from forging_blocks.foundation import OutboundPort
 
 MessageType = TypeVar("MessageType", contravariant=True)
 MessageBusResultType = TypeVar("MessageBusResultType", covariant=True)
