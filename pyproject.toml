@@ -215,7 +215,7 @@ TAG=v$VERSION
 
 git checkout -b "$BRANCH"
 git add pyproject.toml poetry.lock CHANGELOG.md || true
-git commit -m "release($VERSION): version bump and changelog"
+git commit -m "release: $VERSION - version bump and changelog"
 git tag "$TAG"
 git push origin "$BRANCH" --tags
 """ },
