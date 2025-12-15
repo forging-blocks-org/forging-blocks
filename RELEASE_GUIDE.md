@@ -3,6 +3,7 @@
 This document explains **how releases work in ForgingBlocks**, **why the process is designed this way**, and **how contributors should perform a release safely and correctly**.
 
 The goal is to make releases:
+
 - predictable
 - auditable
 - reproducible
@@ -10,25 +11,76 @@ The goal is to make releases:
 
 > **Important principle**
 > Contributors *never* publish packages or deploy documentation manually.
-> All publishing happens in **GitHub Actions**, triggered by a Git tag.
+> All publishing happens in **GitHub Actions**, triggered by a **Git tag**.
 
 ---
 
 ## Mental Model (Read This First)
 
-ForgingBlocks follows a **tag-driven release model**:
+ForgingBlocks follows a **release-branch + tag–driven release model**:
 
+- A **release branch** expresses *intent to release*
 - A **Git tag (`vX.Y.Z`) is the single release signal**
-- Local tooling (Poe) is responsible only for:
+- Local tooling (**Poe**) is responsible only for:
   - validating the release
   - bumping the version
+  - generating the changelog
+  - creating a release branch
   - creating and pushing the tag
-- GitHub Actions is responsible for:
+  - opening a Pull Request
+- **GitHub Actions** is responsible for:
   - publishing to PyPI
   - deploying versioned documentation
   - creating the GitHub Release
 
 If no tag is pushed, **no release happens**.
+
+---
+
+## Commit Convention (Required)
+
+Automatic changelog generation relies on commit messages following this format:
+
+```
+type(scope?): description
+```
+
+Where `type` is one of:
+
+- feat
+- fix
+- docs
+- refactor
+- perf
+- test
+- chore
+- breaking
+
+Examples:
+
+```
+feat(domain): add Result.map_error
+fix(application): handle empty payload
+docs: clarify release process
+breaking(api): remove legacy notifier
+```
+
+Commits that do not follow this convention **will not appear in the changelog**.
+
+---
+
+## Why Releases Use a Branch
+
+The `main` branch is **protected**.
+
+This means:
+- no direct pushes
+- no direct version bumps
+- no bypassing PR reviews
+
+Therefore:
+
+> **All releases are prepared on a `release/vX.Y.Z` branch and merged via Pull Request.**
 
 ---
 
@@ -40,117 +92,87 @@ git pull origin main
 poetry run poe release:patch   # or release:minor / release:major
 ```
 
-Once the command finishes, **GitHub Actions takes over automatically**.
+This command:
+- bumps the version
+- generates the changelog
+- creates a release branch
+- creates and pushes the tag
+- opens a Pull Request automatically (if `gh` is installed)
 
 ---
 
-## What Happens During a Release
+## Automatic Pull Request Creation
 
-### 1. Validation
-- Ensures you are on `main`
-- Ensures working tree is clean
-- Ensures local `main` matches `origin/main`
-- Runs linting, typing, tests, docs build, and package build
+Release tasks automatically open a Pull Request using the **GitHub CLI (`gh`)**.
 
-### 2. Version Bump
-- Updates `pyproject.toml`
-- Updates `poetry.lock` if needed
-
-### 3. Commit and Tag
-- Commits: `release: X.Y.Z`
-- Tags: `vX.Y.Z`
-- Pushes commit + tag to `origin/main`
+If `gh` is not installed, the command prints a PR link instead.
 
 ---
 
 ## Automation in GitHub Actions
 
-On tag push:
-1. CI re-validates the release
-2. Package is published to PyPI
-3. Docs are deployed using `mike`
-4. `latest` alias is updated
-5. GitHub Release is created
+When the tag `vX.Y.Z` is pushed, GitHub Actions automatically:
 
-Monitor progress at:
-https://github.com/forging-blocks-org/forging-blocks/actions
+1. Re-validates the release
+2. Publishes the package to PyPI
+3. Deploys versioned documentation using `mike`
+4. Updates the `latest` docs alias
+5. Creates a GitHub Release using the generated changelog
 
 ---
 
-## Release FAQ (Common Mistakes)
+## Release Flow Diagram
 
-### ❓ I ran `poe release:*` but nothing was published
-**Cause:** The Git tag was not pushed.
-**Fix:** Ensure the command completed successfully and pushed `vX.Y.Z` to GitHub.
-
----
-
-### ❓ Can I publish manually with Poetry or MkDocs?
-**No.** Manual publishing bypasses validation and breaks reproducibility.
-All publishing must be performed by GitHub Actions.
-
----
-
-### ❓ Why must I release from `main`?
-Releases must reflect an exact, reproducible state of the default branch.
-Releasing from feature branches introduces ambiguity and risk.
-
----
-
-### ❓ CI failed after I pushed a tag — what now?
-Fix the issue on `main`, then create a **new version** (never reuse tags).
-
----
-
-### ❓ Can I edit the version manually?
-No. Always use `poe release:*` to ensure version, tag, and CI stay consistent.
+```mermaid
+flowchart TD
+    A[Developer on main] --> B[poe release:*]
+    B --> C[Local validation]
+    C --> D[Version bump]
+    D --> E[Generate CHANGELOG.md]
+    E --> F[Create release/vX.Y.Z branch]
+    F --> G[Commit + tag vX.Y.Z]
+    G --> H[Push branch + tag]
+    H -->|gh available| I[PR opened automatically]
+    H -->|no gh| J[PR link printed]
+    G --> K[GitHub Actions]
+    K --> L[Publish to PyPI]
+    K --> M[Deploy docs]
+    K --> N[Create GitHub Release]
+    I --> O[PR merged]
+    J --> O
+```
 
 ---
 
 ## Maintainer Release Checklist
 
-### Before Running a Release
-- [ ] All intended changes are merged into `main`
-- [ ] CI is green on `main`
-- [ ] No uncommitted changes locally
-- [ ] Version change matches SemVer intent
-- [ ] Documentation reflects the changes
+### Before
+- [ ] `main` is up to date
+- [ ] CI is green
+- [ ] Working tree is clean
+- [ ] Commit messages follow convention
+- [ ] `gh auth status` succeeds (optional)
 
-### During the Release
-- [ ] Run `poe release:patch | minor | major`
-- [ ] Verify the tag `vX.Y.Z` was pushed
-- [ ] Watch the GitHub Actions workflow
+### During
+- [ ] Run `poe release:*`
+- [ ] Changelog generated
+- [ ] Tag exists on GitHub
+- [ ] PR opened automatically or link printed
 
-### After the Release
-- [ ] PyPI package is published
-- [ ] Docs are deployed and `latest` is updated
-- [ ] GitHub Release exists with notes
-- [ ] Install test succeeds:
-  ```bash
-  pip install forging-blocks==X.Y.Z
-  ```
-
----
-
-## Versioning Strategy
-
-ForgingBlocks follows **Semantic Versioning**.
-
-| Type | Command | When |
-|-----|--------|------|
-| Patch | `poe release:patch` | Bug fixes, docs |
-| Minor | `poe release:minor` | New features |
-| Major | `poe release:major` | Breaking changes |
+### After
+- [ ] PyPI published
+- [ ] Docs deployed
+- [ ] GitHub Release created
+- [ ] PR merged
 
 ---
 
 ## Summary
 
-1. Update `main`
-2. Run one release command
-3. GitHub Actions publishes everything
-4. Verify artifacts
-5. Done
-
-This process enforces the same **explicit boundaries and automation discipline**
-that ForgingBlocks promotes in application architecture.
+1. Run a release command
+2. Changelog is generated
+3. PR opens automatically
+4. Tag triggers CI
+5. Docs and package are published
+6. Merge PR
+7. Done
