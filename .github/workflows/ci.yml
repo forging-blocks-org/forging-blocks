@@ -10,14 +10,18 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
+
       - name: Install dependencies
         run: poetry install --with dev,docs
-      - name: Run validation pipeline
+
+      - name: Run CI pipeline
         run: poetry run poe ci:simulate
