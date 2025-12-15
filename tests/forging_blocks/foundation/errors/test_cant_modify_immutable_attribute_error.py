@@ -1,7 +1,8 @@
-from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error import (
+from forging_blocks.foundation import (
     CantModifyImmutableAttributeError,
+    ErrorMessage,
+    ErrorMetadata,
 )
-from forging_blocks.foundation.errors.core import ErrorMessage, ErrorMetadata
 
 
 class TestCantModifyImmutableAttributeError:

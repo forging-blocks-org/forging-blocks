@@ -2,8 +2,7 @@ from typing import Any
 
 import pytest
 
-from forging_blocks.domain.messages.event import Event
-from forging_blocks.domain.messages.message import MessageMetadata
+from forging_blocks.domain import Event, MessageMetadata
 
 
 class PayloadNotImplementEvent(Event):

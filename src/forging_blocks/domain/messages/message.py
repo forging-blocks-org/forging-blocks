@@ -127,18 +127,6 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
             "message_type": self._message_type,
         }
 
-    @classmethod
-    def create(cls, message_type: str) -> MessageMetadata:
-        """Factory for creating a new metadata instance with a given type.
-
-        Args:
-            message_type: The type/name of the message.
-
-        Returns:
-            A new MessageMetadata instance with generated ID and current timestamp.
-        """
-        return cls(message_type=message_type)
-
     def to_dict(self) -> dict[str, Any]:
         """Convert metadata to dictionary representation.
 

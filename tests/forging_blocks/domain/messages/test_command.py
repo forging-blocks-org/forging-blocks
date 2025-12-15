@@ -9,8 +9,7 @@ from uuid import uuid4
 
 import pytest
 
-from forging_blocks.domain.messages.command import Command
-from forging_blocks.domain.messages.message import Message, MessageMetadata
+from forging_blocks.domain import Command, Message, MessageMetadata
 
 
 class PayloadAndValueNotImplCommand(Command):

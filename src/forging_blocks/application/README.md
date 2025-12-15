@@ -1,6 +1,6 @@
 # Application Layer ⚙️
 
-The **application layer** orchestrates use cases, coordinates domain logic, and manages cross-cutting concerns such as transactions and notifications.
+The **application layer** orchestrates business workflows, coordinates domain logic, and manages cross-cutting concerns such as transactions and notifications.
 It acts as a bridge between the domain layer (business logic) and the outside world (presentation, infrastructure, external services).
 
 ---
@@ -24,7 +24,7 @@ application/
 ## ✨ Core Concepts
 
 ### 1. **Application Inbound Ports**
-- **Purpose:** Define the entry points for your application's business workflows (use cases).
+- **Purpose:** Orchestrate business workflows by coordinating Domain logic and Infrastructure through ports.
 - **What goes here:** Abstract base classes/interfaces for commands, queries, and use cases.
 - **Example:** `AsyncUseCase` and `SyncUseCase` ABCs in `ports/inbound/use_case.py`.
 

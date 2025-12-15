@@ -1,20 +1,48 @@
-"""Outbound port for a message bus."""
+"""Outbound port defining the MessageBus abstraction.
 
-from typing import Generic, Protocol, TypeVar
+A MessageBus provides a generic asynchronous dispatch mechanism for commands,
+queries, or events. It is the central connector between application ports and
+transport infrastructure (queues, brokers, in-memory routing, etc.).
 
-from forging_blocks.application.ports.inbound.message_handler import MessageHandler
-from forging_blocks.domain.messages.message import Message
+Responsibilities:
+    - Route messages of various types to their respective handlers or transports.
+    - Provide an asynchronous dispatch API.
 
-MessageBusResponse = TypeVar("MessageBusResponse", covariant=True)
+Non-Responsibilities:
+    - Business logic.
+    - Handler invocation policies unless explicitly implemented.
+    - Delivery guarantees (up to infrastructure).
+"""
+
+from typing import Protocol, TypeVar
+
+from forging_blocks.foundation import OutboundPort
+
+MessageType = TypeVar("MessageType", contravariant=True)
+MessageBusResultType = TypeVar("MessageBusResultType", covariant=True)
 
 
-class MessageBus(Protocol, Generic[MessageBusResponse]):
-    """Asynchronous outbound port for a message bus."""
+class MessageBus(OutboundPort[MessageType, MessageBusResultType], Protocol):
+    """Outbound port representing a generic asynchronous message bus.
 
-    async def dispatch(self, message: Message) -> MessageBusResponse:
-        """Dispatch a message asynchronously."""
-        ...
+    A MessageBus dispatches messages to infrastructure or internal handlers.
+    Implementations vary from simple function routers to networked brokers.
+    """
 
-    async def register_handler(self, handler: MessageHandler) -> None:
-        """Register a message handler asynchronously."""
+    async def dispatch(self, message: MessageType) -> MessageBusResultType:
+        """Dispatch a message to the configured handler or transport.
+
+        Args:
+            message: The message instance to dispatch.
+
+        Returns:
+            A typed result depending on the nature of the message.
+
+        Notes:
+            Infrastructure determines:
+                - routing strategy,
+                - reliability,
+                - ordering,
+                - concurrency model.
+        """
         ...

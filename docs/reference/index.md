@@ -1,45 +1,12 @@
-# Reference 📖
+# Reference
+## Overview of ForgingBlocks Components
 
-> **Audience:** Contributors and maintainers of **ForgingBlocks** who
-> want to understand its internal design, structure, and abstractions.
-
-The **Reference** section documents the internal components of
-**ForgingBlocks** --- what each package contains, how they depend on
-one another, and how they fit into the overall architecture.
-
-It is primarily useful for developers extending or improving the toolkit
-itself.
-
-------------------------------------------------------------------------
-
-## 🧩 Package Overview
-
-  -----------------------------------------------------------------------
-  Package                       Description
-  ----------------------------- -----------------------------------------
-  **Foundation**                Core abstractions (`Result`, `Port`,
-                                `Mapper`) shared across all layers
-
-  **Domain**                    Encapsulates business rules and the
-                                ubiquitous language
-
-  **Application**               Defines use cases and application logic
-                                through inbound and outbound ports
-
-  **Infrastructure**            Implements adapters for external systems
-                                (e.g., databases, events, APIs)
-
-  **Presentation**              Provides entry points (HTTP API, CLI, or
-                                message consumers)
-  -----------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
-## 📚 Contents
-
--   [Foundation](foundation.md)
--   [Domain](domain.md)
--   [Application](application.md)
--   [Infrastructure](infrastructure.md)
--   [Presentation](presentation.md)
--   [Example Tests](../guide/example_tests.md)
+```mermaid
+flowchart LR
+    D[Domain<br/>Problem-space concepts] -->|depends on| F[Foundation<br/>Shared abstractions]
+    A[Application<br/>Coordination & behavior] -->|depends on| D
+    A -->|depends on| F
+    I[Infrastructure<br/>Technical adapters] -->|depends on| A
+    I -->|depends on| F
+    P[Presentation<br/>Input boundaries] -->|depends on| A
+```

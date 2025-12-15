@@ -1,7 +1,11 @@
-from forging_blocks.foundation.errors.base import CombinedErrors, Error, FieldErrors
-from forging_blocks.foundation.errors.core import (
+import pytest
+
+from forging_blocks.foundation import (
+    CombinedErrors,
+    Error,
     ErrorMessage,
     ErrorMetadata,
+    FieldErrors,
     FieldReference,
 )
 
@@ -88,21 +92,24 @@ class TestError:
 
 
 class TestFieldErrors:
-    def test_field_when_field_defined_then_returns_field_name(self) -> None:
-        field = FieldReference("username")
-        errors = FieldErrors(field=field, errors=[])
+    def test__init__when_no_errors_but_field_then_raise_value_error(self) -> None:
+        field_reference = FieldReference("username")
 
-        actual_field = errors.field
+        with pytest.raises(ValueError):
+            FieldErrors(field=field_reference, errors=[])
 
-        expected_field = FieldReference("username")
-        assert actual_field == expected_field
+    def test__init__when_errors_but_no_field_then_raise_value_error(self) -> None:
+        error_message = ErrorMessage("An error occurred")
+
+        with pytest.raises(ValueError):
+            FieldErrors(field=None, errors=[error_message])  # type: ignore
 
     def test_errors_when_errors_defined_then_returns_errors(self) -> None:
         error_message = ErrorMessage("An error occurred")
         error = Error(error_message)
-        errors = FieldErrors(errors=[error], field=FieldReference("username"))
+        field_errors = FieldErrors(errors=[error], field=FieldReference("username"))
 
-        actual_errors = errors.errors
+        actual_errors = field_errors.errors
 
         expected_errors = (error,)
         assert actual_errors == expected_errors
@@ -112,9 +119,11 @@ class TestFieldErrors:
         error_message2 = ErrorMessage("An error occurred2")
         error1 = Error(error_message1)
         error2 = Error(error_message2)
-        errors = FieldErrors(errors=[error1, error2], field=FieldReference("username"))
+        field_errors = FieldErrors(
+            errors=[error1, error2], field=FieldReference("username")
+        )
 
-        actual_length = len(errors)
+        actual_length = len(field_errors)
 
         expected_length = 2
         assert actual_length == expected_length
@@ -122,54 +131,46 @@ class TestFieldErrors:
     def test__iter__when_errors_defined_then_iterates_over_errors(self) -> None:
         error_message = ErrorMessage("An error occurred")
         error = Error(error_message)
-        errors = FieldErrors(errors=[error], field=FieldReference("username"))
+        field_errors = FieldErrors(errors=[error], field=FieldReference("username"))
 
-        actual_errors = list(errors)
+        actual_errors = list(field_errors)
 
         expected_errors = [error]
         assert actual_errors == expected_errors
 
-    def test__iter__when_no_errors_then_iterates_over_empty_list(self) -> None:
-        errors = FieldErrors(errors=[], field=FieldReference("username"))
-
-        actual_errors = list(errors)
-
-        expected_errors = []
-        assert actual_errors == expected_errors
-
     def test__str__when_errors_defined_then_returns_string_representation(self) -> None:
-        field = FieldReference("username")
+        field_reference = FieldReference("username")
         error_message = ErrorMessage("An error occurred")
         error = Error(error_message)
-        errors = FieldErrors(errors=[error], field=field)
+        field_errors = FieldErrors(errors=[error], field=field_reference)
 
-        actual_str = str(errors)
+        actual_str = str(field_errors)
 
-        expected_str = f"FieldErrors for field '{field.value}':\n - Error: An error occurred"
+        expected_str = f"FieldErrors for field '{field_reference.value}':\n - Error: An error occurred"
         assert actual_str == expected_str
 
     def test__repr__when_errors_defined_then_returns_repr_string(self) -> None:
-        field = FieldReference("username")
+        field_reference = FieldReference("username")
         error_message1 = ErrorMessage("An error occurred1")
         error_message2 = ErrorMessage("An error occurred2")
         error1 = Error(error_message1)
         error2 = Error(error_message2)
-        errors = FieldErrors(errors=[error1, error2], field=field)
+        field_errors = FieldErrors(errors=[error1, error2], field=field_reference)
 
-        actual_repr = repr(errors)
+        actual_repr = repr(field_errors)
 
-        expected_repr = f"<FieldErrors field={field.value!r} errors=2>"
+        expected_repr = f"<FieldErrors field={field_reference.value!r} errors=2>"
         assert actual_repr == expected_repr
 
     def test_as_debug_string_when_errors_defined_then_returns_debug_string(
         self,
     ) -> None:
-        field = FieldReference("username")
+        field_reference = FieldReference("username")
         error_message = ErrorMessage("An error occurred")
         error = Error(error_message)
-        errors = FieldErrors(errors=[error], field=field)
+        field_errors = FieldErrors(errors=[error], field=field_reference)
 
-        actual_debug_string = errors.as_debug_string()
+        actual_debug_string = field_errors.as_debug_string()
 
         expected_debug_string = (
             "FieldErrors(\n"
@@ -184,13 +185,24 @@ class TestFieldErrors:
         )
         assert actual_debug_string == expected_debug_string
 
+    def test_field_when_defined_then_return_it(self) -> None:
+        field_reference = FieldReference("username")
+        error_message = ErrorMessage("An error occurred")
+        error = Error(error_message)
+        field_errors = FieldErrors(errors=[error], field=field_reference)
+
+        actual_field = field_errors.field
+
+        expected_field_reference = FieldReference("username")
+        assert expected_field_reference == actual_field
+
 
 class TestCombinedErrors:
     def test_errors_when_errors_defined_then_returns_errors(self) -> None:
-        field = FieldReference("username")
+        field_reference = FieldReference("username")
         error_message = ErrorMessage("An error occurred")
         error = Error(error_message)
-        field_errors = FieldErrors(errors=[error], field=field)
+        field_errors = FieldErrors(errors=[error], field=field_reference)
         combined_errors = CombinedErrors(errors=[field_errors])
 
         actual_errors = combined_errors.errors
@@ -199,27 +211,28 @@ class TestCombinedErrors:
         assert actual_errors == expected_errors
 
     def test__str__when_errors_defined_then_returns_string_representation(self) -> None:
-        field = FieldReference("username")
+        field_reference = FieldReference("username")
         error_message = ErrorMessage("An error occurred")
         error = Error(error_message)
-        field_errors = FieldErrors(errors=[error], field=field)
+        field_errors = FieldErrors(errors=[error], field=field_reference)
         combined_errors = CombinedErrors(errors=[field_errors])
 
         actual_str = str(combined_errors)
 
         expected_str = (
-            "CombinedErrors:\n- FieldErrors for field 'username':\n - Error: An error " "occurred"
+            "CombinedErrors:\n- FieldErrors for field 'username':\n - Error: An error "
+            "occurred"
         )
         assert actual_str == expected_str
 
     def test__repr__when_errors_defined_then_returns_repr_string(self) -> None:
-        field = FieldReference("username")
+        field_reference = FieldReference("username")
         error_message1 = ErrorMessage("An error occurred1")
         error_message2 = ErrorMessage("An error occurred2")
         error1 = Error(error_message1)
         error2 = Error(error_message2)
-        field_errors1 = FieldErrors(errors=[error1, error2], field=field)
-        field_errors2 = FieldErrors(errors=[error1, error2], field=field)
+        field_errors1 = FieldErrors(errors=[error1, error2], field=field_reference)
+        field_errors2 = FieldErrors(errors=[error1, error2], field=field_reference)
         combined_errors = CombinedErrors(errors=[field_errors1, field_errors2])
 
         actual_repr = repr(combined_errors)
@@ -230,10 +243,10 @@ class TestCombinedErrors:
     def test_as_debug_string_when_errors_defined_then_returns_debug_string(
         self,
     ) -> None:
-        field = FieldReference("username")
+        field_reference = FieldReference("username")
         error_message = ErrorMessage("An error occurred")
         error = Error(error_message)
-        field_errors = FieldErrors(errors=[error], field=field)
+        field_errors = FieldErrors(errors=[error], field=field_reference)
         combined_errors = CombinedErrors(errors=[field_errors])
 
         actual_debug_string = combined_errors.as_debug_string()
@@ -256,21 +269,13 @@ class TestCombinedErrors:
         assert actual_debug_string == expected_debug_string
 
     def test__iter__when_errors_defined_then_iterates_over_errors(self) -> None:
-        field = FieldReference("username")
+        field_reference = FieldReference("username")
         error_message = ErrorMessage("An error occurred")
         error = Error(error_message)
-        field_errors = FieldErrors(errors=[error], field=field)
+        field_errors = FieldErrors(errors=[error], field=field_reference)
         combined_errors = CombinedErrors(errors=[field_errors])
 
         actual_errors = list(combined_errors)
 
         expected_errors = [field_errors]
-        assert actual_errors == expected_errors
-
-    def test__iter__when_no_errors_then_iterates_over_empty_list(self) -> None:
-        errors = FieldErrors(errors=[], field=FieldReference("username"))
-
-        actual_errors = list(errors)
-
-        expected_errors = []
         assert actual_errors == expected_errors

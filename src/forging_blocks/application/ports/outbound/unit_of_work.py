@@ -1,4 +1,18 @@
-"""Unit of Work interface for managing transactions and consistency boundaries."""
+"""Unit of Work abstraction for transactional consistency.
+
+A UnitOfWork defines a transactional boundary for application operations.
+It coordinates the persistence of aggregate changes and the publication of
+domain events, ensuring atomicity across these actions.
+
+Responsibilities:
+    - Manage a transactional context.
+    - Commit or roll back changes.
+    - Publish domain events upon successful commit.
+
+Non-Responsibilities:
+    - Execute business logic.
+    - Interact directly with aggregates.
+"""
 
 from __future__ import annotations
 
@@ -10,21 +24,25 @@ from forging_blocks.foundation.errors.base import Error
 
 
 class UnitOfWorkError(Error):
-    """Exception raised for errors in the unit of work."""
+    """Error raised when a Unit of Work operation fails."""
 
     pass
 
 
 class UnitOfWork(ABC):
-    """Abstract base class for a Unit of Work pattern.
+    """Abstract base class for managing transactional consistency.
 
-    The Unit of Work pattern is used to maintain a list of objects affected by a  business
-    transaction and to coordinate the writing out of changes and the resolution of concurrency
-    problems.
+    A UnitOfWork coordinates operations across multiple repositories and
+    outbound ports. It ensures that state changes and domain events are
+    published atomically.
     """
 
     async def __aenter__(self) -> UnitOfWork:
-        """Enter the unit of work context."""
+        """Enter the Unit of Work context.
+
+        Returns:
+            The active UnitOfWork instance.
+        """
         return self
 
     async def __aexit__(
@@ -33,7 +51,15 @@ class UnitOfWork(ABC):
         exc_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:
-        """Exit the unit of work context. Commit or rollback based on exceptions."""
+        """Exit the Unit of Work context.
+
+        Commits if no exception occurred; otherwise rolls back.
+
+        Args:
+            exc_type: Raised exception type if any.
+            exc_value: Exception instance.
+            traceback: Execution traceback.
+        """
         if exc_type is None:
             await self.commit()
         else:
@@ -42,28 +68,31 @@ class UnitOfWork(ABC):
     @property
     @abstractmethod
     def session(self) -> Any | None:
-        """Get the underlying session or transaction context.
+        """Return the underlying session or transactional context.
 
         Returns:
-            The session or transaction context, or None if not applicable.
+            A context object representing the transaction, or None.
+
+        Notes:
+            This is infrastructure-defined (DB session, connection, etc.).
         """
         ...
 
     @abstractmethod
     async def commit(self) -> None:
-        """Commit all changes in the unit of work.
+        """Commit all changes in the Unit of Work.
 
-        This should:
-        - Persist all registered changes across repositories
-        - Publish domain events after a successful commit
-        - Handle transaction coordination
+        This operation should:
+            - Persist all modified aggregates.
+            - Publish domain events collected during the transaction.
+            - Ensure atomicity.
 
         Raises:
-            UnitOfWorkError: If commit fails
+            UnitOfWorkError: If commit fails.
         """
         ...
 
     @abstractmethod
     async def rollback(self) -> None:
-        """Rollback changes in transaction."""
+        """Roll back the transaction and discard uncommitted changes."""
         ...

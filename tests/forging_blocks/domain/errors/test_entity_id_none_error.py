@@ -1,4 +1,4 @@
-from forging_blocks.domain.errors.entity_id_none_error import EntityIdNoneError
+from forging_blocks.domain import EntityIdNoneError
 
 
 class TestEntityIdNoneError:

@@ -1,54 +1,23 @@
 name: Deploy Documentation
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: ["main"]
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   deploy-docs:
-    name: Build and Deploy MkDocs Site
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # required for mkdocs-git-revision-date plugin
-
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
-
-      - name: Install dependencies
+      - name: Install docs dependencies
         run: poetry install --with docs
-
-      - name: Configure Git for deployment
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Generate autodoc pages
         run: poetry run python scripts/generate_autodoc_pages.py
-
-      - name: Build documentation
-        run: poetry run mkdocs build --strict
-
-      - name: Upload built documentation as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: built-site
-          path: site/
-          retention-days: 7
-
-      - name: Deploy to GitHub Pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: poetry run mkdocs gh-deploy --force --clean --verbose
-
-      - name: Restore mkdocs.yml
-        if: always()
-        run: git restore mkdocs.yml
+      - name: Deploy docs
+        run: poetry run mkdocs gh-deploy --force --clean

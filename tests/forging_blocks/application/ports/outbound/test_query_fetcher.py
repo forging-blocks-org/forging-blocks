@@ -3,9 +3,8 @@ from unittest.mock import AsyncMock, MagicMock
 
 from pytest import fixture
 
-from forging_blocks.application.ports.outbound.message_bus import MessageBus
-from forging_blocks.application.ports.outbound.query_fetcher import QueryFetcher
-from forging_blocks.domain.messages.query import Query
+from forging_blocks.application import MessageBus, QueryFetcher
+from forging_blocks.domain import Query
 
 
 class FakeQuery(Query):

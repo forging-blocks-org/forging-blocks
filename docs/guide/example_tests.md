@@ -1,147 +1,168 @@
-# Example Tests 🧩
+# Example Tests
+## Putting testing ideas into practice
 
-**For developers using ForgingBlocks** this guide shows *how* to write tests for each layer.
+This page shows larger, more realistic examples that build on the
+concepts introduced in the [Testing](testing.md) guide.
 
-It complements the conceptual [Testing Strategy](testing.md) page.
+The focus here is on **observable behavior**, not on testing the toolkit itself.
 
-------------------------------------------------------------------------
+---
 
-## 🧱 Domain Example
+## 1. Composing behavior with Result
 
-Your tests should be written against your domain models to verify their behavior.
+```python
+from forging_blocks.foundation import Result, Ok, Err
 
-Entity methods represents domain logic and should be testedin any possible scenario that may arise.
 
-``` python
-from __future__ import annotations
+def parse_int(value: str) -> Result[int, str]:
+    try:
+        return Ok(int(value))
+    except ValueError:
+        return Err(f"invalid integer: {value!r}")
 
-from uuid import UUID
 
-from forging_blocks.domain import Entity
+def reciprocal(value: int) -> Result[float, str]:
+    if value == 0:
+        return Err("division by zero")
+    return Ok(1 / value)
 
-class User(Entity[UUID]):
-    id: UUID
-    name: str
 
-    @classmethod
-    def register(cls, id: int, name: str) -> User:
-        return cls(id=id, name=name)
+def parse_reciprocal(raw: str) -> Result[float, str]:
+    result = parse_int(raw)
 
-class TestUser:
-    def test_register_when_called_2_times_same_names_but_different_id(self) -> None:
-        # Arrange
-        actual_name = "Alice"
+    if result.is_err:
+        return result
 
-        # Act
-        created_user_a = User.register(name=actual_name)
-        created_user_b = User.register(name=actual_name)
-
-        # Assert
-        expected_name = actual_name
-        assert created_user_a.name == expected_name
-        assert created_user_b.name == expected_name
-        assert created_user_a.id != created_user_b.id
+    match result:
+        case Ok(value):
+            return reciprocal(value)
 ```
 
-------------------------------------------------------------------------
+### Tests
 
-## ⚙️ Application Example --- Use Case
+```python
+from your_module import parse_reciprocal
 
-``` python
+
+def test_parse_reciprocal_when_valid_input_then_succeeds() -> None:
+    result = parse_reciprocal("4")
+
+    assert result.is_ok
+
+
+def test_parse_reciprocal_when_invalid_input_then_fails() -> None:
+    result = parse_reciprocal("foo")
+
+    assert result.is_err
+
+
+def test_parse_reciprocal_when_zero_then_fails() -> None:
+    result = parse_reciprocal("0")
+
+    assert result.is_err
+```
+
+---
+
+## 2. Testing a simple use case
+
+```python
 from dataclasses import dataclass
 
 from forging_blocks.application import UseCase
-from forging_blocks.foundation import Error, Ok, Err, Result
+from forging_blocks.foundation import Result, Err
 
-@dataclass(frozen=True)
-class DivideNumbersRequest:
-    dividend: int
-    divisor: int
 
-@dataclass(frozen=True)
-class DivideNumbersResponse:
-    quotient: int
+@dataclass
+class CreateTaskInput:
+    title: str
 
-class DivideNumbersError(Error):
-    reason: str
 
-DivideNumbersResult = Result[DivideNumbersResponse, DivideNumbersError]
+class TaskRepository:
+    def save(self, title: str) -> Result[int, str]:
+        ...
 
-class DivideNumbersUseCase(UseCase[DivideNumbersRequest, DivideNumbersResult]):
-    def execute(self, request: DivideNumbersRequest) -> DivideNumbersResult:
-        a, b = request.dividend, request.divisor
-        if b == 0:
-            return Err(DivideNumbersError("division by zero"))
-        return Ok(DivideNumbersResponse(a // b))
 
-class TestDivideNumbersUseCase:
-    def test_execute_when_divisor_is_zero_then_division_by_zero_error(self) -> None:
-        dividend = 10
-        divisor = 0
-        request = DivideNumbersRequest(dividend, divisor)
-        use_case = DivideNumbersUseCase()
+class CreateTaskUseCase(UseCase):
+    def execute(self, data: CreateTaskInput) -> Result[int, str]:
+        ...
 
-        result = use_case.execute(request)
 
-        expected_reason = "division by zero"
-        expected_is_err = True
-        assert result.is_err() == expected_is_err
-        assert result.error.reason == expected_reason
+class CreateTaskService(CreateTaskUseCase):
+    def __init__(self, repo: TaskRepository) -> None:
+        self._repo = repo
 
-    def test_execute_when_dividend_is_10_and_divisor_is_5_then_2(self) -> None:
-        dividend = 10
-        divisor = 5
-        request = DivideNumbersRequest(dividend, divisor)
-        use_case = DivideNumbersUseCase()
+    def execute(self, data: CreateTaskInput) -> Result[int, str]:
+        if not data.title.strip():
+            return Err("title required")
 
-        result = use_case.execute(request)
-
-        expected_quotient = 2
-        assert result.is_ok()
-        assert result.value.quotient == expected_quotient
+        return self._repo.save(data.title)
 ```
 
-------------------------------------------------------------------------
+### Fake repository
 
-## 🧩 Infrastructure Example --- Repository Adapter
+```python
+from forging_blocks.foundation import Result, Ok
 
-``` python
-from forging_blocks.application import Repository
-from forging_blocks.domain import Entity
 
-class User(Entity):
-    id: int
-    name: str
+class InMemoryTaskRepository:
+    def __init__(self) -> None:
+        self.tasks: dict[int, str] = {}
+        self._next_id = 1
 
-class InMemoryUserRepository(Repository[User]):
-    def __init__(self, data: dict[int, User]) -> None:
-        self._data = data
+    def save(self, title: str) -> Result[int, str]:
+        for task_id, existing in self.tasks.items():
+            if existing == title:
+                return Ok(task_id)
 
-    async def delete_by_id(self, user_id: int) -> None:
-        self._data.pop(user_id, None)
-
-    async def get_by_id(self, user_id: int) -> User | None:
-        return self._data.get(user_id)
-
-    async def list_all(self) -> list[User]:
-        return list(self._data.values())
-
-    async def save(self, user: User) -> None:
-        self._data[user.id] = user
-
-class TestInMemoryUserRepository:
-    async def test_save_when_user_is_added_then_persist_data_source(self) -> None:
-        data = {}
-        user = User(id=1, name="Alice")
-        repo = InMemoryUserRepository(data)
-
-        await repo.save(user)
-
-        persisted_user = data.get(1)
-        assert retrieved_user == user
+        task_id = self._next_id
+        self._next_id += 1
+        self.tasks[task_id] = title
+        return Ok(task_id)
 ```
 
-------------------------------------------------------------------------
+### Tests
 
-> Continue exploring the [Testing Strategy](../guide/testing.md) page for the
-> underlying principles behind these examples.
+```python
+from your_module import CreateTaskService, CreateTaskInput, InMemoryTaskRepository
+
+
+def test_create_task_when_valid_title_then_succeeds() -> None:
+    repo = InMemoryTaskRepository()
+    service = CreateTaskService(repo)
+
+    result = service.execute(CreateTaskInput(title="Write docs"))
+
+    assert result.is_ok
+    assert len(repo.tasks) == 1
+
+
+def test_create_task_when_duplicate_title_then_reuses_task() -> None:
+    repo = InMemoryTaskRepository()
+    service = CreateTaskService(repo)
+
+    first = service.execute(CreateTaskInput(title="Write docs"))
+    second = service.execute(CreateTaskInput(title="Write docs"))
+
+    assert first.is_ok
+    assert second.is_ok
+    assert len(repo.tasks) == 1
+
+
+def test_create_task_when_missing_title_then_fails() -> None:
+    repo = InMemoryTaskRepository()
+    service = CreateTaskService(repo)
+
+    result = service.execute(CreateTaskInput(title=" "))
+
+    assert result.is_err
+```
+
+---
+
+## Key takeaway
+
+Tests should describe **what happened**, not **how the toolkit represents it**.
+
+Use pattern matching when you need data.
+Otherwise, assert success or failure and move on.

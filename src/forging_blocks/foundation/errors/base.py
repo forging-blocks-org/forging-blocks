@@ -47,13 +47,17 @@ ErrorType = TypeVar("ErrorType", bound="Error")
 class Error(Exception, Debuggable):
     """Base class for all structured errors that can be raised like standard Exceptions."""
 
-    def __init__(self, message: ErrorMessage, metadata: ErrorMetadata | None = None) -> None:
+    def __init__(
+        self, message: ErrorMessage, metadata: ErrorMetadata | None = None
+    ) -> None:
         super().__init__(message.value)
         self._message = message
         self._metadata = metadata or ErrorMetadata(context={})
 
     def __str__(self) -> str:
-        context_str = f" | Context: {self._metadata.context}" if self._metadata.context else ""
+        context_str = (
+            f" | Context: {self._metadata.context}" if self._metadata.context else ""
+        )
         return f"{self.__class__.__name__}: {self._message.value}{context_str}"
 
     def __repr__(self) -> str:
@@ -96,9 +100,16 @@ class FieldErrors(Error):
 
     def __init__(self, field: FieldReference, errors: Iterable[Error]) -> None:
         self._field = field
-        self._errors: Sequence[Error] = tuple(
-            errors,
-        )
+        self._errors: Sequence[Error] = tuple(errors)
+
+        if not errors or not field:
+            raise ValueError(
+                "FieldErrors must contain at least one error and field defined."
+            )
+
+        message = ErrorMessage(f"{len(self._errors)} error(s) for field '{field}'.")
+
+        super().__init__(message=message)
 
     def __repr__(self) -> str:
         """Return a concise string representation of the field errors."""
@@ -110,7 +121,10 @@ class FieldErrors(Error):
     def __str__(self) -> str:
         """Return a human-readable string representation of the field errors."""
         error_messages = "\n".join(f" - {str(error)}" for error in self._errors)
-        return f"{self._get_title_prefix()} for field '{self._field.value}':\n" f"{error_messages}"
+        return (
+            f"{self._get_title_prefix()} for field '{self._field.value}':\n"
+            f"{error_messages}"
+        )
 
     def __iter__(self) -> Iterator[Error]:
         """Iterate over the errors associated with the field."""
@@ -180,7 +194,8 @@ class CombinedErrors(Error, Generic[ErrorType]):
     def as_debug_string(self) -> str:
         """Return a detailed, multi-line string for debugging, showing all contained errors."""
         error_strings = [
-            f"    {e.as_debug_string().replace(chr(10), chr(10)+'    ')}" for e in self._errors
+            f"    {e.as_debug_string().replace(chr(10), chr(10)+'    ')}"
+            for e in self._errors
         ]
         return (
             f"{self._get_title_prefix()}(\n"

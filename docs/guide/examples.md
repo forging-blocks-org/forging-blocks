@@ -1,83 +1,112 @@
-# Architecture Examples 🧩
+# Examples
+## Small, architecture-neutral usage snippets
 
-This section illustrates how to apply **ForgingBlocks** in different contexts and architectural styles.
+This page collects small, focused examples that show how to use ForgingBlocks concepts in isolation.
 
----
-
-## ⚡ Example 1 — Clean Architecture (Typical Web App)
-
-```mermaid
-flowchart TD
-    A[HTTP Request] --> B[Controller]
-    B --> C[Use Case]
-    C --> D[Domain Entity]
-    C --> E[Repository Port]
-    E --> F[Infrastructure Adapter]
-    F --> G[(Database)]
-```
-
-### Flow
-1. The **controller** receives a request and creates a command.
-2. The **application use case** executes it through an **inbound port**.
-3. The use case manipulates **domain entities**.
-4. It calls **outbound ports** (repositories, buses).
-5. The **infrastructure layer** fulfills those ports.
+Each example is **self-contained** and does not assume any particular project structure.
 
 ---
 
-## ⚙️ Example 2 — Event-Driven Architecture
-
-```mermaid
-sequenceDiagram
-    participant Domain as Domain Layer
-    participant App as Application Layer
-    participant Bus as EventBus (Infrastructure)
-    participant External as External Service
-
-    Domain->>App: Publish DomainEvent
-    App->>Bus: EventHandler sends event
-    Bus->>External: Notify via message broker
-```
-
-Events decouple the system, allowing **asynchronous workflows** and **CQRS-style read models**.
-
----
-
-## 🧩 Example 3 — CQRS
-
-```mermaid
-flowchart LR
-    A[Command] --> B[CommandHandler]
-    B --> C[AggregateRoot]
-    C --> D[EventBus]
-    D --> E[QueryHandler]
-    E --> F[(Read Model)]
-```
-
-The **command side** updates aggregates and emits events.
-
-The **query side** responds to read requests with dedicated data models.
-
----
-
-## 🧱 Example 4 — Using Ports and Adapters
+## 1. Validation with Result
 
 ```python
-# inbound port
-class RegisterUserUseCase(UseCase[RegisterUserInput, Result[User, Error]]):
-    ...
+from dataclasses import dataclass
+from forging_blocks.foundation import Result, Ok, Err
 
-# outbound port
-class UserRepository(Repository[User]):
-    ...
 
-# infrastructure adapter
-class SqlUserRepository(UserRepository):
-    ...
+@dataclass(frozen=True)
+class RegisterUserInput:
+    email: str
+    name: str
+
+
+def validate_registration(data: RegisterUserInput) -> Result[RegisterUserInput, str]:
+    if "@" not in data.email:
+        return Err("invalid email")
+    if not data.name.strip():
+        return Err("name required")
+    return Ok(data)
+```
+
+Usage:
+
+```python
+incoming = RegisterUserInput(email="user@example.com", name="Alice")
+result = validate_registration(incoming)
+
+match result:
+    case Ok(valid):
+        print(f"Ready to register: {valid}")
+    case Err(error):
+        print(f"Validation error: {error}")
 ```
 
 ---
 
-## ✅ Summary
+## 2. Simple domain-like type
 
-These examples show that **ForgingBlocks** does not dictate the architecture — it **enables composition** across many styles (Clean, Hexagonal, CQRS, SOA, etc.).
+```python
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class Task:
+    id: int
+    title: str
+    completed: bool = False
+
+    def complete(self) -> "Task":
+        return Task(id=self.id, title=self.title, completed=True)
+```
+
+This type does not rely on any infrastructure. It can be tested directly, extended easily, and used in a wide range of designs.
+
+---
+
+## 3. Using a port and adapter
+
+```python
+from typing import Protocol
+
+from forging_blocks.foundation import Err, Ok, Port, Result
+
+
+class EmailSender(Port):
+    def send(self, to: str, subject: str, body: str) -> Result[None, str]:
+        ...
+```
+
+A console-based implementation:
+
+```python
+class ConsoleEmailSender:
+    def send(self, to: str, subject: str, body: str) -> Result[None, str]:
+        print(f"To: {to}\nSubject: {subject}\n\n{body}")
+        return Ok(None)
+```
+
+A small function using the port:
+
+```python
+def send_reset_email(sender: EmailSender, email: str) -> Result[None, str]:
+    if "@" not in email:
+        return Err("invalid email")
+    body = "Click here to reset your password."
+    return sender.send(to=email, subject="Reset your password", body=body)
+```
+
+The design is:
+
+- clear to read,
+- easy to test with a fake `EmailSender`,
+- independent of any particular mail provider or framework.
+
+---
+
+## 4. What to explore next
+
+Once you are comfortable with these examples, you can:
+
+- read [Principles](principles.md) to understand why the toolkit is structured this way,
+- map examples into blocks using [Recommended Blocks Structure](recommended_blocks_structure.md),
+- and explore architectural mappings in the **Architectural Styles** section if you want to see how these ideas can appear inside well-known styles.

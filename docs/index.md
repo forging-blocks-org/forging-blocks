@@ -1,25 +1,77 @@
 # 🧩 ForgingBlocks
 
-Composable **abstractions and interfaces** for writing clean, testable, and maintainable Python systems.
+**ForgingBlocks** provides a set of small, composable **foundational contracts** that help you design software with **clarity**, **intent**, and **expressiveness**.
 
-> Not a framework — a **toolkit** for forging your own architectural blocks.
+It doesn’t enforce any framework, library, or organizational approach.
+
+Instead, it gives you a **vocabulary** and **building blocks** for shaping ideas in a way that fits your project and your style.
+
+ForgingBlocks relies only on standard features available in **Python 3.12+** (such as `Protocols`, `Generics`, and Type Hints), keeping it lightweight and broadly compatible.
 
 ---
 
-## 🌱 What Is ForgingBlocks?
+## 🚀 Getting Started
 
-ForgingBlocks provides **foundations** — small, composable contracts that help you design software with **clarity**, **intent**, and **resilience**.
+Install using Poetry, pip or UV:
 
-It doesn’t enforce a specific framework or runtime.
-Instead, it gives you the *language* to express architectural ideas such as:
+```bash
+pip install forging-blocks
+# or
+poetry add forging-blocks
+# or
+uv add forging-blocks
+```
 
-- Clean Architecture  
-- Hexagonal / Ports & Adapters  
-- Domain-Driven Design (DDD)  
-- CQRS and Event-Driven Systems  
+**Quick example**:
 
-You decide the style.  
-ForgingBlocks ensures the structure stays clear and consistent.
+```python
+from forging_blocks.foundation import Result, Ok, Err
+
+def divide_quotient_only(dividend: int, divisor: int) -> Result[int, str]:
+    if divisor == 0:
+        return Err("Division by zero")
+
+    quotient = dividend // divisor
+
+    return Ok(quotient)
+```
+
+Or that operation with a remainder:
+
+```python
+def divide_with_remainder(dividend: int, divisor: int) -> Result[tuple[int, int], str]:
+    if divisor == 0:
+        return Err("Division by zero")
+
+    quotient = dividend // divisor
+    remainder = dividend % divisor
+
+    return Ok((quotient, remainder))
+```
+
+---
+
+🛠️ How can ForgingBlocks help me?
+
+ForgingBlocks helps you keep your project's structure clear, intentional, and easy to reason about.
+
+It provides small, composable abstractions that support writing clean, testable, and maintainable Python code — without tying you to any framework or architectural pattern.
+
+**Not a framework. Not an architecture. A toolkit for forging your own building blocks.**
+
+ForgingBlocks doesn't prescribe how your system must be structured.
+Instead, it works alongside your preferred style and supports practices like:
+
+- Making success and failure explicit
+- Creating clear boundaries between components
+- Modeling domain concepts that express intent
+- Keeping core logic independent of infrastructure concerns
+
+**You remain in control.**
+
+You define the guidelines and conventions that fit your project.
+
+ForgingBlocks simply provides the building blocks that help you write decoupled, testable, high-quality code — free from framework lock-in.
 
 ---
 
@@ -27,70 +79,43 @@ ForgingBlocks ensures the structure stays clear and consistent.
 
 | Concept | Purpose |
 |----------|----------|
-| **Result / Ok / Err** | Represent success or failure explicitly |
-| **Port / Inbound / Outbound** | Define clear communication boundaries |
-| **Entity / ValueObject / AggregateRoot** | Model domain consistency and behavior |
-| **Event / EventBus / CommandHandler** | Express orchestration through messaging |
-| **Repository / UnitOfWork** | Abstract persistence and coordination |
+| **Result / Ok / Err** | Represents success or failure explicitly. |
+| **Mapper / ResultMapper** | Transforms values or Results into another type. |
+| **Debuggable** | Protocol ensuring an object exposes a clear, consistent debug representation. |
+| **Port / InboundPort / OutboundPort** | Define explicit communication boundaries. |
 
 ---
 
-## 🏗️ Architectural Layers
+## 🏗️ Organizational Blocks
 
-```mermaid
-graph TD
-    A[Presentation Layer] -->|Invokes| B[Application Layer]
-    B -->|Uses| C[Domain Layer]
-    C -->|Depends on| D[Foundation Layer]
-    B -->|Delegates to| E[Infrastructure Layer]
-    style A fill:#2a2a2a,stroke:#555,color:#fff
-    style B fill:#333,stroke:#555,color:#fff
-    style C fill:#444,stroke:#555,color:#fff
-    style D fill:#555,stroke:#777,color:#fff
-    style E fill:#222,stroke:#666,color:#fff
-```
+Each block represents a **boundary of responsibility**.
 
-Each layer is a **boundary of responsibility**.  
-The toolkit’s abstractions ensure dependencies flow inward — never outward.
+ForgingBlocks provides small abstractions that help you keep these boundaries intentional and easy to understand.
+
+- The **Foundation** block offers the core building blocks reused throughout the system.
+- The **Domain** block defines the concepts and rules that model your problem space.
+- The **Application** block expresses use cases and coordinates domain behavior.
+- The **Infrastructure** block supplies adapters to external systems.
+- The **Presentation** block handles incoming interactions with your application.
+
+!!! note "Block vs Layer"
+    In ForgingBlocks, the term *block* is intentionally architecture-neutral.
+    You may interpret a block as a *layer* if that mental model helps, but this toolkit does not require or enforce any structural pattern.
 
 ---
 
-## 🚀 Getting Started
+## 🧭 Why It Matters
 
-Install using Poetry or pip:
+Many systems become difficult to evolve not because of missing features, but due to **coupling**, **implicit assumptions**, and **unclear responsibilities**.
 
-```bash
-poetry add forging-blocks
-# or
-pip install forging-blocks
-```
-
-Quick example:
-
-```python
-from forging_blocks.foundation import Result, Ok, Err
-
-def divide(a: int, b: int) -> Result[int, str]:
-    if b == 0:
-        return Err("division by zero")
-    return Ok(a // b)
-```
+ForgingBlocks helps you shape software that is **clear**, **testable**, and **maintainable** by encouraging intentional structure — block by block.
 
 ---
 
 ## 📚 Learn More
 
 - [Getting Started](guide/getting-started.md)
-- [Architecture Overview](guide/architecture.md)
-- [Packages & Layers](guide/packages_and_layers.md)
+- [Blocks Overview](guide/recommended_blocks_structure.md)
+- [Organizing Your Project](guide/principles.md)
 - [Reference Index](reference/index.md)
-- [Release Guide](guide/release_guide.md)
-
----
-
-## 🧭 Why It Matters
-
-Most systems fail not because of missing features, but due to **tight coupling** and **unclear boundaries**.
-
-ForgingBlocks helps you forge software that **teaches architecture by design** —  
-**clear**, **testable**, and **maintainable**, block by block.
+- [Release Guide](RELEASE_GUIDE.md)

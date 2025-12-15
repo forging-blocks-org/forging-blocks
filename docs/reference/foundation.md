@@ -1,109 +1,118 @@
-# Foundation Package 🧩
+# Foundation
+## Foundational abstractions and contracts
 
-The **foundation** package defines the core abstractions that the rest of the toolkit depends on.
+The **Foundation** block provides low-level, reusable abstractions that are shared
+across the entire system.
 
-It provides *reusable contracts* — small, composable building blocks that enforce clarity and explicit boundaries.
+It contains **no domain logic**, **no application orchestration**, and
+**no infrastructure concerns**.
 
----
-
-## 🧠 Purpose
-
-The foundation layer defines **layer-agnostic** interfaces and helpers that can be reused anywhere.
-
-It contains no business logic or framework dependencies.
+Foundation exists to define **stable contracts and primitives** on top of which
+all other blocks are built.
 
 ---
 
-## ⚙️ Components
+## Purpose
+
+- Supply **primitive abstractions** (`Result`, `Port`, `Mapper`).
+- Enable explicit, intention-revealing boundaries.
+- Support structured and predictable error handling.
+- Provide a stable base reused by all other blocks.
+
+---
+
+## Dependency position
+
+```mermaid
+flowchart TD
+    D[Domain] -->|depends on| F[Foundation]
+    A[Application] -->|depends on| F
+    I[Infrastructure] -->|depends on| A
+    I -->|depends on| F
+```
+
+Foundation depends on nothing.
+All other blocks may depend on Foundation.
+
+---
+
+## Core concepts
 
 ### Result
 
-Represents success or failure explicitly without exceptions.
+`Result` models the **explicit outcome** of an operation.
 
-```python
-from forging_blocks.foundation import Result, Ok, Err
+It is used when failure is part of normal behavior, such as:
 
-def divide(a: int, b: int) -> Result[int, str]:
-    if b == 0:
-        return Err("division by zero")
-    return Ok(a // b)
-```
+- validation
+- parsing
+- rule evaluation
+- boundary checks
+
+A `Result` represents either success (`Ok`) or failure (`Err`), without relying on
+exceptions for control flow.
+
+Result is about **flow**, not about error representation.
+
+---
+
+### Errors
+
+Foundation defines a structured **error model**.
+
+Errors represent **what went wrong**, not **how control flows**.
+
+They are:
+
+- structured objects (message + metadata)
+- debuggable
+- composable and aggregatable
+- usable both as return values and raised exceptions
+
+Errors are commonly carried inside `Err`, but the two concepts are distinct:
+
+- `Result` answers *whether* an operation succeeded.
+- `Error` answers *why* it failed.
+
+Foundation provides reusable error categories such as:
+
+- validation errors
+- rule violation errors
+- structural or invariant errors
+
+These error types are architecture-neutral and reusable across domains.
+
+---
 
 ### Port
 
-The base abstraction for communication boundaries between layers.
+A `Port` represents a **boundary between components**.
 
-```python
-class Port(Generic[InputType, OutputType], Protocol):
-    def execute(self, data: InputType) -> OutputType:
-        ...
-```
+Ports define *what is expected*, not *how it is implemented*.
+They enable replacement, testing, and decoupling without imposing an architecture.
 
-You can use as a marker for inbound and outbound ports.
-
-### InboundPort
-
-Marker for application entry points.
-
-```python
-class InboundPort(Port[InputType, OutputType], Protocol):
-    ...
-```
-
-### OutboundPort
-
-Marker for application dependencies.
-
-```python
-class OutboundPort(Port[InputType, OutputType], Protocol):
-    ...
-```
+---
 
 ### Mapper
 
-Defines safe type transformations between layers.
+`Mapper` and `ResultMapper` define **explicit transformations** between types.
 
-```python
-class Mapper(Generic[SourceType, TargetType], Protocol):
-    def map(self, source: SourceType) -> TargetType:
-        ...
-```
-
-
-### Event Bus
-
-Defines contracts for publishing and handling events.
-
-### Immutable
-
-Mixin and decorators that make entities and value objects immutable.
+They make data conversion intentional and observable,
+avoiding hidden or implicit mappings.
 
 ---
 
-## 🧭 Cross-links
+### Debuggable
 
-- See also: [Domain Layer](domain.md) for business rules.
-- See also: [Application Layer](application.md) for orchestration logic.
+`Debuggable` is a lightweight contract for exposing structured debug information.
 
----
-
-## 🧩 Diagram
-
-```mermaid
-graph TD
-    A[Foundation] --> B[Domain]
-    A --> C[Application]
-    C --> D[Infrastructure]
-    C --> E[Presentation]
-```
+It enables introspection without leaking internal state or implementation details.
 
 ---
 
-## ✅ Summary
+## Characteristics
 
-| Aspect | Description |
-|--------|--------------|
-| **Responsibility** | Define reusable abstractions and contracts |
-| **Depends on** | None |
-| **Used by** | All layers |
-| **Should not depend on** | Domain, Application, Infrastructure, Presentation |
+- Pure Python (standard library only).
+- Architecture-neutral.
+- Stable, low-level abstractions.
+- Used by all other blocks.

@@ -1,58 +1,58 @@
-/* Background color for the diagram */
-.diagram-container {
-    background-color: #282828; /* Gruvbox dark background */
+/* ============================================================
+   BADWOLF — Mermaid Adapter
+   ============================================================ */
+
+.mermaid {
+  background-color: var(--bw-bg-root) !important;
+  padding: 1.25rem;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
 }
 
-/* Nodes styling */
-rect {
-    fill: #3c3836; /* Gruvbox medium dark background for nodes */
-    stroke: #7c6f64; /* Gruvbox light brown stroke for nodes */
-    stroke-width: 2px;
+.mermaid rect {
+  fill: var(--bw-bg-elevated) !important;
+  stroke: var(--bw-border-neutral) !important;
+  stroke-width: 2px !important;
+  rx: 6px;
+  ry: 6px;
 }
 
-text {
-    fill: #ebdbb2; /* Gruvbox light text */
-    font-family: Roboto, Arial, sans-serif;
-    font-size: 14px;
+.mermaid text {
+  fill: var(--bw-fg-primary) !important;
 }
 
-/* Arrow styles */
-path {
-    stroke: #d5c4a1; /* Gruvbox light contrast lines */
-    stroke-width: 2px;
+.mermaid path {
+  stroke: var(--bw-fg-muted) !important;
+  stroke-width: 2px !important;
 }
 
-/* Highlighted nodes for special roles */
-rect.highlighted {
-    fill: #d65d0e; /* Gruvbox orange for highlighted nodes */
-    stroke: #9d0006; /* Darker orange for outline */
+.mermaid marker path {
+  fill: var(--bw-fg-muted) !important;
 }
 
-/* Edges for highlighted paths */
-path.highlighted {
-    stroke: #458588; /* Gruvbox aqua for highlighted arrows */
-    stroke-width: 3px;
+.mermaid rect.highlighted {
+  stroke: var(--bw-accent-orange-dark) !important;
 }
 
-/* Subgraph Styling */
-.subgraph-container {
-    background-color: #3c3836; /* Gruvbox medium dark */
-    border: 1px solid #fb4934; /* Gruvbox red for subgraph borders */
-    border-radius: 6px;
+.mermaid .highlighted path {
+  stroke: var(--bw-accent-orange) !important;
+  stroke-width: 3px !important;
 }
 
-.subgraph-title {
-    fill: #fabd2f; /* Gruvbox yellow for subgraph titles */
-    font-size: 16px;
+.mermaid .cluster rect {
+  fill: var(--bw-bg-root) !important;
+  stroke: var(--bw-accent-red) !important;
 }
 
-/* Add hover effect for interactive elements */
-rect:hover {
-    fill: #5c6370; /* Brighter gray on hover */
-    cursor: pointer;
+.mermaid .cluster text {
+  fill: var(--bw-accent-yellow) !important;
 }
 
-path:hover {
-    stroke: #83a598; /* Gruvbox aqua for hovered edges */
-    cursor: pointer;
+.mermaid g:hover rect {
+  fill: var(--bw-bg-hover) !important;
+}
+
+.mermaid g:hover path {
+  stroke: var(--bw-accent-yellow) !important;
 }
