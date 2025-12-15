@@ -135,19 +135,12 @@ test = { cmd = "pytest --strict-markers --tb=line" }
 bandit = { cmd = "bandit -r src -x tests" }
 
 "docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
-
 "docs:serve".sequence = [
   { cmd = "poetry run mkdocs serve --livereload" }
 ]
-
 "docs:build".sequence = [
   { cmd = "poetry run python scripts/generate_autodoc_pages.py" },
   { cmd = "poetry run mkdocs build --strict" }
-]
-
-"docs:deploy".sequence = [
-  { cmd = "poetry run python scripts/generate_autodoc_pages.py" },
-  { cmd = "poetry run mkdocs gh-deploy --force --clean" }
 ]
 
 "ci:check".sequence = [
@@ -156,56 +149,49 @@ bandit = { cmd = "bandit -r src -x tests" }
   "test",
   "bandit"
 ]
-
 "ci:simulate".sequence = [
   "ci:check",
   "docs:build"
 ]
-
-"ci:release".sequence = [
+"ci:release:validate".sequence = [
   "ci:simulate",
   { cmd = "poetry build" },
   { shell = "echo \"Release candidate validated for version $(poetry version -s)\"" }
 ]
 
-"release:patch".sequence = [
-  { cmd = "poetry version patch" },
-  { shell = "git checkout -b \"release/v$(poetry version -s)\"" },
-  { cmd = "git add --update" },
-  { shell = "git commit -m \"release: $(poetry version -s)\"" },
-  { shell = "git tag \"v$(poetry version -s)\"" },
-  { shell = "git push origin \"release/v$(poetry version -s)\" --tags" },
-  { shell = "echo \"Release branch created: release/v$(poetry version -s)\"" },
-  { shell = "echo \"Create PR at: https://github.com/forging-blocks-org/forging-blocks/compare/release/v$(poetry version -s)\"" }
-]
-
-"release:minor".sequence = [
-  { cmd = "poetry version minor" },
-  { shell = "git checkout -b \"release/v$(poetry version -s)\"" },
-  { cmd = "git add --update" },
-  { shell = "git commit -m \"release: $(poetry version -s)\"" },
-  { shell = "git tag \"v$(poetry version -s)\"" },
-  { shell = "git push origin \"release/v$(poetry version -s)\" --tags" },
-  { shell = "echo \"Release branch created: release/v$(poetry version -s)\"" },
-  { shell = "echo \"Create PR at: https://github.com/forging-blocks-org/forging-blocks/compare/release/v$(poetry version -s)\"" }
-]
-
-"release:major".sequence = [
-  { cmd = "poetry version major" },
-  { shell = "git checkout -b \"release/v$(poetry version -s)\"" },
-  { cmd = "git add --update" },
-  { shell = "git commit -m \"release: $(poetry version -s)\"" },
-  { shell = "git tag \"v$(poetry version -s)\"" },
-  { shell = "git push origin \"release/v$(poetry version -s)\" --tags" },
-  { shell = "echo \"Release branch created: release/v$(poetry version -s)\"" },
-  { shell = "echo \"Create PR at: https://github.com/forging-blocks-org/forging-blocks/compare/release/v$(poetry version -s)\"" }
-]
-
 "release:validate".sequence = [
-  { shell = "echo \"Validating release readiness...\"" },
+  { shell = "echo 'Validating release readiness...'" },
+  { shell = "git rev-parse --abbrev-ref HEAD | grep -qx main || (echo 'ERROR: must be on main' && exit 1)" },
+  { shell = "git diff --quiet || (echo 'ERROR: working tree not clean' && exit 1)" },
   { cmd = "git fetch origin" },
-  { shell = "git diff --quiet HEAD origin/main || (echo 'Local differs from origin/main. Run: git pull origin main' && exit 1)" },
-  { shell = "echo \"Branch is up to date\"" },
-  "ci:release",
-  { shell = "echo \"All validations passed. Ready to release!\"" }
+  { shell = "git diff --quiet origin/main...HEAD || (echo 'ERROR: local main differs from origin/main' && exit 1)" },
+  "ci:release:validate",
+  { shell = "echo 'OK: release validated'" }
+]
+"release:patch".sequence = [
+  "release:validate",
+  { cmd = "poetry version patch" },
+  { shell = "git add pyproject.toml poetry.lock || true" },
+  { shell = "git commit -m \"release: $(poetry version -s)\"" },
+  { shell = "git tag \"v$(poetry version -s)\"" },
+  { shell = "git push origin main --follow-tags" },
+  { shell = "echo \"Tag pushed. GitHub Actions will publish and deploy docs.\""}
+]
+"release:minor".sequence = [
+  "release:validate",
+  { cmd = "poetry version minor" },
+  { shell = "git add pyproject.toml poetry.lock || true" },
+  { shell = "git commit -m \"release: $(poetry version -s)\"" },
+  { shell = "git tag \"v$(poetry version -s)\"" },
+  { shell = "git push origin main --follow-tags" },
+  { shell = "echo \"Tag pushed. GitHub Actions will publish and deploy docs.\""}
+]
+"release:major".sequence = [
+  "release:validate",
+  { cmd = "poetry version major" },
+  { shell = "git add pyproject.toml poetry.lock || true" },
+  { shell = "git commit -m \"release: $(poetry version -s)\"" },
+  { shell = "git tag \"v$(poetry version -s)\"" },
+  { shell = "git push origin main --follow-tags" },
+  { shell = "echo \"Tag pushed. GitHub Actions will publish and deploy docs.\""}
 ]

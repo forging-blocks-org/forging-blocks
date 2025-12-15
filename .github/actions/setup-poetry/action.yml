@@ -1,22 +1,23 @@
-name: "Setup Poetry"
-description: "Reusable action to configure Poetry for CI/CD"
+name: Setup Poetry
+description: Configure Python and Poetry for CI/CD
 
 runs:
-  using: "composite"
+  using: composite
   steps:
-    - name: Install Python
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: "3.12"
+
     - name: Install Poetry
       shell: bash
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
-    - name: Configure Poetry cache
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pypoetry
-        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-poetry-
+        echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+        poetry --version
+
+    - name: Configure Poetry
+      shell: bash
+      run: |
+        poetry config virtualenvs.in-project true
+        poetry config installer.parallel true
