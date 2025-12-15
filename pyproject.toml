@@ -155,9 +155,9 @@ bandit = { cmd = "bandit -r src -x tests" }
 
 "ci:release:validate".sequence = [
   "ci:simulate",
-  { cmd = "poetry build" },
-  { shell = "echo \"Release candidate validated for version $(poetry version -s)\"" }
+  { cmd = "poetry build" }
 ]
+
 
 "changelog:generate".sequence = [
   { shell = "bash scripts/generate_changelog.sh > .changelog.tmp" },
@@ -171,92 +171,86 @@ bandit = { cmd = "bandit -r src -x tests" }
   { shell = "echo 'Validating release readiness...'" },
   { shell = "git rev-parse --abbrev-ref HEAD | grep -qx main || (echo 'ERROR: must start from main' && exit 1)" },
   { shell = "git diff --quiet || (echo 'ERROR: working tree not clean' && exit 1)" },
-  { cmd = "git fetch origin" },
+  { cmd = "git fetch origin --tags" },
   { shell = "git diff --quiet origin/main...HEAD || (echo 'ERROR: local main differs from origin/main' && exit 1)" },
   "ci:release:validate",
   { shell = "echo 'OK: release validated'" }
 ]
 
-"release:patch".sequence = [
+"release:_run".sequence = [
   "release:validate",
-  { shell = "poetry version patch" },
-  { shell = "VERSION=$(poetry version -s)" },
-  { shell = "poe changelog:generate" },
-  { shell = "BRANCH=release/v$VERSION" },
-  { shell = "git checkout -b \"$BRANCH\"" },
-  { shell = "git add pyproject.toml poetry.lock CHANGELOG.md || true" },
-  { shell = "git commit -m \"release: $VERSION\"" },
-  { shell = "git tag \"v$VERSION\"" },
-  { shell = "git push origin \"$BRANCH\" --tags" },
+
   { shell = """
+LEVEL=${RELEASE_LEVEL:?RELEASE_LEVEL not set}
+DRY_RUN=${RELEASE_DRY_RUN:-false}
+
+if [ "$DRY_RUN" = "true" ]; then
+  NEXT_VERSION=$(poetry version $LEVEL --dry-run | awk '{print $NF}')
+  echo "DRY RUN"
+  echo "Next version : $NEXT_VERSION"
+  echo "Branch       : release/v$NEXT_VERSION"
+  echo "Tag          : v$NEXT_VERSION"
+  exit 0
+fi
+
+poetry version $LEVEL
+VERSION=$(poetry version -s)
+BRANCH=release/v$VERSION
+TAG=v$VERSION
+
+git show-ref --verify --quiet refs/heads/$BRANCH && \
+  (echo "ERROR: release branch already exists: $BRANCH" && exit 1)
+
+git rev-parse "$TAG" >/dev/null 2>&1 && \
+  (echo "ERROR: tag already exists: $TAG" && exit 1)
+
+""" },
+
+  "changelog:generate",
+
+  { shell = """
+VERSION=$(poetry version -s)
+BRANCH=release/v$VERSION
+TAG=v$VERSION
+
+git checkout -b "$BRANCH"
+git add pyproject.toml poetry.lock CHANGELOG.md || true
+git commit -m "release($VERSION): version bump and changelog"
+git tag "$TAG"
+git push origin "$BRANCH" --tags
+""" },
+
+  { shell = """
+VERSION=$(poetry version -s)
+BRANCH=release/v$VERSION
+
 if command -v gh >/dev/null 2>&1; then
   gh pr create \
     --base main \
-    --head \"$BRANCH\" \
-    --title \"release: $VERSION\" \
-    --body \"Release $VERSION
+    --head "$BRANCH" \
+    --title "release: $VERSION" \
+    --body "Release $VERSION
 
-This PR contains only the version bump and generated changelog.
+This PR contains only:
+- version bump
+- generated changelog
 
-- Version: $VERSION
-- Tag: v$VERSION\"
+Publishing happens when this PR is merged."
 else
-  echo \"Create PR manually:\"
-  echo \"https://github.com/forging-blocks-org/forging-blocks/compare/$BRANCH?expand=1\"
+  echo "Create PR manually:"
+  echo "https://github.com/forging-blocks-org/forging-blocks/compare/$BRANCH?expand=1"
 fi
 """ }
 ]
 
-"release:minor".sequence = [
-  "release:validate",
-  { shell = "poetry version minor" },
-  { shell = "VERSION=$(poetry version -s)" },
-  { shell = "poe changelog:generate" },
-  { shell = "BRANCH=release/v$VERSION" },
-  { shell = "git checkout -b \"$BRANCH\"" },
-  { shell = "git add pyproject.toml poetry.lock CHANGELOG.md || true" },
-  { shell = "git commit -m \"release: $VERSION\"" },
-  { shell = "git tag \"v$VERSION\"" },
-  { shell = "git push origin \"$BRANCH\" --tags" },
-  { shell = """
-if command -v gh >/dev/null 2>&1; then
-  gh pr create \
-    --base main \
-    --head \"$BRANCH\" \
-    --title \"release: $VERSION\" \
-    --body \"Release $VERSION
+"release:patch".env = { RELEASE_LEVEL = "patch" }
+"release:patch".sequence = ["release:_run"]
 
-This PR contains only the version bump and generated changelog.\"
-else
-  echo \"Create PR manually:\"
-  echo \"https://github.com/forging-blocks-org/forging-blocks/compare/$BRANCH?expand=1\"
-fi
-""" }
-]
+"release:minor".env = { RELEASE_LEVEL = "minor" }
+"release:minor".sequence = ["release:_run"]
 
-"release:major".sequence = [
-  "release:validate",
-  { shell = "poetry version major" },
-  { shell = "VERSION=$(poetry version -s)" },
-  { shell = "poe changelog:generate" },
-  { shell = "BRANCH=release/v$VERSION" },
-  { shell = "git checkout -b \"$BRANCH\"" },
-  { shell = "git add pyproject.toml poetry.lock CHANGELOG.md || true" },
-  { shell = "git commit -m \"release: $VERSION\"" },
-  { shell = "git tag \"v$VERSION\"" },
-  { shell = "git push origin \"$BRANCH\" --tags" },
-  { shell = """
-if command -v gh >/dev/null 2>&1; then
-  gh pr create \
-    --base main \
-    --head \"$BRANCH\" \
-    --title \"release: $VERSION\" \
-    --body \"Release $VERSION
+"release:major".env = { RELEASE_LEVEL = "major" }
+"release:major".sequence = ["release:_run"]
 
-This PR contains only the version bump and generated changelog.\"
-else
-  echo \"Create PR manually:\"
-  echo \"https://github.com/forging-blocks-org/forging-blocks/compare/$BRANCH?expand=1\"
-fi
-""" }
-]
+"release:dry-run".env = { RELEASE_DRY_RUN = "true", RELEASE_LEVEL = "patch" }
+"release:dry-run".sequence = ["release:_run"]
