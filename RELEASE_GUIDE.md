@@ -1,199 +1,156 @@
 # Release Guide
 
-This guide explains how to release a new version of ForgingBlocks.
+This document explains **how releases work in ForgingBlocks**, **why the process is designed this way**, and **how contributors should perform a release safely and correctly**.
+
+The goal is to make releases:
+- predictable
+- auditable
+- reproducible
+- fully automated
+
+> **Important principle**
+> Contributors *never* publish packages or deploy documentation manually.
+> All publishing happens in **GitHub Actions**, triggered by a Git tag.
+
+---
+
+## Mental Model (Read This First)
+
+ForgingBlocks follows a **tag-driven release model**:
+
+- A **Git tag (`vX.Y.Z`) is the single release signal**
+- Local tooling (Poe) is responsible only for:
+  - validating the release
+  - bumping the version
+  - creating and pushing the tag
+- GitHub Actions is responsible for:
+  - publishing to PyPI
+  - deploying versioned documentation
+  - creating the GitHub Release
+
+If no tag is pushed, **no release happens**.
 
 ---
 
 ## Quick Start
 
-### Patch Release (Bug Fixes)
-
 ```bash
 git checkout main
 git pull origin main
-poetry run poe release:patch
+poetry run poe release:patch   # or release:minor / release:major
 ```
 
-Creates a PR for version `0.1.0` → `0.1.1`
+Once the command finishes, **GitHub Actions takes over automatically**.
 
 ---
 
-### Minor Release (New Features)
+## What Happens During a Release
 
-```bash
-git checkout main
-git pull origin main
-poetry run poe release:minor
-```
+### 1. Validation
+- Ensures you are on `main`
+- Ensures working tree is clean
+- Ensures local `main` matches `origin/main`
+- Runs linting, typing, tests, docs build, and package build
 
-Creates a PR for version `0.1.1` → `0.2.0`
+### 2. Version Bump
+- Updates `pyproject.toml`
+- Updates `poetry.lock` if needed
 
----
-
-### Major Release (Breaking Changes)
-
-```bash
-git checkout main
-git pull origin main
-poetry run poe release:major
-```
-
-Creates a PR for version `0.2.0` → `1.0.0`
+### 3. Commit and Tag
+- Commits: `release: X.Y.Z`
+- Tags: `vX.Y.Z`
+- Pushes commit + tag to `origin/main`
 
 ---
 
-## Detailed Steps
+## Automation in GitHub Actions
 
-### Step 1: Update Local Main
+On tag push:
+1. CI re-validates the release
+2. Package is published to PyPI
+3. Docs are deployed using `mike`
+4. `latest` alias is updated
+5. GitHub Release is created
 
-```bash
-git checkout main
-git pull origin main
-```
-
-Ensure you're on the latest `main` branch.
-
----
-
-### Step 2: Create Release Branch
-
-Run the appropriate release command:
-
-```bash
-poetry run poe release:patch   # For bug fixes
-poetry run poe release:minor   # For new features
-poetry run poe release:major   # For breaking changes
-```
-
-**What happens:**
-1. Creates branch `release/v<version>`
-2. Bumps version in `pyproject.toml`
-3. Commits with message `release: <version>`
-4. Creates tag `v<version>`
-5. Pushes branch and tag to GitHub
-6. Displays PR creation link
+Monitor progress at:
+https://github.com/forging-blocks-org/forging-blocks/actions
 
 ---
 
-### Step 3: Create Pull Request
+## Release FAQ (Common Mistakes)
 
-1. Click the GitHub PR link from the command output
-2. Or go to GitHub and click **"Compare & pull request"**
-3. Review the changes (should only be version bump)
-4. Click **"Create pull request"**
-
----
-
-### Step 4: Merge Pull Request
-
-1. Wait for CI checks to pass
-2. Get required approvals (if applicable)
-3. Click **"Merge pull request"**
+### ❓ I ran `poe release:*` but nothing was published
+**Cause:** The Git tag was not pushed.
+**Fix:** Ensure the command completed successfully and pushed `vX.Y.Z` to GitHub.
 
 ---
 
-### Step 5: Verify Release
-
-After merging, GitHub Actions automatically:
-- Validates the release
-- Publishes to PyPI
-- Deploys documentation
-
-Monitor at: https://github.com/forging-blocks-org/forging-blocks/actions
-
-Verify:
-- Package on PyPI: https://pypi.org/project/forging-blocks/
-- Documentation is updated
+### ❓ Can I publish manually with Poetry or MkDocs?
+**No.** Manual publishing bypasses validation and breaks reproducibility.
+All publishing must be performed by GitHub Actions.
 
 ---
 
-## Complete Example
-
-```bash
-# 1. Update main
-git checkout main
-git pull origin main
-
-# 2. Current version is 0.1.0, releasing 0.1.1
-poetry run poe release:patch
-
-# Output:
-# Bumping version from 0.1.0 to 0.1.1
-# Switched to a new branch 'release/v0.1.1'
-# [release/v0.1.1 abc123] release: 0.1.1
-# ✓ Release branch created: release/v0.1.1
-# ✓ Now create a PR: https://github.com/.../compare/release/v0.1.1
-
-# 3. Click the link, create PR
-
-# 4. Review and merge the PR
-
-# 5. GitHub Actions publishes automatically
-# Monitor: https://github.com/.../actions
-
-# 6. Verify on PyPI and test
-pip install forging-blocks==0.1.1
-```
+### ❓ Why must I release from `main`?
+Releases must reflect an exact, reproducible state of the default branch.
+Releasing from feature branches introduces ambiguity and risk.
 
 ---
 
-## Version Strategy
-
-Follow [Semantic Versioning](https://semver.org/):
-
-| Release Type | Command | When to Use | Example |
-|--------------|---------|-------------|---------|
-| **Patch** | `poe release:patch` | Bug fixes only | `0.1.0` → `0.1.1` |
-| **Minor** | `poe release:minor` | New features, backward compatible | `0.1.1` → `0.2.0` |
-| **Major** | `poe release:major` | Breaking changes | `0.2.0` → `1.0.0` |
+### ❓ CI failed after I pushed a tag — what now?
+Fix the issue on `main`, then create a **new version** (never reuse tags).
 
 ---
 
-## Handling New Files
-
-If your release includes new files, add them before creating the release:
-
-```bash
-git checkout main
-git pull origin main
-
-# Add new files
-git add src/forging_blocks/new_module.py
-
-# Create release
-poetry run poe release:patch
-```
+### ❓ Can I edit the version manually?
+No. Always use `poe release:*` to ensure version, tag, and CI stay consistent.
 
 ---
 
-## What to Include in Each Release Type
+## Maintainer Release Checklist
 
-### Patch Release (0.0.x)
-- Bug fixes
-- Documentation corrections
-- Minor performance improvements
-- No API changes
+### Before Running a Release
+- [ ] All intended changes are merged into `main`
+- [ ] CI is green on `main`
+- [ ] No uncommitted changes locally
+- [ ] Version change matches SemVer intent
+- [ ] Documentation reflects the changes
 
-### Minor Release (0.x.0)
-- New features
-- New APIs (backward compatible)
-- Deprecations (with warnings)
-- Significant documentation updates
+### During the Release
+- [ ] Run `poe release:patch | minor | major`
+- [ ] Verify the tag `vX.Y.Z` was pushed
+- [ ] Watch the GitHub Actions workflow
 
-### Major Release (x.0.0)
-- Breaking API changes
-- Removal of deprecated features
-- Major architectural changes
-- Incompatible changes
+### After the Release
+- [ ] PyPI package is published
+- [ ] Docs are deployed and `latest` is updated
+- [ ] GitHub Release exists with notes
+- [ ] Install test succeeds:
+  ```bash
+  pip install forging-blocks==X.Y.Z
+  ```
 
 ---
 
-## That's It!
+## Versioning Strategy
 
-The release process is:
+ForgingBlocks follows **Semantic Versioning**.
 
-1. `git checkout main && git pull origin main`
-2. `poetry run poe release:patch` (or minor/major)
-3. Create PR from GitHub
-4. Merge PR
-5. Done! (GitHub Actions handles the rest)
+| Type | Command | When |
+|-----|--------|------|
+| Patch | `poe release:patch` | Bug fixes, docs |
+| Minor | `poe release:minor` | New features |
+| Major | `poe release:major` | Breaking changes |
+
+---
+
+## Summary
+
+1. Update `main`
+2. Run one release command
+3. GitHub Actions publishes everything
+4. Verify artifacts
+5. Done
+
+This process enforces the same **explicit boundaries and automation discipline**
+that ForgingBlocks promotes in application architecture.
