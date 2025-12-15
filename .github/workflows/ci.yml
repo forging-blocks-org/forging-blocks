@@ -26,31 +26,6 @@ jobs:
       - name: Run CI pipeline
         run: poetry run poe ci:simulate
 
-  shellcheck:
-    name: ShellCheck
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install ShellCheck
-        run: sudo apt-get update && sudo apt-get install -y shellcheck
-
-      - name: Run ShellCheck on release scripts
-        run: |
-          shellcheck scripts/release/*.sh
-
-  bats:
-    name: Bats tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Bats
-        run: sudo apt-get update && sudo apt-get install -y bats
-
-      - name: Run release script tests
-        run: bats tests/scripts/release
-
 shell-scripts:
   name: Shell scripts (lint + tests)
   runs-on: ubuntu-latest
