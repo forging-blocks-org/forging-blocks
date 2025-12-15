@@ -154,12 +154,12 @@ bandit = { cmd = "bandit -r src -x tests" }
 ]
 
 "ci:release:validate".sequence = [
-  "ci:simulate",
+  "ci:check",
   { cmd = "poetry build" }
 ]
 
 "changelog:generate".sequence = [
-  { shell = "bash scripts/generate_changelog.sh > .changelog.tmp" },
+  { shell = "bash scripts/release/generate_changelog.sh > .changelog.tmp" },
   { shell = "cat .changelog.tmp CHANGELOG.md 2>/dev/null > CHANGELOG.new || cat .changelog.tmp > CHANGELOG.new" },
   { shell = "mv CHANGELOG.new CHANGELOG.md" },
   { shell = "rm .changelog.tmp" },
