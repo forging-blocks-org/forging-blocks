@@ -1,11 +1,60 @@
-.md-header {
-  background-color: #d65d0e;
-  border-bottom: 1px solid #35322d;
-  --md-primary-fg-color: #c4b7a6;
-  --md-primary-bg-color: #d65d0e;
+/* ============================================================
+   BADWOLF – DARK ONLY THEME (Material for MkDocs)
+   ============================================================ */
+
+/* ============================================================
+   Palette & Material Variables (AUTHORITATIVE)
+   ============================================================ */
+
+:root {
+  /* Badwolf palette */
+  --bw-bg-root: #1c1b1a;
+  --bw-bg-surface: #242321;
+  --bw-bg-hover: #32302f;
+
+  --bw-fg-primary: #d9cec3;
+  --bw-fg-muted: #998f84;
+  --bw-fg-soft: #c4b7a6;
+
+  --bw-border: #35322d;
+
+  --bw-accent-orange: #d65d0e;
+  --bw-accent-orange-dark: #cc4e02;
+  --bw-accent-yellow: #f4cf86;
+  --bw-accent-yellow-strong: #ffa724;
+
+  /* Material variables (must be set early) */
+  --md-primary-bg-color: var(--bw-accent-orange);
+  --md-primary-fg-color: var(--bw-fg-primary);
+  --md-primary-fg-color--light: var(--bw-accent-yellow);
+  --md-primary-fg-color--dark: var(--bw-fg-muted);
+
+  --md-default-bg-color: var(--bw-bg-root);
+  --md-default-fg-color: var(--bw-fg-primary);
+
+  color-scheme: dark;
 }
 
+/* ============================================================
+   Global Base
+   ============================================================ */
 
+html,
+body {
+  background-color: var(--bw-bg-root) !important;
+  color: var(--bw-fg-primary) !important;
+}
+
+/* ============================================================
+   Header / Navbar
+   ============================================================ */
+
+.md-header {
+  background-color: var(--bw-accent-orange) !important;
+  border-bottom: 1px solid var(--bw-border);
+}
+
+/* Explicit header text control (critical) */
 .md-header,
 .md-header__inner,
 .md-header__title,
@@ -13,357 +62,275 @@
 .md-header__button,
 .md-header__button.md-icon,
 .md-header__link,
-.md-nav__link--primary {
-  color: #d9cec3 !important;
-  fill: #d9cec3 !important;
+.md-header a {
+  color: var(--bw-fg-primary) !important;
+  fill: var(--bw-fg-primary) !important;
   font-weight: 500;
-  text-transform: none;
   letter-spacing: 0.02em;
 }
 
-/* Hover effect */
 .md-header a:hover,
-.md-header__link:hover,
+.md-header__button:hover,
 .md-header__title:hover,
 .md-header__topic:hover {
-  color: #f4cf86 !important;
-  fill: #f4cf86 !important;
+  color: var(--bw-accent-yellow) !important;
+  fill: var(--bw-accent-yellow) !important;
 }
 
-/* Active top nav link (Guide) */
-.md-header a.md-nav__link--active,
-.md-header a.md-nav__link--primary.md-nav__link--active,
-.md-tabs .md-tab--active {
-  color: #f4cf86 !important;
-  font-weight: 700 !important;
-  border-bottom: 2px solid #f4cf86;
+/* Search */
+.md-search__input {
+  color: var(--bw-fg-primary) !important;
 }
 
-/* Secondary meta bar */
-.md-header__meta {
-  background-color: #cc4e02;
-  color: #d9cec3 !important;
+.md-search__input::placeholder {
+  color: var(--bw-fg-muted) !important;
 }
 
-body {
-  background-color: #1c1b1a;
-  color: #d9cec3;
-}
+/* ============================================================
+   Top Tabs
+   ============================================================ */
 
-/* Tabs styling */
 .md-tabs {
-  background-color: #1c1b1a;
-  border-bottom: 1px solid #35322d;
+  background-color: var(--bw-bg-root) !important;
+  border-bottom: 1px solid var(--bw-border);
 }
 
-.md-tabs .md-tab {
-  color: #998f84 !important;
-  font-weight: 500;
+.md-tabs__link {
+  color: var(--bw-accent-yellow-strong) !important;
 }
 
-.md-tabs .md-tab:hover {
-  color: #f4cf86 !important;
+.md-tabs__link:hover {
+  color: var(--bw-accent-yellow) !important;
 }
 
-.md-tabs .md-tab--active {
-  color: #f4cf86 !important;
-  font-weight: 700 !important;
-  border-bottom: 2px solid #f4cf86;
-}
-
-/* Sidebar */
-.md-sidebar {
-  background-color: #1c1b1a;
-  border-right: 1px solid #35322d;
-}
-
-.md-sidebar--primary .md-nav__title {
-  color: #d65d0e;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-/* Optional: slightly dim inactive headers */
-.md-sidebar--primary .md-nav__title:not(.md-nav__title--active) {
-  opacity: 0.9;
-}
-
-
-.md-sidebar__title,
-.md-nav__title,
-.md-nav__link {
-  background-color: #1c1b1a;
-  color: #c7915b;
-}
-
-.md-nav__link:hover {
-  background-color: #35322d;
-  color: #f4cf86;
-}
-
-.md-nav__link--active {
-  font-weight: 600;
-}
-
-/* Body */
-.md-content {
-  color: #d9cec3;
-  background-color: #1c1b1a;
-}
-
-.md-content h1 {
-    color: #d65d0e;
-}
-
-
-.md-typeset {
-  color: #d9cec3;
-  background-color: #1c1b1a;
-}
-
-/* Code */
-.md-typeset pre code {
-  color: #d9cec3;
-  background-color: #242321;
-  border: 1px solid #35322d;
-}
-
-.md-button {
-  background-color: #d65d0e;
-  color: #f8f6f2;
-  border: 1px solid #cc4e02;
-}
-
-.md-button:hover {
-  background-color: #cc4e02;
-  color: #f4cf86;
-}
-
-.md-footer {
-  background-color: #1c1b1a;
-  color: #998f84;
-}
-
-a,
-.md-typeset a {
-  color: #f4cf86;
-}
-
-a:hover,
-.md-typeset a:hover {
-  color: #ffa724;
-}
-
-.md-typeset table {
-  background-color: #1c1b1a;
-  border: 1px solid #35322d;
-}
-
-.md-typeset th {
-  background-color: #242321;
-  color: #d9cec3;
-}
-
-.md-typeset td {
-  background-color: #1c1b1a;
-  color: #998f84;
-}
-
-.md-typeset blockquote {
-  border-left: 4px solid #c7915b;
-  background-color: #242321;
-  color: #d9cec3;
-}
-
-hr {
-  border: 0;
-  border-top: 1px solid #35322d;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #1c1b1a;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #35322d;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #45413b;
-}
-
-:root {
-  --md-primary-fg-color: #d9cec3 !important;
-  --md-primary-fg-color--light: #f4cf86 !important;
-  --md-primary-fg-color--dark: #998f84 !important;
-}
-
-.md-header,
-.md-header__inner {
-  color: var(--md-primary-fg-color) !important;
-}
-
-.md-header__title,
-.md-header__topic,
-.md-header__button,
-.md-header__link,
-.md-header__link--active {
-  color: var(--md-primary-fg-color) !important;
-  fill: var(--md-primary-fg-color) !important;
-}
-
-.md-header__title:hover,
-.md-header__topic:hover,
-.md-header__link:hover,
-.md-header__button:hover {
-  color: var(--md-primary-fg-color--light) !important;
-  fill: var(--md-primary-fg-color--light) !important;
-}
-
-.md-tabs__link[aria-selected="true"],
-.md-tabs .md-tab--active {
-  color: var(--md-primary-fg-color--light) !important;
-  font-weight: 700 !important;
-  border-bottom: 2px solid var(--md-primary-fg-color--light) !important;
-}
-
-
-.md-header .md-header__title,
-.md-header .md-header__topic,
-.md-header .md-tabs__link,
-.md-header a,
-.md-header__button,
-.md-header__button.md-icon {
-  color: #d9cec3 !important;
-  color: #333 !important;
-  fill: #d9cec3 !important;
-}
-
-.md-header a:hover,
-.md-header__button:hover {
-  color: #f4cf86 !important;
-  fill: #f4cf86 !important;
-}
-
-.md-tabs__link[aria-selected="true"],
-.md-tabs .md-tab--active,
 .md-tabs__item--active > .md-tabs__link {
-  color: #d65d0e !important;
-  font-weight: 700 !important;
-  border-bottom: 2px solid #d65d0e !important;
+  color: var(--bw-accent-yellow-strong) !important;
+  border-bottom: 2px solid var(--md-primary-fg-color--light) !important
 }
 
-.md-header + .md-tabs .md-tabs__link {
-  color: #d9cec3 !important;
-  font-weight: 500;
+.md-tabs__link[aria-selected="true"] {
+  color: var(--bw-accent-orange) !important;
+  font-weight: 700;
+  border-bottom: 2px solid var(--bw-accent-orange);
 }
 
-.md-header + .md-tabs .md-tabs__link[aria-selected="true"],
-.md-header + .md-tabs .md-tabs__link[aria-current="page"],
-.md-header + .md-tabs .md-tab--active .md-tabs__link,
-.md-header + .md-tabs .md-tabs__item--active > .md-tabs__link {
-  color: #f4cf86 !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 -2px f4cf86 !important;
-}
-
-.md-header,
-.md-header__inner,
-.md-header__title,
-.md-header__topic,
-.md-header__button,
-.md-header__link {
-  color: #d9cec3 !important;
-  fill:  #d9cec3 !important;
-}
-
-.md-header a:hover,
-.md-header__button:hover {
-  color: #f8f6f2 !important;
-  fill:  #f8f6f2 !important;
-}
-
-.md-header + .md-tabs .md-tabs__link:hover,
-.md-header + .md-tabs .md-tabs__link:focus,
-.md-tabs .md-tabs__link:hover {
-  color: #f4cf86;
-  text-decoration: underline;
-}
-
-/* -------------------------------------------
-   Badwolf-style Admonitions (note only)
-   ------------------------------------------- */
-.md-typeset .admonition.note,
-.md-typeset details.note {
-    border: 3px solid #d65d0e;
-    background-color: #1c1c1c;
-    color: #e4e4e4;
-    padding: 0.8em 1.2em;
-    margin: 0.2em;
-}
-
-/* Title bar */
-.md-typeset .admonition.note > .admonition-title,
-.md-typeset details.note > summary {
-    background-color: #262626;
-    color: #d65d0e;
-    font-weight: 600;
-    padding: 0.4em 0.6em;
-    margin: -0.8em -1.2em 0.8em -1.2em;
-}
-
-/* Icon color */
-.md-typeset .admonition.note .admonition-title::before {
-    color: #d7af5f !important;
-}
-
-/* Remove icon from note admonition titles */
-.md-typeset .admonition.note .admonition-title::before,
-.md-typeset details.note > summary::before {
-    content: none !important;
-    padding-right: 0 !important;
-    margin-right: 0 !important;
-}
-
-/* Flat border */
-.md-typeset .admonition.note,
-.md-typeset details.note {
-    border-radius: 0 !important;
-    box-shadow: none !important;
-}
-
-.md-typeset ul li {
-    margin-bottom: 0;
-}
-
-.md-typeset h1 {
-    margin-bottom: .5rem;
-}
-
-.md-typeset h2 {
-    margin-top: .2rem;
-}
-
-.md-sidebar--primary {
-  background-color: #1c1b1a !important;
-}
-
-.md-sidebar--primary .md-nav__list > .md-nav__item:first-child > .md-nav__link {
-  color: #d65d0e !important;
-}
-
-
-.md-sidebar--primary .md-nav__list > .md-nav__item:first-child .md-nav__link {
-  color: #d65d0e !important;
-}
-
+/* ============================================================
+   LEFT Sidebar (Primary)
+   ============================================================ */
 
 .md-sidebar--primary,
 .md-sidebar--primary .md-sidebar__scrollwrap,
 .md-sidebar--primary .md-sidebar__inner {
-  background-color: #1c1b1a !important;
+  background-color: var(--bw-bg-root) !important;
+  border-right: 1px solid var(--bw-border);
+}
+
+/* Drawer header (site title / brand block) */
+.md-nav__source,
+.md-nav__title--site {
+  background-color: var(--bw-accent-orange) !important;
+  color: var(--bw-fg-primary) !important;
+}
+
+.md-nav__source *,
+.md-nav__title--site * {
+  color: var(--bw-fg-primary) !important;
+  fill: var(--bw-fg-primary) !important;
+}
+
+/* Remove Material overlay tint */
+.md-nav__source::before,
+.md-nav__source::after,
+.md-nav__title--site::before,
+.md-nav__title--site::after {
+  background: none !important;
+}
+
+/* Section headers */
+.md-nav__item--section > .md-nav__link {
+  color: var(--bw-accent-orange) !important;
+  font-weight: 600;
+}
+
+/* Links */
+.md-nav__link, .md-nav.md-nav--secondary .md-nav__title {
+  color: var(--bw-fg-soft) !important;
+  background-color: unset !important;
+  box-shadow: unset !important;
+}
+
+.md-nav__link:hover {
+  background-color: var(--bw-bg-hover) !important;
+  color: var(--bw-accent-yellow) !important;
+}
+
+.md-nav__link[aria-current="page"],
+.md-nav__link--active {
+  background-color: var(--bw-bg-hover) !important;
+  color: var(--bw-accent-yellow) !important;
+}
+
+.md-sidebar--primary > .md-nav__list > .md-nav__link,
+.md-sidebar--secondary > .md-nav__list > .md-nav__link {
+  background-color: unset !important;
+  box-shadow: unset !important;
+}
+
+.md-nav--primary .md-nav__title[for="__drawer"] {
+    background-color: var(--bw-accent-orange) !important;
+    color: var(--bw-fg-primary) !important;
+}
+
+/* ============================================================
+   RIGHT Sidebar (TOC)
+   ============================================================ */
+
+.md-sidebar--secondary,
+.md-sidebar--secondary .md-sidebar__scrollwrap,
+.md-sidebar--secondary .md-sidebar__inner,
+.md-nav--secondary {
+  background-color: var(--bw-bg-root) !important;
+  border-left: 1px solid var(--bw-border);
+}
+
+.md-nav--secondary .md-nav__link {
+  color: var(--bw-fg-muted) !important;
+}
+
+.md-nav--secondary .md-nav__link:hover {
+  color: var(--bw-accent-yellow) !important;
+}
+
+.md-nav--secondary .md-nav__link--active {
+  color: var(--bw-accent-orange) !important;
+  font-weight: 600;
+}
+
+/* ============================================================
+   Content (fixes white body text)
+   ============================================================ */
+
+.md-content,
+.md-typeset {
+  background-color: var(--bw-bg-root) !important;
+  color: var(--bw-fg-primary) !important;
+}
+
+/* CRITICAL: Exclude code blocks from generic text color rules
+   to preserve Pygments syntax highlighting */
+.md-typeset p:not(.highlight p),
+.md-typeset li:not(.highlight li),
+.md-typeset span:not(.highlight span):not(pre span) {
+  color: var(--bw-fg-primary) !important;
+}
+
+.md-typeset h1 {
+  color: var(--bw-accent-orange) !important;
+  margin-bottom: 1rem;
+}
+
+.md-typeset h2 {
+  margin-top: 1rem;
+}
+
+.md-typeset a {
+  color: var(--bw-accent-orange-dark) !important;
+}
+
+/* ============================================================
+   CODE BLOCKS – PRESERVE PYGMENTS SYNTAX HIGHLIGHTING
+   ============================================================ */
+
+.md-typeset pre {
+  background-color: var(--bw-bg-surface) !important;
+  border: 1px solid var(--bw-border);
+}
+
+/* CRITICAL: Do NOT set color on code blocks
+   Let Pygments handle all syntax highlighting */
+.md-typeset pre code {
+  background: transparent !important;
+}
+
+/* Inline code (safe to color) */
+.md-typeset code:not(pre code) {
+  background-color: var(--bw-bg-hover);
+  color: var(--bw-accent-yellow);
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+}
+
+/* ============================================================
+   Tables & Blocks
+   ============================================================ */
+
+.md-typeset table {
+  background-color: var(--bw-bg-root) !important;
+  border: 1px solid var(--bw-border);
+}
+
+.md-typeset th {
+  background-color: var(--bw-bg-surface) !important;
+  color: var(--bw-fg-primary) !important;
+}
+
+.md-typeset td {
+  color: var(--bw-fg-muted) !important;
+}
+
+.md-typeset blockquote {
+  border-left: 4px solid var(--bw-accent-orange);
+  background-color: var(--bw-bg-surface);
+  color: var(--bw-fg-primary);
+}
+
+/* ============================================================
+   Admonitions (NOTE only)
+   ============================================================ */
+
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border: 3px solid var(--bw-accent-orange);
+  background-color: var(--bw-bg-surface);
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.md-typeset .admonition.note .admonition-title,
+.md-typeset .details.note .summary {
+  background-color: var(--bw-bg-hover);
+  color: var(--bw-accent-orange);
+}
+
+.admonition.note .admonition-title {
+    padding-left: .6rem;
+    font-weight: 600;
+    color: var(--md-primary-fg-color--light) !important;
+}
+
+.md-typeset .admonition.note .admonition-title::before,
+.md-typeset .details.note > .summary::before {
+  content: none;
+}
+
+/* ============================================================
+   Icons & Misc
+   ============================================================ */
+
+.md-header__title .md-header__ellipsis .md-header__topic .md-ellipsis {
+  color: #313131;
+}
+
+.md-content .md-icon {
+  fill: var(--bw-accent-orange-dark) !important;
+}
+
+.md-icon svg, .md-source__repository .md-source__repository--active {
+    fill: var(--bw-bg-root) !important;
+    color: var(--bw-bg-root) !important;
+}
+
+.md-source__repository {
+    background-color: var(--bw-accent-orange) !important;
+    color: var(--bw-bg-root) !important;
 }

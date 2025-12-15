@@ -118,4 +118,4 @@ ForgingBlocks helps you shape software that is **clear**, **testable**, and **ma
 - [Blocks Overview](guide/recommended_blocks_structure.md)
 - [Organizing Your Project](guide/principles.md)
 - [Reference Index](reference/index.md)
-- [Release Guide](guide/release_guide.md)
+- [Release Guide](RELEASE_GUIDE.md)

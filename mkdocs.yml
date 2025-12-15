@@ -2,6 +2,7 @@ site_name: ForgingBlocks
 site_description: A composable architecture toolkit for clean, testable, and maintainable Python applications.
 site_author: Glauber Brennon
 site_url: https://forging-blocks-org.github.io
+
 repo_url: https://github.com/forging-blocks-org/forging-blocks
 repo_name: forging-blocks-org/forging-blocks
 edit_uri: edit/main/docs/
@@ -9,6 +10,25 @@ edit_uri: edit/main/docs/
 extra_css:
   - assets/css/theme.css
   - assets/css/mermaid-theme.css
+
+theme:
+  name: material
+  language: en
+  palette:
+    scheme: slate
+    primary: orange
+    accent: amber
+  highlightjs: false
+  logo: assets/logo.png
+  favicon: assets/favicon.ico
+  features:
+    - navigation.tabs
+    - navigation.instant
+    - navigation.sections
+    - toc.follow
+    - content.code.copy
+    - content.action.edit
+    - content.tabs.link
 
 markdown_extensions:
   - admonition
@@ -19,17 +39,19 @@ markdown_extensions:
   - toc:
       permalink: true
   - pymdownx.snippets:
-      base_path: .
+      base_path: [., docs]
       check_paths: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight:
+      use_pygments: true
+      pygments_style: gruvbox-dark
+      noclasses: false
+      pygments_lang_class: true
       anchor_linenums: true
       line_spans: __span
-      pygments_lang_class: true
 
 nav:
   - Home: index.md
@@ -37,15 +59,11 @@ nav:
   - Guide:
       - Introduction: guide/index.md
       - Getting Started: guide/getting-started.md
-
       - Testing: guide/testing.md
       - Example Tests: guide/example_tests.md
       - Examples: guide/examples.md
-
       - Principles: guide/principles.md
       - Recommended Blocks Structure: guide/recommended_blocks_structure.md
-
-      - Release Guide: guide/release_guide.md
 
   - Reference:
       - Overview: reference/index.md
@@ -70,32 +88,10 @@ nav:
 
   - License: LICENSE.md
 
-theme:
-  name: material
-  language: en
-  palette:
-    scheme: slate
-    primary: orange
-    accent: amber
-  logo: assets/logo.png
-  favicon: assets/favicon.ico
-  features:
-    - navigation.tabs
-    - navigation.instant
-    - navigation.sections
-    - toc.follow
-    - content.code.copy
-    - content.action.edit
-    - content.tabs.link
-
 plugins:
   - search
   - autorefs
   - section-index
-
-#  - mermaid2:
-#      javascript: https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
-
   - mkdocstrings:
       handlers:
         python:
@@ -107,4 +103,3 @@ plugins:
             show_root_heading: true
             show_root_full_path: false
             show_signature_annotations: true
-            warnings_as_errors: false

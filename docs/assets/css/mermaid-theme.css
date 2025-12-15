@@ -1,72 +1,58 @@
-/* Dark theme for Mermaid.js diagrams */
+/* ============================================================
+   BADWOLF — Mermaid Adapter
+   ============================================================ */
+
 .mermaid {
-    background-color: #1c1b1a !important;
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0;
+  background-color: var(--bw-bg-root) !important;
+  padding: 1.25rem;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
 }
 
-/* Nodes */
 .mermaid rect {
-    fill: #3c3836 !important;
-    stroke: #7c6f64 !important;
-    stroke-width: 2px !important;
-    rx: 6px;
-    ry: 6px;
+  fill: var(--bw-bg-elevated) !important;
+  stroke: var(--bw-border-neutral) !important;
+  stroke-width: 2px !important;
+  rx: 6px;
+  ry: 6px;
 }
 
-/* Node Text */
 .mermaid text {
-    fill: #ebdbb2 !important;
-    font-family: Roboto, Arial, sans-serif !important;
-    font-size: 14px !important;
+  fill: var(--bw-fg-primary) !important;
 }
 
-/* Edges (arrows, connectors) */
 .mermaid path {
-    stroke: #d5c4a1 !important;
-    stroke-width: 2px !important;
+  stroke: var(--bw-fg-muted) !important;
+  stroke-width: 2px !important;
 }
 
-/* Marker arrows (fix arrowheads in flowcharts & sequences) */
 .mermaid marker path {
-    stroke: none !important;
-    fill: #d5c4a1 !important;
+  fill: var(--bw-fg-muted) !important;
 }
 
-/* Highlighted nodes */
 .mermaid rect.highlighted {
-    fill: #d65d0e !important;
-    stroke: #9d0006 !important;
+  stroke: var(--bw-accent-orange-dark) !important;
 }
 
-/* Highlighted arrows */
 .mermaid .highlighted path {
-    stroke: #458588 !important;
-    stroke-width: 3px !important;
+  stroke: var(--bw-accent-orange) !important;
+  stroke-width: 3px !important;
 }
 
-/* Subgraphs */
 .mermaid .cluster rect {
-    fill: #3c3836 !important;
-    stroke: #fb4934 !important;
-    stroke-width: 2px !important;
+  fill: var(--bw-bg-root) !important;
+  stroke: var(--bw-accent-red) !important;
 }
 
 .mermaid .cluster text {
-    fill: #fabd2f !important;
-    font-size: 16px !important;
-    font-weight: bold;
+  fill: var(--bw-accent-yellow) !important;
 }
 
-/* Hover effects */
 .mermaid g:hover rect {
-    fill: #504945 !important;
-    cursor: pointer;
+  fill: var(--bw-bg-hover) !important;
 }
 
 .mermaid g:hover path {
-    stroke: #83a598 !important;
-    cursor: pointer;
+  stroke: var(--bw-accent-yellow) !important;
 }
