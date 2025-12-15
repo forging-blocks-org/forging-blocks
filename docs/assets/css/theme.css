@@ -232,7 +232,6 @@ body {
   color: var(--bw-accent-orange);
   padding-left: .6rem;
   font-weight: 600;
-  color: var(--md-primary-fg-color--light) !important;
 }
 
 .md-typeset .admonition.note .admonition-title::before,
