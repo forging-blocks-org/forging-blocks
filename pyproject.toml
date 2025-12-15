@@ -158,7 +158,6 @@ bandit = { cmd = "bandit -r src -x tests" }
   { cmd = "poetry build" }
 ]
 
-
 "changelog:generate".sequence = [
   { shell = "bash scripts/generate_changelog.sh > .changelog.tmp" },
   { shell = "cat .changelog.tmp CHANGELOG.md 2>/dev/null > CHANGELOG.new || cat .changelog.tmp > CHANGELOG.new" },
@@ -179,68 +178,8 @@ bandit = { cmd = "bandit -r src -x tests" }
 
 "release:_run".sequence = [
   "release:validate",
-
-  { shell = """
-LEVEL=${RELEASE_LEVEL:?RELEASE_LEVEL not set}
-DRY_RUN=${RELEASE_DRY_RUN:-false}
-
-if [ "$DRY_RUN" = "true" ]; then
-  NEXT_VERSION=$(poetry version $LEVEL --dry-run | awk '{print $NF}')
-  echo "DRY RUN"
-  echo "Next version : $NEXT_VERSION"
-  echo "Branch       : release/v$NEXT_VERSION"
-  echo "Tag          : v$NEXT_VERSION"
-  exit 0
-fi
-
-poetry version $LEVEL
-VERSION=$(poetry version -s)
-BRANCH=release/v$VERSION
-TAG=v$VERSION
-
-git show-ref --verify --quiet refs/heads/$BRANCH && \
-  (echo "ERROR: release branch already exists: $BRANCH" && exit 1)
-
-git rev-parse "$TAG" >/dev/null 2>&1 && \
-  (echo "ERROR: tag already exists: $TAG" && exit 1)
-
-""" },
-
-  "changelog:generate",
-
-  { shell = """
-VERSION=$(poetry version -s)
-BRANCH=release/v$VERSION
-TAG=v$VERSION
-
-git checkout -b "$BRANCH"
-git add pyproject.toml poetry.lock CHANGELOG.md || true
-git commit -m "release($VERSION): version bump and changelog"
-git tag "$TAG"
-git push origin "$BRANCH" --tags
-""" },
-
-  { shell = """
-VERSION=$(poetry version -s)
-BRANCH=release/v$VERSION
-
-if command -v gh >/dev/null 2>&1; then
-  gh pr create \
-    --base main \
-    --head "$BRANCH" \
-    --title "release: $VERSION" \
-    --body "Release $VERSION
-
-This PR contains only:
-- version bump
-- generated changelog
-
-Publishing happens when this PR is merged."
-else
-  echo "Create PR manually:"
-  echo "https://github.com/forging-blocks-org/forging-blocks/compare/$BRANCH?expand=1"
-fi
-""" }
+  { cmd = "bash scripts/release/prepare.sh $RELEASE_LEVEL" },
+  { cmd = "bash scripts/release/create_pr.sh" }
 ]
 
 "release:patch".env = { RELEASE_LEVEL = "patch" }
@@ -252,5 +191,8 @@ fi
 "release:major".env = { RELEASE_LEVEL = "major" }
 "release:major".sequence = ["release:_run"]
 
-"release:dry-run".env = { RELEASE_DRY_RUN = "true", RELEASE_LEVEL = "patch" }
-"release:dry-run".sequence = ["release:_run"]
+"release:dry-run".env = { RELEASE_LEVEL = "patch" }
+"release:dry-run".sequence = [
+  "release:validate",
+  { cmd = "bash scripts/release/dry_run.sh $RELEASE_LEVEL" }
+]
