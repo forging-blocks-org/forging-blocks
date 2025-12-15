@@ -26,9 +26,9 @@ git rev-parse "$TAG" >/dev/null 2>&1 && {
 }
 
 git checkout -b "$BRANCH"
-git commit -m "release: $VERSION - git add pyproject.toml poetry.lock
+git add pyproject.toml poetry.lock
 [ -f CHANGELOG.md ] && git add CHANGELOG.md
-version bump and changelog"
+git commit -m "release: $VERSION - version bump and changelog"
 git tag "$TAG"
 git push origin "$BRANCH" --tags
 
