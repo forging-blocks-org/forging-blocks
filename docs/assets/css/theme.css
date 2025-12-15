@@ -1,13 +1,4 @@
-/* ============================================================
-   BADWOLF – DARK ONLY THEME (Material for MkDocs)
-   ============================================================ */
-
-/* ============================================================
-   Palette & Material Variables (AUTHORITATIVE)
-   ============================================================ */
-
 :root {
-  /* Badwolf palette */
   --bw-bg-root: #1c1b1a;
   --bw-bg-surface: #242321;
   --bw-bg-hover: #32302f;
@@ -23,7 +14,6 @@
   --bw-accent-yellow: #f4cf86;
   --bw-accent-yellow-strong: #ffa724;
 
-  /* Material variables (must be set early) */
   --md-primary-bg-color: var(--bw-accent-orange);
   --md-primary-fg-color: var(--bw-fg-primary);
   --md-primary-fg-color--light: var(--bw-accent-yellow);
@@ -35,26 +25,17 @@
   color-scheme: dark;
 }
 
-/* ============================================================
-   Global Base
-   ============================================================ */
-
 html,
 body {
   background-color: var(--bw-bg-root) !important;
   color: var(--bw-fg-primary) !important;
 }
 
-/* ============================================================
-   Header / Navbar
-   ============================================================ */
-
 .md-header {
   background-color: var(--bw-accent-orange) !important;
   border-bottom: 1px solid var(--bw-border);
 }
 
-/* Explicit header text control (critical) */
 .md-header,
 .md-header__inner,
 .md-header__title,
@@ -77,7 +58,6 @@ body {
   fill: var(--bw-accent-yellow) !important;
 }
 
-/* Search */
 .md-search__input {
   color: var(--bw-fg-primary) !important;
 }
@@ -85,10 +65,6 @@ body {
 .md-search__input::placeholder {
   color: var(--bw-fg-muted) !important;
 }
-
-/* ============================================================
-   Top Tabs
-   ============================================================ */
 
 .md-tabs {
   background-color: var(--bw-bg-root) !important;
@@ -103,20 +79,12 @@ body {
   color: var(--bw-accent-yellow) !important;
 }
 
+.md-tabs__link[aria-selected="true"],
 .md-tabs__item--active > .md-tabs__link {
   color: var(--bw-accent-yellow-strong) !important;
-  border-bottom: 2px solid var(--md-primary-fg-color--light) !important
-}
-
-.md-tabs__link[aria-selected="true"] {
-  color: var(--bw-accent-orange) !important;
   font-weight: 700;
-  border-bottom: 2px solid var(--bw-accent-orange);
+  border-bottom: 2px solid var(--md-primary-fg-color--light) !important;
 }
-
-/* ============================================================
-   LEFT Sidebar (Primary)
-   ============================================================ */
 
 .md-sidebar--primary,
 .md-sidebar--primary .md-sidebar__scrollwrap,
@@ -125,9 +93,9 @@ body {
   border-right: 1px solid var(--bw-border);
 }
 
-/* Drawer header (site title / brand block) */
 .md-nav__source,
-.md-nav__title--site {
+.md-nav__title--site,
+.md-nav--primary .md-nav__title[for="__drawer"] {
   background-color: var(--bw-accent-orange) !important;
   color: var(--bw-fg-primary) !important;
 }
@@ -138,7 +106,6 @@ body {
   fill: var(--bw-fg-primary) !important;
 }
 
-/* Remove Material overlay tint */
 .md-nav__source::before,
 .md-nav__source::after,
 .md-nav__title--site::before,
@@ -146,14 +113,13 @@ body {
   background: none !important;
 }
 
-/* Section headers */
 .md-nav__item--section > .md-nav__link {
   color: var(--bw-accent-orange) !important;
   font-weight: 600;
 }
 
-/* Links */
-.md-nav__link, .md-nav.md-nav--secondary .md-nav__title {
+.md-nav__link,
+.md-nav.md-nav--secondary .md-nav__title {
   color: var(--bw-fg-soft) !important;
   background-color: unset !important;
   box-shadow: unset !important;
@@ -169,21 +135,6 @@ body {
   background-color: var(--bw-bg-hover) !important;
   color: var(--bw-accent-yellow) !important;
 }
-
-.md-sidebar--primary > .md-nav__list > .md-nav__link,
-.md-sidebar--secondary > .md-nav__list > .md-nav__link {
-  background-color: unset !important;
-  box-shadow: unset !important;
-}
-
-.md-nav--primary .md-nav__title[for="__drawer"] {
-    background-color: var(--bw-accent-orange) !important;
-    color: var(--bw-fg-primary) !important;
-}
-
-/* ============================================================
-   RIGHT Sidebar (TOC)
-   ============================================================ */
 
 .md-sidebar--secondary,
 .md-sidebar--secondary .md-sidebar__scrollwrap,
@@ -206,18 +157,12 @@ body {
   font-weight: 600;
 }
 
-/* ============================================================
-   Content (fixes white body text)
-   ============================================================ */
-
 .md-content,
 .md-typeset {
   background-color: var(--bw-bg-root) !important;
   color: var(--bw-fg-primary) !important;
 }
 
-/* CRITICAL: Exclude code blocks from generic text color rules
-   to preserve Pygments syntax highlighting */
 .md-typeset p:not(.highlight p),
 .md-typeset li:not(.highlight li),
 .md-typeset span:not(.highlight span):not(pre span) {
@@ -237,32 +182,21 @@ body {
   color: var(--bw-accent-orange-dark) !important;
 }
 
-/* ============================================================
-   CODE BLOCKS – PRESERVE PYGMENTS SYNTAX HIGHLIGHTING
-   ============================================================ */
-
 .md-typeset pre {
   background-color: var(--bw-bg-surface) !important;
   border: 1px solid var(--bw-border);
 }
 
-/* CRITICAL: Do NOT set color on code blocks
-   Let Pygments handle all syntax highlighting */
 .md-typeset pre code {
   background: transparent !important;
 }
 
-/* Inline code (safe to color) */
 .md-typeset code:not(pre code) {
   background-color: var(--bw-bg-hover);
   color: var(--bw-accent-yellow);
   padding: 0.15em 0.35em;
   border-radius: 3px;
 }
-
-/* ============================================================
-   Tables & Blocks
-   ============================================================ */
 
 .md-typeset table {
   background-color: var(--bw-bg-root) !important;
@@ -284,10 +218,6 @@ body {
   color: var(--bw-fg-primary);
 }
 
-/* ============================================================
-   Admonitions (NOTE only)
-   ============================================================ */
-
 .md-typeset .admonition.note,
 .md-typeset details.note {
   border: 3px solid var(--bw-accent-orange);
@@ -300,12 +230,9 @@ body {
 .md-typeset .details.note .summary {
   background-color: var(--bw-bg-hover);
   color: var(--bw-accent-orange);
-}
-
-.admonition.note .admonition-title {
-    padding-left: .6rem;
-    font-weight: 600;
-    color: var(--md-primary-fg-color--light) !important;
+  padding-left: .6rem;
+  font-weight: 600;
+  color: var(--md-primary-fg-color--light) !important;
 }
 
 .md-typeset .admonition.note .admonition-title::before,
@@ -313,9 +240,11 @@ body {
   content: none;
 }
 
-/* ============================================================
-   Icons & Misc
-   ============================================================ */
+.md-sidebar--primary > .md-nav__list > .md-nav__link,
+.md-sidebar--secondary > .md-nav__list > .md-nav__link {
+  background-color: unset !important;
+  box-shadow: unset !important;
+}
 
 .md-header__title .md-header__ellipsis .md-header__topic .md-ellipsis {
   color: #313131;
@@ -325,12 +254,13 @@ body {
   fill: var(--bw-accent-orange-dark) !important;
 }
 
-.md-icon svg, .md-source__repository .md-source__repository--active {
-    fill: var(--bw-bg-root) !important;
-    color: var(--bw-bg-root) !important;
+.md-icon svg,
+.md-source__repository .md-source__repository--active {
+  fill: var(--bw-bg-root) !important;
+  color: var(--bw-bg-root) !important;
 }
 
 .md-source__repository {
-    background-color: var(--bw-accent-orange) !important;
-    color: var(--bw-bg-root) !important;
+  background-color: var(--bw-accent-orange) !important;
+  color: var(--bw-bg-root) !important;
 }
