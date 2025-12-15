@@ -226,7 +226,9 @@ class ReorderClassMembers(cst.CSTTransformer):
         )
 
         new_body = [stmt for _, stmt in reordered]
-        return updated_node.with_changes(body=updated_node.body.with_changes(body=new_body))
+        return updated_node.with_changes(
+            body=updated_node.body.with_changes(body=new_body)
+        )
 
 
 def reorder_file(path: Path) -> bool:
