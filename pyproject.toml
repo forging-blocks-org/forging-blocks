@@ -155,8 +155,7 @@ bandit = { cmd = "bandit -r src -x tests" }
 
 "ci:release:validate".sequence = [
   "ci:simulate",
-  { cmd = "poetry build" },
-  { shell = "echo \"Release candidate validated for version $(poetry version -s)\"" }
+  { cmd = "poetry build" }
 ]
 
 "changelog:generate".sequence = [
@@ -171,92 +170,29 @@ bandit = { cmd = "bandit -r src -x tests" }
   { shell = "echo 'Validating release readiness...'" },
   { shell = "git rev-parse --abbrev-ref HEAD | grep -qx main || (echo 'ERROR: must start from main' && exit 1)" },
   { shell = "git diff --quiet || (echo 'ERROR: working tree not clean' && exit 1)" },
-  { cmd = "git fetch origin" },
+  { cmd = "git fetch origin --tags" },
   { shell = "git diff --quiet origin/main...HEAD || (echo 'ERROR: local main differs from origin/main' && exit 1)" },
   "ci:release:validate",
   { shell = "echo 'OK: release validated'" }
 ]
 
-"release:patch".sequence = [
+"release:_run".sequence = [
   "release:validate",
-  { shell = "poetry version patch" },
-  { shell = "VERSION=$(poetry version -s)" },
-  { shell = "poe changelog:generate" },
-  { shell = "BRANCH=release/v$VERSION" },
-  { shell = "git checkout -b \"$BRANCH\"" },
-  { shell = "git add pyproject.toml poetry.lock CHANGELOG.md || true" },
-  { shell = "git commit -m \"release: $VERSION\"" },
-  { shell = "git tag \"v$VERSION\"" },
-  { shell = "git push origin \"$BRANCH\" --tags" },
-  { shell = """
-if command -v gh >/dev/null 2>&1; then
-  gh pr create \
-    --base main \
-    --head \"$BRANCH\" \
-    --title \"release: $VERSION\" \
-    --body \"Release $VERSION
-
-This PR contains only the version bump and generated changelog.
-
-- Version: $VERSION
-- Tag: v$VERSION\"
-else
-  echo \"Create PR manually:\"
-  echo \"https://github.com/forging-blocks-org/forging-blocks/compare/$BRANCH?expand=1\"
-fi
-""" }
+  { cmd = "bash scripts/release/prepare.sh $RELEASE_LEVEL" },
+  { cmd = "bash scripts/release/create_pr.sh" }
 ]
 
-"release:minor".sequence = [
+"release:patch".env = { RELEASE_LEVEL = "patch" }
+"release:patch".sequence = ["release:_run"]
+
+"release:minor".env = { RELEASE_LEVEL = "minor" }
+"release:minor".sequence = ["release:_run"]
+
+"release:major".env = { RELEASE_LEVEL = "major" }
+"release:major".sequence = ["release:_run"]
+
+"release:dry-run".env = { RELEASE_LEVEL = "patch" }
+"release:dry-run".sequence = [
   "release:validate",
-  { shell = "poetry version minor" },
-  { shell = "VERSION=$(poetry version -s)" },
-  { shell = "poe changelog:generate" },
-  { shell = "BRANCH=release/v$VERSION" },
-  { shell = "git checkout -b \"$BRANCH\"" },
-  { shell = "git add pyproject.toml poetry.lock CHANGELOG.md || true" },
-  { shell = "git commit -m \"release: $VERSION\"" },
-  { shell = "git tag \"v$VERSION\"" },
-  { shell = "git push origin \"$BRANCH\" --tags" },
-  { shell = """
-if command -v gh >/dev/null 2>&1; then
-  gh pr create \
-    --base main \
-    --head \"$BRANCH\" \
-    --title \"release: $VERSION\" \
-    --body \"Release $VERSION
-
-This PR contains only the version bump and generated changelog.\"
-else
-  echo \"Create PR manually:\"
-  echo \"https://github.com/forging-blocks-org/forging-blocks/compare/$BRANCH?expand=1\"
-fi
-""" }
-]
-
-"release:major".sequence = [
-  "release:validate",
-  { shell = "poetry version major" },
-  { shell = "VERSION=$(poetry version -s)" },
-  { shell = "poe changelog:generate" },
-  { shell = "BRANCH=release/v$VERSION" },
-  { shell = "git checkout -b \"$BRANCH\"" },
-  { shell = "git add pyproject.toml poetry.lock CHANGELOG.md || true" },
-  { shell = "git commit -m \"release: $VERSION\"" },
-  { shell = "git tag \"v$VERSION\"" },
-  { shell = "git push origin \"$BRANCH\" --tags" },
-  { shell = """
-if command -v gh >/dev/null 2>&1; then
-  gh pr create \
-    --base main \
-    --head \"$BRANCH\" \
-    --title \"release: $VERSION\" \
-    --body \"Release $VERSION
-
-This PR contains only the version bump and generated changelog.\"
-else
-  echo \"Create PR manually:\"
-  echo \"https://github.com/forging-blocks-org/forging-blocks/compare/$BRANCH?expand=1\"
-fi
-""" }
+  { cmd = "bash scripts/release/dry_run.sh $RELEASE_LEVEL" }
 ]
