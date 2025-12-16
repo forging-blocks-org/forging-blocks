@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   ci:
+    name: Python + Docs
     runs-on: ubuntu-latest
 
     steps:
@@ -26,20 +27,21 @@ jobs:
       - name: Run CI pipeline
         run: poetry run poe ci:simulate
 
-shell-scripts:
-  name: Shell scripts (lint + tests)
-  runs-on: ubuntu-latest
+  shell-scripts:
+    name: Release scripts (ShellCheck + Bats)
+    runs-on: ubuntu-latest
 
-  steps:
-    - uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Install ShellCheck and Bats
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y shellcheck bats
+      - name: Install ShellCheck and Bats
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck bats
 
-    - name: Lint release scripts (ShellCheck)
-      run: shellcheck scripts/release/*.sh
+      - name: Lint release scripts
+        run: shellcheck -x scripts/release/*.sh
 
-    - name: Test release scripts (Bats)
-      run: bats tests/scripts/release
+      - name: Test release scripts
+        run: bats tests/scripts/release

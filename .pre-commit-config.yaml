@@ -43,3 +43,17 @@ repos:
         language: system
         types: [python]
         pass_filenames: true
+
+  - repo: local
+    hooks:
+      - id: shellcheck-release
+        name: ShellCheck release scripts
+        entry: bash -c 'shellcheck -x scripts/release/*.sh'
+        language: system
+        pass_filenames: false
+
+      - id: bats-release
+        name: Bats release script tests
+        entry: bats tests/scripts/release
+        language: system
+        pass_filenames: false

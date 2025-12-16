@@ -130,12 +130,15 @@ addopts = [
 [tool.poe.tasks]
 lint = { cmd = "ruff check ." }
 "lint:fix" = { cmd = "ruff check . --fix" }
+"lint:scripts" = { cmd = "shellcheck scripts/release/*.sh" }
+
 type = { cmd = "mypy src" }
-test = { cmd = "pytest --strict-markers --tb=line" }
 bandit = { cmd = "bandit -r src -x tests" }
 
-"docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
+test = { cmd = "pytest --strict-markers --tb=line" }
+"test:scripts" = { cmd = "bats tests/scripts/release" }
 
+"docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
 "docs:build".sequence = [
   "docs:generate",
   { cmd = "poetry run mkdocs build --strict" }
@@ -145,14 +148,14 @@ bandit = { cmd = "bandit -r src -x tests" }
   "lint",
   "type",
   "test",
-  "bandit"
+  "bandit",
+  "lint:scripts",
+  "test:scripts"
 ]
-
 "ci:simulate".sequence = [
   "ci:check",
   "docs:build"
 ]
-
 "ci:release:validate".sequence = [
   "ci:check",
   { cmd = "poetry build" }
@@ -175,22 +178,17 @@ bandit = { cmd = "bandit -r src -x tests" }
   "ci:release:validate",
   { shell = "echo 'OK: release validated'" }
 ]
-
 "release:_run".sequence = [
   "release:validate",
   { cmd = "bash scripts/release/prepare.sh $RELEASE_LEVEL" },
   { cmd = "bash scripts/release/create_pr.sh" }
 ]
-
 "release:patch".env = { RELEASE_LEVEL = "patch" }
 "release:patch".sequence = ["release:_run"]
-
 "release:minor".env = { RELEASE_LEVEL = "minor" }
 "release:minor".sequence = ["release:_run"]
-
 "release:major".env = { RELEASE_LEVEL = "major" }
 "release:major".sequence = ["release:_run"]
-
 "release:dry-run".env = { RELEASE_LEVEL = "patch" }
 "release:dry-run".sequence = [
   "release:validate",
