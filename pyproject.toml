@@ -114,7 +114,7 @@ warn_unused_ignores = true
 strict_equality = true
 show_error_codes = true
 mypy_path = "src"
-exclude = ["tests/*", "scripts/*"]
+exclude = ["tests/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -124,6 +124,7 @@ addopts = [
     "--strict-markers",
     "--strict-config",
     "--cov=forging_blocks",
+    "--cov=scripts/release",
     "--cov-report=term-missing",
     "--cov-fail-under=90"
 ]
