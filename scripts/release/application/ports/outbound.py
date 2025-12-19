@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from forging_blocks.foundation.ports import OutputPort
 
 from scripts.release.domain.value_objects import (
@@ -71,6 +72,16 @@ class VersionControl(OutputPort):
     ) -> None: ...
 
 
+@dataclass(frozen=True)
+class PullRequestServiceOutput:
+    """
+    DTO representing the output of creating a pull request.
+    """
+
+    pr_id: str | None
+    url: str | None
+
+
 class PullRequestService(OutputPort):
     """
     Creates release pull requests in a hosting platform.
@@ -84,4 +95,4 @@ class PullRequestService(OutputPort):
         title: PullRequestTitle,
         body: PullRequestBody,
         dry_run: bool,
-    ) -> ReleasePullRequest: ...
+    ) -> PullRequestServiceOutput: ...

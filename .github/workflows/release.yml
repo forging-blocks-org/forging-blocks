@@ -1,51 +1,41 @@
-name: Release (PyPI + Docs + GitHub Release)
+name: Prepare Release PR
 
 on:
-  push:
-    tags:
-      - "v*"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      level:
+        type: choice
+        required: true
+        options: [patch, minor, major]
+      dry_run:
+        type: boolean
+        default: false
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
-  release:
+  prepare:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository (full history required for mike)
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
-      - name: Set up Poetry
-        uses: ./.github/actions/setup-poetry
+      - uses: ./.github/actions/setup-poetry
 
-      - name: Install dependencies
-        run: poetry install --with dev,docs
+      - run: poetry install --no-interaction
 
-      - name: Validate release candidate
-        run: poetry run poe ci:release
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Publish to PyPI
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
-        run: poetry publish --no-interaction
-
-      - name: Deploy versioned documentation
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -euo pipefail
-
-          VERSION="${GITHUB_REF_NAME#v}"
-
-          poetry run python scripts/generate_autodoc_pages.py
-          poetry run mike deploy --push --update-aliases "${VERSION}" latest
-          poetry run mike set-default --push latest
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          generate_release_notes: true
+          poetry run poe release:prepare \
+            --level "${{ inputs.level }}" \
+            ${{ inputs.dry_run && '--dry-run' || '' }}

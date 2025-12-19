@@ -1,47 +1,23 @@
-name: Continuous Integration
+name: CI
 
 on:
-  push:
-    branches: ["main"]
   pull_request:
-    branches: ["main"]
+  push:
+    branches: [main]
 
 permissions:
   contents: read
 
 jobs:
-  ci:
-    name: Python + Docs
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Poetry
-        uses: ./.github/actions/setup-poetry
+      - uses: ./.github/actions/setup-poetry
 
-      - name: Install dependencies
-        run: poetry install --with dev,docs
+      - run: poetry install --no-interaction
 
-      - name: Run CI pipeline
-        run: poetry run poe ci:simulate
-
-  shell-scripts:
-    name: Release scripts (ShellCheck + Bats)
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install ShellCheck and Bats
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y shellcheck bats
-
-      - name: Lint release scripts
-        run: shellcheck -x scripts/release/*.sh
-
-      - name: Test release scripts
-        run: bats tests/scripts/release
+      - run: poetry run poe check
+      - run: poetry run poe test

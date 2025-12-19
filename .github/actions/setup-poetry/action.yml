@@ -1,23 +1,20 @@
 name: Setup Poetry
-description: Configure Python and Poetry for CI/CD
-
 runs:
   using: composite
   steps:
-    - name: Set up Python
-      uses: actions/setup-python@v5
+    - uses: actions/setup-python@v5
       with:
         python-version: "3.12"
 
-    - name: Install Poetry
+    - run: pip install poetry
       shell: bash
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 -
-        echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-        poetry --version
 
-    - name: Configure Poetry
+    - run: poetry config virtualenvs.create true
       shell: bash
-      run: |
-        poetry config virtualenvs.in-project true
-        poetry config installer.parallel true
+
+    - uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/pypoetry
+          ~/.cache/pip
+        key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
