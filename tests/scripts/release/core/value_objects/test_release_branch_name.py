@@ -13,6 +13,7 @@ class TestReleaseBranchName:
             pytest.param("feature/v1.2.3", id="invalid_prefix"),
             pytest.param("release/v1.2", id="invalid_structure"),
             pytest.param("release/v1.-2.3", id="invalid_version"),
+            pytest.param("release/v1.2", id="invalid_version"),
         ],
     )
     def test_init_when_invalid_value_then_error(self, value: str) -> None:
