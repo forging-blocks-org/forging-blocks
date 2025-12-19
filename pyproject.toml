@@ -84,6 +84,7 @@ docstring-code-format = true
 
 [tool.coverage.run]
 omit = [
+    "**/__init__.py",
     "*/foundation/debuggable.py",
     "*/foundation/mapper.py",
     "*/foundation/result.py",
@@ -91,6 +92,8 @@ omit = [
     "*/foundation/ports.py",
     "*/application/ports/outbound/notifier.py",
     "*/application/ports/outbound/repository.py",
+    "**/inbound.py",
+    "**/outbound.py",
 ]
 
 [tool.coverage.report]
