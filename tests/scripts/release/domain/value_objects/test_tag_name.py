@@ -50,3 +50,39 @@ class TestTagName:
 
     def test_equality_when_different_value_then_not_equal(self) -> None:
         assert TagName("v1.0.0") != TagName("v2.0.0")
+
+    def test_value_when_called_then_returns_raw_value(self) -> None:
+        tag = TagName("v1.2.3")
+
+        assert tag.value == "v1.2.3"
+
+    def test_init_when_created_then_cannot_modify_value(self) -> None:
+        tag = TagName("v1.2.3")
+
+        with pytest.raises(AttributeError):
+            tag._value = "v9.9.9"  # type: ignore
+
+    def test_debug_tagname_module(self) -> None:
+        from scripts.release.domain.value_objects.tag_name import (
+            TagName as DirectTagName,
+        )
+        from scripts.release.domain.value_objects import TagName as ImportedTagName
+
+        assert DirectTagName is ImportedTagName
+
+    def test_init_when_valid_tag_then_success(self) -> None:
+        tag = TagName("v1.2.3")
+
+        assert tag.value == "v1.2.3"
+
+    def test_for_version_when_called_then_returns_tag(self) -> None:
+        version = ReleaseVersion(2, 1, 0)
+
+        tag = TagName.for_version(version)
+
+        assert tag.value == "v2.1.0"
+
+    def test_equality_components_when_called_then_returns_tuple(self) -> None:
+        tag = TagName("v1.0.0")
+
+        assert tag._equality_components() == ("v1.0.0",)
