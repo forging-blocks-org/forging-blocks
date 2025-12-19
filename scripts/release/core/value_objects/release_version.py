@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Hashable
 from forging_blocks.domain import ValueObject
 
-from ..errors.invalid_release_version_error import InvalidReleaseVersionError
+from ..errors import InvalidReleaseVersionError
 
 
 class ReleaseVersion(ValueObject[str]):
