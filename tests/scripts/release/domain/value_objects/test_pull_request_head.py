@@ -1,4 +1,4 @@
-from scripts.release.core.value_objects import PullRequestHead, ReleaseBranchName
+from scripts.release.domain.value_objects import PullRequestHead, ReleaseBranchName
 
 
 class TestPullRequestHead:

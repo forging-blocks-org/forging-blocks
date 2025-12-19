@@ -1,6 +1,6 @@
 import pytest
 
-from scripts.release.core.value_objects import PullRequestBody
+from scripts.release.domain.value_objects import PullRequestBody
 
 
 class TestPullRequestBody:

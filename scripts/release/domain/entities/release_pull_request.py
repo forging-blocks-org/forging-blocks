@@ -1,6 +1,6 @@
 from forging_blocks.domain import Entity
 
-from scripts.release.core.errors import InvalidReleasePullRequestError
+from scripts.release.domain.errors import InvalidReleasePullRequestError
 from ..value_objects import (
     # ReleaseVersion,
     # BranchName,

@@ -2,10 +2,10 @@ from typing import Hashable
 
 from forging_blocks.domain import ValueObject
 
-from scripts.release.core.errors.invalid_pull_request_title_error import (
+from scripts.release.domain.errors.invalid_pull_request_title_error import (
     InvalidPullRequestTitleError,
 )
-from scripts.release.core.value_objects.common import PullRequestTitleLengthBoundaries
+from scripts.release.domain.value_objects.common import PullRequestTitleLengthBoundaries
 
 
 class PullRequestTitle(ValueObject[str]):

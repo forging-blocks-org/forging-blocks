@@ -1,4 +1,4 @@
-from scripts.release.core.value_objects import PullRequestBase
+from scripts.release.domain.value_objects import PullRequestBase
 
 
 class TestPullRequestBase:

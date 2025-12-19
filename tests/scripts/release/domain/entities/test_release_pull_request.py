@@ -1,8 +1,8 @@
 from unittest.mock import Mock
 import pytest
-from scripts.release.core.entities import ReleasePullRequest
-from scripts.release.core.errors import InvalidReleasePullRequestError
-from scripts.release.core.value_objects import (
+from scripts.release.domain.entities import ReleasePullRequest
+from scripts.release.domain.errors import InvalidReleasePullRequestError
+from scripts.release.domain.value_objects import (
     PullRequestBase,
     PullRequestBody,
     PullRequestHead,

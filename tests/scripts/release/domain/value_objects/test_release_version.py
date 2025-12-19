@@ -1,7 +1,7 @@
 import pytest
 
-from scripts.release.core.value_objects.release_version import ReleaseVersion
-from scripts.release.core.errors import InvalidReleaseVersionError
+from scripts.release.domain.value_objects.release_version import ReleaseVersion
+from scripts.release.domain.errors import InvalidReleaseVersionError
 
 
 class TestReleaseVersion:

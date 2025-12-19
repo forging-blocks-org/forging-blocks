@@ -2,7 +2,7 @@ from typing import Hashable
 
 from forging_blocks.domain import ValueObject
 
-from scripts.release.core.value_objects import ReleaseBranchName
+from scripts.release.domain.value_objects import ReleaseBranchName
 
 
 class PullRequestHead(ValueObject[str]):

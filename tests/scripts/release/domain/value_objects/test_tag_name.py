@@ -1,7 +1,7 @@
 import pytest
 
-from scripts.release.core.value_objects import ReleaseVersion, TagName
-from scripts.release.core.errors import InvalidTagNameError
+from scripts.release.domain.value_objects import ReleaseVersion, TagName
+from scripts.release.domain.errors import InvalidTagNameError
 
 
 class TestTagName:

@@ -1,10 +1,10 @@
 import pytest
 
-from scripts.release.core.value_objects.pull_request_title import PullRequestTitle
-from scripts.release.core.value_objects.common import (
+from scripts.release.domain.value_objects.pull_request_title import PullRequestTitle
+from scripts.release.domain.value_objects.common import (
     PullRequestTitleLengthBoundaries,
 )
-from scripts.release.core.errors.invalid_pull_request_title_error import (
+from scripts.release.domain.errors.invalid_pull_request_title_error import (
     InvalidPullRequestTitleError,
 )
 
