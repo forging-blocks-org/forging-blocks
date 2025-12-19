@@ -10,6 +10,7 @@ from scripts.release.domain.value_objects import (
     PullRequestTitle,
     PullRequestBody,
 )
+from scripts.release.domain.entities import ReleasePullRequest
 
 
 class VersioningService(OutputPort):
@@ -58,7 +59,9 @@ class VersionControl(OutputPort):
         tag: TagName,
     ) -> None: ...
 
-    def commit_release_artifacts(self) -> None: ...
+    def commit_release_artifacts(
+        self,
+    ) -> None: ...
 
     def push(
         self,
@@ -81,4 +84,4 @@ class PullRequestService(OutputPort):
         title: PullRequestTitle,
         body: PullRequestBody,
         dry_run: bool,
-    ) -> tuple[str | None, str | None]: ...
+    ) -> ReleasePullRequest: ...
