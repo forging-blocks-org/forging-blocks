@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "forging-blocks"
-version = "0.4.1"
+version = "1.2.3"
 description = "Composable toolkit for clean, testable, and maintainable Python applications"
 authors = ["ForgingBlocks Org <forgingblocksorganization91@gmail.com>"]
 license = "MIT"
