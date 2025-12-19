@@ -1,0 +1,52 @@
+import pytest
+
+from scripts.release.core.value_objects import ReleaseVersion, TagName
+from scripts.release.core.errors import InvalidTagNameError
+
+
+class TestTagName:
+    @pytest.mark.parametrize(
+        "value",
+        [
+            pytest.param("1.2.3", id="missing_prefix"),
+            pytest.param("version/1.2.3", id="wrong_prefix"),
+        ],
+    )
+    def test_init_when_invalid_prefix_then_error(self, value: str) -> None:
+        with pytest.raises(InvalidTagNameError):
+            TagName(value)
+
+    @pytest.mark.parametrize(
+        "value",
+        [
+            pytest.param("v1.2", id="too_few_parts"),
+            pytest.param("v1.2.3.4", id="too_many_parts"),
+        ],
+    )
+    def test_init_when_invalid_structure_then_error(self, value: str) -> None:
+        with pytest.raises(InvalidTagNameError):
+            TagName(value)
+
+    @pytest.mark.parametrize(
+        "value",
+        [
+            pytest.param("v1.-2.3", id="negative_minor"),
+            pytest.param("v1.a.3", id="non_numeric"),
+        ],
+    )
+    def test_init_when_invalid_version_then_error(self, value: str) -> None:
+        with pytest.raises(InvalidTagNameError):
+            TagName(value)
+
+    def test_for_version_when_valid_release_version_then_tag_created(self) -> None:
+        version = ReleaseVersion(1, 2, 3)
+
+        tag = TagName.for_version(version)
+
+        assert tag.value == "v1.2.3"
+
+    def test_equality_when_same_value_then_equal(self) -> None:
+        assert TagName("v2.0.0") == TagName("v2.0.0")
+
+    def test_equality_when_different_value_then_not_equal(self) -> None:
+        assert TagName("v1.0.0") != TagName("v2.0.0")
