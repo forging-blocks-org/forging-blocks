@@ -24,5 +24,17 @@ class ReleaseVersion(ValueObject[str]):
     def value(self) -> str:
         return f"{self._major}.{self._minor}.{self._patch}"
 
+    @property
+    def major(self) -> int:
+        return self._major
+
+    @property
+    def minor(self) -> int:
+        return self._minor
+
+    @property
+    def patch(self) -> int:
+        return self._patch
+
     def _equality_components(self) -> tuple[Hashable, ...]:
         return (self._major, self._minor, self._patch)

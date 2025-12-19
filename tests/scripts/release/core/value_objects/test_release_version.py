@@ -28,3 +28,42 @@ class TestReleaseVersion:
         version_value = version.value
 
         assert expected == version_value
+
+    @pytest.mark.parametrize(
+        "major, minor, patch, expected",
+        [(0, 4, 2, 0), (1, 3, 2, 1), (4, 1, 8, 4)],
+    )
+    def test_major_property_when_called_then_return_version_like_string(
+        self, major: int, minor: int, patch: int, expected: str
+    ) -> None:
+        version = ReleaseVersion(major, minor, patch)
+
+        major_version_value = version.major
+
+        assert expected == major_version_value
+
+    @pytest.mark.parametrize(
+        "major, minor, patch, expected",
+        [(0, 4, 2, 4), (1, 3, 2, 3), (4, 1, 8, 1)],
+    )
+    def test_minor_property_when_called_then_return_version_like_string(
+        self, major: int, minor: int, patch: int, expected: str
+    ) -> None:
+        version = ReleaseVersion(major, minor, patch)
+
+        minor_version_value = version.minor
+
+        assert expected == minor_version_value
+
+    @pytest.mark.parametrize(
+        "major, minor, patch, expected",
+        [(0, 4, 2, 2), (1, 3, 2, 2), (4, 1, 8, 8)],
+    )
+    def test_patch_property_when_called_then_return_version_like_string(
+        self, major: int, minor: int, patch: int, expected: str
+    ) -> None:
+        version = ReleaseVersion(major, minor, patch)
+
+        patch_version_value = version.patch
+
+        assert expected == patch_version_value
