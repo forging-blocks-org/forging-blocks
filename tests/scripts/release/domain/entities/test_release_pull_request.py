@@ -8,6 +8,7 @@ from scripts.release.domain.value_objects import (
     PullRequestHead,
     PullRequestTitle,
     ReleaseBranchName,
+    ReleaseVersion,
 )
 
 
@@ -52,3 +53,24 @@ class TestReleasePullRequest:
         )
 
         assert pr.is_persisted() is True
+
+    def test_properties_return_correct_value_objects(self) -> None:
+        version = ReleaseVersion(1, 2, 3)
+        release_branch_name = ReleaseBranchName.from_version(version)
+
+        base = PullRequestBase("main")
+        head = PullRequestHead(release_branch_name)
+        title = PullRequestTitle("release: 1.2.3")
+        body = PullRequestBody("This is a release pull request.")
+
+        pr = ReleasePullRequest(
+            base=base,
+            head=head,
+            title=title,
+            body=body,
+        )
+
+        assert pr.base == base
+        assert pr.head == head
+        assert pr.title == title
+        assert pr.body == body

@@ -1,10 +1,7 @@
 from forging_blocks.domain import Entity
 
-from scripts.release.domain.errors import InvalidReleasePullRequestError
+from ..errors import InvalidReleasePullRequestError
 from ..value_objects import (
-    # ReleaseVersion,
-    # BranchName,
-    # TagName,
     PullRequestBase,
     PullRequestHead,
     PullRequestTitle,
@@ -40,3 +37,19 @@ class ReleasePullRequest(Entity[str]):
         self._head = head
         self._title = title
         self._body = body
+
+    @property
+    def base(self) -> PullRequestBase:
+        return self._base
+
+    @property
+    def head(self) -> PullRequestHead:
+        return self._head
+
+    @property
+    def title(self) -> PullRequestTitle:
+        return self._title
+
+    @property
+    def body(self) -> PullRequestBody:
+        return self._body
