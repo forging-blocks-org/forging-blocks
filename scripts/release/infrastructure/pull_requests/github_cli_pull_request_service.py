@@ -1,28 +1,15 @@
 from scripts.release.infrastructure.commons.process import run
 from scripts.release.application.ports.outbound import (
     PullRequestService,
-    PullRequestServiceOutput,
-)
-from scripts.release.domain.value_objects import (
-    PullRequestBase,
-    PullRequestHead,
-    PullRequestTitle,
-    PullRequestBody,
+    CreatePullRequestInput,
+    CreatePullRequestOutput,
 )
 
 
 class GitHubCliPullRequestService(PullRequestService):
-    def create(
-        self,
-        *,
-        base: PullRequestBase,
-        head: PullRequestHead,
-        title: PullRequestTitle,
-        body: PullRequestBody,
-        dry_run: bool,
-    ) -> PullRequestServiceOutput:
-        if dry_run:
-            return PullRequestServiceOutput(
+    def create(self, input: CreatePullRequestInput) -> CreatePullRequestOutput:
+        if input.dry_run:
+            return CreatePullRequestOutput(
                 pr_id=None,
                 url=None,
             )
@@ -33,19 +20,19 @@ class GitHubCliPullRequestService(PullRequestService):
                 "pr",
                 "create",
                 "--base",
-                base.value,
+                input.base.value,
                 "--head",
-                head.value,
+                input.head.value,
                 "--title",
-                title.value,
+                input.title.value,
                 "--body",
-                body.value,
+                input.body.value,
             ]
         )
 
         pr_id = url.rstrip("/").split("/")[-1]
 
-        return PullRequestServiceOutput(
+        return CreatePullRequestOutput(
             pr_id=pr_id,
             url=url,
         )

@@ -139,3 +139,31 @@ class TestPrepareReleaseService:
         assert result.version == "1.2.0"
         assert result.branch == "release/v1.2.0"
         assert result.tag == "v1.2.0"
+
+    async def test_execute_when_prepare_fails_then_rollback_called(self) -> None:
+        versioning = Mock()
+        vcs = Mock()
+
+        version = ReleaseVersion(1, 2, 0)
+
+        versioning.current_version.return_value = ReleaseVersion(1, 1, 0)
+        versioning.compute_next_version.return_value = version
+        vcs.tag_exists.return_value = False
+        vcs.branch_exists.return_value = False
+
+        vcs.create_branch.side_effect = RuntimeError("boom")
+
+        service = PrepareReleaseService(
+            versioning=versioning,
+            vcs=vcs,
+        )
+
+        request = PrepareReleaseInput(level="minor", dry_run=False)
+
+        with pytest.raises(RuntimeError):
+            await service.execute(request)
+
+        vcs.checkout_main.assert_called_once()
+        vcs.delete_branch.assert_called_once()
+        vcs.delete_remote_branch.assert_called_once()
+        versioning.rollback_version.assert_called_once()

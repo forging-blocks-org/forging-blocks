@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+from scripts.release.application.ports.outbound import CreatePullRequestInput
 from scripts.release.infrastructure.pull_requests.github_cli_pull_request_service import (
     GitHubCliPullRequestService,
 )
@@ -21,9 +22,7 @@ class TestGitHubCliPullRequestService:
         self,
         run_mock,
     ) -> None:
-        service = GitHubCliPullRequestService()
-
-        output = service.create(
+        input = CreatePullRequestInput(
             base=PullRequestBase("main"),
             head=PullRequestHead(
                 ReleaseBranchName.from_version(ReleaseVersion(1, 2, 3))
@@ -32,6 +31,10 @@ class TestGitHubCliPullRequestService:
             body=PullRequestBody("Notes"),
             dry_run=True,
         )
+
+        service = GitHubCliPullRequestService()
+
+        output = service.create(input)
 
         assert output.pr_id is None
         assert output.url is None
@@ -46,15 +49,16 @@ class TestGitHubCliPullRequestService:
     ) -> None:
         run_mock.return_value = "https://github.com/org/repo/pull/42"
 
-        service = GitHubCliPullRequestService()
-
-        output = service.create(
+        input = CreatePullRequestInput(
             base=PullRequestBase("main"),
             head=PullRequestHead(ReleaseBranchName("release/v1.2.3")),
             title=PullRequestTitle("Release v1.2.3"),
             body=PullRequestBody("Notes"),
             dry_run=False,
         )
+        service = GitHubCliPullRequestService()
+
+        output = service.create(input)
 
         assert output.pr_id == "42"
         assert output.url
