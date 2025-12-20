@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# shellcheck source=scripts/release/common.sh
+# shellcheck source=scripts/release/common.sh
 source "$(dirname "$0")/common.sh"
 
 LEVEL="${1:?release level required (patch|minor|major)}"

@@ -34,12 +34,3 @@ repos:
         entry: bash -c 'git diff --cached --name-only | grep -q "^mkdocs.yml$" && { echo "❌ mkdocs.yml changes are not allowed to be committed!"; exit 1; } || exit 0'
         language: system
         types: [file]
-
-  - repo: local
-    hooks:
-      - id: order-class-members
-        name: Reorder class members automatically (Google Style)
-        entry: poetry run python scripts/order_members.py
-        language: system
-        types: [python]
-        pass_filenames: true

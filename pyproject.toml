@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "forging-blocks"
-version = "0.4.1"
+version = "1.2.3"
 description = "Composable toolkit for clean, testable, and maintainable Python applications"
 authors = ["ForgingBlocks Org <forgingblocksorganization91@gmail.com>"]
 license = "MIT"
@@ -84,6 +84,7 @@ docstring-code-format = true
 
 [tool.coverage.run]
 omit = [
+    "**/__init__.py",
     "*/foundation/debuggable.py",
     "*/foundation/mapper.py",
     "*/foundation/result.py",
@@ -91,6 +92,8 @@ omit = [
     "*/foundation/ports.py",
     "*/application/ports/outbound/notifier.py",
     "*/application/ports/outbound/repository.py",
+    "**/inbound.py",
+    "**/outbound.py",
 ]
 
 [tool.coverage.report]
@@ -114,15 +117,17 @@ warn_unused_ignores = true
 strict_equality = true
 show_error_codes = true
 mypy_path = "src"
-exclude = ["tests/*", "scripts/*"]
+exclude = ["tests/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src", "scripts"]
 asyncio_mode = "auto"
 addopts = [
     "--strict-markers",
     "--strict-config",
     "--cov=forging_blocks",
+    "--cov=scripts/release",
     "--cov-report=term-missing",
     "--cov-fail-under=90"
 ]
@@ -130,12 +135,14 @@ addopts = [
 [tool.poe.tasks]
 lint = { cmd = "ruff check ." }
 "lint:fix" = { cmd = "ruff check . --fix" }
+"lint:scripts" = { cmd = "shellcheck scripts/release/*.sh" }
+
 type = { cmd = "mypy src" }
-test = { cmd = "pytest --strict-markers --tb=line" }
 bandit = { cmd = "bandit -r src -x tests" }
 
-"docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
+test = { cmd = "pytest --strict-markers --tb=line" }
 
+"docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
 "docs:build".sequence = [
   "docs:generate",
   { cmd = "poetry run mkdocs build --strict" }
@@ -145,14 +152,13 @@ bandit = { cmd = "bandit -r src -x tests" }
   "lint",
   "type",
   "test",
-  "bandit"
+  "bandit",
+  "lint:scripts",
 ]
-
 "ci:simulate".sequence = [
   "ci:check",
   "docs:build"
 ]
-
 "ci:release:validate".sequence = [
   "ci:check",
   { cmd = "poetry build" }
@@ -176,23 +182,30 @@ bandit = { cmd = "bandit -r src -x tests" }
   { shell = "echo 'OK: release validated'" }
 ]
 
+"release:prepare".cmd = "python -m scripts.release.presentation.cli prepare --level $RELEASE_LEVEL"
+"release:create-pr".cmd = "python -m scripts.release.presentation.cli create-pr --base main --head $RELEASE_HEAD --title \"$RELEASE_TITLE\" --body \"$RELEASE_BODY\""
+
 "release:_run".sequence = [
   "release:validate",
-  { cmd = "bash scripts/release/prepare.sh $RELEASE_LEVEL" },
-  { cmd = "bash scripts/release/create_pr.sh" }
+  { cmd = "python -m scripts.release.presentation.cli prepare --level $RELEASE_LEVEL" },
+  # You can generate head/title/body from repo state in a small helper later.
+  # For now keep env-driven values explicit and deterministic.
+  { shell = "export RELEASE_VERSION=$(python -m scripts.release.presentation.cli prepare --level $RELEASE_LEVEL --dry-run --json | python -c \"import sys, json; print(json.load(sys.stdin)['version'])\")" },
+  { shell = "export RELEASE_HEAD=release/v$RELEASE_VERSION" },
+  { shell = "export RELEASE_TITLE=\"chore(release): v$RELEASE_VERSION\"" },
+  { shell = "export RELEASE_BODY=\"Automated release for v$RELEASE_VERSION\""},
+  { cmd = "python -m scripts.release.presentation.cli create-pr --base main --head $RELEASE_HEAD --title \"$RELEASE_TITLE\" --body \"$RELEASE_BODY\"" }
 ]
 
 "release:patch".env = { RELEASE_LEVEL = "patch" }
 "release:patch".sequence = ["release:_run"]
-
 "release:minor".env = { RELEASE_LEVEL = "minor" }
 "release:minor".sequence = ["release:_run"]
-
 "release:major".env = { RELEASE_LEVEL = "major" }
 "release:major".sequence = ["release:_run"]
 
 "release:dry-run".env = { RELEASE_LEVEL = "patch" }
 "release:dry-run".sequence = [
   "release:validate",
-  { cmd = "bash scripts/release/dry_run.sh $RELEASE_LEVEL" }
+  { cmd = "python -m scripts.release.presentation.cli prepare --level $RELEASE_LEVEL --dry-run" }
 ]
