@@ -11,7 +11,6 @@ from scripts.release.domain.value_objects import (
     PullRequestTitle,
     PullRequestBody,
 )
-from scripts.release.domain.entities import ReleasePullRequest
 
 
 class VersioningService(OutputPort):
