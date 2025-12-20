@@ -1,12 +1,5 @@
 import pytest
 
-from scripts.release.domain.value_objects import (
-    PullRequestBase,
-    PullRequestBody,
-    PullRequestHead,
-    ReleaseBranchName,
-    ReleaseVersion,
-)
 from scripts.release.domain.value_objects.pull_request_title import PullRequestTitle
 from scripts.release.domain.value_objects.common import (
     PullRequestTitleLengthBoundaries,
