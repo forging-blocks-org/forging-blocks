@@ -63,7 +63,7 @@ class _DryContainer(_Container):
 
 class TestCli:
     def test_run_prepare_when_json_then_prints_json_and_exit_0(
-        self, monkeypatch, capsys
+        self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
     ) -> None:
         monkeypatch.setattr(cli, "Container", _Container)
 
@@ -76,7 +76,7 @@ class TestCli:
         assert '"tag": "v1.2.3"' in out
 
     def test_run_create_pr_when_human_then_prints_lines_and_exit_0(
-        self, monkeypatch, capsys
+        self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
     ) -> None:
         monkeypatch.setattr(cli, "Container", _Container)
 
@@ -100,7 +100,7 @@ class TestCli:
         assert "url: https://example/pr/123" in out
 
     def test_run_when_exception_then_exit_1_and_print_stderr(
-        self, monkeypatch, capsys
+        self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
     ) -> None:
         class _BadContainer(_Container):
             def prepare_release_use_case(self):
@@ -120,7 +120,9 @@ class TestCli:
 
         assert exc.value.code == 2
 
-    def test_run_create_pr_dry_run_json(self, monkeypatch, capsys) -> None:
+    def test_run_create_pr_dry_run_json(
+        self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+    ) -> None:
         monkeypatch.setattr(cli, "Container", _DryContainer)
 
         code = cli.run(
@@ -144,7 +146,9 @@ class TestCli:
         assert '"pr_id": null' in out
         assert '"url": null' in out
 
-    def test_run_prepare_human_output(self, monkeypatch, capsys) -> None:
+    def test_run_prepare_human_output(
+        self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+    ) -> None:
         monkeypatch.setattr(cli, "Container", _Container)
 
         code = cli.run(["prepare", "--level", "patch"])
