@@ -9,10 +9,8 @@ from scripts.release.application.ports.inbound import (
 )
 from scripts.release.application.errors import TagAlreadyExistsError
 from scripts.release.domain.value_objects import (
-    ReleaseLevel,
     ReleaseVersion,
     ReleaseBranchName,
-    TagName,
 )
 
 
@@ -21,9 +19,7 @@ class TestPrepareReleaseService:
         versioning = Mock()
         vcs = Mock()
 
-        level = ReleaseLevel.from_str("minor")
         version = ReleaseVersion(1, 2, 0)
-        tag = TagName.for_version(version)
 
         versioning.compute_next_version.return_value = version
         vcs.tag_exists.return_value = True
