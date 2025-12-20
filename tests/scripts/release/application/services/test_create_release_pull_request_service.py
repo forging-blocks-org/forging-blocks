@@ -9,7 +9,8 @@ from scripts.release.application.ports.inbound import (
 )
 from scripts.release.application.ports.outbound import (
     PullRequestService,
-    PullRequestServiceOutput,
+    CreatePullRequestInput,
+    CreatePullRequestOutput,
 )
 from scripts.release.domain.errors import InvalidReleasePullRequestError
 
@@ -38,7 +39,7 @@ class TestCreateReleasePullRequestService:
 
     async def test_execute_when_valid_then_delegate_to_infrastructure(self) -> None:
         pull_request_service = Mock(spec=PullRequestService)
-        pull_request_service.create.return_value = PullRequestServiceOutput(
+        pull_request_service.create.return_value = CreatePullRequestOutput(
             pr_id="123",
             url="https://example/pr/123",
         )
