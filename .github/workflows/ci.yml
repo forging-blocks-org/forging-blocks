@@ -19,5 +19,5 @@ jobs:
 
       - run: poetry install --no-interaction
 
-      - run: poetry run poe check
+      - run: poetry run poe ci:check
       - run: poetry run poe test
