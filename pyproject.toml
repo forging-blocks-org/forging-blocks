@@ -141,7 +141,6 @@ type = { cmd = "mypy src" }
 bandit = { cmd = "bandit -r src -x tests" }
 
 test = { cmd = "pytest --strict-markers --tb=line" }
-"test:scripts" = { cmd = "pytest tests/scripts --strict-markers --tb=line" }
 
 "docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
 "docs:build".sequence = [
@@ -155,7 +154,6 @@ test = { cmd = "pytest --strict-markers --tb=line" }
   "test",
   "bandit",
   "lint:scripts",
-  "test:scripts"
 ]
 "ci:simulate".sequence = [
   "ci:check",
