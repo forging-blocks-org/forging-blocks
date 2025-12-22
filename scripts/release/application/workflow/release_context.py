@@ -13,3 +13,4 @@ class ReleaseContext:
     previous_version: ReleaseVersion
     branch: ReleaseBranchName
     tag: TagName
+    branch_exists: bool

@@ -1,0 +1,36 @@
+"""Outbound port for generating changelogs between versions."""
+
+from dataclasses import dataclass
+from typing import Protocol
+
+from forging_blocks.foundation.ports import OutboundPort
+
+
+@dataclass(frozen=True)
+class ChangelogRequest:
+    """Request DTO for changelog generation."""
+
+    from_version: str  # The starting version
+    to_version: str  # The ending version
+
+
+@dataclass(frozen=True)
+class ChangelogResponse:
+    """Response DTO for changelog generation."""
+
+    entries: list[str]  # List of changelog entries
+
+
+class ChangelogGenerator(OutboundPort, Protocol):
+    """Port for generating changelogs between versions."""
+
+    async def generate(self, request: ChangelogRequest) -> ChangelogResponse:
+        """
+        Generate a changelog between two versions.
+
+        Args:
+            request (ChangelogRequest): The request containing from and to versions.
+        Returns:
+            ChangelogResponse: The generated changelog entries.
+        """
+        ...

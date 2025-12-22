@@ -34,6 +34,15 @@ class VersionControl(OutputPort):
         """
         ...
 
+    def commit_release_artifacts(
+        self,
+    ) -> None:
+        """
+        Commit the version bump and any generated artifacts (e.g., changelog).
+        Must be non-interactive.
+        """
+        ...
+
     def create_branch(
         self,
         branch: ReleaseBranchName,
@@ -61,16 +70,7 @@ class VersionControl(OutputPort):
         """
         ...
 
-    def commit_release_artifacts(
-        self,
-    ) -> None:
-        """
-        Commit the version bump and any generated artifacts (e.g., changelog).
-        Must be non-interactive.
-        """
-        ...
-
-    def delete_branch(
+    def delete_local_branch(
         self,
         branch: ReleaseBranchName,
     ) -> None:
