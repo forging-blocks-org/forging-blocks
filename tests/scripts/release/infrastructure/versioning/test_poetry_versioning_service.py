@@ -27,7 +27,7 @@ class TestPoetryVersioningServiceErrors:
             service.apply_version(ReleaseVersion(1, 2, 3))
 
     @patch("scripts.release.infrastructure.versioning.poetry_versioning_service.run")
-    def test_compute_next_version_parses_poetry_output(
+    def test_compute_next_version_parses_poetry_output_when_minor(
         self,
         run_mock,
     ) -> None:
@@ -38,6 +38,32 @@ class TestPoetryVersioningServiceErrors:
         version = service.compute_next_version(ReleaseLevel.from_str("minor"))
 
         assert version == ReleaseVersion(1, 3, 0)
+
+    @patch("scripts.release.infrastructure.versioning.poetry_versioning_service.run")
+    def test_compute_next_version_parses_poetry_output_major(
+        self,
+        run_mock,
+    ) -> None:
+        run_mock.return_value = "my-package 1.2.3"
+
+        service = PoetryVersioningService()
+
+        version = service.compute_next_version(ReleaseLevel.from_str("major"))
+
+        assert version == ReleaseVersion(2, 0, 0)
+
+    @patch("scripts.release.infrastructure.versioning.poetry_versioning_service.run")
+    def test_compute_next_version_parses_poetry_output_patch(
+        self,
+        run_mock,
+    ) -> None:
+        run_mock.return_value = "my-package 1.2.4"
+
+        service = PoetryVersioningService()
+
+        version = service.compute_next_version(ReleaseLevel.from_str("patch"))
+
+        assert version == ReleaseVersion(1, 2, 5)
 
     @patch("scripts.release.infrastructure.versioning.poetry_versioning_service.run")
     def test_apply_version_executes_poetry_version(
