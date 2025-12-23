@@ -4,7 +4,7 @@ import argparse
 import asyncio
 import json
 import sys
-from dataclasses import asdict
+from dataclasses import asdict, is_dataclass
 from typing import Sequence
 
 from scripts.release.application.ports.inbound import (
@@ -68,16 +68,19 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def _print_output(*, payload: object, as_json: bool) -> None:
+    if payload is None:
+        return  # Do not print anything if the payload is `None`
+
     if as_json:
-        # dataclasses (DTOs) are supported, else fallback to str().
-        if hasattr(payload, "__dataclass_fields__"):
+        # Ensure `payload` is a dataclass instance.
+        if is_dataclass(payload) and not isinstance(payload, type):
             print(json.dumps(asdict(payload)))
         else:
             print(json.dumps(payload))  # type: ignore[arg-type]
         return
 
     # Human-friendly output
-    if hasattr(payload, "__dataclass_fields__"):
+    if is_dataclass(payload) and not isinstance(payload, type):
         d = asdict(payload)
         for k, v in d.items():
             print(f"{k}: {v}")

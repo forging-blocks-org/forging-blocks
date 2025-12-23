@@ -167,3 +167,94 @@ class TestCli:
         assert "version:" in out
         assert "branch:" in out
         assert "tag:" in out
+
+    def test_run_prepare_dry_run_no_output(
+        self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        class _DryPrepareUC:
+            async def execute(self, request):
+                return None
+
+        class _DryPrepareContainer(_Container):
+            def prepare_release_use_case(self):
+                return _DryPrepareUC()
+
+        monkeypatch.setattr(
+            "scripts.release.presentation.cli.Container",
+            _DryPrepareContainer,
+        )
+
+        code = cli.run(["prepare", "--level", "patch", "--dry-run"])
+
+        assert code == 0
+        out = capsys.readouterr().out
+        assert out.strip() == ""
+
+    def test_print_output_with_generic_json_payload(
+        self, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        cli._print_output(payload={"key": "value"}, as_json=True)
+        out = capsys.readouterr().out.strip()
+        assert out == '{"key": "value"}'
+
+    def test_print_output_with_generic_human_payload(
+        self, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        cli._print_output(payload="Some string payload", as_json=False)
+        out = capsys.readouterr().out.strip()
+        assert out == "Some string payload"
+
+    def test_run_when_command_raises_exception(
+        self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        class _ErrorContainer(_Container):
+            def prepare_release_use_case(self):
+                raise ValueError("Deliberate error")
+
+        monkeypatch.setattr(
+            "scripts.release.presentation.cli.Container", _ErrorContainer
+        )
+
+        code = cli.run(["prepare", "--level", "patch"])
+        assert code == 1  # Exit code for failure
+        err = capsys.readouterr().err
+        assert "Deliberate error" in err
+
+    def test_main_entry_point(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        # Mock the run function to avoid actual execution
+        def mock_run(argv=None):
+            assert argv is None  # The entry point should call it with `None`
+            return 0
+
+        monkeypatch.setattr("scripts.release.presentation.cli.run", mock_run)
+
+        # Simulate the script being run as __main__
+        with pytest.raises(SystemExit) as exc_info:
+            cli.main()
+        assert exc_info.value.code == 0
+
+    def test_run_with_unknown_command(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        with pytest.raises(SystemExit) as exc_info:
+            cli.run(["unknown-command"])
+        assert exc_info.value.code == 2
+
+    def test_run_unknown_command_then_raise_system_exit(
+        self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        class _BadContainer(_Container):
+            pass
+
+        monkeypatch.setattr(
+            "scripts.release.presentation.cli.Container",
+            _BadContainer,
+        )
+
+        with pytest.raises(SystemExit) as exc_info:
+            cli.run(["unknown-command"])
+
+        assert exc_info.value.code == 2
+        err = capsys.readouterr().err
+        assert (
+            "usage:" in err
+        )  # `argparse` includes "usage:" in its error message for invalid commands
+        assert "invalid choice" in err or "unknown-command" in err
