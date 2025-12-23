@@ -1,9 +1,12 @@
 from scripts.release.application.ports.inbound import (
-    CreateReleasePullRequestUseCase,
-    CreateReleasePullRequestInput,
-    CreateReleasePullRequestOutput,
+    OpenReleasePullRequestUseCase,
+    OpenReleasePullRequestInput,
+    OpenReleasePullRequestOutput,
 )
-from scripts.release.application.ports.outbound import PullRequestService
+from scripts.release.application.ports.outbound import (
+    OpenPullRequestInput,
+    PullRequestService,
+)
 from scripts.release.domain.entities import ReleasePullRequest
 from scripts.release.domain.value_objects import (
     PullRequestBase,
@@ -14,7 +17,7 @@ from scripts.release.domain.value_objects import (
 )
 
 
-class CreateReleasePullRequestService(CreateReleasePullRequestUseCase):
+class OpenReleasePullRequestService(OpenReleasePullRequestUseCase):
     """
     Application service responsible for creating a release pull request.
 
@@ -34,8 +37,8 @@ class CreateReleasePullRequestService(CreateReleasePullRequestUseCase):
 
     async def execute(
         self,
-        request: CreateReleasePullRequestInput,
-    ) -> CreateReleasePullRequestOutput:
+        request: OpenReleasePullRequestInput,
+    ) -> OpenReleasePullRequestOutput:
         # 1. Convert primitives → Value Objects
         base = PullRequestBase(request.base)
         release_branch_name = ReleaseBranchName(request.head)
@@ -53,21 +56,24 @@ class CreateReleasePullRequestService(CreateReleasePullRequestUseCase):
 
         # 3. Dry-run: no side effects
         if request.dry_run:
-            return CreateReleasePullRequestOutput(
+            return OpenReleasePullRequestOutput(
                 pr_id=None,
                 url=None,
             )
 
         # 4. Delegate to infrastructure
-        pull_request_service_output = self._pull_request_service.create(
+        open_pull_request_input = OpenPullRequestInput(
             base=base,
             head=head,
             title=title,
             body=body,
             dry_run=False,
         )
+        pull_request_service_output = self._pull_request_service.open(
+            open_pull_request_input
+        )
 
-        return CreateReleasePullRequestOutput(
+        return OpenReleasePullRequestOutput(
             pr_id=pull_request_service_output.pr_id,
             url=pull_request_service_output.url,
         )

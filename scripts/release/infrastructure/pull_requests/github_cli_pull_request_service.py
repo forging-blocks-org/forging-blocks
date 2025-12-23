@@ -1,15 +1,15 @@
 from scripts.release.infrastructure.commons.process import run
 from scripts.release.application.ports.outbound import (
     PullRequestService,
-    CreatePullRequestInput,
-    CreatePullRequestOutput,
+    OpenPullRequestInput,
+    OpenPullRequestOutput,
 )
 
 
 class GitHubCliPullRequestService(PullRequestService):
-    def create(self, input: CreatePullRequestInput) -> CreatePullRequestOutput:
+    def create(self, input: OpenPullRequestInput) -> OpenPullRequestOutput:
         if input.dry_run:
-            return CreatePullRequestOutput(
+            return OpenPullRequestOutput(
                 pr_id=None,
                 url=None,
             )
@@ -32,7 +32,7 @@ class GitHubCliPullRequestService(PullRequestService):
 
         pr_id = url.rstrip("/").split("/")[-1]
 
-        return CreatePullRequestOutput(
+        return OpenPullRequestOutput(
             pr_id=pr_id,
             url=url,
         )
