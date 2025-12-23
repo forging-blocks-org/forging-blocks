@@ -123,6 +123,12 @@ class TestCli:
         err = capsys.readouterr().err
         assert "boom" in err
 
+    def test_run_when_unknown_command_then_exit_2(self) -> None:
+        with pytest.raises(SystemExit) as exc:
+            cli.run(["unknown-command"])
+
+        assert exc.value.code == 2
+
     def test_run_open_pr_dry_run_json(
         self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
     ) -> None:
