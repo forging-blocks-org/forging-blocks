@@ -1,7 +1,7 @@
-from .create_release_pull_request_use_case import (
-    CreateReleasePullRequestInput,
-    CreateReleasePullRequestOutput,
-    CreateReleasePullRequestUseCase,
+from .open_release_pull_request_use_case import (
+    OpenReleasePullRequestInput,
+    OpenReleasePullRequestOutput,
+    OpenReleasePullRequestUseCase,
 )
 from .prepare_release_use_case import (
     PrepareReleaseInput,
@@ -11,9 +11,9 @@ from .prepare_release_use_case import (
 
 
 __all__ = [
-    "CreateReleasePullRequestInput",
-    "CreateReleasePullRequestOutput",
-    "CreateReleasePullRequestUseCase",
+    "OpenReleasePullRequestInput",
+    "OpenReleasePullRequestOutput",
+    "OpenReleasePullRequestUseCase",
     "PrepareReleaseInput",
     "PrepareReleaseOutput",
     "PrepareReleaseUseCase",

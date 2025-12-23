@@ -1,7 +1,7 @@
 from .changelog_generator import ChangelogGenerator, ChangelogRequest, ChangelogResponse
 from .pull_request_service import (
-    CreatePullRequestInput,
-    CreatePullRequestOutput,
+    OpenPullRequestInput,
+    OpenPullRequestOutput,
     PullRequestService,
 )
 from .release_transaction import ReleaseTransaction
@@ -11,8 +11,8 @@ from .release_message_bus import ReleaseMessageBus
 
 
 __all__ = [
-    "CreatePullRequestInput",
-    "CreatePullRequestOutput",
+    "OpenPullRequestInput",
+    "OpenPullRequestOutput",
     "PullRequestService",
     "ReleaseTransaction",
     "VersioningService",
