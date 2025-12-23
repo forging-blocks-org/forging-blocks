@@ -35,11 +35,11 @@ class TestOpenReleasePullRequestService:
 
         assert result.pr_id is None
         assert result.url is None
-        pull_request_service.create.assert_not_called()
+        pull_request_service.open.assert_not_called()
 
     async def test_execute_when_valid_then_delegate_to_infrastructure(self) -> None:
         pull_request_service = Mock(spec=PullRequestService)
-        pull_request_service.create.return_value = OpenPullRequestOutput(
+        pull_request_service.open.return_value = OpenPullRequestOutput(
             pr_id="123",
             url="https://example/pr/123",
         )
@@ -61,7 +61,7 @@ class TestOpenReleasePullRequestService:
         assert result.pr_id == "123"
         assert result.url
         assert result.url.endswith("/123")
-        pull_request_service.create.assert_called_once()
+        pull_request_service.open.assert_called_once()
 
     async def test_execute_when_domain_invariant_violated_then_error(self) -> None:
         service = OpenReleasePullRequestService(

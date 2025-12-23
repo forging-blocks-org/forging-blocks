@@ -240,3 +240,32 @@ class TestPrepareReleaseService:
         await service.execute(PrepareReleaseInput(level="minor", dry_run=False))
 
         release_message_bus_mock.publish.assert_called_once()
+
+    async def test_execute_when_transaction_fails_then_no_event_published(
+        self,
+        version: ReleaseVersion,
+        versioning_service_mock: MagicMock,
+        version_control_mock: MagicMock,
+        transaction_mock: MagicMock,
+        release_message_bus_mock: MagicMock,
+        changelog_generator_mock: MagicMock,
+    ) -> None:
+        versioning_service_mock.current_version.return_value = version
+        versioning_service_mock.compute_next_version.return_value = version
+        version_control_mock.tag_exists.return_value = False
+        version_control_mock.branch_exists.return_value = False
+
+        transaction_mock.__aexit__.side_effect = Exception("Transaction failed")
+
+        service = PrepareReleaseService(
+            versioning_service=versioning_service_mock,
+            version_control=version_control_mock,
+            transaction=transaction_mock,
+            message_bus=release_message_bus_mock,
+            changelog_generator=changelog_generator_mock,
+        )
+
+        with pytest.raises(Exception):
+            await service.execute(PrepareReleaseInput(level="minor", dry_run=False))
+
+        release_message_bus_mock.publish.assert_not_called()
