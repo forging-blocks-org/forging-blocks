@@ -6,7 +6,7 @@ from forging_blocks.application.ports import UseCase
 
 
 @dataclass(frozen=True)
-class CreateReleasePullRequestInput:
+class OpenReleasePullRequestInput:
     """
     Request DTO for creating a release pull request.
 
@@ -28,7 +28,7 @@ class CreateReleasePullRequestInput:
 
 
 @dataclass(frozen=True)
-class CreateReleasePullRequestOutput:
+class OpenReleasePullRequestOutput:
     """
     Response DTO for creating a release pull request.
     """
@@ -37,10 +37,10 @@ class CreateReleasePullRequestOutput:
     url: str | None
 
 
-class CreateReleasePullRequestUseCase(
+class OpenReleasePullRequestUseCase(
     UseCase[
-        CreateReleasePullRequestInput,
-        CreateReleasePullRequestOutput,
+        OpenReleasePullRequestInput,
+        OpenReleasePullRequestOutput,
     ]
 ):
     """
@@ -54,5 +54,5 @@ class CreateReleasePullRequestUseCase(
 
     async def execute(
         self,
-        request: CreateReleasePullRequestInput,
-    ) -> CreateReleasePullRequestOutput: ...
+        request: OpenReleasePullRequestInput,
+    ) -> OpenReleasePullRequestOutput: ...

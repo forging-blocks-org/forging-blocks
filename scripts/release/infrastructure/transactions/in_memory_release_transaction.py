@@ -12,7 +12,7 @@ class InMemoryReleaseTransaction(ReleaseTransaction):
 
     @property
     def session(self) -> Any | None:
-        pass
+        return True
 
     def register_step(self, step: ReleaseStep) -> None:
         self._undo_stack.append(step.undo)
