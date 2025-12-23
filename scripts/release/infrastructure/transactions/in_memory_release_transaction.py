@@ -1,4 +1,6 @@
 from typing import Any, Callable
+import logging
+
 from scripts.release.application.ports.outbound import ReleaseTransaction
 from scripts.release.application.workflow import ReleaseStep
 
@@ -6,6 +8,7 @@ from scripts.release.application.workflow import ReleaseStep
 class InMemoryReleaseTransaction(ReleaseTransaction):
     def __init__(self) -> None:
         self._undo_stack: list[Callable[[], None]] = []
+        self._logger = logging.getLogger(__name__)
 
     @property
     def session(self) -> Any | None:
@@ -21,5 +24,6 @@ class InMemoryReleaseTransaction(ReleaseTransaction):
         for undo in reversed(self._undo_stack):
             try:
                 undo()
+                self._logger.info("Successfully undone step.")
             except Exception:
-                pass
+                self._logger.exception("Failed to undo step.")
