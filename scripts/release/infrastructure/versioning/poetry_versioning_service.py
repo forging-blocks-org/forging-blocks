@@ -11,13 +11,10 @@ class PoetryVersioningService(VersioningService):
         self,
         level: ReleaseLevel,
     ) -> ReleaseVersion:
-        raw_version = run(["poetry", "version"])
-        current_version = self._parse_poetry_version_output(raw_version)
+        poetry_output = run(["poetry", "version"])
+        current_version = self._parse_poetry_version_output(poetry_output)
 
-        raw_version = current_version.value
-
-        major, minor, patch = map(int, raw_version.split("."))
-
+        major, minor, patch = map(int, current_version.value.split("."))
         if level.value == "major":
             return ReleaseVersion(major + 1, 0, 0)
 
