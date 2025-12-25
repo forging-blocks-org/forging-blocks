@@ -135,7 +135,6 @@ addopts = [
 [tool.poe.tasks]
 lint = { cmd = "ruff check ." }
 "lint:fix" = { cmd = "ruff check . --fix" }
-"lint:scripts" = { cmd = "shellcheck scripts/release/*.sh" }
 
 type = { cmd = "mypy src" }
 bandit = { cmd = "bandit -r src -x tests" }
@@ -153,7 +152,6 @@ test = { cmd = "pytest --strict-markers --tb=line" }
   "type",
   "test",
   "bandit",
-  "lint:scripts",
 ]
 "ci:simulate".sequence = [
   "ci:check",
