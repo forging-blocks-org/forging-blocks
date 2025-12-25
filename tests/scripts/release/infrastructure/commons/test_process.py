@@ -1,6 +1,6 @@
 import subprocess
 from typing import Any, Callable
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
