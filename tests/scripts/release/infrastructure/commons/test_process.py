@@ -38,7 +38,7 @@ class TestProcessRun:
         logging_mock: MagicMock,
         subprocess_run_mock: MagicMock
     ) -> None:
-        completed = subprocess.CompletedProcess(
+        completed: subprocess.CompletedProcess[str] = subprocess.CompletedProcess(
             args=["echo", "ok"],
             returncode=0,
             stdout="ok\n",
@@ -46,7 +46,7 @@ class TestProcessRun:
         )
         subprocess_run_mock.return_value = completed
 
-        result = run(["echo", "ok"])
+        result: str = run(["echo", "ok"])
 
         assert result == "ok"
         logging_mock.assert_called_once_with("Running command: echo ok")
