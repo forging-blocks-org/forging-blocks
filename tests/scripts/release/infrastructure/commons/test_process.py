@@ -90,6 +90,7 @@ class TestProcessRun:
         assert "git status" in message
         assert "fatal: not a git repository" in message
 
+    @patch("subprocess.run")
     def test_run_when_check_is_false_then_does_not_raise(
         self,
         subprocess_run_mock: MagicMock
