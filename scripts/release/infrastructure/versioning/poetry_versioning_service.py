@@ -11,11 +11,10 @@ class PoetryVersioningService(VersioningService):
         self,
         level: ReleaseLevel,
     ) -> ReleaseVersion:
-        output = run(["poetry", "version"])
-        _, raw_version = output.split()
+        poetry_output = run(["poetry", "version"])
+        current_version = self._parse_poetry_version_output(poetry_output)
 
-        major, minor, patch = map(int, raw_version.split("."))
-
+        major, minor, patch = map(int, current_version.value.split("."))
         if level.value == "major":
             return ReleaseVersion(major + 1, 0, 0)
 
@@ -29,3 +28,15 @@ class PoetryVersioningService(VersioningService):
         version: ReleaseVersion,
     ) -> None:
         run(["poetry", "version", version.value])
+
+    def rollback_version(
+        self,
+        previous: ReleaseVersion,
+    ) -> None:
+        run(["poetry", "version", previous.value])
+
+    def _parse_poetry_version_output(self, raw_current_version: str) -> ReleaseVersion:
+        _, raw_version = raw_current_version.split()
+        major, minor, patch = map(int, raw_version.split("."))
+
+        return ReleaseVersion(major, minor, patch)

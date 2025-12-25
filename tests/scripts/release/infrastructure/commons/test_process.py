@@ -1,4 +1,5 @@
 import subprocess
+from typing import Any, Callable
 from unittest.mock import patch
 
 import pytest
@@ -26,6 +27,42 @@ class TestProcessRun:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
+
+    def test_run_when_command_succeeds_then_logs_running_command(self) -> None:
+        completed = subprocess.CompletedProcess(
+            args=["echo", "ok"],
+            returncode=0,
+            stdout="ok\n",
+            stderr="",
+        )
+
+        with patch("logging.info", return_value=completed) as logging_mock:
+            result = run(["echo", "ok"])
+
+        assert result == "ok"
+        logging_mock.assert_called_once_with("Running command: echo ok")
+
+    @patch("logging.error")
+    @patch("subprocess.run")
+    def test_run_when_command_raises_error_then_logs_command_failed(
+        self,
+        mock_subprocess_run: Callable[[list[str], Any], subprocess.CompletedProcess[str]],
+        mock_logging_error: Callable[[str], None]
+    ) -> None:
+        # Setup the subprocess.CalledProcessError exception
+        exc: subprocess.CalledProcessError = subprocess.CalledProcessError(
+            returncode=1,
+            cmd=["git", "status"],
+            stderr="fatal: not a git repository",
+        )
+        mock_subprocess_run.side_effect = exc
+
+        # Check that RuntimeError is raised
+        with pytest.raises(RuntimeError, match=r"Command failed: git status\nfatal: not a git repository") as err:
+            run(["git", "status"])
+
+        # Assert that logging.error was called once with the exact message
+        mock_logging_error.assert_called_once_with("Command failed: git status\nfatal: not a git repository")
 
     def test_run_when_command_fails_then_raises_runtime_error(self) -> None:
         exc = subprocess.CalledProcessError(

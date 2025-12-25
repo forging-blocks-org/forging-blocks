@@ -78,12 +78,38 @@ class TestPoetryVersioningServiceErrors:
 
         run_mock.assert_called_once_with(["poetry", "version", "1.2.3"])
 
-    def test_compute_next_version_when_poetry_output_invalid_then_error(self) -> None:
+    @patch("scripts.release.infrastructure.versioning.poetry_versioning_service.run")
+    def test_compute_next_version_when_poetry_output_invalid_then_error(
+        self,
+        run_mock,
+    ) -> None:
+        run_mock.return_value = "invalid-output"
         service = PoetryVersioningService()
 
-        with patch(
-            "scripts.release.infrastructure.versioning.poetry_versioning_service.run",
-            return_value="invalid-output",
-        ):
-            with pytest.raises(ValueError):
-                service.compute_next_version(ReleaseLevel.from_str("minor"))
+        with pytest.raises(ValueError):
+            service.compute_next_version(ReleaseLevel.from_str("minor"))
+
+    @patch("scripts.release.infrastructure.versioning.poetry_versioning_service.run")
+    def test_rollback_version_executes_poetry_version(
+        self,
+        run_mock,
+    ) -> None:
+        service = PoetryVersioningService()
+        previous_version = ReleaseVersion(0, 9, 9)
+
+        service.rollback_version(previous_version)
+
+        run_mock.assert_called_once_with(["poetry", "version", "0.9.9"])
+
+    @patch("scripts.release.infrastructure.versioning.poetry_versioning_service.run")
+    def test_rollback_version_when_poetry_fails_then_error(
+        self,
+        run_mock,
+    ) -> None:
+        run_mock.side_effect = RuntimeError("poetry failed")
+
+        service = PoetryVersioningService()
+        previous_version = ReleaseVersion(0, 9, 9)
+
+        with pytest.raises(RuntimeError):
+            service.rollback_version(previous_version)
