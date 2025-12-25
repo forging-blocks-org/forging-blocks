@@ -1,7 +1,8 @@
 import logging
 import subprocess
 
-logging.basicConfig(level=logging.INFO)
+if not logging.getLogger().hasHandlers():
+    logging.basicConfig(level=logging.INFO)
 
 def run(
     cmd: list[str],
