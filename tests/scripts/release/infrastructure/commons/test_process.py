@@ -31,10 +31,12 @@ class TestProcessRun:
             stderr=subprocess.PIPE,
         )
 
+    @patch("subprocess.run")
     @patch("logging.info")
     def test_run_when_command_succeeds_then_logs_running_command(
         self,
-        logging_mock: MagicMock
+        logging_mock: MagicMock,
+        subprocess_run_mock: MagicMock
     ) -> None:
         completed = subprocess.CompletedProcess(
             args=["echo", "ok"],
@@ -42,7 +44,7 @@ class TestProcessRun:
             stdout="ok\n",
             stderr="",
         )
-        logging_mock.return_value = completed
+        subprocess_run_mock.return_value = completed
 
         result = run(["echo", "ok"])
 
