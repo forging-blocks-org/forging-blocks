@@ -1,5 +1,7 @@
+import logging
 import subprocess
 
+logging.basicConfig(level=logging.INFO)
 
 def run(
     cmd: list[str],
@@ -11,6 +13,8 @@ def run(
 
     Raises RuntimeError on failure.
     """
+    logging.info(f"Running command: {' '.join(cmd)}")
+
     try:
         result = subprocess.run(
             cmd,
@@ -19,6 +23,8 @@ def run(
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
+
         return result.stdout.strip()
     except subprocess.CalledProcessError as exc:
+        logging.error(f"Command failed: {' '.join(cmd)}\n{exc.stderr}")
         raise RuntimeError(f"Command failed: {' '.join(cmd)}\n{exc.stderr}") from exc
