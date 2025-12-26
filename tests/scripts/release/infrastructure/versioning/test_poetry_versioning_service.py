@@ -76,7 +76,7 @@ class TestPoetryVersioningService:
     ) -> None:
         runner_mock.run.return_value = "my-package 1.2.4"
 
-        service = PoetryVersioningService(runner_mock)
+        service = PoetryVersioningService(runner=runner_mock)
 
         version = service.compute_next_version(ReleaseLevel.from_str("patch"))
 
