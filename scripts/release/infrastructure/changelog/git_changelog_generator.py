@@ -3,14 +3,17 @@ from scripts.release.application.ports.outbound.changelog_generator import (
     ChangelogRequest,
     ChangelogResponse,
 )
-from scripts.release.infrastructure.commons.process import run
+from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
 
 
 class GitChangelogGenerator(ChangelogGenerator):
+    def __init__(self, runner: CommandRunner = SubprocessCommandRunner()) -> None:
+        self._runner = runner
+
     async def generate(self, request: ChangelogRequest) -> ChangelogResponse:
         range_expr = f"v{request.from_version}..HEAD"
 
-        stdout = run(
+        stdout = self._runner.run(
             [
                 "git",
                 "log",
