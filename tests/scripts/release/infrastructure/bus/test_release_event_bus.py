@@ -9,6 +9,11 @@ from scripts.release.infrastructure.bus.in_memory_release_event_bus import (
 
 
 class TestInMemoryReleaseEventBus:
+    def test_init_when_called_then_instance_created(self) -> None:
+        bus = InMemoryReleaseEventBus()
+
+        assert isinstance(bus, InMemoryReleaseEventBus)
+
     @pytest.mark.asyncio
     async def test_subscribe_when_called_then_handler_is_registered(self) -> None:
         bus = InMemoryReleaseEventBus()
