@@ -7,8 +7,8 @@ from scripts.release.domain.value_objects import (
 
 
 class GitVersionControl(VersionControl):
-    def __init__(self, runner: CommandRunner = SubprocessCommandRunner()) -> None:
-        self._runner = runner
+    def __init__(self, runner: CommandRunner | None = None) -> None:
+        self._runner = runner if runner is not None else SubprocessCommandRunner()
 
     def branch_exists(
         self,
