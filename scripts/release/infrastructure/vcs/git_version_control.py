@@ -1,5 +1,5 @@
 from scripts.release.application.ports.outbound import VersionControl
-from scripts.release.infrastructure.commons.process import run
+from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
 from scripts.release.domain.value_objects import (
     ReleaseBranchName,
     TagName,
@@ -7,12 +7,15 @@ from scripts.release.domain.value_objects import (
 
 
 class GitVersionControl(VersionControl):
+    def __init__(self, runner: CommandRunner = SubprocessCommandRunner()) -> None:
+        self._runner = runner
+
     def branch_exists(
         self,
         branch: ReleaseBranchName,
     ) -> bool:
         try:
-            run(["git", "rev-parse", "--verify", branch.value])
+            self._runner.run(["git", "rev-parse", "--verify", branch.value])
             return True
         except RuntimeError:
             return False
@@ -21,13 +24,13 @@ class GitVersionControl(VersionControl):
         self,
         branch: ReleaseBranchName,
     ) -> None:
-        run(["git", "checkout", branch.value])
+        self._runner.run(["git", "checkout", branch.value])
 
     def checkout_main(self) -> None:
-        run(["git", "checkout", "main"])
+        self._runner.run(["git", "checkout", "main"])
 
     def commit_release_artifacts(self) -> None:
-        run(
+        self._runner.run(
             [
                 "git",
                 "commit",
@@ -40,32 +43,32 @@ class GitVersionControl(VersionControl):
         self,
         branch: ReleaseBranchName,
     ) -> None:
-        run(["git", "checkout", "-b", branch.value])
+        self._runner.run(["git", "checkout", "-b", branch.value])
 
     def create_tag(
         self,
         tag: TagName,
     ) -> None:
-        run(["git", "tag", tag.value])
+        self._runner.run(["git", "tag", tag.value])
 
     def delete_local_branch(
         self,
         branch: ReleaseBranchName,
     ) -> None:
-        run(["git", "branch", "-D", branch.value])
+        self._runner.run(["git", "branch", "-D", branch.value])
 
     def delete_remote_branch(
         self,
         branch: ReleaseBranchName,
     ) -> None:
-        run(["git", "push", "origin", "--delete", branch.value])
+        self._runner.run(["git", "push", "origin", "--delete", branch.value])
 
     def delete_tag(
         self,
         tag: TagName,
     ) -> None:
-        run(["git", "tag", "-d", tag.value])
-        run(["git", "push", "origin", "--delete", tag.value])
+        self._runner.run(["git", "tag", "-d", tag.value])
+        self._runner.run(["git", "push", "origin", "--delete", tag.value])
 
     def push(
         self,
@@ -73,14 +76,14 @@ class GitVersionControl(VersionControl):
         *,
         push_tags: bool,
     ) -> None:
-        run(["git", "push", "origin", branch.value])
+        self._runner.run(["git", "push", "origin", branch.value])
 
         if push_tags:
-            run(["git", "push", "origin", "--tags"])
+            self._runner.run(["git", "push", "origin", "--tags"])
 
     def remote_branch_exists(self, branch: ReleaseBranchName) -> bool:
         try:
-            run(["git", "ls-remote", "--exit-code", "origin", branch.value])
+            self._runner.run(["git", "ls-remote", "--exit-code", "origin", branch.value])
             return True
         except RuntimeError:
             return False
@@ -90,7 +93,7 @@ class GitVersionControl(VersionControl):
         tag: TagName,
     ) -> bool:
         try:
-            run(["git", "rev-parse", "--verify", tag.value])
+            self._runner.run(["git", "rev-parse", "--verify", tag.value])
             return True
         except RuntimeError:
             return False
