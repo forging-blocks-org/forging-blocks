@@ -19,7 +19,7 @@ class CommandRunner(ABC):
         check: bool = True,
     ) -> str:
         """
-        Run a shell command and return its ouput.
+        Run a shell command and return its output.
 
         Args:
             cmd: The command and its arguments as a list of strings.
