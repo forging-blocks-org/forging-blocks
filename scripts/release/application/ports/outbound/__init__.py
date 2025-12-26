@@ -1,13 +1,17 @@
-from .changelog_generator import ChangelogGenerator, ChangelogRequest, ChangelogResponse
-from .pull_request_service import (
+from scripts.release.application.ports.outbound.changelog_generator import (
+    ChangelogGenerator,
+    ChangelogRequest,
+    ChangelogResponse
+)
+from scripts.release.application.ports.outbound.pull_request_service import (
     OpenPullRequestInput,
     OpenPullRequestOutput,
     PullRequestService,
 )
-from .release_transaction import ReleaseTransaction
-from .versioning_service import VersioningService
-from .version_control import VersionControl
-from .release_message_bus import ReleaseMessageBus
+from scripts.release.application.ports.outbound.release_transaction import ReleaseTransaction
+from scripts.release.application.ports.outbound.versioning_service import VersioningService
+from scripts.release.application.ports.outbound.version_control import VersionControl
+from scripts.release.application.ports.outbound.release_message_bus import ReleaseMessageBus
 
 
 __all__ = [

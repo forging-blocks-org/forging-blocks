@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import runtime_checkable
 
 from forging_blocks.foundation.ports import OutputPort
 

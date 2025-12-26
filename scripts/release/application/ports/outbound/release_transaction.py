@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Callable
+from typing import runtime_checkable
 
 from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWork
 from scripts.release.application.workflow import ReleaseStep
