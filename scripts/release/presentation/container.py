@@ -22,6 +22,9 @@ from scripts.release.infrastructure.vcs.git_version_control import GitVersionCon
 from scripts.release.infrastructure.versioning.poetry_versioning_service import (
     PoetryVersioningService,
 )
+from scripts.release.infrastructure.commons.process import (
+    SubprocessCommandRunner,
+)
 
 
 class Container:
@@ -33,16 +36,24 @@ class Container:
     - Keep it free of domain rules (those belong in domain / application).
     """
 
-    def prepare_release_use_case(self) -> PrepareReleaseService:
+    @property
+    def _command_runner(self) -> SubprocessCommandRunner:
+        return SubprocessCommandRunner()
+
+    def get_prepare_release_use_case(self) -> PrepareReleaseService:
+        command_runner = self._command_runner
+
         return PrepareReleaseService(
-            versioning_service=PoetryVersioningService(),
-            version_control=GitVersionControl(),
-            changelog_generator=GitChangelogGenerator(),
+            versioning_service=PoetryVersioningService(command_runner),
+            version_control=GitVersionControl(command_runner ),
+            changelog_generator=GitChangelogGenerator(command_runner ),
             transaction=InMemoryReleaseTransaction(),
             message_bus=InMemoryReleaseEventBus(),
         )
 
-    def open_release_pull_request_use_case(self) -> OpenReleasePullRequestService:
+    def get_open_release_pull_request_use_case(self) -> OpenReleasePullRequestService:
+        command_runner = self._command_runner
+
         return OpenReleasePullRequestService(
-            pull_request_service=GitHubCliPullRequestService(),
+            pull_request_service=GitHubCliPullRequestService(command_runner ),
         )
