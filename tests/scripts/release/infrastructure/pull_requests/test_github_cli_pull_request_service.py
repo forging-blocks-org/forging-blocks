@@ -1,6 +1,9 @@
-from unittest.mock import patch
+from unittest.mock import MagicMock, create_autospec
+
+import pytest
 
 from scripts.release.application.ports.outbound import OpenPullRequestInput
+from scripts.release.infrastructure.commons.process import CommandRunner
 from scripts.release.infrastructure.pull_requests.github_cli_pull_request_service import (
     GitHubCliPullRequestService,
 )
@@ -15,13 +18,15 @@ from scripts.release.domain.value_objects import (
 
 
 class TestGitHubCliPullRequestService:
-    @patch(
-        "scripts.release.infrastructure.pull_requests.github_cli_pull_request_service.run"
-    )
+    @pytest.fixture
+    def runner_mock(self) -> MagicMock:
+        return create_autospec(spec=CommandRunner, instance=True)
+
     def test_create_when_dry_run_then_no_command_executed(
         self,
-        run_mock,
+        runner_mock: MagicMock,
     ) -> None:
+        runner_mock.run.return_value = ""
         input = OpenPullRequestInput(
             base=PullRequestBase("main"),
             head=PullRequestHead(
@@ -32,22 +37,19 @@ class TestGitHubCliPullRequestService:
             dry_run=True,
         )
 
-        service = GitHubCliPullRequestService()
+        service = GitHubCliPullRequestService(runner=runner_mock)
 
         output = service.create(input)
 
         assert output.pr_id is None
         assert output.url is None
-        run_mock.assert_not_called()
+        runner_mock.run.assert_not_called()
 
-    @patch(
-        "scripts.release.infrastructure.pull_requests.github_cli_pull_request_service.run"
-    )
     def test_create_when_valid_then_returns_pr_id_and_url(
         self,
-        run_mock,
+        runner_mock: MagicMock,
     ) -> None:
-        run_mock.return_value = "https://github.com/org/repo/pull/42"
+        runner_mock.run.return_value = "https://github.com/org/repo/pull/42"
 
         input = OpenPullRequestInput(
             base=PullRequestBase("main"),
@@ -56,7 +58,7 @@ class TestGitHubCliPullRequestService:
             body=PullRequestBody("Notes"),
             dry_run=False,
         )
-        service = GitHubCliPullRequestService()
+        service = GitHubCliPullRequestService(runner=runner_mock)
 
         output = service.create(input)
 

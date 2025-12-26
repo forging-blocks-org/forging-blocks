@@ -1,4 +1,4 @@
-from scripts.release.infrastructure.commons.process import run
+from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
 from scripts.release.application.ports.outbound import (
     PullRequestService,
     OpenPullRequestInput,
@@ -7,6 +7,9 @@ from scripts.release.application.ports.outbound import (
 
 
 class GitHubCliPullRequestService(PullRequestService):
+    def __init__(self, runner: CommandRunner = SubprocessCommandRunner()) -> None:
+        self._runner = runner
+
     def create(self, input: OpenPullRequestInput) -> OpenPullRequestOutput:
         if input.dry_run:
             return OpenPullRequestOutput(
@@ -14,7 +17,7 @@ class GitHubCliPullRequestService(PullRequestService):
                 url=None,
             )
 
-        url = run(
+        url = self._runner.run(
             [
                 "gh",
                 "pr",
