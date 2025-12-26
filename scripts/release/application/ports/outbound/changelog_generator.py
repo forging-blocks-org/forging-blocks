@@ -1,7 +1,6 @@
 """Outbound port for generating changelogs between versions."""
 
 from dataclasses import dataclass
-from typing import Protocol
 
 from forging_blocks.foundation.ports import OutboundPort
 
@@ -21,7 +20,7 @@ class ChangelogResponse:
     entries: list[str]  # List of changelog entries
 
 
-class ChangelogGenerator(OutboundPort, Protocol):
+class ChangelogGenerator(OutboundPort):
     """Port for generating changelogs between versions."""
 
     async def generate(self, request: ChangelogRequest) -> ChangelogResponse:

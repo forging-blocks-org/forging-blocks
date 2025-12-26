@@ -1,3 +1,4 @@
+from typing import runtime_checkable
 from forging_blocks.foundation import OutputPort
 
 from scripts.release.domain.value_objects import ReleaseBranchName, TagName
