@@ -7,8 +7,8 @@ from scripts.release.application.ports.outbound import (
 
 
 class GitHubCliPullRequestService(PullRequestService):
-    def __init__(self, runner: CommandRunner = SubprocessCommandRunner()) -> None:
-        self._runner = runner
+    def __init__(self, runner: CommandRunner | None = None) -> None:
+        self._runner = runner if runner is not None else SubprocessCommandRunner()
 
     def create(self, input: OpenPullRequestInput) -> OpenPullRequestOutput:
         if input.dry_run:
