@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock, create_autospec, patch
+from unittest.mock import MagicMock, create_autospec
 
 import pytest
 
