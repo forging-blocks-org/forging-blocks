@@ -45,8 +45,8 @@ class Container:
 
         return PrepareReleaseService(
             versioning_service=PoetryVersioningService(command_runner),
-            version_control=GitVersionControl(command_runner ),
-            changelog_generator=GitChangelogGenerator(command_runner ),
+            version_control=GitVersionControl(command_runner),
+            changelog_generator=GitChangelogGenerator(command_runner),
             transaction=InMemoryReleaseTransaction(),
             message_bus=InMemoryReleaseEventBus(),
         )
