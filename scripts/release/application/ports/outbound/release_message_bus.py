@@ -1,5 +1,3 @@
-from typing import runtime_checkable
-
 from forging_blocks.application.ports.inbound.message_handler import EventHandler
 from forging_blocks.domain.messages.event import Event
 from forging_blocks.foundation.ports import OutboundPort
