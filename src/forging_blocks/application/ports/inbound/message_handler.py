@@ -27,6 +27,10 @@ from forging_blocks.foundation.ports import InboundPort
 MessageType = TypeVar("MessageType", contravariant=True, bound=Message)
 MessageHandlerResultType = TypeVar("MessageHandlerResultType", covariant=True)
 QueryResultType = TypeVar("QueryResultType", covariant=True)
+CommandType = TypeVar("CommandType", contravariant=True, bound=Command)
+CommandResultType = TypeVar("CommandResultType", covariant=True)
+EventType = TypeVar("EventType", contravariant=True, bound=Event)
+QueryType = TypeVar("QueryType", contravariant=True, bound=Query)
 
 
 class MessageHandler(InboundPort[MessageType, MessageHandlerResultType], Protocol):
@@ -62,6 +66,6 @@ class MessageHandler(InboundPort[MessageType, MessageHandlerResultType], Protoco
         ...
 
 
-CommandHandler = MessageHandler[Command, None]
-QueryHandler = MessageHandler[Query, QueryResultType]
-EventHandler = MessageHandler[Event, None]
+CommandHandler = MessageHandler[CommandType, None]
+QueryHandler = MessageHandler[QueryType, QueryResultType]
+EventHandler = MessageHandler[EventType, None]
