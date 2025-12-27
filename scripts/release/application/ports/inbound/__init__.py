@@ -8,6 +8,9 @@ from scripts.release.application.ports.inbound.prepare_release_use_case import (
     PrepareReleaseOutput,
     PrepareReleaseUseCase,
 )
+from scripts.release.application.ports.inbound.release_prepared_handler import (
+    ReleasePreparedHandler
+)
 
 
 __all__ = [
@@ -17,4 +20,5 @@ __all__ = [
     "PrepareReleaseInput",
     "PrepareReleaseOutput",
     "PrepareReleaseUseCase",
+    "ReleasePreparedHandler",
 ]
