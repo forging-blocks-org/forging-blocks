@@ -14,3 +14,4 @@ class ReleaseContext:
     branch: ReleaseBranchName
     tag: TagName
     branch_exists: bool
+    dry_run: bool
