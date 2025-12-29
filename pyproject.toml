@@ -58,6 +58,26 @@ pygments = "^2.19.2"
 requires = ["poetry-core>=1.9.0"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
+include = ["src", "tests", "scripts"]
+extraPaths = ["src", "scripts"]
+exclude = [
+  "**/site",
+  "**/__pycache__",
+  "**/.venv",
+  "**/build",
+  "**/dist",
+  "**/.mypy_cache",
+  "**/.ruff_cache",
+  "**/node_modules",
+]
+typeCheckingMode = "standard"
+reportMissingImports = true
+reportMissingTypeStubs = false
+
 [tool.poetry.scripts]
 repl = "IPython:start_ipython"
 
