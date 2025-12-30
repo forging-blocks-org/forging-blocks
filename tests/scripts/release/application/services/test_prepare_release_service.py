@@ -77,7 +77,7 @@ class TestPrepareReleaseService:
         with pytest.raises(TagAlreadyExistsError):
             await service.execute(request)
 
-    async def test_execute_when_dry_run_then_no_side_effects(
+    async def test_execute_when_dry_run_then_event_published_but_no_other_side_effects(
         self,
         version: ReleaseVersion,
         versioning_service_mock: MagicMock,
@@ -106,7 +106,7 @@ class TestPrepareReleaseService:
         version_control_mock.checkout.assert_not_called()
         version_control_mock.commit_release_artifacts.assert_not_called()
         version_control_mock.create_tag.assert_not_called()
-        release_message_bus_mock.publish.assert_not_called()
+        release_message_bus_mock.publish.assert_called()
 
         assert result.version == version.value
 

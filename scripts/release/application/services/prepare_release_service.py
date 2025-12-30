@@ -53,11 +53,9 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         current_version = self._versioning_service.current_version()
         next_version = self._versioning_service.compute_next_version(level)
 
-        # Branch and tag always refer to the NEXT version
         branch = ReleaseBranchName.from_version(next_version)
         tag = TagName.for_version(next_version)
 
-        # Strong idempotency guard
         self._ensure_tag_doesnt_exist(tag)
 
         branch_exists = self._version_control.branch_exists(branch)
@@ -68,63 +66,11 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             branch=branch,
             tag=tag,
             branch_exists=branch_exists,
+            dry_run=request.dry_run,
         )
 
-        if request.dry_run:
-            return self._make_output(context)
-
-        async with self._transaction:
-            # 0. Global cleanup — registered FIRST, executed LAST
-            self._transaction.register_step(
-                ReleaseStep(
-                    name="checkout_main",
-                    undo=self._version_control.checkout_main,
-                )
-            )
-
-            # 1. Branch handling
-            if branch_exists:
-                self._version_control.checkout(branch)
-            else:
-                self._version_control.create_branch(branch)
-                self._transaction.register_step(
-                    ReleaseStep(
-                        name="delete_local_branch",
-                        undo=lambda b=branch: self._version_control.delete_local_branch(
-                            b
-                        ),
-                    )
-                )
-
-            # 2. Mutations on release branch
-            self._versioning_service.apply_version(next_version)
-
-            await self._changelog_generator.generate(
-                ChangelogRequest(
-                    from_version=current_version.value,
-                    to_version=next_version.value,
-                )
-            )
-
-            # 3. Commit artifacts
-            self._version_control.commit_release_artifacts()
-
-            # 4. Tag the release commit
-            self._version_control.create_tag(tag)
-            self._transaction.register_step(
-                ReleaseStep(
-                    name="delete_tag",
-                    undo=lambda t=tag: self._version_control.delete_tag(t),
-                )
-            )
-
-        # Publish only after successful transaction
-        await self._message_bus.publish(
-            ReleasePreparedEvent(
-                version=next_version.value,
-                branch=branch.value,
-            )
-        )
+        await self._prepare_release_transactionally(context)
+        await self._publish_event(context)
 
         return self._make_output(context)
 
@@ -137,4 +83,67 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             version=context.version.value,
             branch=context.branch.value,
             tag=context.tag.value,
+        )
+
+    async def _publish_event(
+        self,
+        context: ReleaseContext,
+    ) -> None:
+        event = ReleasePreparedEvent(
+            version=context.version.value,
+            branch=context.branch.value,
+            dry_run=context.dry_run
+        )
+        await self._message_bus.publish(event)
+
+    async def _prepare_release_transactionally(
+        self,
+        context: ReleaseContext,
+    ) -> None:
+        if context.dry_run:
+            return
+
+        async with self._transaction:
+            self._global_setup()
+            self._branch_handling(context)
+
+            self._versioning_service.apply_version(context.version)
+
+            await self._changelog_generator.generate(
+                ChangelogRequest(from_version=context.previous_version.value)
+            )
+
+            self._version_control.commit_release_artifacts()
+
+            self._tag_handling(context)
+
+    def _global_setup(self) -> None:
+        self._transaction.register_step(
+            ReleaseStep(
+                name="checkout_main",
+                undo=self._version_control.checkout_main,
+            )
+        )
+
+    def _branch_handling(self, context: ReleaseContext) -> None:
+        if context.branch_exists:
+            self._version_control.checkout(context.branch)
+        else:
+            self._version_control.create_branch(context.branch)
+            self._transaction.register_step(
+                ReleaseStep(
+                    name="delete_local_branch",
+                    undo=lambda branch=context.branch: self._version_control.delete_local_branch(
+                        branch
+                    ),
+                )
+            )
+
+    def _tag_handling(self, context: ReleaseContext) -> None:
+        self._version_control.create_tag(context.tag)
+        self._transaction.register_step(
+            ReleaseStep(
+                name="delete_tag",
+                undo=lambda tag=context.tag: self._version_control.delete_tag(tag),
+            )
         )
