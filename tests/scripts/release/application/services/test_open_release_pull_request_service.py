@@ -1,16 +1,12 @@
 import pytest
 from unittest.mock import Mock
 
+from scripts.release.application.ports.outbound import OpenPullRequestOutput, PullRequestService
 from scripts.release.application.services.open_release_pull_request_service import (
     OpenReleasePullRequestService,
 )
 from scripts.release.application.ports.inbound import (
     OpenReleasePullRequestInput,
-)
-from scripts.release.application.ports.outbound import (
-    PullRequestService,
-    OpenPullRequestInput,
-    OpenPullRequestOutput,
 )
 from scripts.release.domain.errors import InvalidReleasePullRequestError
 
@@ -25,10 +21,8 @@ class TestOpenReleasePullRequestService:
 
         result = await service.execute(
             OpenReleasePullRequestInput(
-                base="main",
-                head="release/v1.2.3",
-                title="Release v1.2.3",
-                body="Notes",
+                version="1.2.3",
+                branch="release/v1.2.3",
                 dry_run=True,
             )
         )
@@ -50,10 +44,8 @@ class TestOpenReleasePullRequestService:
 
         result = await service.execute(
             OpenReleasePullRequestInput(
-                base="main",
-                head="release/v1.2.3",
-                title="Release v1.2.3",
-                body="Notes",
+                version="1.2.3",
+                branch="release/v1.2.3",
                 dry_run=False,
             )
         )
@@ -71,10 +63,8 @@ class TestOpenReleasePullRequestService:
         with pytest.raises(InvalidReleasePullRequestError):
             await service.execute(
                 OpenReleasePullRequestInput(
-                    base="develop",
-                    head="release/v1.2.3",
-                    title="Release v1.2.3",
-                    body="Notes",
+                    version="invalid-version",
+                    branch="release/invalid-branch",
                     dry_run=False,
                 )
             )

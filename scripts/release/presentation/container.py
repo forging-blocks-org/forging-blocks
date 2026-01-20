@@ -9,16 +9,16 @@ from scripts.release.application.services.prepare_release_service import (
 from scripts.release.infrastructure.bus.in_memory_release_event_bus import (
     InMemoryReleaseEventBus,
 )
-from scripts.release.infrastructure.changelog.git_changelog_generator import (
+from scripts.release.infrastructure.git.git_changelog_generator import (
     GitChangelogGenerator,
 )
-from scripts.release.infrastructure.pull_requests.github_cli_pull_request_service import (
+from scripts.release.infrastructure.github.github_cli_pull_request_service import (
     GitHubCliPullRequestService,
 )
 from scripts.release.infrastructure.transactions.in_memory_release_transaction import (
     InMemoryReleaseTransaction,
 )
-from scripts.release.infrastructure.vcs.git_version_control import GitVersionControl
+from scripts.release.infrastructure.git.git_version_control import GitVersionControl
 from scripts.release.infrastructure.versioning.poetry_versioning_service import (
     PoetryVersioningService,
 )

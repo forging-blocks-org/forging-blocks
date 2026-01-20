@@ -4,11 +4,11 @@ from typing import Hashable
 
 from forging_blocks.domain import ValueObject
 
-from .common import ReleaseLevelEnum
-from ..errors import InvalidReleaseLevelError
+from scripts.release.domain.value_objects.common import ReleaseLevelEnum
+from scripts.release.domain.errors import InvalidReleaseLevelError
 
 
-class ReleaseLevel(ValueObject[ReleaseLevelEnum]):
+class ReleaseLevel(ValueObject[str]):
     __slots__ = ("_level",)
 
     def __init__(self, level: ReleaseLevelEnum) -> None:
@@ -17,7 +17,7 @@ class ReleaseLevel(ValueObject[ReleaseLevelEnum]):
         self._freeze()
 
     @classmethod
-    def from_str(cls, value: str) -> "ReleaseLevel":
+    def from_str(cls, value: str) -> ReleaseLevel:
         if value.lower() not in ReleaseLevelEnum:
             raise InvalidReleaseLevelError(value)
         return cls(ReleaseLevelEnum[value.upper()])

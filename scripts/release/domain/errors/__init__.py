@@ -5,6 +5,8 @@ from .invalid_release_branch_name_error import InvalidReleaseBranchNameError
 from .invalid_tag_name_error import InvalidTagNameError
 from .invalid_release_branch_name_error import InvalidReleaseBranchNameError
 from .invalid_release_pull_request_error import InvalidReleasePullRequestError
+from .invalid_pull_request_id_error import InvalidPullRequestIdError
+
 
 __all__ = [
     "InvalidReleaseBranchNameError",
@@ -14,4 +16,5 @@ __all__ = [
     "InvalidReleaseVersionError",
     "InvalidPullRequestTitleError",
     "InvalidReleasePullRequestError",
+    "InvalidPullRequestIdError",
 ]

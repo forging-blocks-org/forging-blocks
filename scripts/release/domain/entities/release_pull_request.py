@@ -1,7 +1,7 @@
 from forging_blocks.domain import Entity
 
-from ..errors import InvalidReleasePullRequestError
-from ..value_objects import (
+from scripts.release.domain.errors import InvalidReleasePullRequestError
+from scripts.release.domain.value_objects import (
     PullRequestBase,
     PullRequestHead,
     PullRequestTitle,

@@ -14,14 +14,13 @@ from scripts.release.domain.value_objects import (
 @dataclass(frozen=True)
 class OpenPullRequestInput:
     """
-    DTO representing the input for creating pull request.
+    DTO representing the input for opening a pull request.
     """
 
     base: PullRequestBase
     head: PullRequestHead
     title: PullRequestTitle
     body: PullRequestBody
-    dry_run: bool
 
 
 @dataclass(frozen=True)
@@ -36,7 +35,7 @@ class OpenPullRequestOutput:
 
 class PullRequestService(OutputPort):
     """
-    Servuce that manages pull request creation in remote repository.
+    Service that manages pull request creation in remote repository.
     """
 
     def open(self, input: OpenPullRequestInput) -> OpenPullRequestOutput:

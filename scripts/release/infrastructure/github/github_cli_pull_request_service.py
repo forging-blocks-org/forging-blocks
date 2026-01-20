@@ -10,13 +10,7 @@ class GitHubCliPullRequestService(PullRequestService):
     def __init__(self, runner: CommandRunner | None = None) -> None:
         self._runner = runner if runner is not None else SubprocessCommandRunner()
 
-    def create(self, input: OpenPullRequestInput) -> OpenPullRequestOutput:
-        if input.dry_run:
-            return OpenPullRequestOutput(
-                pr_id=None,
-                url=None,
-            )
-
+    def open(self, input: OpenPullRequestInput) -> OpenPullRequestOutput:
         url = self._runner.run(
             [
                 "gh",

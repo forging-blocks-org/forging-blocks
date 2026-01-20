@@ -10,7 +10,6 @@ class ChangelogRequest:
     """Request DTO for changelog generation."""
 
     from_version: str  # The starting version
-    to_version: str  # The ending version
 
 
 @dataclass(frozen=True)

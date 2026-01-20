@@ -1,5 +1,5 @@
 from scripts.release.application.ports.outbound import VersionControl
-from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
+from scripts.release.infrastructure.commons.process import CommandRunner
 from scripts.release.domain.value_objects import (
     ReleaseBranchName,
     TagName,
@@ -7,8 +7,8 @@ from scripts.release.domain.value_objects import (
 
 
 class GitVersionControl(VersionControl):
-    def __init__(self, runner: CommandRunner | None = None) -> None:
-        self._runner = runner if runner is not None else SubprocessCommandRunner()
+    def __init__(self, runner: CommandRunner) -> None:
+        self._runner = runner
 
     def branch_exists(
         self,

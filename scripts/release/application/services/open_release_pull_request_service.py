@@ -1,3 +1,6 @@
+from release.application.ports.outbound.pull_request_service import OpenPullRequestOutput
+from release.application.workflow.open_release_pull_request_context import OpenReleasePullRequestContext
+from release.domain.value_objects.release_version import ReleaseVersion
 from scripts.release.application.ports.inbound import (
     OpenReleasePullRequestUseCase,
     OpenReleasePullRequestInput,
@@ -19,13 +22,14 @@ from scripts.release.domain.value_objects import (
 
 class OpenReleasePullRequestService(OpenReleasePullRequestUseCase):
     """
-    Application service responsible for creating a release pull request.
+    Application service responsible for opening the release pull request.
 
     Responsibilities:
     - validate raw inputs
     - convert primitives into Value Objects
     - enforce domain invariants
-    - delegate PR creation to infrastructure
+    - derive PR metadata automatically
+    - delegate to infrastructure
     """
 
     def __init__(
@@ -39,41 +43,63 @@ class OpenReleasePullRequestService(OpenReleasePullRequestUseCase):
         self,
         request: OpenReleasePullRequestInput,
     ) -> OpenReleasePullRequestOutput:
-        # 1. Convert primitives → Value Objects
-        base = PullRequestBase(request.base)
-        release_branch_name = ReleaseBranchName(request.head)
-        head = PullRequestHead(release_branch_name)
-        title = PullRequestTitle(request.title)
-        body = PullRequestBody(request.body)
+        context = self._build_context(request)
 
-        # 2. Enforce domain invariants (entity as validation boundary)
-        _ = ReleasePullRequest(
-            base=base,
-            head=head,
-            title=title,
-            body=body,
-        )
-
-        # 3. Dry-run: no side effects
-        if request.dry_run:
+        if context.dry_run:
             return OpenReleasePullRequestOutput(
                 pr_id=None,
                 url=None,
             )
 
-        # 4. Delegate to infrastructure
-        open_pull_request_input = OpenPullRequestInput(
+        return self._open_pull_request(context)
+
+    def _build_context(
+        self,
+        request: OpenReleasePullRequestInput,
+    ) -> OpenReleasePullRequestContext:
+        pull_request = self._build_release_pull_request(request)
+
+        return OpenReleasePullRequestContext(
+            pull_request=pull_request,
+            dry_run=request.dry_run,
+        )
+
+    def _build_release_pull_request(
+        self,
+        request: OpenReleasePullRequestInput,
+    ) -> ReleasePullRequest:
+        release_version = ReleaseVersion.from_str(request.version)
+        branch = ReleaseBranchName(request.branch)
+
+        base = PullRequestBase("main")
+        head = PullRequestHead(branch)
+
+        title = PullRequestTitle(f"Release v{release_version.value}")
+        body = PullRequestBody(
+            f"Automated release pull request for version {release_version.value}."
+        )
+
+        return ReleasePullRequest(
             base=base,
             head=head,
             title=title,
             body=body,
-            dry_run=False,
         )
-        pull_request_service_output = self._pull_request_service.open(
-            open_pull_request_input
+
+    def _open_pull_request(
+        self,
+        context: OpenReleasePullRequestContext,
+    ) -> OpenReleasePullRequestOutput:
+        output = self._pull_request_service.open(
+            OpenPullRequestInput(
+                base=context.pull_request.base,
+                head=context.pull_request.head,
+                title=context.pull_request.title,
+                body=context.pull_request.body,
+            )
         )
 
         return OpenReleasePullRequestOutput(
-            pr_id=pull_request_service_output.pr_id,
-            url=pull_request_service_output.url,
+            pr_id=output.pr_id,
+            url=output.url,
         )
