@@ -5,16 +5,16 @@ from typing import Hashable
 
 from forging_blocks.domain import ValueObject
 
-from scripts.release.domain.value_objects.common import ReleaseLevelEnum
 from scripts.release.domain.errors import InvalidReleaseLevelError
 
 
-class ReleaseLevelError(StrEnum):
-    pass
+class ReleaseLevelEnum(StrEnum):
+    MAJOR = auto()
+    MINOR = auto()
+    PATCH = auto()
 
 
-
-class ReleaseLevel(ValueObject[str]):
+class ReleaseLevel(ValueObject[ReleaseLevelEnum]):
     __slots__ = ("_level",)
 
     def __init__(self, level: ReleaseLevelEnum) -> None:
@@ -29,8 +29,8 @@ class ReleaseLevel(ValueObject[str]):
         return cls(ReleaseLevelEnum[value.upper()])
 
     @property
-    def value(self) -> str:
-        return self._level.value
+    def value(self) -> ReleaseLevelEnum:
+        return self._level
 
     def _equality_components(self) -> tuple[Hashable, ...]:
         return (self._level,)
