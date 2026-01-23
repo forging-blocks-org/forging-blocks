@@ -160,6 +160,7 @@ type = { cmd = "mypy src" }
 bandit = { cmd = "bandit -r src -x tests" }
 
 test = { cmd = "pytest --strict-markers --tb=line" }
+"test:debug" = { cmd = "pytest --strict-markers --tb=long -x -vvv -s" }
 
 "docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
 "docs:build".sequence = [
