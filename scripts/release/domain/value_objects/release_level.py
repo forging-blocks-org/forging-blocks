@@ -1,11 +1,17 @@
 from __future__ import annotations
 
+from enum import auto, StrEnum
 from typing import Hashable
 
 from forging_blocks.domain import ValueObject
 
 from scripts.release.domain.value_objects.common import ReleaseLevelEnum
 from scripts.release.domain.errors import InvalidReleaseLevelError
+
+
+class ReleaseLevelError(StrEnum):
+    pass
+
 
 
 class ReleaseLevel(ValueObject[str]):
