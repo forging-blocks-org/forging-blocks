@@ -1,29 +1,29 @@
 from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
 from scripts.release.application.ports.outbound import (
     PullRequestService,
-    OpenPullRequestInput,
     OpenPullRequestOutput,
 )
+from scripts.release.domain.entities import ReleasePullRequest
 
 
 class GitHubCliPullRequestService(PullRequestService):
     def __init__(self, runner: CommandRunner | None = None) -> None:
         self._runner = runner if runner is not None else SubprocessCommandRunner()
 
-    def open(self, input: OpenPullRequestInput) -> OpenPullRequestOutput:
+    def open(self, pull_request: ReleasePullRequest) -> OpenPullRequestOutput:
         url = self._runner.run(
             [
                 "gh",
                 "pr",
                 "create",
                 "--base",
-                input.base.value,
+                pull_request.base,
                 "--head",
-                input.head.value,
+                pull_request.head.value,
                 "--title",
-                input.title.value,
+                pull_request.title,
                 "--body",
-                input.body.value,
+                pull_request.body,
             ]
         )
 

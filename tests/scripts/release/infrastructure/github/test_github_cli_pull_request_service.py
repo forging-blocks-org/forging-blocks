@@ -2,20 +2,11 @@ from __future__ import annotations
 
 import uuid
 
-from release.domain.value_objects.pull_request_base import PullRequestBase
-from release.domain.value_objects.pull_request_head import PullRequestHead
 from scripts.release.infrastructure.github.github_cli_pull_request_service import (
     GitHubCliPullRequestService,
 )
-from scripts.release.application.ports.outbound import (
-    OpenPullRequestInput,
-)
-from scripts.release.domain.value_objects import (
-    ReleaseBranchName,
-    PullRequestTitle,
-    PullRequestBody,
-)
-
+from scripts.release.domain.entities import ReleasePullRequest
+from scripts.release.domain.value_objects import ReleaseBranchName
 
 
 class TestGitHubCliPullRequestServiceIntegration:
@@ -24,18 +15,18 @@ class TestGitHubCliPullRequestServiceIntegration:
         require_gh_auth: None,
     ) -> None:
         # Arrange
-        branch = f"test-pr-{uuid.uuid4().hex[:8]}"
+        branch = ReleaseBranchName(f"release/v0.0.{uuid.uuid4().hex[:8]}")
 
         service = GitHubCliPullRequestService()
-        input = OpenPullRequestInput(
-            base=PullRequestBase("main"),
-            head=PullRequestHead(ReleaseBranchName(branch)),
-            title=PullRequestTitle("CLI Integration Test"),
-            body=PullRequestBody("Automated infrastructure test"),
+        pull_request = ReleasePullRequest(
+            base="main",
+            head=branch,
+            title="CLI Integration Test",
+            body="Automated infrastructure test",
         )
 
         # Act
-        output = service.open(input)
+        output = service.open(pull_request)
 
         # Assert
         assert output.url

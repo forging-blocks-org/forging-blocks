@@ -4,7 +4,6 @@ from scripts.release.application.ports.outbound.changelog_generator import (
     ChangelogResponse
 )
 from scripts.release.application.ports.outbound.pull_request_service import (
-    OpenPullRequestInput,
     OpenPullRequestOutput,
     PullRequestService,
 )
@@ -15,7 +14,6 @@ from scripts.release.application.ports.outbound.release_message_bus import Relea
 
 
 __all__ = [
-    "OpenPullRequestInput",
     "OpenPullRequestOutput",
     "PullRequestService",
     "ReleaseTransaction",
