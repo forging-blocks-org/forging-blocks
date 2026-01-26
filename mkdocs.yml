@@ -1,9 +1,9 @@
 site_name: ForgingBlocks
-site_description: A composable architecture toolkit for clean, testable, and maintainable Python applications.
-site_author: Glauber Brennon
+site_description: Composable toolkit for clean, testable, and maintainable Python applications
+site_author: ForgingBlocks Org
 site_url: https://forging-blocks-org.github.io
 
-repo_url: https://github.com/forging-blocks-org/forging-blocks
+repo_url: https://github.com/forging-blocks-org
 repo_name: forging-blocks-org/forging-blocks
 edit_uri: edit/main/docs/
 
@@ -63,6 +63,7 @@ nav:
       - Example Tests: guide/example_tests.md
       - Examples: guide/examples.md
       - Principles: guide/principles.md
+      - Architecture Overview: guide/architecture-overview.md
       - Recommended Blocks Structure: guide/recommended_blocks_structure.md
 
   - Reference:
@@ -82,9 +83,10 @@ nav:
       - Event-Driven: architectural-styles/event-driven.md
 
   - Contributing:
-      - Contribution Guide: CONTRIBUTING.md
-      - Docs Conventions: contributing/docs_conventions.md
-      - Release Guide: RELEASE_GUIDE.md
+      - Overview: contributing/index.md
+      - Contribution Guide: contributing/contributing.md
+      - Docs Conventions: contributing/docs-conventions.md
+      - Release Guide: contributing/release-guide.md
 
   - License: LICENSE.md
 

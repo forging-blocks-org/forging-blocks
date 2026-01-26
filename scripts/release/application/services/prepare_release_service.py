@@ -112,8 +112,8 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             )
 
             self._version_control.commit_release_artifacts()
-
-            self._tag_handling(context)
+            
+            # Note: Tag creation is handled by GitHub Actions after PR merge
 
     def _global_setup(self) -> None:
         self._transaction.register_step(
@@ -137,11 +137,4 @@ class PrepareReleaseService(PrepareReleaseUseCase):
                 )
             )
 
-    def _tag_handling(self, context: ReleaseContext) -> None:
-        self._version_control.create_tag(context.tag)
-        self._transaction.register_step(
-            ReleaseStep(
-                name="delete_tag",
-                undo=lambda tag=context.tag: self._version_control.delete_tag(tag),
-            )
-        )
+

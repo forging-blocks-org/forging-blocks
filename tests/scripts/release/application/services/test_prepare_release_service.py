@@ -274,9 +274,8 @@ class TestPrepareReleaseService:
         assert isinstance(call_args, ChangelogRequest)
         assert call_args.from_version == current_version.value
         
-        # Verify commit and tag creation
+        # Verify commit (tag creation now happens in GitHub Actions)
         version_control_mock.commit_release_artifacts.assert_called_once()
-        version_control_mock.create_tag.assert_called_once()
 
     # Command Sending Tests
     async def test_send_command_creates_correct_open_pull_request_command(
@@ -363,21 +362,7 @@ class TestPrepareReleaseService:
         version_control_mock.create_branch.assert_called_once_with(branch_name)
         transaction_mock.register_step.assert_called_once()
 
-    # Tag Handling Tests (existing)
-    async def test_tag_handling_when_called_then_create_tag_and_register_undo_step(
-        self,
-        service: PrepareReleaseService,
-        version_control_mock: MagicMock,
-        transaction_mock: MagicMock,
-    ) -> None:
-        """Test _tag_handling creates tag and registers rollback step."""
-        tag_mock = MagicMock()
-        context_mock = MagicMock(tag=tag_mock)
-        
-        service._tag_handling(context_mock)
-        
-        version_control_mock.create_tag.assert_called_once_with(tag_mock)
-        transaction_mock.register_step.assert_called_once()
+    # Tag Handling Tests - REMOVED: Tags now created by GitHub Actions
 
     # Tag Existence Tests (existing)
     async def test_ensure_tag_doesnt_exist_when_tag_exists_then_raises_error(

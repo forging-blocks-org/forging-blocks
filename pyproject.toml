@@ -205,4 +205,4 @@ test = "pytest"
   { shell = "echo 'OK: release validated'" }
 ]
 
-release = { cmd = "python -m scripts.release.presentation.cli", env = { "PYTHONPATH" = "src:scripts:scripts/release" } }
+release = { cmd = "python -m scripts.release.presentation", env = { "PYTHONPATH" = "src:scripts:scripts/release" } }

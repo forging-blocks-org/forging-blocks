@@ -12,7 +12,7 @@ ForgingBlocks relies only on standard features available in **Python 3.12+** (su
 
 ## 🚀 Getting Started
 
-Install using Poetry, pip or UV:
+Install using Poetry, pip or uv:
 
 ```bash
 pip install forging-blocks
@@ -118,4 +118,8 @@ ForgingBlocks helps you shape software that is **clear**, **testable**, and **ma
 - [Blocks Overview](guide/recommended_blocks_structure.md)
 - [Organizing Your Project](guide/principles.md)
 - [Reference Index](reference/index.md)
-- [Release Guide](RELEASE_GUIDE.md)
+
+## 📋 Project Resources
+
+- [Contributing Guide](contributing/index.md)
+- [Release Guide](contributing/release-guide.md)
