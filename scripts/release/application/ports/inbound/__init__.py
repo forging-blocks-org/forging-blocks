@@ -8,17 +8,17 @@ from scripts.release.application.ports.inbound.prepare_release_use_case import (
     PrepareReleaseOutput,
     PrepareReleaseUseCase,
 )
-from scripts.release.application.ports.inbound.release_prepared_handler import (
-    ReleasePreparedHandler
+from scripts.release.application.ports.inbound.open_pull_request_command_handler import (
+    OpenPullRequestCommandHandler,
 )
 
 
-__all__ = [
-    "OpenReleasePullRequestInput",
-    "OpenReleasePullRequestOutput",
-    "OpenReleasePullRequestUseCase",
+__all__ = (
+    "OpenPullRequestCommandHandler",
     "PrepareReleaseInput",
     "PrepareReleaseOutput",
     "PrepareReleaseUseCase",
-    "ReleasePreparedHandler",
-]
+    "OpenReleasePullRequestInput",
+    "OpenReleasePullRequestOutput",
+    "OpenReleasePullRequestUseCase",
+)

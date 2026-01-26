@@ -2,7 +2,7 @@ from scripts.release.application.workflow import ReleaseContext, ReleaseStep
 from scripts.release.application.errors.tag_already_exists_error import (
     TagAlreadyExistsError,
 )
-from scripts.release.domain.events.release_prepared_event import ReleasePreparedEvent
+from scripts.release.domain.messages import OpenPullRequestCommand
 from scripts.release.domain.value_objects import (
     ReleaseLevel,
     ReleaseBranchName,
@@ -19,7 +19,7 @@ from scripts.release.application.ports.outbound import (
     VersionControl,
     ChangelogGenerator,
     ChangelogRequest,
-    ReleaseMessageBus,
+    ReleaseCommandBus,
 )
 
 
@@ -38,7 +38,7 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         versioning_service: VersioningService,
         version_control: VersionControl,
         transaction: ReleaseTransaction,
-        message_bus: ReleaseMessageBus,
+        message_bus: ReleaseCommandBus,
         changelog_generator: ChangelogGenerator,
     ) -> None:
         self._versioning_service = versioning_service
@@ -70,7 +70,7 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         )
 
         await self._prepare_release_transactionally(context)
-        await self._publish_event(context)
+        await self._send_command(context)
 
         return self._make_output(context)
 
@@ -85,16 +85,14 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             tag=context.tag.value,
         )
 
-    async def _publish_event(
+    async def _send_command(
         self,
         context: ReleaseContext,
     ) -> None:
-        event = ReleasePreparedEvent(
-            version=context.version.value,
-            branch=context.branch.value,
-            dry_run=context.dry_run
+        command = OpenPullRequestCommand(
+            version=context.version.value, branch=context.branch.value, dry_run=context.dry_run
         )
-        await self._message_bus.publish(event)
+        await self._message_bus.send(command)
 
     async def _prepare_release_transactionally(
         self,

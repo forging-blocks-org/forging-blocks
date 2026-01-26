@@ -10,10 +10,10 @@ from scripts.release.application.ports.outbound.pull_request_service import (
 from scripts.release.application.ports.outbound.release_transaction import ReleaseTransaction
 from scripts.release.application.ports.outbound.versioning_service import VersioningService
 from scripts.release.application.ports.outbound.version_control import VersionControl
-from scripts.release.application.ports.outbound.release_message_bus import ReleaseMessageBus
+from scripts.release.application.ports.outbound.release_command_bus import ReleaseCommandBus
 
 
-__all__ = [
+__all__ = (
     "OpenPullRequestOutput",
     "PullRequestService",
     "ReleaseTransaction",
@@ -22,5 +22,5 @@ __all__ = [
     "ChangelogResponse",
     "ChangelogRequest",
     "ChangelogGenerator",
-    "ReleaseMessageBus",
-]
+    "ReleaseCommandBus",
+)
