@@ -1,85 +1,62 @@
 import pytest
 from unittest.mock import AsyncMock
 
-from forging_blocks.application.ports.inbound.message_handler import MessageHandler
-from forging_blocks.domain.messages.message import Message
-from scripts.release.infrastructure.bus.in_memory_release_event_bus import (
-    InMemoryReleaseEventBus,
+from forging_blocks.application.ports.inbound.message_handler import CommandHandler
+from forging_blocks.domain.messages.command import Command
+from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
+    InMemoryReleaseCommandBus,
 )
 
 
-class TestInMemoryReleaseEventBus:
+class TestInMemoryReleaseCommandBus:
     def test_init_when_called_then_instance_created(self) -> None:
-        bus = InMemoryReleaseEventBus()
+        bus = InMemoryReleaseCommandBus()
 
-        assert isinstance(bus, InMemoryReleaseEventBus)
-
-    @pytest.mark.asyncio
-    async def test_subscribe_when_called_then_handler_is_registered(self) -> None:
-        bus = InMemoryReleaseEventBus()
-        handler = AsyncMock(spec=MessageHandler)
-
-        bus.subscribe(handler)
-
-        assert handler in bus._subscribers  # acceptable for infra-level unit test
+        assert isinstance(bus, InMemoryReleaseCommandBus)
 
     @pytest.mark.asyncio
-    async def test_publish_when_no_subscribers_then_no_error(self) -> None:
-        bus = InMemoryReleaseEventBus()
-        message = AsyncMock(spec=Message)
+    async def test_register_when_called_then_handler_is_registered(self) -> None:
+        bus = InMemoryReleaseCommandBus()
+        handler = AsyncMock(spec=CommandHandler)
+        command_type = type(AsyncMock(spec=Command))
 
-        await bus.publish(message)  # should not raise
+        await bus.register(command_type, handler)
+
+        assert bus._subscribers[command_type] == handler
 
     @pytest.mark.asyncio
-    async def test_publish_when_single_subscriber_then_handler_handle_called(
+    async def test_send_when_no_subscribers_then_key_error(self) -> None:
+        bus = InMemoryReleaseCommandBus()
+        command = AsyncMock(spec=Command)
+
+        with pytest.raises(KeyError):
+            await bus.send(command)
+
+    @pytest.mark.asyncio
+    async def test_send_when_handler_registered_then_handler_handle_called(
         self,
     ) -> None:
-        bus = InMemoryReleaseEventBus()
-        handler = AsyncMock(spec=MessageHandler)
-        message = AsyncMock(spec=Message)
+        bus = InMemoryReleaseCommandBus()
+        handler = AsyncMock(spec=CommandHandler)
+        command = AsyncMock(spec=Command)
+        command_type = type(command)
 
-        bus.subscribe(handler)
+        await bus.register(command_type, handler)
 
-        await bus.publish(message)
+        await bus.send(command)
 
-        handler.handle.assert_awaited_once_with(message)
+        handler.handle.assert_awaited_once_with(command)
 
     @pytest.mark.asyncio
-    async def test_publish_when_multiple_subscribers_then_all_handlers_called(
+    async def test_send_when_handler_registered_for_different_type_then_key_error(
         self,
     ) -> None:
-        bus = InMemoryReleaseEventBus()
-        handler1 = AsyncMock(spec=MessageHandler)
-        handler2 = AsyncMock(spec=MessageHandler)
-        message = AsyncMock(spec=Message)
+        bus = InMemoryReleaseCommandBus()
+        handler = AsyncMock(spec=CommandHandler)
+        registered_command = AsyncMock(spec=Command)
+        different_command = AsyncMock(spec=Command)
 
-        bus.subscribe(handler1)
-        bus.subscribe(handler2)
+        await bus.register(type(registered_command), handler)
 
-        await bus.publish(message)
-
-        handler1.handle.assert_awaited_once_with(message)
-        handler2.handle.assert_awaited_once_with(message)
-
-    @pytest.mark.asyncio
-    async def test_publish_preserves_subscription_order(self) -> None:
-        bus = InMemoryReleaseEventBus()
-        calls: list[str] = []
-
-        async def handler_1(_: Message) -> None:
-            calls.append("handler_1")
-
-        async def handler_2(_: Message) -> None:
-            calls.append("handler_2")
-
-        handler1 = AsyncMock(spec=MessageHandler)
-        handler2 = AsyncMock(spec=MessageHandler)
-        handler1.handle.side_effect = handler_1
-        handler2.handle.side_effect = handler_2
-
-        bus.subscribe(handler1)
-        bus.subscribe(handler2)
-
-        await bus.publish(AsyncMock(spec=Message))
-
-        assert calls == ["handler_1", "handler_2"]
+        with pytest.raises(KeyError):
+            await bus.send(different_command)
