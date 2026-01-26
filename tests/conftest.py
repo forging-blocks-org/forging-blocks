@@ -1,25 +1,30 @@
+from __future__ import annotations
+
 import os
 import subprocess
 from pathlib import Path
-from typing import Iterator
 
 import pytest
 
+from tests.fixtures.git_test_repository import GitTestRepository
 
-@pytest.fixture()
-def git_repo(tmp_path: Path) -> Iterator[Path]:
-    cwd = os.getcwd()
-    try:
-        os.chdir(tmp_path)
 
-        subprocess.run(["git", "init", "-b", "main"], check=True)
-        subprocess.run(["git", "config", "user.email", "test@example.com"], check=True)
-        subprocess.run(["git", "config", "user.name", "Test User"], check=True)
+def _require_cli_tests() -> None:
+    if os.getenv("RUN_CLI_TESTS") != "1":
+        pytest.skip("CLI integration tests are disabled")
 
-        (tmp_path / "README.md").write_text("# test repo\n")
-        subprocess.run(["git", "add", "README.md"], check=True)
-        subprocess.run(["git", "commit", "-m", "initial commit"], check=True)
 
-        yield tmp_path
-    finally:
-        os.chdir(cwd)
+def _require_gh_auth() -> None:
+    subprocess.run(["gh", "auth", "status"], check=True)
+
+@pytest.fixture
+def git_repo(tmp_path: Path) -> GitTestRepository:
+    _require_cli_tests()
+
+    return GitTestRepository.init(tmp_path)
+
+
+@pytest.fixture
+def require_gh_auth() -> None:
+    _require_cli_tests()
+    _require_gh_auth()

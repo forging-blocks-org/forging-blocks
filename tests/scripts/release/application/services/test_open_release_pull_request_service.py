@@ -1,18 +1,14 @@
 import pytest
 from unittest.mock import Mock
 
+from scripts.release.application.ports.outbound import OpenPullRequestOutput, PullRequestService
 from scripts.release.application.services.open_release_pull_request_service import (
     OpenReleasePullRequestService,
 )
 from scripts.release.application.ports.inbound import (
     OpenReleasePullRequestInput,
 )
-from scripts.release.application.ports.outbound import (
-    PullRequestService,
-    OpenPullRequestInput,
-    OpenPullRequestOutput,
-)
-from scripts.release.domain.errors import InvalidReleasePullRequestError
+from scripts.release.domain.errors import InvalidReleaseBranchNameError, InvalidReleaseVersionError
 
 
 class TestOpenReleasePullRequestService:
@@ -25,10 +21,8 @@ class TestOpenReleasePullRequestService:
 
         result = await service.execute(
             OpenReleasePullRequestInput(
-                base="main",
-                head="release/v1.2.3",
-                title="Release v1.2.3",
-                body="Notes",
+                version="1.2.3",
+                branch="release/v1.2.3",
                 dry_run=True,
             )
         )
@@ -50,10 +44,8 @@ class TestOpenReleasePullRequestService:
 
         result = await service.execute(
             OpenReleasePullRequestInput(
-                base="main",
-                head="release/v1.2.3",
-                title="Release v1.2.3",
-                body="Notes",
+                version="1.2.3",
+                branch="release/v1.2.3",
                 dry_run=False,
             )
         )
@@ -63,18 +55,30 @@ class TestOpenReleasePullRequestService:
         assert result.url.endswith("/123")
         pull_request_service.open.assert_called_once()
 
-    async def test_execute_when_domain_invariant_violated_then_error(self) -> None:
+    async def test_execute_when_invalid_version_then_error(self) -> None:
         service = OpenReleasePullRequestService(
             pull_request_service=Mock(spec=PullRequestService),
         )
 
-        with pytest.raises(InvalidReleasePullRequestError):
+        with pytest.raises(InvalidReleaseVersionError):
             await service.execute(
                 OpenReleasePullRequestInput(
-                    base="develop",
-                    head="release/v1.2.3",
-                    title="Release v1.2.3",
-                    body="Notes",
+                    version="invalid-version",
+                    branch="release/v1.2.3",
+                    dry_run=False,
+                )
+            )
+
+    async def test_execute_when_invalid_branch_then_error(self) -> None:
+        service = OpenReleasePullRequestService(
+            pull_request_service=Mock(spec=PullRequestService),
+        )
+
+        with pytest.raises(InvalidReleaseBranchNameError):
+            await service.execute(
+                OpenReleasePullRequestInput(
+                    version="1.2.3",
+                    branch="invalid-branch",
                     dry_run=False,
                 )
             )

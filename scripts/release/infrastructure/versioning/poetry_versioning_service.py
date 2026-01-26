@@ -1,5 +1,5 @@
 from scripts.release.application.ports.outbound import VersioningService
-from scripts.release.infrastructure.commons.process import run
+from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
 from scripts.release.domain.value_objects import (
     ReleaseLevel,
     ReleaseVersion,
@@ -7,12 +7,17 @@ from scripts.release.domain.value_objects import (
 
 
 class PoetryVersioningService(VersioningService):
+    def __init__(self, runner: CommandRunner = SubprocessCommandRunner()) -> None:
+        self._runner = runner
+
+    def current_version(self) -> ReleaseVersion:
+        return self._poetry_version()
+
     def compute_next_version(
         self,
         level: ReleaseLevel,
     ) -> ReleaseVersion:
-        poetry_output = run(["poetry", "version"])
-        current_version = self._parse_poetry_version_output(poetry_output)
+        current_version = self._poetry_version()
 
         major, minor, patch = map(int, current_version.value.split("."))
         if level.value == "major":
@@ -27,15 +32,17 @@ class PoetryVersioningService(VersioningService):
         self,
         version: ReleaseVersion,
     ) -> None:
-        run(["poetry", "version", version.value])
+        self._runner.run(["poetry", "version", version.value])
 
     def rollback_version(
         self,
         previous: ReleaseVersion,
     ) -> None:
-        run(["poetry", "version", previous.value])
+        self._runner.run(["poetry", "version", previous.value])
 
-    def _parse_poetry_version_output(self, raw_current_version: str) -> ReleaseVersion:
+    def _poetry_version(self) -> ReleaseVersion:
+        raw_current_version = self._runner.run(["poetry", "version"])
+
         _, raw_version = raw_current_version.split()
         major, minor, patch = map(int, raw_version.split("."))
 

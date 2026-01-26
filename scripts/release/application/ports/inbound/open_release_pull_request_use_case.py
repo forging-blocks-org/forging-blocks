@@ -20,11 +20,9 @@ class OpenReleasePullRequestInput:
     - draft: bool
     """
 
-    base: str  # expected: "main"
-    head: str  # expected: "release/vX.Y.Z"
-    title: str
-    body: str
-    dry_run: bool = False  # if True, PR is not created
+    version: str
+    branch: str
+    dry_run: bool = False
 
 
 @dataclass(frozen=True)

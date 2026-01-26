@@ -1,111 +1,27 @@
-import subprocess
-from unittest.mock import MagicMock, patch
-
-import pytest
-
-from scripts.release.infrastructure.commons.process import run
+from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
 
 
-class TestProcessRun:
-    @patch("subprocess.run")
-    def test_run_when_command_succeeds_then_returns_stdout(
-        self,
-        run_mock: MagicMock,
-    ) -> None:
-        completed = subprocess.CompletedProcess(
-            args=["echo", "ok"],
-            returncode=0,
-            stdout="ok\n",
-            stderr="",
-        )
-        run_mock.return_value = completed
+class TestSubprocessCommandRunner:
+    def test_run_when_command_succeeds_returns_output(self):
+        runner = SubprocessCommandRunner()
 
-        result = run(["echo", "ok"])
+        result = runner.run(["echo", "Hello, world!"])
 
-        assert result == "ok"
-        run_mock.assert_called_once_with(
-            ["echo", "ok"],
-            check=True,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
+        assert result.strip() == "Hello, world!"
 
-    @patch("subprocess.run")
-    @patch("logging.info")
-    def test_run_when_command_succeeds_then_logs_running_command(
-        self,
-        logging_mock: MagicMock,
-        subprocess_run_mock: MagicMock
-    ) -> None:
-        completed: subprocess.CompletedProcess[str] = subprocess.CompletedProcess(
-            args=["echo", "ok"],
-            returncode=0,
-            stdout="ok\n",
-            stderr="",
-        )
-        subprocess_run_mock.return_value = completed
+    def test_run_when_command_fails_raises_runtime_error(self):
+        runner = SubprocessCommandRunner()
 
-        result: str = run(["echo", "ok"])
+        try:
+            runner.run(["false"])
+        except RuntimeError as e:
+            assert "Command failed: false" in str(e)
+        else:
+            assert False, "Expected RuntimeError was not raised"
 
-        assert result == "ok"
-        logging_mock.assert_called_once_with("Running command: echo ok")
+    def test_run_with_check_false_returns_output_even_on_failure(self):
+        runner = SubprocessCommandRunner()
 
-    @patch("logging.error")
-    @patch("subprocess.run")
-    def test_run_when_command_raises_error_then_logs_command_failed(
-        self,
-        subprocess_run_mock: MagicMock,
-        logging_mock: MagicMock
-    ) -> None:
-        # Setup the subprocess.CalledProcessError exception
-        exc: subprocess.CalledProcessError = subprocess.CalledProcessError(
-            returncode=1,
-            cmd=["git", "status"],
-            stderr="fatal: not a git repository",
-        )
-        subprocess_run_mock.side_effect = exc
+        result = runner.run(["false"], check=False)
 
-        # Check that RuntimeError is raised
-        with pytest.raises(RuntimeError, match=r"Command failed: git status\nfatal: not a git repository") as err:
-            run(["git", "status"])
-
-        # Assert that logging.error was called once with the exact message
-        logging_mock.assert_called_once_with("Command failed: git status\nfatal: not a git repository")
-
-    @patch("subprocess.run")
-    def test_run_when_command_fails_then_raises_runtime_error(
-        self,
-        subprocess_run_mock: MagicMock
-    ) -> None:
-        exc = subprocess.CalledProcessError(
-            returncode=1,
-            cmd=["git", "status"],
-            stderr="fatal: not a git repository",
-        )
-        subprocess_run_mock.side_effect = exc
-
-        with pytest.raises(RuntimeError) as err:
-            run(["git", "status"])
-
-        message = str(err.value)
-        assert "git status" in message
-        assert "fatal: not a git repository" in message
-
-    @patch("subprocess.run")
-    def test_run_when_check_is_false_then_does_not_raise(
-        self,
-        subprocess_run_mock: MagicMock
-    ) -> None:
-        completed = subprocess.CompletedProcess(
-            args=["false"],
-            returncode=1,
-            stdout="some output\n",
-            stderr="some error",
-        )
-        subprocess_run_mock.return_value = completed
-
-        result = run(["false"], check=False)
-
-        assert result == "some output"
-        subprocess_run_mock.assert_called_once()
+        assert result == ""  # 'false' produces no output

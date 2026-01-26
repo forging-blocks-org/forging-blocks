@@ -2,25 +2,7 @@ from dataclasses import dataclass
 
 from forging_blocks.foundation.ports import OutputPort
 
-from scripts.release.domain.value_objects import (
-    PullRequestBase,
-    PullRequestHead,
-    PullRequestTitle,
-    PullRequestBody,
-)
-
-
-@dataclass(frozen=True)
-class OpenPullRequestInput:
-    """
-    DTO representing the input for creating pull request.
-    """
-
-    base: PullRequestBase
-    head: PullRequestHead
-    title: PullRequestTitle
-    body: PullRequestBody
-    dry_run: bool
+from scripts.release.domain.entities import ReleasePullRequest
 
 
 @dataclass(frozen=True)
@@ -35,10 +17,10 @@ class OpenPullRequestOutput:
 
 class PullRequestService(OutputPort):
     """
-    Servuce that manages pull request creation in remote repository.
+    Service that manages pull request creation in remote repository.
     """
 
-    def open(self, input: OpenPullRequestInput) -> OpenPullRequestOutput:
+    def open(self, pull_request: ReleasePullRequest) -> OpenPullRequestOutput:
         """
         Open a pull request and return its details.
         """

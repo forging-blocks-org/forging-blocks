@@ -20,8 +20,8 @@ class PrepareReleaseInput:
     - allow_dirty: bool      # allow uncommitted changes
     """
 
-    level: str  # "major" | "minor" | "patch"
-    dry_run: bool = False  # if True, no side effects are executed
+    level: str
+    dry_run: bool = False
 
 
 @dataclass(frozen=True)
@@ -35,9 +35,9 @@ class PrepareReleaseOutput:
     - consumed by CI steps
     """
 
-    version: str  # e.g. "1.4.0"
-    branch: str  # e.g. "release/v1.4.0"
-    tag: str  # e.g. "v1.4.0"
+    version: str
+    branch: str
+    tag: str
 
 
 class PrepareReleaseUseCase(UseCase[PrepareReleaseInput, PrepareReleaseOutput]):
@@ -61,4 +61,5 @@ class PrepareReleaseUseCase(UseCase[PrepareReleaseInput, PrepareReleaseOutput]):
     async def execute(
         self,
         request: PrepareReleaseInput,
-    ) -> PrepareReleaseOutput: ...
+    ) -> PrepareReleaseOutput:
+        ...

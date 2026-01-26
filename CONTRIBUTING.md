@@ -65,12 +65,59 @@ If a change affects public behavior, documentation updates are expected.
 
 ## Getting started
 
-1. Fork the repository.
-2. Create a branch with a clear purpose.
-3. Make your changes.
-4. Open a pull request with a concise description.
+### Development Setup
+
+1. **Fork the repository**
+2. **Clone your fork**: `git clone https://github.com/YOUR-USERNAME/forging-blocks.git`
+3. **Install dependencies**: `poetry install`
+4. **Set up pre-commit hooks** (optional): `pre-commit install`
+
+### Making Changes
+
+1. **Create a feature branch**: `git checkout -b feature/your-feature`
+2. **Make your changes**
+3. **Add tests** for new functionality
+4. **Run the full test suite**:
+   ```bash
+   poetry run poe ci:check
+   ```
+5. **Submit a pull request** with a clear, concise description
 
 Small, focused pull requests are easier to review.
+
+### Available Development Commands
+
+```bash
+# Testing
+poetry run poe test              # Run tests
+poetry run poe test:debug        # Run tests with verbose output
+
+# Code quality
+poetry run poe lint              # Check code style
+poetry run poe lint:fix          # Fix code style issues
+poetry run poe type              # Type checking
+poetry run poe bandit            # Security scanning
+
+# CI simulation
+poetry run poe ci:check          # Run full CI suite
+poetry run poe ci:simulate       # Include documentation build
+
+# Documentation
+poetry run poe docs:build        # Build documentation
+poetry run poe docs:generate     # Generate API reference
+```
+
+### Release Process (Maintainers Only)
+
+For maintainers preparing releases, see detailed instructions in [Release Guide](release-guide.md):
+
+```bash
+# Prepare release (simulation)
+poetry run poe release:dry-run
+
+# Execute release (creates branch and PR)
+poetry run poe release:patch   # or release:minor / release:major
+```
 
 ---
 

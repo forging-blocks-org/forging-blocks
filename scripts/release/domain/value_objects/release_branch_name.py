@@ -1,11 +1,8 @@
 from typing import Hashable
 from forging_blocks.domain import ValueObject
 
-from .release_version import ReleaseVersion
-from ..errors.invalid_release_branch_name_error import (
-    InvalidReleaseBranchNameError,
-)
-from ..errors.invalid_release_version_error import InvalidReleaseVersionError
+from scripts.release.domain.value_objects.release_version import ReleaseVersion
+from scripts.release.domain.errors import InvalidReleaseVersionError, InvalidReleaseBranchNameError
 
 
 class ReleaseBranchName(ValueObject[str]):
@@ -33,7 +30,6 @@ class ReleaseBranchName(ValueObject[str]):
         try:
             ReleaseVersion(major, minor, patch)
         except InvalidReleaseVersionError as exc:
-            # 🔴 THIS IS THE CRITICAL LINE YOU ARE MISSING
             raise InvalidReleaseBranchNameError(value) from exc
 
         self._value = value
