@@ -22,16 +22,16 @@ The goal is to make releases:
 git checkout main && git pull origin main
 
 # 2. Test the release first (simulation)
-poetry run poe release patch
+poetry run poe release:dry-run
 
 # 3. Execute when ready
-poetry run poe release patch --execute
+poetry run poe release:patch   # or release:minor / release:major
 
 # 4. Review and merge the created PR
 # 5. GitHub Actions handles the rest automatically
 ```
 
-> **💡 Always simulate first**: Run without `--execute` to validate before creating the release PR.
+> **💡 Always simulate first**: Run `release:dry-run` to validate before creating the release PR.
 
 ## How to Release
 
@@ -46,23 +46,21 @@ Before releasing, ensure:
 
 ### Release Commands
 
-The release process uses a single poe task with different levels:
+The release process uses poe tasks with different levels:
 
 ```bash
 # Always start with simulation (safe, no changes)
-poetry run poe release patch    # 0.3.6 → 0.3.7
-poetry run poe release minor    # 0.3.6 → 0.4.0
-poetry run poe release major    # 0.3.6 → 1.0.0
+poetry run poe release:dry-run      # Simulates a patch release
 
 # Execute when ready (creates branch and PR)
-poetry run poe release patch --execute    # Actually performs the release
-poetry run poe release minor --execute    # Actually performs the release
-poetry run poe release major --execute    # Actually performs the release
+poetry run poe release:patch        # 0.3.6 → 0.3.7
+poetry run poe release:minor        # 0.3.6 → 0.4.0  
+poetry run poe release:major        # 0.3.6 → 1.0.0
 ```
 
 ### What Happens Locally
 
-When you run `poetry run poe release [level] --execute`, the tooling automatically:
+When you run `poetry run poe release:patch` (or minor/major), the tooling automatically:
 
 1. **Validates** repository state (clean, on main, synced)
 2. **Bumps version** in pyproject.toml
@@ -88,7 +86,7 @@ When the release PR is merged into `main`, GitHub Actions automatically:
 
 ForgingBlocks follows a **local-preparation + automated-publishing model**:
 
-- **Local tooling** (`poetry run poe release`) automatically:
+- **Local tooling** (`poetry run poe release:patch`) automatically:
   - validates the release
   - bumps the version
   - generates the changelog
@@ -181,10 +179,12 @@ Release automation is implemented as a Python module that contributors access vi
 
 ```bash
 # Test release preparation (safe simulation)
-poetry run poe release [patch|minor|major]
+poetry run poe release:dry-run      # Simulates patch release
 
 # Execute release (creates branch and PR)
-poetry run poe release [patch|minor|major] --execute
+poetry run poe release:patch        # 0.3.6 → 0.3.7
+poetry run poe release:minor        # 0.3.6 → 0.4.0
+poetry run poe release:major        # 0.3.6 → 1.0.0
 ```
 
 The tooling handles version bumping, changelog generation, branch creation, and PR opening automatically.
@@ -206,7 +206,7 @@ When the release Pull Request is merged into `main`, GitHub Actions automaticall
 
 ```mermaid
 flowchart TD
-    A[Developer on main] --> B[poe release:patch]
+    A[Developer on main] --> B[poetry run poe release:patch]
     B --> C[Local validation]
     C --> D[Version bump]
     D --> E[Generate CHANGELOG.md]
@@ -253,8 +253,8 @@ poetry run poe release major --execute    # 0.3.6 → 1.0.0
 
 ## Maintainer Checklist
 
-- [ ] Run `poetry run poe release [level]` (test)
-- [ ] Run `poetry run poe release [level] --execute` (execute)
+- [ ] Run `poetry run poe release:dry-run` (test simulation)
+- [ ] Run `poetry run poe release:patch` (execute release)
 - [ ] Review and merge the PR
 - [ ] Verify PyPI, docs, and GitHub Release
 

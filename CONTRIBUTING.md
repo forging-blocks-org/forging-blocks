@@ -113,10 +113,10 @@ For maintainers preparing releases, see detailed instructions in [Release Guide]
 
 ```bash
 # Prepare release (simulation)
-poetry run poe release [patch|minor|major]
+poetry run poe release:dry-run
 
 # Execute release (creates branch and PR)
-poetry run poe release [patch|minor|major] --execute
+poetry run poe release:patch   # or release:minor / release:major
 ```
 
 ---
