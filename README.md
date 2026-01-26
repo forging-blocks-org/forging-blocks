@@ -133,8 +133,8 @@ poetry run poe docs:build        # Build documentation
 poetry run poe docs:generate     # Generate API reference
 
 # Release (maintainers)
-poetry run poe release:dry-run      # Test release (simulation)
-poetry run poe release:patch        # Execute patch release
+poetry run poe release patch        # Test release (simulation)
+poetry run poe release patch --execute  # Execute patch release
 ```
 
 ---
@@ -168,10 +168,10 @@ For maintainers preparing releases:
 
 ```bash
 # Prepare release (safe simulation)
-poetry run poe release:dry-run
+poetry run poe release patch
 
 # Execute release (creates branch and PR)
-poetry run poe release:patch   # or release:minor / release:major
+poetry run poe release patch --execute
 ```
 
 See [RELEASE_GUIDE.md](RELEASE_GUIDE.md) for complete release instructions.
