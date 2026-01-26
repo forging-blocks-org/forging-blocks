@@ -1,41 +1,63 @@
-name: Prepare Release PR
+name: Release Pipeline
 
 on:
-  workflow_dispatch:
-    inputs:
-      level:
-        type: choice
-        required: true
-        options: [patch, minor, major]
-      dry_run:
-        type: boolean
-        default: false
+  pull_request:
+    types: [closed]
 
 permissions:
   contents: write
-  pull-requests: write
+  id-token: write
 
 jobs:
-  prepare:
+  release:
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'main' &&
+      startsWith(github.event.pull_request.head.ref, 'release/')
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          ref: main
           fetch-depth: 0
 
-      - uses: ./.github/actions/setup-poetry
-
-      - run: poetry install --no-interaction
-
-      - run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Compute tag from release branch
+        id: vars
+        shell: bash
         run: |
-          poetry run poe release:prepare \
-            --level "${{ inputs.level }}" \
-            ${{ inputs.dry_run && '--dry-run' || '' }}
+          HEAD_REF="${{ github.event.pull_request.head.ref }}"
+          TAG="${HEAD_REF#release/}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Tag: $TAG"
+
+      - name: Create and push tag
+        shell: bash
+        run: |
+          TAG="${{ steps.vars.outputs.tag }}"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag -a "$TAG" -m "Release $TAG"
+          git push origin "$TAG"
+
+      - name: Set up Poetry
+        uses: ./.github/actions/setup-poetry
+
+      - name: Install dependencies
+        run: poetry install --with dev,docs
+
+      - name: Validate release candidate
+        run: poetry run poe ci:release
+
+      - name: Build package
+        run: poetry build
+
+      - name: Publish to PyPI
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
+        run: poetry publish
+
+      - name: Deploy latest docs to GitHub Pages
+        run: |
+          poetry run python scripts/generate_autodoc_pages.py
+          poetry run mkdocs gh-deploy --force --clean
