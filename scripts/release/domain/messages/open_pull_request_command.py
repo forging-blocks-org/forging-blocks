@@ -1,9 +1,11 @@
-from typing import Any
+from typing import TypeAlias
 
-from forging_blocks.domain.messages.event import Event
+from forging_blocks.domain.messages.command import Command
+
+PayloadType: TypeAlias = dict[str, str | bool]
 
 
-class ReleasePreparedEvent(Event[dict[str, Any]]):
+class OpenPullRequestCommand(Command[PayloadType]):
     def __init__(self, *, version: str, branch: str, dry_run: bool) -> None:
         self._version = version
         self._branch = branch
@@ -13,7 +15,7 @@ class ReleasePreparedEvent(Event[dict[str, Any]]):
         super().__init__()
 
     @property
-    def value(self) -> dict[str, Any]:
+    def value(self) -> PayloadType:
         return self._value
 
     @property
@@ -29,5 +31,5 @@ class ReleasePreparedEvent(Event[dict[str, Any]]):
         return self._dry_run
 
     @property
-    def _payload(self) -> dict[str, Any]:
+    def _payload(self) -> PayloadType:
         return self._value
