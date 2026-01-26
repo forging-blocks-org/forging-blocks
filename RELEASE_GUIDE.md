@@ -152,19 +152,20 @@ When the release Pull Request is merged into `main`, GitHub Actions automaticall
 
 ```mermaid
 flowchart TD
-    A[Developer on main] --> B[poe release:*]
+    A[Developer on main] --> B[poe release:patch]
     B --> C[Local validation]
     C --> D[Version bump]
     D --> E[Generate CHANGELOG.md]
     E --> F[Create release/vX.Y.Z branch]
-    F --> G[Commit + tag vX.Y.Z]
+    F --> G[Commit changes]
     G --> H[Open release PR]
     H --> I[PR reviewed]
     I --> J[PR merged into main]
     J --> K[GitHub Actions]
-    K --> L[Publish to PyPI]
-    K --> M[Deploy docs]
-    K --> N[Create GitHub Release]
+    K --> L[Create & push git tag]
+    K --> M[Publish to PyPI]
+    K --> N[Deploy docs]
+    K --> O[Create GitHub Release]
 ```
 
 ---
