@@ -6,7 +6,7 @@ authors = ["ForgingBlocks Org <forgingblocksorganization91@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/forging-blocks-org/forging-blocks"
-homepage = "https://forging-blocks-org.github.io/forging-blocks/"
+homepage = "https://forging-blocks-org.github.io"
 packages = [{ include = "forging_blocks", from = "src" }]
 keywords = [
     "clean-architecture",
@@ -81,7 +81,6 @@ reportMissingTypeStubs = false
 [tool.poetry.scripts]
 repl = "IPython:start_ipython"
 
-
 [tool.ruff]
 target-version = "py312"
 line-length = 100
@@ -141,7 +140,7 @@ exclude = ["tests/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src", "scripts"]
+pythonpath = ["src", "scripts", "scripts/release"]
 asyncio_mode = "auto"
 addopts = [
     "--strict-markers",
@@ -149,18 +148,22 @@ addopts = [
     "--cov=forging_blocks",
     "--cov=scripts/release",
     "--cov-report=term-missing",
-    "--cov-fail-under=90"
+    "--cov-fail-under=90",
+]
+markers = [
+  "unit: mark tests as unit tests",
+  "integration: mark tests as integration tests",
 ]
 
 [tool.poe.tasks]
 lint = { cmd = "ruff check ." }
 "lint:fix" = { cmd = "ruff check . --fix" }
 
-type = { cmd = "mypy src" }
-bandit = { cmd = "bandit -r src -x tests" }
+type = "mypy src"
+bandit = "bandit -r src -x tests"
 
-test = { cmd = "pytest --strict-markers --tb=line" }
-"test:debug" = { cmd = "pytest --strict-markers --tb=long -x -vvv -s" }
+test = "pytest"
+"test:debug" = "pytest -x -vvv -s"
 
 "docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
 "docs:build".sequence = [
@@ -201,30 +204,4 @@ test = { cmd = "pytest --strict-markers --tb=line" }
   { shell = "echo 'OK: release validated'" }
 ]
 
-"release:prepare".cmd = "poetry run python -m scripts.release.presentation.cli prepare --level $RELEASE_LEVEL"
-"release:create-pr".cmd = "poetry run python -m scripts.release.presentation.cli create-pr --base main --head $RELEASE_HEAD --title \"$RELEASE_TITLE\" --body \"$RELEASE_BODY\""
-
-"release:_run".sequence = [
-  "release:validate",
-  { cmd = "poetry run python -m scripts.release.presentation.cli prepare --level $RELEASE_LEVEL" },
-  # You can generate head/title/body from repo state in a small helper later.
-  # For now keep env-driven values explicit and deterministic.
-  { shell = "export RELEASE_VERSION=$(poetry run python -m scripts.release.presentation.cli prepare --level $RELEASE_LEVEL --dry-run --json | python -c \"import sys, json; print(json.load(sys.stdin)['version'])\")" },
-  { shell = "export RELEASE_HEAD=release/v$RELEASE_VERSION" },
-  { shell = "export RELEASE_TITLE=\"chore(release): v$RELEASE_VERSION\"" },
-  { shell = "export RELEASE_BODY=\"Automated release for v$RELEASE_VERSION\""},
-  { cmd = "poetry run python -m scripts.release.presentation.cli create-pr --base main --head $RELEASE_HEAD --title \"$RELEASE_TITLE\" --body \"$RELEASE_BODY\"" }
-]
-
-"release:patch".env = { RELEASE_LEVEL = "patch" }
-"release:patch".sequence = ["release:_run"]
-"release:minor".env = { RELEASE_LEVEL = "minor" }
-"release:minor".sequence = ["release:_run"]
-"release:major".env = { RELEASE_LEVEL = "major" }
-"release:major".sequence = ["release:_run"]
-
-"release:dry-run".env = { RELEASE_LEVEL = "patch" }
-"release:dry-run".sequence = [
-  "release:validate",
-  { cmd = "poetry run python -m scripts.release.presentation.cli prepare --level $RELEASE_LEVEL --dry-run" }
-]
+release = { cmd = "python -m scripts.release.presentation.cli", env = { "PYTHONPATH" = "src:scripts:scripts/release" } }
