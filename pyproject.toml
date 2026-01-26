@@ -170,6 +170,7 @@ test = "pytest"
   "docs:generate",
   { cmd = "poetry run mkdocs build --strict" }
 ]
+"docs:serve" = { cmd = "poetry run mkdocs serve" }
 
 "ci:check".sequence = [
   "lint",
