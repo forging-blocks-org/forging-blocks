@@ -182,6 +182,13 @@ test = "pytest"
   "ci:check",
   "docs:build"
 ]
+"ci:release".sequence = [
+  "ci:simulate",
+  { cmd = "poetry build" },
+  { shell = "VERSION=$(poetry version -s)" },
+  { shell = "echo 'Release candidate validated for version $VERSION'" }
+]
+
 "ci:release:validate".sequence = [
   "ci:check",
   { cmd = "poetry build" }
