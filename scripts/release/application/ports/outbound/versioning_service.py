@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Protocol, runtime_checkable
+
 from forging_blocks.foundation.ports import OutputPort
 
 from scripts.release.domain.value_objects import (
