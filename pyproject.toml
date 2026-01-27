@@ -41,6 +41,7 @@ poethepoet = "^0.37.0"
 libcst = "^1.8.6"
 rich = "^14.2.0"
 ipython = "^9.8.0"
+pytest-git = "^1.8.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.6.1"

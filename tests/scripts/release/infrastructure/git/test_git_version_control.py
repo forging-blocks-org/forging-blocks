@@ -273,11 +273,7 @@ class TestGitVersionControlIntegration:
         git_repo: GitTestRepository,
     ) -> None:
         # Arrange
-        from scripts.release.infrastructure.commons.process import (
-            SubprocessCommandRunner,
-        )
-
-        version_control = GitVersionControl(SubprocessCommandRunner())
+        version_control = GitVersionControl(git_repo.scoped_runner())
         branch = ReleaseBranchName("release/v1.2.0")
 
         # Act
@@ -298,11 +294,7 @@ class TestGitVersionControlIntegration:
         git_repo: GitTestRepository,
     ) -> None:
         # Arrange
-        from scripts.release.infrastructure.commons.process import (
-            SubprocessCommandRunner,
-        )
-
-        version_control = GitVersionControl(SubprocessCommandRunner())
+        version_control = GitVersionControl(git_repo.scoped_runner())
         tag = TagName("v1.2.0")
 
         # Act
@@ -321,28 +313,15 @@ class TestGitVersionControlIntegration:
         git_repo: GitTestRepository,
     ) -> None:
         # Arrange
-        import os
-        from scripts.release.infrastructure.commons.process import (
-            SubprocessCommandRunner,
-        )
+        version_control = GitVersionControl(git_repo.scoped_runner())
+        git_repo.write_file("CHANGELOG.md", "changes")
+        git_repo.commit("Add CHANGELOG.md")
 
-        # Change to the test repository directory
-        original_cwd = os.getcwd()
-        os.chdir(git_repo._path)
+        # Modify the tracked file
+        git_repo.write_file("CHANGELOG.md", "updated changes")
 
-        try:
-            version_control = GitVersionControl(SubprocessCommandRunner())
-            git_repo.write_file("CHANGELOG.md", "changes")
-            git_repo.commit("Add CHANGELOG.md")
+        # Act (this should commit the modified tracked file using -am)
+        version_control.commit_release_artifacts()
 
-            # Modify the tracked file
-            git_repo.write_file("CHANGELOG.md", "updated changes")
-
-            # Act (this should commit the modified tracked file using -am)
-            version_control.commit_release_artifacts()
-
-            # Assert
-            assert git_repo.last_commit_message() == "chore(release): prepare release"
-        finally:
-            # Restore original directory
-            os.chdir(original_cwd)
+        # Assert
+        assert git_repo.last_commit_message() == "chore(release): prepare release"
