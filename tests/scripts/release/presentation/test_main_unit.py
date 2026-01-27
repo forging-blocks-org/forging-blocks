@@ -356,15 +356,13 @@ class TestMain:
 
     def test_main_function_signature(self) -> None:
         """Test that main function has the correct signature."""
-        import inspect
-
-        sig = inspect.signature(__main__.main)
+        signature = inspect.signature(__main__.main)
 
         # Check parameter
-        assert len(sig.parameters) == 1
-        argv_param = sig.parameters["argv"]
+        assert len(signature.parameters) == 1
+        argv_param = signature.parameters["argv"]
         assert argv_param.name == "argv"
         assert argv_param.default is None
 
         # Check return annotation
-        assert sig.return_annotation == None
+        assert signature.return_annotation is None
