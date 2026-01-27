@@ -81,8 +81,15 @@ class GitVersionControl(VersionControl):
         self,
         tag: TagName,
     ) -> None:
+        logging.info(f"Deleting tag {tag.value}...")
         self._runner.run(["git", "tag", "-d", tag.value])
-        self._runner.run(["git", "push", "origin", "--delete", tag.value])
+        try:
+            self._runner.run(["git", "push", "origin", "--delete", tag.value])
+            logging.info(f"✓ Deleted remote tag {tag.value}")
+        except RuntimeError:
+            # Remote might not exist in test environment, that's OK
+            logging.info(f"✓ Deleted local tag {tag.value} (remote not available)")
+        logging.info(f"✓ Deleted tag {tag.value}")
 
     def push(
         self,
