@@ -77,7 +77,9 @@ class PrepareReleaseService(PrepareReleaseUseCase):
 
     def _ensure_tag_doesnt_exist(self, tag: TagName) -> None:
         if self._version_control.tag_exists(tag):
-            logging.error(f"Tag {tag.value} already exists! Cannot proceed with release.")
+            logging.error(
+                f"Tag {tag.value} already exists! Cannot proceed with release."
+            )
             raise TagAlreadyExistsError(tag.value)
 
     def _make_output(self, context: ReleaseContext) -> PrepareReleaseOutput:
@@ -92,7 +94,9 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         context: ReleaseContext,
     ) -> None:
         command = OpenPullRequestCommand(
-            version=context.version.value, branch=context.branch.value, dry_run=context.dry_run
+            version=context.version.value,
+            branch=context.branch.value,
+            dry_run=context.dry_run,
         )
         await self._message_bus.send(command)
 
@@ -115,10 +119,8 @@ class PrepareReleaseService(PrepareReleaseUseCase):
 
             self._version_control.commit_release_artifacts()
 
-            # Push the release branch to origin so PR can be created
-            self._version_control.push(context.branch, push_tags=False)
-            
             # Register cleanup step to remove remote branch if something fails
+            # IMPORTANT: Register BEFORE push so rollback works even if push fails
             self._transaction.register_step(
                 ReleaseStep(
                     name="delete_remote_branch",
@@ -127,6 +129,9 @@ class PrepareReleaseService(PrepareReleaseUseCase):
                     ),
                 )
             )
+
+            # Push the release branch to origin so PR can be created
+            self._version_control.push(context.branch, push_tags=False)
 
             # Note: Tag creation is handled by GitHub Actions after PR merge
 
@@ -151,5 +156,3 @@ class PrepareReleaseService(PrepareReleaseUseCase):
                     ),
                 )
             )
-
-

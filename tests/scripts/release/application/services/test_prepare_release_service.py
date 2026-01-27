@@ -442,3 +442,87 @@ class TestPrepareReleaseService:
 
         transaction_mock.__aenter__.assert_not_called()
         versioning_service_mock.apply_version.assert_not_called()
+
+    async def test_execute_when_push_fails_then_deletes_remote_branch_on_rollback(
+        self,
+        service: PrepareReleaseService,
+        version_control_mock: MagicMock,
+        transaction_mock: MagicMock,
+        tag_name: TagName,
+        branch_name: ReleaseBranchName,
+    ) -> None:
+        # Arrange: Simulate push failure
+        version_control_mock.tag_exists.return_value = False
+        version_control_mock.branch_exists.return_value = False
+        version_control_mock.push.side_effect = RuntimeError("Push failed!")
+
+        input_data = PrepareReleaseInput(level="minor", dry_run=False)
+
+        # Track registered rollback steps
+        registered_steps = []
+
+        def capture_step(step):
+            registered_steps.append(step)
+
+        transaction_mock.register_step.side_effect = capture_step
+
+        # Act & Assert: Push failure should trigger rollback
+        with pytest.raises(RuntimeError, match="Push failed!"):
+            await service.execute(input_data)
+
+        # Verify: Remote branch cleanup step was registered BEFORE push
+        assert (
+            len(registered_steps) >= 2
+        )  # At least checkout_main + delete_remote_branch
+
+        # Find the delete_remote_branch step
+        delete_remote_step = None
+        for step in registered_steps:
+            if step.name == "delete_remote_branch":
+                delete_remote_step = step
+                break
+
+        assert (
+            delete_remote_step is not None
+        ), "delete_remote_branch step should be registered"
+
+        # Verify: Rollback step can be executed
+        delete_remote_step.undo()
+        version_control_mock.delete_remote_branch.assert_called_once_with(branch_name)
+
+    async def test_execute_when_successful_then_registers_remote_cleanup_before_push(
+        self,
+        service: PrepareReleaseService,
+        version_control_mock: MagicMock,
+        transaction_mock: MagicMock,
+        branch_name: ReleaseBranchName,
+    ) -> None:
+        # Arrange: Successful scenario
+        version_control_mock.tag_exists.return_value = False
+        version_control_mock.branch_exists.return_value = False
+
+        input_data = PrepareReleaseInput(level="minor", dry_run=False)
+
+        # Track the order of operations
+        operation_order = []
+
+        def track_register_step(step):
+            operation_order.append(f"register_{step.name}")
+
+        def track_push(branch, push_tags):
+            operation_order.append("push")
+
+        transaction_mock.register_step.side_effect = track_register_step
+        version_control_mock.push.side_effect = track_push
+
+        # Act
+        await service.execute(input_data)
+
+        # Verify: delete_remote_branch is registered BEFORE push happens
+        delete_remote_index = operation_order.index("register_delete_remote_branch")
+        push_index = operation_order.index("push")
+
+        assert delete_remote_index < push_index, (
+            f"delete_remote_branch step should be registered before push. "
+            f"Order: {operation_order}"
+        )
