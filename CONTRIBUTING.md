@@ -68,9 +68,9 @@ If a change affects public behavior, documentation updates are expected.
 ### Development Setup
 
 1. **Fork the repository**
-2. **Clone your fork**: `git clone https://github.com/YOUR-USERNAME/forging-blocks.git`
+2. **Clone your fork**: `git clone https://github.com/<username>/forging-blocks.git`
 3. **Install dependencies**: `poetry install`
-4. **Set up pre-commit hooks** (optional): `pre-commit install`
+4. **Set up pre-commit hooks**: `pre-commit install`
 
 ### Making Changes
 
