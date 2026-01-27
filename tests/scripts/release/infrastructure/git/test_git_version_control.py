@@ -242,9 +242,32 @@ class TestGitVersionControlIntegration:
 
         # Modify the tracked file
         git_repo.write_file("CHANGELOG.md", "updated changes")
+        
+        # Check status before commit
+        import subprocess
+        result = subprocess.run(
+            ["git", "status", "--porcelain"],
+            cwd=git_repo._path,
+            capture_output=True,
+            text=True
+        )
+        print(f"Git status before commit: '{result.stdout.strip()}'")
 
         # Act (this should commit the modified tracked file using -am)
-        version_control.commit_release_artifacts()
+        try:
+            version_control.commit_release_artifacts()
+        except Exception as e:
+            print(f"Exception during commit: {e}")
+            raise
+
+        # Check status after commit
+        result = subprocess.run(
+            ["git", "status", "--porcelain"],
+            cwd=git_repo._path,
+            capture_output=True,
+            text=True
+        )
+        print(f"Git status after commit: '{result.stdout.strip()}'")
 
         # Assert
         assert git_repo.last_commit_message() == "chore(release): prepare release"
