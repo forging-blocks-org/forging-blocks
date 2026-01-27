@@ -106,7 +106,7 @@ class TestMain:
 
 ```bash
 # Primary Commands (for daily development)
-poetry run poe test              # Run all stable tests (unit + integration)
+poetry run poe test              # Run ALL tests (recommended default)
 poetry run poe test:unit         # Run unit tests only (fast feedback)
 poetry run poe test:integration  # Run integration tests only
 
@@ -118,7 +118,7 @@ poetry run poe test:debug        # Debug mode with verbose output
 ```
 
 **Understanding Test Results:**
-- `poetry run poe test` runs **stable** tests that should always pass (unit + integration)
+- `poetry run poe test` runs **ALL** tests including E2E (complete confidence)
 - `poetry run poe test:all` runs **ALL** tests including those requiring special setup
 - Some tests are **conditionally skipped** based on environment configuration
 - Skipped tests are still valuable as documentation of system capabilities
