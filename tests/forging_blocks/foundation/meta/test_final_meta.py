@@ -75,6 +75,7 @@ class SampleClassWithRuntimeFinalMethod:
         return value * 2
 
 
+@pytest.mark.unit
 class TestFinalMeta:
     def test___new___when_no_final_methods_overridden_then_creates_class(self) -> None:
         # Arrange
@@ -152,6 +153,7 @@ class TestFinalMeta:
         assert instance.another_method() == "another"
 
 
+@pytest.mark.unit
 class TestRuntimeFinal:
     def test_runtime_final_when_applied_to_function_then_sets_final_attribute(
         self,

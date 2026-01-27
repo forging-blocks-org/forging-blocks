@@ -3,6 +3,7 @@ import pytest
 from forging_blocks.foundation import Err, Ok, ResultAccessError, ErrorMessage
 
 
+@pytest.mark.unit
 class TestResultAccessError:
     @pytest.fixture
     def base_error(self) -> ResultAccessError:
@@ -69,6 +70,7 @@ class TestResultAccessError:
         assert result == "boom"
 
 
+@pytest.mark.unit
 class TestOk:
     @pytest.fixture
     def ok_result(self) -> Ok[int, str]:
@@ -194,6 +196,7 @@ class TestOk:
         assert result == "Ok(123)"
 
 
+@pytest.mark.unit
 class TestErr:
     @pytest.fixture
     def err_result(self) -> Err[int, str]:

@@ -4,6 +4,7 @@ from scripts.release.domain.value_objects import ReleaseVersion, TagName
 from scripts.release.domain.errors import InvalidTagNameError
 
 
+@pytest.mark.unit
 class TestTagName:
     @pytest.mark.parametrize(
         "value",

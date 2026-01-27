@@ -1,16 +1,23 @@
 import pytest
 from unittest.mock import Mock
 
-from scripts.release.application.ports.outbound import OpenPullRequestOutput, PullRequestService
+from scripts.release.application.ports.outbound import (
+    OpenPullRequestOutput,
+    PullRequestService,
+)
 from scripts.release.application.services.open_release_pull_request_service import (
     OpenReleasePullRequestService,
 )
 from scripts.release.application.ports.inbound import (
     OpenReleasePullRequestInput,
 )
-from scripts.release.domain.errors import InvalidReleaseBranchNameError, InvalidReleaseVersionError
+from scripts.release.domain.errors import (
+    InvalidReleaseBranchNameError,
+    InvalidReleaseVersionError,
+)
 
 
+@pytest.mark.unit
 class TestOpenReleasePullRequestService:
     async def test_execute_when_dry_run_then_no_infra_call(self) -> None:
         pull_request_service = Mock(spec=PullRequestService)

@@ -1,11 +1,19 @@
 import pytest
 from unittest.mock import MagicMock, create_autospec, AsyncMock
 
-from scripts.release.infrastructure.handlers.open_pull_request_handler import OpenPullRequestHandler
-from scripts.release.application.ports.inbound import OpenReleasePullRequestUseCase, OpenReleasePullRequestInput
-from scripts.release.domain.messages.open_pull_request_command import OpenPullRequestCommand
+from scripts.release.infrastructure.handlers.open_pull_request_handler import (
+    OpenPullRequestHandler,
+)
+from scripts.release.application.ports.inbound import (
+    OpenReleasePullRequestUseCase,
+    OpenReleasePullRequestInput,
+)
+from scripts.release.domain.messages.open_pull_request_command import (
+    OpenPullRequestCommand,
+)
 
 
+@pytest.mark.unit
 class TestOpenPullRequestHandler:
     @pytest.fixture
     def use_case_mock(self) -> MagicMock:
@@ -18,19 +26,22 @@ class TestOpenPullRequestHandler:
     @pytest.fixture
     def command(self) -> OpenPullRequestCommand:
         return OpenPullRequestCommand(
-            version="1.2.0",
-            branch="release/v1.2.0",
-            dry_run=False
+            version="1.2.0", branch="release/v1.2.0", dry_run=False
         )
 
-    def test_init_when_called_then_sets_use_case(self, use_case_mock: MagicMock) -> None:
+    def test_init_when_called_then_sets_use_case(
+        self, use_case_mock: MagicMock
+    ) -> None:
         handler = OpenPullRequestHandler(use_case_mock)
 
         assert handler._use_case == use_case_mock
 
     @pytest.mark.asyncio
     async def test_handle_when_called_then_creates_pr_input_with_command_data(
-        self, handler: OpenPullRequestHandler, use_case_mock: MagicMock, command: OpenPullRequestCommand
+        self,
+        handler: OpenPullRequestHandler,
+        use_case_mock: MagicMock,
+        command: OpenPullRequestCommand,
     ) -> None:
         use_case_mock.execute = AsyncMock()
 
@@ -49,9 +60,7 @@ class TestOpenPullRequestHandler:
     ) -> None:
         use_case_mock.execute = AsyncMock()
         command = OpenPullRequestCommand(
-            version="2.0.0",
-            branch="release/v2.0.0",
-            dry_run=True
+            version="2.0.0", branch="release/v2.0.0", dry_run=True
         )
 
         await handler.handle(command)
@@ -61,7 +70,10 @@ class TestOpenPullRequestHandler:
 
     @pytest.mark.asyncio
     async def test_handle_when_use_case_raises_exception_then_propagates(
-        self, handler: OpenPullRequestHandler, use_case_mock: MagicMock, command: OpenPullRequestCommand
+        self,
+        handler: OpenPullRequestHandler,
+        use_case_mock: MagicMock,
+        command: OpenPullRequestCommand,
     ) -> None:
         use_case_mock.execute = AsyncMock(side_effect=RuntimeError("Use case failed"))
 
@@ -77,9 +89,7 @@ class TestOpenPullRequestHandler:
 
         for version in versions:
             command = OpenPullRequestCommand(
-                version=version,
-                branch=f"release/v{version}",
-                dry_run=False
+                version=version, branch=f"release/v{version}", dry_run=False
             )
 
             await handler.handle(command)
@@ -94,8 +104,12 @@ class TestOpenPullRequestHandler:
     ) -> None:
         use_case_mock.execute = AsyncMock()
 
-        command1 = OpenPullRequestCommand(version="1.0.0", branch="release/v1.0.0", dry_run=False)
-        command2 = OpenPullRequestCommand(version="2.0.0", branch="release/v2.0.0", dry_run=True)
+        command1 = OpenPullRequestCommand(
+            version="1.0.0", branch="release/v1.0.0", dry_run=False
+        )
+        command2 = OpenPullRequestCommand(
+            version="2.0.0", branch="release/v2.0.0", dry_run=True
+        )
 
         await handler.handle(command1)
         await handler.handle(command2)

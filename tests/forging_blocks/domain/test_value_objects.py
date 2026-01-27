@@ -41,6 +41,7 @@ class AnotherEmailType(ValueObject[str]):
         return (self._value,)
 
 
+@pytest.mark.unit
 class TestValueObject:
     def test___init___when_invalid_email_then_raises_value_error(self) -> None:
         with pytest.raises(ValueError):

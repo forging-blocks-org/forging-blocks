@@ -8,12 +8,15 @@ from scripts.release.infrastructure.versioning.poetry_versioning_service import 
 from scripts.release.domain.value_objects import ReleaseLevel, ReleaseVersion
 
 
+@pytest.mark.unit
 class TestPoetryVersioningService:
     @pytest.fixture
     def runner_mock(self) -> MagicMock:
         return create_autospec(spec=CommandRunner, instance=True)
 
-    def test_current_version_when_poetry_fails_then_error(self, runner_mock: MagicMock) -> None:
+    def test_current_version_when_poetry_fails_then_error(
+        self, runner_mock: MagicMock
+    ) -> None:
         runner_mock.run.side_effect = RuntimeError("poetry failed")
 
         service = PoetryVersioningService(runner=runner_mock)
@@ -30,7 +33,9 @@ class TestPoetryVersioningService:
 
         assert version == ReleaseVersion(1, 2, 3)
 
-    def test_compute_next_version_when_poetry_fails_then_error(self, runner_mock: MagicMock) -> None:
+    def test_compute_next_version_when_poetry_fails_then_error(
+        self, runner_mock: MagicMock
+    ) -> None:
         runner_mock.run.side_effect = RuntimeError("poetry failed")
 
         service = PoetryVersioningService(runner=runner_mock)
@@ -38,7 +43,9 @@ class TestPoetryVersioningService:
         with pytest.raises(RuntimeError):
             service.compute_next_version(ReleaseLevel.from_str("minor"))
 
-    def test_apply_version_when_poetry_fails_then_error(self, runner_mock: MagicMock) -> None:
+    def test_apply_version_when_poetry_fails_then_error(
+        self, runner_mock: MagicMock
+    ) -> None:
         runner_mock.run.side_effect = RuntimeError("poetry failed")
 
         service = PoetryVersioningService(runner=runner_mock)

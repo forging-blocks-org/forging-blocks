@@ -7,6 +7,7 @@ from scripts.release.domain.value_objects import (
 )
 
 
+@pytest.mark.unit
 class TestReleasePullRequest:
     def test_init_when_base_is_main_and_head_is_release_then_success(self) -> None:
         pr = ReleasePullRequest(

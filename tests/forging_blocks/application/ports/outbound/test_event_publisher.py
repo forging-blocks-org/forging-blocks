@@ -1,4 +1,5 @@
 from unittest.mock import AsyncMock, MagicMock
+import pytest
 
 from pytest import fixture
 
@@ -16,6 +17,7 @@ class FakeEvent(Event):
         return {"foo": "bar"}
 
 
+@pytest.mark.unit
 class TestEventPublisher:
     @fixture
     def message_bus(self) -> MagicMock:

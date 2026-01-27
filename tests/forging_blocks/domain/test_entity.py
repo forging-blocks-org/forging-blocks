@@ -18,6 +18,7 @@ class Admin(User):
     pass
 
 
+@pytest.mark.unit
 class TestUser:
     @pytest.fixture
     def draft_user(self) -> User:

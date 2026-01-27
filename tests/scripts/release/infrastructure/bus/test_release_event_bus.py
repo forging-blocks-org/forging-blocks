@@ -8,6 +8,7 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
 )
 
 
+@pytest.mark.unit
 class TestInMemoryReleaseCommandBus:
     def test_init_when_called_then_instance_created(self) -> None:
         bus = InMemoryReleaseCommandBus()

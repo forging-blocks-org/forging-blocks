@@ -19,6 +19,7 @@ class FakeUnitOfWork(UnitOfWork):
         print("rolled back")
 
 
+@pytest.mark.unit
 class TestUnitOfWork:
     @fixture
     def unit_of_work(self) -> FakeUnitOfWork:

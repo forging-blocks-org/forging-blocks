@@ -6,6 +6,7 @@ from scripts.release.infrastructure.transactions.in_memory_release_transaction i
 )
 
 
+@pytest.mark.unit
 class TestInMemoryReleaseTransaction:
     async def test_session_when_accessed_then_returns_true(self) -> None:
         transaction = InMemoryReleaseTransaction()

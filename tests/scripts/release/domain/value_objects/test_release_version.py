@@ -4,6 +4,7 @@ from scripts.release.domain.value_objects.release_version import ReleaseVersion
 from scripts.release.domain.errors import InvalidReleaseVersionError
 
 
+@pytest.mark.unit
 class TestReleaseVersion:
     @pytest.mark.parametrize(
         "major, minor, patch",

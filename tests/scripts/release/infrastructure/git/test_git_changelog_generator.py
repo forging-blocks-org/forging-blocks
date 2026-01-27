@@ -15,6 +15,7 @@ from scripts.release.application.errors.change_log_generation_error import (
 from tests.fixtures.git_test_repository import GitTestRepository
 
 
+@pytest.mark.unit
 class TestGitChangelogGenerator:
     @pytest.fixture
     def command_runner_mock(self) -> MagicMock:

@@ -1,6 +1,9 @@
+import pytest
+
 from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
 
 
+@pytest.mark.integration
 class TestSubprocessCommandRunner:
     def test_run_when_command_succeeds_returns_output(self):
         runner = SubprocessCommandRunner()

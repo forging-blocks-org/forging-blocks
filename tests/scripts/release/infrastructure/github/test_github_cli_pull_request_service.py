@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+import os
 import pytest
-import uuid
+import random
 
 from scripts.release.infrastructure.github.github_cli_pull_request_service import (
     GitHubCliPullRequestService,
@@ -12,13 +13,14 @@ from scripts.release.domain.value_objects import ReleaseBranchName
 
 @pytest.mark.integration
 class TestGitHubCliPullRequestServiceIntegration:
-    @pytest.mark.skip(reason="Requires actual GitHub repo with branches - integration test for real environments only")
+    @pytest.mark.skipif(
+        not os.environ.get("RUN_GITHUB_CLI_TESTS"),
+        reason="Requires RUN_GITHUB_CLI_TESTS=1 and authenticated GitHub CLI",
+    )
     def test_open_when_called_then_pull_request_created(
         self,
-        require_gh_auth: None,
     ) -> None:
         # Arrange
-        import random
         patch_version = random.randint(1000, 9999)  # Use numeric patch version
         branch = ReleaseBranchName(f"release/v0.0.{patch_version}")
 

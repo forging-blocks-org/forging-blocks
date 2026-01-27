@@ -9,6 +9,7 @@ from scripts.release.domain.errors.invalid_release_level_error import (
 )
 
 
+@pytest.mark.unit
 class TestReleaseLevel:
     def test_init_when_valid_enum_then_success(self) -> None:
         level = ReleaseLevel(ReleaseLevelEnum.PATCH)

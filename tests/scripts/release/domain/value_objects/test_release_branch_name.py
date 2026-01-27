@@ -6,6 +6,7 @@ from scripts.release.domain.errors.invalid_release_branch_name_error import (
 )
 
 
+@pytest.mark.unit
 class TestReleaseBranchName:
     @pytest.mark.parametrize(
         "value",

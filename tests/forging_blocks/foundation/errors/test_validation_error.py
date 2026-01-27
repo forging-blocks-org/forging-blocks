@@ -1,3 +1,5 @@
+import pytest
+
 from forging_blocks.foundation import (
     CombinedValidationErrors,
     ValidationError,
@@ -7,6 +9,7 @@ from forging_blocks.foundation import (
 )
 
 
+@pytest.mark.unit
 class TestValidationError:
     def test_constructor(self) -> None:
         message = ErrorMessage("Validation failed")
@@ -16,6 +19,7 @@ class TestValidationError:
         assert isinstance(error, ValidationError)
 
 
+@pytest.mark.unit
 class TestValidationFieldErrors:
     def test_constructor(self) -> None:
         message = ErrorMessage("Username validation failed")

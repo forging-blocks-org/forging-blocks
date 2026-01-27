@@ -5,6 +5,7 @@ from forging_blocks.foundation import (
 )
 
 
+@pytest.mark.unit
 class TestErrorMetadata:
     def test_context_when_context_defined_then_context_equals_to_argument(self) -> None:
         context = {"key": "value"}

@@ -1,5 +1,6 @@
 from typing import Any
 from unittest.mock import AsyncMock, MagicMock
+import pytest
 
 from pytest import fixture
 
@@ -16,6 +17,7 @@ class FakeCommand(Command[str]):
         return {"foo": "foo"}
 
 
+@pytest.mark.unit
 class TestCommandSender:
     @fixture
     def message_bus(self) -> MagicMock:
