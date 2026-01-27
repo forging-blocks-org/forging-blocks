@@ -164,9 +164,8 @@ lint = { cmd = "ruff check ." }
 type = "mypy src"
 bandit = "bandit -r src -x tests"
 
-test = "pytest -m 'unit or integration'"
+test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "pytest" }
 "test:all" = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "pytest" }
-"test:stable" = "pytest -m 'unit or integration' --ignore=tests/scripts/release/infrastructure/github/test_github_cli_pull_request_service.py"
 "test:unit" = "pytest -m unit"
 "test:integration" = "pytest -m integration"
 "test:e2e" = "pytest -m e2e"

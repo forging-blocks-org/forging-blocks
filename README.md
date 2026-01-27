@@ -119,14 +119,12 @@ poetry run poe ci:check
 
 ```bash
 # Testing - Primary Commands
-poetry run poe test              # Run all stable tests (unit + integration)
+poetry run poe test              # Run ALL tests (recommended)
 poetry run poe test:unit         # Run unit tests only (fast feedback)
 poetry run poe test:integration  # Run integration tests only
-
-# Testing - Extended Commands
-poetry run poe test:all          # Run ALL tests including those needing setup
-poetry run poe test:stable       # Run stable tests (excludes GitHub CLI)
 poetry run poe test:e2e          # Run end-to-end tests only
+
+# Testing - Alternative Commands
 poetry run poe test:debug        # Run tests with verbose output
 
 # Code quality
@@ -159,8 +157,7 @@ poetry run poe test:unit    # ⚡ Fast (~1s) - run frequently
 
 **Verify integrations before commits:**
 ```bash
-poetry run poe test         # ✅ Stable tests (~3s) - run before push
-poetry run poe test:all     # 🔍 Comprehensive (~5s) - includes environment-dependent tests
+poetry run poe test         # 🔍 Complete test suite (~3s) - run before commits
 ```
 
 See [Testing Guide](https://forging-blocks-org.github.io/forging-blocks/guide/testing/) for detailed information.
