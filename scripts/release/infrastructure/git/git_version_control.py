@@ -17,7 +17,9 @@ class GitVersionControl(VersionControl):
     ) -> bool:
         logging.info(f"Checking if branch {branch.value} exists...")
         try:
-            self._runner.run(["git", "rev-parse", "--verify", branch.value], suppress_error_log=True)
+            self._runner.run(
+                ["git", "rev-parse", "--verify", branch.value], suppress_error_log=True
+            )
             logging.info(f"✓ Branch {branch.value} exists")
             return True
         except RuntimeError:
@@ -34,8 +36,14 @@ class GitVersionControl(VersionControl):
 
     def checkout_main(self) -> None:
         logging.info("Checking out main branch...")
-        self._runner.run(["git", "checkout", "main"])
-        logging.info("✓ Checked out main branch")
+        # Try 'main' first, fall back to 'master' for compatibility
+        try:
+            self._runner.run(["git", "checkout", "main"])
+            logging.info("✓ Checked out main branch")
+        except RuntimeError:
+            # Fallback to 'master' for older git repos or CI environments
+            self._runner.run(["git", "checkout", "master"])
+            logging.info("✓ Checked out master branch")
 
     def commit_release_artifacts(self) -> None:
         logging.info("Committing release artifacts...")
@@ -104,7 +112,9 @@ class GitVersionControl(VersionControl):
 
     def remote_branch_exists(self, branch: ReleaseBranchName) -> bool:
         try:
-            self._runner.run(["git", "ls-remote", "--exit-code", "origin", branch.value])
+            self._runner.run(
+                ["git", "ls-remote", "--exit-code", "origin", branch.value]
+            )
             return True
         except RuntimeError:
             return False
@@ -115,7 +125,9 @@ class GitVersionControl(VersionControl):
     ) -> bool:
         logging.info(f"Checking if tag {tag.value} exists...")
         try:
-            self._runner.run(["git", "rev-parse", "--verify", tag.value], suppress_error_log=True)
+            self._runner.run(
+                ["git", "rev-parse", "--verify", tag.value], suppress_error_log=True
+            )
             logging.info(f"✓ Tag {tag.value} already exists")
             return True
         except RuntimeError:
