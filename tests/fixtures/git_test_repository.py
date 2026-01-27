@@ -12,11 +12,16 @@ class GitTestRepository:
     def init(cls, path: Path) -> GitTestRepository:
         subprocess_run(["git", "init"], cwd=path, check=True)
         subprocess_run(["git", "config", "user.name", "Test"], cwd=path, check=True)
-        subprocess_run(["git", "config", "user.email", "test@example.com"], cwd=path, check=True)
+        subprocess_run(
+            ["git", "config", "user.email", "test@example.com"], cwd=path, check=True
+        )
 
         (path / "README.md").write_text("init")
         subprocess_run(["git", "add", "."], cwd=path, check=True)
         subprocess_run(["git", "commit", "-m", "init"], cwd=path, check=True)
+
+        # Rename default branch to 'main' to ensure consistency across environments
+        subprocess_run(["git", "branch", "-M", "main"], cwd=path, check=True)
 
         return cls(path)
 
