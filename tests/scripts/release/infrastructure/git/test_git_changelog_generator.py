@@ -106,14 +106,28 @@ class TestGitChangelogGeneratorIntegration:
         git_repo: GitTestRepository,
     ) -> None:
         # Arrange
+        import os
+        from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
+        
+        # Create an initial tag
+        git_repo.create_tag("v0.0.0")
+        
         git_repo.write_file("file.txt", "x")
         git_repo.commit("feat: new feature")
 
-        generator = GitChangelogGenerator()
-        request = ChangelogRequest(from_version="0.0.0")
+        # Change to the test repository directory so GitChangelogGenerator works
+        original_cwd = os.getcwd()
+        os.chdir(git_repo._path)
+        
+        try:
+            generator = GitChangelogGenerator(SubprocessCommandRunner())
+            request = ChangelogRequest(from_version="0.0.0")
 
-        # Act
-        response = await generator.generate(request)
+            # Act
+            response = await generator.generate(request)
 
-        # Assert
-        assert any("feat: new feature" in entry for entry in response.entries)
+            # Assert
+            assert any("feat: new feature" in entry for entry in response.entries)
+        finally:
+            # Restore original directory
+            os.chdir(original_cwd)

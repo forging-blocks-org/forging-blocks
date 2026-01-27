@@ -17,6 +17,7 @@ class CommandRunner(ABC):
         cmd: list[str],
         *,
         check: bool = True,
+        suppress_error_log: bool = False,
     ) -> str:
         """
         Run a shell command and return its output.

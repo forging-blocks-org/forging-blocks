@@ -235,39 +235,26 @@ class TestGitVersionControlIntegration:
         git_repo: GitTestRepository,
     ) -> None:
         # Arrange
+        import os
         from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
-        version_control = GitVersionControl(SubprocessCommandRunner())
-        git_repo.write_file("CHANGELOG.md", "changes")
-        git_repo.commit("Add CHANGELOG.md")
-
-        # Modify the tracked file
-        git_repo.write_file("CHANGELOG.md", "updated changes")
         
-        # Check status before commit
-        import subprocess
-        result = subprocess.run(
-            ["git", "status", "--porcelain"],
-            cwd=git_repo._path,
-            capture_output=True,
-            text=True
-        )
-        print(f"Git status before commit: '{result.stdout.strip()}'")
-
-        # Act (this should commit the modified tracked file using -am)
+        # Change to the test repository directory
+        original_cwd = os.getcwd()
+        os.chdir(git_repo._path)
+        
         try:
+            version_control = GitVersionControl(SubprocessCommandRunner())
+            git_repo.write_file("CHANGELOG.md", "changes")
+            git_repo.commit("Add CHANGELOG.md")
+
+            # Modify the tracked file
+            git_repo.write_file("CHANGELOG.md", "updated changes")
+
+            # Act (this should commit the modified tracked file using -am)
             version_control.commit_release_artifacts()
-        except Exception as e:
-            print(f"Exception during commit: {e}")
-            raise
 
-        # Check status after commit
-        result = subprocess.run(
-            ["git", "status", "--porcelain"],
-            cwd=git_repo._path,
-            capture_output=True,
-            text=True
-        )
-        print(f"Git status after commit: '{result.stdout.strip()}'")
-
-        # Assert
-        assert git_repo.last_commit_message() == "chore(release): prepare release"
+            # Assert
+            assert git_repo.last_commit_message() == "chore(release): prepare release"
+        finally:
+            # Restore original directory
+            os.chdir(original_cwd)

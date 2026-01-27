@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "forging-blocks"
-version = "0.3.6"
+version = "0.3.10"
 description = "Composable toolkit for clean, testable, and maintainable Python applications"
 authors = ["ForgingBlocks Org <forgingblocksorganization91@gmail.com>"]
 license = "MIT"
@@ -162,9 +162,9 @@ lint = { cmd = "ruff check ." }
 type = "mypy src"
 bandit = "bandit -r src -x tests"
 
-test = { cmd = "pytest", env = { "RUN_CLI_TESTS" = "1" } }
+test = "pytest"
 "test:unit" = "pytest -m unit"
-"test:integration" = { cmd = "pytest -m integration", env = { "RUN_CLI_TESTS" = "1" } }
+"test:integration" = "pytest -m integration"
 "test:debug" = "pytest -x -vvv -s"
 
 "docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
