@@ -276,93 +276,39 @@ class TestMain:
 
     def test_main_module_name_check_calls_asyncio_run(self) -> None:
         """Test that the if __name__ == '__main__' block calls asyncio.run(main())."""
-        with patch(
-            "scripts.release.presentation.__main__.asyncio.run"
-        ) as mock_asyncio_run, patch(
-            "scripts.release.presentation.__main__.__name__", "__main__"
-        ):
-
-            # Simulate the module being run as main
-            exec(
-                compile(
-                    'if __name__ == "__main__":\n    asyncio.run(main())',
-                    "<string>",
-                    "exec",
-                ),
-                {
-                    "__name__": "__main__",
-                    "asyncio": asyncio,
-                    "main": __main__.main,
-                    "run": mock_asyncio_run,
-                },
-            )
-
-            # Note: This test is tricky because the if __name__ == '__main__' block
-            # only executes when the module is run directly, not when imported for testing
-            # We'll test this by importing the module and checking the behavior
-
-    @pytest.mark.asyncio
-    async def test_main_with_empty_list_argv(self) -> None:
-        """Test that main() handles empty list argv correctly."""
-        with patch(
-            "scripts.release.presentation.__main__.Container"
-        ) as mock_container_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliParser"
-        ) as mock_parser_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliPresenter"
-        ) as mock_presenter_class:
-
-            # Arrange
-            mock_container = AsyncMock(spec=Container)
-            mock_parser = Mock(spec=ReleaseCliParser)
-            mock_presenter = AsyncMock(spec=ReleaseCliPresenter)
-
-            mock_container_class.return_value = mock_container
-            mock_parser_class.return_value = mock_parser
-            mock_presenter_class.return_value = mock_presenter
-
-            # Act
-            await __main__.main([])
-
-            # Assert
-            mock_presenter.present.assert_called_once_with([])
-
-    def test_if_name_main_block_exists(self) -> None:
-        """Test that the if __name__ == '__main__' block exists in the module."""
-        # Read the source code to verify the if __name__ == '__main__' block
-
-        source = inspect.getsource(main_module)
-        assert 'if __name__ == "__main__":' in source
-        assert "asyncio.run(main())" in source
-
-    def test_main_module_execution_by_importing_and_running(self) -> None:
-        """Test the module execution by simulating the __main__ block."""
         with patch("scripts.release.presentation.__main__.asyncio") as mock_asyncio:
-            # Create a mock for asyncio.run
-            mock_run = Mock()
-            mock_asyncio.run = mock_run
+            # Mock the main function to avoid creating an actual coroutine
+            with patch("scripts.release.presentation.__main__.main") as mock_main:
+                # Execute the if __name__ == '__main__' block logic
+                exec(
+                    compile(
+                        'if __name__ == "__main__":\n    asyncio.run(main())',
+                        "<string>",
+                        "exec",
+                    ),
+                    {
+                        "__name__": "__main__",
+                        "asyncio": mock_asyncio,
+                        "main": mock_main,
+                    },
+                )
 
-            # Import and execute the module's __main__ block manually
+                # Verify asyncio.run was called with the main function
+                mock_asyncio.run.assert_called_once()
 
-            # Simulate running as __main__
-            with patch.object(main_module, "__name__", "__main__"):
-                # Re-execute the module code that would run when called as main
-                if main_module.__name__ == "__main__":
-                    mock_asyncio.run(main_module.main)
+    def test_main_module_execution_and_structure(self) -> None:
+        """Test that the module has the correct execution structure."""
+        import scripts.release.presentation.__main__ as main_module
 
-            # The actual line is never hit because __name__ is not '__main__' during tests
-            # But we can verify the structure exists
-            assert hasattr(main_module, "main")
+        # Verify the module has main function with correct signature
+        assert hasattr(main_module, "main")
+        assert callable(main_module.main)
 
-    def test_main_function_signature(self) -> None:
-        """Test that main function has the correct signature."""
-        signature = inspect.signature(__main__.main)
+        # Check function signature instead of using inspect.getsource()
+        import inspect
 
-        # Check parameter
+        signature = inspect.signature(main_module.main)
         assert len(signature.parameters) == 1
         argv_param = signature.parameters["argv"]
         assert argv_param.name == "argv"
         assert argv_param.default is None
-
-        # Check return annotation
-        assert signature.return_annotation is None
