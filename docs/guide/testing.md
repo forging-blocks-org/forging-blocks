@@ -111,15 +111,12 @@ poetry run poe test:unit         # Run unit tests only (fast feedback)
 poetry run poe test:integration  # Run integration tests only
 
 # Extended Commands (for comprehensive testing)
-poetry run poe test:all          # Run ALL tests including those needing setup
-poetry run poe test:stable       # Run stable tests (excludes GitHub CLI)
 poetry run poe test:e2e          # Run end-to-end tests only
 poetry run poe test:debug        # Debug mode with verbose output
 ```
 
 **Understanding Test Results:**
 - `poetry run poe test` runs **ALL** tests including E2E (complete confidence)
-- `poetry run poe test:all` runs **ALL** tests including those requiring special setup
 - Some tests are **conditionally skipped** based on environment configuration
 - Skipped tests are still valuable as documentation of system capabilities
 

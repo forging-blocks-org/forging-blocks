@@ -119,8 +119,6 @@ poetry run poe test:unit         # Run unit tests only (fast feedback)
 poetry run poe test:integration  # Run integration tests only
 
 # Testing - Extended Commands
-poetry run poe test:all          # Run ALL tests including those needing setup
-poetry run poe test:stable       # Run stable tests (excludes GitHub CLI)
 poetry run poe test:e2e          # Run end-to-end tests only
 poetry run poe test:debug        # Run tests with verbose output
 

@@ -8,12 +8,10 @@ This document provides a comprehensive reference for testing in the ForgingBlock
 
 | Command | Purpose | Speed | Use Case |
 |---------|---------|-------|----------|
-| `poe test` | Run all stable tests | ~3s | CI, pre-commit, reliable development |
-| `poe test:all` | Run ALL tests (including conditional) | ~4s | Comprehensive testing, release validation |
-| `poe test:stable` | Stable tests excluding GitHub CLI | ~3s | Guaranteed pass environment |
-| `poe test:unit` | Unit tests only | ~1s | Development, TDD |
-| `poe test:integration` | Integration tests only | ~2s | Verify external integrations |
-| `poe test:e2e` | E2E tests only | Instant (skipped) | Documentation, special environments |
+| `poe test` | Run ALL tests | ~1.2s | CI, pre-commit, complete confidence |
+| `poe test:unit` | Unit tests only | ~0.8s | Development, TDD, fast feedback |
+| `poe test:integration` | Integration tests only | ~0.4s | Verify external integrations |
+| `poe test:e2e` | E2E tests only | ~0.3s | Complete workflow validation |
 | `poe test:debug` | Verbose output | Variable | Debugging failures |
 
 ### Test Categories
