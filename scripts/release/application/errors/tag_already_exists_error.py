@@ -1,8 +1,6 @@
 from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.errors.rule_violation_error import RuleViolationError
 
-from scripts.release.domain.value_objects.tag_name import TagName
-
 
 # RuntimeError
 class TagAlreadyExistsError(RuleViolationError):
