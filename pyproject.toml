@@ -153,6 +153,7 @@ addopts = [
 markers = [
   "unit: mark tests as unit tests",
   "integration: mark tests as integration tests",
+  "e2e: mark tests as end-to-end tests",
 ]
 
 [tool.poe.tasks]
@@ -162,9 +163,12 @@ lint = { cmd = "ruff check ." }
 type = "mypy src"
 bandit = "bandit -r src -x tests"
 
-test = "pytest"
+test = "pytest -m 'unit or integration'"
+"test:all" = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "pytest" }
+"test:stable" = "pytest -m 'unit or integration' --ignore=tests/scripts/release/infrastructure/github/test_github_cli_pull_request_service.py"
 "test:unit" = "pytest -m unit"
 "test:integration" = "pytest -m integration"
+"test:e2e" = "pytest -m e2e"
 "test:debug" = "pytest -x -vvv -s"
 
 "docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
