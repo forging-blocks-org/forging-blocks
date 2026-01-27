@@ -115,6 +115,19 @@ class PrepareReleaseService(PrepareReleaseUseCase):
 
             self._version_control.commit_release_artifacts()
 
+            # Push the release branch to origin so PR can be created
+            self._version_control.push(context.branch, push_tags=False)
+            
+            # Register cleanup step to remove remote branch if something fails
+            self._transaction.register_step(
+                ReleaseStep(
+                    name="delete_remote_branch",
+                    undo=lambda branch=context.branch: self._version_control.delete_remote_branch(
+                        branch
+                    ),
+                )
+            )
+
             # Note: Tag creation is handled by GitHub Actions after PR merge
 
     def _global_setup(self) -> None:
