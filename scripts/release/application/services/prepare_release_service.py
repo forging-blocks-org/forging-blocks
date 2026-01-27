@@ -1,4 +1,5 @@
 import logging
+
 from scripts.release.application.workflow import ReleaseContext, ReleaseStep
 from scripts.release.application.errors.tag_already_exists_error import (
     TagAlreadyExistsError,
@@ -117,7 +118,7 @@ class PrepareReleaseService(PrepareReleaseUseCase):
 
             # Push the release branch to origin so PR can be created
             self._version_control.push(context.branch, push_tags=False)
-            
+
             # Register cleanup step to remove remote branch if something fails
             self._transaction.register_step(
                 ReleaseStep(
