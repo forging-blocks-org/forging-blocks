@@ -38,13 +38,14 @@ class SubprocessCommandRunner(CommandRunner):
         cmd: list[str],
         *,
         check: bool = True,
+        suppress_error_log: bool = False,
     ) -> str:
         """
         Run a command and return stdout.
 
         Raises RuntimeError on failure.
         """
-        logging.info(f"Running command: {' '.join(cmd)}")
+        logging.debug(f"Running command: {' '.join(cmd)}")
 
         try:
             result = subprocess.run(
@@ -57,5 +58,7 @@ class SubprocessCommandRunner(CommandRunner):
 
             return result.stdout.strip()
         except subprocess.CalledProcessError as exc:
-            logging.error(f"Command failed: {' '.join(cmd)}\n{exc.stderr}")
+            # Log as debug if it's an expected failure, error if unexpected
+            log_level = logging.DEBUG if suppress_error_log else logging.ERROR
+            logging.log(log_level, f"Command failed: {' '.join(cmd)}\n{exc.stderr}")
             raise RuntimeError(f"Command failed: {' '.join(cmd)}\n{exc.stderr}") from exc

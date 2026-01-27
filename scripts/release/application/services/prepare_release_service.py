@@ -1,3 +1,4 @@
+import logging
 from scripts.release.application.workflow import ReleaseContext, ReleaseStep
 from scripts.release.application.errors.tag_already_exists_error import (
     TagAlreadyExistsError,
@@ -76,6 +77,7 @@ class PrepareReleaseService(PrepareReleaseUseCase):
 
     def _ensure_tag_doesnt_exist(self, tag: TagName) -> None:
         if self._version_control.tag_exists(tag):
+            logging.error(f"Tag {tag.value} already exists! Cannot proceed with release.")
             raise TagAlreadyExistsError(tag.value)
 
     def _make_output(self, context: ReleaseContext) -> PrepareReleaseOutput:
@@ -112,7 +114,7 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             )
 
             self._version_control.commit_release_artifacts()
-            
+
             # Note: Tag creation is handled by GitHub Actions after PR merge
 
     def _global_setup(self) -> None:

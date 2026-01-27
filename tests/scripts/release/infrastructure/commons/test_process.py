@@ -25,3 +25,13 @@ class TestSubprocessCommandRunner:
         result = runner.run(["false"], check=False)
 
         assert result == ""  # 'false' produces no output
+
+    def test_run_with_suppress_error_log_still_raises_runtime_error(self):
+        runner = SubprocessCommandRunner()
+
+        try:
+            runner.run(["false"], suppress_error_log=True)
+        except RuntimeError as e:
+            assert "Command failed: false" in str(e)
+        else:
+            assert False, "Expected RuntimeError was not raised"

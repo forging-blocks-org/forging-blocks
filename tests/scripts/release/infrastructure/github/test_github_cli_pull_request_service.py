@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 import uuid
 
 from scripts.release.infrastructure.github.github_cli_pull_request_service import (
@@ -9,6 +10,7 @@ from scripts.release.domain.entities import ReleasePullRequest
 from scripts.release.domain.value_objects import ReleaseBranchName
 
 
+@pytest.mark.integration
 class TestGitHubCliPullRequestServiceIntegration:
     def test_open_when_called_then_pull_request_created(
         self,

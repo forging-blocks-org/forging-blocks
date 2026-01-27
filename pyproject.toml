@@ -162,7 +162,9 @@ lint = { cmd = "ruff check ." }
 type = "mypy src"
 bandit = "bandit -r src -x tests"
 
-test = "pytest"
+test = { cmd = "pytest", env = { "RUN_CLI_TESTS" = "1" } }
+"test:unit" = "pytest -m unit"
+"test:integration" = { cmd = "pytest -m integration", env = { "RUN_CLI_TESTS" = "1" } }
 "test:debug" = "pytest -x -vvv -s"
 
 "docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }

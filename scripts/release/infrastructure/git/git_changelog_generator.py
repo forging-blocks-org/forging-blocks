@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import subprocess
-
 from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
 from scripts.release.application.errors.change_log_generation_error import ChangelogGenerationError
 from scripts.release.application.ports.outbound import (
@@ -30,10 +28,10 @@ class GitChangelogGenerator(ChangelogGenerator):
                 ],
                 check=True,
             )
-        except subprocess.CalledProcessError as e:
-            raise ChangelogGenerationError(f"Failed to generate changelog: {e.stderr}") from e
+        except RuntimeError as e:
+            raise ChangelogGenerationError(f"Failed to generate changelog: {e}") from e
 
-        entries = self._parse_git_output(result.stdout)
+        entries = self._parse_git_output(result)
 
         return ChangelogResponse(entries=entries)
 

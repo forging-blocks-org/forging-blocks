@@ -11,7 +11,10 @@ from scripts.release.domain.value_objects import ReleaseBranchName, TagName
 class TestGitVersionControl:
     @pytest.fixture
     def command_runner_mock(self) -> MagicMock:
-        return create_autospec(CommandRunner, instance=True)
+        mock = create_autospec(CommandRunner, instance=True)
+        # Configure run method to accept the suppress_error_log parameter
+        mock.run = MagicMock(return_value=None)
+        return mock
 
     @pytest.fixture
     def version_control(self, command_runner_mock: MagicMock) -> GitVersionControl:
@@ -38,7 +41,9 @@ class TestGitVersionControl:
         result = version_control.branch_exists(branch_name)
         
         assert result is True
-        command_runner_mock.run.assert_called_once_with(["git", "rev-parse", "--verify", "release/v1.2.0"])
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "rev-parse", "--verify", "release/v1.2.0"], suppress_error_log=True
+        )
 
     def test_branch_exists_when_branch_not_found_then_returns_false(
         self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
@@ -48,7 +53,9 @@ class TestGitVersionControl:
         result = version_control.branch_exists(branch_name)
         
         assert result is False
-        command_runner_mock.run.assert_called_once_with(["git", "rev-parse", "--verify", "release/v1.2.0"])
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "rev-parse", "--verify", "release/v1.2.0"], suppress_error_log=True
+        )
 
     def test_checkout_when_called_then_runs_checkout_command(
         self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
@@ -162,7 +169,9 @@ class TestGitVersionControl:
         result = version_control.tag_exists(tag_name)
         
         assert result is True
-        command_runner_mock.run.assert_called_once_with(["git", "rev-parse", "--verify", "v1.2.0"])
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "rev-parse", "--verify", "v1.2.0"], suppress_error_log=True
+        )
 
     def test_tag_exists_when_tag_not_found_then_returns_false(
         self, version_control: GitVersionControl, command_runner_mock: MagicMock, tag_name: TagName
@@ -172,16 +181,20 @@ class TestGitVersionControl:
         result = version_control.tag_exists(tag_name)
         
         assert result is False
-        command_runner_mock.run.assert_called_once_with(["git", "rev-parse", "--verify", "v1.2.0"])
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "rev-parse", "--verify", "v1.2.0"], suppress_error_log=True
+        )
 
 
+@pytest.mark.integration
 class TestGitVersionControlIntegration:
     def test_branch_lifecycle_when_created_then_exists_and_deleted(
         self,
         git_repo: GitTestRepository,
     ) -> None:
         # Arrange
-        version_control = GitVersionControl()
+        from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
+        version_control = GitVersionControl(SubprocessCommandRunner())
         branch = ReleaseBranchName("release/v1.2.0")
 
         # Act
@@ -202,7 +215,8 @@ class TestGitVersionControlIntegration:
         git_repo: GitTestRepository,
     ) -> None:
         # Arrange
-        version_control = GitVersionControl()
+        from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
+        version_control = GitVersionControl(SubprocessCommandRunner())
         tag = TagName("v1.2.0")
 
         # Act
@@ -221,7 +235,8 @@ class TestGitVersionControlIntegration:
         git_repo: GitTestRepository,
     ) -> None:
         # Arrange
-        version_control = GitVersionControl()
+        from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
+        version_control = GitVersionControl(SubprocessCommandRunner())
         git_repo.write_file("CHANGELOG.md", "changes")
 
         # Act

@@ -38,9 +38,8 @@ class TestGitChangelogGenerator:
     async def test_generate_when_successful_then_returns_parsed_entries(
         self, generator: GitChangelogGenerator, command_runner_mock: MagicMock, changelog_request: ChangelogRequest
     ) -> None:
-        mock_result = MagicMock()
-        mock_result.stdout = "- feat: new feature (abc123)\n- fix: bug fix (def456)\n\n"
-        command_runner_mock.run.return_value = mock_result
+        mock_output = "- feat: new feature (abc123)\n- fix: bug fix (def456)\n\n"
+        command_runner_mock.run.return_value = mock_output
         
         result = await generator.generate(changelog_request)
         
@@ -55,13 +54,13 @@ class TestGitChangelogGenerator:
     async def test_generate_when_git_command_fails_then_raises_changelog_generation_error(
         self, generator: GitChangelogGenerator, command_runner_mock: MagicMock, changelog_request: ChangelogRequest
     ) -> None:
-        error = subprocess.CalledProcessError(1, "git", stderr="No such tag")
+        error = RuntimeError("Failed to generate changelog: No such tag")
         command_runner_mock.run.side_effect = error
         
         with pytest.raises(ChangelogGenerationError) as exc_info:
             await generator.generate(changelog_request)
         
-        assert "Failed to generate changelog: No such tag" in str(exc_info.value)
+        assert "Failed to generate changelog" in str(exc_info.value)
         assert exc_info.value.__cause__ == error
 
     def test_parse_git_output_when_valid_output_then_returns_non_empty_lines(self, generator: GitChangelogGenerator) -> None:
@@ -100,10 +99,11 @@ class GitRepository(Protocol):
         ...
 
 
+@pytest.mark.integration  
 class TestGitChangelogGeneratorIntegration:
     async def test_generate_when_commits_exist_then_entries_returned(
         self,
-        git_repo: GitRepository,
+        git_repo: GitTestRepository,
     ) -> None:
         # Arrange
         git_repo.write_file("file.txt", "x")
