@@ -238,12 +238,12 @@ class TestGitVersionControlIntegration:
         from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
         version_control = GitVersionControl(SubprocessCommandRunner())
         git_repo.write_file("CHANGELOG.md", "changes")
-        git_repo.commit("Add CHANGELOG.md")  # Stage the file first
-        
-        # Modify the file  
+        git_repo.commit("Add CHANGELOG.md")
+
+        # Modify the tracked file
         git_repo.write_file("CHANGELOG.md", "updated changes")
 
-        # Act
+        # Act (this should commit the modified tracked file using -am)
         version_control.commit_release_artifacts()
 
         # Assert
