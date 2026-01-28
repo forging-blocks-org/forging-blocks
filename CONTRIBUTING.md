@@ -114,7 +114,7 @@ See the [Testing Guide](https://forging-blocks-org.github.io/forging-blocks/guid
 
 ```bash
 # Testing - Primary Commands
-poetry run poe test              # Run all stable tests (unit + integration)
+poetry run poe test              # Run ALL tests (stable + conditional)
 poetry run poe test:unit         # Run unit tests only (fast feedback)
 poetry run poe test:integration  # Run integration tests only
 
