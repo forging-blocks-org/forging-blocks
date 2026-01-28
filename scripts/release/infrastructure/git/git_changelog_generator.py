@@ -48,7 +48,9 @@ class GitChangelogGenerator(ChangelogGenerator):
 
         # First, check if the requested tag exists
         try:
-            self._runner.run(["git", "rev-parse", "--verify", requested_tag], suppress_error_log=True)
+            self._runner.run(
+                ["git", "rev-parse", "--verify", requested_tag], suppress_error_log=True
+            )
             return requested_tag
         except RuntimeError:
             pass  # Tag doesn't exist, try to find the latest tag
