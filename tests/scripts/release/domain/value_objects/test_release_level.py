@@ -1,14 +1,14 @@
 import pytest
-
+from scripts.release.domain.errors.invalid_release_level_error import (
+    InvalidReleaseLevelError,
+)
 from scripts.release.domain.value_objects.release_level import (
     ReleaseLevel,
     ReleaseLevelEnum,
 )
-from scripts.release.domain.errors.invalid_release_level_error import (
-    InvalidReleaseLevelError,
-)
 
 
+@pytest.mark.unit
 class TestReleaseLevel:
     def test_init_when_valid_enum_then_success(self) -> None:
         level = ReleaseLevel(ReleaseLevelEnum.PATCH)

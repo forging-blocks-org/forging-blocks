@@ -1,14 +1,14 @@
-import pytest
-from unittest.mock import Mock, patch
-from dataclasses import dataclass
+from unittest.mock import Mock
 
+import pytest
+from scripts.release.application.ports.outbound import OpenPullRequestOutput
+from scripts.release.infrastructure.commons.process import CommandRunner
 from scripts.release.infrastructure.github.github_cli_pull_request_service import (
     GitHubCliPullRequestService,
 )
-from scripts.release.infrastructure.commons.process import CommandRunner
+
 from scripts.release.domain.entities import ReleasePullRequest
 from scripts.release.domain.value_objects import ReleaseBranchName
-from scripts.release.application.ports.outbound import OpenPullRequestOutput
 
 
 @pytest.mark.unit
@@ -34,7 +34,7 @@ class TestGitHubCliPullRequestService:
         """Test that constructor uses the provided command runner."""
         # Act
         service = GitHubCliPullRequestService(runner=mock_command_runner)
-        
+
         # Assert
         assert service._runner is mock_command_runner
 
@@ -42,7 +42,7 @@ class TestGitHubCliPullRequestService:
         """Test that constructor creates SubprocessCommandRunner when runner is None."""
         # Act
         service = GitHubCliPullRequestService(runner=None)
-        
+
         # Assert
         # We can't directly test the type due to imports, but we can test it's not None
         assert service._runner is not None
@@ -51,12 +51,12 @@ class TestGitHubCliPullRequestService:
         """Test that constructor creates default runner when no parameter provided."""
         # Act
         service = GitHubCliPullRequestService()
-        
+
         # Assert
         assert service._runner is not None
 
     def test_open_calls_gh_pr_create_with_correct_parameters(
-        self, 
+        self,
         service_with_mock_runner: GitHubCliPullRequestService,
         mock_command_runner: Mock,
         sample_pull_request: ReleasePullRequest,
@@ -65,7 +65,7 @@ class TestGitHubCliPullRequestService:
         # Arrange
         expected_url = "https://github.com/owner/repo/pull/123"
         mock_command_runner.run.return_value = expected_url
-        
+
         expected_command = [
             "gh",
             "pr",
@@ -79,15 +79,15 @@ class TestGitHubCliPullRequestService:
             "--body",
             "Automated release for version 1.2.3",
         ]
-        
+
         # Act
         service_with_mock_runner.open(sample_pull_request)
-        
+
         # Assert
         mock_command_runner.run.assert_called_once_with(expected_command)
 
     def test_open_extracts_pr_id_from_url(
-        self, 
+        self,
         service_with_mock_runner: GitHubCliPullRequestService,
         mock_command_runner: Mock,
         sample_pull_request: ReleasePullRequest,
@@ -96,16 +96,16 @@ class TestGitHubCliPullRequestService:
         # Arrange
         expected_url = "https://github.com/owner/repo/pull/456/"
         mock_command_runner.run.return_value = expected_url
-        
+
         # Act
         result = service_with_mock_runner.open(sample_pull_request)
-        
+
         # Assert
         assert result.pr_id == "456"
         assert result.url == expected_url
 
     def test_open_handles_url_without_trailing_slash(
-        self, 
+        self,
         service_with_mock_runner: GitHubCliPullRequestService,
         mock_command_runner: Mock,
         sample_pull_request: ReleasePullRequest,
@@ -114,16 +114,16 @@ class TestGitHubCliPullRequestService:
         # Arrange
         expected_url = "https://github.com/owner/repo/pull/789"
         mock_command_runner.run.return_value = expected_url
-        
+
         # Act
         result = service_with_mock_runner.open(sample_pull_request)
-        
+
         # Assert
         assert result.pr_id == "789"
         assert result.url == expected_url
 
     def test_open_returns_open_pull_request_output(
-        self, 
+        self,
         service_with_mock_runner: GitHubCliPullRequestService,
         mock_command_runner: Mock,
         sample_pull_request: ReleasePullRequest,
@@ -132,10 +132,10 @@ class TestGitHubCliPullRequestService:
         # Arrange
         expected_url = "https://github.com/owner/repo/pull/123"
         mock_command_runner.run.return_value = expected_url
-        
+
         # Act
         result = service_with_mock_runner.open(sample_pull_request)
-        
+
         # Assert
         assert isinstance(result, OpenPullRequestOutput)
         assert result.pr_id == "123"
@@ -152,7 +152,7 @@ class TestGitHubCliPullRequestService:
         ],
     )
     def test_open_extracts_correct_pr_id_from_various_urls(
-        self, 
+        self,
         service_with_mock_runner: GitHubCliPullRequestService,
         mock_command_runner: Mock,
         sample_pull_request: ReleasePullRequest,
@@ -162,16 +162,16 @@ class TestGitHubCliPullRequestService:
         """Test that open() correctly extracts PR ID from various URL formats."""
         # Arrange
         mock_command_runner.run.return_value = pr_url
-        
+
         # Act
         result = service_with_mock_runner.open(sample_pull_request)
-        
+
         # Assert
         assert result.pr_id == expected_pr_id
         assert result.url == pr_url
 
     def test_open_with_different_pull_request_data(
-        self, 
+        self,
         service_with_mock_runner: GitHubCliPullRequestService,
         mock_command_runner: Mock,
     ) -> None:
@@ -183,10 +183,10 @@ class TestGitHubCliPullRequestService:
             title="Release v2.0.1 - Pre-release",
             body="This is a pre-release with breaking changes.\n\nSee CHANGELOG.md for details.",
         )
-        
+
         expected_url = "https://github.com/org/repo/pull/100"
         mock_command_runner.run.return_value = expected_url
-        
+
         expected_command = [
             "gh",
             "pr",
@@ -200,17 +200,17 @@ class TestGitHubCliPullRequestService:
             "--body",
             "This is a pre-release with breaking changes.\n\nSee CHANGELOG.md for details.",
         ]
-        
+
         # Act
         result = service_with_mock_runner.open(pr)
-        
+
         # Assert
         mock_command_runner.run.assert_called_once_with(expected_command)
         assert result.pr_id == "100"
         assert result.url == expected_url
 
     def test_open_uses_release_branch_name_value(
-        self, 
+        self,
         service_with_mock_runner: GitHubCliPullRequestService,
         mock_command_runner: Mock,
     ) -> None:
@@ -223,19 +223,19 @@ class TestGitHubCliPullRequestService:
             title="Test Release",
             body="Test Body",
         )
-        
+
         mock_command_runner.run.return_value = "https://github.com/test/repo/pull/1"
-        
+
         # Act
         service_with_mock_runner.open(pr)
-        
+
         # Assert
         call_args = mock_command_runner.run.call_args[0][0]
         head_index = call_args.index("--head") + 1
         assert call_args[head_index] == "release/v3.1.4"
 
     def test_open_with_special_characters_in_title_and_body(
-        self, 
+        self,
         service_with_mock_runner: GitHubCliPullRequestService,
         mock_command_runner: Mock,
     ) -> None:
@@ -247,27 +247,27 @@ class TestGitHubCliPullRequestService:
             title="Release v1.0.0: Major Update with \"Quotes\" & Symbols",
             body="Release notes:\n- Feature A\n- Bug fix for issue #123\n- Update dependencies",
         )
-        
+
         expected_url = "https://github.com/test/repo/pull/42"
         mock_command_runner.run.return_value = expected_url
-        
+
         # Act
         result = service_with_mock_runner.open(pr)
-        
+
         # Assert
         call_args = mock_command_runner.run.call_args[0][0]
-        
+
         title_index = call_args.index("--title") + 1
         body_index = call_args.index("--body") + 1
-        
+
         assert call_args[title_index] == "Release v1.0.0: Major Update with \"Quotes\" & Symbols"
         assert call_args[body_index] == "Release notes:\n- Feature A\n- Bug fix for issue #123\n- Update dependencies"
-        
+
         assert result.pr_id == "42"
         assert result.url == expected_url
 
     def test_open_command_structure_is_correct(
-        self, 
+        self,
         service_with_mock_runner: GitHubCliPullRequestService,
         mock_command_runner: Mock,
         sample_pull_request: ReleasePullRequest,
@@ -275,30 +275,30 @@ class TestGitHubCliPullRequestService:
         """Test that the gh command structure follows the expected format."""
         # Arrange
         mock_command_runner.run.return_value = "https://github.com/test/repo/pull/1"
-        
+
         # Act
         service_with_mock_runner.open(sample_pull_request)
-        
+
         # Assert
         call_args = mock_command_runner.run.call_args[0][0]
-        
+
         # Verify command structure
         assert call_args[0] == "gh"
         assert call_args[1] == "pr"
         assert call_args[2] == "create"
-        
+
         # Verify all required flags are present
         assert "--base" in call_args
         assert "--head" in call_args
         assert "--title" in call_args
         assert "--body" in call_args
-        
+
         # Verify values follow flags
         base_index = call_args.index("--base")
         head_index = call_args.index("--head")
         title_index = call_args.index("--title")
         body_index = call_args.index("--body")
-        
+
         assert call_args[base_index + 1] == "main"
         assert call_args[head_index + 1] == "release/v1.2.3"
         assert call_args[title_index + 1] == "Release v1.2.3"

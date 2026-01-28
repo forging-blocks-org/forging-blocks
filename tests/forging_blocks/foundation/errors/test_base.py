@@ -10,6 +10,7 @@ from forging_blocks.foundation import (
 )
 
 
+@pytest.mark.unit
 class TestError:
     def test_message_when_message_defined_then_returns_message(self) -> None:
         message = ErrorMessage("An error occurred")
@@ -91,6 +92,7 @@ class TestError:
         assert debug_string == expected_debug_string
 
 
+@pytest.mark.unit
 class TestFieldErrors:
     def test__init__when_no_errors_but_field_then_raise_value_error(self) -> None:
         field_reference = FieldReference("username")
@@ -197,6 +199,7 @@ class TestFieldErrors:
         assert expected_field_reference == actual_field
 
 
+@pytest.mark.unit
 class TestCombinedErrors:
     def test_errors_when_errors_defined_then_returns_errors(self) -> None:
         field_reference = FieldReference("username")

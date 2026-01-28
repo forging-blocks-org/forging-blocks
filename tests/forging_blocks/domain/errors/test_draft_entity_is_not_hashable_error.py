@@ -1,9 +1,12 @@
+import pytest
+
 from forging_blocks.domain import (
     DraftEntityIsNotHashableError,
 )
 from forging_blocks.foundation import ErrorMessage
 
 
+@pytest.mark.unit
 class TestDraftEntityIsNotHashableError:
     def test_from_class_name(self) -> None:
         fake_class_name = "FakeDraftEntity"

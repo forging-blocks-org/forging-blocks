@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 from dataclasses import dataclass
 
 from forging_blocks.application.ports import UseCase
@@ -7,8 +8,7 @@ from forging_blocks.application.ports import UseCase
 
 @dataclass(frozen=True)
 class OpenReleasePullRequestInput:
-    """
-    Request DTO for creating a release pull request.
+    """Request DTO for creating a release pull request.
 
     All values are raw primitives.
     Validation and conversion to Value Objects
@@ -27,8 +27,7 @@ class OpenReleasePullRequestInput:
 
 @dataclass(frozen=True)
 class OpenReleasePullRequestOutput:
-    """
-    Response DTO for creating a release pull request.
+    """Response DTO for creating a release pull request.
     """
 
     pr_id: str | None
@@ -41,8 +40,7 @@ class OpenReleasePullRequestUseCase(
         OpenReleasePullRequestOutput,
     ]
 ):
-    """
-    Creates the release pull request representing
+    """Creates the release pull request representing
     the intent to publish a new version.
 
     Notes:
@@ -50,6 +48,7 @@ class OpenReleasePullRequestUseCase(
     - A merged PR triggers publishing and documentation deployment
     """
 
+    @abstractmethod
     async def execute(
         self,
         request: OpenReleasePullRequestInput,

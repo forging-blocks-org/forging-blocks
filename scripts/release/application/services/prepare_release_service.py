@@ -1,31 +1,32 @@
-from scripts.release.application.workflow import ReleaseContext, ReleaseStep
+import logging
+
 from scripts.release.application.errors.tag_already_exists_error import (
     TagAlreadyExistsError,
 )
-from scripts.release.domain.messages import OpenPullRequestCommand
-from scripts.release.domain.value_objects import (
-    ReleaseLevel,
-    ReleaseBranchName,
-    TagName,
-)
 from scripts.release.application.ports.inbound import (
-    PrepareReleaseUseCase,
     PrepareReleaseInput,
     PrepareReleaseOutput,
+    PrepareReleaseUseCase,
 )
 from scripts.release.application.ports.outbound import (
-    ReleaseTransaction,
-    VersioningService,
-    VersionControl,
     ChangelogGenerator,
     ChangelogRequest,
     ReleaseCommandBus,
+    ReleaseTransaction,
+    VersionControl,
+    VersioningService,
+)
+from scripts.release.application.workflow import ReleaseContext, ReleaseStep
+from scripts.release.domain.messages import OpenPullRequestCommand
+from scripts.release.domain.value_objects import (
+    ReleaseBranchName,
+    ReleaseLevel,
+    TagName,
 )
 
 
 class PrepareReleaseService(PrepareReleaseUseCase):
-    """
-    Application service responsible for preparing a release.
+    """Application service responsible for preparing a release.
 
     This use case is transactional:
     - either the release branch is fully prepared
@@ -76,6 +77,9 @@ class PrepareReleaseService(PrepareReleaseUseCase):
 
     def _ensure_tag_doesnt_exist(self, tag: TagName) -> None:
         if self._version_control.tag_exists(tag):
+            logging.error(
+                f"Tag {tag.value} already exists! Cannot proceed with release."
+            )
             raise TagAlreadyExistsError(tag.value)
 
     def _make_output(self, context: ReleaseContext) -> PrepareReleaseOutput:
@@ -90,7 +94,9 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         context: ReleaseContext,
     ) -> None:
         command = OpenPullRequestCommand(
-            version=context.version.value, branch=context.branch.value, dry_run=context.dry_run
+            version=context.version.value,
+            branch=context.branch.value,
+            dry_run=context.dry_run,
         )
         await self._message_bus.send(command)
 
@@ -112,7 +118,24 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             )
 
             self._version_control.commit_release_artifacts()
-            
+
+            # Register cleanup step to remove remote branch if something fails
+            # IMPORTANT: Register BEFORE push so rollback works even if push fails
+            def delete_remote_branch_lambda(
+                branch: ReleaseBranchName = context.branch,
+            ) -> None:
+                self._version_control.delete_remote_branch(branch)
+
+            self._transaction.register_step(
+                ReleaseStep(
+                    name="delete_remote_branch",
+                    undo=delete_remote_branch_lambda,
+                )
+            )
+
+            # Push the release branch to origin so PR can be created
+            self._version_control.push(context.branch, push_tags=False)
+
             # Note: Tag creation is handled by GitHub Actions after PR merge
 
     def _global_setup(self) -> None:
@@ -128,13 +151,15 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             self._version_control.checkout(context.branch)
         else:
             self._version_control.create_branch(context.branch)
+
+            def delete_local_branch_lambda(
+                branch: ReleaseBranchName = context.branch,
+            ) -> None:
+                self._version_control.delete_local_branch(branch)
+
             self._transaction.register_step(
                 ReleaseStep(
                     name="delete_local_branch",
-                    undo=lambda branch=context.branch: self._version_control.delete_local_branch(
-                        branch
-                    ),
+                    undo=delete_local_branch_lambda,
                 )
             )
-
-

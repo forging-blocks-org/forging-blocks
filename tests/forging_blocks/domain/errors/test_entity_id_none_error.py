@@ -1,6 +1,9 @@
+import pytest
+
 from forging_blocks.domain import EntityIdNoneError
 
 
+@pytest.mark.unit
 class TestEntityIdNoneError:
     def test_entity_id_none_error_message(self):
         # Arrange

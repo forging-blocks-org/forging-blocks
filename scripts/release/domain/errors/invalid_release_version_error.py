@@ -1,4 +1,4 @@
-from forging_blocks.foundation import ErrorMetadata, ErrorMessage, ValidationError
+from forging_blocks.foundation import ErrorMessage, ErrorMetadata, ValidationError
 
 
 class InvalidReleaseVersionError(ValidationError):

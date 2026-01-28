@@ -73,6 +73,7 @@ nav:
       - Application: reference/application.md
       - Infrastructure: reference/infrastructure.md
       - Presentation: reference/presentation.md
+      - Testing: reference/testing.md
 
   - Architectural Styles:
       - Overview: architectural-styles/index.md

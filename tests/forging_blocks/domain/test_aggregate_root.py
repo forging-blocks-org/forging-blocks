@@ -30,6 +30,7 @@ class OrderAggregate(AggregateRoot[int]):
         super().__init__(aggregate_id, version)
 
 
+@pytest.mark.unit
 class TestAggregateVersion:
     def test___init___when_value_is_not_int_then_raises_type_error(self) -> None:
         with pytest.raises(TypeError):
@@ -63,6 +64,7 @@ class TestAggregateVersion:
         assert a != b
 
 
+@pytest.mark.unit
 class TestAggregateRoot:
     def test___init___when_id_is_none_then_raises_entity_id_none_error(self) -> None:
         with pytest.raises(EntityIdNoneError):

@@ -1,16 +1,15 @@
-from scripts.release.application.ports.inbound.open_pull_request_command_handler import (
-    OpenPullRequestCommandHandler,
-)
 from scripts.release.application.ports.inbound import (
     OpenReleasePullRequestInput,
     OpenReleasePullRequestUseCase,
+)
+from scripts.release.application.ports.inbound.open_pull_request_command_handler import (
+    OpenPullRequestCommandHandler,
 )
 from scripts.release.domain.messages.open_pull_request_command import OpenPullRequestCommand
 
 
 class OpenPullRequestHandler(OpenPullRequestCommandHandler):
-    """
-    Command handler that opens a release pull request when a release is prepared.
+    """Command handler that opens a release pull request when a release is prepared.
     Responsibilities:
     - Listen for ReleasePreparedCommand events.
     - Construct the PR input from the event data.

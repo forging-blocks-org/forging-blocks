@@ -1,9 +1,9 @@
 from scripts.release.application.ports.outbound import VersioningService
-from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
 from scripts.release.domain.value_objects import (
     ReleaseLevel,
     ReleaseVersion,
 )
+from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
 
 
 class PoetryVersioningService(VersioningService):

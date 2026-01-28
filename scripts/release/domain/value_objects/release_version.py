@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from typing import Hashable
-from forging_blocks.domain import ValueObject
 
+from forging_blocks.domain import ValueObject
 from scripts.release.domain.errors import InvalidReleaseVersionError
 
 
@@ -25,8 +25,8 @@ class ReleaseVersion(ValueObject[str]):
         try:
             major, minor, patch = map(int, raw_value.split("."))
             return cls(major, minor, patch)
-        except:
-            raise InvalidReleaseVersionError(raw_value)
+        except Exception as e:
+            raise InvalidReleaseVersionError(raw_value) from e
 
     @property
     def value(self) -> str:

@@ -28,6 +28,7 @@ class FakeMessage(Message[str]):
         return {"data": self._data}
 
 
+@pytest.mark.unit
 class TestMessageMetadata:
     """Tests for MessageMetadata class."""
 
@@ -151,6 +152,7 @@ class TestMessageMetadata:
         assert hash(metadata1) != hash(metadata2)
 
 
+@pytest.mark.unit
 class TestMessage:
     """Tests for Message class."""
 

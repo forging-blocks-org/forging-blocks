@@ -1,17 +1,23 @@
 from __future__ import annotations
 
+from unittest.mock import MagicMock, call, create_autospec
+
 import pytest
-from unittest.mock import MagicMock, create_autospec
-
-from scripts.release.infrastructure.git.git_version_control import GitVersionControl
 from scripts.release.infrastructure.commons.process import CommandRunner
+from scripts.release.infrastructure.git.git_version_control import GitVersionControl
+
 from scripts.release.domain.value_objects import ReleaseBranchName, TagName
+from tests.fixtures.git_test_repository import GitTestRepository
 
 
+@pytest.mark.unit
 class TestGitVersionControl:
     @pytest.fixture
     def command_runner_mock(self) -> MagicMock:
-        return create_autospec(CommandRunner, instance=True)
+        mock = create_autospec(CommandRunner, instance=True)
+        # Configure run method to accept the suppress_error_log parameter
+        mock.run = MagicMock(return_value=None)
+        return mock
 
     @pytest.fixture
     def version_control(self, command_runner_mock: MagicMock) -> GitVersionControl:
@@ -25,163 +31,251 @@ class TestGitVersionControl:
     def tag_name(self) -> TagName:
         return TagName("v1.2.0")
 
-    def test_init_when_called_then_sets_runner(self, command_runner_mock: MagicMock) -> None:
+    def test_init_when_called_then_sets_runner(
+        self, command_runner_mock: MagicMock
+    ) -> None:
         version_control = GitVersionControl(command_runner_mock)
-        
+
         assert version_control._runner == command_runner_mock
 
     def test_branch_exists_when_branch_found_then_returns_true(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        branch_name: ReleaseBranchName,
     ) -> None:
         command_runner_mock.run.return_value = None
-        
+
         result = version_control.branch_exists(branch_name)
-        
+
         assert result is True
-        command_runner_mock.run.assert_called_once_with(["git", "rev-parse", "--verify", "release/v1.2.0"])
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "rev-parse", "--verify", "release/v1.2.0"], suppress_error_log=True
+        )
 
     def test_branch_exists_when_branch_not_found_then_returns_false(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        branch_name: ReleaseBranchName,
     ) -> None:
         command_runner_mock.run.side_effect = RuntimeError("Branch not found")
-        
+
         result = version_control.branch_exists(branch_name)
-        
+
         assert result is False
-        command_runner_mock.run.assert_called_once_with(["git", "rev-parse", "--verify", "release/v1.2.0"])
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "rev-parse", "--verify", "release/v1.2.0"], suppress_error_log=True
+        )
 
     def test_checkout_when_called_then_runs_checkout_command(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        branch_name: ReleaseBranchName,
     ) -> None:
         version_control.checkout(branch_name)
-        
-        command_runner_mock.run.assert_called_once_with(["git", "checkout", "release/v1.2.0"])
+
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "checkout", "release/v1.2.0"]
+        )
 
     def test_checkout_main_when_called_then_runs_checkout_main_command(
         self, version_control: GitVersionControl, command_runner_mock: MagicMock
     ) -> None:
         version_control.checkout_main()
-        
+
+        # Should try 'main' first (the fallback to 'master' won't be called if 'main' succeeds)
         command_runner_mock.run.assert_called_once_with(["git", "checkout", "main"])
+
+    def test_checkout_main_when_main_fails_then_fallback_to_master(
+        self, version_control: GitVersionControl, command_runner_mock: MagicMock
+    ) -> None:
+        # Configure mock to fail on 'main' checkout, succeed on 'master'
+        def side_effect(cmd, **kwargs):
+            if cmd == ["git", "checkout", "main"]:
+                raise RuntimeError("Branch not found")
+            return ""
+
+        command_runner_mock.run.side_effect = side_effect
+
+        version_control.checkout_main()
+
+        # Should call both 'main' (fails) and then 'master' (succeeds)
+        expected_calls = [
+            call(["git", "checkout", "main"]),
+            call(["git", "checkout", "master"]),
+        ]
+        command_runner_mock.run.assert_has_calls(expected_calls)
 
     def test_commit_release_artifacts_when_called_then_runs_commit_command(
         self, version_control: GitVersionControl, command_runner_mock: MagicMock
     ) -> None:
         version_control.commit_release_artifacts()
-        
-        command_runner_mock.run.assert_called_once_with([
-            "git", "commit", "-am", "chore(release): prepare release"
-        ])
+
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "commit", "-am", "chore(release): prepare release"]
+        )
 
     def test_create_branch_when_called_then_runs_checkout_b_command(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        branch_name: ReleaseBranchName,
     ) -> None:
         version_control.create_branch(branch_name)
-        
-        command_runner_mock.run.assert_called_once_with(["git", "checkout", "-b", "release/v1.2.0"])
+
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "checkout", "-b", "release/v1.2.0"]
+        )
 
     def test_create_tag_when_called_then_runs_tag_command(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, tag_name: TagName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        tag_name: TagName,
     ) -> None:
         version_control.create_tag(tag_name)
-        
+
         command_runner_mock.run.assert_called_once_with(["git", "tag", "v1.2.0"])
 
     def test_delete_local_branch_when_called_then_runs_branch_delete_command(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        branch_name: ReleaseBranchName,
     ) -> None:
         version_control.delete_local_branch(branch_name)
-        
-        command_runner_mock.run.assert_called_once_with(["git", "branch", "-D", "release/v1.2.0"])
+
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "branch", "-D", "release/v1.2.0"]
+        )
 
     def test_delete_remote_branch_when_called_then_runs_push_delete_command(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        branch_name: ReleaseBranchName,
     ) -> None:
         version_control.delete_remote_branch(branch_name)
-        
-        command_runner_mock.run.assert_called_once_with(["git", "push", "origin", "--delete", "release/v1.2.0"])
+
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "push", "origin", "--delete", "release/v1.2.0"]
+        )
 
     def test_delete_tag_when_called_then_runs_tag_delete_and_push_delete_commands(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, tag_name: TagName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        tag_name: TagName,
     ) -> None:
         version_control.delete_tag(tag_name)
-        
+
         expected_calls = [
             (["git", "tag", "-d", "v1.2.0"],),
-            (["git", "push", "origin", "--delete", "v1.2.0"],)
+            (["git", "push", "origin", "--delete", "v1.2.0"],),
         ]
         assert command_runner_mock.run.call_count == 2
         actual_calls = [call[0] for call in command_runner_mock.run.call_args_list]
         assert actual_calls == expected_calls
 
     def test_push_when_called_without_tags_then_runs_push_command_only(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        branch_name: ReleaseBranchName,
     ) -> None:
         version_control.push(branch_name, push_tags=False)
-        
-        command_runner_mock.run.assert_called_once_with(["git", "push", "origin", "release/v1.2.0"])
+
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "push", "origin", "release/v1.2.0"]
+        )
 
     def test_push_when_called_with_tags_then_runs_push_and_push_tags_commands(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        branch_name: ReleaseBranchName,
     ) -> None:
         version_control.push(branch_name, push_tags=True)
-        
+
         expected_calls = [
             (["git", "push", "origin", "release/v1.2.0"],),
-            (["git", "push", "origin", "--tags"],)
+            (["git", "push", "origin", "--tags"],),
         ]
         assert command_runner_mock.run.call_count == 2
         actual_calls = [call[0] for call in command_runner_mock.run.call_args_list]
         assert actual_calls == expected_calls
 
     def test_remote_branch_exists_when_branch_found_then_returns_true(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        branch_name: ReleaseBranchName,
     ) -> None:
         command_runner_mock.run.return_value = None
-        
+
         result = version_control.remote_branch_exists(branch_name)
-        
+
         assert result is True
-        command_runner_mock.run.assert_called_once_with(["git", "ls-remote", "--exit-code", "origin", "release/v1.2.0"])
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "ls-remote", "--exit-code", "origin", "release/v1.2.0"]
+        )
 
     def test_remote_branch_exists_when_branch_not_found_then_returns_false(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, branch_name: ReleaseBranchName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        branch_name: ReleaseBranchName,
     ) -> None:
         command_runner_mock.run.side_effect = RuntimeError("Branch not found")
-        
+
         result = version_control.remote_branch_exists(branch_name)
-        
+
         assert result is False
-        command_runner_mock.run.assert_called_once_with(["git", "ls-remote", "--exit-code", "origin", "release/v1.2.0"])
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "ls-remote", "--exit-code", "origin", "release/v1.2.0"]
+        )
 
     def test_tag_exists_when_tag_found_then_returns_true(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, tag_name: TagName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        tag_name: TagName,
     ) -> None:
         command_runner_mock.run.return_value = None
-        
+
         result = version_control.tag_exists(tag_name)
-        
+
         assert result is True
-        command_runner_mock.run.assert_called_once_with(["git", "rev-parse", "--verify", "v1.2.0"])
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "rev-parse", "--verify", "v1.2.0"], suppress_error_log=True
+        )
 
     def test_tag_exists_when_tag_not_found_then_returns_false(
-        self, version_control: GitVersionControl, command_runner_mock: MagicMock, tag_name: TagName
+        self,
+        version_control: GitVersionControl,
+        command_runner_mock: MagicMock,
+        tag_name: TagName,
     ) -> None:
         command_runner_mock.run.side_effect = RuntimeError("Tag not found")
-        
+
         result = version_control.tag_exists(tag_name)
-        
+
         assert result is False
-        command_runner_mock.run.assert_called_once_with(["git", "rev-parse", "--verify", "v1.2.0"])
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "rev-parse", "--verify", "v1.2.0"], suppress_error_log=True
+        )
 
 
+@pytest.mark.integration
 class TestGitVersionControlIntegration:
     def test_branch_lifecycle_when_created_then_exists_and_deleted(
         self,
         git_repo: GitTestRepository,
     ) -> None:
         # Arrange
-        version_control = GitVersionControl()
+        version_control = GitVersionControl(git_repo.scoped_runner())
         branch = ReleaseBranchName("release/v1.2.0")
 
         # Act
@@ -202,7 +296,7 @@ class TestGitVersionControlIntegration:
         git_repo: GitTestRepository,
     ) -> None:
         # Arrange
-        version_control = GitVersionControl()
+        version_control = GitVersionControl(git_repo.scoped_runner())
         tag = TagName("v1.2.0")
 
         # Act
@@ -221,10 +315,14 @@ class TestGitVersionControlIntegration:
         git_repo: GitTestRepository,
     ) -> None:
         # Arrange
-        version_control = GitVersionControl()
+        version_control = GitVersionControl(git_repo.scoped_runner())
         git_repo.write_file("CHANGELOG.md", "changes")
+        git_repo.commit("Add CHANGELOG.md")
 
-        # Act
+        # Modify the tracked file
+        git_repo.write_file("CHANGELOG.md", "updated changes")
+
+        # Act (this should commit the modified tracked file using -am)
         version_control.commit_release_artifacts()
 
         # Assert

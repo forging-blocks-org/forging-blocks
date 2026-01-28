@@ -1,21 +1,20 @@
 from scripts.release.application.ports.inbound import (
-    OpenReleasePullRequestUseCase,
     OpenReleasePullRequestInput,
     OpenReleasePullRequestOutput,
+    OpenReleasePullRequestUseCase,
 )
 from scripts.release.application.ports.outbound import (
     PullRequestService,
 )
 from scripts.release.domain.entities import ReleasePullRequest
 from scripts.release.domain.value_objects import (
-    ReleaseVersion,
     ReleaseBranchName,
+    ReleaseVersion,
 )
 
 
 class OpenReleasePullRequestService(OpenReleasePullRequestUseCase):
-    """
-    Application service responsible for opening the release pull request.
+    """Application service responsible for opening the release pull request.
 
     Responsibilities:
     - validate raw inputs

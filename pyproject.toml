@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "forging-blocks"
-version = "0.3.7"
+version = "0.3.10"
 description = "Composable toolkit for clean, testable, and maintainable Python applications"
 authors = ["ForgingBlocks Org <forgingblocksorganization91@gmail.com>"]
 license = "MIT"
@@ -41,6 +41,7 @@ poethepoet = "^0.37.0"
 libcst = "^1.8.6"
 rich = "^14.2.0"
 ipython = "^9.8.0"
+pytest-git = "^1.8.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.6.1"
@@ -86,12 +87,11 @@ target-version = "py312"
 line-length = 100
 src = ["src", "tests", "scripts"]
 fix = true
-extend-exclude = ["site", "tests", "scripts"]
 
 [tool.ruff.lint]
-select = ["E", "W", "F", "I", "B", "C4", "D"]
-ignore = ["B008", "D105", "D106", "D107", "D203", "D213"]
-pydocstyle.convention = "google"
+select = ["E", "W", "F", "I", "B", "C4"]
+ignore = ["B008"]  # Only ignore function calls in argument defaults
+per-file-ignores = {"tests/**" = ["E501", "B011"]}  # Allow long lines and assert False in tests
 
 [tool.ruff.lint.isort]
 known-first-party = ["forging_blocks"]
@@ -153,16 +153,20 @@ addopts = [
 markers = [
   "unit: mark tests as unit tests",
   "integration: mark tests as integration tests",
+  "e2e: mark tests as end-to-end tests",
 ]
 
 [tool.poe.tasks]
 lint = { cmd = "ruff check ." }
 "lint:fix" = { cmd = "ruff check . --fix" }
 
-type = "mypy src"
+type = "mypy ."
 bandit = "bandit -r src -x tests"
 
-test = "pytest"
+test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "pytest" }
+"test:unit" = "pytest -m unit"
+"test:integration" = "pytest -m integration"
+"test:e2e" = "pytest -m e2e"
 "test:debug" = "pytest -x -vvv -s"
 
 "docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
@@ -192,14 +196,6 @@ test = "pytest"
 "ci:release:validate".sequence = [
   "ci:check",
   { cmd = "poetry build" }
-]
-
-"changelog:generate".sequence = [
-  { shell = "bash scripts/release/generate_changelog.sh > .changelog.tmp" },
-  { shell = "cat .changelog.tmp CHANGELOG.md 2>/dev/null > CHANGELOG.new || cat .changelog.tmp > CHANGELOG.new" },
-  { shell = "mv CHANGELOG.new CHANGELOG.md" },
-  { shell = "rm .changelog.tmp" },
-  { shell = "echo 'Changelog updated.'" }
 ]
 
 "release:validate".sequence = [

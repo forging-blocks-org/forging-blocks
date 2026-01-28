@@ -1,18 +1,24 @@
 from scripts.release.application.services.open_release_pull_request_service import (
     OpenReleasePullRequestService,
 )
-from scripts.release.application.services.prepare_release_service import PrepareReleaseService
-from scripts.release.domain.messages.open_pull_request_command import OpenPullRequestCommand
+from scripts.release.application.services.prepare_release_service import (
+    PrepareReleaseService,
+)
+from scripts.release.domain.messages.open_pull_request_command import (
+    OpenPullRequestCommand,
+)
 from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
 )
 from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
-from scripts.release.infrastructure.handlers import OpenPullRequestHandler
-from scripts.release.infrastructure.git.git_changelog_generator import GitChangelogGenerator
+from scripts.release.infrastructure.git.git_changelog_generator import (
+    GitChangelogGenerator,
+)
 from scripts.release.infrastructure.git.git_version_control import GitVersionControl
 from scripts.release.infrastructure.github.github_cli_pull_request_service import (
     GitHubCliPullRequestService,
 )
+from scripts.release.infrastructure.handlers import OpenPullRequestHandler
 from scripts.release.infrastructure.transactions.in_memory_release_transaction import (
     InMemoryReleaseTransaction,
 )
@@ -22,11 +28,10 @@ from scripts.release.infrastructure.versioning.poetry_versioning_service import 
 
 
 class Container:
-    """
-    Composition root.
+    """Composition root.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._command_runner = SubprocessCommandRunner()
         self._versioning_service = PoetryVersioningService(self._command_runner)
         self._version_control = GitVersionControl(self._command_runner)
@@ -56,8 +61,7 @@ class Container:
         )
 
     async def _setup_message_handlers(self) -> None:
-        """
-        Register all events handlers
+        """Register all events handlers
         """
         self._message_bus = InMemoryReleaseCommandBus()
         open_pull_request_service = OpenReleasePullRequestService(
@@ -65,4 +69,6 @@ class Container:
         )
         open_pull_request_handler = OpenPullRequestHandler(open_pull_request_service)
 
-        await self._message_bus.register(OpenPullRequestCommand, open_pull_request_handler)
+        await self._message_bus.register(
+            OpenPullRequestCommand, open_pull_request_handler
+        )

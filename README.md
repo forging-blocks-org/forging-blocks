@@ -23,7 +23,7 @@ Composable **abstractions and interfaces** for writing clean, testable, and main
 It doesn’t dictate your architecture.
 Instead, it provides **foundations and reusable** abstractions for **forging** your own **blocks**.
 
-Isolate external concerns from your core logic you will achieve systems that are adaptable and resilient. 
+Isolate external concerns from your core logic you will achieve systems that are adaptable and resilient.
 If you **forge** your own **block** you will achieve software with intent and clarity
 If you use **blocks** you will achieve consistency and reusability.
 **ForgingBlocks** helps you build systems that last.
@@ -56,7 +56,7 @@ This toolkit defines **layer-agnostic foundations** that compose into any design
 poetry add forging-blocks
 # or
 pip install forging-blocks
-# or  
+# or
 uv add forging-blocks
 ```
 
@@ -118,11 +118,16 @@ poetry run poe ci:check
 ### Available Commands
 
 ```bash
-# Testing
-poetry run poe test              # Run tests
+# Testing - Primary Commands
+poetry run poe test              # Run ALL tests (recommended)
+poetry run poe test:unit         # Run unit tests only (fast feedback)
+poetry run poe test:integration  # Run integration tests only
+poetry run poe test:e2e          # Run end-to-end tests only
+
+# Testing - Alternative Commands
 poetry run poe test:debug        # Run tests with verbose output
 
-# Code quality  
+# Code quality
 poetry run poe lint              # Check code style
 poetry run poe lint:fix          # Fix code style issues
 poetry run poe type              # Type checking
@@ -136,6 +141,26 @@ poetry run poe docs:generate     # Generate API reference
 poetry run poe release patch        # Test release (simulation)
 poetry run poe release patch --execute  # Execute patch release
 ```
+
+### 🧪 **Test Architecture**
+
+This project uses a **3-tier testing architecture**:
+
+- **Unit Tests** (`@pytest.mark.unit`) - Fast, isolated tests with mocks
+- **Integration Tests** (`@pytest.mark.integration`) - Real infrastructure in isolated environments
+- **End-to-End Tests** (`@pytest.mark.e2e`) - Complete workflows (mostly skipped)
+
+**Quick feedback during development:**
+```bash
+poetry run poe test:unit    # ⚡ Fast (~1s) - run frequently
+```
+
+**Verify integrations before commits:**
+```bash
+poetry run poe test         # 🔍 Complete test suite (~3s) - run before commits
+```
+
+See [Testing Guide](https://forging-blocks-org.github.io/forging-blocks/guide/testing/) for detailed information.
 
 ---
 

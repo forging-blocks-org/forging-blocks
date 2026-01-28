@@ -1,9 +1,9 @@
-from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
 from scripts.release.application.ports.outbound import (
-    PullRequestService,
     OpenPullRequestOutput,
+    PullRequestService,
 )
 from scripts.release.domain.entities import ReleasePullRequest
+from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
 
 
 class GitHubCliPullRequestService(PullRequestService):

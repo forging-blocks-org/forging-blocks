@@ -3,8 +3,8 @@ import copy
 import pytest
 
 from forging_blocks.domain import (
-    Entity,
     DraftEntityIsNotHashableError,
+    Entity,
 )
 
 
@@ -18,6 +18,7 @@ class Admin(User):
     pass
 
 
+@pytest.mark.unit
 class TestUser:
     @pytest.fixture
     def draft_user(self) -> User:

@@ -6,8 +6,7 @@ from scripts.release.domain.value_objects import ReleaseBranchName
 
 @dataclass(frozen=True)
 class ReleasePullRequest:
-    """
-    Represents the intent to publish a release.
+    """Represents the intent to publish a release.
 
     Domain invariants:
     - base must be "main"

@@ -1,3 +1,5 @@
+import pytest
+
 from forging_blocks.foundation import (
     CantModifyImmutableAttributeError,
     ErrorMessage,
@@ -5,6 +7,7 @@ from forging_blocks.foundation import (
 )
 
 
+@pytest.mark.unit
 class TestCantModifyImmutableAttributeError:
     def test_initialization(self):
         # Arrange

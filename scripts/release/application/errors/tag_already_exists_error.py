@@ -1,13 +1,10 @@
 from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.errors.rule_violation_error import RuleViolationError
 
-from scripts.release.domain.value_objects.tag_name import TagName
-
 
 # RuntimeError
 class TagAlreadyExistsError(RuleViolationError):
-    """
-    Raised when attempting to create a release with an existing tag.
+    """Raised when attempting to create a release with an existing tag.
     """
 
     def __init__(self, tag_name: str) -> None:

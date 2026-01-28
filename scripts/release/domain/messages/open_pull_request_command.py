@@ -10,7 +10,11 @@ class OpenPullRequestCommand(Command[PayloadType]):
         self._version = version
         self._branch = branch
         self._dry_run = dry_run
-        self._value = {"version": self._version, "branch": self._branch, "dry_run": self._dry_run}
+        self._value: PayloadType = {
+            "version": self._version,
+            "branch": self._branch,
+            "dry_run": self._dry_run,
+        }
 
         super().__init__()
 

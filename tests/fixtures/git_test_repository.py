@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 from pathlib import Path
-from subprocess import run as subprocess_run, check_output as subprocess_check_output
+from subprocess import check_output as subprocess_check_output
+from subprocess import run as subprocess_run
+
+from .scoped_command_runner import ScopedCommandRunner
 
 
 class GitTestRepository:
@@ -12,13 +15,23 @@ class GitTestRepository:
     def init(cls, path: Path) -> GitTestRepository:
         subprocess_run(["git", "init"], cwd=path, check=True)
         subprocess_run(["git", "config", "user.name", "Test"], cwd=path, check=True)
-        subprocess_run(["git", "config", "user.email", "test@example.com"], cwd=path, check=True)
+        subprocess_run(
+            ["git", "config", "user.email", "test@example.com"], cwd=path, check=True
+        )
 
         (path / "README.md").write_text("init")
         subprocess_run(["git", "add", "."], cwd=path, check=True)
         subprocess_run(["git", "commit", "-m", "init"], cwd=path, check=True)
 
+        # Rename default branch to 'main' to ensure consistency across environments
+        subprocess_run(["git", "branch", "-M", "main"], cwd=path, check=True)
+
         return cls(path)
+
+    @property
+    def path(self) -> Path:
+        """Get the path to the test repository."""
+        return self._path
 
     @property
     def tags(self) -> list[str]:
@@ -45,3 +58,11 @@ class GitTestRepository:
             cwd=self._path,
             text=True,
         ).strip()
+
+    def run_git_command(self, cmd: list[str]) -> str:
+        """Run a git command in this repository's context."""
+        return subprocess_check_output(cmd, cwd=self._path, text=True).strip()
+
+    def scoped_runner(self) -> ScopedCommandRunner:
+        """Get a command runner scoped to this repository."""
+        return ScopedCommandRunner(self._path)

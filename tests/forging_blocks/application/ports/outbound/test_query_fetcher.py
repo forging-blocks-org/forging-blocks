@@ -1,6 +1,7 @@
 from typing import Any
 from unittest.mock import AsyncMock, MagicMock
 
+import pytest
 from pytest import fixture
 
 from forging_blocks.application import MessageBus, QueryFetcher
@@ -17,6 +18,7 @@ class FakeQuery(Query):
         return {"foo": "bar"}
 
 
+@pytest.mark.unit
 class TestQueryFetcher:
     @fixture
     def message_bus(self) -> MagicMock:

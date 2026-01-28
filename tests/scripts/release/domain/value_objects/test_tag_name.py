@@ -1,9 +1,10 @@
 import pytest
 
-from scripts.release.domain.value_objects import ReleaseVersion, TagName
 from scripts.release.domain.errors import InvalidTagNameError
+from scripts.release.domain.value_objects import ReleaseVersion, TagName
 
 
+@pytest.mark.unit
 class TestTagName:
     @pytest.mark.parametrize(
         "value",
@@ -66,6 +67,7 @@ class TestTagName:
         from scripts.release.domain.value_objects.tag_name import (
             TagName as DirectTagName,
         )
+
         from scripts.release.domain.value_objects import TagName as ImportedTagName
 
         assert DirectTagName is ImportedTagName

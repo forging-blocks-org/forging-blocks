@@ -44,6 +44,7 @@ class FakeUserCommand(Command[dict[str, Any]]):
         return {"customer_id": self._customer_id, "amount": self._amount}
 
 
+@pytest.mark.unit
 class TestCommand:
     def test_inheritance_when_instantied_then_is_message(self):
         command = FakeUserCommand("customer_123", 99.99)

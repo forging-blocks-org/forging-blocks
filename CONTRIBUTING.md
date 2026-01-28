@@ -68,15 +68,15 @@ If a change affects public behavior, documentation updates are expected.
 ### Development Setup
 
 1. **Fork the repository**
-2. **Clone your fork**: `git clone https://github.com/YOUR-USERNAME/forging-blocks.git`
+2. **Clone your fork**: `git clone https://github.com/<username>/forging-blocks.git`
 3. **Install dependencies**: `poetry install`
-4. **Set up pre-commit hooks** (optional): `pre-commit install`
+4. **Set up pre-commit hooks**: `pre-commit install`
 
 ### Making Changes
 
 1. **Create a feature branch**: `git checkout -b feature/your-feature`
 2. **Make your changes**
-3. **Add tests** for new functionality
+3. **Add tests** for new functionality (see [Testing Guidelines](#testing-guidelines))
 4. **Run the full test suite**:
    ```bash
    poetry run poe ci:check
@@ -85,11 +85,41 @@ If a change affects public behavior, documentation updates are expected.
 
 Small, focused pull requests are easier to review.
 
+### Testing Guidelines
+
+This project uses a **3-tier testing architecture**:
+
+- **Unit Tests** (`@pytest.mark.unit`) - Fast, isolated tests with mocks for business logic
+- **Integration Tests** (`@pytest.mark.integration`) - Real infrastructure in isolated environments
+- **End-to-End Tests** (`@pytest.mark.e2e`) - Complete workflows (typically skipped)
+
+**During development:**
+```bash
+# Fast feedback loop - run frequently
+poetry run poe test:unit
+
+# Before committing - verify all stable tests pass
+poetry run poe test
+```
+
+**When adding new functionality:**
+- Add unit tests for domain logic and business rules
+- Add integration tests for external system interactions
+- Use mocks appropriately at architectural boundaries
+- Follow the naming pattern: `test_when_condition_then_outcome`
+
+See the [Testing Guide](https://forging-blocks-org.github.io/forging-blocks/guide/testing/) for detailed examples.
+
 ### Available Development Commands
 
 ```bash
-# Testing
-poetry run poe test              # Run tests
+# Testing - Primary Commands
+poetry run poe test              # Run ALL tests (stable + conditional)
+poetry run poe test:unit         # Run unit tests only (fast feedback)
+poetry run poe test:integration  # Run integration tests only
+
+# Testing - Extended Commands
+poetry run poe test:e2e          # Run end-to-end tests only
 poetry run poe test:debug        # Run tests with verbose output
 
 # Code quality

@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from enum import auto, StrEnum
+from enum import StrEnum, auto
 from typing import Hashable
 
 from forging_blocks.domain import ValueObject
-
 from scripts.release.domain.errors import InvalidReleaseLevelError
 
 
