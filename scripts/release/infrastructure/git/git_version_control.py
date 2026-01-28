@@ -1,10 +1,11 @@
+import logging
+
 from scripts.release.application.ports.outbound import VersionControl
-from scripts.release.infrastructure.commons.process import CommandRunner
 from scripts.release.domain.value_objects import (
     ReleaseBranchName,
     TagName,
 )
-import logging
+from scripts.release.infrastructure.commons.process import CommandRunner
 
 
 class GitVersionControl(VersionControl):

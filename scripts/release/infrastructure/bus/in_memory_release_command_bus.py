@@ -2,9 +2,7 @@ from typing import TypeAlias
 
 from forging_blocks.application.ports.inbound.message_handler import CommandHandler
 from forging_blocks.domain.messages.command import Command
-
 from scripts.release.application.ports.outbound import ReleaseCommandBus
-
 
 CommandSubscriberType: TypeAlias = dict[type[Command], CommandHandler]
 

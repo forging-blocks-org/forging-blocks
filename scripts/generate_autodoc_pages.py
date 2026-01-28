@@ -1,5 +1,4 @@
-"""
-API Reference generator for ForgingBlocks.
+"""API Reference generator for ForgingBlocks.
 
 This script generates API-level documentation from docstrings.
 It is intended for contributors and advanced users, not as a replacement

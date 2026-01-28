@@ -1,9 +1,9 @@
 import asyncio
 from typing import Sequence
 
-from scripts.release.presentation.presenters.release_cli_presenter import ReleaseCliPresenter
-from scripts.release.presentation.parsers.release_cli_parser import ReleaseCliParser
 from scripts.release.presentation.container import Container
+from scripts.release.presentation.parsers.release_cli_parser import ReleaseCliParser
+from scripts.release.presentation.presenters.release_cli_presenter import ReleaseCliPresenter
 
 
 async def main(argv: Sequence[str] | None = None) -> None:

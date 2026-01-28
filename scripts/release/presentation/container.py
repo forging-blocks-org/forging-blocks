@@ -11,7 +11,6 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
 )
 from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
-from scripts.release.infrastructure.handlers import OpenPullRequestHandler
 from scripts.release.infrastructure.git.git_changelog_generator import (
     GitChangelogGenerator,
 )
@@ -19,6 +18,7 @@ from scripts.release.infrastructure.git.git_version_control import GitVersionCon
 from scripts.release.infrastructure.github.github_cli_pull_request_service import (
     GitHubCliPullRequestService,
 )
+from scripts.release.infrastructure.handlers import OpenPullRequestHandler
 from scripts.release.infrastructure.transactions.in_memory_release_transaction import (
     InMemoryReleaseTransaction,
 )
@@ -28,8 +28,7 @@ from scripts.release.infrastructure.versioning.poetry_versioning_service import 
 
 
 class Container:
-    """
-    Composition root.
+    """Composition root.
     """
 
     def __init__(self) -> None:
@@ -62,8 +61,7 @@ class Container:
         )
 
     async def _setup_message_handlers(self) -> None:
-        """
-        Register all events handlers
+        """Register all events handlers
         """
         self._message_bus = InMemoryReleaseCommandBus()
         open_pull_request_service = OpenReleasePullRequestService(

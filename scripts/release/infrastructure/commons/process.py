@@ -1,15 +1,13 @@
-from abc import ABC, abstractmethod
 import logging
 import subprocess
-
+from abc import ABC, abstractmethod
 
 if not logging.getLogger().hasHandlers():
     logging.basicConfig(level=logging.INFO)
 
 
 class CommandRunner(ABC):
-    """
-    Abstraction for running system commands.
+    """Abstraction for running system commands.
     """
     @abstractmethod
     def run(
@@ -19,14 +17,15 @@ class CommandRunner(ABC):
         check: bool = True,
         suppress_error_log: bool = False,
     ) -> str:
-        """
-        Run a shell command and return its output.
+        """Run a shell command and return its output.
 
         Args:
             cmd: The command and its arguments as a list of strings.
             check: Whether to raise an error on non-zero exit codes.
+
         Returns:
             The standard output of the command as a string.
+
         Raises:
             RuntimeError: If the command fails and check is True.
         """
@@ -41,8 +40,7 @@ class SubprocessCommandRunner(CommandRunner):
         check: bool = True,
         suppress_error_log: bool = False,
     ) -> str:
-        """
-        Run a command and return stdout.
+        """Run a command and return stdout.
 
         Raises RuntimeError on failure.
         """

@@ -1,9 +1,9 @@
-from typing import Sequence
 from logging import Logger
+from typing import Sequence
 
 from scripts.release.application.ports.inbound.prepare_release_use_case import PrepareReleaseInput
-from scripts.release.presentation.parsers import ReleaseCliParser
 from scripts.release.presentation.container import Container
+from scripts.release.presentation.parsers import ReleaseCliParser
 
 
 class ReleaseCliPresenter:

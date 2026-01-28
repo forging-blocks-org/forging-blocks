@@ -8,8 +8,7 @@ from forging_blocks.application.ports import UseCase
 
 @dataclass(frozen=True)
 class PrepareReleaseInput:
-    """
-    Request DTO for preparing a release.
+    """Request DTO for preparing a release.
 
     All values are raw primitives.
     Validation and conversion to Value Objects
@@ -27,8 +26,7 @@ class PrepareReleaseInput:
 
 @dataclass(frozen=True)
 class PrepareReleaseOutput:
-    """
-    Response DTO for preparing a release.
+    """Response DTO for preparing a release.
 
     Contains only serializable primitives so it can be:
     - printed by the CLI
@@ -42,8 +40,7 @@ class PrepareReleaseOutput:
 
 
 class PrepareReleaseUseCase(UseCase[PrepareReleaseInput, PrepareReleaseOutput]):
-    """
-    Prepares a release from the main branch.
+    """Prepares a release from the main branch.
 
     Responsibilities:
     - validate release level

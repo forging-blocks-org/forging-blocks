@@ -1,8 +1,8 @@
 from typing import Hashable
-from forging_blocks.domain import ValueObject
 
+from forging_blocks.domain import ValueObject
+from scripts.release.domain.errors import InvalidReleaseBranchNameError, InvalidReleaseVersionError
 from scripts.release.domain.value_objects.release_version import ReleaseVersion
-from scripts.release.domain.errors import InvalidReleaseVersionError, InvalidReleaseBranchNameError
 
 
 class ReleaseBranchName(ValueObject[str]):

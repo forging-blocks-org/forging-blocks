@@ -1,5 +1,5 @@
-from typing import Any, Callable
 import logging
+from typing import Any, Callable
 
 from scripts.release.application.ports.outbound import ReleaseTransaction
 from scripts.release.application.workflow import ReleaseStep

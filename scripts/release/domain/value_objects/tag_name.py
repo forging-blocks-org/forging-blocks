@@ -1,10 +1,8 @@
 from typing import Hashable
 
 from forging_blocks.domain import ValueObject
-
+from scripts.release.domain.errors import InvalidReleaseVersionError, InvalidTagNameError
 from scripts.release.domain.value_objects import ReleaseVersion
-from scripts.release.domain.errors import InvalidTagNameError
-from scripts.release.domain.errors import InvalidReleaseVersionError
 
 
 class TagName(ValueObject[str]):

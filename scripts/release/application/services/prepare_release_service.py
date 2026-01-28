@@ -1,32 +1,32 @@
 import logging
-from scripts.release.application.workflow import ReleaseContext, ReleaseStep
+
 from scripts.release.application.errors.tag_already_exists_error import (
     TagAlreadyExistsError,
 )
-from scripts.release.domain.messages import OpenPullRequestCommand
-from scripts.release.domain.value_objects import (
-    ReleaseLevel,
-    ReleaseBranchName,
-    TagName,
-)
 from scripts.release.application.ports.inbound import (
-    PrepareReleaseUseCase,
     PrepareReleaseInput,
     PrepareReleaseOutput,
+    PrepareReleaseUseCase,
 )
 from scripts.release.application.ports.outbound import (
-    ReleaseTransaction,
-    VersioningService,
-    VersionControl,
     ChangelogGenerator,
     ChangelogRequest,
     ReleaseCommandBus,
+    ReleaseTransaction,
+    VersionControl,
+    VersioningService,
+)
+from scripts.release.application.workflow import ReleaseContext, ReleaseStep
+from scripts.release.domain.messages import OpenPullRequestCommand
+from scripts.release.domain.value_objects import (
+    ReleaseBranchName,
+    ReleaseLevel,
+    TagName,
 )
 
 
 class PrepareReleaseService(PrepareReleaseUseCase):
-    """
-    Application service responsible for preparing a release.
+    """Application service responsible for preparing a release.
 
     This use case is transactional:
     - either the release branch is fully prepared

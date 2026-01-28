@@ -25,11 +25,11 @@ class ChangelogGenerator(OutboundPort):
 
     @abstractmethod
     async def generate(self, request: ChangelogRequest) -> ChangelogResponse:
-        """
-        Generate a changelog between two versions.
+        """Generate a changelog between two versions.
 
         Args:
             request (ChangelogRequest): The request containing from and to versions.
+
         Returns:
             ChangelogResponse: The generated changelog entries.
         """
