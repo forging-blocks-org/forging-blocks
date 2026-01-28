@@ -1,5 +1,6 @@
-from forging_blocks.domain import EntityIdNoneError
 import pytest
+
+from forging_blocks.domain import EntityIdNoneError
 
 
 @pytest.mark.unit

@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import os
-import pytest
 import random
 from unittest.mock import Mock, patch
 
+import pytest
 from scripts.release.infrastructure.github.github_cli_pull_request_service import (
     GitHubCliPullRequestService,
 )
+
 from scripts.release.domain.entities import ReleasePullRequest
 from scripts.release.domain.value_objects import ReleaseBranchName
 

@@ -3,8 +3,8 @@ import copy
 import pytest
 
 from forging_blocks.domain import (
-    Entity,
     DraftEntityIsNotHashableError,
+    Entity,
 )
 
 

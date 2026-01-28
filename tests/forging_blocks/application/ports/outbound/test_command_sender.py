@@ -1,7 +1,7 @@
 from typing import Any
 from unittest.mock import AsyncMock, MagicMock
-import pytest
 
+import pytest
 from pytest import fixture
 
 from forging_blocks.application import CommandSender, MessageBus

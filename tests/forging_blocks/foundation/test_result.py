@@ -1,6 +1,6 @@
 import pytest
 
-from forging_blocks.foundation import Err, Ok, ResultAccessError, ErrorMessage
+from forging_blocks.foundation import Err, ErrorMessage, Ok, ResultAccessError
 
 
 @pytest.mark.unit

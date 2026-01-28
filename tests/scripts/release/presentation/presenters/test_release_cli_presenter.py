@@ -1,16 +1,16 @@
-import pytest
-from unittest.mock import Mock, AsyncMock, patch
-from logging import Logger
 from argparse import Namespace
+from logging import Logger
+from unittest.mock import AsyncMock, Mock, patch
 
-from scripts.release.presentation.presenters.release_cli_presenter import ReleaseCliPresenter
-from scripts.release.presentation.parsers.release_cli_parser import ReleaseCliParser
-from scripts.release.presentation.container import Container
+import pytest
 from scripts.release.application.ports.inbound.prepare_release_use_case import (
     PrepareReleaseInput,
     PrepareReleaseOutput,
     PrepareReleaseUseCase,
 )
+from scripts.release.presentation.container import Container
+from scripts.release.presentation.parsers.release_cli_parser import ReleaseCliParser
+from scripts.release.presentation.presenters.release_cli_presenter import ReleaseCliPresenter
 
 
 @pytest.mark.integration

@@ -1,6 +1,9 @@
-import pytest
 from unittest.mock import Mock
 
+import pytest
+from scripts.release.application.ports.inbound import (
+    OpenReleasePullRequestInput,
+)
 from scripts.release.application.ports.outbound import (
     OpenPullRequestOutput,
     PullRequestService,
@@ -8,9 +11,7 @@ from scripts.release.application.ports.outbound import (
 from scripts.release.application.services.open_release_pull_request_service import (
     OpenReleasePullRequestService,
 )
-from scripts.release.application.ports.inbound import (
-    OpenReleasePullRequestInput,
-)
+
 from scripts.release.domain.errors import (
     InvalidReleaseBranchNameError,
     InvalidReleaseVersionError,

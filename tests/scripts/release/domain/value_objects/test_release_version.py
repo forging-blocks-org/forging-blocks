@@ -1,6 +1,6 @@
 import pytest
-
 from scripts.release.domain.value_objects.release_version import ReleaseVersion
+
 from scripts.release.domain.errors import InvalidReleaseVersionError
 
 

@@ -1,4 +1,5 @@
 import pytest
+
 from scripts.release.domain.entities import ReleasePullRequest
 from scripts.release.domain.errors import InvalidReleasePullRequestError
 from scripts.release.domain.value_objects import (

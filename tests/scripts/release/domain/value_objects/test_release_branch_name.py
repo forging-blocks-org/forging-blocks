@@ -1,9 +1,8 @@
 import pytest
-
-from scripts.release.domain.value_objects.release_branch_name import ReleaseBranchName
 from scripts.release.domain.errors.invalid_release_branch_name_error import (
     InvalidReleaseBranchNameError,
 )
+from scripts.release.domain.value_objects.release_branch_name import ReleaseBranchName
 
 
 @pytest.mark.unit

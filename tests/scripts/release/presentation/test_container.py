@@ -1,12 +1,11 @@
 import pytest
-
-from scripts.release.presentation.container import Container
-from scripts.release.application.services.prepare_release_service import (
-    PrepareReleaseService,
-)
 from scripts.release.application.services.open_release_pull_request_service import (
     OpenReleasePullRequestService,
 )
+from scripts.release.application.services.prepare_release_service import (
+    PrepareReleaseService,
+)
+from scripts.release.presentation.container import Container
 
 
 @pytest.mark.unit

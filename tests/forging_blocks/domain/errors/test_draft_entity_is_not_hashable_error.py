@@ -1,8 +1,9 @@
+import pytest
+
 from forging_blocks.domain import (
     DraftEntityIsNotHashableError,
 )
 from forging_blocks.foundation import ErrorMessage
-import pytest
 
 
 @pytest.mark.unit

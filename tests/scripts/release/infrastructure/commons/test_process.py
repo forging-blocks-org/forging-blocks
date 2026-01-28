@@ -1,5 +1,4 @@
 import pytest
-
 from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
 
 

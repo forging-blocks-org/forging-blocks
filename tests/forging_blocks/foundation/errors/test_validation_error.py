@@ -2,10 +2,10 @@ import pytest
 
 from forging_blocks.foundation import (
     CombinedValidationErrors,
-    ValidationError,
-    ValidationFieldErrors,
     ErrorMessage,
     FieldReference,
+    ValidationError,
+    ValidationFieldErrors,
 )
 
 

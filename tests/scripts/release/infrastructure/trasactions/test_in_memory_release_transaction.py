@@ -1,5 +1,4 @@
 import pytest
-
 from scripts.release.application.workflow import ReleaseStep
 from scripts.release.infrastructure.transactions.in_memory_release_transaction import (
     InMemoryReleaseTransaction,

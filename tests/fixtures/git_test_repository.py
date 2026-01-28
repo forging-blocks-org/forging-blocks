@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from pathlib import Path
-from subprocess import run as subprocess_run, check_output as subprocess_check_output
+from subprocess import check_output as subprocess_check_output
+from subprocess import run as subprocess_run
 
 from .scoped_command_runner import ScopedCommandRunner
 

@@ -1,15 +1,15 @@
-import pytest
-from unittest.mock import MagicMock, create_autospec, AsyncMock
+from unittest.mock import AsyncMock, MagicMock, create_autospec
 
-from scripts.release.infrastructure.handlers.open_pull_request_handler import (
-    OpenPullRequestHandler,
-)
+import pytest
 from scripts.release.application.ports.inbound import (
-    OpenReleasePullRequestUseCase,
     OpenReleasePullRequestInput,
+    OpenReleasePullRequestUseCase,
 )
 from scripts.release.domain.messages.open_pull_request_command import (
     OpenPullRequestCommand,
+)
+from scripts.release.infrastructure.handlers.open_pull_request_handler import (
+    OpenPullRequestHandler,
 )
 
 

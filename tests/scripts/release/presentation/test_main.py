@@ -1,8 +1,7 @@
 import os
+from unittest.mock import AsyncMock, Mock, patch
+
 import pytest
-from pathlib import Path
-from pytest import mark as pytest_marker
-from unittest.mock import patch, Mock, AsyncMock
 
 from scripts.release.presentation import __main__
 from tests.fixtures.git_test_repository import GitTestRepository

@@ -1,10 +1,11 @@
-import pytest
 from unittest.mock import MagicMock, create_autospec
 
+import pytest
 from scripts.release.infrastructure.commons.process import CommandRunner
 from scripts.release.infrastructure.versioning.poetry_versioning_service import (
     PoetryVersioningService,
 )
+
 from scripts.release.domain.value_objects import ReleaseLevel, ReleaseVersion
 
 

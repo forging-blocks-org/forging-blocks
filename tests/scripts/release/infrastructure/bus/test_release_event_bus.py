@@ -1,11 +1,12 @@
-import pytest
 from unittest.mock import AsyncMock
 
-from forging_blocks.application.ports.inbound.message_handler import CommandHandler
-from forging_blocks.domain.messages.command import Command
+import pytest
 from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
 )
+
+from forging_blocks.application.ports.inbound.message_handler import CommandHandler
+from forging_blocks.domain.messages.command import Command
 
 
 @pytest.mark.unit

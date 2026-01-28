@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-import pytest
-from unittest.mock import MagicMock, create_autospec, call
+from unittest.mock import MagicMock, call, create_autospec
 
-from scripts.release.infrastructure.git.git_version_control import GitVersionControl
+import pytest
 from scripts.release.infrastructure.commons.process import CommandRunner
+from scripts.release.infrastructure.git.git_version_control import GitVersionControl
+
 from scripts.release.domain.value_objects import ReleaseBranchName, TagName
+from tests.fixtures.git_test_repository import GitTestRepository
 
 
 @pytest.mark.unit

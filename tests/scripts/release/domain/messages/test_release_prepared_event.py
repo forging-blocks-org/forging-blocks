@@ -1,5 +1,4 @@
 import pytest
-
 from scripts.release.domain.messages.open_pull_request_command import (
     OpenPullRequestCommand,
 )

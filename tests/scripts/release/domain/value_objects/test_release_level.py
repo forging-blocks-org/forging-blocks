@@ -1,11 +1,10 @@
 import pytest
-
+from scripts.release.domain.errors.invalid_release_level_error import (
+    InvalidReleaseLevelError,
+)
 from scripts.release.domain.value_objects.release_level import (
     ReleaseLevel,
     ReleaseLevelEnum,
-)
-from scripts.release.domain.errors.invalid_release_level_error import (
-    InvalidReleaseLevelError,
 )
 
 

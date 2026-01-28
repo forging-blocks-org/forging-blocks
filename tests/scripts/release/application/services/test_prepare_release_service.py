@@ -1,29 +1,29 @@
-import pytest
-from unittest.mock import MagicMock, create_autospec, AsyncMock
+from unittest.mock import AsyncMock, MagicMock, create_autospec
 
-from scripts.release.application.services.prepare_release_service import (
-    PrepareReleaseService,
-)
+import pytest
 from scripts.release.application.ports.inbound import (
     PrepareReleaseInput,
     PrepareReleaseOutput,
 )
 from scripts.release.application.ports.outbound import (
-    VersioningService,
-    VersionControl,
-    ReleaseTransaction,
     ChangelogGenerator,
-    ReleaseCommandBus,
     ChangelogRequest,
+    ReleaseCommandBus,
+    ReleaseTransaction,
+    VersionControl,
+    VersioningService,
 )
+from scripts.release.application.services.prepare_release_service import (
+    PrepareReleaseService,
+)
+
 from scripts.release.application.errors import TagAlreadyExistsError
+from scripts.release.domain.messages import OpenPullRequestCommand
 from scripts.release.domain.value_objects import (
-    ReleaseVersion,
     ReleaseBranchName,
-    ReleaseLevel,
+    ReleaseVersion,
     TagName,
 )
-from scripts.release.domain.messages import OpenPullRequestCommand
 
 
 @pytest.mark.unit

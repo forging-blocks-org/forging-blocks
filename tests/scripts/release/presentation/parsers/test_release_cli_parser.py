@@ -1,7 +1,6 @@
-import pytest
 from argparse import ArgumentParser, Namespace
-from unittest.mock import Mock
 
+import pytest
 from scripts.release.presentation.parsers.release_cli_parser import ReleaseCliParser
 
 
@@ -47,14 +46,14 @@ class TestReleaseCliParser:
     def test_parse_with_no_arguments_uses_default_patch_level(self, cli_parser: ReleaseCliParser) -> None:
         """Test that when no level is provided, 'patch' is used as default."""
         namespace = cli_parser.parse([])
-        
+
         assert namespace.level == "patch"
         assert namespace.execute is False
 
     def test_parse_with_only_execute_flag_uses_default_patch_level(self, cli_parser: ReleaseCliParser) -> None:
         """Test that when only --execute is provided, 'patch' is used as default level."""
         namespace = cli_parser.parse(["--execute"])
-        
+
         assert namespace.level == "patch"
         assert namespace.execute is True
 
@@ -63,9 +62,9 @@ class TestReleaseCliParser:
         # Mock sys.argv to test default behavior
         mock_argv = ["release", "minor", "--execute"]
         monkeypatch.setattr("sys.argv", mock_argv)
-        
+
         namespace = cli_parser.parse(None)
-        
+
         assert namespace.level == "minor"
         assert namespace.execute is True
 
@@ -74,7 +73,7 @@ class TestReleaseCliParser:
         [
             "invalid",
             "MAJOR",  # Test case sensitivity
-            "Major", 
+            "Major",
             "MINOR",
             "Minor",
             "PATCH",
@@ -91,7 +90,7 @@ class TestReleaseCliParser:
         """Test that invalid release levels raise SystemExit with code 2."""
         with pytest.raises(SystemExit) as exc_info:
             cli_parser.parse([invalid_level])
-        
+
         assert exc_info.value.code == 2
 
     @pytest.mark.parametrize(
@@ -101,7 +100,7 @@ class TestReleaseCliParser:
     def test_parse_all_valid_release_levels(self, cli_parser: ReleaseCliParser, valid_level: str) -> None:
         """Test that all valid release levels are accepted."""
         namespace = cli_parser.parse([valid_level])
-        
+
         assert namespace.level == valid_level
         assert namespace.execute is False
 
@@ -111,36 +110,36 @@ class TestReleaseCliParser:
         namespace1 = cli_parser.parse(["major", "--execute"])
         assert namespace1.level == "major"
         assert namespace1.execute is True
-        
-        # Test with flag before level  
+
+        # Test with flag before level
         namespace2 = cli_parser.parse(["--execute", "minor"])
-        assert namespace2.level == "minor" 
+        assert namespace2.level == "minor"
         assert namespace2.execute is True
 
     def test_parse_multiple_invalid_flags_raise_system_exit(self, cli_parser: ReleaseCliParser) -> None:
         """Test that multiple invalid flags raise SystemExit."""
         with pytest.raises(SystemExit) as exc_info:
             cli_parser.parse(["patch", "--invalid1", "--invalid2"])
-        
+
         assert exc_info.value.code == 2
 
     def test_parse_extra_positional_arguments_raise_system_exit(self, cli_parser: ReleaseCliParser) -> None:
         """Test that extra positional arguments raise SystemExit."""
         with pytest.raises(SystemExit) as exc_info:
             cli_parser.parse(["patch", "extra", "arguments"])
-        
+
         assert exc_info.value.code == 2
 
     def test_argument_parser_configuration(self, cli_parser: ReleaseCliParser) -> None:
         """Test that the argument parser is configured correctly."""
         parser = cli_parser._argument_parser
-        
+
         # Test program name
         assert parser.prog == "release"
-        
+
         # Test description
         assert parser.description == "Release automation CLI (presentation layer)."
-        
+
         # Test that parser is an instance of ArgumentParser
         assert isinstance(parser, ArgumentParser)
 
@@ -148,35 +147,35 @@ class TestReleaseCliParser:
         """Test that --help flag raises SystemExit with code 0."""
         with pytest.raises(SystemExit) as exc_info:
             cli_parser.parse(["--help"])
-        
+
         assert exc_info.value.code == 0
 
     def test_version_argument_not_supported(self, cli_parser: ReleaseCliParser) -> None:
         """Test that --version argument is not supported (should raise SystemExit)."""
         with pytest.raises(SystemExit) as exc_info:
             cli_parser.parse(["--version"])
-        
+
         assert exc_info.value.code == 2
 
     def test_parse_empty_string_in_arguments_raises_system_exit(self, cli_parser: ReleaseCliParser) -> None:
         """Test that empty string as argument raises SystemExit."""
         with pytest.raises(SystemExit) as exc_info:
             cli_parser.parse([""])
-        
+
         assert exc_info.value.code == 2
 
     def test_constructor_creates_new_parser_instance(self) -> None:
         """Test that each ReleaseCliParser instance has its own ArgumentParser."""
         parser1 = ReleaseCliParser()
         parser2 = ReleaseCliParser()
-        
+
         assert parser1._argument_parser is not parser2._argument_parser
 
     def test_parse_preserves_argument_order_independence(self, cli_parser: ReleaseCliParser) -> None:
         """Test that argument order doesn't affect the result."""
         namespace1 = cli_parser.parse(["minor", "--execute"])
         namespace2 = cli_parser.parse(["--execute", "minor"])
-        
+
         assert namespace1.level == namespace2.level
         assert namespace1.execute == namespace2.execute
 
@@ -185,7 +184,7 @@ class TestReleaseCliParser:
         # Test with no arguments
         namespace_empty = cli_parser.parse([])
         assert namespace_empty.level == "patch"
-        
+
         # Test with only --execute flag
         namespace_execute_only = cli_parser.parse(["--execute"])
         assert namespace_execute_only.level == "patch"

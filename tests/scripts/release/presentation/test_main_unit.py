@@ -1,15 +1,15 @@
-import asyncio
 import inspect
-import pytest
-from unittest.mock import Mock, AsyncMock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
+import pytest
 import scripts.release.presentation.__main__ as main_module
-from scripts.release.presentation import __main__
 from scripts.release.presentation.container import Container
 from scripts.release.presentation.parsers.release_cli_parser import ReleaseCliParser
 from scripts.release.presentation.presenters.release_cli_presenter import (
     ReleaseCliPresenter,
 )
+
+from scripts.release.presentation import __main__
 
 
 @pytest.mark.unit
@@ -298,14 +298,11 @@ class TestMain:
 
     def test_main_module_execution_and_structure(self) -> None:
         """Test that the module has the correct execution structure."""
-        import scripts.release.presentation.__main__ as main_module
-
         # Verify the module has main function with correct signature
         assert hasattr(main_module, "main")
         assert callable(main_module.main)
 
         # Check function signature instead of using inspect.getsource()
-        import inspect
 
         signature = inspect.signature(main_module.main)
         assert len(signature.parameters) == 1
