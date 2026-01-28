@@ -48,15 +48,29 @@ class GitVersionControl(VersionControl):
 
     def commit_release_artifacts(self) -> None:
         logging.info("Committing release artifacts...")
-        self._runner.run(
-            [
-                "git",
-                "commit",
-                "-am",
-                "chore(release): prepare release",
-            ]
-        )
-        logging.info("✓ Committed release artifacts")
+        try:
+            self._runner.run(
+                [
+                    "git",
+                    "commit",
+                    "-am",
+                    "chore(release): prepare release",
+                ]
+            )
+            logging.info("✓ Committed release artifacts")
+        except RuntimeError as e:
+            error_msg = str(e)
+            if "nothing to commit" in error_msg:
+                from scripts.release.application.errors.release_branch_exists_error import (
+                    ReleaseBranchExistsError,
+                )
+
+                # Get current branch name
+                current_branch = self._runner.run(["git", "branch", "--show-current"]).strip()
+                raise ReleaseBranchExistsError(current_branch) from e
+            else:
+                # Re-raise the original error for other git commit failures
+                raise
 
     def create_branch(
         self,
@@ -113,9 +127,7 @@ class GitVersionControl(VersionControl):
 
     def remote_branch_exists(self, branch: ReleaseBranchName) -> bool:
         try:
-            self._runner.run(
-                ["git", "ls-remote", "--exit-code", "origin", branch.value]
-            )
+            self._runner.run(["git", "ls-remote", "--exit-code", "origin", branch.value])
             return True
         except RuntimeError:
             return False
@@ -126,9 +138,7 @@ class GitVersionControl(VersionControl):
     ) -> bool:
         logging.info(f"Checking if tag {tag.value} exists...")
         try:
-            self._runner.run(
-                ["git", "rev-parse", "--verify", tag.value], suppress_error_log=True
-            )
+            self._runner.run(["git", "rev-parse", "--verify", tag.value], suppress_error_log=True)
             logging.info(f"✓ Tag {tag.value} already exists")
             return True
         except RuntimeError:
