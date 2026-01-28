@@ -39,10 +39,7 @@ Tests are organized by isolation level, not by code structure:
 poe test:unit     # <1 second
 
 # Validation loop - before commits
-poe test          # <3 seconds - stable tests only
-
-# Comprehensive testing - release validation
-poe test:all      # <4 seconds - includes conditional tests
+poe test          # <4 seconds - includes all tests (stable + conditional)
 ```
 
 ### 3. **Clear Test Intent**

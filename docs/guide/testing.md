@@ -133,7 +133,7 @@ poetry run poe test:debug        # Debug mode with verbose output
 - 1 GitHub CLI integration test (requires `RUN_GITHUB_CLI_TESTS=1`)
 - 4 End-to-end workflow tests (require `RUN_E2E_TESTS=1` and complex setup)
 
-Use `poetry run poe test:all` to attempt running all tests including those requiring setup.
+Use `poetry run poe test` to run all tests including those requiring setup (with environment variables).
 
 ---
 
