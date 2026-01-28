@@ -14,6 +14,8 @@ class TestReleaseBranchName:
             pytest.param("release/v1.2", id="invalid_structure"),
             pytest.param("release/v1.-2.3", id="invalid_version"),
             pytest.param("release/v1.2", id="invalid_version"),
+            pytest.param("release/vx.y.z", id="non_numeric_version"),
+            pytest.param("release/v1.x.3", id="non_numeric_minor"),
         ],
     )
     def test_init_when_invalid_value_then_error(self, value: str) -> None:
@@ -21,6 +23,4 @@ class TestReleaseBranchName:
             ReleaseBranchName(value)
 
     def test_equality_when_same_value_then_equal(self) -> None:
-        assert ReleaseBranchName("release/v1.0.0") == ReleaseBranchName(
-            "release/v1.0.0"
-        )
+        assert ReleaseBranchName("release/v1.0.0") == ReleaseBranchName("release/v1.0.0")
