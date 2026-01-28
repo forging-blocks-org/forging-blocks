@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 from dataclasses import dataclass
 
 from forging_blocks.application.ports import UseCase
@@ -50,6 +51,7 @@ class OpenReleasePullRequestUseCase(
     - A merged PR triggers publishing and documentation deployment
     """
 
+    @abstractmethod
     async def execute(
         self,
         request: OpenReleasePullRequestInput,

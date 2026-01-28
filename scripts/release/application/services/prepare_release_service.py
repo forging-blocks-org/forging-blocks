@@ -121,12 +121,15 @@ class PrepareReleaseService(PrepareReleaseUseCase):
 
             # Register cleanup step to remove remote branch if something fails
             # IMPORTANT: Register BEFORE push so rollback works even if push fails
+            def delete_remote_branch_lambda(
+                branch: ReleaseBranchName = context.branch,
+            ) -> None:
+                self._version_control.delete_remote_branch(branch)
+
             self._transaction.register_step(
                 ReleaseStep(
                     name="delete_remote_branch",
-                    undo=lambda branch=context.branch: self._version_control.delete_remote_branch(
-                        branch
-                    ),
+                    undo=delete_remote_branch_lambda,
                 )
             )
 
@@ -148,11 +151,15 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             self._version_control.checkout(context.branch)
         else:
             self._version_control.create_branch(context.branch)
+
+            def delete_local_branch_lambda(
+                branch: ReleaseBranchName = context.branch,
+            ) -> None:
+                self._version_control.delete_local_branch(branch)
+
             self._transaction.register_step(
                 ReleaseStep(
                     name="delete_local_branch",
-                    undo=lambda branch=context.branch: self._version_control.delete_local_branch(
-                        branch
-                    ),
+                    undo=delete_local_branch_lambda,
                 )
             )

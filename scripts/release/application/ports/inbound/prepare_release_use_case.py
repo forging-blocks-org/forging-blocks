@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 from dataclasses import dataclass
 
 from forging_blocks.application.ports import UseCase
@@ -58,8 +59,8 @@ class PrepareReleaseUseCase(UseCase[PrepareReleaseInput, PrepareReleaseOutput]):
     - Dry runs must never mutate external state
     """
 
+    @abstractmethod
     async def execute(
         self,
         request: PrepareReleaseInput,
-    ) -> PrepareReleaseOutput:
-        ...
+    ) -> PrepareReleaseOutput: ...

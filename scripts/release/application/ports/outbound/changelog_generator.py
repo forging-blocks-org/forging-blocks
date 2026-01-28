@@ -1,5 +1,6 @@
 """Outbound port for generating changelogs between versions."""
 
+from abc import abstractmethod
 from dataclasses import dataclass
 
 from forging_blocks.foundation.ports import OutboundPort
@@ -22,6 +23,7 @@ class ChangelogResponse:
 class ChangelogGenerator(OutboundPort):
     """Port for generating changelogs between versions."""
 
+    @abstractmethod
     async def generate(self, request: ChangelogRequest) -> ChangelogResponse:
         """
         Generate a changelog between two versions.

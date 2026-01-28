@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from dataclasses import dataclass
 
 from forging_blocks.foundation.ports import OutputPort
@@ -20,6 +21,7 @@ class PullRequestService(OutputPort):
     Service that manages pull request creation in remote repository.
     """
 
+    @abstractmethod
     def open(self, pull_request: ReleasePullRequest) -> OpenPullRequestOutput:
         """
         Open a pull request and return its details.

@@ -1,17 +1,18 @@
 from __future__ import annotations
 
-import pytest
 from typing import Protocol
-from unittest.mock import MagicMock, create_autospec, call
+from unittest.mock import MagicMock, call, create_autospec
 
-from scripts.release.infrastructure.git.git_changelog_generator import (
-    GitChangelogGenerator,
-    ChangelogRequest,
-)
-from scripts.release.infrastructure.commons.process import CommandRunner
+import pytest
 from scripts.release.application.errors.change_log_generation_error import (
     ChangelogGenerationError,
 )
+from scripts.release.infrastructure.commons.process import CommandRunner
+from scripts.release.infrastructure.git.git_changelog_generator import (
+    ChangelogRequest,
+    GitChangelogGenerator,
+)
+
 from tests.fixtures.git_test_repository import GitTestRepository
 
 
@@ -192,7 +193,7 @@ class TestGitChangelogGenerator:
             ["git", "rev-parse", "--verify", "v1.0.0"], suppress_error_log=True
         )
 
-    async def test_find_suitable_from_tag_when_requested_missing_but_latest_exists_then_returns_latest(
+    async def test_find_suitable_from_tag_when_requested_missing_but_latest_exists_then_returns_latest(  # noqa: E501
         self,
         generator: GitChangelogGenerator,
         command_runner_mock: MagicMock,

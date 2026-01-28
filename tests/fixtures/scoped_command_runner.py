@@ -4,8 +4,10 @@ import logging
 import subprocess
 from pathlib import Path
 
+from scripts.release.infrastructure.commons.process import CommandRunner
 
-class ScopedCommandRunner:
+
+class ScopedCommandRunner(CommandRunner):
     """Command runner that executes commands in a specific directory."""
 
     def __init__(self, working_directory: Path):

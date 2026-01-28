@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from forging_blocks.foundation import OutputPort
 
 from scripts.release.domain.value_objects import ReleaseBranchName, TagName
@@ -10,6 +11,7 @@ class VersionControl(OutputPort):
     Must be non-interactive. All methods must raise on failure.
     """
 
+    @abstractmethod
     def branch_exists(
         self,
         branch: ReleaseBranchName,
@@ -100,6 +102,7 @@ class VersionControl(OutputPort):
         """
         ...
 
+    @abstractmethod
     def remote_branch_exists(
         self,
         branch: ReleaseBranchName,
@@ -110,6 +113,7 @@ class VersionControl(OutputPort):
         """
         ...
 
+    @abstractmethod
     def tag_exists(
         self,
         tag: TagName,
