@@ -1,0 +1,3 @@
+[git]
+conventional_commits = true
+filter_unconventional_commits = true
