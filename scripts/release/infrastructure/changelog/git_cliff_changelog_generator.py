@@ -59,7 +59,7 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
         tag_exists: bool,
         latest_tag: str | None,
     ) -> str | None:
-        """Return a git-cliff --tag-pattern / range string, or None for full history."""
+        """Return a tag to use as the starting point for changelog generation"""
         if tag_exists:
             return requested_tag
         return latest_tag  # None signals "no range — use full history"
