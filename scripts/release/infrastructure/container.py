@@ -1,6 +1,3 @@
-from release.infrastructure.changelog.git_cliff_changelog_generator import (
-    GitCliffChangelogGenerator,
-)
 from scripts.release.application.services.open_release_pull_request_service import (
     OpenReleasePullRequestService,
 )
@@ -12,6 +9,9 @@ from scripts.release.domain.messages.open_pull_request_command import (
 )
 from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
+)
+from scripts.release.infrastructure.changelog.git_cliff_changelog_generator import (
+    GitCliffChangelogGenerator,
 )
 from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
 from scripts.release.infrastructure.git.git_version_control import GitVersionControl
