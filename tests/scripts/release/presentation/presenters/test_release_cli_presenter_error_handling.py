@@ -15,21 +15,22 @@ class TestReleaseCliPresenterErrorHandling:
         self.mock_parser = Mock()
         self.mock_container = Mock()
         self.presenter = ReleaseCliPresenter(self.mock_parser, self.mock_container)
+        self.mock_logger = Mock()
+        self.presenter._logger = self.mock_logger
 
     @patch("sys.exit")
-    @patch("builtins.print")
-    def test_handle_branch_exists_error(self, mock_print, mock_exit):
+    def test_handle_branch_exists_error(self, mock_exit):
         """Test handling of branch already exists error."""
         error = ReleaseBranchExistsError("release/v0.3.11")
 
         self.presenter._handle_branch_exists_error(error)
 
-        # Verify user-friendly error message is printed
-        print_calls = [call[0][0] for call in mock_print.call_args_list]
-        assert "\n❌ Release Failed: Branch already exists with these changes" in print_calls
-        assert "   Branch 'release/v0.3.11' already contains the release artifacts." in print_calls
-        assert "git branch -D release/v0.3.11" in str(print_calls)
-        assert "git push origin --delete release/v0.3.11" in str(print_calls)
+        # Verify user-friendly error message is logged
+        log_calls = [call[0][0] for call in self.mock_logger.error.call_args_list]
+        assert "\nRelease Failed: Branch already exists with these changes" in log_calls
+        assert "Branch 'release/v0.3.11' already contains the release artifacts." in log_calls
+        assert "git branch -D release/v0.3.11" in str(log_calls)
+        assert "git push origin --delete release/v0.3.11" in str(log_calls)
 
         # Verify exit is called with error code 1
         mock_exit.assert_called_once_with(1)
@@ -44,7 +45,7 @@ class TestReleaseCliPresenterErrorHandling:
 
         # Verify user-friendly error message is printed
         print_calls = [call[0][0] for call in mock_print.call_args_list]
-        assert "\n❌ Release Failed: Tag already exists" in print_calls
+        assert "\nRelease Failed: Tag already exists" in print_calls
         # The error is printed as its string representation
         assert "'v0.3.11' already exists" in str(print_calls)
 
@@ -63,10 +64,39 @@ class TestReleaseCliPresenterErrorHandling:
 
         # Verify user-friendly error message is printed
         print_calls = [call[0][0] for call in mock_print.call_args_list]
-        assert "\n❌ Release Failed: Nothing to commit" in print_calls
+        assert "\nRelease Failed: Nothing to commit" in print_calls
         assert "   The release branch already exists with the same changes." in print_calls
 
         # Verify exit is called with error code 1
+        mock_exit.assert_called_once_with(1)
+
+    @patch("sys.exit")
+    @patch("builtins.print")
+    def test_handle_git_commit_error(self, mock_print, mock_exit):
+        """Test handling of a generic git commit failure (not 'nothing to commit')."""
+        error = RuntimeError("Command failed: git commit -am release\npre-commit hook failed")
+
+        self.presenter._handle_command_error(error)
+
+        print_calls = [call[0][0] for call in mock_print.call_args_list]
+        assert "\nRelease Failed: Git commit error" in print_calls
+        assert "   Could not commit release artifacts." in print_calls
+        assert "Check git status: git status" in str(print_calls)
+
+        mock_exit.assert_called_once_with(1)
+
+    @patch("sys.exit")
+    @patch("builtins.print")
+    def test_handle_unknown_command_error(self, mock_print, mock_exit):
+        """Test handling of a command error that matches no specific keyword."""
+        error = RuntimeError("Command failed: poetry version patch\nexited with code 1")
+
+        self.presenter._handle_command_error(error)
+
+        print_calls = [call[0][0] for call in mock_print.call_args_list]
+        assert "\nRelease Failed: Command error" in print_calls
+        assert "Check the logs above for specific command that failed" in str(print_calls)
+
         mock_exit.assert_called_once_with(1)
 
     @patch("sys.exit")
@@ -79,7 +109,7 @@ class TestReleaseCliPresenterErrorHandling:
 
         # Verify user-friendly error message is printed
         print_calls = [call[0][0] for call in mock_print.call_args_list]
-        assert "\n❌ Release Failed: Git push error" in print_calls
+        assert "\nRelease Failed: Git push error" in print_calls
         assert "   Could not push release branch to remote." in print_calls
         assert "Check network connection" in str(print_calls)
 
@@ -96,7 +126,7 @@ class TestReleaseCliPresenterErrorHandling:
 
         # Verify user-friendly error message is printed
         print_calls = [call[0][0] for call in mock_print.call_args_list]
-        assert "\n❌ Release Failed: Pull request creation error" in print_calls
+        assert "\nRelease Failed: Pull request creation error" in print_calls
         assert "   Could not create pull request." in print_calls
         assert "Install GitHub CLI: gh --version" in str(print_calls)
 
@@ -113,7 +143,7 @@ class TestReleaseCliPresenterErrorHandling:
 
         # Verify user-friendly error message is printed
         print_calls = [call[0][0] for call in mock_print.call_args_list]
-        assert "\n❌ Release Failed: Unexpected error" in print_calls
+        assert "\n Release Failed: Unexpected error" in print_calls
         assert "   ValueError: Some unexpected error" in print_calls
         assert "Check if all dependencies are installed" in str(print_calls)
 
@@ -166,7 +196,7 @@ class TestReleaseCliPresenterIntegration:
 
         # Verify error handling was triggered
         print_calls = [call[0][0] for call in mock_print.call_args_list]
-        assert "\n❌ Release Failed: Tag already exists" in print_calls
+        assert "\nRelease Failed: Tag already exists" in print_calls
         mock_exit.assert_called_once_with(1)
 
     @patch("sys.exit")
@@ -188,13 +218,15 @@ class TestReleaseCliPresenterIntegration:
         mock_container.get_prepare_release_use_case.return_value = mock_use_case
 
         presenter = ReleaseCliPresenter(mock_parser, mock_container)
+        mock_logger = Mock()
+        presenter._logger = mock_logger
 
         # Call present method - it should handle the error gracefully
         await presenter.present()
 
-        # Verify error handling was triggered
-        print_calls = [call[0][0] for call in mock_print.call_args_list]
-        assert "\n❌ Release Failed: Branch already exists with these changes" in print_calls
+        # Verify error handling was triggered via logger
+        log_calls = [call[0][0] for call in mock_logger.error.call_args_list]
+        assert "\nRelease Failed: Branch already exists with these changes" in log_calls
         mock_exit.assert_called_once_with(1)
 
     @patch("sys.exit")
@@ -224,7 +256,7 @@ class TestReleaseCliPresenterIntegration:
 
         # Verify error handling was triggered
         print_calls = [call[0][0] for call in mock_print.call_args_list]
-        assert "\n❌ Release Failed: Nothing to commit" in print_calls
+        assert "\nRelease Failed: Nothing to commit" in print_calls
         mock_exit.assert_called_once_with(1)
 
     @patch("sys.exit")
@@ -252,5 +284,5 @@ class TestReleaseCliPresenterIntegration:
 
         # Verify error handling was triggered
         print_calls = [call[0][0] for call in mock_print.call_args_list]
-        assert "\n❌ Release Failed: Unexpected error" in print_calls
+        assert "\n Release Failed: Unexpected error" in print_calls
         mock_exit.assert_called_once_with(1)
