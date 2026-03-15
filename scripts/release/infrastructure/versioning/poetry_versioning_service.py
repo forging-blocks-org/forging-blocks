@@ -3,11 +3,11 @@ from scripts.release.domain.value_objects import (
     ReleaseLevel,
     ReleaseVersion,
 )
-from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
+from scripts.release.infrastructure.commons.process import CommandRunner
 
 
 class PoetryVersioningService(VersioningService):
-    def __init__(self, runner: CommandRunner = SubprocessCommandRunner()) -> None:
+    def __init__(self, runner: CommandRunner) -> None:
         self._runner = runner
 
     def current_version(self) -> ReleaseVersion:
