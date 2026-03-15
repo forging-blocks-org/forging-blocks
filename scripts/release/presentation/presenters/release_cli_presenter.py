@@ -53,23 +53,23 @@ class ReleaseCliPresenter:
 
     def _handle_branch_exists_error(self, error: ReleaseBranchExistsError) -> None:
         """Handle the case where a release branch already exists with the same changes."""
-        print("\n❌ Release Failed: Branch already exists with these changes")
-        print(f"   Branch '{error.branch_name}' already contains the release artifacts.")
-        print("\n💡 To fix this:")
-        print("   • Delete the existing release branch:")
-        print(f"     git branch -D {error.branch_name}")
-        print(f"     git push origin --delete {error.branch_name}")
-        print("   • Then run the release command again")
-        print("\n   Or if you want to continue with the existing branch:")
-        print(f"   • Push the existing branch: git push origin {error.branch_name}")
-        print("   • Open a PR manually on GitHub")
+        self._logger.error("\nRelease Failed: Branch already exists with these changes")
+        self._logger.error(f"Branch '{error.branch_name}' already contains the release artifacts.")
+        self._logger.error("\nTo fix this:")
+        self._logger.error("   • Delete the existing release branch:")
+        self._logger.error(f"     git branch -D {error.branch_name}")
+        self._logger.error(f"     git push origin --delete {error.branch_name}")
+        self._logger.error("   • Then run the release command again")
+        self._logger.error("\n   Or if you want to continue with the existing branch:")
+        self._logger.error(f"   • Push the existing branch: git push origin {error.branch_name}")
+        self._logger.error("   • Open a PR manually on GitHub")
         sys.exit(1)
 
     def _handle_tag_exists_error(self, error: TagAlreadyExistsError) -> None:
         """Handle the case where a release tag already exists."""
-        print("\n❌ Release Failed: Tag already exists")
+        print("\nRelease Failed: Tag already exists")
         print(f"   Tag '{error}' already exists in the repository.")
-        print("\n💡 To fix this:")
+        print("\nTo fix this:")
         print("   • Delete the existing tag:")
         print(f"     git tag -d {error} && git push origin --delete {error}")
         print("   • Or bump to the next version level")
@@ -80,37 +80,37 @@ class ReleaseCliPresenter:
         error_msg = str(error)
 
         if "git commit" in error_msg and "nothing to commit" in error_msg:
-            print("\n❌ Release Failed: Nothing to commit")
+            print("\nRelease Failed: Nothing to commit")
             print("   The release branch already exists with the same changes.")
-            print("\n💡 To fix this:")
+            print("\nTo fix this:")
             print("   • Delete the existing release branch:")
             print("     git branch -D release/v* && git push origin --delete release/v*")
             print("   • Then run the release command again")
         elif "git commit" in error_msg:
-            print("\n❌ Release Failed: Git commit error")
+            print("\nRelease Failed: Git commit error")
             print("   Could not commit release artifacts.")
-            print("\n💡 To fix this:")
+            print("\nTo fix this:")
             print("   • Check git status: git status")
             print("   • Ensure working directory is clean")
             print("   • Check for pre-commit hook issues")
         elif "git push" in error_msg:
-            print("\n❌ Release Failed: Git push error")
+            print("\nRelease Failed: Git push error")
             print("   Could not push release branch to remote.")
-            print("\n💡 To fix this:")
+            print("\nTo fix this:")
             print("   • Check network connection")
             print("   • Verify Git credentials are set up")
             print("   • Check if branch protection rules block push")
         elif "gh pr create" in error_msg:
-            print("\n❌ Release Failed: Pull request creation error")
+            print("\nRelease Failed: Pull request creation error")
             print("   Could not create pull request.")
-            print("\n💡 To fix this:")
+            print("\nTo fix this:")
             print("   • Install GitHub CLI: gh --version")
             print("   • Login to GitHub: gh auth login")
             print("   • Or create the PR manually on GitHub")
         else:
-            print("\n❌ Release Failed: Command error")
+            print("\nRelease Failed: Command error")
             print(f"   {self._extract_user_friendly_message(error_msg)}")
-            print("\n💡 To debug:")
+            print("\nTo debug:")
             print("   • Check the logs above for specific command that failed")
             print("   • Run with increased verbosity for more details")
 
@@ -118,9 +118,9 @@ class ReleaseCliPresenter:
 
     def _handle_unexpected_error(self, error: Exception) -> None:
         """Handle unexpected errors."""
-        print("\n❌ Release Failed: Unexpected error")
+        print("\n Release Failed: Unexpected error")
         print(f"   {type(error).__name__}: {error}")
-        print("\n💡 This is an unexpected error. Please:")
+        print("\n This is an unexpected error. Please:")
         print("   • Check if all dependencies are installed")
         print("   • Report this issue with the error details")
         sys.exit(1)
