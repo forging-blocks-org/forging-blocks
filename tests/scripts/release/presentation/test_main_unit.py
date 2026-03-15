@@ -3,7 +3,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 import scripts.release.presentation.__main__ as main_module
-from scripts.release.presentation.container import Container
+from scripts.release.infrastructure.container import Container
 from scripts.release.presentation.parsers.release_cli_parser import ReleaseCliParser
 from scripts.release.presentation.presenters.release_cli_presenter import (
     ReleaseCliPresenter,
@@ -17,14 +17,13 @@ class TestMain:
     @pytest.mark.asyncio
     async def test_main_creates_container_and_initializes_it(self) -> None:
         """Test that main() creates a Container and calls initialize()."""
-        with patch(
-            "scripts.release.presentation.__main__.Container"
-        ) as mock_container_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliParser"
-        ) as mock_parser_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliPresenter"
-        ) as mock_presenter_class:
-
+        with (
+            patch("scripts.release.presentation.__main__.Container") as mock_container_class,
+            patch("scripts.release.presentation.__main__.ReleaseCliParser") as mock_parser_class,
+            patch(
+                "scripts.release.presentation.__main__.ReleaseCliPresenter"
+            ) as mock_presenter_class,
+        ):
             # Arrange
             mock_container = AsyncMock(spec=Container)
             mock_parser = Mock(spec=ReleaseCliParser)
@@ -46,14 +45,13 @@ class TestMain:
     @pytest.mark.asyncio
     async def test_main_creates_parser_and_presenter(self) -> None:
         """Test that main() creates ReleaseCliParser and ReleaseCliPresenter."""
-        with patch(
-            "scripts.release.presentation.__main__.Container"
-        ) as mock_container_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliParser"
-        ) as mock_parser_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliPresenter"
-        ) as mock_presenter_class:
-
+        with (
+            patch("scripts.release.presentation.__main__.Container") as mock_container_class,
+            patch("scripts.release.presentation.__main__.ReleaseCliParser") as mock_parser_class,
+            patch(
+                "scripts.release.presentation.__main__.ReleaseCliPresenter"
+            ) as mock_presenter_class,
+        ):
             # Arrange
             mock_container = AsyncMock(spec=Container)
             mock_parser = Mock(spec=ReleaseCliParser)
@@ -75,14 +73,13 @@ class TestMain:
     @pytest.mark.asyncio
     async def test_main_calls_presenter_present_with_argv(self) -> None:
         """Test that main() calls presenter.present() with the provided argv."""
-        with patch(
-            "scripts.release.presentation.__main__.Container"
-        ) as mock_container_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliParser"
-        ) as mock_parser_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliPresenter"
-        ) as mock_presenter_class:
-
+        with (
+            patch("scripts.release.presentation.__main__.Container") as mock_container_class,
+            patch("scripts.release.presentation.__main__.ReleaseCliParser") as mock_parser_class,
+            patch(
+                "scripts.release.presentation.__main__.ReleaseCliPresenter"
+            ) as mock_presenter_class,
+        ):
             # Arrange
             mock_container = AsyncMock(spec=Container)
             mock_parser = Mock(spec=ReleaseCliParser)
@@ -103,14 +100,13 @@ class TestMain:
     @pytest.mark.asyncio
     async def test_main_with_none_argv_passes_none_to_presenter(self) -> None:
         """Test that main() passes None to presenter.present() when argv is None."""
-        with patch(
-            "scripts.release.presentation.__main__.Container"
-        ) as mock_container_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliParser"
-        ) as mock_parser_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliPresenter"
-        ) as mock_presenter_class:
-
+        with (
+            patch("scripts.release.presentation.__main__.Container") as mock_container_class,
+            patch("scripts.release.presentation.__main__.ReleaseCliParser") as mock_parser_class,
+            patch(
+                "scripts.release.presentation.__main__.ReleaseCliPresenter"
+            ) as mock_presenter_class,
+        ):
             # Arrange
             mock_container = AsyncMock(spec=Container)
             mock_parser = Mock(spec=ReleaseCliParser)
@@ -129,14 +125,13 @@ class TestMain:
     @pytest.mark.asyncio
     async def test_main_with_no_arguments_uses_default_none_argv(self) -> None:
         """Test that main() uses None as default when no argv is provided."""
-        with patch(
-            "scripts.release.presentation.__main__.Container"
-        ) as mock_container_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliParser"
-        ) as mock_parser_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliPresenter"
-        ) as mock_presenter_class:
-
+        with (
+            patch("scripts.release.presentation.__main__.Container") as mock_container_class,
+            patch("scripts.release.presentation.__main__.ReleaseCliParser") as mock_parser_class,
+            patch(
+                "scripts.release.presentation.__main__.ReleaseCliPresenter"
+            ) as mock_presenter_class,
+        ):
             # Arrange
             mock_container = AsyncMock(spec=Container)
             mock_parser = Mock(spec=ReleaseCliParser)
@@ -163,18 +158,15 @@ class TestMain:
         ],
     )
     @pytest.mark.asyncio
-    async def test_main_execution_flow_with_different_argv_values(
-        self, argv: list[str]
-    ) -> None:
+    async def test_main_execution_flow_with_different_argv_values(self, argv: list[str]) -> None:
         """Test that main() follows correct execution flow with different argv values."""
-        with patch(
-            "scripts.release.presentation.__main__.Container"
-        ) as mock_container_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliParser"
-        ) as mock_parser_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliPresenter"
-        ) as mock_presenter_class:
-
+        with (
+            patch("scripts.release.presentation.__main__.Container") as mock_container_class,
+            patch("scripts.release.presentation.__main__.ReleaseCliParser") as mock_parser_class,
+            patch(
+                "scripts.release.presentation.__main__.ReleaseCliPresenter"
+            ) as mock_presenter_class,
+        ):
             # Arrange
             mock_container = AsyncMock(spec=Container)
             mock_parser = Mock(spec=ReleaseCliParser)
@@ -197,14 +189,13 @@ class TestMain:
     @pytest.mark.asyncio
     async def test_main_awaits_container_initialization(self) -> None:
         """Test that main() properly awaits container.initialize()."""
-        with patch(
-            "scripts.release.presentation.__main__.Container"
-        ) as mock_container_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliParser"
-        ) as mock_parser_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliPresenter"
-        ) as mock_presenter_class:
-
+        with (
+            patch("scripts.release.presentation.__main__.Container") as mock_container_class,
+            patch("scripts.release.presentation.__main__.ReleaseCliParser") as mock_parser_class,
+            patch(
+                "scripts.release.presentation.__main__.ReleaseCliPresenter"
+            ) as mock_presenter_class,
+        ):
             # Arrange
             mock_container = AsyncMock(spec=Container)
             mock_parser = Mock(spec=ReleaseCliParser)
@@ -222,9 +213,9 @@ class TestMain:
                 nonlocal presenter_created, initialization_called
                 presenter_created = True
                 # Verify initialize was called before presenter creation
-                assert (
-                    initialization_called
-                ), "Container should be initialized before presenter creation"
+                assert initialization_called, (
+                    "Container should be initialized before presenter creation"
+                )
                 return mock_presenter
 
             mock_container.initialize.side_effect = mock_initialize
@@ -243,14 +234,13 @@ class TestMain:
     @pytest.mark.asyncio
     async def test_main_awaits_presenter_present(self) -> None:
         """Test that main() properly awaits presenter.present()."""
-        with patch(
-            "scripts.release.presentation.__main__.Container"
-        ) as mock_container_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliParser"
-        ) as mock_parser_class, patch(
-            "scripts.release.presentation.__main__.ReleaseCliPresenter"
-        ) as mock_presenter_class:
-
+        with (
+            patch("scripts.release.presentation.__main__.Container") as mock_container_class,
+            patch("scripts.release.presentation.__main__.ReleaseCliParser") as mock_parser_class,
+            patch(
+                "scripts.release.presentation.__main__.ReleaseCliPresenter"
+            ) as mock_presenter_class,
+        ):
             # Arrange
             mock_container = AsyncMock(spec=Container)
             mock_parser = Mock(spec=ReleaseCliParser)

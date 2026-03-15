@@ -8,7 +8,7 @@ from scripts.release.application.ports.inbound.prepare_release_use_case import (
     PrepareReleaseOutput,
     PrepareReleaseUseCase,
 )
-from scripts.release.presentation.container import Container
+from scripts.release.infrastructure.container import Container
 from scripts.release.presentation.parsers.release_cli_parser import ReleaseCliParser
 from scripts.release.presentation.presenters.release_cli_presenter import ReleaseCliPresenter
 
@@ -52,10 +52,12 @@ class TestReleaseCliPresenter:
         mock_parser.parse.return_value = Namespace(level="minor", execute=False)
         mock_container.get_prepare_release_use_case.return_value = mock_use_case
 
-        expected_output = PrepareReleaseOutput(version="1.2.0", branch="release/1.2.0", tag="v1.2.0")
+        expected_output = PrepareReleaseOutput(
+            version="1.2.0", branch="release/1.2.0", tag="v1.2.0"
+        )
         mock_use_case.execute.return_value = expected_output
 
-        with patch.object(presenter, '_logger') as mock_logger:
+        with patch.object(presenter, "_logger") as mock_logger:
             # Act
             await presenter.present(argv)
 
@@ -86,10 +88,12 @@ class TestReleaseCliPresenter:
         mock_parser.parse.return_value = Namespace(level="major", execute=True)
         mock_container.get_prepare_release_use_case.return_value = mock_use_case
 
-        expected_output = PrepareReleaseOutput(version="2.0.0", branch="release/2.0.0", tag="v2.0.0")
+        expected_output = PrepareReleaseOutput(
+            version="2.0.0", branch="release/2.0.0", tag="v2.0.0"
+        )
         mock_use_case.execute.return_value = expected_output
 
-        with patch.object(presenter, '_logger') as mock_logger:
+        with patch.object(presenter, "_logger") as mock_logger:
             # Act
             await presenter.present(argv)
 
@@ -120,10 +124,12 @@ class TestReleaseCliPresenter:
         mock_parser.parse.return_value = Namespace(level="patch", execute=False)
         mock_container.get_prepare_release_use_case.return_value = mock_use_case
 
-        expected_output = PrepareReleaseOutput(version="1.0.1", branch="release/1.0.1", tag="v1.0.1")
+        expected_output = PrepareReleaseOutput(
+            version="1.0.1", branch="release/1.0.1", tag="v1.0.1"
+        )
         mock_use_case.execute.return_value = expected_output
 
-        with patch.object(presenter, '_logger') as mock_logger:
+        with patch.object(presenter, "_logger") as mock_logger:
             # Act
             await presenter.present(argv)
 
@@ -147,7 +153,9 @@ class TestReleaseCliPresenter:
         mock_parser.parse.return_value = Namespace(level="patch", execute=False)
         mock_container.get_prepare_release_use_case.return_value = mock_use_case
 
-        expected_output = PrepareReleaseOutput(version="1.0.1", branch="release/1.0.1", tag="v1.0.1")
+        expected_output = PrepareReleaseOutput(
+            version="1.0.1", branch="release/1.0.1", tag="v1.0.1"
+        )
         mock_use_case.execute.return_value = expected_output
 
         # Act
@@ -169,10 +177,12 @@ class TestReleaseCliPresenter:
         mock_parser.parse.return_value = Namespace(level="minor", execute=True)
         mock_container.get_prepare_release_use_case.return_value = mock_use_case
 
-        expected_output = PrepareReleaseOutput(version="1.2.0", branch="release/1.2.0", tag="v1.2.0")
+        expected_output = PrepareReleaseOutput(
+            version="1.2.0", branch="release/1.2.0", tag="v1.2.0"
+        )
         mock_use_case.execute.return_value = expected_output
 
-        with patch.object(presenter, '_logger') as mock_logger:
+        with patch.object(presenter, "_logger") as mock_logger:
             # Act
             await presenter.present(argv)
 
@@ -206,7 +216,9 @@ class TestReleaseCliPresenter:
         mock_parser.parse.return_value = Namespace(level=level, execute=execute)
         mock_container.get_prepare_release_use_case.return_value = mock_use_case
 
-        expected_output = PrepareReleaseOutput(version="1.0.0", branch="release/1.0.0", tag="v1.0.0")
+        expected_output = PrepareReleaseOutput(
+            version="1.0.0", branch="release/1.0.0", tag="v1.0.0"
+        )
         mock_use_case.execute.return_value = expected_output
 
         # Act
@@ -228,10 +240,12 @@ class TestReleaseCliPresenter:
         mock_parser.parse.return_value = Namespace(level="patch", execute=False)
         mock_container.get_prepare_release_use_case.return_value = mock_use_case
 
-        expected_output = PrepareReleaseOutput(version="1.0.1", branch="release/1.0.1", tag="v1.0.1")
+        expected_output = PrepareReleaseOutput(
+            version="1.0.1", branch="release/1.0.1", tag="v1.0.1"
+        )
         mock_use_case.execute.return_value = expected_output
 
-        with patch.object(presenter, '_logger') as mock_logger:
+        with patch.object(presenter, "_logger") as mock_logger:
             # Act
             await presenter.present(argv)
 
@@ -250,25 +264,27 @@ class TestReleaseCliPresenter:
             mock_logger.info.assert_any_call("Release preparation completed")
 
     async def test_constructor_initializes_logger_with_correct_name(
-        self,
-        mock_parser: Mock,
-        mock_container: Mock
+        self, mock_parser: Mock, mock_container: Mock
     ) -> None:
         """Test that constructor initializes logger with correct name."""
-        with patch('scripts.release.presentation.presenters.release_cli_presenter.Logger') as mock_logger_class:
+        with patch(
+            "scripts.release.presentation.presenters.release_cli_presenter.Logger"
+        ) as mock_logger_class:
             # Act
             presenter = ReleaseCliPresenter(parser=mock_parser, container=mock_container)
 
             # Assert
-            mock_logger_class.assert_called_once_with('scripts.release.presentation.presenters.release_cli_presenter')
+            mock_logger_class.assert_called_once_with(
+                "scripts.release.presentation.presenters.release_cli_presenter"
+            )
             assert presenter._parser is mock_parser
             assert presenter._container is mock_container
 
     @pytest.mark.parametrize(
         "execute_flag, expected_dry_run",
         [
-            (True, False),   # execute=True -> dry_run=False
-            (False, True),   # execute=False -> dry_run=True
+            (True, False),  # execute=True -> dry_run=False
+            (False, True),  # execute=False -> dry_run=True
         ],
     )
     async def test_present_dry_run_logic_inversion(
@@ -285,7 +301,9 @@ class TestReleaseCliPresenter:
         mock_parser.parse.return_value = Namespace(level="patch", execute=execute_flag)
         mock_container.get_prepare_release_use_case.return_value = mock_use_case
 
-        expected_output = PrepareReleaseOutput(version="1.0.0", branch="release/1.0.0", tag="v1.0.0")
+        expected_output = PrepareReleaseOutput(
+            version="1.0.0", branch="release/1.0.0", tag="v1.0.0"
+        )
         mock_use_case.execute.return_value = expected_output
 
         # Act
@@ -303,21 +321,24 @@ class TestReleaseCliPresenter:
         mock_use_case: AsyncMock,
     ) -> None:
         """Test that different log messages are shown for dry run vs execute modes."""
-        expected_output = PrepareReleaseOutput(version="1.0.0", branch="release/1.0.0", tag="v1.0.0")
+        expected_output = PrepareReleaseOutput(
+            version="1.0.0", branch="release/1.0.0", tag="v1.0.0"
+        )
         mock_use_case.execute.return_value = expected_output
         mock_container.get_prepare_release_use_case.return_value = mock_use_case
 
         # Test dry run mode
         mock_parser.parse.return_value = Namespace(level="patch", execute=False)
 
-        with patch.object(presenter, '_logger') as mock_logger:
+        with patch.object(presenter, "_logger") as mock_logger:
             await presenter.present(["patch"])
 
             mock_logger.info.assert_any_call("Dry run mode - no changes were made")
 
             # Verify "Release executed successfully" is NOT called in dry run
             assert not any(
-                call for call in mock_logger.info.call_args_list
+                call
+                for call in mock_logger.info.call_args_list
                 if "Release executed successfully" in str(call)
             )
 
@@ -328,14 +349,15 @@ class TestReleaseCliPresenter:
         # Test execute mode
         mock_parser.parse.return_value = Namespace(level="patch", execute=True)
 
-        with patch.object(presenter, '_logger') as mock_logger:
+        with patch.object(presenter, "_logger") as mock_logger:
             await presenter.present(["patch", "--execute"])
 
             mock_logger.info.assert_any_call("Release executed successfully")
 
             # Verify "Dry run mode" message is NOT called in execute mode
             assert not any(
-                call for call in mock_logger.info.call_args_list
+                call
+                for call in mock_logger.info.call_args_list
                 if "Dry run mode - no changes were made" in str(call)
             )
 
@@ -363,13 +385,17 @@ class TestReleaseCliPresenter:
         mock_parser.parse.return_value = Namespace(level=level, execute=execute)
         mock_container.get_prepare_release_use_case.return_value = mock_use_case
 
-        expected_output = PrepareReleaseOutput(version="1.0.0", branch="release/1.0.0", tag="v1.0.0")
+        expected_output = PrepareReleaseOutput(
+            version="1.0.0", branch="release/1.0.0", tag="v1.0.0"
+        )
         mock_use_case.execute.return_value = expected_output
 
-        with patch.object(presenter, '_logger') as mock_logger:
+        with patch.object(presenter, "_logger") as mock_logger:
             # Act
             await presenter.present([level])
 
             # Assert
-            expected_message = f"Preparing release with level: {expected_level}, dry_run: {expected_dry_run}"
+            expected_message = (
+                f"Preparing release with level: {expected_level}, dry_run: {expected_dry_run}"
+            )
             mock_logger.info.assert_any_call(expected_message)

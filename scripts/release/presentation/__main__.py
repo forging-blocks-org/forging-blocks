@@ -1,7 +1,7 @@
 import asyncio
 from typing import Sequence
 
-from scripts.release.presentation.container import Container
+from scripts.release.infrastructure.container import Container
 from scripts.release.presentation.parsers.release_cli_parser import ReleaseCliParser
 from scripts.release.presentation.presenters.release_cli_presenter import ReleaseCliPresenter
 

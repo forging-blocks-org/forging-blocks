@@ -5,7 +5,7 @@ from typing import Sequence
 from scripts.release.application.errors.release_branch_exists_error import ReleaseBranchExistsError
 from scripts.release.application.errors.tag_already_exists_error import TagAlreadyExistsError
 from scripts.release.application.ports.inbound.prepare_release_use_case import PrepareReleaseInput
-from scripts.release.presentation.container import Container
+from scripts.release.infrastructure.container import Container
 from scripts.release.presentation.parsers import ReleaseCliParser
 
 

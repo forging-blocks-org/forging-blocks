@@ -5,7 +5,7 @@ from scripts.release.application.services.open_release_pull_request_service impo
 from scripts.release.application.services.prepare_release_service import (
     PrepareReleaseService,
 )
-from scripts.release.presentation.container import Container
+from scripts.release.infrastructure.container import Container
 
 
 @pytest.mark.unit

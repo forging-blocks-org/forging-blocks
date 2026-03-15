@@ -1,3 +1,6 @@
+from release.infrastructure.changelog.git_cliff_changelog_generator import (
+    GitCliffChangelogGenerator,
+)
 from scripts.release.application.services.open_release_pull_request_service import (
     OpenReleasePullRequestService,
 )
@@ -11,9 +14,6 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
 )
 from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
-from scripts.release.infrastructure.git.git_changelog_generator import (
-    GitChangelogGenerator,
-)
 from scripts.release.infrastructure.git.git_version_control import GitVersionControl
 from scripts.release.infrastructure.github.github_cli_pull_request_service import (
     GitHubCliPullRequestService,
@@ -28,14 +28,13 @@ from scripts.release.infrastructure.versioning.poetry_versioning_service import 
 
 
 class Container:
-    """Composition root.
-    """
+    """Composition root."""
 
     def __init__(self) -> None:
         self._command_runner = SubprocessCommandRunner()
         self._versioning_service = PoetryVersioningService(self._command_runner)
         self._version_control = GitVersionControl(self._command_runner)
-        self._changelog_generator = GitChangelogGenerator(self._command_runner)
+        self._changelog_generator = GitCliffChangelogGenerator(self._command_runner)
         self._pull_request_service = GitHubCliPullRequestService(self._command_runner)
 
     async def initialize(self) -> None:
@@ -61,14 +60,11 @@ class Container:
         )
 
     async def _setup_message_handlers(self) -> None:
-        """Register all events handlers
-        """
+        """Register all events handlers"""
         self._message_bus = InMemoryReleaseCommandBus()
         open_pull_request_service = OpenReleasePullRequestService(
             pull_request_service=self._pull_request_service,
         )
         open_pull_request_handler = OpenPullRequestHandler(open_pull_request_service)
 
-        await self._message_bus.register(
-            OpenPullRequestCommand, open_pull_request_handler
-        )
+        await self._message_bus.register(OpenPullRequestCommand, open_pull_request_handler)
