@@ -72,6 +72,10 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
         try:
             return self._runner.run(cmd, check=True)
+        except FileNotFoundError as exc:
+            raise ChangelogGenerationError(
+                "git-cliff is not installed or not found in PATH"
+            ) from exc
         except RuntimeError as exc:
             raise ChangelogGenerationError(f"git-cliff failed: {exc}") from exc
 
