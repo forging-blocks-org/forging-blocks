@@ -1,20 +1,20 @@
 from __future__ import annotations
 
-from scripts.release.application.errors.change_log_generation_error import ChangelogGenerationError
 from scripts.release.application.ports.outbound import (
+    ChangelogGenerator,
     ChangelogRequest,
     ChangelogResponse,
 )
-from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
+from scripts.release.infrastructure.commons.process import CommandRunner
 
-from release.application.ports.outbound.changelog_generator import ChangelogGenerator
+from scripts.release.application.errors import ChangelogGenerationError
 
 
 class GitCliffChangelogGenerator(ChangelogGenerator):
     """Adapter that generates changelogs using git-cliff."""
 
-    def __init__(self, runner: CommandRunner | None = None) -> None:
-        self._runner = runner or SubprocessCommandRunner()
+    def __init__(self, runner: CommandRunner) -> None:
+        self._runner = runner
 
     async def generate(self, request: ChangelogRequest) -> ChangelogResponse:
         from_tag = f"v{request.from_version}"
