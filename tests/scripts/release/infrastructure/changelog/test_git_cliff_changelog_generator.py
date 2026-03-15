@@ -14,7 +14,7 @@ from scripts.release.infrastructure.commons.process import CommandRunner
 class TestGitCliffChangelogGenerator:
     @pytest.fixture
     def runner_mock(self) -> MagicMock:
-        return create_autospec(CommandRunner)
+        return create_autospec(CommandRunner, instance=True)
 
     @pytest.fixture
     def generator(self, runner_mock: MagicMock) -> GitCliffChangelogGenerator:
