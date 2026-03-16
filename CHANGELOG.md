@@ -35,7 +35,7 @@
 - Release back to pyproject.toml
 - Improve release automation tests
 - *(cliff)* Add cliff config file
-- *(release)* Prepare release
+
 ## [0.3.7] - 2026-01-26
 
 ### 🐛 Bug Fixes
@@ -64,8 +64,8 @@
 - Update mkdocs.yml to use mike for versioning and improve structure
 - Changing assets
 - Updated pyproject.toml
-- *(release)* Prepare release
 - Adjusting release scripts and adding debug test command
+
 ## [0.3.6] - 2025-11-11
 
 ### 📚 Documentation
