@@ -74,7 +74,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
-- Bump version to v0.3.6
+- Prepare v0.3.6 release (version bump and metadata updates)
 ## [0.3.5] - 2025-11-10
 
 ### ⚙️ Miscellaneous Tasks
@@ -95,10 +95,10 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Update publish workflow and bump version to 0.3.4
-- Package name
+- Adjust package name in publishing configuration
 ## [0.3.1] - 2025-11-09
 
 ### 💼 Other
 
 - Force update
-- V0.3.1
+- Prepare v0.3.1 release (version bump and release metadata updates)
