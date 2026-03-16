@@ -54,7 +54,7 @@
 - 0.4.1
 - Implement infrastructure layer
 - Adjusting release scripts to use command bus pattern
-- Server` is now in pyproject.toml for local doc serving
+- Server is now in pyproject.toml for local doc serving
 
 ### 🚜 Refactor
 
