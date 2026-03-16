@@ -1,0 +1,18 @@
+[git]
+conventional_commits = true
+filter_unconventional = true
+deduplicate_commits = true
+
+commit_parsers = [
+  { message = "^feat", group = "Features" },
+  { message = "^fix", group = "Bug Fixes" },
+  { message = "^refactor", group = "Refactor" },
+  { message = "^docs?", group = "Documentation" },
+  { message = "^test", group = "Testing" },
+  { message = "^ci", group = "CI" },
+  { message = "^chore\\(release\\)", skip = true },
+  { message = "^chore\\(cliff\\)", skip = true },
+  { message = "Prepare release", skip = true },
+  { message = "^chore", group = "Miscellaneous Tasks" },
+  { message = ".*", skip = true },
+]
