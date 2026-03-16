@@ -67,13 +67,7 @@
 - Changing assets
 - Updated pyproject.toml
 - *(release)* Prepare release
-- *(release)* Prepare release
 - Adjusting release scripts and adding debug test command
-- *(release)* Prepare release
-- *(release)* Prepare release
-- *(release)* Prepare release
-- *(release)* Prepare release
-- *(release)* Prepare release
 ## [0.3.6] - 2025-11-11
 
 ### 📚 Documentation
