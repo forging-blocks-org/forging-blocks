@@ -1,20 +1,29 @@
 ## [unreleased]
 
-### 🚀 Features
-
-- ChangelogGenerator is now generated using git-cliff instead of raw git log parsing
-
-### 🐛 Bug Fixes
+### Bug Fixes
 
 - *(changelog)* Update changelog generator to use provided command runner
 - *(release)* Container now imports from scripts.release
 - Update test for GitCliffChangelogGenerator to use instance mock
 
-### 💼 Other
+### CI
 
-- Add GitHub project setup, issue templates, and v1.0.0 roadmap
+- Release back to pyproject.toml
 
-### 🚜 Refactor
+### Documentation
+
+- *(changelog)* GitCliffChangelogGenerator docstring clarification
+
+### Features
+
+- ChangelogGenerator is now generated using git-cliff instead of raw git log parsing
+
+### Miscellaneous Tasks
+
+- Improve release automation tests
+- Generate base changelog
+
+### Refactor
 
 - Move container to infrastructure layer
 - *(poetry)* Remove default command runner for better testability
@@ -22,23 +31,12 @@
 - Improve error handling in GitCliffChangelogGenerator
 - Improve error handling in release presenter
 
-### 📚 Documentation
-
-- *(changelog)* GitCliffChangelogGenerator docstring clarification
-
-### 🧪 Testing
+### Testing
 
 - Pytest fixtures to avoid code duplication in test_main_unit.py
-
-### ⚙️ Miscellaneous Tasks
-
-- Release back to pyproject.toml
-- Improve release automation tests
-- *(cliff)* Add cliff config file
-
 ## [0.3.7] - 2026-01-26
 
-### 🐛 Bug Fixes
+### Bug Fixes
 
 - UI is now more readable
 - Chore: remove versioning from common release script
@@ -48,43 +46,39 @@
 - Improve changelog generation and test configuration
 - Add missing push step before PR creation
 
-### 💼 Other
-
-- Implement infrastructure layer
-- Adjusting release scripts to use command bus pattern
-- Server is now in pyproject.toml for local doc serving
-
-### 🚜 Refactor
-
-- Adjust release scripts to improve modularity and testability
-- Adjusting docs to new release script syntax
-
-### ⚙️ Miscellaneous Tasks
+### Miscellaneous Tasks
 
 - Update mkdocs.yml to use mike for versioning and improve structure
 - Changing assets
 - Updated pyproject.toml
 - Adjusting release scripts and adding debug test command
 
+### Refactor
+
+- Adjust release scripts to improve modularity and testability
+- Adjusting docs to new release script syntax
 ## [0.3.6] - 2025-11-11
 
-### 📚 Documentation
+### Documentation
 
 - Add release guide and update readme/index
 
-### ⚙️ Miscellaneous Tasks
+### Miscellaneous Tasks
 
-- Prepare v0.3.6 release (version bump and metadata updates)
+- Bump version to v0.3.6
 ## [0.3.5] - 2025-11-10
 
-### ⚙️ Miscellaneous Tasks
+### CI
+
+- Switch to official OIDC publisher
+
+### Miscellaneous Tasks
 
 - *(ci)* Fix PyPI publish workflow and align package name
 - *(ci)* Fix PyPI publish workflow and align package name
-- Switch to official OIDC publisher
 ## [0.3.4] - 2025-11-10
 
-### 🐛 Bug Fixes
+### Bug Fixes
 
 - Adjusting publish.yml
 - Publish.yml
@@ -92,13 +86,8 @@
 - *(ci)* Correct PyPI OIDC publish workflow
 - *(ci)* Correct PyPI OIDC workflow for release 0.3.4
 
-### ⚙️ Miscellaneous Tasks
+### Miscellaneous Tasks
 
-- Update publish workflow and bump version to 0.3.4
-- Adjust package name in publishing configuration
+- Update publish workflow and bump version to 0.3.2
+- Package name
 ## [0.3.1] - 2025-11-09
-
-### 💼 Other
-
-- Force update
-- Prepare v0.3.1 release (version bump and release metadata updates)
