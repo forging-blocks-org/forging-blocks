@@ -225,9 +225,19 @@ class TestReleaseWorkflow:
 
         request = PrepareReleaseInput(level="minor", dry_run=False)
 
+        # Spy on the message bus to ensure a PR command is actually sent.
+        original_send = message_bus.send
+        message_bus.send = AsyncMock(wraps=original_send)
+
         await service.execute(request)
 
-        assert message_bus._subscribers
+        # Ensure that a command was sent through the bus.
+        message_bus.send.assert_awaited()
+        # Ensure that an OpenPullRequestCommand was among the sent commands.
+        assert any(
+            isinstance(call.args[0], OpenPullRequestCommand)
+            for call in message_bus.send.await_args_list
+        )
 
     async def test_dryrun_without_flag_does_not_make_git_changes(
         self,
