@@ -49,14 +49,8 @@ class GitVersionControl(VersionControl):
     def commit_release_artifacts(self) -> None:
         logging.info("Committing release artifacts...")
         try:
-            self._runner.run(
-                [
-                    "git",
-                    "commit",
-                    "-am",
-                    "chore(release): prepare release",
-                ]
-            )
+            self._runner.run(["git", "add", "-A"])
+            self._runner.run(["git", "commit", "-m", "chore(release): prepare release"])
             logging.info("✓ Committed release artifacts")
         except RuntimeError as e:
             error_msg = str(e)

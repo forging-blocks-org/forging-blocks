@@ -31,9 +31,7 @@ class TestGitVersionControl:
     def tag_name(self) -> TagName:
         return TagName("v1.2.0")
 
-    def test_init_when_called_then_sets_runner(
-        self, command_runner_mock: MagicMock
-    ) -> None:
+    def test_init_when_called_then_sets_runner(self, command_runner_mock: MagicMock) -> None:
         version_control = GitVersionControl(command_runner_mock)
 
         assert version_control._runner == command_runner_mock
@@ -76,9 +74,7 @@ class TestGitVersionControl:
     ) -> None:
         version_control.checkout(branch_name)
 
-        command_runner_mock.run.assert_called_once_with(
-            ["git", "checkout", "release/v1.2.0"]
-        )
+        command_runner_mock.run.assert_called_once_with(["git", "checkout", "release/v1.2.0"])
 
     def test_checkout_main_when_called_then_runs_checkout_main_command(
         self, version_control: GitVersionControl, command_runner_mock: MagicMock
@@ -108,13 +104,16 @@ class TestGitVersionControl:
         ]
         command_runner_mock.run.assert_has_calls(expected_calls)
 
-    def test_commit_release_artifacts_when_called_then_runs_commit_command(
+    def test_commit_release_artifacts_when_called_then_runs_add_and_commit_commands(
         self, version_control: GitVersionControl, command_runner_mock: MagicMock
     ) -> None:
         version_control.commit_release_artifacts()
 
-        command_runner_mock.run.assert_called_once_with(
-            ["git", "commit", "-am", "chore(release): prepare release"]
+        command_runner_mock.run.assert_has_calls(
+            [
+                call(["git", "add", "-A"]),
+                call(["git", "commit", "-m", "chore(release): prepare release"]),
+            ]
         )
 
     def test_create_branch_when_called_then_runs_checkout_b_command(
@@ -125,9 +124,7 @@ class TestGitVersionControl:
     ) -> None:
         version_control.create_branch(branch_name)
 
-        command_runner_mock.run.assert_called_once_with(
-            ["git", "checkout", "-b", "release/v1.2.0"]
-        )
+        command_runner_mock.run.assert_called_once_with(["git", "checkout", "-b", "release/v1.2.0"])
 
     def test_create_tag_when_called_then_runs_tag_command(
         self,
@@ -147,9 +144,7 @@ class TestGitVersionControl:
     ) -> None:
         version_control.delete_local_branch(branch_name)
 
-        command_runner_mock.run.assert_called_once_with(
-            ["git", "branch", "-D", "release/v1.2.0"]
-        )
+        command_runner_mock.run.assert_called_once_with(["git", "branch", "-D", "release/v1.2.0"])
 
     def test_delete_remote_branch_when_called_then_runs_push_delete_command(
         self,
@@ -187,9 +182,7 @@ class TestGitVersionControl:
     ) -> None:
         version_control.push(branch_name, push_tags=False)
 
-        command_runner_mock.run.assert_called_once_with(
-            ["git", "push", "origin", "release/v1.2.0"]
-        )
+        command_runner_mock.run.assert_called_once_with(["git", "push", "origin", "release/v1.2.0"])
 
     def test_push_when_called_with_tags_then_runs_push_and_push_tags_commands(
         self,
@@ -322,7 +315,21 @@ class TestGitVersionControlIntegration:
         # Modify the tracked file
         git_repo.write_file("CHANGELOG.md", "updated changes")
 
-        # Act (this should commit the modified tracked file using -am)
+        # Act
+        version_control.commit_release_artifacts()
+
+        # Assert
+        assert git_repo.last_commit_message() == "chore(release): prepare release"
+
+    def test_commit_release_artifacts_when_new_untracked_file_then_commit_created(
+        self,
+        git_repo: GitTestRepository,
+    ) -> None:
+        # Arrange: CHANGELOG.md does not exist yet (new/untracked)
+        version_control = GitVersionControl(git_repo.scoped_runner())
+        git_repo.write_file("CHANGELOG.md", "initial changelog")
+
+        # Act (git commit -am would silently skip an untracked file; git add -A must be used)
         version_control.commit_release_artifacts()
 
         # Assert
