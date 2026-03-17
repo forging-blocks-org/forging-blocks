@@ -85,7 +85,7 @@ def changelog_generator(git_repo_with_poetry: GitTestRepository) -> GitCliffChan
 
 
 @pytest.fixture
-def message_bus(git_repo_with_poetry: GitTestRepository) -> InMemoryReleaseCommandBus:
+async def message_bus(git_repo_with_poetry: GitTestRepository) -> InMemoryReleaseCommandBus:
     from scripts.release.application.services.open_release_pull_request_service import (
         OpenReleasePullRequestService,
     )
@@ -96,7 +96,7 @@ def message_bus(git_repo_with_poetry: GitTestRepository) -> InMemoryReleaseComma
     open_pr_service = OpenReleasePullRequestService(pull_request_service=pull_request_service)
     handler = OpenPullRequestHandler(open_pr_service)
 
-    asyncio.run(bus.register(OpenPullRequestCommand, handler))
+    await bus.register(OpenPullRequestCommand, handler)
 
     return bus
 
