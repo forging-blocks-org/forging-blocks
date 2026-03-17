@@ -16,8 +16,8 @@ from scripts.release.application.ports.outbound import (
 from scripts.release.application.services.prepare_release_service import (
     PrepareReleaseService,
 )
+from scripts.release.application.workflow import ReleaseContext, ReleaseStep
 
-from release.application.workflow import ReleaseContext, ReleaseStep
 from scripts.release.application.errors import TagAlreadyExistsError
 from scripts.release.domain.messages import OpenPullRequestCommand
 from scripts.release.domain.value_objects import (
