@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from scripts.release.application.ports.outbound import (
     ChangelogGenerator,
     ChangelogRequest,
@@ -8,6 +10,8 @@ from scripts.release.application.ports.outbound import (
 from scripts.release.infrastructure.commons.process import CommandRunner
 
 from scripts.release.application.errors import ChangelogGenerationError
+
+_DEFAULT_CHANGELOG_PATH = Path("CHANGELOG.md")
 
 
 class GitCliffChangelogGenerator(ChangelogGenerator):
@@ -22,8 +26,13 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
     - no tags at all → generate full history (no range argument)
     """
 
-    def __init__(self, runner: CommandRunner) -> None:
+    def __init__(
+        self,
+        runner: CommandRunner,
+        changelog_path: Path = _DEFAULT_CHANGELOG_PATH,
+    ) -> None:
         self._runner = runner
+        self._changelog_path = changelog_path
 
     async def generate(self, request: ChangelogRequest) -> ChangelogResponse:
         from_tag = f"v{request.from_version}"
@@ -80,7 +89,9 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
             cmd += ["--", f"{from_tag}.."]
 
         try:
-            return self._runner.run(cmd, check=True)
+            output = self._runner.run(cmd, check=True)
+            self._changelog_path.write_text(output)
+            return output
         except FileNotFoundError as exc:
             raise ChangelogGenerationError(
                 "git-cliff is not installed or not found in PATH"

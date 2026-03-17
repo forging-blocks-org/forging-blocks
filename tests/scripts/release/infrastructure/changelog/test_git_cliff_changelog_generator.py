@@ -23,7 +23,10 @@ from scripts.release.application.errors import ChangelogGenerationError
 
 
 def _make_generator(repo: GitTestRepository) -> GitCliffChangelogGenerator:
-    return GitCliffChangelogGenerator(runner=repo.scoped_runner())
+    return GitCliffChangelogGenerator(
+        runner=repo.scoped_runner(),
+        changelog_path=repo.path / "CHANGELOG.md",
+    )
 
 
 @pytest.mark.integration
@@ -46,6 +49,7 @@ class TestGitCliffChangelogGenerator:
         assert "Add feature after tag" in full_output
         assert "Fix bug after tag" in full_output
         assert "Commit before tag" not in full_output
+        assert (git_repo.path / "CHANGELOG.md").exists()
 
     async def test_generate_when_tag_missing_but_other_tags_exist_then_returns_entries_since_latest_tag(
         self, git_repo: GitTestRepository
@@ -62,6 +66,7 @@ class TestGitCliffChangelogGenerator:
         full_output = "\n".join(response.entries)
         assert "Commit after latest tag" in full_output
         assert "Base commit" not in full_output
+        assert (git_repo.path / "CHANGELOG.md").exists()
 
     async def test_generate_when_no_tags_exist_then_returns_full_history(
         self, git_repo: GitTestRepository
@@ -77,6 +82,7 @@ class TestGitCliffChangelogGenerator:
         full_output = "\n".join(response.entries)
         assert "First commit" in full_output
         assert "Second commit" in full_output
+        assert (git_repo.path / "CHANGELOG.md").exists()
 
     async def test_generate_when_git_cliff_not_installed_then_raises_changelog_generation_error(
         self, git_repo: GitTestRepository, monkeypatch: pytest.MonkeyPatch
@@ -112,7 +118,10 @@ class TestGitCliffChangelogGenerator:
         """git-cliff fails when cwd is not a git repository."""
         monkeypatch.chdir(tmp_path)
 
-        generator = GitCliffChangelogGenerator(runner=SubprocessCommandRunner())
+        generator = GitCliffChangelogGenerator(
+            runner=SubprocessCommandRunner(),
+            changelog_path=tmp_path / "CHANGELOG.md",
+        )
 
         with pytest.raises(ChangelogGenerationError, match="git-cliff failed"):
             await generator.generate(ChangelogRequest(from_version="1.0.0"))
