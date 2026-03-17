@@ -99,20 +99,18 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             return
 
         async with self._transaction:
-            self._global_setup()
+            self._transaction.register_step(
+                ReleaseStep(
+                    name="checkout_main",
+                    undo=self._version_control.checkout_main,
+                )
+            )
             self._branch_handling(context)
             self._apply_version(context)
             await self._generate_changelog(context)
+            self._create_tag(context)
             self._version_control.commit_release_artifacts()
             self._push_branch(context)
-
-    def _global_setup(self) -> None:
-        self._transaction.register_step(
-            ReleaseStep(
-                name="checkout_main",
-                undo=self._version_control.checkout_main,
-            )
-        )
 
     def _branch_handling(self, context: ReleaseContext) -> None:
         if context.branch_exists:
@@ -140,6 +138,15 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             ChangelogRequest(from_version=context.previous_version.value)
         )
 
+    def _create_tag(self, context: ReleaseContext) -> None:
+        self._transaction.register_step(
+            ReleaseStep(
+                name="delete_tag",
+                undo=lambda: self._version_control.delete_tag(context.tag),
+            )
+        )
+        self._version_control.create_tag(context.tag)
+
     def _push_branch(self, context: ReleaseContext) -> None:
         self._transaction.register_step(
             ReleaseStep(
@@ -147,4 +154,4 @@ class PrepareReleaseService(PrepareReleaseUseCase):
                 undo=lambda: self._version_control.delete_remote_branch(context.branch),
             )
         )
-        self._version_control.push(context.branch, push_tags=False)
+        self._version_control.push(context.branch, push_tags=True)

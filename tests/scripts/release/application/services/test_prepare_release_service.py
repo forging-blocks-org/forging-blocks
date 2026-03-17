@@ -187,8 +187,8 @@ class TestPrepareReleaseService:
         # Verify command is sent when not dry_run
         release_command_bus_mock.send.assert_called_once()
 
-        # checkout_main + delete_local_branch (new branch) + rollback_version + delete_remote_branch
-        assert transaction_mock.register_step.call_count == 4
+        # checkout_main + delete_local_branch (new branch) + rollback_version + delete_tag + delete_remote_branch
+        assert transaction_mock.register_step.call_count == 5
 
     async def test_execute_when_branch_exists_then_checkout_existing_branch(
         self,
@@ -209,8 +209,8 @@ class TestPrepareReleaseService:
         version_control_mock.checkout.assert_called_once()
         version_control_mock.create_branch.assert_not_called()
 
-        # checkout_main + rollback_version + delete_remote_branch (no delete_local_branch)
-        assert transaction_mock.register_step.call_count == 3
+        # checkout_main + rollback_version + delete_tag + delete_remote_branch (no delete_local_branch)
+        assert transaction_mock.register_step.call_count == 4
 
     async def test_execute_when_branch_not_exists_then_create_new_branch(
         self,
@@ -229,8 +229,8 @@ class TestPrepareReleaseService:
         # Assert
         version_control_mock.create_branch.assert_called_once()
 
-        # checkout_main + delete_local_branch + rollback_version + delete_remote_branch
-        assert transaction_mock.register_step.call_count == 4
+        # checkout_main + delete_local_branch + rollback_version + delete_tag + delete_remote_branch
+        assert transaction_mock.register_step.call_count == 5
 
     async def test_execute_when_tag_exists_then_raise_tag_already_exists(
         self,
@@ -353,20 +353,6 @@ class TestPrepareReleaseService:
         assert result.version == "1.2.0"
         assert result.branch == "release/v1.2.0"
         assert result.tag == "v1.2.0"
-
-    # Global Setup Tests
-    async def test_global_setup_when_called_then_register_checkout_main_step(
-        self,
-        service: PrepareReleaseService,
-        transaction_mock: MagicMock,
-        version_control_mock: MagicMock,
-    ) -> None:
-        """Test _global_setup registers checkout_main rollback step."""
-        service._global_setup()
-
-        transaction_mock.register_step.assert_called_once()
-        step = transaction_mock.register_step.call_args[0][0]
-        assert step.name == "checkout_main"
 
     # Dry Run Tests
     async def test_prepare_release_transactionally_when_dry_run_then_early_return(
