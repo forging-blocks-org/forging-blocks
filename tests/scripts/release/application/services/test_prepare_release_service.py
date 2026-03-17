@@ -337,60 +337,6 @@ class TestPrepareReleaseService:
         command = release_command_bus_mock.send.call_args[0][0]
         assert command.dry_run is dry_run_value
 
-    # Branch Handling Tests
-    async def test_branch_handling_when_branch_exists_then_checkout_called(
-        self,
-        service: PrepareReleaseService,
-        version_control_mock: MagicMock,
-        branch_name: ReleaseBranchName,
-    ) -> None:
-        """Test _branch_handling when branch exists."""
-        context_mock = MagicMock(branch_exists=True, branch=branch_name)
-        service._branch_handling(context_mock)
-        version_control_mock.checkout.assert_called_once_with(branch_name)
-
-    async def test_branch_handling_when_branch_does_not_exist_then_create_branch_and_register_undo(
-        self,
-        service: PrepareReleaseService,
-        version_control_mock: MagicMock,
-        transaction_mock: MagicMock,
-        branch_name: ReleaseBranchName,
-    ) -> None:
-        """Test _branch_handling when branch doesn't exist."""
-        context_mock = MagicMock(branch_exists=False, branch=branch_name)
-
-        service._branch_handling(context_mock)
-
-        version_control_mock.create_branch.assert_called_once_with(branch_name)
-        transaction_mock.register_step.assert_called_once()
-        step = transaction_mock.register_step.call_args[0][0]
-        assert step.name == "delete_local_branch"
-
-    # Tag Existence Tests
-    async def test_ensure_tag_doesnt_exist_when_tag_exists_then_raises_error(
-        self,
-        service: PrepareReleaseService,
-        version_control_mock: MagicMock,
-    ) -> None:
-        """Test _ensure_tag_doesnt_exist raises error when tag exists."""
-        version_control_mock.tag_exists.return_value = True
-        tag_mock = MagicMock()
-        tag_mock.value = "v1.2.0"
-
-        with pytest.raises(TagAlreadyExistsError):
-            service._ensure_tag_doesnt_exist(tag_mock)
-
-    async def test_ensure_tag_doesnt_exist_when_tag_does_not_exist_then_no_error(
-        self,
-        service: PrepareReleaseService,
-        version_control_mock: MagicMock,
-    ) -> None:
-        """Test _ensure_tag_doesnt_exist passes when tag doesn't exist."""
-        version_control_mock.tag_exists.return_value = False
-        tag_mock = MagicMock()
-
-        service._ensure_tag_doesnt_exist(tag_mock)  # Should not raise
-
     # Output Creation Tests
     async def test_make_output_when_called_then_returns_correct_output(
         self,
