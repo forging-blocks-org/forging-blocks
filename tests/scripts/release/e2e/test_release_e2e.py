@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from subprocess import run as subprocess_run
 from unittest.mock import AsyncMock, MagicMock
 
-import os
 import pytest
 from scripts.release.application.ports.inbound import PrepareReleaseInput
 from scripts.release.application.ports.outbound import ChangelogRequest
@@ -27,11 +27,11 @@ from scripts.release.infrastructure.transactions.in_memory_release_transaction i
 from scripts.release.infrastructure.versioning.poetry_versioning_service import (
     PoetryVersioningService,
 )
+from tests.fixtures.git_test_repository import GitTestRepository
+
 from scripts.release.domain.messages import OpenPullRequestCommand
 from scripts.release.domain.value_objects import ReleaseBranchName, TagName
 from scripts.release.infrastructure.handlers import OpenPullRequestHandler
-
-from tests.fixtures.git_test_repository import GitTestRepository
 
 
 def create_pyproject_toml(path: Path, version: str = "0.0.0") -> None:
@@ -57,9 +57,7 @@ def create_bare_remote(tmp_path: Path, name: str = "remote.git") -> Path:
 
 
 @pytest.fixture
-def git_repo_with_poetry(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, git_repo: GitTestRepository
-) -> GitTestRepository:
+def git_repo_with_poetry(tmp_path: Path, git_repo: GitTestRepository) -> GitTestRepository:
     """Extends git_repo fixture with pyproject.toml and remote for e2e tests."""
     create_pyproject_toml(git_repo.path)
     subprocess_run(["git", "add", "pyproject.toml"], cwd=git_repo.path, check=True)
