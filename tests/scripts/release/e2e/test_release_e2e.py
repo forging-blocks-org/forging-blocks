@@ -195,6 +195,16 @@ class TestReleaseWorkflow:
 
         assert "origin/release/v0.1.0" in branches
 
+        # Verify that the release tag has also been pushed to the remote.
+        remote_tag_output = subprocess_run(
+            ["git", "ls-remote", "--tags", "origin", "v0.1.0"],
+            cwd=git_repo.path,
+            capture_output=True,
+            text=True,
+        ).stdout
+
+        assert remote_tag_output.strip() != ""
+
     async def test_execute_with_flag_creates_tag(
         self,
         service: PrepareReleaseService,
