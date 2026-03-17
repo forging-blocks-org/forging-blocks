@@ -12,6 +12,7 @@ conventional commit prefixes and capitalises the description, so
 from pathlib import Path
 from unittest.mock import patch
 
+import subprocess
 import pytest
 from scripts.release.application.ports.outbound import ChangelogRequest
 from scripts.release.infrastructure.changelog.git_cliff_changelog_generator import (
@@ -110,10 +111,12 @@ class TestGitCliffChangelogGenerator:
             changelog_path=tmp_path / "CHANGELOG.md",
         )
 
+        original_run = subprocess.run
+
         def mock_run(*args, **kwargs):
             if args[0][0] == "git-cliff":
                 raise FileNotFoundError("[Errno 2] No such file or directory: 'git-cliff'")
-            return __import__("subprocess").run(*args, **kwargs)
+            return original_run(*args, **kwargs)
 
         with patch("subprocess.run", side_effect=mock_run):
             with pytest.raises(
