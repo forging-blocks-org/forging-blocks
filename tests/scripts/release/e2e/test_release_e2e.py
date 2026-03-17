@@ -4,6 +4,7 @@ from pathlib import Path
 from subprocess import run as subprocess_run
 from unittest.mock import AsyncMock, MagicMock
 
+import os
 import pytest
 from scripts.release.application.ports.inbound import PrepareReleaseInput
 from scripts.release.application.ports.outbound import ChangelogRequest
@@ -123,6 +124,10 @@ def service(
     )
 
 
+@pytest.mark.skipif(
+    not os.environ.get("RUN_E2E_TESTS"),
+    reason="Set RUN_E2E_TESTS=1 to run E2E release workflow tests",
+)
 @pytest.mark.e2e
 class TestReleaseWorkflow:
     """E2E tests for the release workflow.
