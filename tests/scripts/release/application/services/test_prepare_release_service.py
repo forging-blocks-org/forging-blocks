@@ -419,7 +419,7 @@ class TestPrepareReleaseService:
         def track_register_step(step: ReleaseStep) -> None:
             operation_order.append(f"register_{step.name}")
 
-        def track_push(branch: ReleaseBranchName, *, push_tags: bool) -> None:
+        def track_push(branch: ReleaseBranchName, *, tag: TagName) -> None:
             operation_order.append("push")
 
         transaction_mock.register_step.side_effect = track_register_step
