@@ -154,4 +154,4 @@ class PrepareReleaseService(PrepareReleaseUseCase):
                 undo=lambda: self._version_control.delete_remote_branch(context.branch),
             )
         )
-        self._version_control.push(context.branch, push_tags=True)
+        self._version_control.push(context.branch)
