@@ -174,27 +174,18 @@ class TestGitVersionControl:
         actual_calls = [call[0] for call in command_runner_mock.run.call_args_list]
         assert actual_calls == expected_calls
 
-    def test_push_when_called_without_tags_then_runs_push_command_only(
+    def test_push_when_called_then_runs_push_command(
         self,
         version_control: GitVersionControl,
         command_runner_mock: MagicMock,
         branch_name: ReleaseBranchName,
     ) -> None:
-        version_control.push(branch_name, push_tags=False)
-
-        command_runner_mock.run.assert_called_once_with(["git", "push", "origin", "release/v1.2.0"])
-
-    def test_push_when_called_with_tags_then_runs_push_and_push_tags_commands(
-        self,
-        version_control: GitVersionControl,
-        command_runner_mock: MagicMock,
-        branch_name: ReleaseBranchName,
-    ) -> None:
-        version_control.push(branch_name, push_tags=True)
+        tag = TagName("v1.2.0")
+        version_control.push(branch_name, tag=tag)
 
         expected_calls = [
             (["git", "push", "origin", "release/v1.2.0"],),
-            (["git", "push", "origin", "--tags"],),
+            (["git", "push", "origin", "v1.2.0"],),
         ]
         assert command_runner_mock.run.call_count == 2
         actual_calls = [call[0] for call in command_runner_mock.run.call_args_list]
