@@ -13,14 +13,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: ./.github/actions/setup-poetry
+      - name: Set up Poetry
+        uses: ./.github/actions/setup-poetry
 
       - name: Install git-cliff
-        uses: kenji-miyake/setup-git-cliff@v2
+        uses: ./.github/actions/install-git-cliff
 
-      - run: poetry install --no-interaction
+      - name: Install dependencies
+        run: poetry install --no-interaction --with dev
 
-      - run: poetry run poe ci:check
-      - run: poetry run poe test
+      - name: Run CI checks
+        run: poetry run poe ci:check
+
+      - name: Run tests
+        run: poetry run poe test

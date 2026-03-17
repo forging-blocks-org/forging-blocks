@@ -40,6 +40,9 @@ jobs:
           git tag -a "$TAG" -m "Release $TAG"
           git push origin "$TAG"
 
+      - name: Install git-cliff
+        uses: ./.github/actions/install-git-cliff
+
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
 
