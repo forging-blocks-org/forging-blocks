@@ -1,5 +1,3 @@
-import logging
-
 from scripts.release.application.errors.tag_already_exists_error import (
     TagAlreadyExistsError,
 )
@@ -71,15 +69,14 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         )
 
         await self._prepare_release_transactionally(context)
-        await self._send_command(context)
+
+        if not context.dry_run:
+            await self._send_command(context)
 
         return self._make_output(context)
 
     def _ensure_tag_doesnt_exist(self, tag: TagName) -> None:
         if self._version_control.tag_exists(tag):
-            logging.error(
-                f"Tag {tag.value} already exists! Cannot proceed with release."
-            )
             raise TagAlreadyExistsError(tag.value)
 
     def _make_output(self, context: ReleaseContext) -> PrepareReleaseOutput:
@@ -89,10 +86,7 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             tag=context.tag.value,
         )
 
-    async def _send_command(
-        self,
-        context: ReleaseContext,
-    ) -> None:
+    async def _send_command(self, context: ReleaseContext) -> None:
         command = OpenPullRequestCommand(
             version=context.version.value,
             branch=context.branch.value,
@@ -100,43 +94,17 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         )
         await self._message_bus.send(command)
 
-    async def _prepare_release_transactionally(
-        self,
-        context: ReleaseContext,
-    ) -> None:
+    async def _prepare_release_transactionally(self, context: ReleaseContext) -> None:
         if context.dry_run:
             return
 
         async with self._transaction:
             self._global_setup()
             self._branch_handling(context)
-
-            self._versioning_service.apply_version(context.version)
-
-            await self._changelog_generator.generate(
-                ChangelogRequest(from_version=context.previous_version.value)
-            )
-
+            self._apply_version(context)
+            await self._generate_changelog(context)
             self._version_control.commit_release_artifacts()
-
-            # Register cleanup step to remove remote branch if something fails
-            # IMPORTANT: Register BEFORE push so rollback works even if push fails
-            def delete_remote_branch_lambda(
-                branch: ReleaseBranchName = context.branch,
-            ) -> None:
-                self._version_control.delete_remote_branch(branch)
-
-            self._transaction.register_step(
-                ReleaseStep(
-                    name="delete_remote_branch",
-                    undo=delete_remote_branch_lambda,
-                )
-            )
-
-            # Push the release branch to origin so PR can be created
-            self._version_control.push(context.branch, push_tags=False)
-
-            # Note: Tag creation is handled by GitHub Actions after PR merge
+            self._push_branch(context)
 
     def _global_setup(self) -> None:
         self._transaction.register_step(
@@ -151,15 +119,32 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             self._version_control.checkout(context.branch)
         else:
             self._version_control.create_branch(context.branch)
-
-            def delete_local_branch_lambda(
-                branch: ReleaseBranchName = context.branch,
-            ) -> None:
-                self._version_control.delete_local_branch(branch)
-
             self._transaction.register_step(
                 ReleaseStep(
                     name="delete_local_branch",
-                    undo=delete_local_branch_lambda,
+                    undo=lambda: self._version_control.delete_local_branch(context.branch),
                 )
             )
+
+    def _apply_version(self, context: ReleaseContext) -> None:
+        self._transaction.register_step(
+            ReleaseStep(
+                name="rollback_version",
+                undo=lambda: self._versioning_service.rollback_version(context.previous_version),
+            )
+        )
+        self._versioning_service.apply_version(context.version)
+
+    async def _generate_changelog(self, context: ReleaseContext) -> None:
+        await self._changelog_generator.generate(
+            ChangelogRequest(from_version=context.previous_version.value)
+        )
+
+    def _push_branch(self, context: ReleaseContext) -> None:
+        self._transaction.register_step(
+            ReleaseStep(
+                name="delete_remote_branch",
+                undo=lambda: self._version_control.delete_remote_branch(context.branch),
+            )
+        )
+        self._version_control.push(context.branch, push_tags=False)
