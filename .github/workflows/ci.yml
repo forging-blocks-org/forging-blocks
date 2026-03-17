@@ -17,6 +17,9 @@ jobs:
 
       - uses: ./.github/actions/setup-poetry
 
+      - name: Install git-cliff
+        uses: kenji-miyake/setup-git-cliff@v2
+
       - run: poetry install --no-interaction
 
       - run: poetry run poe ci:check
