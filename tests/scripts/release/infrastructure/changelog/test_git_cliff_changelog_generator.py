@@ -10,9 +10,9 @@ conventional commit prefixes and capitalises the description, so
 """
 
 from pathlib import Path
+import subprocess
 from unittest.mock import patch
 
-import subprocess
 import pytest
 from scripts.release.application.errors import ChangelogGenerationError
 from scripts.release.application.ports.outbound import ChangelogRequest
