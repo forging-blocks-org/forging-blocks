@@ -14,14 +14,13 @@ from unittest.mock import patch
 
 import subprocess
 import pytest
+from scripts.release.application.errors import ChangelogGenerationError
 from scripts.release.application.ports.outbound import ChangelogRequest
 from scripts.release.infrastructure.changelog.git_cliff_changelog_generator import (
     GitCliffChangelogGenerator,
 )
 from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
 from tests.fixtures.git_test_repository import GitTestRepository
-
-from scripts.release.application.errors import ChangelogGenerationError
 
 
 def _make_generator(repo: GitTestRepository) -> GitCliffChangelogGenerator:
