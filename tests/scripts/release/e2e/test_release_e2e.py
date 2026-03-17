@@ -90,7 +90,7 @@ def changelog_generator(git_repo_with_poetry: GitTestRepository) -> GitCliffChan
 async def message_bus(git_repo_with_poetry: GitTestRepository) -> InMemoryReleaseCommandBus:
     bus = InMemoryReleaseCommandBus()
     pull_request_service = MagicMock()
-    pull_request_service.open_pr = AsyncMock()
+    pull_request_service.open = AsyncMock()
     open_pr_service = OpenReleasePullRequestService(pull_request_service=pull_request_service)
     handler = OpenPullRequestHandler(open_pr_service)
 
