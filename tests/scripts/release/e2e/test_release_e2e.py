@@ -14,6 +14,8 @@ from scripts.release.application.services.open_release_pull_request_service impo
 from scripts.release.application.services.prepare_release_service import (
     PrepareReleaseService,
 )
+from scripts.release.domain.messages import OpenPullRequestCommand
+from scripts.release.domain.value_objects import ReleaseBranchName, TagName
 from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
 )
@@ -21,6 +23,7 @@ from scripts.release.infrastructure.changelog.git_cliff_changelog_generator impo
     GitCliffChangelogGenerator,
 )
 from scripts.release.infrastructure.git.git_version_control import GitVersionControl
+from scripts.release.infrastructure.handlers import OpenPullRequestHandler
 from scripts.release.infrastructure.transactions.in_memory_release_transaction import (
     InMemoryReleaseTransaction,
 )
@@ -28,10 +31,6 @@ from scripts.release.infrastructure.versioning.poetry_versioning_service import 
     PoetryVersioningService,
 )
 from tests.fixtures.git_test_repository import GitTestRepository
-
-from scripts.release.domain.messages import OpenPullRequestCommand
-from scripts.release.domain.value_objects import ReleaseBranchName, TagName
-from scripts.release.infrastructure.handlers import OpenPullRequestHandler
 
 
 def create_pyproject_toml(path: Path, version: str = "0.0.0") -> None:
