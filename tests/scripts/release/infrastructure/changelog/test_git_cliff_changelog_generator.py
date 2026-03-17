@@ -1,7 +1,8 @@
 """Integration tests for GitCliffChangelogGenerator.
 
-These tests run against a real temporary git repository with real git and
-git-cliff binaries. No mocking — the full adapter stack is exercised.
+The happy-path tests run against a real temporary git repository with real git
+and git-cliff binaries, exercising the full adapter stack without mocking.
+The missing-binary error case is simulated by mocking subprocess invocation.
 
 Commit message assertions match cliff.toml rendering: git-cliff strips
 conventional commit prefixes and capitalises the description, so
