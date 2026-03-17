@@ -139,10 +139,17 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         )
 
     def _create_tag(self, context: ReleaseContext) -> None:
+        def _undo_tag() -> None:
+            try:
+                self._version_control.delete_tag(context.tag)
+            except Exception:
+                # Ignore errors during rollback if the tag does not exist or cannot be deleted
+                pass
+
         self._transaction.register_step(
             ReleaseStep(
                 name="delete_tag",
-                undo=lambda: self._version_control.delete_tag(context.tag),
+                undo=_undo_tag,
             )
         )
         self._version_control.create_tag(context.tag)
