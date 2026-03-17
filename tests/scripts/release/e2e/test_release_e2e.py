@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-import asyncio
 from pathlib import Path
 from subprocess import run as subprocess_run
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 from scripts.release.application.ports.inbound import PrepareReleaseInput
+from scripts.release.application.ports.outbound import ChangelogRequest
+from scripts.release.application.services.open_release_pull_request_service import (
+    OpenReleasePullRequestService,
+)
 from scripts.release.application.services.prepare_release_service import (
     PrepareReleaseService,
 )
@@ -26,6 +29,7 @@ from scripts.release.infrastructure.versioning.poetry_versioning_service import 
 from tests.fixtures.git_test_repository import GitTestRepository
 
 from scripts.release.domain.messages import OpenPullRequestCommand
+from scripts.release.domain.value_objects import ReleaseBranchName, TagName
 from scripts.release.infrastructure.handlers import OpenPullRequestHandler
 
 
@@ -86,10 +90,6 @@ def changelog_generator(git_repo_with_poetry: GitTestRepository) -> GitCliffChan
 
 @pytest.fixture
 async def message_bus(git_repo_with_poetry: GitTestRepository) -> InMemoryReleaseCommandBus:
-    from scripts.release.application.services.open_release_pull_request_service import (
-        OpenReleasePullRequestService,
-    )
-
     bus = InMemoryReleaseCommandBus()
     pull_request_service = MagicMock()
     pull_request_service.open_pr = AsyncMock()
@@ -151,8 +151,6 @@ class TestReleaseWorkflow:
 
         await service.execute(request)
 
-        from scripts.release.domain.value_objects import ReleaseBranchName
-
         assert version_control.branch_exists(ReleaseBranchName("release/v0.1.0"))
 
     async def test_execute_with_flag_generates_changelog(
@@ -165,8 +163,6 @@ class TestReleaseWorkflow:
         git_repo.commit("Initial commit")
         git_repo.write_file("CHANGELOG.md", "")
         git_repo.commit("Add changelog")
-
-        from scripts.release.application.ports.outbound import ChangelogRequest
 
         result = await changelog_generator.generate(ChangelogRequest(from_version="0.0.0"))
 
@@ -218,8 +214,6 @@ class TestReleaseWorkflow:
         request = PrepareReleaseInput(level="minor", dry_run=False)
 
         await service.execute(request)
-
-        from scripts.release.domain.value_objects import TagName
 
         assert version_control.tag_exists(TagName("v0.1.0"))
 
