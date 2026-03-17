@@ -27,11 +27,11 @@ from scripts.release.infrastructure.transactions.in_memory_release_transaction i
 from scripts.release.infrastructure.versioning.poetry_versioning_service import (
     PoetryVersioningService,
 )
-from tests.fixtures.git_test_repository import GitTestRepository
-
 from scripts.release.domain.messages import OpenPullRequestCommand
 from scripts.release.domain.value_objects import ReleaseBranchName, TagName
 from scripts.release.infrastructure.handlers import OpenPullRequestHandler
+
+from tests.fixtures.git_test_repository import GitTestRepository
 
 
 def create_pyproject_toml(path: Path, version: str = "0.0.0") -> None:
