@@ -15,23 +15,23 @@ class VersionControl(OutputPort):
         self,
         branch: ReleaseBranchName,
     ) -> bool:
-        """Local branch existence check.
-        """
+        """Local branch existence check."""
         ...
 
+    @abstractmethod
     def checkout(
         self,
         branch: ReleaseBranchName,
     ) -> None:
-        """Checkout local branch.
-        """
+        """Checkout local branch."""
         ...
 
+    @abstractmethod
     def checkout_main(self) -> None:
-        """Return to the main branch (or the configured default branch).
-        """
+        """Return to the main branch (or the configured default branch)."""
         ...
 
+    @abstractmethod
     def commit_release_artifacts(
         self,
     ) -> None:
@@ -40,38 +40,39 @@ class VersionControl(OutputPort):
         """
         ...
 
+    @abstractmethod
     def create_branch(
         self,
         branch: ReleaseBranchName,
     ) -> None:
-        """Create local branch.
-        """
+        """Create local branch."""
         ...
 
+    @abstractmethod
     def create_tag(
         self,
         tag: TagName,
     ) -> None:
-        """Create tag (prefer annotated tags).
-        """
+        """Create tag (prefer annotated tags)."""
         ...
 
+    @abstractmethod
     def delete_tag(
         self,
         tag: TagName,
     ) -> None:
-        """Delete tag locally and remotely (or define two methods if you prefer explicitness).
-        """
+        """Delete tag locally and remotely (or define two methods if you prefer explicitness)."""
         ...
 
+    @abstractmethod
     def delete_local_branch(
         self,
         branch: ReleaseBranchName,
     ) -> None:
-        """Delete local branch if present.
-        """
+        """Delete local branch if present."""
         ...
 
+    @abstractmethod
     def delete_remote_branch(
         self,
         branch: ReleaseBranchName,
@@ -81,14 +82,14 @@ class VersionControl(OutputPort):
         """
         ...
 
+    @abstractmethod
     def push(
         self,
         branch: ReleaseBranchName,
         *,
         push_tags: bool,
     ) -> None:
-        """Push branch (and optionally tags).
-        """
+        """Push branch (and optionally tags)."""
         ...
 
     @abstractmethod
@@ -106,6 +107,5 @@ class VersionControl(OutputPort):
         self,
         tag: TagName,
     ) -> bool:
-        """Local/remote tag existence check (your implementation decides, but document it).
-        """
+        """Local/remote tag existence check (your implementation decides, but document it)."""
         ...
