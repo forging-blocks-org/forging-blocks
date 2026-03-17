@@ -1,5 +1,7 @@
 name: Install git-cliff
+description: A GitHub Action to install git-cliff for generating changelogs.
+
 runs:
-  using: composite
+  using: "composite"
   steps:
     - uses: kenji-miyake/setup-git-cliff@v2

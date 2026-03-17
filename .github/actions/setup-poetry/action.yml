@@ -1,4 +1,6 @@
 name: Setup Poetry
+description: A GitHub Action to set up Poetry for Python dependency management.
+
 runs:
   using: composite
   steps:
