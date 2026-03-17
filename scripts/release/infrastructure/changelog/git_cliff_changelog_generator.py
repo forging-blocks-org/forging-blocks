@@ -11,7 +11,16 @@ from scripts.release.application.errors import ChangelogGenerationError
 
 
 class GitCliffChangelogGenerator(ChangelogGenerator):
-    """Adapter that generates changelogs using git-cliff."""
+    """Adapter that generates changelogs using git-cliff.
+
+    Delegates all formatting to cliff.toml. The adapter is responsible
+    only for resolving the correct commit range and invoking the binary.
+
+    Range resolution strategy:
+    - requested tag exists  → generate from that tag: `<tag>..`
+    - requested tag missing, other tags exist → generate from latest tag: `<latest>..`
+    - no tags at all → generate full history (no range argument)
+    """
 
     def __init__(self, runner: CommandRunner) -> None:
         self._runner = runner
@@ -59,16 +68,16 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
         tag_exists: bool,
         latest_tag: str | None,
     ) -> str | None:
-        """Return a tag to use as the starting point for changelog generation"""
+        """Return the starting tag for the range, or None for full history."""
         if tag_exists:
             return requested_tag
         return latest_tag  # None signals "no range — use full history"
 
     def _run_git_cliff(self, from_tag: str | None) -> str:
-        cmd = ["git-cliff", "--output", "-", "--format", "{message} ({id:.7})"]
+        cmd = ["git-cliff", "--output", "-"]
 
         if from_tag:
-            cmd += ["--tag", from_tag]
+            cmd += ["--", f"{from_tag}.."]
 
         try:
             return self._runner.run(cmd, check=True)

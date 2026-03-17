@@ -16,6 +16,7 @@ from scripts.release.application.ports.outbound import (
 from scripts.release.application.services.prepare_release_service import (
     PrepareReleaseService,
 )
+from scripts.release.application.workflow import ReleaseContext, ReleaseStep
 
 from scripts.release.application.errors import TagAlreadyExistsError
 from scripts.release.domain.messages import OpenPullRequestCommand
@@ -131,7 +132,7 @@ class TestPrepareReleaseService:
         next_version: ReleaseVersion,
         release_level: str,
     ) -> None:
-        """Test execute method with various release levels in dry_run mode."""
+        """Test execute returns correct output in dry_run mode without sending command."""
         # Arrange
         request = PrepareReleaseInput(level=release_level, dry_run=True)
 
@@ -150,8 +151,8 @@ class TestPrepareReleaseService:
         version_control_mock.tag_exists.assert_called_once()
         version_control_mock.branch_exists.assert_called_once()
 
-        # Should send command even in dry_run
-        release_command_bus_mock.send.assert_called_once()
+        # dry_run must NOT send command — guard lives at the producer
+        release_command_bus_mock.send.assert_not_called()
 
     async def test_execute_when_not_dry_run_then_performs_full_workflow(
         self,
@@ -160,10 +161,10 @@ class TestPrepareReleaseService:
         version_control_mock: MagicMock,
         transaction_mock: MagicMock,
         changelog_generator_mock: MagicMock,
-        current_version: ReleaseVersion,
+        release_command_bus_mock: MagicMock,
         next_version: ReleaseVersion,
     ) -> None:
-        """Test execute method when not in dry_run mode - full workflow execution."""
+        """Test execute performs full workflow and sends command when not dry_run."""
         # Arrange
         request = PrepareReleaseInput(level="minor", dry_run=False)
 
@@ -183,10 +184,11 @@ class TestPrepareReleaseService:
         changelog_generator_mock.generate.assert_called_once()
         version_control_mock.commit_release_artifacts.assert_called_once()
 
-        # Verify transaction steps were registered
-        assert (
-            transaction_mock.register_step.call_count >= 2
-        )  # At least global_setup and tag
+        # Verify command is sent when not dry_run
+        release_command_bus_mock.send.assert_called_once()
+
+        # checkout_main + delete_local_branch (new branch) + rollback_version + delete_remote_branch
+        assert transaction_mock.register_step.call_count == 4
 
     async def test_execute_when_branch_exists_then_checkout_existing_branch(
         self,
@@ -195,7 +197,7 @@ class TestPrepareReleaseService:
         transaction_mock: MagicMock,
         branch_name: ReleaseBranchName,
     ) -> None:
-        """Test execute method when release branch already exists."""
+        """Test execute checks out existing branch and skips local branch deletion step."""
         # Arrange
         request = PrepareReleaseInput(level="patch", dry_run=False)
         version_control_mock.branch_exists.return_value = True
@@ -205,8 +207,10 @@ class TestPrepareReleaseService:
 
         # Assert
         version_control_mock.checkout.assert_called_once()
-        # Should not register branch deletion step since branch already existed
         version_control_mock.create_branch.assert_not_called()
+
+        # checkout_main + rollback_version + delete_remote_branch (no delete_local_branch)
+        assert transaction_mock.register_step.call_count == 3
 
     async def test_execute_when_branch_not_exists_then_create_new_branch(
         self,
@@ -214,7 +218,7 @@ class TestPrepareReleaseService:
         version_control_mock: MagicMock,
         transaction_mock: MagicMock,
     ) -> None:
-        """Test execute method when release branch doesn't exist."""
+        """Test execute creates branch and registers local branch deletion step."""
         # Arrange
         request = PrepareReleaseInput(level="major", dry_run=False)
         version_control_mock.branch_exists.return_value = False
@@ -224,16 +228,16 @@ class TestPrepareReleaseService:
 
         # Assert
         version_control_mock.create_branch.assert_called_once()
-        # Should register branch deletion step for rollback
-        transaction_mock.register_step.assert_called()
+
+        # checkout_main + delete_local_branch + rollback_version + delete_remote_branch
+        assert transaction_mock.register_step.call_count == 4
 
     async def test_execute_when_tag_exists_then_raise_tag_already_exists(
         self,
         service: PrepareReleaseService,
         version_control_mock: MagicMock,
-        tag_name: TagName,
     ) -> None:
-        """Test execute method raises error when tag already exists."""
+        """Test execute raises error when tag already exists."""
         # Arrange
         request = PrepareReleaseInput(level="minor", dry_run=False)
         version_control_mock.tag_exists.return_value = True
@@ -255,8 +259,6 @@ class TestPrepareReleaseService:
     ) -> None:
         """Test _prepare_release_transactionally performs full workflow."""
         # Arrange
-        from scripts.release.application.workflow import ReleaseContext
-
         context = ReleaseContext(
             previous_version=current_version,
             version=next_version,
@@ -269,20 +271,16 @@ class TestPrepareReleaseService:
         # Act
         await service._prepare_release_transactionally(context)
 
-        # Assert - Verify full transaction workflow
+        # Assert
         transaction_mock.__aenter__.assert_called_once()
 
-        # Verify all steps were executed
-        transaction_mock.register_step.assert_called()  # Multiple calls expected
         versioning_service_mock.apply_version.assert_called_once_with(next_version)
 
-        # Verify changelog generation with correct request
         changelog_generator_mock.generate.assert_called_once()
         call_args = changelog_generator_mock.generate.call_args[0][0]
         assert isinstance(call_args, ChangelogRequest)
         assert call_args.from_version == current_version.value
 
-        # Verify commit (tag creation now happens in GitHub Actions)
         version_control_mock.commit_release_artifacts.assert_called_once()
 
     # Command Sending Tests
@@ -294,8 +292,6 @@ class TestPrepareReleaseService:
     ) -> None:
         """Test _send_command creates and sends correct OpenPullRequestCommand."""
         # Arrange
-        from scripts.release.application.workflow import ReleaseContext
-
         context = ReleaseContext(
             previous_version=ReleaseVersion(1, 1, 0),
             version=next_version,
@@ -325,8 +321,6 @@ class TestPrepareReleaseService:
     ) -> None:
         """Test _send_command preserves dry_run flag in command."""
         # Arrange
-        from scripts.release.application.workflow import ReleaseContext
-
         context = ReleaseContext(
             previous_version=ReleaseVersion(1, 0, 0),
             version=ReleaseVersion(1, 1, 0),
@@ -343,7 +337,7 @@ class TestPrepareReleaseService:
         command = release_command_bus_mock.send.call_args[0][0]
         assert command.dry_run is dry_run_value
 
-    # Branch Handling Tests (existing)
+    # Branch Handling Tests
     async def test_branch_handling_when_branch_exists_then_checkout_called(
         self,
         service: PrepareReleaseService,
@@ -369,10 +363,10 @@ class TestPrepareReleaseService:
 
         version_control_mock.create_branch.assert_called_once_with(branch_name)
         transaction_mock.register_step.assert_called_once()
+        step = transaction_mock.register_step.call_args[0][0]
+        assert step.name == "delete_local_branch"
 
-    # Tag Handling Tests - REMOVED: Tags now created by GitHub Actions
-
-    # Tag Existence Tests (existing)
+    # Tag Existence Tests
     async def test_ensure_tag_doesnt_exist_when_tag_exists_then_raises_error(
         self,
         service: PrepareReleaseService,
@@ -397,7 +391,7 @@ class TestPrepareReleaseService:
 
         service._ensure_tag_doesnt_exist(tag_mock)  # Should not raise
 
-    # Output Creation Tests (existing)
+    # Output Creation Tests
     async def test_make_output_when_called_then_returns_correct_output(
         self,
         service: PrepareReleaseService,
@@ -414,7 +408,7 @@ class TestPrepareReleaseService:
         assert result.branch == "release/v1.2.0"
         assert result.tag == "v1.2.0"
 
-    # Global Setup Tests (existing)
+    # Global Setup Tests
     async def test_global_setup_when_called_then_register_checkout_main_step(
         self,
         service: PrepareReleaseService,
@@ -425,10 +419,10 @@ class TestPrepareReleaseService:
         service._global_setup()
 
         transaction_mock.register_step.assert_called_once()
-        call_args = transaction_mock.register_step.call_args[0][0]
-        assert call_args.name == "checkout_main"
+        step = transaction_mock.register_step.call_args[0][0]
+        assert step.name == "checkout_main"
 
-    # Dry Run Tests (existing)
+    # Dry Run Tests
     async def test_prepare_release_transactionally_when_dry_run_then_early_return(
         self,
         service: PrepareReleaseService,
@@ -448,45 +442,31 @@ class TestPrepareReleaseService:
         service: PrepareReleaseService,
         version_control_mock: MagicMock,
         transaction_mock: MagicMock,
-        tag_name: TagName,
         branch_name: ReleaseBranchName,
     ) -> None:
-        # Arrange: Simulate push failure
+        # Arrange
         version_control_mock.tag_exists.return_value = False
         version_control_mock.branch_exists.return_value = False
         version_control_mock.push.side_effect = RuntimeError("Push failed!")
 
         input_data = PrepareReleaseInput(level="minor", dry_run=False)
 
-        # Track registered rollback steps
-        registered_steps = []
+        registered_steps: list[ReleaseStep] = []
 
-        def capture_step(step):
+        def capture_step(step: ReleaseStep) -> None:
             registered_steps.append(step)
 
         transaction_mock.register_step.side_effect = capture_step
 
-        # Act & Assert: Push failure should trigger rollback
+        # Act & Assert
         with pytest.raises(RuntimeError, match="Push failed!"):
             await service.execute(input_data)
 
-        # Verify: Remote branch cleanup step was registered BEFORE push
-        assert (
-            len(registered_steps) >= 2
-        )  # At least checkout_main + delete_remote_branch
+        delete_remote_step = next(
+            (s for s in registered_steps if s.name == "delete_remote_branch"), None
+        )
+        assert delete_remote_step is not None, "delete_remote_branch step should be registered"
 
-        # Find the delete_remote_branch step
-        delete_remote_step = None
-        for step in registered_steps:
-            if step.name == "delete_remote_branch":
-                delete_remote_step = step
-                break
-
-        assert (
-            delete_remote_step is not None
-        ), "delete_remote_branch step should be registered"
-
-        # Verify: Rollback step can be executed
         delete_remote_step.undo()
         version_control_mock.delete_remote_branch.assert_called_once_with(branch_name)
 
@@ -495,21 +475,19 @@ class TestPrepareReleaseService:
         service: PrepareReleaseService,
         version_control_mock: MagicMock,
         transaction_mock: MagicMock,
-        branch_name: ReleaseBranchName,
     ) -> None:
-        # Arrange: Successful scenario
+        # Arrange
         version_control_mock.tag_exists.return_value = False
         version_control_mock.branch_exists.return_value = False
 
         input_data = PrepareReleaseInput(level="minor", dry_run=False)
 
-        # Track the order of operations
-        operation_order = []
+        operation_order: list[str] = []
 
-        def track_register_step(step):
+        def track_register_step(step: ReleaseStep) -> None:
             operation_order.append(f"register_{step.name}")
 
-        def track_push(branch, push_tags):
+        def track_push(branch: ReleaseBranchName, *, push_tags: bool) -> None:
             operation_order.append("push")
 
         transaction_mock.register_step.side_effect = track_register_step
@@ -518,11 +496,10 @@ class TestPrepareReleaseService:
         # Act
         await service.execute(input_data)
 
-        # Verify: delete_remote_branch is registered BEFORE push happens
+        # Assert
         delete_remote_index = operation_order.index("register_delete_remote_branch")
         push_index = operation_order.index("push")
 
         assert delete_remote_index < push_index, (
-            f"delete_remote_branch step should be registered before push. "
-            f"Order: {operation_order}"
+            f"delete_remote_branch step should be registered before push. Order: {operation_order}"
         )
