@@ -108,8 +108,8 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             self._branch_handling(context)
             self._apply_version(context)
             await self._generate_changelog(context)
-            self._create_tag(context)
             self._version_control.commit_release_artifacts()
+            self._create_tag(context)
             self._push_branch(context)
 
     def _branch_handling(self, context: ReleaseContext) -> None:
