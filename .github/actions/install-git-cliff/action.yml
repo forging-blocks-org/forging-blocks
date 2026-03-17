@@ -2,5 +2,4 @@ name: Install git-cliff
 runs:
   using: composite
   steps:
-    - name: Install git-cliff
       uses: kenji-miyake/setup-git-cliff@v2
