@@ -37,14 +37,15 @@ class GitVersionControl(VersionControl):
 
     def checkout_main(self) -> None:
         logging.info("Checking out main branch...")
-        # Try 'main' first, fall back to 'master' for compatibility
         try:
             self._runner.run(["git", "checkout", "main"])
             logging.info("✓ Checked out main branch")
         except RuntimeError:
-            # Fallback to 'master' for older git repos or CI environments
-            self._runner.run(["git", "checkout", "master"])
-            logging.info("✓ Checked out master branch")
+            default_branch = self._runner.run(
+                ["git", "symbolic-ref", "--short", "refs/remotes/origin/HEAD"]
+            ).strip()
+            self._runner.run(["git", "checkout", default_branch])
+            logging.info(f"✓ Checked out {default_branch} branch")
 
     def commit_release_artifacts(self) -> None:
         logging.info("Committing release artifacts...")

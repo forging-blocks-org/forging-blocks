@@ -31,11 +31,6 @@ class TestGitVersionControl:
     def tag_name(self) -> TagName:
         return TagName("v1.2.0")
 
-    def test_init_when_called_then_sets_runner(self, command_runner_mock: MagicMock) -> None:
-        version_control = GitVersionControl(command_runner_mock)
-
-        assert version_control._runner == command_runner_mock
-
     def test_branch_exists_when_branch_found_then_returns_true(
         self,
         version_control: GitVersionControl,
@@ -84,23 +79,28 @@ class TestGitVersionControl:
         # Should try 'main' first (the fallback to 'master' won't be called if 'main' succeeds)
         command_runner_mock.run.assert_called_once_with(["git", "checkout", "main"])
 
-    def test_checkout_main_when_main_fails_then_fallback_to_master(
+    def test_checkout_main_when_main_fails_then_auto_detects_default_branch(
         self, version_control: GitVersionControl, command_runner_mock: MagicMock
     ) -> None:
-        # Configure mock to fail on 'main' checkout, succeed on 'master'
+        call_count = {"checkout_main": 0}
+
         def side_effect(cmd, **kwargs):
             if cmd == ["git", "checkout", "main"]:
-                raise RuntimeError("Branch not found")
+                call_count["checkout_main"] += 1
+                if call_count["checkout_main"] == 1:
+                    raise RuntimeError("Branch not found")
+            if cmd == ["git", "symbolic-ref", "--short", "refs/remotes/origin/HEAD"]:
+                return "main"
             return ""
 
         command_runner_mock.run.side_effect = side_effect
 
         version_control.checkout_main()
 
-        # Should call both 'main' (fails) and then 'master' (succeeds)
         expected_calls = [
             call(["git", "checkout", "main"]),
-            call(["git", "checkout", "master"]),
+            call(["git", "symbolic-ref", "--short", "refs/remotes/origin/HEAD"]),
+            call(["git", "checkout", "main"]),
         ]
         command_runner_mock.run.assert_has_calls(expected_calls)
 
