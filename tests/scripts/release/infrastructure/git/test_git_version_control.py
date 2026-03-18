@@ -216,6 +216,8 @@ class TestGitVersionControl:
         tag = TagName("v1.2.0")
         version_control.push(branch_name, tag=tag)
 
+        command_runner_mock.run.assert_called_once_with(["git", "push", "origin", "release/v1.2.0"])
+
         expected_calls = [
             (["git", "push", "origin", "release/v1.2.0"],),
             (["git", "push", "origin", "v1.2.0"],),

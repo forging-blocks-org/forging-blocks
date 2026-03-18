@@ -121,7 +121,6 @@ class TestPrepareReleaseService:
         assert service._message_bus == release_command_bus_mock
         assert service._changelog_generator == changelog_generator_mock
 
-    # Main Execute Method Tests
     @pytest.mark.parametrize("release_level", ["major", "minor", "patch"])
     async def test_execute_with_valid_input_then_returns_prepare_output(
         self,
@@ -337,7 +336,6 @@ class TestPrepareReleaseService:
         command = release_command_bus_mock.send.call_args[0][0]
         assert command.dry_run is dry_run_value
 
-    # Output Creation Tests
     async def test_make_output_when_called_then_returns_correct_output(
         self,
         service: PrepareReleaseService,
