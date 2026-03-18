@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Validate that the release workflow and all required checks passed on the remote CI/CD.
-# This ensures the DX for contributors is solid by verifying the complete release pipeline.
 
 set -euo pipefail
 
@@ -10,11 +9,6 @@ readonly GREEN='\033[0;32m'
 readonly YELLOW='\033[1;33m'
 readonly NC='\033[0m' # No Color
 
-# Fetch latest release branch from git
-get_latest_release_branch() {
-    git for-each-ref --sort=-version:refname --format='%(refname:short)' refs/heads/release/ | head -1 || echo ""
-}
-
 # Fetch workflow runs and return JSON
 fetch_workflow_runs() {
     local limit="${1:-50}"
@@ -22,18 +16,11 @@ fetch_workflow_runs() {
 }
 
 # Find the most recent Release Pipeline run (from any release branch)
+# This serves as the source of truth for the latest release, avoiding reliance on local git branches
 find_latest_release_pipeline_run() {
     local runs="$1"
 
     echo "$runs" | jq -r ".[] | select(.workflowName == \"Release Pipeline\" and (.headBranch | startswith(\"release/\"))) | @base64" | head -1
-}
-
-# Find Release Pipeline run for a specific branch
-find_release_pipeline_run_for_branch() {
-    local branch="$1"
-    local runs="$2"
-
-    echo "$runs" | jq -r ".[] | select(.workflowName == \"Release Pipeline\" and .headBranch == \"$branch\") | @base64" | head -1
 }
 
 # Find the most recent CI run for a given branch
@@ -96,17 +83,6 @@ extract_run_details() {
 main() {
     echo "Validating remote CI/CD for latest release..."
 
-    # Get the latest release branch
-    local release_branch
-    release_branch=$(get_latest_release_branch)
-
-    if [[ -z "$release_branch" ]]; then
-        echo -e "${RED}ERROR: No release branches found${NC}"
-        return 1
-    fi
-
-    echo "Latest release branch: $release_branch"
-
     # Fetch workflow runs
     local runs
     runs=$(fetch_workflow_runs 50)
@@ -116,22 +92,26 @@ main() {
         return 1
     fi
 
-    # Try to find Release Pipeline run for this specific branch
+    # Find the latest Release Pipeline run (source of truth from GitHub, not local git)
     local release_run
-    release_run=$(find_release_pipeline_run_for_branch "$release_branch" "$runs")
+    release_run=$(find_latest_release_pipeline_run "$runs")
 
     if [[ -z "$release_run" ]]; then
-        echo -e "${RED}✗${NC} No Release Pipeline run found for $release_branch"
-        echo -e "${YELLOW}ℹ${NC} The release branch must be merged into main to trigger the Release Pipeline"
+        echo -e "${RED}ERROR: No Release Pipeline workflow runs found for any release branches${NC}"
         return 1
     fi
 
+    # Extract release branch from the run
+    local release_branch
+    release_branch=$(echo "$release_run" | base64 -d | jq -r '.headBranch')
+
+    echo "Latest release: $release_branch"
+    echo ""
+
     if ! validate_workflow_run "$release_run" "Release Pipeline"; then
-        if [[ -n "$release_run" ]]; then
-            echo ""
-            echo "Details:"
-            extract_run_details "$release_run" | jq .
-        fi
+        echo ""
+        echo "Details:"
+        extract_run_details "$release_run" | jq .
         return 1
     fi
 
