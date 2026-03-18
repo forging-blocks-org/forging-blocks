@@ -216,13 +216,14 @@ class TestGitVersionControl:
         tag = TagName("v1.2.0")
         version_control.push(branch_name, tag=tag)
 
-        command_runner_mock.run.assert_called_once_with(["git", "push", "origin", "release/v1.2.0"])
+        command_runner_mock.run.assert_called_once_with(
+            ["git", "push", "origin", "release/v1.2.0", "v1.2.0"]
+        )
 
         expected_calls = [
-            (["git", "push", "origin", "release/v1.2.0"],),
-            (["git", "push", "origin", "v1.2.0"],),
+            (["git", "push", "origin", "release/v1.2.0", "v1.2.0"],),
         ]
-        assert command_runner_mock.run.call_count == 2
+        assert command_runner_mock.run.call_count == 1
         actual_calls = [call[0] for call in command_runner_mock.run.call_args_list]
         assert actual_calls == expected_calls
 
