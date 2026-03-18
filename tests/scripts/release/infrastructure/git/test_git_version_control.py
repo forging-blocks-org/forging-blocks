@@ -116,6 +116,39 @@ class TestGitVersionControl:
             ]
         )
 
+    def test_commit_release_artifacts_when_precommit_fails_then_retries(
+        self, version_control: GitVersionControl, command_runner_mock: MagicMock
+    ) -> None:
+        command_runner_mock.run.side_effect = [
+            None,
+            RuntimeError("Commit failed: end-of-file-fixer"),
+            None,
+            None,
+        ]
+
+        version_control.commit_release_artifacts()
+
+        assert command_runner_mock.run.call_count == 4
+        command_runner_mock.run.assert_has_calls(
+            [
+                call(["git", "add", "-A"]),
+                call(["git", "commit", "-m", "chore(release): prepare release"]),
+                call(["git", "add", "-A"]),
+                call(["git", "commit", "-m", "chore(release): prepare release"]),
+            ]
+        )
+
+    def test_commit_release_artifacts_when_other_error_then_raises(
+        self, version_control: GitVersionControl, command_runner_mock: MagicMock
+    ) -> None:
+        command_runner_mock.run.side_effect = [
+            None,
+            RuntimeError("Some other error"),
+        ]
+
+        with pytest.raises(RuntimeError, match="Some other error"):
+            version_control.commit_release_artifacts()
+
     def test_create_branch_when_called_then_runs_checkout_b_command(
         self,
         version_control: GitVersionControl,

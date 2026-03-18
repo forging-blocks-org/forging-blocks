@@ -60,12 +60,18 @@ class GitVersionControl(VersionControl):
                     ReleaseBranchExistsError,
                 )
 
-                # Get current branch name
                 current_branch = self._runner.run(["git", "branch", "--show-current"]).strip()
                 raise ReleaseBranchExistsError(current_branch) from e
+            elif self._is_pre_commit_failure(error_msg):
+                self._runner.run(["git", "add", "-A"])
+                self._runner.run(["git", "commit", "-m", "chore(release): prepare release"])
+                logging.info("✓ Committed release artifacts")
             else:
-                # Re-raise the original error for other git commit failures
                 raise
+
+    def _is_pre_commit_failure(self, error_msg: str) -> bool:
+        indicators = ["pre-commit", "hook", "end-of-file-fixer", "ruff", "trim trailing"]
+        return any(indicator in error_msg.lower() for indicator in indicators)
 
     def create_branch(
         self,
