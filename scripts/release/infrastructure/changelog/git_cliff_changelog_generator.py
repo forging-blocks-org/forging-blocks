@@ -39,13 +39,13 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
         tag_exists = self._tag_exists(from_tag)
         latest_tag = self._latest_tag() if not tag_exists else None
 
-        range_arg = self._resolve_range(
+        range_arg, version_tag = self._resolve_range_and_version(
             requested_tag=from_tag,
             tag_exists=tag_exists,
             latest_tag=latest_tag,
         )
 
-        raw = self._run_git_cliff(range_arg)
+        raw = self._run_git_cliff(range_arg, version_tag)
         entries = self._parse_output(raw)
 
         return ChangelogResponse(entries=entries)
@@ -70,20 +70,27 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
         except RuntimeError:
             return None
 
-    def _resolve_range(
+    def _resolve_range_and_version(
         self,
         *,
         requested_tag: str,
         tag_exists: bool,
         latest_tag: str | None,
-    ) -> str | None:
-        """Return the starting tag for the range, or None for full history."""
-        if tag_exists:
-            return requested_tag
-        return latest_tag  # None signals "no range — use full history"
+    ) -> tuple[str | None, str | None]:
+        """Return the starting tag for the range and version tag for git-cliff.
 
-    def _run_git_cliff(self, from_tag: str | None) -> str:
+        The version_tag tells git-cliff what version to display in the changelog,
+        even if the tag doesn't exist yet in git.
+        """
+        if tag_exists:
+            return requested_tag, requested_tag
+        return latest_tag, requested_tag  # version_tag ensures correct version is shown
+
+    def _run_git_cliff(self, from_tag: str | None, version_tag: str | None) -> str:
         cmd = ["git-cliff", "--output", "-"]
+
+        if version_tag:
+            cmd += ["--tag", version_tag]
 
         if from_tag:
             cmd += ["--", f"{from_tag}.."]

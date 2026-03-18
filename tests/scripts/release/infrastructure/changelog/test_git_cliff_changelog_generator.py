@@ -51,6 +51,26 @@ class TestGitCliffChangelogGenerator:
         assert "Add feature after tag" in full_output
         assert "Fix bug after tag" in full_output
         assert "Commit before tag" not in full_output
+        assert "[1.0.0]" in full_output
+        assert "unreleased" not in full_output.lower()
+        assert (git_repo.path / "CHANGELOG.md").exists()
+
+    async def test_generate_when_tag_not_yet_created_then_uses_requested_version(
+        self, git_repo: GitTestRepository
+    ) -> None:
+        """Requested tag doesn't exist in git yet — uses requested version in output."""
+        git_repo.write_file("a.txt", "a")
+        git_repo.commit("feat: commit before tag")
+        git_repo.create_tag("v1.0.0")
+        git_repo.write_file("b.txt", "b")
+        git_repo.commit("feat: add feature after tag")
+
+        response = await _make_generator(git_repo).generate(ChangelogRequest(from_version="1.1.0"))
+
+        full_output = "\n".join(response.entries)
+        assert "Add feature after tag" in full_output
+        assert "[1.1.0]" in full_output
+        assert "unreleased" not in full_output.lower()
         assert (git_repo.path / "CHANGELOG.md").exists()
 
     async def test_generate_when_tag_missing_but_other_tags_exist_then_returns_entries_since_latest_tag(
