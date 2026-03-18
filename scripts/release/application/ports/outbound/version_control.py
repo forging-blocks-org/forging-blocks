@@ -87,9 +87,9 @@ class VersionControl(OutputPort):
         self,
         branch: ReleaseBranchName,
         *,
-        push_tags: bool,
+        tag: TagName,
     ) -> None:
-        """Push branch (and optionally tags)."""
+        """Push branch and tag."""
         ...
 
     @abstractmethod
