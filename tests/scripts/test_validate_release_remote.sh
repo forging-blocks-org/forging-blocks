@@ -155,14 +155,15 @@ else
 fi
 
 # Test 18: Shows release info
-if bash "$VALIDATE_SCRIPT" 2>&1 | grep -q "Latest release"; then
+output=$(bash "$VALIDATE_SCRIPT" 2>&1 || true)
+if echo "$output" | grep -q "Latest release"; then
     test_pass "Script displays release information"
 else
     test_fail "Script displays release information"
 fi
 
 # Test 19: Uses status symbols
-if bash "$VALIDATE_SCRIPT" 2>&1 | grep -qE '[✓✗◐]'; then
+if echo "$output" | grep -qE '✓|✗|◐'; then
     test_pass "Script uses status indicators (✓✗◐)"
 else
     test_fail "Script uses status indicators (✓✗◐)"
