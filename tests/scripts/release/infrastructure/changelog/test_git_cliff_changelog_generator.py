@@ -9,18 +9,19 @@ conventional commit prefixes and capitalises the description, so
 "feat: add feature after tag" is rendered as "Add feature after tag".
 """
 
-from pathlib import Path
 import subprocess
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-from scripts.release.application.errors import ChangelogGenerationError
 from scripts.release.application.ports.outbound import ChangelogRequest
 from scripts.release.infrastructure.changelog.git_cliff_changelog_generator import (
     GitCliffChangelogGenerator,
 )
 from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
 from tests.fixtures.git_test_repository import GitTestRepository
+
+from scripts.release.application.errors import ChangelogGenerationError
 
 
 def _make_generator(repo: GitTestRepository) -> GitCliffChangelogGenerator:
