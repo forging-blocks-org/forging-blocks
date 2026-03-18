@@ -31,15 +31,21 @@ jobs:
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "Tag: $TAG"
 
-      - name: Verify tag exists on remote
+      - name: Create and push tag if missing
         shell: bash
         run: |
           TAG="${{ steps.vars.outputs.tag }}"
-          if ! git ls-remote --tags origin "$TAG" | grep -q .; then
-            echo "Tag $TAG not found on remote"
-            exit 1
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --tags origin "$TAG" | grep -q .; then
+            echo "Tag $TAG already exists on remote"
+          else
+            echo "Creating and pushing tag $TAG to remote"
+            git tag "$TAG"
+            git push origin "refs/tags/$TAG"
           fi
-          echo "Tag $TAG verified on remote"
 
       - name: Install git-cliff
         uses: ./.github/actions/install-git-cliff
