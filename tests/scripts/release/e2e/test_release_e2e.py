@@ -172,6 +172,30 @@ class TestReleaseWorkflow:
         assert result is not None
         assert hasattr(result, "entries")
 
+    async def test_execute_with_flag_generates_changelog_with_correct_version(
+        self,
+        git_repo_with_poetry: GitTestRepository,
+    ) -> None:
+        """Test that changelog shows version (e.g. [0.1.0]) not 'unreleased'."""
+        git_repo_with_poetry.write_file("README.md", "# Test Project")
+        git_repo_with_poetry.commit("feat: initial feature")
+
+        from scripts.release.infrastructure.changelog.git_cliff_changelog_generator import (
+            GitCliffChangelogGenerator,
+        )
+
+        generator = GitCliffChangelogGenerator(
+            runner=git_repo_with_poetry.scoped_runner(),
+            changelog_path=git_repo_with_poetry.path / "CHANGELOG.md",
+        )
+
+        result = await generator.generate(ChangelogRequest(from_version="0.1.0"))
+
+        full_output = "\n".join(result.entries)
+        assert "[0.1.0]" in full_output
+        assert "unreleased" not in full_output.lower()
+        assert (git_repo_with_poetry.path / "CHANGELOG.md").exists()
+
     async def test_execute_with_flag_pushes_branch(
         self,
         service: PrepareReleaseService,
