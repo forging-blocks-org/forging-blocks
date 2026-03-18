@@ -121,8 +121,7 @@ class GitVersionControl(VersionControl):
         *,
         tag: TagName,
     ) -> None:
-        self._runner.run(["git", "push", "origin", branch.value])
-        self._runner.run(["git", "push", "origin", tag.value])
+        self._runner.run(["git", "push", "origin", branch.value, tag.value])
 
     def remote_branch_exists(self, branch: ReleaseBranchName) -> bool:
         try:

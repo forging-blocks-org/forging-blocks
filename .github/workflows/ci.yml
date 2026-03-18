@@ -30,3 +30,11 @@ jobs:
 
       - name: Run tests
         run: poetry run poe test
+
+      - name: Build package
+        run: poetry build
+
+      - name: Validate artifacts
+        run: |
+          pip install twine
+          twine check dist/*
