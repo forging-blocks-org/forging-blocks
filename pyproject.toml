@@ -209,9 +209,7 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
 ]
 
 "release:validate:remote".sequence = [
-  { shell = "echo 'Validating remote CI/CD for latest release...'" },
-  { cmd = "python scripts/validate_release_remote.py" },
-  { shell = "echo 'OK: remote CI/CD validated'" }
+  { shell = "bash scripts/validate_release_remote.sh" }
 ]
 
 release = { cmd = "python -m scripts.release.presentation", env = { "PYTHONPATH" = "src:scripts:scripts/release" } }
