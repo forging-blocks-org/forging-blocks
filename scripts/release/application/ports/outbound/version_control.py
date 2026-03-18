@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
 from forging_blocks.foundation import OutputPort
-from scripts.release.domain.value_objects import ReleaseBranchName, TagName
+from scripts.release.domain.value_objects import ReleaseBranchName
 
 
 class VersionControl(OutputPort):
@@ -49,22 +49,6 @@ class VersionControl(OutputPort):
         ...
 
     @abstractmethod
-    def create_tag(
-        self,
-        tag: TagName,
-    ) -> None:
-        """Create tag (prefer annotated tags)."""
-        ...
-
-    @abstractmethod
-    def delete_tag(
-        self,
-        tag: TagName,
-    ) -> None:
-        """Delete tag locally and remotely (or define two methods if you prefer explicitness)."""
-        ...
-
-    @abstractmethod
     def delete_local_branch(
         self,
         branch: ReleaseBranchName,
@@ -86,8 +70,6 @@ class VersionControl(OutputPort):
     def push(
         self,
         branch: ReleaseBranchName,
-        *,
-        tag: TagName,
     ) -> None:
         """Push branch and tag."""
         ...
@@ -100,12 +82,4 @@ class VersionControl(OutputPort):
         """Remote existence check (origin/<branch>).
         This is important for idempotency and avoiding non-fast-forward surprises.
         """
-        ...
-
-    @abstractmethod
-    def tag_exists(
-        self,
-        tag: TagName,
-    ) -> bool:
-        """Local/remote tag existence check (your implementation decides, but document it)."""
         ...
