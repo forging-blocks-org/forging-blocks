@@ -106,7 +106,7 @@ def transaction() -> InMemoryReleaseTransaction:
 
 
 @pytest.fixture
-def service(
+async def service(
     version_control: GitVersionControl,
     versioning_service: PoetryVersioningService,
     changelog_generator: GitCliffChangelogGenerator,
