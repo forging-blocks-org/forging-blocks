@@ -212,4 +212,12 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
   { shell = "bash scripts/validate_release_remote.sh" }
 ]
 
+"release:validate:github".shell = """
+echo 'Validating GitHub workflow without publishing...'
+BRANCH=$(git branch --show-current)
+gh workflow run validate-release.yml -f release_branch="$BRANCH"
+echo 'Validation workflow triggered. Check status with:'
+echo '  gh run list --workflow validate-release.yml'
+"""
+
 release = { cmd = "python -m scripts.release.presentation", env = { "PYTHONPATH" = "src:scripts:scripts/release" } }
