@@ -12,7 +12,15 @@ readonly NC='\033[0m' # No Color
 # Fetch workflow runs and return JSON
 fetch_workflow_runs() {
     local limit="${1:-50}"
-    GH_PAGER=cat gh run list --limit "$limit" --json number,name,status,conclusion,workflowName,headBranch,createdAt,event 2>/dev/null || echo "[]"
+    local output
+
+    if ! output=$(GH_PAGER=cat gh run list --limit "$limit" --json number,name,status,conclusion,workflowName,headBranch,createdAt,event 2>&1); then
+        echo -e "${RED}ERROR: Failed to fetch workflow runs from GitHub CLI${NC}" >&2
+        echo "$output" >&2
+        return 1
+    fi
+
+    echo "$output"
 }
 
 # Find the most recent Release Pipeline run (from any release branch)
