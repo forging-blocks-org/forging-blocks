@@ -10,9 +10,31 @@ readonly GREEN='\033[0;32m'
 readonly YELLOW='\033[1;33m'
 readonly NC='\033[0m' # No Color
 
-# Fetch latest release branch from git
+# Fetch latest release branch
 get_latest_release_branch() {
-    git for-each-ref --sort=-version:refname --format='%(refname:short)' refs/heads/release/ | head -1 || echo ""
+    # First, try to determine the latest local release branch.
+    local branch
+    branch=$(git for-each-ref --sort=-version:refname --format='%(refname:short)' refs/heads/release/ | head -1 || true)
+
+    if [[ -n "${branch:-}" ]]; then
+        echo "$branch"
+        return 0
+    fi
+
+    # Fallback: derive the latest release branch from the newest "Release Pipeline" run.
+    if command -v gh >/dev/null 2>&1; then
+        local runs
+        runs=$(fetch_workflow_runs 50)
+        branch=$(echo "$runs" | jq -r '.[] | select(.workflowName == "Release Pipeline" and (.headBranch | startswith("release/"))) | .headBranch' | head -1)
+
+        if [[ -n "${branch:-}" && "$branch" != "null" ]]; then
+            echo "$branch"
+            return 0
+        fi
+    fi
+
+    # If no branch could be determined, return empty string to preserve existing behavior.
+    echo ""
 }
 
 # Fetch workflow runs and return JSON
