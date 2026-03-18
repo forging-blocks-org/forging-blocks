@@ -190,6 +190,7 @@ class TestReleaseWorkflow:
             cwd=git_repo.path,
             capture_output=True,
             text=True,
+            check=True,
         ).stdout
 
         assert "origin/release/v0.1.0" in branches
@@ -200,6 +201,7 @@ class TestReleaseWorkflow:
             cwd=git_repo.path,
             capture_output=True,
             text=True,
+            check=True,
         ).stdout
 
         assert remote_tag_output.strip() != ""
@@ -261,6 +263,7 @@ class TestReleaseWorkflow:
             cwd=git_repo.path,
             capture_output=True,
             text=True,
+            check=True,
         ).stdout
 
         request = PrepareReleaseInput(level="minor", dry_run=True)
@@ -271,6 +274,7 @@ class TestReleaseWorkflow:
             ["git", "branch", "-a"],
             cwd=git_repo.path,
             capture_output=True,
+            check=True,
             text=True,
         ).stdout
 
