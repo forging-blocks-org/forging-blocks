@@ -23,28 +23,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Extract version from branch
+      - name: Prepare Release and Tagging
         id: vars
-        run: |
-          REF="${{ github.event.pull_request.head.ref }}"
-          VERSION="${REF#release/}"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Create and push tag
-        run: |
-          TAG="${{ steps.vars.outputs.version }}"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          if git ls-remote --tags origin "$TAG" | grep -q .; then
-            echo "Tag already exists"
-          else
-            git tag "$TAG"
-            git push origin "refs/tags/$TAG"
-          fi
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: bash scripts/pipeline/prepare_release.sh
 
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
+
+      - name: Install git-cliff
+        uses: ./.github/actions/install-git-cliff
 
       - name: Install dependencies
         run: poetry install --no-interaction
@@ -52,16 +41,11 @@ jobs:
       - name: Validate release candidate
         run: poetry run poe ci:release
 
-      - name: Build package
-        run: poetry build
-
-      - name: Validate artifacts
-        run: |
-          pip install twine
-          twine check dist/*
+      - name: Build and validate artiffacts
+        run: bash scripts/pipeline/validate_artifacts.sh
 
       - name: Publish to PyPI
+        if: github.actor != 'nektos/act'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          user: __token__
           password: ${{ secrets.PYPI_TOKEN }}

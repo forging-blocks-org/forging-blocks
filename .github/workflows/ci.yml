@@ -31,13 +31,8 @@ jobs:
       - name: Run tests
         run: poetry run poe test
 
-      - name: Build package
-        run: poetry build
-
-      - name: Validate artifacts
-        run: |
-          pip install twine
-          twine check dist/*
+      - name: Build and Validate Artifacts
+        run: bash scripts/pipeline/validate_artifacts.sh
 
   validate-publish:
     runs-on: ubuntu-latest
@@ -54,28 +49,20 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction --with dev
 
-      - name: Install twine
-        run: pip install twine
-
-      - name: Configure TestPyPI
-        run: poetry config repositories.testpypi https://test.pypi.org/legacy/
-
       - name: Extract base version
         id: version
-        run: echo "VERSION=$(poetry version -s)" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$(poetry version -s)" >> "$GITHUB_OUTPUT"
 
-      - name: Run validation script (build + idempotency)
+      - name: Run validation script
         env:
           TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
           PACKAGE_NAME: forging-blocks
           IMPORT_NAME: forging_blocks
           VERSION: ${{ steps.version.outputs.VERSION }}
-        run: |
-          chmod +x scripts/validate_publish.sh
-          scripts/validate_publish.sh
+        run: bash scripts/pipeline/validate_publish.sh
 
       - name: Upload to TestPyPI
-        if: env.SKIP_PUBLISH != 'true'
+        if: env.SKIP_PUBLISH != 'true' && github.actor != 'nektos/act'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
