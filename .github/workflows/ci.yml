@@ -1,7 +1,16 @@
-validate-publish:
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
     runs-on: ubuntu-latest
-    needs: test
-    if: github.event_name == 'pull_request'
 
     steps:
       - name: Checkout repository
@@ -10,44 +19,70 @@ validate-publish:
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
 
+      - name: Install git-cliff
+        uses: ./.github/actions/install-git-cliff
+
       - name: Install dependencies
         run: poetry install --no-interaction --with dev
 
-      - name: Run validation script (Build & Version Bump)
-        env:
-          PACKAGE_NAME: forging-blocks
-          IMPORT_NAME: forging_blocks
-          VERSION: ${{ needs.test.outputs.VERSION || '0.3.13' }} # Fallback or use output
-        run: |
-          # If you don't have an output from the test job,
-          # you can re-extract it here:
-          V=$(poetry version -s)
-          VERSION=$V PACKAGE_NAME=forging-blocks IMPORT_NAME=forging_blocks ./scripts/validate_publish.sh
+      - name: Run CI checks
+        run: poetry run poe ci:check
 
-      - name: Upload to TestPyPI
-        # This action now finds the 'dist/' folder created by the script above
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
-          password: ${{ secrets.TEST_PYPI_TOKEN }}
+      - name: Run tests
+        run: poetry run poe test
 
-      - name: Smoke Test (Install from TestPyPI)
-        run: |
-          # Wait a moment for TestPyPI to index
-          sleep 10
-          TMP_VENV=$(mktemp -d)
-          python3 -m venv "$TMP_VENV"
-          source "$TMP_VENV/bin/activate"
+      - name: Build and Validate Artifacts
+        run: bash scripts/pipeline/validate_artifacts.sh
 
-          # Use the version exported by the script
-          pip install --index-url https://test.pypi.org/simple/ \
-                      --extra-index-url https://pypi.org/simple/ \
-                      forging-blocks==${{ env.PUBLISH_VERSION }}
+  validate-publish:
+      runs-on: ubuntu-latest
+      needs: test
+      if: github.event_name == 'pull_request'
 
-          python - <<EOF
-          import forging_blocks
-          from importlib.metadata import version
-          v = version("forging-blocks")
-          print(f"Detected Version: {v}")
-          assert v == "${{ env.PUBLISH_VERSION }}"
-          EOF
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Set up Poetry
+          uses: ./.github/actions/setup-poetry
+
+        - name: Install dependencies
+          run: poetry install --no-interaction --with dev
+
+        - name: Run validation script (Build & Version Bump)
+          env:
+            PACKAGE_NAME: forging-blocks
+            IMPORT_NAME: forging_blocks
+            VERSION: ${{ needs.test.outputs.VERSION || '0.3.13' }} # Fallback or use output
+          run: |
+            # If you don't have an output from the test job,
+            # you can re-extract it here:
+            V=$(poetry version -s)
+            VERSION=$V PACKAGE_NAME=forging-blocks IMPORT_NAME=forging_blocks ./scripts/validate_publish.sh
+
+        - name: Upload to TestPyPI
+          uses: pypa/gh-action-pypi-publish@release/v1
+          with:
+            repository-url: https://test.pypi.org/legacy/
+            password: ${{ secrets.TEST_PYPI_TOKEN }}
+
+        - name: Smoke Test (Install from TestPyPI)
+          run: |
+            # Wait a moment for TestPyPI to index
+            sleep 10
+            TMP_VENV=$(mktemp -d)
+            python3 -m venv "$TMP_VENV"
+            source "$TMP_VENV/bin/activate"
+
+            # Use the version exported by the script
+            pip install --index-url https://test.pypi.org/simple/ \
+                        --extra-index-url https://pypi.org/simple/ \
+                        forging-blocks==${{ env.PUBLISH_VERSION }}
+
+            python - <<EOF
+            import forging_blocks
+            from importlib.metadata import version
+            v = version("forging-blocks")
+            print(f"Detected Version: {v}")
+            assert v == "${{ env.PUBLISH_VERSION }}"
+            EOF
