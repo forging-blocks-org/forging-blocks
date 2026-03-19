@@ -68,7 +68,7 @@ pygments = "^2.19.2"
 
 [[tool.poetry.source]]
 name = "testpypi"
-url = "https://test.pypi.org/simple"
+url = "https://test.pypi.org/simple/"
 priority = "explicit"
 
 [build-system]
