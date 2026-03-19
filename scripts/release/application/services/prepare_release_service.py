@@ -1,6 +1,3 @@
-from scripts.release.application.errors.tag_already_exists_error import (
-    TagAlreadyExistsError,
-)
 from scripts.release.application.ports.inbound import (
     PrepareReleaseInput,
     PrepareReleaseOutput,
@@ -24,11 +21,16 @@ from scripts.release.domain.value_objects import (
 
 
 class PrepareReleaseService(PrepareReleaseUseCase):
-    """Application service responsible for preparing a release.
+    """Service for preparing the release synchonosly and send a command to open a PR.
 
-    This use case is transactional:
-    - either the release branch is fully prepared
-    - or the system is rolled back to its original state
+    Responsibilities:
+    - calculate the next version
+    - create a release branch
+    - instantiate tag name
+    - check if the branch already exists
+    - prepare a release
+    - check if its a dry run to avoid modifying the repo
+    - delegate to infrastructure
     """
 
     def __init__(
@@ -55,8 +57,6 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         branch = ReleaseBranchName.from_version(next_version)
         tag = TagName.for_version(next_version)
 
-        self._ensure_tag_doesnt_exist(tag)
-
         branch_exists = self._version_control.branch_exists(branch)
 
         context = ReleaseContext(
@@ -74,10 +74,6 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             await self._send_command(context)
 
         return self._make_output(context)
-
-    def _ensure_tag_doesnt_exist(self, tag: TagName) -> None:
-        if self._version_control.tag_exists(tag):
-            raise TagAlreadyExistsError(tag.value)
 
     def _make_output(self, context: ReleaseContext) -> PrepareReleaseOutput:
         return PrepareReleaseOutput(
@@ -105,11 +101,12 @@ class PrepareReleaseService(PrepareReleaseUseCase):
                     undo=self._version_control.checkout_main,
                 )
             )
+
             self._branch_handling(context)
             self._apply_version(context)
             await self._generate_changelog(context)
+
             self._version_control.commit_release_artifacts()
-            self._create_tag(context)
             self._push_branch(context)
 
     def _branch_handling(self, context: ReleaseContext) -> None:
@@ -138,22 +135,6 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             ChangelogRequest(from_version=context.previous_version.value)
         )
 
-    def _create_tag(self, context: ReleaseContext) -> None:
-        def _undo_tag() -> None:
-            try:
-                self._version_control.delete_tag(context.tag)
-            except Exception:
-                # Ignore errors during rollback if the tag does not exist or cannot be deleted
-                pass
-
-        self._transaction.register_step(
-            ReleaseStep(
-                name="delete_tag",
-                undo=_undo_tag,
-            )
-        )
-        self._version_control.create_tag(context.tag)
-
     def _push_branch(self, context: ReleaseContext) -> None:
         self._transaction.register_step(
             ReleaseStep(
@@ -161,4 +142,5 @@ class PrepareReleaseService(PrepareReleaseUseCase):
                 undo=lambda: self._version_control.delete_remote_branch(context.branch),
             )
         )
-        self._version_control.push(context.branch, tag=context.tag)
+
+        self._version_control.push(context.branch)
