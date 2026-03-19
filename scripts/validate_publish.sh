@@ -69,20 +69,23 @@ log "Validating artifacts"
 twine check dist/*
 
 #######################################
-# Idempotency check (CRITICAL)
+# Idempotency check
 #######################################
 log "Checking if version already exists on TestPyPI"
 
 if pip index versions "$PACKAGE_NAME" \
   --index-url "$TEST_PYPI_URL" 2>/dev/null | grep -q "$VERSION"; then
-  warn "Version $VERSION already exists on TestPyPI → skipping publish"
+  warn "Version $VERSION already exists → skipping publish"
   SKIP_PUBLISH=true
 else
   SKIP_PUBLISH=false
 fi
 
+# expose to GitHub Actions + log
+echo "SKIP_PUBLISH=$SKIP_PUBLISH" | tee -a "$GITHUB_ENV"
+
 #######################################
-# Publish (only if needed)
+# Publish
 #######################################
 if [[ "$SKIP_PUBLISH" == false ]]; then
   log "Publishing to TestPyPI"
@@ -92,11 +95,11 @@ if [[ "$SKIP_PUBLISH" == false ]]; then
     --username __token__ \
     --password "$TEST_PYPI_TOKEN"
 else
-  warn "Skipping publish step (idempotent)"
+  warn "Skipping publish (idempotent)"
 fi
 
 #######################################
-# Install validation
+# Install validation (with retry)
 #######################################
 log "Creating isolated environment"
 
@@ -108,11 +111,29 @@ source "$TMP_VENV/bin/activate"
 
 pip install --upgrade pip >/dev/null
 
-log "Installing from TestPyPI"
-pip install \
-  --index-url "$TEST_PYPI_URL" \
-  --extra-index-url "$PYPI_URL" \
-  "$PACKAGE_NAME==$VERSION"
+log "Installing from TestPyPI (with retry)"
+
+MAX_ATTEMPTS=10
+SLEEP_SECONDS=5
+SUCCESS=false
+
+for i in $(seq 1 $MAX_ATTEMPTS); do
+  if pip install \
+    --index-url "$TEST_PYPI_URL" \
+    --extra-index-url "$PYPI_URL" \
+    "$PACKAGE_NAME==$VERSION"; then
+    SUCCESS=true
+    log "Install succeeded"
+    break
+  fi
+
+  warn "Not available yet (attempt $i/$MAX_ATTEMPTS)"
+  sleep $SLEEP_SECONDS
+done
+
+if [[ "$SUCCESS" == false ]]; then
+  fail "Package not available after $MAX_ATTEMPTS attempts"
+fi
 
 #######################################
 # Smoke test
@@ -124,6 +145,16 @@ import $IMPORT_NAME
 assert $IMPORT_NAME.__version__ == "$VERSION"
 print("Version OK:", $IMPORT_NAME.__version__)
 EOF
+
+#######################################
+# Optional CLI validation
+#######################################
+if command -v "$PACKAGE_NAME" >/dev/null 2>&1; then
+  log "Running CLI check"
+  "$PACKAGE_NAME" --help >/dev/null
+else
+  warn "CLI not found, skipping"
+fi
 
 deactivate
 rm -rf "$TMP_VENV"
