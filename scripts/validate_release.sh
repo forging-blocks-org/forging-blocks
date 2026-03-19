@@ -2,100 +2,140 @@
 
 set -euo pipefail
 
+#######################################
+# Logging
+#######################################
+log() {
+  printf "\033[1;34m[INFO]\033[0m %s\n" "$1"
+}
+
+warn() {
+  printf "\033[1;33m[WARN]\033[0m %s\n" "$1"
+}
+
+error() {
+  printf "\033[1;31m[ERROR]\033[0m %s\n" "$1" >&2
+}
+
+fail() {
+  error "$1"
+  exit 1
+}
+
+#######################################
+# Config
+#######################################
 ROOT_DIR="$(git rev-parse --show-toplevel)"
 cd "$ROOT_DIR"
 
-#######################################
-# Configuration (override via env vars)
-#######################################
-PACKAGE_NAME="${PACKAGE_NAME:-your-package}"
-IMPORT_NAME="${IMPORT_NAME:-your_package}"
+PACKAGE_NAME="${PACKAGE_NAME:-}"
+IMPORT_NAME="${IMPORT_NAME:-}"
+VERSION="${VERSION:-}"
+
 TEST_PYPI_URL="https://test.pypi.org/simple"
 PYPI_URL="https://pypi.org/simple"
 
 #######################################
-# Helpers
+# Preconditions
 #######################################
-fail() {
-  echo "ERROR: $1" >&2
-  exit 1
-}
-
 require_cmd() {
   command -v "$1" >/dev/null 2>&1 || fail "Missing required command: $1"
 }
 
-#######################################
-# Preconditions
-#######################################
+log "Checking required tools"
 require_cmd git
 require_cmd poetry
 require_cmd python3
 require_cmd pip
 
-BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+#######################################
+# Validate env vars
+#######################################
+log "Validating environment variables"
 
-if [[ ! "$BRANCH" =~ ^release/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-  fail "Branch must follow release/vX.Y.Z. Current: $BRANCH"
+[[ -z "$PACKAGE_NAME" ]] && fail "PACKAGE_NAME is not set"
+[[ -z "$IMPORT_NAME" ]] && fail "IMPORT_NAME is not set"
+[[ -z "$VERSION" ]] && fail "VERSION is not set"
+
+if [[ -z "${TEST_PYPI_TOKEN:-}" ]]; then
+  fail "TEST_PYPI_TOKEN is not set"
 fi
 
-VERSION_FROM_BRANCH="${BRANCH#release/v}"
+#######################################
+# Ensure clean state
+#######################################
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
-PYPROJECT_VERSION="$(poetry version -s)"
-
-if [[ "$VERSION_FROM_BRANCH" != "$PYPROJECT_VERSION" ]]; then
-  fail "Version mismatch: branch=$VERSION_FROM_BRANCH pyproject=$PYPROJECT_VERSION"
+if [[ "$CURRENT_BRANCH" != "main" ]]; then
+  warn "You are not on main (current: $CURRENT_BRANCH)"
 fi
+
+log "Ensuring working tree is clean"
+git diff --quiet || fail "Working tree is dirty"
+git diff --cached --quiet || fail "Staged changes detected"
+
+#######################################
+# Create temporary release branch
+#######################################
+RELEASE_BRANCH="release/v$VERSION"
+
+log "Creating temporary release branch: $RELEASE_BRANCH"
+git checkout -b "$RELEASE_BRANCH"
+
+#######################################
+# Sync version
+#######################################
+log "Setting version in pyproject.toml"
+poetry version "$VERSION"
+
+git add pyproject.toml
+git commit -m "chore(release): v$VERSION"
 
 #######################################
 # Clean previous builds
 #######################################
-echo "Cleaning dist/"
+log "Cleaning dist/"
 rm -rf dist/
 
 #######################################
 # Install deps
 #######################################
-echo "Installing dependencies"
+log "Installing dependencies"
 poetry install --no-interaction
 
 #######################################
 # Run checks
 #######################################
-echo "Running CI checks"
+log "Running CI checks"
 poetry run poe ci:check
 
-echo "Running tests"
+log "Running tests"
 poetry run poe test
 
 #######################################
 # Build
 #######################################
-echo "Building package"
+log "Building package"
 poetry build
 
 #######################################
 # Validate artifacts
 #######################################
-echo "Validating artifacts"
+log "Validating artifacts"
 pip install --quiet twine
 twine check dist/*
 
 #######################################
-# Optional: inspect artifacts
+# Inspect artifacts
 #######################################
-echo "Inspecting artifacts"
+log "Inspecting artifacts"
 tar -tf dist/*.tar.gz >/dev/null
 unzip -l dist/*.whl >/dev/null
 
 #######################################
-# Publish to TestPyPI
+# Publish to TestPyPI ONLY
 #######################################
-if [[ -z "${TEST_PYPI_TOKEN:-}" ]]; then
-  fail "TEST_PYPI_TOKEN is not set"
-fi
-
-echo "Publishing to TestPyPI"
+log "Publishing to TestPyPI"
 poetry publish -r testpypi \
   --username __token__ \
   --password "$TEST_PYPI_TOKEN"
@@ -103,15 +143,16 @@ poetry publish -r testpypi \
 #######################################
 # Install from TestPyPI
 #######################################
-echo "Creating isolated venv for install test"
+log "Creating isolated virtualenv"
 TMP_VENV="$(mktemp -d)"
 python3 -m venv "$TMP_VENV"
 
+# shellcheck disable=SC1090
 source "$TMP_VENV/bin/activate"
 
 pip install --upgrade pip >/dev/null
 
-echo "Installing from TestPyPI"
+log "Installing package from TestPyPI"
 pip install \
   --index-url "$TEST_PYPI_URL" \
   --extra-index-url "$PYPI_URL" \
@@ -120,20 +161,42 @@ pip install \
 #######################################
 # Smoke test
 #######################################
-echo "Running import test"
-python -c "import $IMPORT_NAME"
+log "Running import test"
+python -c "import $IMPORT_NAME; print($IMPORT_NAME.__version__)"
 
 #######################################
-# Optional CLI check
+# CLI validation (optional)
 #######################################
 if command -v "$PACKAGE_NAME" >/dev/null 2>&1; then
+  log "Running CLI check"
   "$PACKAGE_NAME" --help >/dev/null || fail "CLI check failed"
+else
+  warn "CLI not found, skipping"
 fi
 
 deactivate
 rm -rf "$TMP_VENV"
 
 #######################################
-# Done
+# Final report
 #######################################
-echo "Release validation succeeded for version $VERSION_FROM_BRANCH"
+log "----------------------------------------"
+log "Publish Validation Report"
+log "----------------------------------------"
+log "Version: $VERSION"
+log "Branch (temp): $RELEASE_BRANCH"
+log "Package: $PACKAGE_NAME"
+log "Import: $IMPORT_NAME"
+log "TestPyPI publish: SUCCESS"
+log "Install test: SUCCESS"
+log "----------------------------------------"
+
+#######################################
+# Cleanup (always rollback)
+#######################################
+log "Cleaning up temporary branch"
+
+git checkout "$CURRENT_BRANCH"
+git branch -D "$RELEASE_BRANCH"
+
+log "Validation completed successfully"
