@@ -3,7 +3,6 @@ import logging
 from scripts.release.application.ports.outbound import VersionControl
 from scripts.release.domain.value_objects import (
     ReleaseBranchName,
-    TagName,
 )
 from scripts.release.infrastructure.commons.process import CommandRunner
 
@@ -41,9 +40,10 @@ class GitVersionControl(VersionControl):
             self._runner.run(["git", "checkout", "main"])
             logging.info("✓ Checked out main branch")
         except RuntimeError:
-            default_branch = self._runner.run(
+            raw = self._runner.run(
                 ["git", "symbolic-ref", "--short", "refs/remotes/origin/HEAD"]
             ).strip()
+            default_branch = raw.split("/")[-1]
             self._runner.run(["git", "checkout", default_branch])
             logging.info(f"✓ Checked out {default_branch} branch")
 
@@ -55,23 +55,13 @@ class GitVersionControl(VersionControl):
             logging.info("✓ Committed release artifacts")
         except RuntimeError as e:
             error_msg = str(e)
-            if "nothing to commit" in error_msg:
-                from scripts.release.application.errors.release_branch_exists_error import (
-                    ReleaseBranchExistsError,
-                )
 
-                current_branch = self._runner.run(["git", "branch", "--show-current"]).strip()
-                raise ReleaseBranchExistsError(current_branch) from e
-            elif self._is_pre_commit_failure(error_msg):
+            if self._is_pre_commit_failure(error_msg):
                 self._runner.run(["git", "add", "-A"])
                 self._runner.run(["git", "commit", "-m", "chore(release): prepare release"])
                 logging.info("✓ Committed release artifacts")
             else:
                 raise
-
-    def _is_pre_commit_failure(self, error_msg: str) -> bool:
-        indicators = ["pre-commit", "hook", "end-of-file-fixer", "ruff", "trim trailing"]
-        return any(indicator in error_msg.lower() for indicator in indicators)
 
     def create_branch(
         self,
@@ -80,14 +70,6 @@ class GitVersionControl(VersionControl):
         logging.info(f"Creating release branch {branch.value}...")
         self._runner.run(["git", "checkout", "-b", branch.value])
         logging.info(f"✓ Created branch {branch.value}")
-
-    def create_tag(
-        self,
-        tag: TagName,
-    ) -> None:
-        logging.info(f"Creating tag {tag.value}...")
-        self._runner.run(["git", "tag", tag.value])
-        logging.info(f"✓ Created tag {tag.value}")
 
     def delete_local_branch(
         self,
@@ -101,27 +83,11 @@ class GitVersionControl(VersionControl):
     ) -> None:
         self._runner.run(["git", "push", "origin", "--delete", branch.value])
 
-    def delete_tag(
-        self,
-        tag: TagName,
-    ) -> None:
-        logging.info(f"Deleting tag {tag.value}...")
-        self._runner.run(["git", "tag", "-d", tag.value])
-        try:
-            self._runner.run(["git", "push", "origin", "--delete", tag.value])
-            logging.info(f"✓ Deleted remote tag {tag.value}")
-        except RuntimeError:
-            # Remote might not exist in test environment, that's OK
-            logging.info(f"✓ Deleted local tag {tag.value} (remote not available)")
-        logging.info(f"✓ Deleted tag {tag.value}")
-
     def push(
         self,
         branch: ReleaseBranchName,
-        *,
-        tag: TagName,
     ) -> None:
-        self._runner.run(["git", "push", "origin", branch.value, tag.value])
+        self._runner.run(["git", "push", "origin", branch.value])
 
     def remote_branch_exists(self, branch: ReleaseBranchName) -> bool:
         try:
@@ -130,15 +96,6 @@ class GitVersionControl(VersionControl):
         except RuntimeError:
             return False
 
-    def tag_exists(
-        self,
-        tag: TagName,
-    ) -> bool:
-        logging.info(f"Checking if tag {tag.value} exists...")
-        try:
-            self._runner.run(["git", "rev-parse", "--verify", tag.value], suppress_error_log=True)
-            logging.info(f"✓ Tag {tag.value} already exists")
-            return True
-        except RuntimeError:
-            logging.info(f"✓ Tag {tag.value} is available")
-            return False
+    def _is_pre_commit_failure(self, error_msg: str) -> bool:
+        indicators = ["pre-commit", "hook", "end-of-file-fixer", "ruff", "trim trailing"]
+        return any(indicator in error_msg.lower() for indicator in indicators)
