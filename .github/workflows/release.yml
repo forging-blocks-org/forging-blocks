@@ -14,6 +14,7 @@ jobs:
       github.event.pull_request.merged == true &&
       github.event.pull_request.base.ref == 'main' &&
       startsWith(github.event.pull_request.head.ref, 'release/v')
+
     runs-on: ubuntu-latest
 
     steps:
@@ -24,14 +25,12 @@ jobs:
 
       - name: Extract version from branch
         id: vars
-        shell: bash
         run: |
           REF="${{ github.event.pull_request.head.ref }}"
           VERSION="${REF#release/}"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Create and push tag
-        shell: bash
         run: |
           TAG="${{ steps.vars.outputs.version }}"
           git config user.name "github-actions[bot]"
@@ -61,17 +60,8 @@ jobs:
           pip install twine
           twine check dist/*
 
-      - name: Publish to TestPyPI
-        env:
-          POETRY_PYPI_TOKEN_TESTPYPI: ${{ secrets.TEST_PYPI_TOKEN }}
-        run: poetry publish -r testpypi
-
-      - name: Verify install from TestPyPI
-        run: |
-          pip install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple your-package
-          python -c "import your_package"
-
       - name: Publish to PyPI
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
-        run: poetry publish
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_TOKEN }}
