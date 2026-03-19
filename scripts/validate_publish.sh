@@ -140,10 +140,23 @@ fi
 #######################################
 log "Running import test"
 
-python - <<EOF
+# Use the python from the TMP_VENV explicitly to ensure
+# we aren't accidentally using the system/poetry python
+"$TMP_VENV/bin/python" - <<EOF
+import importlib
 import $IMPORT_NAME
-assert $IMPORT_NAME.__version__ == "$VERSION"
-print("Version OK:", $IMPORT_NAME.__version__)
+from importlib.metadata import version
+
+# Dynamically import to avoid any namespace collisions
+pkg = importlib.import_module("$IMPORT_NAME")
+
+# Get metadata version
+installed_version = version("$PACKAGE_NAME")
+
+print(f"Installed version: {installed_version}")
+print(f"Expected version:  $VERSION")
+
+assert installed_version == "$VERSION", f"Version mismatch: {installed_version} != $VERSION"
 EOF
 
 #######################################
