@@ -1,68 +1,47 @@
-## [0.3.13] - 2026-03-18
+## [0.3.13] - 2026-03-19
 
 ### Bug Fixes
 
-- GitVersionControl now stages all changes before committing to ensure untracked files are included
-- GitCliffChangelogGenerator now writes output to CHANGELOG.md
-- Ensure changelog is written with utf-8 encoding
-- Improving github actions for release automation
-- Ensure that the tag is created after the commit to avoid issues with detached HEAD state
-- Replaced push_tags with tag in VersionControl.push() method
-- Handle pre-commit hook failures when committing release artifacts
+- Changelog generation when using git-cliff
+- Validate release workflow on remote CI/CD to ensure complete release pipeline is verified
+- Idempotency check + retry install
 
 ### CI
 
-- Install-git-cliff action defined
-- Remove name from install-git-cliff action
-- Add names to steps in CI workflow
-- Add the install-git-cliff action to the release workflow
+- Fix in release workflow to check for tag existence instead of creating it
+- Including validation of remote CI/CD to poe release:validate sequence
+- Validate release workflow now is a shell script
+- *(workflows)* Add validation workflow for release process
+- Add build and artifact validation steps to CI and release workflows
+- Remove any tag related operations from version control port
+- *(scripts)* Validate_publish.sh and remove validate_release.sh
+- Validate package publish to TestPyPI on pull requests
+- Fix yml githbu workflows
 
 ### Miscellaneous Tasks
 
-- Update install-git-cliff action to use composite syntax
-- Update git checkout logic to auto-detect default branch
-- *(prepare_release_service)* Add tag creation and deletion to transaction
+- Validate_release_remote script to check if the release workflow passed on the remote CI/CD
+- Poe task is now calling a shell script instead of a python script for validating the remote CI/CD for the latest release
+- Validate release workflow script and add unit tests
+- *(pyproject)* Add validation for GitHub release workflow
+- Fix in validate release workflow test script
+- Still trying to validate the release workflow script
+- Remove release validation workflows
+- Validate artifacts before merging release PRs
+- Improving validate_release.sh
+- *(pyproject)* Add testpypi source for testing package publishing
+- *(poetry)* Update poetry.lock with new content hash and python version
+- *(pyproject)* Fix testpypi url
+- *(pyproject)* Fix testpypi url
+- Fix validate_publish.sh to use the correct python interpreter
 
 ### Refactor
 
-- *(release)* Update push method to push specific tag
+- Combine git push commands for branch and tag into a single command
+- *(release)* Removing tag creation from prepare release service
 
 ### Testing
 
-- *(release)* Add e2e tests for release workflow
-- Fix imports in test_release_e2e.py
-- *(e2e)* Add end-to-end test for release script
-- Fix release workflow test to check for errors
-
----
-
-## [0.3.7] - 2026-02-10
-
-### Bug Fixes
-
-- Fix handling of annotated tags during release
-- Correct version bump logic for pre-release identifiers
-
-### CI
-
-- Update release workflow to use latest checkout action
-- Cache Python dependencies to speed up CI runs
-
-### Miscellaneous Tasks
-
-- Improve logging around release preparation
-
-
-## [0.3.6] - 2026-01-25
-
-### Bug Fixes
-
-- Resolve race condition when creating release tags
-
-### Testing
-
-- Add unit tests for version control helper functions
-
-### Miscellaneous Tasks
-
-- Update documentation for release process
+- Solve merge conflicts in release script and update tests
+- Git_version_control.py  tests updated to reflect the change in push command to include the tag in a single push
+- *(release)* Increasing consistency in release automation
