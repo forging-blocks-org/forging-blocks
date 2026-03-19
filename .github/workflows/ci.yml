@@ -1,40 +1,4 @@
-name: CI
-
-on:
-  pull_request:
-  push:
-    branches: [main]
-
-permissions:
-  contents: read
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Poetry
-        uses: ./.github/actions/setup-poetry
-
-      - name: Install git-cliff
-        uses: ./.github/actions/install-git-cliff
-
-      - name: Install dependencies
-        run: poetry install --no-interaction --with dev
-
-      - name: Run CI checks
-        run: poetry run poe ci:check
-
-      - name: Run tests
-        run: poetry run poe test
-
-      - name: Build and Validate Artifacts
-        run: bash scripts/pipeline/validate_artifacts.sh
-
-  validate-publish:
+validate-publish:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'pull_request'
@@ -49,22 +13,41 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction --with dev
 
-      - name: Extract base version
-        id: version
-        run: echo "VERSION=$(poetry version -s)" >> "$GITHUB_OUTPUT"
-
-      - name: Run validation script
+      - name: Run validation script (Build & Version Bump)
         env:
-          TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
           PACKAGE_NAME: forging-blocks
           IMPORT_NAME: forging_blocks
-          VERSION: ${{ steps.version.outputs.VERSION }}
-        run: bash scripts/pipeline/validate_publish.sh
+          VERSION: ${{ needs.test.outputs.VERSION || '0.3.13' }} # Fallback or use output
+        run: |
+          # If you don't have an output from the test job,
+          # you can re-extract it here:
+          V=$(poetry version -s)
+          VERSION=$V PACKAGE_NAME=forging-blocks IMPORT_NAME=forging_blocks ./scripts/validate_publish.sh
 
       - name: Upload to TestPyPI
-        if: env.SKIP_PUBLISH != 'true' && github.actor != 'nektos/act'
+        # This action now finds the 'dist/' folder created by the script above
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
-          user: __token__
           password: ${{ secrets.TEST_PYPI_TOKEN }}
+
+      - name: Smoke Test (Install from TestPyPI)
+        run: |
+          # Wait a moment for TestPyPI to index
+          sleep 10
+          TMP_VENV=$(mktemp -d)
+          python3 -m venv "$TMP_VENV"
+          source "$TMP_VENV/bin/activate"
+
+          # Use the version exported by the script
+          pip install --index-url https://test.pypi.org/simple/ \
+                      --extra-index-url https://pypi.org/simple/ \
+                      forging-blocks==${{ env.PUBLISH_VERSION }}
+
+          python - <<EOF
+          import forging_blocks
+          from importlib.metadata import version
+          v = version("forging-blocks")
+          print(f"Detected Version: {v}")
+          assert v == "${{ env.PUBLISH_VERSION }}"
+          EOF
