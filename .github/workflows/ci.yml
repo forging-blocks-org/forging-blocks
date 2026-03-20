@@ -27,11 +27,7 @@ jobs:
         uses: raven-actions/actionlint@v2
 
       - name: Lint Shell Scripts
-        uses: ludeeus/action-shellcheck@2.0.0
-        with:
-          scandir: scripts/pipeline
-          additional_files: scripts/pipeline/commons.sh
-          shellcheck_options: --external-sources
+        run: shellcheck --external-sources scripts/pipeline/*.sh
 
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
