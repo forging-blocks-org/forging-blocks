@@ -1,4 +1,4 @@
-## [0.3.16] - 2026-03-20
+## [0.3.17] - 2026-03-20
 
 ### Bug Fixes
 
@@ -26,3 +26,4 @@
 - Another fix for GitHub Actions
 - Fix in ci.yml for install git-cliff action
 - Add workflow step to lint GitHub Actions workflow files
+- Add username to PyPI publish action
