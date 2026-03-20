@@ -1,6 +1,6 @@
 [project]
 name = "forging-blocks"
-version = "0.3.14"
+version = "0.3.15"
 description = "Composable toolkit for clean, testable, and maintainable Python applications"
 authors = [
   { name = "ForgingBlocks Org", email = "forging-blocks-org@proton.me" }
