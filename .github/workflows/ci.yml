@@ -120,20 +120,4 @@ jobs:
           skip-existing: true
 
       - name: Smoke Test (Install from TestPyPI)
-        run: |
-          sleep 15
-          TMP_VENV=$(mktemp -d)
-          python3 -m venv "$TMP_VENV"
-          source "$TMP_VENV/bin/activate"
-
-          pip install --index-url https://test.pypi.org/simple/ \
-                      --extra-index-url https://pypi.org/simple/ \
-                      "${{ env.PACKAGE_NAME }}==${{ env.PUBLISH_VERSION }}"
-
-          python - <<EOF
-          import ${{ env.IMPORT_NAME }}
-          from importlib.metadata import version
-          v = version("${{ env.PACKAGE_NAME }}")
-          print(f"Detected Version: {v}")
-          assert v == "${{ env.PUBLISH_VERSION }}"
-          EOF
+        run: chmod +x ./scripts/pipeline/smoke_test.sh && ./scripts/pipeline/smoke_test.sh
