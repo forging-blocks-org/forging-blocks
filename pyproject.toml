@@ -235,4 +235,6 @@ echo 'Validation workflow triggered. Check status with:'
 echo '  gh run list --workflow validate-release.yml'
 """
 
+"lint:shell" = { cmd = "shellcheck --external-sources scripts/pipeline/*.sh" }
+
 release = { cmd = "python -m scripts.release.presentation", env = { "PYTHONPATH" = "src:scripts:scripts/release" } }
