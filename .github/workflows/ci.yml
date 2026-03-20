@@ -60,7 +60,7 @@ jobs:
           PUBLISH_VERSION: ${{ needs.test.outputs.VERSION || '0.3.13' }}
 
       - name: Upload to TestPyPI
-        uses: pypa/gh-action-pypi-publish@v1
+        uses: pypa/gh-action-pypi-publish@v1.13.0
         with:
           repository-url: https://test.pypi.org/legacy/
           password: ${{ secrets.TEST_PYPI_TOKEN }}
