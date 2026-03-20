@@ -1,4 +1,4 @@
-Game: Release Pipeline
+name: Release Pipeline
 
 on:
   pull_request:
