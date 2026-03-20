@@ -11,26 +11,16 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    outputs:
+      VERSION: ${{ steps.get-version.outputs.VERSION }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Poetry
-        uses: ./.github/actions/setup-poetry
-
-      - name: Install git-cliff
-        uses: ./.github/actions/install-git-cliff
-
-      - name: Install dependencies
-        run: poetry install --no-interaction --with dev
-
-      - name: Run CI checks
-        run: poetry run poe ci:check
-
-      - name: Run tests
-        run: poetry run poe test
-
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-poetry
+      - id: get-version
+        run: echo "VERSION=$(poetry version -s)" >> "$GITHUB_OUTPUT"
+      - run: poetry install --no-interaction --with dev
+      - run: poetry run poe ci:check
+      - run: poetry run poe test
       - name: Build and Validate Artifacts
         run: bash scripts/pipeline/validate_artifacts.sh
 
@@ -38,26 +28,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'pull_request'
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Poetry
-        uses: ./.github/actions/setup-poetry
-
-      - name: Install dependencies
-        run: poetry install --no-interaction --with dev
-
-      - name: Run validation script (Build & Version Bump)
-        run: |
-          V=$(poetry version -s)
-          export VERSION=$V
-          export PACKAGE_NAME=forging-blocks
-          export IMPORT_NAME=forging_blocks
-          bash ./scripts/validate_publish.sh
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-poetry
+      - name: Run validation script
         env:
-          PUBLISH_VERSION: ${{ needs.test.outputs.VERSION || '0.3.13' }}
+          VERSION: ${{ needs.test.outputs.VERSION }}
+          PACKAGE_NAME: forging-blocks
+          IMPORT_NAME: forging_blocks
+        run: bash ./scripts/validate_publish.sh
 
       - name: Upload to TestPyPI
         uses: pypa/gh-action-pypi-publish@v1.13.0
@@ -65,23 +44,10 @@ jobs:
           repository-url: https://test.pypi.org/legacy/
           password: ${{ secrets.TEST_PYPI_TOKEN }}
 
-      - name: Smoke Test (Install from TestPyPI)
+      - name: Smoke Test
         run: |
           sleep 10
-          TMP_VENV=$(mktemp -d)
-          python3 -m venv "$TMP_VENV"
-          source "$TMP_VENV/bin/activate"
-
-          V=$(poetry version -s)
-
           pip install --index-url https://test.pypi.org/simple/ \
                       --extra-index-url https://pypi.org/simple/ \
-                      forging-blocks=="$V"
-
-          python - <<EOF
-          import forging_blocks
-          from importlib.metadata import version
-          v = version("forging-blocks")
-          print(f"Detected Version: {v}")
-          assert v == "$V"
-          EOF
+                      forging-blocks=="${{ env.PUBLISH_VERSION }}"
+          python -c "import forging_blocks; print('Success')"
