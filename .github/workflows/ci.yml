@@ -120,4 +120,10 @@ jobs:
           skip-existing: true
 
       - name: Smoke Test (Install from TestPyPI)
-        run: chmod +x ./scripts/pipeline/smoke_test.sh && ./scripts/pipeline/smoke_test.sh
+        env:
+          PACKAGE_NAME: "${{ env.PACKAGE_NAME }}"
+          IMPORT_NAME: "${{ env.IMPORT_NAME }}"
+          PUBLISH_VERSION: "${{ env.PUBLISH_VERSION }}"
+        run: |
+          chmod +x ./scripts/pipeline/smoke_test.sh
+          ./scripts/pipeline/smoke_test.sh
