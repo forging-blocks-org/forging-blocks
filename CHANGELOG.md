@@ -1,8 +1,9 @@
-## [0.3.14] - 2026-03-20
+## [0.3.15] - 2026-03-20
 
 ### Bug Fixes
 
 - Update version in __init__.py
+- Adjust release.yml to remove id-token permission
 
 ### CI
 
