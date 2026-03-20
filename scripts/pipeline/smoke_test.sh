@@ -2,9 +2,9 @@
 
 set -euo pipefail
 
-log()   { printf "\033[1;34m[INFO]\033[0m %s\n" "$1"; }
-error() { printf "\033[1;31m[ERROR]\033[0m %s\n" "$1" >&2; }
-fail()  { error "$1"; exit 1; }
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "$SCRIPT_DIR/commons.sh"
 
 PACKAGE_NAME="${PACKAGE_NAME:-}"
 IMPORT_NAME="${IMPORT_NAME:-}"

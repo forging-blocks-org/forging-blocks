@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
-log()   { printf "\033[1;34m[INFO]\033[0m %s\n" "$1"; }
-error() { printf "\033[1;31m[ERROR]\033[0m %s\n" "$1" >&2; }
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/commons.sh"
 
 PYPI_TOKEN="${PYPI_TOKEN:-}"
 TEST_PYPI_TOKEN="${TEST_PYPI_TOKEN:-}"
@@ -44,12 +42,11 @@ check_token_auth() {
 }
 
 log "Validating token presence"
-check_token_presence "PYPI_TOKEN" "$PYPI_TOKEN"
+check_token_presence "PYPI_TOKEN"      "$PYPI_TOKEN"
 check_token_presence "TEST_PYPI_TOKEN" "$TEST_PYPI_TOKEN"
 
 if [[ "$FAILED" -eq 1 ]]; then
-  error "One or more tokens are missing — skipping auth checks"
-  exit 1
+  fail "One or more tokens are missing — skipping auth checks"
 fi
 
 log "Validating token authentication"
@@ -57,8 +54,7 @@ check_token_auth "PYPI_TOKEN"      "$PYPI_TOKEN"      "https://pypi.org/pypi"
 check_token_auth "TEST_PYPI_TOKEN" "$TEST_PYPI_TOKEN" "https://test.pypi.org/pypi"
 
 if [[ "$FAILED" -eq 1 ]]; then
-  error "One or more tokens failed authentication"
-  exit 1
+  fail "One or more tokens failed authentication"
 fi
 
 log "All tokens validated successfully"

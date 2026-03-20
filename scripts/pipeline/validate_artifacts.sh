@@ -1,11 +1,13 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
 
-echo "Building package..."
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/commons.sh"
+
+log "Building package"
 poetry build
 
-echo "Installing Twine..."
+log "Installing Twine"
 pip install --quiet twine
 
-echo "Validating artifacts..."
+log "Validating artifacts"
 twine check dist/*
