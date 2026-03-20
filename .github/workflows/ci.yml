@@ -52,7 +52,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'pull_request'
-    environment: test-pypi
     env:
       PACKAGE_NAME: forging-blocks
       IMPORT_NAME: forging_blocks
