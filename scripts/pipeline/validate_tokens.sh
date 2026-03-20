@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# shellcheck source=scripts/pipeline/commons.sh
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=scripts/pipeline/commons.sh
 source "$SCRIPT_DIR/commons.sh"
 
 require_vars PYPI_TOKEN TEST_PYPI_TOKEN
