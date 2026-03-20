@@ -32,7 +32,7 @@ if [[ -n "${GITHUB_ENV:-}" ]]; then
 fi
 
 log "Installing dependencies"
-poetry install --no-interaction --with dev
+poetry install --no-interaction --with dev --sync
 
 log "Setting ephemeral version to $VERSION"
 poetry version "$VERSION"
