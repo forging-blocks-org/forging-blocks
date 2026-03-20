@@ -16,6 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-poetry
+      - use: ./github/actions/install-git-cliff
       - id: get-version
         run: echo "VERSION=$(poetry version -s)" >> "$GITHUB_OUTPUT"
       - run: poetry install --no-interaction --with dev
