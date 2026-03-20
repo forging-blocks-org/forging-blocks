@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
 
+# shellcheck source=scripts/pipeline/commons.sh
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/commons.sh"
 
-PACKAGE_NAME="${PACKAGE_NAME:-}"
-IMPORT_NAME="${IMPORT_NAME:-}"
-BASE_VERSION="${VERSION:-}"
+require_vars PACKAGE_NAME IMPORT_NAME VERSION GITHUB_ENV
 
-[[ -z "$PACKAGE_NAME" ]] && fail "PACKAGE_NAME is not set"
-[[ -z "$IMPORT_NAME" ]]  && fail "IMPORT_NAME is not set"
-[[ -z "$BASE_VERSION" ]] && fail "VERSION is not set"
-[[ -z "${GITHUB_ENV:-}" ]] && fail "GITHUB_ENV is not set — cannot export PUBLISH_VERSION to workflow"
+BASE_VERSION="$VERSION"
 
 if [[ -n "${GITHUB_RUN_NUMBER:-}" ]]; then
   VERSION="${BASE_VERSION}.dev${GITHUB_RUN_NUMBER}"

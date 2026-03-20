@@ -69,10 +69,13 @@ class ValidationResult:
 # Shell contract extractor
 # ---------------------------------------------------------------------------
 
-# Matches: [[ -z "$VAR" ]] && fail  /  [ -z "$VAR" ] && fail
+# Matches: require_vars FOO BAR BAZ
+_REQUIRE_VARS_PATTERN = re.compile(r"^require_vars\s+(.+)$", re.MULTILINE)
+
+# Matches: [[ -z "$VAR" ]] && fail  /  [ -z "$VAR" ] && fail  (legacy)
 _GUARD_PATTERN = re.compile(r'\[\[?\s*-z\s+"?\$\{?([A-Z_][A-Z0-9_]*)\}?"?\s*\]\]?\s*&&\s*fail')
 
-# Matches: ALIAS="${SOURCE_VAR:-}"  — resolves alias back to the injected var name
+# Matches: ALIAS="${SOURCE_VAR:-}"  — resolves alias back to the injected var name (legacy)
 _ASSIGN_PATTERN = re.compile(
     r'^([A-Z_][A-Z0-9_]*)="\$\{([A-Z_][A-Z0-9_]*):-\}"',
     re.MULTILINE,
@@ -100,11 +103,14 @@ _GITHUB_BUILTIN: frozenset[str] = frozenset(
 def extract_script_contract(script_path: Path) -> ScriptContract:
     source = script_path.read_text()
 
-    # Build alias map: local_name -> original env var name
-    # e.g. BASE_VERSION="${VERSION:-}" -> BASE_VERSION: VERSION
-    alias_map: dict[str, str] = {m.group(1): m.group(2) for m in _ASSIGN_PATTERN.finditer(source)}
-
     required: set[EnvVar] = set()
+
+    for match in _REQUIRE_VARS_PATTERN.finditer(source):
+        for var in match.group(1).split():
+            if var not in _GITHUB_BUILTIN:
+                required.add(EnvVar(var))
+
+    alias_map: dict[str, str] = {m.group(1): m.group(2) for m in _ASSIGN_PATTERN.finditer(source)}
     for match in _GUARD_PATTERN.finditer(source):
         raw = match.group(1)
         resolved = alias_map.get(raw, raw)

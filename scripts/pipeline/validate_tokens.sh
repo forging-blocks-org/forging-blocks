@@ -1,24 +1,12 @@
 #!/usr/bin/env bash
 
+# shellcheck source=scripts/pipeline/commons.sh
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/commons.sh"
 
-PYPI_TOKEN="${PYPI_TOKEN:-}"
-TEST_PYPI_TOKEN="${TEST_PYPI_TOKEN:-}"
+require_vars PYPI_TOKEN TEST_PYPI_TOKEN
 
 FAILED=0
-
-check_token_presence() {
-  local name="$1"
-  local token="$2"
-
-  if [[ -z "$token" ]]; then
-    error "$name is not set or empty"
-    FAILED=1
-  else
-    log "$name is present"
-  fi
-}
 
 check_token_auth() {
   local name="$1"
@@ -40,14 +28,6 @@ check_token_auth() {
     FAILED=1
   fi
 }
-
-log "Validating token presence"
-check_token_presence "PYPI_TOKEN"      "$PYPI_TOKEN"
-check_token_presence "TEST_PYPI_TOKEN" "$TEST_PYPI_TOKEN"
-
-if [[ "$FAILED" -eq 1 ]]; then
-  fail "One or more tokens are missing — skipping auth checks"
-fi
 
 log "Validating token authentication"
 check_token_auth "PYPI_TOKEN"      "$PYPI_TOKEN"      "https://pypi.org/pypi"
