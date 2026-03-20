@@ -12,10 +12,8 @@ ELAPSED=0
 
 log "Waiting for ${PACKAGE_NAME}==${PUBLISH_VERSION} to appear on TestPyPI..."
 
-until pip index versions \
-        --index-url https://test.pypi.org/simple/ \
-        --extra-index-url https://pypi.org/simple/ \
-        "$PACKAGE_NAME" 2>/dev/null | grep -q "$PUBLISH_VERSION"; do
+until curl --silent --fail --output /dev/null \
+    "https://test.pypi.org/pypi/${PACKAGE_NAME}/${PUBLISH_VERSION}/json"; do
 
   if [[ "$ELAPSED" -ge "$MAX_WAIT" ]]; then
     fail "Timed out after ${MAX_WAIT}s waiting for ${PACKAGE_NAME}==${PUBLISH_VERSION} on TestPyPI"
