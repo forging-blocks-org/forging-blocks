@@ -40,6 +40,9 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction --with dev
 
+      - name: Validate Pipeline Env Contracts
+        run: poetry run python scripts/pipeline/validate_env_contracts.py
+
       - name: Run CI checks
         run: poetry run poe ci:check
 
@@ -101,6 +104,13 @@ jobs:
         run: |
           chmod +x ./scripts/pipeline/validate_publish.sh
           ./scripts/pipeline/validate_publish.sh
+
+      - name: Validate PUBLISH_VERSION
+        run: |
+          if [ -z "${{ env.PUBLISH_VERSION }}" ]; then
+            echo "PUBLISH_VERSION was not exported by validate_publish.sh" >&2
+            exit 1
+          fi
 
       - name: Upload to TestPyPI
         uses: pypa/gh-action-pypi-publish@v1.13.0
