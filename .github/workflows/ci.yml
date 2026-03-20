@@ -52,6 +52,7 @@ jobs:
           run: poetry install --no-interaction --with dev
 
         - name: Run validation script (Build & Version Bump)
+          uses: yaananth/twine-upload@v1
           env:
             PACKAGE_NAME: forging-blocks
             IMPORT_NAME: forging_blocks
