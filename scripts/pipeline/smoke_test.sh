@@ -1,18 +1,10 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
+# shellcheck source=scripts/pipeline/commons.sh
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
 source "$SCRIPT_DIR/commons.sh"
 
-PACKAGE_NAME="${PACKAGE_NAME:-}"
-IMPORT_NAME="${IMPORT_NAME:-}"
-PUBLISH_VERSION="${PUBLISH_VERSION:-}"
-
-[[ -z "$PACKAGE_NAME" ]]    && fail "PACKAGE_NAME is not set"
-[[ -z "$IMPORT_NAME" ]]     && fail "IMPORT_NAME is not set"
-[[ -z "$PUBLISH_VERSION" ]] && fail "PUBLISH_VERSION is not set"
+require_vars PACKAGE_NAME IMPORT_NAME PUBLISH_VERSION
 
 MAX_WAIT=120
 INTERVAL=10
@@ -38,6 +30,7 @@ log "${PACKAGE_NAME}==${PUBLISH_VERSION} is available — installing"
 
 TMP_VENV=$(mktemp -d)
 python3 -m venv "$TMP_VENV"
+# shellcheck disable=SC1091
 source "$TMP_VENV/bin/activate"
 
 pip install --quiet \
