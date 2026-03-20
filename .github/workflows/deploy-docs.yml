@@ -10,19 +10,9 @@ permissions:
 jobs:
   deploy-docs:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Poetry
-        uses: ./.github/actions/setup-poetry
-
-      - name: Install docs dependencies
-        run: poetry install --no-interaction --with docs
-
-      - name: Generate autodoc pages
-        run: poetry run python scripts/generate_autodoc_pages.py
-
-      - name: Deploy docs
-        run: poetry run mkdocs gh-deploy --force --clean
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-poetry
+      - run: poetry install --no-interaction --with docs
+      - run: poetry run python scripts/generate_autodoc_pages.py
+      - run: poetry run mkdocs gh-deploy --force --clean

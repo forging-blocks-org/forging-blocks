@@ -11,81 +11,44 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    outputs:
+      VERSION: ${{ steps.get-version.outputs.VERSION }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Poetry
-        uses: ./.github/actions/setup-poetry
-
-      - name: Install git-cliff
-        uses: ./.github/actions/install-git-cliff
-
-      - name: Install dependencies
-        run: poetry install --no-interaction --with dev
-
-      - name: Run CI checks
-        run: poetry run poe ci:check
-
-      - name: Run tests
-        run: poetry run poe test
-
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-poetry
+      - use: ./github/actions/install-git-cliff
+      - id: get-version
+        run: echo "VERSION=$(poetry version -s)" >> "$GITHUB_OUTPUT"
+      - run: poetry install --no-interaction --with dev
+      - run: poetry run poe ci:check
+      - run: poetry run poe test
       - name: Build and Validate Artifacts
         run: bash scripts/pipeline/validate_artifacts.sh
 
   validate-publish:
-      runs-on: ubuntu-latest
-      needs: test
-      env:
-          TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
-      if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-poetry
+      - name: Run validation script
+        env:
+          VERSION: ${{ needs.test.outputs.VERSION }}
+          PACKAGE_NAME: forging-blocks
+          IMPORT_NAME: forging_blocks
+        run: bash ./scripts/validate_publish.sh
 
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
+      - name: Upload to TestPyPI
+        uses: pypa/gh-action-pypi-publish@v1.13.0
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          password: ${{ secrets.TEST_PYPI_TOKEN }}
 
-        - name: Set up Poetry
-          uses: ./.github/actions/setup-poetry
-
-        - name: Install dependencies
-          run: poetry install --no-interaction --with dev
-
-        - name: Run validation script (Build & Version Bump)
-          uses: yaananth/twine-upload@v1
-          env:
-            PACKAGE_NAME: forging-blocks
-            IMPORT_NAME: forging_blocks
-            VERSION: ${{ needs.test.outputs.VERSION || '0.3.13' }} # Fallback or use output
-          run: |
-            # If you don't have an output from the test job,
-            # you can re-extract it here:
-            V=$(poetry version -s)
-            VERSION=$V PACKAGE_NAME=forging-blocks IMPORT_NAME=forging_blocks ./scripts/validate_publish.sh
-
-        - name: Upload to TestPyPI
-          uses: pypa/gh-action-pypi-publish@release/v1
-          with:
-            repository-url: https://test.pypi.org/legacy/
-            password: ${{ secrets.TEST_PYPI_TOKEN }}
-
-        - name: Smoke Test (Install from TestPyPI)
-          run: |
-            # Wait a moment for TestPyPI to index
-            sleep 10
-            TMP_VENV=$(mktemp -d)
-            python3 -m venv "$TMP_VENV"
-            source "$TMP_VENV/bin/activate"
-
-            # Use the version exported by the script
-            pip install --index-url https://test.pypi.org/simple/ \
-                        --extra-index-url https://pypi.org/simple/ \
-                        forging-blocks==${{ env.PUBLISH_VERSION }}
-
-            python - <<EOF
-            import forging_blocks
-            from importlib.metadata import version
-            v = version("forging-blocks")
-            print(f"Detected Version: {v}")
-            assert v == "${{ env.PUBLISH_VERSION }}"
-            EOF
+      - name: Smoke Test
+        run: |
+          sleep 10
+          pip install --index-url https://test.pypi.org/simple/ \
+                      --extra-index-url https://pypi.org/simple/ \
+                      forging-blocks=="${{ env.PUBLISH_VERSION }}"
+          python -c "import forging_blocks; print('Success')"
