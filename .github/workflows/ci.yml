@@ -110,14 +110,26 @@ jobs:
             exit 1
           fi
 
+      - name: Check if version already exists on TestPyPI
+        id: testpypi-check
+        run: |
+          VERSION="${{ env.PUBLISH_VERSION }}"
+          PACKAGE="${{ env.PACKAGE_NAME }}"
+          if pip index versions --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ "$PACKAGE" 2>/dev/null | grep -q "$VERSION"; then
+            echo "already_exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "already_exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Upload to TestPyPI
+        if: steps.testpypi-check.outputs.already_exists == 'false'
         uses: pypa/gh-action-pypi-publish@v1.13.0
         with:
           repository-url: https://test.pypi.org/legacy/
           password: "${{ secrets.TEST_PYPI_TOKEN }}"
-          skip-existing: true
 
       - name: Smoke Test (Install from TestPyPI)
+        if: steps.testpypi-check.outputs.already_exists == 'false'
         env:
           PACKAGE_NAME: "${{ env.PACKAGE_NAME }}"
           IMPORT_NAME: "${{ env.IMPORT_NAME }}"
