@@ -1,4 +1,4 @@
-name: Release Pipeline
+Game: Release Pipeline
 
 on:
   pull_request:
@@ -9,11 +9,15 @@ permissions:
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/v')
+    if: >
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/v')
     runs-on: ubuntu-latest
     environment: pypi
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -23,17 +27,18 @@ jobs:
           HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: bash scripts/pipeline/prepare_release.sh
 
-      - uses: ./.github/actions/setup-poetry
-      - run: poetry install --no-interaction
+      - name: Set up Poetry
+        uses: ./.github/actions/setup-poetry
 
-      - name: Sync Poetry Version
-        run: poetry version "${{ steps.prep.outputs.version }}"
+      - name: Install dependencies
+        run: poetry install --no-interaction
 
-      - name: Build and validate
+      - name: Build and validate artifacts
         run: bash scripts/pipeline/validate_artifacts.sh
 
       - name: Publish to PyPI
         if: github.actor != 'nektos/act'
         uses: pypa/gh-action-pypi-publish@v1.13.0
         with:
+          username: __token__
           password: ${{ secrets.PYPI_TOKEN }}
