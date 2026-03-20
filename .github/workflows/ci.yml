@@ -17,16 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Lint Workflow Files
-        env:
-          ACTIONLINT_VERSION: "1.7.7"
-        run: |
-          pip install --quiet yamllint
-          yamllint --strict .github/workflows/
+      - name: Lint Workflow Files (YAML)
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: .github/workflows/
+          strict: true
 
-          curl -sL "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz" \
-            | tar -xz actionlint
-          ./actionlint -color
+      - name: Lint Workflow Files (Actions)
+        uses: raven-actions/actionlint@v2
 
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
