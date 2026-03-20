@@ -63,7 +63,7 @@ jobs:
       - name: Install dependencies (including twine)
         run: |
           poetry install --no-interaction --with dev
-          pip install twine  # Faster than poetry run if not in pyproject.toml
+          pip install twine
 
       - name: Run validation script
         id: validate
@@ -72,11 +72,23 @@ jobs:
           echo "PUBLISH_VERSION=$V" >> "$GITHUB_ENV"
           VERSION="$V" ./scripts/validate_publish.sh
 
+      - name: Run validation script
+        id: validate
+        env:
+          PACKAGE_NAME: "forging-blocks"
+          IMPORT_NAME: "forging_blocks"
+          VERSION: "${{ needs.test.outputs.VERSION }}"
+        run: |
+          # The script handles its own GITHUB_ENV exports now
+          chmod +x ./scripts/validate_publish.sh
+          ./scripts/validate_publish.sh
+
       - name: Upload to TestPyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
-          password: ${{ secrets.TEST_PYPI_TOKEN }}
+          password: "${{ secrets.TEST_PYPI_TOKEN }}"
+          skip-existing: true
 
       - name: Smoke Test (Install from TestPyPI)
         run: |
@@ -85,10 +97,9 @@ jobs:
           python3 -m venv "$TMP_VENV"
           source "$TMP_VENV/bin/activate"
 
-          # Use the environment variable we exported in the "Run validation script" step
           pip install --index-url https://test.pypi.org/simple/ \
                       --extra-index-url https://pypi.org/simple/ \
-                      ${{ env.PACKAGE_NAME }}==${{ env.PUBLISH_VERSION }}
+                      "${{ env.PACKAGE_NAME }}==${{ env.PUBLISH_VERSION }}"
 
           python - <<EOF
           import ${{ env.IMPORT_NAME }}
