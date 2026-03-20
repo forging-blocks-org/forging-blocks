@@ -39,7 +39,7 @@ jobs:
 
       - name: Extract Version
         id: get-version
-        run: echo "VERSION=$(poetry version -s)" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$(poetry version -s)" >> "$GITHUB_OUTPUT"
 
       - name: Build and Validate Artifacts
         run: bash scripts/pipeline/validate_artifacts.sh
@@ -69,8 +69,8 @@ jobs:
         id: validate
         run: |
           V="${{ needs.test.outputs.VERSION }}"
-          echo "PUBLISH_VERSION=$V" >> $GITHUB_ENV
-          VERSION=$V ./scripts/validate_publish.sh
+          echo "PUBLISH_VERSION=$V" >> "$GITHUB_ENV"
+          VERSION="$V" ./scripts/validate_publish.sh
 
       - name: Upload to TestPyPI
         uses: pypa/gh-action-pypi-publish@release/v1
@@ -80,7 +80,6 @@ jobs:
 
       - name: Smoke Test (Install from TestPyPI)
         run: |
-          # Wait for indexing
           sleep 15
           TMP_VENV=$(mktemp -d)
           python3 -m venv "$TMP_VENV"
