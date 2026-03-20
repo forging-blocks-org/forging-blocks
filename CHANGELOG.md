@@ -1,4 +1,4 @@
-## [0.3.18] - 2026-03-20
+## [0.3.19] - 2026-03-20
 
 ### Bug Fixes
 
@@ -28,3 +28,4 @@
 - Add workflow step to lint GitHub Actions workflow files
 - Add username to PyPI publish action
 - Fix typo in release workflow
+- Fixing typo in release.yml
