@@ -53,6 +53,25 @@ jobs:
       - name: Build and Validate Artifacts
         run: bash scripts/pipeline/validate_artifacts.sh
 
+  validate-pypi-tokens:
+    runs-on: ubuntu-latest
+    needs: test
+    if: >
+      github.event_name == 'pull_request' &&
+      startsWith(github.head_ref, 'release/v')
+    environment: pypi
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate PyPI Tokens
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
+        run: |
+          chmod +x ./scripts/pipeline/validate_tokens.sh
+          ./scripts/pipeline/validate_tokens.sh
+
   validate-publish:
     runs-on: ubuntu-latest
     needs: test
