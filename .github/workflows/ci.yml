@@ -14,14 +14,33 @@ jobs:
     outputs:
       VERSION: ${{ steps.get-version.outputs.VERSION }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-poetry
-      - use: ./github/actions/install-git-cliff
-      - id: get-version
-        run: echo "VERSION=$(poetry version -s)" >> "$GITHUB_OUTPUT"
-      - run: poetry install --no-interaction --with dev
-      - run: poetry run poe ci:check
-      - run: poetry run poe test
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lint Workflow Files
+        run: |
+          bash <(curl -L https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color
+
+      - name: Set up Poetry
+        uses: ./.github/actions/setup-poetry
+
+      - name: Install git-cliff
+        uses: ./.github/actions/install-git-cliff
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --with dev
+
+      - name: Run CI checks
+        run: poetry run poe ci:check
+
+      - name: Run tests
+        run: poetry run poe test
+
+      - name: Extract Version
+        id: get-version
+        run: echo "VERSION=$(poetry version -s)" >> $GITHUB_OUTPUT
+
       - name: Build and Validate Artifacts
         run: bash scripts/pipeline/validate_artifacts.sh
 
@@ -29,26 +48,53 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'pull_request'
+    env:
+      TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
+      PACKAGE_NAME: forging-blocks
+      IMPORT_NAME: forging_blocks
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-poetry
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Poetry
+        uses: ./.github/actions/setup-poetry
+
+      - name: Install dependencies (including twine)
+        run: |
+          poetry install --no-interaction --with dev
+          pip install twine  # Faster than poetry run if not in pyproject.toml
+
       - name: Run validation script
-        env:
-          VERSION: ${{ needs.test.outputs.VERSION }}
-          PACKAGE_NAME: forging-blocks
-          IMPORT_NAME: forging_blocks
-        run: bash ./scripts/validate_publish.sh
+        id: validate
+        run: |
+          V="${{ needs.test.outputs.VERSION }}"
+          echo "PUBLISH_VERSION=$V" >> $GITHUB_ENV
+          VERSION=$V ./scripts/validate_publish.sh
 
       - name: Upload to TestPyPI
-        uses: pypa/gh-action-pypi-publish@v1.13.0
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
           password: ${{ secrets.TEST_PYPI_TOKEN }}
 
-      - name: Smoke Test
+      - name: Smoke Test (Install from TestPyPI)
         run: |
-          sleep 10
+          # Wait for indexing
+          sleep 15
+          TMP_VENV=$(mktemp -d)
+          python3 -m venv "$TMP_VENV"
+          source "$TMP_VENV/bin/activate"
+
+          # Use the environment variable we exported in the "Run validation script" step
           pip install --index-url https://test.pypi.org/simple/ \
                       --extra-index-url https://pypi.org/simple/ \
-                      forging-blocks=="${{ env.PUBLISH_VERSION }}"
-          python -c "import forging_blocks; print('Success')"
+                      ${{ env.PACKAGE_NAME }}==${{ env.PUBLISH_VERSION }}
+
+          python - <<EOF
+          import ${{ env.IMPORT_NAME }}
+          from importlib.metadata import version
+          v = version("${{ env.PACKAGE_NAME }}")
+          print(f"Detected Version: {v}")
+          assert v == "${{ env.PUBLISH_VERSION }}"
+          EOF
