@@ -104,11 +104,9 @@ jobs:
           ./scripts/pipeline/validate_publish.sh
 
       - name: Validate PUBLISH_VERSION
-        run: |
-          if [ -z "${{ env.PUBLISH_VERSION }}" ]; then
-            echo "PUBLISH_VERSION was not exported by validate_publish.sh" >&2
-            exit 1
-          fi
+        env:
+          PUBLISH_VERSION: "${{ env.PUBLISH_VERSION }}"
+        run: bash scripts/pipeline/validate_publish_version.sh
 
       - name: Check if version already exists on TestPyPI
         id: testpypi-check
