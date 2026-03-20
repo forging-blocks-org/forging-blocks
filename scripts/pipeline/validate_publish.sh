@@ -16,6 +16,7 @@ BASE_VERSION="${VERSION:-}"
 [[ -z "$PACKAGE_NAME" ]] && fail "PACKAGE_NAME is not set"
 [[ -z "$IMPORT_NAME" ]] && fail "IMPORT_NAME is not set"
 [[ -z "$BASE_VERSION" ]] && fail "VERSION is not set"
+[[ -z "${GITHUB_ENV:-}" ]] && fail "GITHUB_ENV is not set — cannot export PUBLISH_VERSION to workflow"
 
 # Derive CI version
 if [[ -n "${GITHUB_RUN_NUMBER:-}" ]]; then
@@ -26,10 +27,8 @@ else
   log "Local run → using version: $VERSION"
 fi
 
-# Export for GH Actions to use later
-if [[ -n "${GITHUB_ENV:-}" ]]; then
-    echo "PUBLISH_VERSION=$VERSION" >> "$GITHUB_ENV"
-fi
+echo "PUBLISH_VERSION=$VERSION" >> "$GITHUB_ENV"
+log "PUBLISH_VERSION=$VERSION exported to GITHUB_ENV"
 
 log "Installing dependencies"
 poetry install --no-interaction --with dev --sync
