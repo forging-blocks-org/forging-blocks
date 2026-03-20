@@ -1,26 +1,12 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=scripts/pipeline/commons.sh
+source "$SCRIPT_DIR/commons.sh"
 
-log()   { printf "\033[1;34m[INFO]\033[0m %s\n" "$1"; }
-error() { printf "\033[1;31m[ERROR]\033[0m %s\n" "$1" >&2; }
-
-PYPI_TOKEN="${PYPI_TOKEN:-}"
-TEST_PYPI_TOKEN="${TEST_PYPI_TOKEN:-}"
+require_vars PYPI_TOKEN TEST_PYPI_TOKEN
 
 FAILED=0
-
-check_token_presence() {
-  local name="$1"
-  local token="$2"
-
-  if [[ -z "$token" ]]; then
-    error "$name is not set or empty"
-    FAILED=1
-  else
-    log "$name is present"
-  fi
-}
 
 check_token_auth() {
   local name="$1"
@@ -43,22 +29,12 @@ check_token_auth() {
   fi
 }
 
-log "Validating token presence"
-check_token_presence "PYPI_TOKEN" "$PYPI_TOKEN"
-check_token_presence "TEST_PYPI_TOKEN" "$TEST_PYPI_TOKEN"
-
-if [[ "$FAILED" -eq 1 ]]; then
-  error "One or more tokens are missing — skipping auth checks"
-  exit 1
-fi
-
 log "Validating token authentication"
 check_token_auth "PYPI_TOKEN"      "$PYPI_TOKEN"      "https://pypi.org/pypi"
 check_token_auth "TEST_PYPI_TOKEN" "$TEST_PYPI_TOKEN" "https://test.pypi.org/pypi"
 
 if [[ "$FAILED" -eq 1 ]]; then
-  error "One or more tokens failed authentication"
-  exit 1
+  fail "One or more tokens failed authentication"
 fi
 
 log "All tokens validated successfully"

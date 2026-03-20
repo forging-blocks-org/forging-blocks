@@ -4,11 +4,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=scripts/pipeline/commons.sh
 source "$SCRIPT_DIR/commons.sh"
 
-log "Building package"
-poetry build
+require_vars RELEASE_VERSION
 
-log "Installing Twine"
-pip install --quiet twine
+[[ -z "$RELEASE_VERSION" ]] && fail "prepare_release.sh did not set version output"
 
-log "Validating artifacts"
-twine check dist/*
+log "Release version validated: $RELEASE_VERSION"

@@ -1,23 +1,13 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=scripts/pipeline/commons.sh
+source "$SCRIPT_DIR/commons.sh"
 
-log()   { printf "\033[1;34m[INFO]\033[0m %s\n" "$1"; }
-warn()  { printf "\033[1;33m[WARN]\033[0m %s\n" "$1"; }
-error() { printf "\033[1;31m[ERROR]\033[0m %s\n" "$1" >&2; }
-fail()  { error "$1"; exit 1; }
+require_vars PACKAGE_NAME IMPORT_NAME VERSION GITHUB_ENV
 
-trap 'fail "Script failed at line $LINENO"' ERR
+BASE_VERSION="$VERSION"
 
-PACKAGE_NAME="${PACKAGE_NAME:-}"
-IMPORT_NAME="${IMPORT_NAME:-}"
-BASE_VERSION="${VERSION:-}"
-
-[[ -z "$PACKAGE_NAME" ]] && fail "PACKAGE_NAME is not set"
-[[ -z "$IMPORT_NAME" ]] && fail "IMPORT_NAME is not set"
-[[ -z "$BASE_VERSION" ]] && fail "VERSION is not set"
-
-# Derive CI version
 if [[ -n "${GITHUB_RUN_NUMBER:-}" ]]; then
   VERSION="${BASE_VERSION}.dev${GITHUB_RUN_NUMBER}"
   log "CI detected → using dev version: $VERSION"
@@ -26,10 +16,8 @@ else
   log "Local run → using version: $VERSION"
 fi
 
-# Export for GH Actions to use later
-if [[ -n "${GITHUB_ENV:-}" ]]; then
-    echo "PUBLISH_VERSION=$VERSION" >> "$GITHUB_ENV"
-fi
+echo "PUBLISH_VERSION=$VERSION" >> "$GITHUB_ENV"
+log "PUBLISH_VERSION=$VERSION exported to GITHUB_ENV"
 
 log "Installing dependencies"
 poetry install --no-interaction --with dev --sync

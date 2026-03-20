@@ -53,6 +53,8 @@ libcst = "^1.8.6"
 rich = "^14.2.0"
 ipython = "^9.8.0"
 pytest-git = "^1.8.0"
+types-pyyaml = "^6.0.12.20250915"
+pyyaml = "^6.0.3"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.6.1"
@@ -170,8 +172,6 @@ markers = [
 ]
 
 [tool.poe.tasks]
-lint = { cmd = "ruff check ." }
-"lint:fix" = { cmd = "ruff check . --fix" }
 
 type = "mypy ."
 bandit = "bandit -r src -x tests"
@@ -190,11 +190,14 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
 "docs:serve" = { cmd = "poetry run mkdocs serve" }
 
 "ci:check".sequence = [
+  "lint:shell",
+  "lint:contracts",
   "lint",
   "type",
   "test",
   "bandit",
 ]
+
 "ci:simulate".sequence = [
   "ci:check",
   "docs:build"
@@ -210,6 +213,11 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
   "ci:check",
   { cmd = "poetry build" }
 ]
+
+lint = { cmd = "ruff check ." }
+"lint:fix" = { cmd = "ruff check . --fix" }
+"lint:shell" = { cmd = "shellcheck --external-sources scripts/pipeline/*.sh" }
+"lint:contracts" = { cmd = "python scripts/pipeline/validate_env_contracts.py" }
 
 "release:validate".sequence = [
   { shell = "echo 'Validating release readiness...'" },
