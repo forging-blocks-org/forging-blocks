@@ -16,6 +16,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    environment: pypi
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,6 +47,6 @@ jobs:
 
       - name: Publish to PyPI
         if: github.actor != 'nektos/act'
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@v1
         with:
           password: ${{ secrets.PYPI_TOKEN }}
