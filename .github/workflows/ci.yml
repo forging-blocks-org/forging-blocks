@@ -21,6 +21,9 @@ jobs:
         env:
           ACTIONLINT_VERSION: "1.7.7"
         run: |
+          pip install --quiet yamllint
+          yamllint --strict .github/workflows/
+
           curl -sL "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz" \
             | tar -xz actionlint
           ./actionlint -color
