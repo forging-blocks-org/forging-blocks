@@ -17,10 +17,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Lint Workflow Files
-        run: |
-          bash <(curl -L https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
-          ./actionlint -color
+      - name: Lint Workflow Files (YAML)
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: .github/workflows/ .github/actions/
+          strict: true
+
+      - name: Lint Workflow Files (Actions)
+        uses: raven-actions/actionlint@v2
+
+      - name: Lint Shell Scripts
+        uses: ludeeus/action-shellcheck@2.0.0
+        with:
+          scandir: scripts/pipeline
 
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
@@ -49,7 +58,6 @@ jobs:
     needs: test
     if: github.event_name == 'pull_request'
     env:
-      TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
       PACKAGE_NAME: forging-blocks
       IMPORT_NAME: forging_blocks
 
@@ -67,24 +75,16 @@ jobs:
 
       - name: Run validation script
         id: validate
-        run: |
-          V="${{ needs.test.outputs.VERSION }}"
-          echo "PUBLISH_VERSION=$V" >> "$GITHUB_ENV"
-          VERSION="$V" ./scripts/validate_publish.sh
-
-      - name: Run validation script
-        id: validate
         env:
           PACKAGE_NAME: "forging-blocks"
           IMPORT_NAME: "forging_blocks"
           VERSION: "${{ needs.test.outputs.VERSION }}"
         run: |
-          # The script handles its own GITHUB_ENV exports now
-          chmod +x ./scripts/validate_publish.sh
-          ./scripts/validate_publish.sh
+          chmod +x ./scripts/pipeline/validate_publish.sh
+          ./scripts/pipeline/validate_publish.sh
 
       - name: Upload to TestPyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@v1.13.0
         with:
           repository-url: https://test.pypi.org/legacy/
           password: "${{ secrets.TEST_PYPI_TOKEN }}"

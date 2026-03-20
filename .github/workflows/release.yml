@@ -25,7 +25,16 @@ jobs:
         id: prep
         env:
           HEAD_REF: ${{ github.event.pull_request.head.ref }}
-        run: bash scripts/pipeline/prepare_release.sh
+        run: |
+          set -euo pipefail
+          bash scripts/pipeline/prepare_release.sh
+
+      - name: Validate Release Version
+        run: |
+          if [ -z "${{ steps.prep.outputs.version }}" ]; then
+            echo "prepare_release.sh did not set version output" >&2
+            exit 1
+          fi
 
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
