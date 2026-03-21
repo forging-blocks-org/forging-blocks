@@ -30,8 +30,8 @@ check_token_auth() {
 }
 
 log "Validating token authentication"
-check_token_auth "PYPI_TOKEN"      "$PYPI_TOKEN"      "https://pypi.org/pypi"
-check_token_auth "TEST_PYPI_TOKEN" "$TEST_PYPI_TOKEN" "https://test.pypi.org/pypi"
+check_token_auth "PYPI_TOKEN"      "$PYPI_TOKEN"      "https://pypi.org/pypi/legacy/"
+check_token_auth "TEST_PYPI_TOKEN" "$TEST_PYPI_TOKEN" "https://test.pypi.org/pypi/legacy/"
 
 if [[ "$FAILED" -eq 1 ]]; then
   fail "One or more tokens failed authentication"

@@ -97,7 +97,9 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
         try:
             output = self._runner.run(cmd, check=True)
-            self._changelog_path.write_text(output, encoding="utf-8")
+            self._changelog_path.write_text(
+                output if output.endswith("\n") else output + "\n", encoding="utf-8"
+            )
             return output
         except FileNotFoundError as exc:
             raise ChangelogGenerationError(
