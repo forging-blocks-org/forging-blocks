@@ -16,13 +16,11 @@ from scripts.release.application.ports.outbound import (
 from scripts.release.application.services.prepare_release_service import (
     PrepareReleaseService,
 )
-from scripts.release.application.workflow import ReleaseContext
 
 from scripts.release.domain.messages import OpenPullRequestCommand
 from scripts.release.domain.value_objects import (
     ReleaseBranchName,
     ReleaseVersion,
-    TagName,
 )
 
 
@@ -178,19 +176,11 @@ class TestPrepareReleaseService:
         versioning_service_mock: MagicMock,
         transaction_mock: MagicMock,
         changelog_generator_mock: MagicMock,
-        current_version: ReleaseVersion,
         next_version: ReleaseVersion,
     ) -> None:
-        context = ReleaseContext(
-            previous_version=current_version,
-            version=next_version,
-            branch=ReleaseBranchName("release/v1.2.0"),
-            tag=TagName("v1.2.0"),
-            branch_exists=False,
-            dry_run=False,
-        )
+        request = PrepareReleaseInput(level="minor", dry_run=False)
 
-        await service._prepare_release_transactionally(context)
+        await service.execute(request)
 
         transaction_mock.__aenter__.assert_called_once()
 
@@ -205,33 +195,30 @@ class TestPrepareReleaseService:
         self,
         service: PrepareReleaseService,
         release_command_bus_mock: MagicMock,
+        next_version: ReleaseVersion,
     ) -> None:
-        context = ReleaseContext(
-            previous_version=ReleaseVersion(1, 1, 0),
-            version=ReleaseVersion(1, 2, 0),
-            branch=ReleaseBranchName("release/v1.2.0"),
-            tag=TagName("v1.2.0"),
-            branch_exists=False,
-            dry_run=True,
-        )
+        request = PrepareReleaseInput(level="minor", dry_run=False)
 
-        await service._send_command(context)
+        await service.execute(request)
 
+        release_command_bus_mock.send.assert_called_once()
         command = release_command_bus_mock.send.call_args[0][0]
 
         assert isinstance(command, OpenPullRequestCommand)
-        assert command.branch == "release/v1.2.0"
-        assert command.dry_run is True
+        assert command.branch == f"release/v{next_version.value}"
+        assert command.dry_run is False
 
     async def test_dry_run_short_circuit(
         self,
         service: PrepareReleaseService,
         transaction_mock: MagicMock,
         versioning_service_mock: MagicMock,
+        release_command_bus_mock: MagicMock,
     ) -> None:
-        context_mock = MagicMock(dry_run=True)
+        request = PrepareReleaseInput(level="patch", dry_run=True)
 
-        await service._prepare_release_transactionally(context_mock)
+        await service.execute(request)
 
         transaction_mock.__aenter__.assert_not_called()
         versioning_service_mock.apply_version.assert_not_called()
+        release_command_bus_mock.send.assert_not_called()
