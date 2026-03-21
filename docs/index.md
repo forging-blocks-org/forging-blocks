@@ -6,7 +6,7 @@ It doesn’t enforce any framework, library, or organizational approach.
 
 Instead, it gives you a **vocabulary** and **building blocks** for shaping ideas in a way that fits your project and your style.
 
-ForgingBlocks relies only on standard features available in **Python 3.12+** (such as `Protocols`, `Generics`, and Type Hints), keeping it lightweight and broadly compatible.
+ForgingBlocks relies only on standard features available in **Python 3.14+** (such as `Protocols`, `Generics`, and Type Hints), keeping it lightweight and broadly compatible.
 
 ---
 

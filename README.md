@@ -2,7 +2,7 @@
 
 Composable **abstractions and interfaces** for writing clean, testable, and maintainable Python code.
 
-[![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-3.14+-blue.svg)](https://www.python.org/downloads/)
 [![Poetry](https://img.shields.io/badge/packaging-poetry-blue.svg)](https://python-poetry.org/)
 [![Type checked: mypy](https://img.shields.io/badge/type%20checked-mypy-blue.svg)](https://mypy-lang.org/)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
@@ -60,7 +60,7 @@ pip install forging-blocks
 uv add forging-blocks
 ```
 
-**Requires Python 3.12+**
+**Requires Python 3.14+**
 
 ---
 
@@ -95,7 +95,7 @@ if result.is_ok():
 
 ### Prerequisites
 
-- Python 3.12+
+- Python 3.14+
 - [Poetry](https://python-poetry.org/) for dependency management
 
 ### Setup
