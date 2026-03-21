@@ -65,7 +65,7 @@ jobs:
 
       - name: Validate PyPI Tokens
         env:
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
           TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
         run: |
           chmod +x ./scripts/pipeline/validate_tokens.sh
