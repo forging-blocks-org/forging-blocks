@@ -5,8 +5,12 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
 )
 
-from forging_blocks.application.ports.inbound.message_handler import CommandHandler
 from forging_blocks.domain.messages.command import Command
+
+
+class AsyncHandlerMock:
+    def __init__(self) -> None:
+        self.handle = AsyncMock()
 
 
 @pytest.mark.unit
@@ -19,7 +23,7 @@ class TestInMemoryReleaseCommandBus:
     @pytest.mark.asyncio
     async def test_register_when_called_then_handler_is_registered(self) -> None:
         bus = InMemoryReleaseCommandBus()
-        handler = AsyncMock(spec=CommandHandler)
+        handler = AsyncHandlerMock()
         command_type = type(AsyncMock(spec=Command))
 
         await bus.register(command_type, handler)
@@ -39,7 +43,7 @@ class TestInMemoryReleaseCommandBus:
         self,
     ) -> None:
         bus = InMemoryReleaseCommandBus()
-        handler = AsyncMock(spec=CommandHandler)
+        handler = AsyncHandlerMock()
         command = AsyncMock(spec=Command)
         command_type = type(command)
 
@@ -54,7 +58,7 @@ class TestInMemoryReleaseCommandBus:
         self,
     ) -> None:
         bus = InMemoryReleaseCommandBus()
-        handler = AsyncMock(spec=CommandHandler)
+        handler = AsyncHandlerMock()
         registered_command = AsyncMock(spec=Command)
         different_command = AsyncMock(spec=Command)
 
