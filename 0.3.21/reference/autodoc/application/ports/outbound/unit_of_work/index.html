@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/reference/autodoc/application/ports/outbound/unit_of_work/" />
+      <link rel="shortcut icon" href="../../../../../../img/favicon.ico" />
+    <title>Unit Of Work - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../../../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../../../../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../../../../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Unit Of Work";
+        var mkdocs_page_input_path = "reference/autodoc/application/ports/outbound/unit_of_work.md";
+        var mkdocs_page_url = "/0.3.21/reference/autodoc/application/ports/outbound/unit_of_work/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../../../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../../../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >API Reference</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" >Application</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../contributing/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../contributing/contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../contributing/docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../contributing/release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../../../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">API Reference</li>
+          <li class="breadcrumb-item">Application</li>
+          <li class="breadcrumb-item">Ports / Outbound</li>
+      <li class="breadcrumb-item active">Unit Of Work</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/unit_of_work.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="unit-of-work">Unit Of Work<a class="headerlink" href="#unit-of-work" title="Permanent link">&para;</a></h1>
+<p>Unit of Work abstraction for transactional consistency.</p>
+<p>A UnitOfWork defines a transactional boundary for application operations.<br />
+It coordinates the persistence of aggregate changes and the publication of<br />
+domain events, ensuring atomicity across these actions.</p>
+<p>Responsibilities:<br />
+    - Manage a transactional context.<br />
+    - Commit or roll back changes.<br />
+    - Publish domain events upon successful commit.</p>
+<p>Non-Responsibilities:<br />
+    - Execute business logic.<br />
+    - Interact directly with aggregates.</p>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="forging_blocks.application.ports.outbound.unit_of_work" class="doc doc-heading">
+            <code>unit_of_work</code>
+
+
+<a href="#forging_blocks.application.ports.outbound.unit_of_work" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Unit of Work abstraction for transactional consistency.</p>
+<p>A UnitOfWork defines a transactional boundary for application operations.<br />
+It coordinates the persistence of aggregate changes and the publication of<br />
+domain events, ensuring atomicity across these actions.</p>
+
+
+<details class="responsibilities" open>
+  <summary>Responsibilities</summary>
+  <ul>
+<li>Manage a transactional context.</li>
+<li>Commit or roll back changes.</li>
+<li>Publish domain events upon successful commit.</li>
+</ul>
+</details>
+
+<details class="non-responsibilities" open>
+  <summary>Non-Responsibilities</summary>
+  <ul>
+<li>Execute business logic.</li>
+<li>Interact directly with aggregates.</li>
+</ul>
+</details>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="forging_blocks.application.ports.outbound.unit_of_work.UnitOfWorkError" class="doc doc-heading">
+            <code>UnitOfWorkError</code>
+
+
+<a href="#forging_blocks.application.ports.outbound.unit_of_work.UnitOfWorkError" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Error (forging_blocks.foundation.errors.base.Error)" href="../../../../foundation/errors/base/#forging_blocks.foundation.errors.base.Error">Error</a></code></p>
+
+
+        <p>Error raised when a Unit of Work operation fails.</p>
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/unit_of_work.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="k">class</span><span class="w"> </span><span class="nc">UnitOfWorkError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Error raised when a Unit of Work operation fails.&quot;&quot;&quot;</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="k">pass</span>
+</span></code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork" class="doc doc-heading">
+            <code>UnitOfWork</code>
+
+
+<a href="#forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="abc.ABC">ABC</span></code></p>
+
+
+        <p>Abstract base class for managing transactional consistency.</p>
+<p>A UnitOfWork coordinates operations across multiple repositories and<br />
+outbound ports. It ensures that state changes and domain events are<br />
+published atomically.</p>
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/unit_of_work.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#__codelineno-0-72">72</a></span>
+<span class="normal"><a href="#__codelineno-0-73">73</a></span>
+<span class="normal"><a href="#__codelineno-0-74">74</a></span>
+<span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span>
+<span class="normal"><a href="#__codelineno-0-77">77</a></span>
+<span class="normal"><a href="#__codelineno-0-78">78</a></span>
+<span class="normal"><a href="#__codelineno-0-79">79</a></span>
+<span class="normal"><a href="#__codelineno-0-80">80</a></span>
+<span class="normal"><a href="#__codelineno-0-81">81</a></span>
+<span class="normal"><a href="#__codelineno-0-82">82</a></span>
+<span class="normal"><a href="#__codelineno-0-83">83</a></span>
+<span class="normal"><a href="#__codelineno-0-84">84</a></span>
+<span class="normal"><a href="#__codelineno-0-85">85</a></span>
+<span class="normal"><a href="#__codelineno-0-86">86</a></span>
+<span class="normal"><a href="#__codelineno-0-87">87</a></span>
+<span class="normal"><a href="#__codelineno-0-88">88</a></span>
+<span class="normal"><a href="#__codelineno-0-89">89</a></span>
+<span class="normal"><a href="#__codelineno-0-90">90</a></span>
+<span class="normal"><a href="#__codelineno-0-91">91</a></span>
+<span class="normal"><a href="#__codelineno-0-92">92</a></span>
+<span class="normal"><a href="#__codelineno-0-93">93</a></span>
+<span class="normal"><a href="#__codelineno-0-94">94</a></span>
+<span class="normal"><a href="#__codelineno-0-95">95</a></span>
+<span class="normal"><a href="#__codelineno-0-96">96</a></span>
+<span class="normal"><a href="#__codelineno-0-97">97</a></span>
+<span class="normal"><a href="#__codelineno-0-98">98</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="k">class</span><span class="w"> </span><span class="nc">UnitOfWork</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for managing transactional consistency.</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    A UnitOfWork coordinates operations across multiple repositories and</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">    outbound ports. It ensures that state changes and domain events are</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    published atomically.</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnitOfWork</span><span class="p">:</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Enter the Unit of Work context.</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">            The active UnitOfWork instance.</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aexit__</span><span class="p">(</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="n">exc_type</span><span class="p">:</span> <span class="nb">type</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="n">traceback</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the Unit of Work context.</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">        Commits if no exception occurred; otherwise rolls back.</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">            exc_type: Raised exception type if any.</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">            exc_value: Exception instance.</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">            traceback: Execution traceback.</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="k">if</span> <span class="n">exc_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>    <span class="nd">@property</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the underlying session or transactional context.</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">            A context object representing the transaction, or None.</span>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">        Notes:</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="sd">            This is infrastructure-defined (DB session, connection, etc.).</span>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>        <span class="o">...</span>
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a>
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Commit all changes in the Unit of Work.</span>
+</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a>
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">        This operation should:</span>
+</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="sd">            - Persist all modified aggregates.</span>
+</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">            - Publish domain events collected during the transaction.</span>
+</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a><span class="sd">            - Ensure atomicity.</span>
+</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a>
+</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a><span class="sd">        Raises:</span>
+</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="sd">            UnitOfWorkError: If commit fails.</span>
+</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a>        <span class="o">...</span>
+</span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a>
+</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">rollback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll back the transaction and discard uncommitted changes.&quot;&quot;&quot;</span>
+</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a>        <span class="o">...</span>
+</span></code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork.session" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">session</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork.session" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Return the underlying session or transactional context.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="typing.Any">Any</span> | None</code>
+              –
+              <div class="doc-md-description">
+                <p>A context object representing the transaction, or None.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <p>This is infrastructure-defined (DB session, connection, etc.).</p>
+</details>
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork.__aenter__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__aenter__</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">UnitOfWork</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork.__aenter__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Enter the Unit of Work context.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="UnitOfWork (forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork)" href="#forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork">UnitOfWork</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The active UnitOfWork instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/unit_of_work.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnitOfWork</span><span class="p">:</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Enter the Unit of Work context.</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">        The active UnitOfWork instance.</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="k">return</span> <span class="bp">self</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork.__aexit__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__aexit__</span><span class="p">(</span><span class="n">exc_type</span><span class="p">:</span> <span class="nb">type</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">traceback</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork.__aexit__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Exit the Unit of Work context.</p>
+<p>Commits if no exception occurred; otherwise rolls back.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>exc_type</code></b>
+                  (<code><span title="type">type</span> | None</code>)
+              –
+              <div class="doc-md-description">
+                <p>Raised exception type if any.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>exc_value</code></b>
+                  (<code><span title="BaseException">BaseException</span> | None</code>)
+              –
+              <div class="doc-md-description">
+                <p>Exception instance.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>traceback</code></b>
+                  (<code><span title="types.TracebackType">TracebackType</span> | None</code>)
+              –
+              <div class="doc-md-description">
+                <p>Execution traceback.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/unit_of_work.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aexit__</span><span class="p">(</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="n">exc_type</span><span class="p">:</span> <span class="nb">type</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="n">traceback</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Exit the Unit of Work context.</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">    Commits if no exception occurred; otherwise rolls back.</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">        exc_type: Raised exception type if any.</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">        exc_value: Exception instance.</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">        traceback: Execution traceback.</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="k">if</span> <span class="n">exc_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork.commit" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">commit</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork.commit" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Commit all changes in the Unit of Work.</p>
+
+
+<details class="this-operation-should" open>
+  <summary>This operation should</summary>
+  <ul>
+<li>Persist all modified aggregates.</li>
+<li>Publish domain events collected during the transaction.</li>
+<li>Ensure atomicity.</li>
+</ul>
+</details>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="UnitOfWorkError (forging_blocks.application.ports.outbound.unit_of_work.UnitOfWorkError)" href="#forging_blocks.application.ports.outbound.unit_of_work.UnitOfWorkError">UnitOfWorkError</a></code>
+              –
+              <div class="doc-md-description">
+                <p>If commit fails.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/unit_of_work.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-81">81</a></span>
+<span class="normal"><a href="#__codelineno-0-82">82</a></span>
+<span class="normal"><a href="#__codelineno-0-83">83</a></span>
+<span class="normal"><a href="#__codelineno-0-84">84</a></span>
+<span class="normal"><a href="#__codelineno-0-85">85</a></span>
+<span class="normal"><a href="#__codelineno-0-86">86</a></span>
+<span class="normal"><a href="#__codelineno-0-87">87</a></span>
+<span class="normal"><a href="#__codelineno-0-88">88</a></span>
+<span class="normal"><a href="#__codelineno-0-89">89</a></span>
+<span class="normal"><a href="#__codelineno-0-90">90</a></span>
+<span class="normal"><a href="#__codelineno-0-91">91</a></span>
+<span class="normal"><a href="#__codelineno-0-92">92</a></span>
+<span class="normal"><a href="#__codelineno-0-93">93</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="nd">@abstractmethod</span>
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Commit all changes in the Unit of Work.</span>
+</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a>
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">    This operation should:</span>
+</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="sd">        - Persist all modified aggregates.</span>
+</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">        - Publish domain events collected during the transaction.</span>
+</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a><span class="sd">        - Ensure atomicity.</span>
+</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a>
+</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a><span class="sd">    Raises:</span>
+</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="sd">        UnitOfWorkError: If commit fails.</span>
+</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a>    <span class="o">...</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork.rollback" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">rollback</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#forging_blocks.application.ports.outbound.unit_of_work.UnitOfWork.rollback" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Roll back the transaction and discard uncommitted changes.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/unit_of_work.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-95">95</a></span>
+<span class="normal"><a href="#__codelineno-0-96">96</a></span>
+<span class="normal"><a href="#__codelineno-0-97">97</a></span>
+<span class="normal"><a href="#__codelineno-0-98">98</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a><span class="nd">@abstractmethod</span>
+</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">rollback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Roll back the transaction and discard uncommitted changes.&quot;&quot;&quot;</span>
+</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a>    <span class="o">...</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../repository/" class="btn btn-neutral float-left" title="Repository"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../../../domain/aggregate_root/" class="btn btn-neutral float-right" title="Aggregate Root">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../repository/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../../../domain/aggregate_root/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../../../..";</script>
+    <script src="../../../../../../js/theme_extra.js"></script>
+    <script src="../../../../../../js/theme.js"></script>
+      <script src="../../../../../../search/main.js"></script>
+      <script src="../../../../../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

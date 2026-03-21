@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/reference/autodoc/application/ports/outbound/query_fetcher/" />
+      <link rel="shortcut icon" href="../../../../../../img/favicon.ico" />
+    <title>Query Fetcher - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../../../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../../../../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../../../../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Query Fetcher";
+        var mkdocs_page_input_path = "reference/autodoc/application/ports/outbound/query_fetcher.md";
+        var mkdocs_page_url = "/0.3.21/reference/autodoc/application/ports/outbound/query_fetcher/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../../../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../../../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >API Reference</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" >Application</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../../../foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../contributing/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../contributing/contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../contributing/docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../../../contributing/release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../../../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">API Reference</li>
+          <li class="breadcrumb-item">Application</li>
+          <li class="breadcrumb-item">Ports / Outbound</li>
+      <li class="breadcrumb-item active">Query Fetcher</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/query_fetcher.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="query-fetcher">Query Fetcher<a class="headerlink" href="#query-fetcher" title="Permanent link">&para;</a></h1>
+<p>Outbound port for asynchronously fetching query results.</p>
+<p>QueryFetcher provides an application-layer abstraction for retrieving data<br />
+by dispatching query messages through a MessageBus. It supports CQRS-style<br />
+architectures where queries are processed independently of commands.</p>
+<p>Responsibilities:<br />
+    - Forward queries to the message bus.<br />
+    - Return the result of the query execution.</p>
+<p>Non-Responsibilities:<br />
+    - Define caching or projection logic.<br />
+    - Guarantee consistency between read and write models.</p>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="forging_blocks.application.ports.outbound.query_fetcher" class="doc doc-heading">
+            <code>query_fetcher</code>
+
+
+<a href="#forging_blocks.application.ports.outbound.query_fetcher" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Outbound port for asynchronously fetching query results.</p>
+<p>QueryFetcher provides an application-layer abstraction for retrieving data<br />
+by dispatching query messages through a MessageBus. It supports CQRS-style<br />
+architectures where queries are processed independently of commands.</p>
+
+
+<details class="responsibilities" open>
+  <summary>Responsibilities</summary>
+  <ul>
+<li>Forward queries to the message bus.</li>
+<li>Return the result of the query execution.</li>
+</ul>
+</details>
+
+<details class="non-responsibilities" open>
+  <summary>Non-Responsibilities</summary>
+  <ul>
+<li>Define caching or projection logic.</li>
+<li>Guarantee consistency between read and write models.</li>
+</ul>
+</details>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher" class="doc doc-heading">
+            <code>QueryFetcher</code>
+
+
+<a href="#forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="forging_blocks.foundation.ports.OutboundPort">OutboundPort</span>[<a class="autorefs autorefs-internal" title="Query (forging_blocks.domain.messages.query.Query)" href="../../../../domain/messages/query/#forging_blocks.domain.messages.query.Query">Query</a>, <span title="forging_blocks.application.ports.outbound.query_fetcher.QueryFetcherResult">QueryFetcherResult</span>]</code></p>
+
+
+        <p>Outbound port for dispatching query messages.</p>
+<p>The QueryFetcher abstracts query execution through a MessageBus. It does<br />
+not apply any interpretation to the returned data; shaping is the query<br />
+handler’s responsibility.</p>
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/query_fetcher.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="k">class</span><span class="w"> </span><span class="nc">QueryFetcher</span><span class="p">(</span><span class="n">OutboundPort</span><span class="p">[</span><span class="n">Query</span><span class="p">,</span> <span class="n">QueryFetcherResult</span><span class="p">]):</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Outbound port for dispatching query messages.</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    The QueryFetcher abstracts query execution through a MessageBus. It does</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    not apply any interpretation to the returned data; shaping is the query</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    handler’s responsibility.</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_bus</span><span class="p">:</span> <span class="n">MessageBus</span><span class="p">[</span><span class="n">Query</span><span class="p">,</span> <span class="n">QueryFetcherResult</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_message_bus</span> <span class="o">=</span> <span class="n">message_bus</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">Query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QueryFetcherResult</span><span class="p">:</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetch the result of a query.</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">            query: The query instance.</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">            Any result returned by the underlying query handler.</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        Notes:</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">            - Asynchronous execution.</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">            - Data shape is determined by the handler responsible for the query.</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_bus</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher.fetch" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">fetch</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="n">Query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QueryFetcherResult</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher.fetch" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Fetch the result of a query.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>query</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Query (forging_blocks.domain.messages.query.Query)" href="../../../../domain/messages/query/#forging_blocks.domain.messages.query.Query">Query</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The query instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="forging_blocks.application.ports.outbound.query_fetcher.QueryFetcherResult">QueryFetcherResult</span></code>
+              –
+              <div class="doc-md-description">
+                <p>Any result returned by the underlying query handler.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <ul>
+<li>Asynchronous execution.</li>
+<li>Data shape is determined by the handler responsible for the query.</li>
+</ul>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/query_fetcher.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">Query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QueryFetcherResult</span><span class="p">:</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetch the result of a query.</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        query: The query instance.</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        Any result returned by the underlying query handler.</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    Notes:</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">        - Asynchronous execution.</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        - Data shape is determined by the handler responsible for the query.</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_bus</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../notifier/" class="btn btn-neutral float-left" title="Notifier"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../repository/" class="btn btn-neutral float-right" title="Repository">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../notifier/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../repository/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../../../..";</script>
+    <script src="../../../../../../js/theme_extra.js"></script>
+    <script src="../../../../../../js/theme.js"></script>
+      <script src="../../../../../../search/main.js"></script>
+      <script src="../../../../../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

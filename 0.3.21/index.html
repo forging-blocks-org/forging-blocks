@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="Composable toolkit for clean, testable, and maintainable Python applications" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>ForgingBlocks</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = "/0.3.21/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#getting-started">🚀 Getting Started</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#core-concepts">🧠 Core Concepts</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#organizational-blocks">🏗️ Organizational Blocks</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#why-it-matters">🧭 Why It Matters</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#learn-more">📚 Learn More</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#project-resources">📋 Project Resources</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="guide/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="guide/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="guide/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="guide/example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="guide/examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="guide/principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="guide/architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="guide/recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >API Reference</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" >Application</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="reference/autodoc/domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="reference/autodoc/domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="reference/autodoc/domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="reference/autodoc/foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="reference/autodoc/foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="reference/autodoc/foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="reference/autodoc/foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="reference/autodoc/foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="contributing/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="contributing/contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="contributing/docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="contributing/release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/index.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="forgingblocks">🧩 ForgingBlocks<a class="headerlink" href="#forgingblocks" title="Permanent link">&para;</a></h1>
+<p><strong>ForgingBlocks</strong> provides a set of small, composable <strong>foundational contracts</strong> that help you design software with <strong>clarity</strong>, <strong>intent</strong>, and <strong>expressiveness</strong>.</p>
+<p>It doesn’t enforce any framework, library, or organizational approach.</p>
+<p>Instead, it gives you a <strong>vocabulary</strong> and <strong>building blocks</strong> for shaping ideas in a way that fits your project and your style.</p>
+<p>ForgingBlocks relies only on standard features available in <strong>Python 3.12+</strong> (such as <code>Protocols</code>, <code>Generics</code>, and Type Hints), keeping it lightweight and broadly compatible.</p>
+<hr />
+<h2 id="getting-started">🚀 Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<p>Install using Poetry, pip or uv:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>forging-blocks
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># or</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>poetry<span class="w"> </span>add<span class="w"> </span>forging-blocks
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># or</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>uv<span class="w"> </span>add<span class="w"> </span>forging-blocks
+</span></code></pre></div>
+<p><strong>Quick example</strong>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.foundation</span><span class="w"> </span><span class="kn">import</span> <span class="n">Result</span><span class="p">,</span> <span class="n">Ok</span><span class="p">,</span> <span class="n">Err</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">divide_quotient_only</span><span class="p">(</span><span class="n">dividend</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">divisor</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="k">if</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        <span class="k">return</span> <span class="n">Err</span><span class="p">(</span><span class="s2">&quot;Division by zero&quot;</span><span class="p">)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">quotient</span> <span class="o">=</span> <span class="n">dividend</span> <span class="o">//</span> <span class="n">divisor</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="k">return</span> <span class="n">Ok</span><span class="p">(</span><span class="n">quotient</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Or that operation with a remainder:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">divide_with_remainder</span><span class="p">(</span><span class="n">dividend</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">divisor</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="k">if</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="k">return</span> <span class="n">Err</span><span class="p">(</span><span class="s2">&quot;Division by zero&quot;</span><span class="p">)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">quotient</span> <span class="o">=</span> <span class="n">dividend</span> <span class="o">//</span> <span class="n">divisor</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">remainder</span> <span class="o">=</span> <span class="n">dividend</span> <span class="o">%</span> <span class="n">divisor</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="k">return</span> <span class="n">Ok</span><span class="p">((</span><span class="n">quotient</span><span class="p">,</span> <span class="n">remainder</span><span class="p">))</span>
+</span></code></pre></div>
+<hr />
+<p>🛠️ How can ForgingBlocks help me?</p>
+<p>ForgingBlocks helps you keep your project's structure clear, intentional, and easy to reason about.</p>
+<p>It provides small, composable abstractions that support writing clean, testable, and maintainable Python code — without tying you to any framework or architectural pattern.</p>
+<p><strong>Not a framework. Not an architecture. A toolkit for forging your own building blocks.</strong></p>
+<p>ForgingBlocks doesn't prescribe how your system must be structured.<br />
+Instead, it works alongside your preferred style and supports practices like:</p>
+<ul>
+<li>Making success and failure explicit</li>
+<li>Creating clear boundaries between components</li>
+<li>Modeling domain concepts that express intent</li>
+<li>Keeping core logic independent of infrastructure concerns</li>
+</ul>
+<p><strong>You remain in control.</strong></p>
+<p>You define the guidelines and conventions that fit your project.</p>
+<p>ForgingBlocks simply provides the building blocks that help you write decoupled, testable, high-quality code — free from framework lock-in.</p>
+<hr />
+<h2 id="core-concepts">🧠 Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Result / Ok / Err</strong></td>
+<td>Represents success or failure explicitly.</td>
+</tr>
+<tr>
+<td><strong>Mapper / ResultMapper</strong></td>
+<td>Transforms values or Results into another type.</td>
+</tr>
+<tr>
+<td><strong>Debuggable</strong></td>
+<td>Protocol ensuring an object exposes a clear, consistent debug representation.</td>
+</tr>
+<tr>
+<td><strong>Port / InboundPort / OutboundPort</strong></td>
+<td>Define explicit communication boundaries.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="organizational-blocks">🏗️ Organizational Blocks<a class="headerlink" href="#organizational-blocks" title="Permanent link">&para;</a></h2>
+<p>Each block represents a <strong>boundary of responsibility</strong>.</p>
+<p>ForgingBlocks provides small abstractions that help you keep these boundaries intentional and easy to understand.</p>
+<ul>
+<li>The <strong>Foundation</strong> block offers the core building blocks reused throughout the system.</li>
+<li>The <strong>Domain</strong> block defines the concepts and rules that model your problem space.</li>
+<li>The <strong>Application</strong> block expresses use cases and coordinates domain behavior.</li>
+<li>The <strong>Infrastructure</strong> block supplies adapters to external systems.</li>
+<li>The <strong>Presentation</strong> block handles incoming interactions with your application.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Block vs Layer</p>
+<p>In ForgingBlocks, the term <em>block</em> is intentionally architecture-neutral.<br />
+You may interpret a block as a <em>layer</em> if that mental model helps, but this toolkit does not require or enforce any structural pattern.</p>
+</div>
+<hr />
+<h2 id="why-it-matters">🧭 Why It Matters<a class="headerlink" href="#why-it-matters" title="Permanent link">&para;</a></h2>
+<p>Many systems become difficult to evolve not because of missing features, but due to <strong>coupling</strong>, <strong>implicit assumptions</strong>, and <strong>unclear responsibilities</strong>.</p>
+<p>ForgingBlocks helps you shape software that is <strong>clear</strong>, <strong>testable</strong>, and <strong>maintainable</strong> by encouraging intentional structure — block by block.</p>
+<hr />
+<h2 id="learn-more">📚 Learn More<a class="headerlink" href="#learn-more" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="guide/getting-started/">Getting Started</a></li>
+<li><a href="guide/recommended_blocks_structure/">Blocks Overview</a></li>
+<li><a href="guide/principles/">Organizing Your Project</a></li>
+<li><a href="reference/">Reference Index</a></li>
+</ul>
+<h2 id="project-resources">📋 Project Resources<a class="headerlink" href="#project-resources" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="contributing/">Contributing Guide</a></li>
+<li><a href="contributing/release-guide/">Release Guide</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="guide/" class="btn btn-neutral float-right" title="Introduction">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+    
+      <span><a href="guide/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+      <script src="js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-03-21 20:07:00.278805+00:00
+-->

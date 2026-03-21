@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/contributing/docs-conventions/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Docs Conventions - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Docs Conventions";
+        var mkdocs_page_input_path = "contributing/docs-conventions.md";
+        var mkdocs_page_url = "/0.3.21/contributing/docs-conventions/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >API Reference</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" >Application</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Docs Conventions</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#who-this-document-is-for">Who this document is for</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#general-principles">General principles</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#tone-and-language">Tone and language</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#structure-and-formatting">Structure and formatting</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#diagrams">Diagrams</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sections-and-responsibilities">Sections and responsibilities</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#when-changing-existing-documentation">When changing existing documentation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#in-short">In short</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Contributing</li>
+      <li class="breadcrumb-item active">Docs Conventions</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/contributing/docs-conventions.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="documentation-conventions">Documentation Conventions<a class="headerlink" href="#documentation-conventions" title="Permanent link">&para;</a></h1>
+<h2 id="who-this-document-is-for">Who this document is for<a class="headerlink" href="#who-this-document-is-for" title="Permanent link">&para;</a></h2>
+<p>This document is for contributors who are <strong>writing or modifying documentation</strong> in the ForgingBlocks repository.</p>
+<p>It defines the conventions used across the documentation.<br />
+These rules are intentional and should be followed consistently.</p>
+<hr />
+<h2 id="general-principles">General principles<a class="headerlink" href="#general-principles" title="Permanent link">&para;</a></h2>
+<p>Documentation favors:</p>
+<ul>
+<li>Explicit behavior over implied behavior.</li>
+<li>Clear responsibility boundaries.</li>
+<li>Neutral, non-prescriptive language.</li>
+<li>Consistency across sections and pages.</li>
+</ul>
+<p>The goal is to help readers reason, not to persuade them.</p>
+<hr />
+<h2 id="tone-and-language">Tone and language<a class="headerlink" href="#tone-and-language" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use a professional, calm, and teachable tone.</li>
+<li>Avoid marketing language.</li>
+<li>Avoid enforcing architectural choices.</li>
+<li>Prefer “can” and “may” over “should” and “must” unless stating a rule.</li>
+</ul>
+<p>Documentation should explain <em>why</em> something exists before explaining <em>how</em>.</p>
+<hr />
+<h2 id="structure-and-formatting">Structure and formatting<a class="headerlink" href="#structure-and-formatting" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Headings should describe responsibility or intent.</li>
+<li>Bullet points must:</li>
+<li>Start with an uppercase letter.</li>
+<li>Contain exactly one sentence.</li>
+<li>End with a period.</li>
+<li>Do not break lines unless a sentence ends.</li>
+</ul>
+<p>Consistency matters more than individual style preferences.</p>
+<hr />
+<h2 id="diagrams">Diagrams<a class="headerlink" href="#diagrams" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Diagrams are explanatory, not prescriptive.</li>
+<li>Diagrams must not be the last content in a document.</li>
+<li>Inline SVG is not allowed in Markdown.</li>
+<li>SVG diagrams must be stored as assets and referenced as images.</li>
+</ul>
+<p>Diagrams should clarify relationships, not introduce new rules.</p>
+<hr />
+<h2 id="sections-and-responsibilities">Sections and responsibilities<a class="headerlink" href="#sections-and-responsibilities" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Guide</strong> pages are teachable and narrative.</li>
+<li><strong>Reference</strong> pages are precise and definition-oriented.</li>
+<li><strong>Architectural Styles</strong> pages are interpretive and optional.</li>
+<li><strong>Examples</strong> demonstrate usage without enforcing structure.</li>
+</ul>
+<p>Do not blur these responsibilities.</p>
+<hr />
+<h2 id="when-changing-existing-documentation">When changing existing documentation<a class="headerlink" href="#when-changing-existing-documentation" title="Permanent link">&para;</a></h2>
+<p>When modifying documentation:</p>
+<ul>
+<li>Preserve the original intent.</li>
+<li>Avoid introducing new terminology casually.</li>
+<li>Update related sections if behavior or meaning changes.</li>
+<li>Prefer small, focused edits.</li>
+</ul>
+<p>If a change requires explanation, add context explicitly.</p>
+<hr />
+<h2 id="in-short">In short<a class="headerlink" href="#in-short" title="Permanent link">&para;</a></h2>
+<ul>
+<li>These conventions are deliberate.</li>
+<li>Consistency is more important than creativity.</li>
+<li>When in doubt, match existing documentation.</li>
+</ul>
+<p>This document acts as a shared contract between contributors.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../contributing/" class="btn btn-neutral float-left" title="Contribution Guide"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../release-guide/" class="btn btn-neutral float-right" title="Release Guide">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../contributing/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../release-guide/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

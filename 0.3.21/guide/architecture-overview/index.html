@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/guide/architecture-overview/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Architecture Overview - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Architecture Overview";
+        var mkdocs_page_input_path = "guide/architecture-overview.md";
+        var mkdocs_page_url = "/0.3.21/guide/architecture-overview/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Architecture Overview</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >API Reference</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" >Application</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Guide</li>
+      <li class="breadcrumb-item active">Architecture Overview</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/guide/architecture-overview.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="forgingblocks-simplified-architecture-overview">ForgingBlocks — Simplified Architecture Overview<a class="headerlink" href="#forgingblocks-simplified-architecture-overview" title="Permanent link">&para;</a></h1>
+<p>This document provides a clear, layered explanation of how applications built with ForgingBlocks are typically structured.<br />
+It replaces the previous all-in-one diagram with <strong>three focused diagrams</strong>, each capturing a single conceptual dimension.</p>
+<hr />
+<h1 id="1-high-level-architectural-layers">1. High-Level Architectural Layers<a class="headerlink" href="#1-high-level-architectural-layers" title="Permanent link">&para;</a></h1>
+<p>A macro overview showing how requests flow through the system.</p>
+<pre class="mermaid"><code>flowchart LR
+    P[Presentation Layer&lt;br/&gt;Controllers • Handlers • UI] --&gt; A[Application Layer&lt;br/&gt;Use Cases • Application Services]
+    A --&gt; D[Domain Layer&lt;br/&gt;Aggregates • Entities • Value Objects • Events]
+    A --&gt; OP[Outbound Ports]
+    IP[Inbound Ports] --&gt; A
+    OP --&gt; I[Infrastructure Layer&lt;br/&gt;Adapters • Implementations]</code></pre>
+<h3 id="responsibilities">Responsibilities<a class="headerlink" href="#responsibilities" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Presentation</strong></td>
+<td>Receives input, validates format, invokes use cases.</td>
+</tr>
+<tr>
+<td><strong>Application</strong></td>
+<td>Orchestrates workflows, uses the domain, defines ports.</td>
+</tr>
+<tr>
+<td><strong>Domain</strong></td>
+<td>Pure business rules and invariants.</td>
+</tr>
+<tr>
+<td><strong>Infrastructure</strong></td>
+<td>External concerns (DB, APIs, files, messaging).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="2-domain-composition">2. Domain Composition<a class="headerlink" href="#2-domain-composition" title="Permanent link">&para;</a></h1>
+<p>A focused view of the internal structure of the domain model.</p>
+<pre class="mermaid"><code>flowchart TB
+    AG[Aggregate] --&gt; ENT[Entities]
+    ENT --&gt; VO[Value Objects]
+    AG --&gt; EVT[Events]</code></pre>
+<h3 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Aggregates enforce invariants.</li>
+<li>Entities hold identity and mutable state.</li>
+<li>Value Objects represent immutable validated concepts.</li>
+<li>Events capture domain changes.</li>
+</ul>
+<hr />
+<h1 id="3-ports-adapters-hexagonal-view">3. Ports &amp; Adapters (Hexagonal View)<a class="headerlink" href="#3-ports-adapters-hexagonal-view" title="Permanent link">&para;</a></h1>
+<p>Shows how the application communicates with the outside world.</p>
+<pre class="mermaid"><code>flowchart LR
+    P[Presentation] --&gt; IP[Inbound Port]
+    IP --&gt; S[Application Service]
+    S --&gt; OP[Outbound Port]
+    OP --&gt; ADP[Infrastructure Adapter]</code></pre>
+<h3 id="key-principles">Key Principles<a class="headerlink" href="#key-principles" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Presentation does not call Infrastructure directly.</li>
+<li>Application owns and defines ports.</li>
+<li>Infrastructure implements outbound ports.</li>
+<li>Dependencies always point inward toward the core.</li>
+</ul>
+<hr />
+<h1 id="4-summary">4. Summary<a class="headerlink" href="#4-summary" title="Permanent link">&para;</a></h1>
+<p>These three diagrams together provide a cohesive view of how ForgingBlocks applications are structured:</p>
+<ul>
+<li><strong>Layers Diagram</strong> → overall system flow</li>
+<li><strong>Domain Composition Diagram</strong> → internal domain structure</li>
+<li><strong>Ports &amp; Adapters Diagram</strong> → boundary interactions</li>
+</ul>
+<p>This separation reduces cognitive load and clarifies the responsibilities of each part of the system.</p>
+<hr />
+<h1 id="5-minimal-tldr-diagram">5. Minimal TL;DR Diagram<a class="headerlink" href="#5-minimal-tldr-diagram" title="Permanent link">&para;</a></h1>
+<pre class="mermaid"><code>flowchart LR
+    P --&gt; A --&gt; D
+    A --&gt; Ports
+    Ports --&gt; Infra</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../principles/" class="btn btn-neutral float-left" title="Principles"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../recommended_blocks_structure/" class="btn btn-neutral float-right" title="Recommended Blocks Structure">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../principles/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../recommended_blocks_structure/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

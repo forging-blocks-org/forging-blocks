@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/reference/application/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Application - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Application";
+        var mkdocs_page_input_path = "reference/application.md";
+        var mkdocs_page_url = "/0.3.21/reference/application/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Application</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#reference">Reference</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#purpose-of-the-application-block">Purpose of the Application block</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#responsibilities">Responsibilities</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inbound-ports">Inbound Ports</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#use-case">Use Case</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#message-handler">Message Handler</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#outbound-ports">Outbound Ports</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#repository-ports">Repository Ports</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#unit-of-work">Unit of Work</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#message-bus">Message Bus</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#command-sender">Command Sender</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#event-publisher">Event Publisher</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#query-fetcher">Query Fetcher</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#what-the-application-block-does-not-do">What the Application block does not do</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#relationship-to-other-blocks">Relationship to other blocks</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#glossary">Glossary</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >API Reference</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" >Application</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+      <li class="breadcrumb-item active">Application</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/application.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="application">Application<a class="headerlink" href="#application" title="Permanent link">&para;</a></h1>
+<h2 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h2>
+<p>The <strong>Application</strong> block defines <strong>what the system does</strong>.</p>
+<p>It expresses system behavior by coordinating domain concepts, handling incoming requests, and invoking outbound capabilities.<br />
+It does <strong>not</strong> contain business rules themselves, nor technical details.</p>
+<p>The Application block sits between the outside world and the Domain, acting as a <strong>behavioral boundary</strong>.</p>
+<hr />
+<h2 id="purpose-of-the-application-block">Purpose of the Application block<a class="headerlink" href="#purpose-of-the-application-block" title="Permanent link">&para;</a></h2>
+<p>The Application block exists to:</p>
+<ul>
+<li>Represent system behaviors (use cases)</li>
+<li>Coordinate domain operations</li>
+<li>Define inbound and outbound ports</li>
+<li>Delegate technical concerns to Infrastructure</li>
+</ul>
+<p>The Application block depends on <strong>Domain</strong> and <strong>Foundation</strong>.<br />
+It must not depend on Presentation or Infrastructure implementations.</p>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">On architectural neutrality</p>
+<p>The Application block does not assume a specific architecture.<br />
+It can be used in layered, hexagonal, clean, CQRS, or message-driven systems.<br />
+The abstractions provided here define boundaries, not control flow.</p>
+</div>
+<hr />
+<h2 id="responsibilities">Responsibilities<a class="headerlink" href="#responsibilities" title="Permanent link">&para;</a></h2>
+<p>The Application block is responsible for:</p>
+<ul>
+<li>Receiving intent from the outside (inbound ports)</li>
+<li>Validating and coordinating operations</li>
+<li>Invoking domain behavior</li>
+<li>Interacting with outbound capabilities</li>
+<li>Defining transactional boundaries</li>
+</ul>
+<p>It is <strong>not</strong> responsible for:</p>
+<ul>
+<li>Enforcing domain invariants</li>
+<li>Persisting data directly</li>
+<li>Handling transport or frameworks</li>
+<li>Implementing infrastructure concerns</li>
+</ul>
+<hr />
+<h2 id="inbound-ports">Inbound Ports<a class="headerlink" href="#inbound-ports" title="Permanent link">&para;</a></h2>
+<p>Inbound ports define <strong>how the system can be interacted with</strong>.</p>
+<p>They describe <em>what can be requested</em> from the application,<br />
+without exposing internal implementation details.</p>
+<hr />
+<h3 id="use-case">Use Case<a class="headerlink" href="#use-case" title="Permanent link">&para;</a></h3>
+<p>A <strong>Use Case</strong> represents a cohesive unit of application behavior.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Expresses a system capability</li>
+<li>Coordinates domain operations</li>
+<li>Returns an explicit result</li>
+<li>Does not depend on infrastructure</li>
+</ul>
+<p>Use Cases describe <em>what the system does</em>, not <em>how it is triggered</em>.</p>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Use cases as coordination</p>
+<p>A Use Case does not contain business rules.<br />
+It orchestrates domain behavior and outbound interactions,<br />
+keeping policy separate from details.</p>
+</div>
+<hr />
+<h3 id="message-handler">Message Handler<a class="headerlink" href="#message-handler" title="Permanent link">&para;</a></h3>
+<p>A <strong>Message Handler</strong> represents an inbound boundary for handling messages<br />
+such as commands, events, or queries.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Reacts to a single message type</li>
+<li>Coordinates application behavior</li>
+<li>Delegates domain logic</li>
+<li>May invoke other outbound ports</li>
+</ul>
+<p>Message Handlers allow the application to participate in message-driven or asynchronous workflows.</p>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Message handling vs use cases</p>
+<p>Use Cases and Message Handlers serve similar coordination roles.<br />
+The distinction is about <em>how intent arrives</em>, not about behavior.</p>
+</div>
+<hr />
+<h2 id="outbound-ports">Outbound Ports<a class="headerlink" href="#outbound-ports" title="Permanent link">&para;</a></h2>
+<p>Outbound ports define <strong>capabilities the application depends on</strong>.</p>
+<p>They allow the Application block to request external actions without knowing how those actions are implemented.</p>
+<hr />
+<h3 id="repository-ports">Repository Ports<a class="headerlink" href="#repository-ports" title="Permanent link">&para;</a></h3>
+<p>Repository ports abstract persistence concerns.</p>
+<p>Available variants:</p>
+<ul>
+<li><strong>ReadOnlyRepository</strong> — query-side access</li>
+<li><strong>WriteOnlyRepository</strong> — command-side persistence</li>
+<li><strong>Repository</strong> — combined read/write access</li>
+</ul>
+<p>Repositories:</p>
+<ul>
+<li>Persist and retrieve aggregates</li>
+<li>Abstract storage mechanisms</li>
+<li>Do not enforce business rules</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">CQRS compatibility</p>
+<p>Separate read and write repositories support CQRS-style designs,<br />
+but using a combined repository is equally valid in simpler systems.</p>
+</div>
+<hr />
+<h3 id="unit-of-work">Unit of Work<a class="headerlink" href="#unit-of-work" title="Permanent link">&para;</a></h3>
+<p>A <strong>Unit of Work</strong> defines a transactional boundary for application operations.</p>
+<p>Responsibilities include:</p>
+<ul>
+<li>Managing a transactional context</li>
+<li>Coordinating multiple repositories</li>
+<li>Committing or rolling back changes</li>
+<li>Publishing domain events upon success</li>
+</ul>
+<p>The Unit of Work ensures <strong>consistency across operations</strong>, without embedding domain logic.</p>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Transactional consistency</p>
+<p>The Unit of Work coordinates persistence and side effects.<br />
+It does not execute business logic or manipulate aggregates directly.</p>
+</div>
+<hr />
+<h3 id="message-bus">Message Bus<a class="headerlink" href="#message-bus" title="Permanent link">&para;</a></h3>
+<p>A <strong>Message Bus</strong> provides a generic mechanism for dispatching messages.</p>
+<p>It acts as a connector between the Application block and message-based infrastructure such as in-memory routers, queues, brokers, or external services.</p>
+<p>The Message Bus defines <em>dispatch</em>, not delivery semantics.</p>
+<hr />
+<h3 id="command-sender">Command Sender<a class="headerlink" href="#command-sender" title="Permanent link">&para;</a></h3>
+<p>A <strong>Command Sender</strong> allows the application to send commands asynchronously.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Fire-and-forget semantics</li>
+<li>Delegates transport to a Message Bus</li>
+<li>Decouples command issuance from handling</li>
+</ul>
+<p>Used when the application needs to trigger command-side behavior elsewhere.</p>
+<hr />
+<h3 id="event-publisher">Event Publisher<a class="headerlink" href="#event-publisher" title="Permanent link">&para;</a></h3>
+<p>An <strong>Event Publisher</strong> allows the application to publish domain events.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Publishes facts that occurred</li>
+<li>Delegates delivery to a Message Bus</li>
+<li>Does not guarantee ordering or durability</li>
+</ul>
+<p>Event publishing enables integration and eventual consistency.</p>
+<hr />
+<h3 id="query-fetcher">Query Fetcher<a class="headerlink" href="#query-fetcher" title="Permanent link">&para;</a></h3>
+<p>A <strong>Query Fetcher</strong> allows the application to retrieve data by dispatching queries through a Message Bus.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Asynchronous execution</li>
+<li>Result shape defined by the query handler</li>
+<li>No consistency guarantees between read and write models</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Outbound ports and Infrastructure</p>
+<p>Outbound ports define <em>what the application needs</em>.<br />
+Infrastructure provides <em>how those needs are fulfilled</em>.</p>
+</div>
+<hr />
+<h2 id="what-the-application-block-does-not-do">What the Application block does not do<a class="headerlink" href="#what-the-application-block-does-not-do" title="Permanent link">&para;</a></h2>
+<p>The Application block does <strong>not</strong>:</p>
+<ul>
+<li>Define domain rules</li>
+<li>Manipulate infrastructure directly</li>
+<li>Expose transport-specific APIs</li>
+<li>Depend on frameworks or databases</li>
+</ul>
+<p>Those responsibilities belong to Domain, Infrastructure, or Presentation.</p>
+<hr />
+<h2 id="relationship-to-other-blocks">Relationship to other blocks<a class="headerlink" href="#relationship-to-other-blocks" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Presentation</strong> invokes inbound ports.</li>
+<li><strong>Application</strong> coordinates behavior.</li>
+<li><strong>Domain</strong> enforces business rules and invariants.</li>
+<li><strong>Infrastructure</strong> implements outbound ports.</li>
+</ul>
+<p>The Application block remains stable even as delivery mechanisms and infrastructure change.</p>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>The Application block defines <strong>behavioral boundaries</strong>.</p>
+<p>It coordinates domain logic through clear inbound and outbound ports, keeping business rules isolated and technical details replaceable.</p>
+<p>Its purpose is orchestration, not computation.</p>
+<hr />
+<h2 id="glossary">Glossary<a class="headerlink" href="#glossary" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Application Block</p>
+<p>The part of the system responsible for coordinating behavior.<br />
+It defines what the system does by orchestrating domain logic and invoking external capabilities through ports.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Inbound Port</p>
+<p>An abstraction that defines how external actors can interact with the application, without exposing internal details.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Use Case</p>
+<p>An inbound port that represents a cohesive unit of application behavior.<br />
+A use case coordinates domain operations and outbound interactions, but does not contain business rules itself.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Message Handler</p>
+<p>An inbound port that reacts to a single incoming message (such as a command, event, or query) and coordinates application behavior.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Outbound Port</p>
+<p>An abstraction that represents a capability the application depends on, such as persistence, messaging, or notification, without specifying how that capability is implemented.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Repository</p>
+<p>An outbound port that abstracts access to persisted domain objects.<br />
+Repositories provide retrieval and storage operations without embedding domain rules or storage details.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Unit of Work</p>
+<p>An outbound port that defines a transactional boundary.<br />
+It coordinates multiple persistence operations and ensures consistency across application-level changes.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Message Bus</p>
+<p>An outbound port that dispatches messages to handlers.<br />
+It defines routing and dispatch semantics without prescribing transport, delivery, or infrastructure mechanisms.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Command Sender</p>
+<p>An outbound port used to send commands asynchronously, decoupling command issuance from command handling.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Event Publisher</p>
+<p>An outbound port used to publish domain events, allowing the system to communicate facts that occurred without coupling to consumers or delivery mechanisms.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Query Fetcher</p>
+<p>An outbound port used to retrieve data by issuing queries and receiving responses, typically without mutating state.</p>
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../domain/" class="btn btn-neutral float-left" title="Domain"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../infrastructure/" class="btn btn-neutral float-right" title="Infrastructure">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../domain/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../infrastructure/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

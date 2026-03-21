@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/reference/autodoc/foundation/result_mapper/" />
+      <link rel="shortcut icon" href="../../../../img/favicon.ico" />
+    <title>Result Mapper - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Result Mapper";
+        var mkdocs_page_input_path = "reference/autodoc/foundation/result_mapper.md";
+        var mkdocs_page_url = "/0.3.21/reference/autodoc/foundation/result_mapper/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../guide/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../guide/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../guide/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../guide/example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../guide/examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../guide/principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../guide/architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../guide/recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >API Reference</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" >Application</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Foundation</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../result/">Result</a>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" href="#">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../contributing/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../contributing/contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../contributing/docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../contributing/release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">API Reference</li>
+          <li class="breadcrumb-item">Foundation</li>
+      <li class="breadcrumb-item active">Result Mapper</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/foundation/result_mapper.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="result-mapper">Result Mapper<a class="headerlink" href="#result-mapper" title="Permanent link">&para;</a></h1>
+<p>This module defines a Protocol/Interface for mapping Result between different layers.</p>
+<p>This modules defines a protocol for mapping Result types between different layers or<br />
+representations.</p>
+<p>You can implement this protocol to create mappers that convert Result types from one<br />
+form to another, facilitating data transformation across application layers.</p>
+<p>Example:<br />
+    ApplicationResult = Result[CreateTaskResponse, CombinedValidationErrors]<br />
+    HttpResult = Result[JSONResponse, ErrorResponse]</p>
+<div class="language-text highlight"><pre><span></span><code>class CreateTaskHttpResultMapper(
+    ResultMapper[
+        CreateTaskResponse,
+        CombinedValidationErrors,
+        JSONResponse,
+        ErrorResponse
+    ]
+):
+    def __init__(self, success_mapper: Mapper, error_mapper: Mapper):
+        self.success_mapper = success_mapper
+        self.error_mapper = error_mapper
+
+    def map(self, result: ApplicationResult) -&gt; HttpResult:
+        if result.is_ok():
+            data = self.success_mapper.map(result.unwrap())
+            return Result.ok(data)
+        else:
+            error = self.error_mapper.map(result.unwrap_err())
+            return Result.err(error)
+</code></pre></div>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="forging_blocks.foundation.result_mapper" class="doc doc-heading">
+            <code>result_mapper</code>
+
+
+<a href="#forging_blocks.foundation.result_mapper" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>This module defines a Protocol/Interface for mapping Result between different layers.</p>
+<p>This modules defines a protocol for mapping Result types between different layers or<br />
+representations.</p>
+<p>You can implement this protocol to create mappers that convert Result types from one<br />
+form to another, facilitating data transformation across application layers.</p>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <p>ApplicationResult = Result[CreateTaskResponse, CombinedValidationErrors]<br />
+HttpResult = Result[JSONResponse, ErrorResponse]</p>
+<p>class CreateTaskHttpResultMapper(<br />
+    ResultMapper[<br />
+        CreateTaskResponse,<br />
+        CombinedValidationErrors,<br />
+        JSONResponse,<br />
+        ErrorResponse<br />
+    ]<br />
+):<br />
+    def <strong>init</strong>(self, success_mapper: Mapper, error_mapper: Mapper):<br />
+        self.success_mapper = success_mapper<br />
+        self.error_mapper = error_mapper</p>
+<div class="language-text highlight"><pre><span></span><code>def map(self, result: ApplicationResult) -&gt; HttpResult:
+    if result.is_ok():
+        data = self.success_mapper.map(result.unwrap())
+        return Result.ok(data)
+    else:
+        error = self.error_mapper.map(result.unwrap_err())
+        return Result.err(error)
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="forging_blocks.foundation.result_mapper.ResultMapper" class="doc doc-heading">
+            <code>ResultMapper</code>
+
+
+<a href="#forging_blocks.foundation.result_mapper.ResultMapper" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="typing.Generic">Generic</span>[<span title="forging_blocks.foundation.result_mapper.SuccessIn">SuccessIn</span>, <span title="forging_blocks.foundation.result_mapper.ErrorIn">ErrorIn</span>, <span title="forging_blocks.foundation.result_mapper.SuccessOut">SuccessOut</span>, <span title="forging_blocks.foundation.result_mapper.ErrorOut">ErrorOut</span>]</code>, <code><a class="autorefs autorefs-internal" title="Mapper (forging_blocks.foundation.mapper.Mapper)" href="../mapper/#forging_blocks.foundation.mapper.Mapper">Mapper</a>[<a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../result/#forging_blocks.foundation.result.Result">Result</a>[<span title="forging_blocks.foundation.result_mapper.SuccessIn">SuccessIn</span>, <span title="forging_blocks.foundation.result_mapper.ErrorIn">ErrorIn</span>], <a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../result/#forging_blocks.foundation.result.Result">Result</a>[<span title="forging_blocks.foundation.result_mapper.SuccessOut">SuccessOut</span>, <span title="forging_blocks.foundation.result_mapper.ErrorOut">ErrorOut</span>]]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
+
+
+        <p>Specialized Mapper for transforming Result types across layers.</p>
+<p>A ResultMapper is a Mapper that specifically handles Result transformations,<br />
+typically when crossing architectural boundaries (e.g., domain → HTTP).</p>
+<p>This specialization makes the intent clear: we're mapping Results to Results,<br />
+handling both success and error cases appropriately.</p>
+<p>The protocol uses variance annotations to ensure type safety:</p>
+<ul>
+<li><code>SuccessIn</code> and <code>ErrorIn</code> are <strong>contravariant</strong>: accepts the declared types or supertypes</li>
+<li><code>SuccessOut</code> and <code>ErrorOut</code> are <strong>covariant</strong>: returns the declared types or subtypes</li>
+</ul>
+<hr />
+<h5 id="forging_blocks.foundation.result_mapper.ResultMapper--type-parameters"><strong>Type Parameters</strong><a class="headerlink" href="#forging_blocks.foundation.result_mapper.ResultMapper--type-parameters" title="Permanent link">&para;</a></h5>
+<ul>
+<li>SuccessIn: Success type of input Result</li>
+<li>ErrorIn: Error type of input Result</li>
+<li>SuccessOut: Success type of output Result</li>
+<li>ErrorOut: Error type of output Result</li>
+</ul>
+<hr />
+<p><strong>Example Usage</strong><br />
+    &gt;&gt;&gt; class TaskResultMapper(<br />
+    ...     ResultMapper[TaskDTO, DomainError, JSONResponse, ErrorResponse]<br />
+    ... ):<br />
+    ...     def map(self, result):<br />
+    ...         if result.is_ok():<br />
+    ...             return Result.ok(JSONResponse(result.unwrap()))<br />
+    ...         return Result.err(ErrorResponse(result.unwrap_err()))</p>
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>src/forging_blocks/foundation/result_mapper.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-0-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-0-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-0-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-0-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-0-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-0-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-0-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-0-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-0-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-0-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-0-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-0-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-0-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-0-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-0-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-0-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-0-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-0-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-0-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-0-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-0-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-0-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-0-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-0-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-0-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-0-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-0-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-0-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-0-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-0-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-0-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-0-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-0-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-0-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-0-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-0-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-0-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-0-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-0-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-0-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-0-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-0-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-0-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-0-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-0-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-0-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-0-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-0-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-0-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-0-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-0-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-0-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-0-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-0-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-0-100">100</a></span>
+<span class="normal"><a href="#__codelineno-0-101">101</a></span>
+<span class="normal"><a href="#__codelineno-0-102">102</a></span>
+<span class="normal"><a href="#__codelineno-0-103">103</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="k">class</span><span class="w"> </span><span class="nc">ResultMapper</span><span class="p">(</span>  <span class="c1"># type: ignore[misc]</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="n">Generic</span><span class="p">[</span><span class="n">SuccessIn</span><span class="p">,</span> <span class="n">ErrorIn</span><span class="p">,</span> <span class="n">SuccessOut</span><span class="p">,</span> <span class="n">ErrorOut</span><span class="p">],</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="n">Mapper</span><span class="p">[</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="n">Result</span><span class="p">[</span><span class="n">SuccessIn</span><span class="p">,</span> <span class="n">ErrorIn</span><span class="p">],</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="n">Result</span><span class="p">[</span><span class="n">SuccessOut</span><span class="p">,</span> <span class="n">ErrorOut</span><span class="p">],</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="p">],</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="n">Protocol</span><span class="p">,</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="p">):</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Specialized Mapper for transforming Result types across layers.</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">    A ResultMapper is a Mapper that specifically handles Result transformations,</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">    typically when crossing architectural boundaries (e.g., domain → HTTP).</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">    This specialization makes the intent clear: we&#39;re mapping Results to Results,</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">    handling both success and error cases appropriately.</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">    The protocol uses variance annotations to ensure type safety:</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">    - ``SuccessIn`` and ``ErrorIn`` are **contravariant**: accepts the declared types or supertypes</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">    - ``SuccessOut`` and ``ErrorOut`` are **covariant**: returns the declared types or subtypes</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">    ------</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">    **Type Parameters**</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">    -------------------</span>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">    - SuccessIn: Success type of input Result</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">    - ErrorIn: Error type of input Result</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">    - SuccessOut: Success type of output Result</span>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">    - ErrorOut: Error type of output Result</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="sd">    ------</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">    **Example Usage**</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="sd">        &gt;&gt;&gt; class TaskResultMapper(</span>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">        ...     ResultMapper[TaskDTO, DomainError, JSONResponse, ErrorResponse]</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">        ... ):</span>
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">        ...     def map(self, result):</span>
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">        ...         if result.is_ok():</span>
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">        ...             return Result.ok(JSONResponse(result.unwrap()))</span>
+</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="sd">        ...         return Result.err(ErrorResponse(result.unwrap_err()))</span>
+</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a>
+</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>    <span class="n">_success_in</span><span class="p">:</span> <span class="n">SuccessIn</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a>    <span class="n">_error_in</span><span class="p">:</span> <span class="n">ErrorIn</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>    <span class="n">_success_out</span><span class="p">:</span> <span class="n">SuccessOut</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a>    <span class="n">_error_out</span><span class="p">:</span> <span class="n">ErrorOut</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a>
+</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Result</span><span class="p">[</span><span class="n">SuccessIn</span><span class="p">,</span> <span class="n">ErrorIn</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="n">SuccessOut</span><span class="p">,</span> <span class="n">ErrorOut</span><span class="p">]:</span>
+</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Map a Result from one type representation to another.</span>
+</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a>
+</span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a><span class="sd">        Transforms both success and error types, typically when crossing</span>
+</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a><span class="sd">        architectural boundaries.</span>
+</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>
+</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a><span class="sd">            result: The input Result to transform</span>
+</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a>
+</span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101"></a><span class="sd">            A new Result with transformed types</span>
+</span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-103"><a id="__codelineno-0-103" name="__codelineno-0-103"></a>        <span class="o">...</span>
+</span></code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.foundation.result_mapper.ResultMapper.map" class="doc doc-heading">
+            <code class="highlight language-python"><span class="nb">map</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">Result</span><span class="p">[</span><span class="n">SuccessIn</span><span class="p">,</span> <span class="n">ErrorIn</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="n">SuccessOut</span><span class="p">,</span> <span class="n">ErrorOut</span><span class="p">]</span></code>
+
+<a href="#forging_blocks.foundation.result_mapper.ResultMapper.map" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Map a Result from one type representation to another.</p>
+<p>Transforms both success and error types, typically when crossing<br />
+architectural boundaries.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>result</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../result/#forging_blocks.foundation.result.Result">Result</a>[<span title="forging_blocks.foundation.result_mapper.SuccessIn">SuccessIn</span>, <span title="forging_blocks.foundation.result_mapper.ErrorIn">ErrorIn</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The input Result to transform</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../result/#forging_blocks.foundation.result.Result">Result</a>[<span title="forging_blocks.foundation.result_mapper.SuccessOut">SuccessOut</span>, <span title="forging_blocks.foundation.result_mapper.ErrorOut">ErrorOut</span>]</code>
+              –
+              <div class="doc-md-description">
+                <p>A new Result with transformed types</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/foundation/result_mapper.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-0-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-0-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-0-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-0-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-0-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-0-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-0-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-0-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-0-100">100</a></span>
+<span class="normal"><a href="#__codelineno-0-101">101</a></span>
+<span class="normal"><a href="#__codelineno-0-102">102</a></span>
+<span class="normal"><a href="#__codelineno-0-103">103</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="k">def</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Result</span><span class="p">[</span><span class="n">SuccessIn</span><span class="p">,</span> <span class="n">ErrorIn</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="n">SuccessOut</span><span class="p">,</span> <span class="n">ErrorOut</span><span class="p">]:</span>
+</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Map a Result from one type representation to another.</span>
+</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a>
+</span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a><span class="sd">    Transforms both success and error types, typically when crossing</span>
+</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a><span class="sd">    architectural boundaries.</span>
+</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>
+</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a><span class="sd">        result: The input Result to transform</span>
+</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a>
+</span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101"></a><span class="sd">        A new Result with transformed types</span>
+</span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-103"><a id="__codelineno-0-103" name="__codelineno-0-103"></a>    <span class="o">...</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../result/" class="btn btn-neutral float-left" title="Result"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../errors/base/" class="btn btn-neutral float-right" title="Base">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../result/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../errors/base/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../../..";</script>
+    <script src="../../../../js/theme_extra.js"></script>
+    <script src="../../../../js/theme.js"></script>
+      <script src="../../../../search/main.js"></script>
+      <script src="../../../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

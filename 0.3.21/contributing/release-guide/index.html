@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/contributing/release-guide/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Release Guide - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Release Guide";
+        var mkdocs_page_input_path = "contributing/release-guide.md";
+        var mkdocs_page_url = "/0.3.21/contributing/release-guide/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >API Reference</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" >Application</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Release Guide</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#tldr-quick-release">TL;DR – Quick Release</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#how-to-release">How to Release</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#release-commands">Release Commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#what-happens-locally">What Happens Locally</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#what-happens-after-merge">What Happens After Merge</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mental-model-read-this-first">Mental Model (Read This First)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#why-this-flow-design">Why This Flow Design?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#commit-convention-required">Commit Convention (Required)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#when-to-release">When to Release</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#release-tooling">Release Tooling</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#publishing-in-github-actions">Publishing in GitHub Actions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#release-flow-diagram">Release Flow Diagram</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#release-commands-reference">Release Commands Reference</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#available-commands">Available Commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#command-behavior">Command Behavior</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#maintainer-checklist">Maintainer Checklist</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Contributing</li>
+      <li class="breadcrumb-item active">Release Guide</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/contributing/release-guide.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="release-guide">Release Guide<a class="headerlink" href="#release-guide" title="Permanent link">&para;</a></h1>
+<p>This document explains <strong>how releases work in ForgingBlocks</strong>, <strong>why the process is designed this way</strong>, and <strong>how contributors should perform a release safely and correctly</strong>.</p>
+<p>The goal is to make releases:</p>
+<ul>
+<li>predictable</li>
+<li>auditable</li>
+<li>reproducible</li>
+<li>fully automated</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Important principle</p>
+<p>Contributors prepare releases locally, create PRs for review, and <strong>all publishing happens automatically in GitHub Actions</strong>.<br />
+When the release PR is merged into <code>main</code> it will triggers the package publishing and docs deploy.</p>
+</div>
+<hr />
+<h2 id="tldr-quick-release">TL;DR – Quick Release<a class="headerlink" href="#tldr-quick-release" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 1. Validate everything is ready</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>main<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>main
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># 2. Test the release first (simulation)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># 3. Execute when ready</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w"> </span>--execute
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># 4. Review and merge the created PR</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1"># 5. GitHub Actions handles the rest automatically</span>
+</span></code></pre></div>
+<blockquote>
+<p><strong>💡 Always simulate first</strong>: Run without <code>--execute</code> to validate before creating the release PR.</p>
+</blockquote>
+<h2 id="how-to-release">How to Release<a class="headerlink" href="#how-to-release" title="Permanent link">&para;</a></h2>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<p>Before releasing, ensure:</p>
+<ul>
+<li>[ ] All intended changes are merged into <code>main</code></li>
+<li>[ ] CI is green on <code>main</code></li>
+<li>[ ] Working tree is clean</li>
+<li>[ ] You're on the <code>main</code> branch and synced with origin</li>
+</ul>
+<h3 id="release-commands">Release Commands<a class="headerlink" href="#release-commands" title="Permanent link">&para;</a></h3>
+<p>The release process uses poe tasks with the <code>--execute</code> flag:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Always start with simulation (safe, no changes)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w">       </span><span class="c1"># 0.3.6 → 0.3.7 (simulation)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w">       </span><span class="c1"># 0.3.6 → 0.4.0 (simulation)  </span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w">       </span><span class="c1"># 0.3.6 → 1.0.0 (simulation)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Execute when ready (creates branch and PR)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># Actually performs the release</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># Actually performs the release  </span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># Actually performs the release</span>
+</span></code></pre></div>
+<h3 id="what-happens-locally">What Happens Locally<a class="headerlink" href="#what-happens-locally" title="Permanent link">&para;</a></h3>
+<p>When you run <code>poetry run poe release patch --execute</code>, the tooling automatically:</p>
+<ol>
+<li><strong>Validates</strong> repository state (clean, on main, synced)</li>
+<li><strong>Bumps version</strong> in pyproject.toml</li>
+<li><strong>Generates changelog</strong> from commit messages</li>
+<li><strong>Creates release branch</strong> (<code>release/vX.Y.Z</code>)</li>
+<li><strong>Commits changes</strong> to the release branch</li>
+<li><strong>Opens Pull Request</strong> for code review</li>
+</ol>
+<h3 id="what-happens-after-merge">What Happens After Merge<a class="headerlink" href="#what-happens-after-merge" title="Permanent link">&para;</a></h3>
+<p>When the release PR is merged into <code>main</code>, GitHub Actions automatically:</p>
+<ol>
+<li><strong>Creates and pushes tag</strong> (from branch name <code>release/vX.Y.Z</code>)</li>
+<li><strong>Builds and publishes</strong> package to PyPI</li>
+<li><strong>Deploys documentation</strong> to GitHub Pages</li>
+<li><strong>Creates GitHub Release</strong> with changelog</li>
+</ol>
+<blockquote>
+<p><strong>🔒 Important</strong>: Publishing only happens after PR merge. If the PR is rejected, nothing gets released.</p>
+</blockquote>
+<hr />
+<h2 id="mental-model-read-this-first">Mental Model (Read This First)<a class="headerlink" href="#mental-model-read-this-first" title="Permanent link">&para;</a></h2>
+<p>ForgingBlocks follows a <strong>local-preparation + automated-publishing model</strong>:</p>
+<ul>
+<li><strong>Local tooling</strong> (<code>poetry run poe release patch</code>) automatically:</li>
+<li>validates the release</li>
+<li>bumps the version</li>
+<li>generates the changelog</li>
+<li>creates the release branch</li>
+<li>commits changes</li>
+<li>opens a Pull Request</li>
+<li><strong>GitHub Actions</strong> automatically:</li>
+<li>creates and pushes tags (from branch name)</li>
+<li>validates the release candidate</li>
+<li>builds the package</li>
+<li>publishes to PyPI</li>
+<li>deploys versioned documentation</li>
+</ul>
+<p><strong>Publishing only happens after the release PR is merged.</strong></p>
+<hr />
+<h2 id="why-this-flow-design">Why This Flow Design?<a class="headerlink" href="#why-this-flow-design" title="Permanent link">&para;</a></h2>
+<p><strong>Local preparation ensures quality:</strong><br />
+- Contributors validate everything before creating PRs<br />
+- Simulation mode allows safe testing<br />
+- All changes are reviewed before publishing</p>
+<p><strong>GitHub Actions handles publishing:</strong><br />
+- Fully automated after PR merge<br />
+- No local credentials needed<br />
+- Clear audit trail through GitHub Actions logs</p>
+<p>This separation ensures that:<br />
+✅ <strong>No releases without code review</strong><br />
+✅ <strong>No local environment dependencies for publishing</strong><br />
+✅ <strong>Clear audit trail for all releases</strong><br />
+✅ <strong>Consistent tagging from branch names</strong></p>
+<hr />
+<h2 id="commit-convention-required">Commit Convention (Required)<a class="headerlink" href="#commit-convention-required" title="Permanent link">&para;</a></h2>
+<p>Automatic changelog generation relies on commit messages following this format:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>type(scope?): description
+</span></code></pre></div>
+<p>Valid <code>type</code> values:</p>
+<ul>
+<li>feat</li>
+<li>fix</li>
+<li>docs</li>
+<li>refactor</li>
+<li>perf</li>
+<li>test</li>
+<li>chore</li>
+<li>breaking</li>
+</ul>
+<p>Examples:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>feat(domain): add Result.map_error
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>fix(application): handle empty payload
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>docs: clarify release process
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>breaking(api): remove legacy notifier
+</span></code></pre></div>
+<p>Commits that do not follow this convention <strong>will not appear in the changelog</strong>.</p>
+<hr />
+<h2 id="when-to-release">When to Release<a class="headerlink" href="#when-to-release" title="Permanent link">&para;</a></h2>
+<p>Use the release tooling when:</p>
+<ul>
+<li><strong>Feature complete</strong>: All intended changes are merged into <code>main</code></li>
+<li><strong>Quality verified</strong>: CI is green and tests pass</li>
+<li><strong>Ready for users</strong>: The version increment reflects the changes (patch/minor/major)</li>
+</ul>
+<p>Don't release if:<br />
+- CI is failing on <code>main</code><br />
+- You have uncommitted changes<br />
+- You're not on the <code>main</code> branch</p>
+<p>The release tooling enforces these prerequisites automatically.</p>
+<hr />
+<h2 id="release-tooling">Release Tooling<a class="headerlink" href="#release-tooling" title="Permanent link">&para;</a></h2>
+<p>Release automation is implemented as a Python module that contributors access via poe tasks:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Test release preparation (safe simulation)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w">       </span><span class="c1"># Simulates patch release</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Execute release (creates branch and PR)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w"> </span>--execute<span class="w">     </span><span class="c1"># Actually performs the release</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w"> </span>--execute<span class="w">     </span><span class="c1"># Minor release</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w"> </span>--execute<span class="w">     </span><span class="c1"># Major release</span>
+</span></code></pre></div>
+<p>The tooling handles version bumping, changelog generation, branch creation, and PR opening automatically.</p>
+<hr />
+<h2 id="publishing-in-github-actions">Publishing in GitHub Actions<a class="headerlink" href="#publishing-in-github-actions" title="Permanent link">&para;</a></h2>
+<p>When the release Pull Request is merged into <code>main</code>, GitHub Actions automatically:</p>
+<ol>
+<li><strong>Creates and pushes the git tag</strong> (extracted from release branch name)</li>
+<li><strong>Validates the release candidate</strong> (runs CI checks and builds)</li>
+<li><strong>Publishes the package to PyPI</strong> (using poetry publish)</li>
+<li><strong>Deploys documentation to GitHub Pages</strong> (updates latest docs)</li>
+</ol>
+<hr />
+<h2 id="release-flow-diagram">Release Flow Diagram<a class="headerlink" href="#release-flow-diagram" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart TD
+    A[Developer on main] --&gt; B[poetry run poe release patch]
+    B --&gt; C[Simulation: validates and shows what would happen]
+    C --&gt; D[poetry run poe release patch --execute]
+    D --&gt; E[Version bump in pyproject.toml]
+    E --&gt; F[Generate CHANGELOG.md from commits]
+    F --&gt; G[Create release/vX.Y.Z branch]
+    G --&gt; H[Commit changes]
+    H --&gt; I[Open release PR]
+    I --&gt; J[PR reviewed]
+    J --&gt; K[PR merged into main]
+    K --&gt; L[GitHub Actions]
+    L --&gt; M[Create &amp; push git tag]
+    L --&gt; N[Publish to PyPI]
+    L --&gt; O[Deploy docs]
+    L --&gt; P[Create GitHub Release]</code></pre>
+<hr />
+<h2 id="release-commands-reference">Release Commands Reference<a class="headerlink" href="#release-commands-reference" title="Permanent link">&para;</a></h2>
+<h3 id="available-commands">Available Commands<a class="headerlink" href="#available-commands" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Simulation mode (safe, no changes)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w">    </span><span class="c1"># 0.3.6 → 0.3.7</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w">    </span><span class="c1"># 0.3.6 → 0.4.0</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w">    </span><span class="c1"># 0.3.6 → 1.0.0</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Execution mode (creates branch, tag, and PR)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># 0.3.6 → 0.3.7</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># 0.3.6 → 0.4.0</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># 0.3.6 → 1.0.0</span>
+</span></code></pre></div>
+<h3 id="command-behavior">Command Behavior<a class="headerlink" href="#command-behavior" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Creates Branch</th>
+<th>Creates Tag</th>
+<th>Opens PR</th>
+<th>Safe to Run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Simulation</strong> (default)</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅ Always safe</td>
+</tr>
+<tr>
+<td><strong>Execute</strong> (<code>--execute</code>)</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>⚠️ Only when ready</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>🔒 Safety First</strong>: Always run simulation mode first to validate the release.</p>
+</blockquote>
+<hr />
+<h2 id="maintainer-checklist">Maintainer Checklist<a class="headerlink" href="#maintainer-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] Run <code>poetry run poe release patch</code> (test simulation)</li>
+<li>[ ] Run <code>poetry run poe release patch --execute</code> (execute release)</li>
+<li>[ ] Review and merge the PR</li>
+<li>[ ] Verify PyPI, docs, and GitHub Release</li>
+</ul>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Prepare → Review → Merge → GitHub Actions publishes.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../docs-conventions/" class="btn btn-neutral float-left" title="Docs Conventions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../LICENSE/" class="btn btn-neutral float-right" title="License">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../docs-conventions/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../LICENSE/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

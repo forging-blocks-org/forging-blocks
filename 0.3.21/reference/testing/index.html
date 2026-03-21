@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/reference/testing/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Testing - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Testing";
+        var mkdocs_page_input_path = "reference/testing.md";
+        var mkdocs_page_url = "/0.3.21/reference/testing/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Testing</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#quick-reference">Quick Reference</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#test-commands">Test Commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#test-categories">Test Categories</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#test-architecture-principles">Test Architecture Principles</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-isolation-boundaries">1. Isolation Boundaries</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-fast-feedback-loops">2. Fast Feedback Loops</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-clear-test-intent">3. Clear Test Intent</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#detailed-guidelines">Detailed Guidelines</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#unit-tests-pytestmarkunit">Unit Tests (@pytest.mark.unit)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#integration-tests-pytestmarkintegration">Integration Tests (@pytest.mark.integration)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#end-to-end-tests-pytestmarke2e">End-to-End Tests (@pytest.mark.e2e)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#test-environment-fixtures">Test Environment &amp; Fixtures</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#git-test-repository">Git Test Repository</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mocking-strategy">Mocking Strategy</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#common-patterns">Common Patterns</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#result-testing">Result Testing</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#async-testing">Async Testing</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#parametrized-tests">Parametrized Tests</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#common-issues">Common Issues</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#environment-issues">Environment Issues</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#coverage-guidelines">Coverage Guidelines</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#best-practices-summary">Best Practices Summary</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#do">✅ Do</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#avoid">❌ Avoid</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >API Reference</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" >Application</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+      <li class="breadcrumb-item active">Testing</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/testing.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="testing-reference">Testing Reference<a class="headerlink" href="#testing-reference" title="Permanent link">&para;</a></h1>
+<p>This document provides a comprehensive reference for testing in the ForgingBlocks project.</p>
+<h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
+<h3 id="test-commands">Test Commands<a class="headerlink" href="#test-commands" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+<th>Speed</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>poe test</code></td>
+<td>Run ALL tests</td>
+<td>~1.2s</td>
+<td>CI, pre-commit, complete confidence</td>
+</tr>
+<tr>
+<td><code>poe test:unit</code></td>
+<td>Unit tests only</td>
+<td>~0.8s</td>
+<td>Development, TDD, fast feedback</td>
+</tr>
+<tr>
+<td><code>poe test:integration</code></td>
+<td>Integration tests only</td>
+<td>~0.4s</td>
+<td>Verify external integrations</td>
+</tr>
+<tr>
+<td><code>poe test:e2e</code></td>
+<td>E2E tests only</td>
+<td>~0.3s</td>
+<td>Complete workflow validation</td>
+</tr>
+<tr>
+<td><code>poe test:debug</code></td>
+<td>Verbose output</td>
+<td>Variable</td>
+<td>Debugging failures</td>
+</tr>
+</tbody>
+</table>
+<h3 id="test-categories">Test Categories<a class="headerlink" href="#test-categories" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Marker</th>
+<th>Count</th>
+<th>What to Test</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@pytest.mark.unit</code></td>
+<td>304</td>
+<td>Business logic, domain objects, isolated components</td>
+<td>Domain entities, value objects, application services with mocks</td>
+</tr>
+<tr>
+<td><code>@pytest.mark.integration</code></td>
+<td>60 + 1 skipped</td>
+<td>External system interactions, real infrastructure</td>
+<td>Git operations, file system, subprocess calls</td>
+</tr>
+<tr>
+<td><code>@pytest.mark.e2e</code></td>
+<td>4 skipped</td>
+<td>Complete workflows, full system behavior</td>
+<td>CLI workflows, release processes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="test-architecture-principles">Test Architecture Principles<a class="headerlink" href="#test-architecture-principles" title="Permanent link">&para;</a></h2>
+<h3 id="1-isolation-boundaries">1. <strong>Isolation Boundaries</strong><a class="headerlink" href="#1-isolation-boundaries" title="Permanent link">&para;</a></h3>
+<p>Tests are organized by isolation level, not by code structure:</p>
+<ul>
+<li><strong>Unit</strong>: No external dependencies, use mocks/fakes</li>
+<li><strong>Integration</strong>: Real external systems, isolated environments</li>
+<li><strong>E2E</strong>: Full system, real workflows</li>
+</ul>
+<h3 id="2-fast-feedback-loops">2. <strong>Fast Feedback Loops</strong><a class="headerlink" href="#2-fast-feedback-loops" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Inner loop - rapid iteration</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>poe<span class="w"> </span>test:unit<span class="w">     </span><span class="c1"># &lt;1 second</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Validation loop - before commits</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>poe<span class="w"> </span><span class="nb">test</span><span class="w">          </span><span class="c1"># &lt;4 seconds - includes all tests (stable + conditional)</span>
+</span></code></pre></div>
+<h3 id="3-clear-test-intent">3. <strong>Clear Test Intent</strong><a class="headerlink" href="#3-clear-test-intent" title="Permanent link">&para;</a></h3>
+<p>Every test follows this structure:<br />
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_when_condition_then_outcome</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="c1"># Arrange: Set up test conditions</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="c1"># Act: Execute the behavior under test</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="c1"># Assert: Verify the expected outcome</span>
+</span></code></pre></div></p>
+<h2 id="detailed-guidelines">Detailed Guidelines<a class="headerlink" href="#detailed-guidelines" title="Permanent link">&para;</a></h2>
+<h3 id="unit-tests-pytestmarkunit">Unit Tests (<code>@pytest.mark.unit</code>)<a class="headerlink" href="#unit-tests-pytestmarkunit" title="Permanent link">&para;</a></h3>
+<p><strong>Purpose:</strong> Verify business logic and component behavior in isolation.</p>
+<p><strong>Characteristics:</strong><br />
+- Fast execution (&lt; 1 second total)<br />
+- No external dependencies<br />
+- Use mocks/fakes for boundaries<br />
+- High coverage of business rules</p>
+<p><strong>Example:</strong><br />
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">unit</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestPrepareReleaseService</span><span class="p">:</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_execute_when_tag_exists_then_returns_error</span><span class="p">(</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>        <span class="n">service</span><span class="p">:</span> <span class="n">PrepareReleaseService</span><span class="p">,</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        <span class="n">version_control_mock</span><span class="p">:</span> <span class="n">Mock</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="c1"># Arrange</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="n">version_control_mock</span><span class="o">.</span><span class="n">tag_exists</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="n">input_data</span> <span class="o">=</span> <span class="n">PrepareReleaseInput</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">ReleaseLevel</span><span class="o">.</span><span class="n">PATCH</span><span class="p">)</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="c1"># Act</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        <span class="c1"># Assert</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>        <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">is_err</span><span class="p">()</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>        <span class="k">assert</span> <span class="s2">&quot;already exists&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">error</span><span class="p">())</span>
+</span></code></pre></div></p>
+<p><strong>When to add unit tests:</strong><br />
+- New domain objects (entities, value objects)<br />
+- Business rules and validations<br />
+- Application service logic<br />
+- Infrastructure components (with mocked external calls)</p>
+<h3 id="integration-tests-pytestmarkintegration">Integration Tests (<code>@pytest.mark.integration</code>)<a class="headerlink" href="#integration-tests-pytestmarkintegration" title="Permanent link">&para;</a></h3>
+<p><strong>Purpose:</strong> Verify components work with real external systems in controlled environments.</p>
+<p><strong>Characteristics:</strong><br />
+- Moderate execution time (~2-3 seconds total)<br />
+- Real external dependencies (git, filesystem, etc.)<br />
+- Isolated test environments (temporary directories, test repositories)<br />
+- Focus on boundary interactions</p>
+<p><strong>Example:</strong><br />
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">integration</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestGitVersionControlIntegration</span><span class="p">:</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_branch_lifecycle_when_created_then_exists_and_deleted</span><span class="p">(</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        <span class="n">git_repo</span><span class="p">:</span> <span class="n">GitTestRepository</span><span class="p">,</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>        <span class="c1"># Arrange</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        <span class="n">version_control</span> <span class="o">=</span> <span class="n">GitVersionControl</span><span class="p">(</span><span class="n">SubprocessCommandRunner</span><span class="p">())</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        <span class="n">branch</span> <span class="o">=</span> <span class="n">ReleaseBranchName</span><span class="p">(</span><span class="s2">&quot;release/v1.2.0&quot;</span><span class="p">)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="c1"># Act &amp; Assert</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>        <span class="k">assert</span> <span class="ow">not</span> <span class="n">version_control</span><span class="o">.</span><span class="n">branch_exists</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>        <span class="n">version_control</span><span class="o">.</span><span class="n">create_branch</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>        <span class="k">assert</span> <span class="n">version_control</span><span class="o">.</span><span class="n">branch_exists</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>        <span class="n">version_control</span><span class="o">.</span><span class="n">delete_local_branch</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>        <span class="k">assert</span> <span class="ow">not</span> <span class="n">version_control</span><span class="o">.</span><span class="n">branch_exists</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+</span></code></pre></div></p>
+<p><strong>When to add integration tests:</strong><br />
+- External system interactions (git, GitHub API, file system)<br />
+- Infrastructure adapters<br />
+- CLI tools and process execution<br />
+- Cross-boundary data flow</p>
+<h3 id="end-to-end-tests-pytestmarke2e">End-to-End Tests (<code>@pytest.mark.e2e</code>)<a class="headerlink" href="#end-to-end-tests-pytestmarke2e" title="Permanent link">&para;</a></h3>
+<p><strong>Purpose:</strong> Document and verify complete system workflows.</p>
+<p><strong>Characteristics:</strong><br />
+- Conditionally skipped based on environment configuration<br />
+- Require full system setup (GitHub tokens, poetry config, etc.)<br />
+- Test complete user workflows<br />
+- Serve as living documentation</p>
+<p><strong>Example:</strong><br />
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">e2e</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestReleaseWorkflow</span><span class="p">:</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skipif</span><span class="p">(</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;RUN_E2E_TESTS&quot;</span><span class="p">),</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;E2E test requires RUN_E2E_TESTS=1 and full project setup&quot;</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="p">)</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_complete_release_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">git_repo</span><span class="p">:</span> <span class="n">GitTestRepository</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="c1"># This test documents the full release process</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="c1"># Only run when environment is configured</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="o">...</span>
+</span></code></pre></div></p>
+<p><strong>When to add E2E tests:</strong><br />
+- Complete CLI workflows<br />
+- Full business processes<br />
+- Cross-system integration scenarios<br />
+- Documentation of system behavior</p>
+<h2 id="test-environment-fixtures">Test Environment &amp; Fixtures<a class="headerlink" href="#test-environment-fixtures" title="Permanent link">&para;</a></h2>
+<h3 id="git-test-repository">Git Test Repository<a class="headerlink" href="#git-test-repository" title="Permanent link">&para;</a></h3>
+<p>The <code>GitTestRepository</code> fixture provides isolated git repositories:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_git_operation</span><span class="p">(</span><span class="n">git_repo</span><span class="p">:</span> <span class="n">GitTestRepository</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="c1"># Automatic cleanup, isolated from real repo</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">git_repo</span><span class="o">.</span><span class="n">write_file</span><span class="p">(</span><span class="s2">&quot;test.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">)</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">git_repo</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="s2">&quot;Add test file&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="mocking-strategy">Mocking Strategy<a class="headerlink" href="#mocking-strategy" title="Permanent link">&para;</a></h3>
+<p><strong>Mock at architectural boundaries:</strong></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Good - mock external dependency</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">version_control_mock</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Mock</span><span class="p">:</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="k">return</span> <span class="n">create_autospec</span><span class="p">(</span><span class="n">VersionControl</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Avoid - don&#39;t mock domain objects</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># domain_entity_mock = Mock()  # ❌</span>
+</span></code></pre></div>
+<p><strong>Use fakes for complex behavior:</strong></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">FakeVersionControl</span><span class="p">:</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">tag_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">TagName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>        <span class="k">return</span> <span class="n">tag</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tags</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="n">TagName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="common-patterns">Common Patterns<a class="headerlink" href="#common-patterns" title="Permanent link">&para;</a></h2>
+<h3 id="result-testing">Result Testing<a class="headerlink" href="#result-testing" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Test success/failure state</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">is_ok</span><span class="p">()</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">is_err</span><span class="p">()</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># Extract values when needed</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="k">match</span> <span class="n">result</span><span class="p">:</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="k">case</span> <span class="n">Ok</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>        <span class="k">assert</span> <span class="n">value</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="s2">&quot;1.2.3&quot;</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="k">case</span> <span class="n">Err</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        <span class="k">assert</span> <span class="s2">&quot;validation&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="async-testing">Async Testing<a class="headerlink" href="#async-testing" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">asyncio</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_async_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">is_ok</span><span class="p">()</span>
+</span></code></pre></div>
+<h3 id="parametrized-tests">Parametrized Tests<a class="headerlink" href="#parametrized-tests" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;level,expected&quot;</span><span class="p">,</span> <span class="p">[</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="p">(</span><span class="n">ReleaseLevel</span><span class="o">.</span><span class="n">MAJOR</span><span class="p">,</span> <span class="s2">&quot;2.0.0&quot;</span><span class="p">),</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="p">(</span><span class="n">ReleaseLevel</span><span class="o">.</span><span class="n">MINOR</span><span class="p">,</span> <span class="s2">&quot;1.2.0&quot;</span><span class="p">),</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="p">(</span><span class="n">ReleaseLevel</span><span class="o">.</span><span class="n">PATCH</span><span class="p">,</span> <span class="s2">&quot;1.1.1&quot;</span><span class="p">),</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">])</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_version_increment</span><span class="p">(</span><span class="n">level</span><span class="p">:</span> <span class="n">ReleaseLevel</span><span class="p">,</span> <span class="n">expected</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="n">current</span> <span class="o">=</span> <span class="n">ReleaseVersion</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected</span>
+</span></code></pre></div>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
+<p><strong>1. Test Collection Errors</strong><br />
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Check for syntax errors in test files</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--collect-only
+</span></code></pre></div></p>
+<p><strong>2. Slow Test Suite</strong><br />
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Profile test execution</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--durations<span class="o">=</span><span class="m">10</span>
+</span></code></pre></div></p>
+<p><strong>3. Flaky Integration Tests</strong><br />
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Run integration tests multiple times</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-m<span class="w"> </span>integration<span class="w"> </span>--count<span class="o">=</span><span class="m">5</span>
+</span></code></pre></div></p>
+<p><strong>4. Missing Test Markers</strong><br />
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Find unmarked tests</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--strict-markers
+</span></code></pre></div></p>
+<h3 id="environment-issues">Environment Issues<a class="headerlink" href="#environment-issues" title="Permanent link">&para;</a></h3>
+<p><strong>Git Configuration</strong><br />
+Integration tests require git to be configured:<br />
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;test@example.com&quot;</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Test User&quot;</span>
+</span></code></pre></div></p>
+<p><strong>Temporary Directory Cleanup</strong><br />
+Test artifacts are automatically cleaned up, but manual cleanup:<br />
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Clean pytest cache</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>.pytest_cache
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Clean temporary test files</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>find<span class="w"> </span>/tmp<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;pytest-*&quot;</span><span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-exec<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="o">{}</span><span class="w"> </span>+
+</span></code></pre></div></p>
+<h2 id="coverage-guidelines">Coverage Guidelines<a class="headerlink" href="#coverage-guidelines" title="Permanent link">&para;</a></h2>
+<p><strong>Target Coverage:</strong><br />
+- Unit tests: &gt;95% (currently 95.46%)<br />
+- Integration tests: &gt;60% (currently 67.74%)<br />
+- Overall: &gt;90% (currently 98.69%)</p>
+<p><strong>Coverage Exclusions:</strong><br />
+- <code>__init__.py</code> files<br />
+- Development/debug utilities<br />
+- Platform-specific code<br />
+- External library wrappers</p>
+<p><strong>Generate Coverage Report:</strong><br />
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># HTML report</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov-report<span class="o">=</span>html
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Terminal report</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
+</span></code></pre></div></p>
+<h2 id="best-practices-summary">Best Practices Summary<a class="headerlink" href="#best-practices-summary" title="Permanent link">&para;</a></h2>
+<h3 id="do">✅ <strong>Do</strong><a class="headerlink" href="#do" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Use descriptive test names that explain intent</li>
+<li>Test behavior, not implementation</li>
+<li>Mock at architectural boundaries</li>
+<li>Keep tests focused and independent</li>
+<li>Use appropriate test categories</li>
+<li>Run unit tests frequently during development</li>
+</ul>
+<h3 id="avoid">❌ <strong>Avoid</strong><a class="headerlink" href="#avoid" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Testing private methods directly</li>
+<li>Over-mocking internal objects</li>
+<li>Coupling tests to implementation details</li>
+<li>Sharing state between tests</li>
+<li>Complex test setup that obscures intent</li>
+<li>Running integration tests unnecessarily</li>
+</ul>
+<hr />
+<p><em>For more examples and principles, see the <a href="./">Testing Guide</a>.</em></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../presentation/" class="btn btn-neutral float-left" title="Presentation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../autodoc/application/ports/inbound/message_handler/" class="btn btn-neutral float-right" title="Message Handler">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../presentation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../autodoc/application/ports/inbound/message_handler/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

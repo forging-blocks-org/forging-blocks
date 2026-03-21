@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/contributing/contributing/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Contribution Guide - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Contribution Guide";
+        var mkdocs_page_input_path = "contributing/contributing.md";
+        var mkdocs_page_url = "/0.3.21/contributing/contributing/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >API Reference</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" >Application</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Contribution Guide</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what-you-can-contribute">What you can contribute</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#how-the-project-is-structured">How the project is structured</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#documentation-contributions">Documentation contributions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#code-contributions">Code contributions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#development-setup">Development Setup</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#making-changes">Making Changes</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#testing-guidelines">Testing Guidelines</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#available-development-commands">Available Development Commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#release-process-maintainers-only">Release Process (Maintainers Only)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#in-short">In short</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Contributing</li>
+      <li class="breadcrumb-item active">Contribution Guide</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/contributing/contributing.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="contributing-to-forgingblocks">Contributing to ForgingBlocks<a class="headerlink" href="#contributing-to-forgingblocks" title="Permanent link">&para;</a></h1>
+<p>Thank you for your interest in contributing to ForgingBlocks.</p>
+<p>This document explains <strong>how to participate</strong> in the project and where to find the rules that apply once you start contributing.</p>
+<p>You do not need to read everything before opening a pull request.<br />
+This guide is meant to help you orient yourself.</p>
+<hr />
+<h2 id="what-you-can-contribute">What you can contribute<a class="headerlink" href="#what-you-can-contribute" title="Permanent link">&para;</a></h2>
+<p>Contributions are welcome in several forms, including:</p>
+<ul>
+<li>Bug fixes and improvements</li>
+<li>Documentation clarifications and examples</li>
+<li>New abstractions that align with the existing design</li>
+<li>Tooling, automation, and developer experience improvements</li>
+</ul>
+<p>If you are unsure whether an idea fits, opening an issue for discussion is encouraged.</p>
+<hr />
+<h2 id="how-the-project-is-structured">How the project is structured<a class="headerlink" href="#how-the-project-is-structured" title="Permanent link">&para;</a></h2>
+<p>ForgingBlocks is organized around <strong>explicit responsibility boundaries</strong>.</p>
+<p>The documentation mirrors this structure:</p>
+<ul>
+<li>The <strong>Guide</strong> explains how to read and use the toolkit.</li>
+<li>The <strong>Reference</strong> defines responsibilities and terminology.</li>
+<li><strong>Architectural Styles</strong> show optional interpretations.</li>
+<li><strong>Examples</strong> demonstrate usage without prescribing structure.</li>
+</ul>
+<p>Understanding this separation will make contributing easier.</p>
+<hr />
+<h2 id="documentation-contributions">Documentation contributions<a class="headerlink" href="#documentation-contributions" title="Permanent link">&para;</a></h2>
+<p>Documentation is a first-class concern in this project.</p>
+<p>If you plan to modify or add documentation, please read:</p>
+<ul>
+<li><strong>Docs Conventions</strong><br />
+<code>docs/contributing/docs_conventions.md</code></li>
+</ul>
+<p>That document defines the rules and expectations for documentation changes.</p>
+<hr />
+<h2 id="code-contributions">Code contributions<a class="headerlink" href="#code-contributions" title="Permanent link">&para;</a></h2>
+<p>When contributing code:</p>
+<ul>
+<li>Prefer clarity over cleverness.</li>
+<li>Keep responsibilities explicit.</li>
+<li>Avoid introducing architectural enforcement.</li>
+<li>Add tests where behavior is non-trivial.</li>
+</ul>
+<p>If a change affects public behavior, documentation updates are expected.</p>
+<hr />
+<h2 id="getting-started">Getting started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<h3 id="development-setup">Development Setup<a class="headerlink" href="#development-setup" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Fork the repository</strong></li>
+<li><strong>Clone your fork</strong>: <code>git clone https://github.com/&lt;username&gt;/forging-blocks.git</code></li>
+<li><strong>Install dependencies</strong>: <code>poetry install</code></li>
+<li><strong>Set up pre-commit hooks</strong>: <code>pre-commit install</code></li>
+</ol>
+<h3 id="making-changes">Making Changes<a class="headerlink" href="#making-changes" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Create a feature branch</strong>: <code>git checkout -b feature/your-feature</code></li>
+<li><strong>Make your changes</strong></li>
+<li><strong>Add tests</strong> for new functionality (see <a href="#testing-guidelines">Testing Guidelines</a>)</li>
+<li><strong>Run the full test suite</strong>:<br />
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>ci:check
+</span></code></pre></div></li>
+<li><strong>Submit a pull request</strong> with a clear, concise description</li>
+</ol>
+<p>Small, focused pull requests are easier to review.</p>
+<h3 id="testing-guidelines">Testing Guidelines<a class="headerlink" href="#testing-guidelines" title="Permanent link">&para;</a></h3>
+<p>This project uses a <strong>3-tier testing architecture</strong>:</p>
+<ul>
+<li><strong>Unit Tests</strong> (<code>@pytest.mark.unit</code>) - Fast, isolated tests with mocks for business logic</li>
+<li><strong>Integration Tests</strong> (<code>@pytest.mark.integration</code>) - Real infrastructure in isolated environments</li>
+<li><strong>End-to-End Tests</strong> (<code>@pytest.mark.e2e</code>) - Complete workflows (typically skipped)</li>
+</ul>
+<p><strong>During development:</strong><br />
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Fast feedback loop - run frequently</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:unit
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Before committing - verify all stable tests pass</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span><span class="nb">test</span>
+</span></code></pre></div></p>
+<p><strong>When adding new functionality:</strong><br />
+- Add unit tests for domain logic and business rules<br />
+- Add integration tests for external system interactions<br />
+- Use mocks appropriately at architectural boundaries<br />
+- Follow the naming pattern: <code>test_when_condition_then_outcome</code></p>
+<p>See the <a href="https://forging-blocks-org.github.io/forging-blocks/guide/testing/">Testing Guide</a> for detailed examples.</p>
+<h3 id="available-development-commands">Available Development Commands<a class="headerlink" href="#available-development-commands" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Testing - Primary Commands</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span><span class="nb">test</span><span class="w">              </span><span class="c1"># Run ALL tests (stable + conditional)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:unit<span class="w">         </span><span class="c1"># Run unit tests only (fast feedback)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:integration<span class="w">  </span><span class="c1"># Run integration tests only</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Testing - Extended Commands</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:e2e<span class="w">          </span><span class="c1"># Run end-to-end tests only</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:debug<span class="w">        </span><span class="c1"># Run tests with verbose output</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Code quality</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>lint<span class="w">              </span><span class="c1"># Check code style</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>lint:fix<span class="w">          </span><span class="c1"># Fix code style issues</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span><span class="nb">type</span><span class="w">              </span><span class="c1"># Type checking</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>bandit<span class="w">            </span><span class="c1"># Security scanning</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># CI simulation</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>ci:check<span class="w">          </span><span class="c1"># Run full CI suite</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>ci:simulate<span class="w">       </span><span class="c1"># Include documentation build</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="c1"># Documentation</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:build<span class="w">        </span><span class="c1"># Build documentation</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:generate<span class="w">     </span><span class="c1"># Generate API reference</span>
+</span></code></pre></div>
+<h3 id="release-process-maintainers-only">Release Process (Maintainers Only)<a class="headerlink" href="#release-process-maintainers-only" title="Permanent link">&para;</a></h3>
+<p>For maintainers preparing releases, see detailed instructions in <a href="../release-guide/">Release Guide</a>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Prepare release (simulation)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Execute release (creates branch and PR)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w"> </span>--execute
+</span></code></pre></div>
+<hr />
+<h2 id="in-short">In short<a class="headerlink" href="#in-short" title="Permanent link">&para;</a></h2>
+<ul>
+<li>This file explains <strong>how to contribute</strong>.</li>
+<li>Other documents explain <strong>how things should be written or structured</strong>.</li>
+<li>When in doubt, ask questions early.</li>
+</ul>
+<p>Contributions are welcome as long as they respect the project’s emphasis on clarity, boundaries, and intentional design.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../docs-conventions/" class="btn btn-neutral float-right" title="Docs Conventions">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../docs-conventions/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

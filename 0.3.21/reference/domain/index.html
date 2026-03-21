@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/reference/domain/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Domain - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Domain";
+        var mkdocs_page_input_path = "reference/domain.md";
+        var mkdocs_page_url = "/0.3.21/reference/domain/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Domain</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#reference">Reference</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#purpose-of-the-domain-block">Purpose of the Domain block</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#core-domain-abstractions">Core domain abstractions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#entities">Entities</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#value-objects">Value Objects</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#aggregate-roots">Aggregate Roots</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#domain-messages">Domain Messages</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#message">Message</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#command">Command</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#event">Event</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#query">Query</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#domain-errors">Domain Errors</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#what-the-domain-block-does-not-do">What the Domain block does not do</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#glossary">Glossary</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >API Reference</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" >Application</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+      <li class="breadcrumb-item active">Domain</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/domain.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="domain">Domain<a class="headerlink" href="#domain" title="Permanent link">&para;</a></h1>
+<h2 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h2>
+<p>The <strong>Domain</strong> block represents the <strong>problem space</strong> your system is concerned with.</p>
+<p>It contains the concepts, rules, and constraints that give meaning to your software,<br />
+independent of frameworks, databases, delivery mechanisms, or deployment concerns.</p>
+<p>The goal of the Domain block is <strong>clarity of intent</strong>, not architectural purity.</p>
+<hr />
+<h2 id="purpose-of-the-domain-block">Purpose of the Domain block<a class="headerlink" href="#purpose-of-the-domain-block" title="Permanent link">&para;</a></h2>
+<p>The Domain block exists to:</p>
+<ul>
+<li>Express problem-space concepts explicitly</li>
+<li>Encode rules and constraints close to the data they govern</li>
+<li>Make invalid states explicit</li>
+<li>Remain stable as external concerns change</li>
+</ul>
+<p>The Domain block depends only on <strong>Foundation</strong> and must not depend on Application, Infrastructure, or Presentation.</p>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">On architectural neutrality</p>
+<p>ForgingBlocks does not require you to follow a specific architectural style.<br />
+The Domain block can be used in layered, hexagonal, clean, or ad-hoc architectures.<br />
+The abstractions provided here are optional tools, not mandatory patterns.</p>
+</div>
+<hr />
+<h2 id="core-domain-abstractions">Core domain abstractions<a class="headerlink" href="#core-domain-abstractions" title="Permanent link">&para;</a></h2>
+<p>The Domain block provides <strong>core abstractions</strong> that help model meaning without relying on language primitives alone.</p>
+<p>These abstractions exist to make intent explicit, behavior testable, and rules discoverable.</p>
+<hr />
+<h2 id="entities">Entities<a class="headerlink" href="#entities" title="Permanent link">&para;</a></h2>
+<p>An <strong>Entity</strong> represents a concept whose <strong>identity</strong> matters over time.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Identity-based equality</li>
+<li>Explicit lifecycle</li>
+<li>Mutable state governed by rules</li>
+</ul>
+<p>Entities are appropriate when it is important to distinguish <em>which</em> instance is being referred to, even if its attributes change.</p>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Influence: Eric Evans</p>
+<p>The focus on identity as a defining characteristic is inspired by <em>Domain-Driven Design</em> by Eric Evans.<br />
+ForgingBlocks adopts this idea without requiring a full DDD tactical model.</p>
+</div>
+<hr />
+<h2 id="value-objects">Value Objects<a class="headerlink" href="#value-objects" title="Permanent link">&para;</a></h2>
+<p>A <strong>Value Object</strong> represents an immutable concept defined entirely by its values.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Immutable</li>
+<li>Equality by value</li>
+<li>Hashable</li>
+<li>No independent identity</li>
+</ul>
+<p>Value Objects are well-suited for modeling concepts such as identifiers, measurements, or descriptive values where identity is not meaningful.</p>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Avoiding Primitive Obsession</p>
+<p>Value Objects help prevent domain rules from being scattered across the codebase.<br />
+By wrapping meaning in explicit types, constraints become visible, reusable, and testable.</p>
+</div>
+<hr />
+<h2 id="aggregate-roots">Aggregate Roots<a class="headerlink" href="#aggregate-roots" title="Permanent link">&para;</a></h2>
+<p>An <strong>Aggregate Root</strong> defines a <strong>consistency boundary</strong>.</p>
+<p>It acts as the authoritative entry point for modifying related state and enforcing rules that span multiple objects.</p>
+<p>Typical responsibilities include:</p>
+<ul>
+<li>Protecting invariants</li>
+<li>Coordinating state changes</li>
+<li>Recording domain-relevant occurrences</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Influence: Vaughn Vernon</p>
+<p>The emphasis on consistency boundaries and controlled mutation is inspired by the work of Vaughn Vernon.<br />
+ForgingBlocks provides aggregates when boundaries matter, without requiring their use everywhere.</p>
+</div>
+<hr />
+<h2 id="domain-messages">Domain Messages<a class="headerlink" href="#domain-messages" title="Permanent link">&para;</a></h2>
+<p>The Domain block defines <strong>Domain Messages</strong> as first-class concepts.</p>
+<p>Domain Messages express <em>what can be said</em> in the problem space, independent of how messages are transported, stored, or handled.</p>
+<p>All domain messages are immutable and meaningful without infrastructure.</p>
+<hr />
+<h3 id="message">Message<a class="headerlink" href="#message" title="Permanent link">&para;</a></h3>
+<p>A <strong>Message</strong> is the base abstraction for all domain messages.</p>
+<p>It encapsulates:</p>
+<ul>
+<li>An immutable domain payload</li>
+<li>Message metadata such as identity, timestamps, or correlation information</li>
+</ul>
+<p>Metadata is intentionally separated from domain data to avoid leaking technical concerns into domain logic.</p>
+<hr />
+<h3 id="command">Command<a class="headerlink" href="#command" title="Permanent link">&para;</a></h3>
+<p>A <strong>Command</strong> represents an <strong>intent to perform an action</strong>.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Imperative meaning</li>
+<li>Expresses a request to change state</li>
+<li>May be accepted or rejected</li>
+</ul>
+<p>Commands model <em>what someone wants to do</em> in the domain.</p>
+<hr />
+<h3 id="event">Event<a class="headerlink" href="#event" title="Permanent link">&para;</a></h3>
+<p>An <strong>Event</strong> represents a <strong>fact that has already occurred</strong>.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Expressed in the past tense</li>
+<li>Immutable and irreversible</li>
+<li>Records something that happened</li>
+</ul>
+<p>Events model <em>what is known to be true</em> after a state transition.</p>
+<hr />
+<h3 id="query">Query<a class="headerlink" href="#query" title="Permanent link">&para;</a></h3>
+<p>A <strong>Query</strong> represents an <strong>intent to retrieve information</strong>.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Does not modify domain state</li>
+<li>Expresses interest, not behavior</li>
+<li>Side-effect free</li>
+</ul>
+<p>Queries model <em>what someone wants to know</em> about the domain.</p>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Influence: CQRS literature</p>
+<p>The distinction between Commands, Events, and Queries is inspired by CQRS concepts described by multiple authors, including Greg Young and Vaughn Vernon.<br />
+ForgingBlocks treats these as semantic roles, not architectural mandates.</p>
+</div>
+<hr />
+<h2 id="domain-errors">Domain Errors<a class="headerlink" href="#domain-errors" title="Permanent link">&para;</a></h2>
+<p>The Domain block defines <strong>Domain Errors</strong> to represent invalid states or rule violations within the problem space.</p>
+<p>Domain Errors:</p>
+<ul>
+<li>Express domain meaning</li>
+<li>Indicate invariant violations</li>
+<li>Are not technical failures</li>
+</ul>
+<p>They make incorrect states explicit and testable.</p>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">On error semantics</p>
+<p>Domain Errors describe <em>why</em> something is invalid in domain terms.<br />
+They should not encode transport, persistence, or framework concerns.</p>
+</div>
+<hr />
+<h2 id="what-the-domain-block-does-not-do">What the Domain block does not do<a class="headerlink" href="#what-the-domain-block-does-not-do" title="Permanent link">&para;</a></h2>
+<p>The Domain block does <strong>not</strong>:</p>
+<ul>
+<li>Orchestrate workflows or use cases</li>
+<li>Perform I/O or persistence</li>
+<li>Depend on frameworks or external systems</li>
+<li>Handle transport or presentation concerns</li>
+</ul>
+<p>Those responsibilities belong to outer blocks.</p>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Influence: Robert C. Martin</p>
+<p>The separation between domain policy and external details reflects principles described by Robert C. Martin.<br />
+The Domain block is intended to be the most stable part of the system.</p>
+</div>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>The Domain block provides <strong>clear, explicit abstractions</strong> for modeling meaning in the problem space.</p>
+<p>You may use all of these abstractions, some of them, or none at all.<br />
+Their purpose is to support clarity and correctness—not to enforce a methodology.</p>
+<hr />
+<h2 id="glossary">Glossary<a class="headerlink" href="#glossary" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Entity</p>
+<p>A domain concept with a stable identity that persists over time, even as its attributes change.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Value Object</p>
+<p>An immutable domain concept defined entirely by its values, without independent identity.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Aggregate Root</p>
+<p>A domain concept that defines a consistency boundary and controls access to related state.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Domain Message</p>
+<p>An immutable object that expresses intent, facts, or questions within the problem space, independent of transport or handling.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Command</p>
+<p>A domain message that represents an intent to perform an action.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Event</p>
+<p>A domain message that represents a fact that has already occurred.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Query</p>
+<p>A domain message that represents an intent to retrieve information without modifying domain state.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Domain Error</p>
+<p>An explicit representation of an invalid domain state or rule violation, expressed in domain terms rather than technical terms.</p>
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../foundation/" class="btn btn-neutral float-left" title="Foundation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../application/" class="btn btn-neutral float-right" title="Application">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../foundation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../application/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

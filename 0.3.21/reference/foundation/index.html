@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/reference/foundation/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Foundation - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Foundation";
+        var mkdocs_page_input_path = "reference/foundation.md";
+        var mkdocs_page_url = "/0.3.21/reference/foundation/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../guide/recommended_blocks_structure/">Recommended Blocks Structure</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Foundation</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#foundational-abstractions-and-contracts">Foundational abstractions and contracts</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#purpose">Purpose</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dependency-position">Dependency position</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#core-concepts">Core concepts</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#result">Result</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#errors">Errors</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#port">Port</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mapper">Mapper</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#debuggable">Debuggable</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#characteristics">Characteristics</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >API Reference</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" >Application</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../autodoc/foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+      <li class="breadcrumb-item active">Foundation</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/foundation.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="foundation">Foundation<a class="headerlink" href="#foundation" title="Permanent link">&para;</a></h1>
+<h2 id="foundational-abstractions-and-contracts">Foundational abstractions and contracts<a class="headerlink" href="#foundational-abstractions-and-contracts" title="Permanent link">&para;</a></h2>
+<p>The <strong>Foundation</strong> block provides low-level, reusable abstractions that are shared<br />
+across the entire system.</p>
+<p>It contains <strong>no domain logic</strong>, <strong>no application orchestration</strong>, and<br />
+<strong>no infrastructure concerns</strong>.</p>
+<p>Foundation exists to define <strong>stable contracts and primitives</strong> on top of which<br />
+all other blocks are built.</p>
+<hr />
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Supply <strong>primitive abstractions</strong> (<code>Result</code>, <code>Port</code>, <code>Mapper</code>).</li>
+<li>Enable explicit, intention-revealing boundaries.</li>
+<li>Support structured and predictable error handling.</li>
+<li>Provide a stable base reused by all other blocks.</li>
+</ul>
+<hr />
+<h2 id="dependency-position">Dependency position<a class="headerlink" href="#dependency-position" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart TD
+    D[Domain] --&gt;|depends on| F[Foundation]
+    A[Application] --&gt;|depends on| F
+    I[Infrastructure] --&gt;|depends on| A
+    I --&gt;|depends on| F</code></pre>
+<p>Foundation depends on nothing.<br />
+All other blocks may depend on Foundation.</p>
+<hr />
+<h2 id="core-concepts">Core concepts<a class="headerlink" href="#core-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="result">Result<a class="headerlink" href="#result" title="Permanent link">&para;</a></h3>
+<p><code>Result</code> models the <strong>explicit outcome</strong> of an operation.</p>
+<p>It is used when failure is part of normal behavior, such as:</p>
+<ul>
+<li>validation</li>
+<li>parsing</li>
+<li>rule evaluation</li>
+<li>boundary checks</li>
+</ul>
+<p>A <code>Result</code> represents either success (<code>Ok</code>) or failure (<code>Err</code>), without relying on<br />
+exceptions for control flow.</p>
+<p>Result is about <strong>flow</strong>, not about error representation.</p>
+<hr />
+<h3 id="errors">Errors<a class="headerlink" href="#errors" title="Permanent link">&para;</a></h3>
+<p>Foundation defines a structured <strong>error model</strong>.</p>
+<p>Errors represent <strong>what went wrong</strong>, not <strong>how control flows</strong>.</p>
+<p>They are:</p>
+<ul>
+<li>structured objects (message + metadata)</li>
+<li>debuggable</li>
+<li>composable and aggregatable</li>
+<li>usable both as return values and raised exceptions</li>
+</ul>
+<p>Errors are commonly carried inside <code>Err</code>, but the two concepts are distinct:</p>
+<ul>
+<li><code>Result</code> answers <em>whether</em> an operation succeeded.</li>
+<li><code>Error</code> answers <em>why</em> it failed.</li>
+</ul>
+<p>Foundation provides reusable error categories such as:</p>
+<ul>
+<li>validation errors</li>
+<li>rule violation errors</li>
+<li>structural or invariant errors</li>
+</ul>
+<p>These error types are architecture-neutral and reusable across domains.</p>
+<hr />
+<h3 id="port">Port<a class="headerlink" href="#port" title="Permanent link">&para;</a></h3>
+<p>A <code>Port</code> represents a <strong>boundary between components</strong>.</p>
+<p>Ports define <em>what is expected</em>, not <em>how it is implemented</em>.<br />
+They enable replacement, testing, and decoupling without imposing an architecture.</p>
+<hr />
+<h3 id="mapper">Mapper<a class="headerlink" href="#mapper" title="Permanent link">&para;</a></h3>
+<p><code>Mapper</code> and <code>ResultMapper</code> define <strong>explicit transformations</strong> between types.</p>
+<p>They make data conversion intentional and observable,<br />
+avoiding hidden or implicit mappings.</p>
+<hr />
+<h3 id="debuggable">Debuggable<a class="headerlink" href="#debuggable" title="Permanent link">&para;</a></h3>
+<p><code>Debuggable</code> is a lightweight contract for exposing structured debug information.</p>
+<p>It enables introspection without leaking internal state or implementation details.</p>
+<hr />
+<h2 id="characteristics">Characteristics<a class="headerlink" href="#characteristics" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Pure Python (standard library only).</li>
+<li>Architecture-neutral.</li>
+<li>Stable, low-level abstractions.</li>
+<li>Used by all other blocks.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../domain/" class="btn btn-neutral float-right" title="Domain">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../domain/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

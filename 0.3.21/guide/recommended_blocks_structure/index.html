@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="ForgingBlocks Org" /><link rel="canonical" href="https://forging-blocks-org.github.io/0.3.21/guide/recommended_blocks_structure/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Recommended Blocks Structure - ForgingBlocks</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../../assets/css/mermaid-theme.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Recommended Blocks Structure";
+        var mkdocs_page_input_path = "guide/recommended_blocks_structure.md";
+        var mkdocs_page_url = "/0.3.21/guide/recommended_blocks_structure/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> ForgingBlocks
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Introduction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../getting-started/">Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../example_tests/">Example Tests</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../examples/">Examples</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../principles/">Principles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../architecture-overview/">Architecture Overview</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Recommended Blocks Structure</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#thinking-in-responsibilities-and-boundaries">Thinking in responsibilities and boundaries</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#overview-of-the-blocks">Overview of the blocks</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#block-vs-layer">Block vs Layer</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#foundation">Foundation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#domain">Domain</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#application">Application</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#infrastructure">Infrastructure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#presentation">Presentation</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/foundation/">Foundation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/domain/">Domain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/application/">Application</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/infrastructure/">Infrastructure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/presentation/">Presentation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/testing/">Testing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >API Reference</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" >Application</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Inbound</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Ports / Outbound</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Domain</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/aggregate_root/">Aggregate Root</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/entity/">Entity</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/domain/value_object/">Value Object</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Messages</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Foundation</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/debuggable/">Debuggable</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/mapper/">Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/ports/">Ports</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/result/">Result</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../reference/autodoc/foundation/result_mapper/">Result Mapper</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Errors</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Meta</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architectural Styles</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/clean-architecture/">Clean Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/hexagonal-architecture/">Hexagonal Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/layered-architecture/">Layered Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/cqrs/">CQRS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../architectural-styles/event-driven/">Event-Driven</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/contributing/">Contribution Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/docs-conventions/">Docs Conventions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/release-guide/">Release Guide</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../LICENSE/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">ForgingBlocks</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Guide</li>
+      <li class="breadcrumb-item active">Recommended Blocks Structure</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/forging-blocks-org/edit/main/docs/guide/recommended_blocks_structure.md">Edit on forging-blocks-org/forging-blocks</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="recommended-blocks-structure">Recommended Blocks Structure<a class="headerlink" href="#recommended-blocks-structure" title="Permanent link">&para;</a></h1>
+<h2 id="thinking-in-responsibilities-and-boundaries">Thinking in responsibilities and boundaries<a class="headerlink" href="#thinking-in-responsibilities-and-boundaries" title="Permanent link">&para;</a></h2>
+<p>This section explains a <strong>practical way</strong> to organize code using blocks.<br />
+It is a recommendation, not a rule: you can use all of these blocks, some of them, or even create your own.</p>
+<p>A <strong>block</strong> is simply a group of code that shares a responsibility and a boundary.</p>
+<hr />
+<h2 id="overview-of-the-blocks">Overview of the blocks<a class="headerlink" href="#overview-of-the-blocks" title="Permanent link">&para;</a></h2>
+<p>The common blocks are:</p>
+<ul>
+<li><strong>Foundation</strong> – reusable, low-level abstractions.</li>
+<li><strong>Domain</strong> – problem-space concepts and rules.</li>
+<li><strong>Application</strong> – business workflows and coordination logic.</li>
+<li><strong>Infrastructure</strong> – technical adapters to external systems.</li>
+<li><strong>Presentation</strong> – entry points and interaction boundaries.</li>
+</ul>
+<pre class="mermaid"><code>flowchart TD
+    P[Presentation]
+    A[Application]
+    D[Domain]
+    I[Infrastructure]
+    F[Foundation]
+
+    P --&gt;|Calls| A
+    A --&gt;|Coordinates| D
+    A --&gt;|Delegates to| I
+    D --&gt;|Builds on| F
+    A --&gt;|Builds on| F
+    I --&gt;|Builds on| F
+
+    %% --- Node styling ---
+    style P fill:#3c3836,stroke:#fabd2f,color:#ebdbb2  %% Presentation: Dark Gray, Yellow Outline
+    style A fill:#504945,stroke:#fabd2f,color:#ebdbb2  %% Application: Darker Gray, Yellow Outline
+    style D fill:#665c54,stroke:#fe8019,color:#ebdbb2  %% Domain: Muted Brown, Orange Outline
+    style I fill:#454157,stroke:#b8bb26,color:#ebdbb2  %% Infrastructure: Dark Violet, Olive Green Outline
+    style F fill:#665c54,stroke:#fb4934,color:#ebdbb2  %% Foundation: Muted Brown, Vibrant Red Outline</code></pre>
+<p>This diagram is <strong>illustrative</strong>, not prescriptive.<br />
+It helps visualize how responsibilities can be separated.</p>
+<hr />
+<h2 id="block-vs-layer">Block vs Layer<a class="headerlink" href="#block-vs-layer" title="Permanent link">&para;</a></h2>
+<p>In ForgingBlocks, a <strong>block</strong> is an architecture-neutral concept.</p>
+<p>You may interpret a block as a “layer” if that mental model helps, especially when you compare to literature on layered architectures or clean architecture.</p>
+<p>However, the toolkit does <strong>not</strong> require or enforce any specific layering scheme.</p>
+<p>Think of blocks as <strong>named boundaries</strong> that you are free to use or ignore depending on the needs of your project.</p>
+<div class="admonition note">
+<p class="admonition-title">Dependency Rules</p>
+<p>The recommended dependency rules are:</p>
+<ul>
+<li>Foundation has no dependencies.</li>
+<li>Domain depends only on Foundation.</li>
+<li>Application depends on Domain and Foundation.</li>
+<li>Infrastructure depends on Application (for OutboundPorts) and Foundation.</li>
+<li>Presentation depends on Application and Foundation.</li>
+</ul>
+<p>These rules help maintain clear boundaries and promote decoupling between blocks.</p>
+</div>
+<hr />
+<h2 id="foundation">Foundation<a class="headerlink" href="#foundation" title="Permanent link">&para;</a></h2>
+<p><strong>Responsibility:</strong> provide small, reusable building blocks.</p>
+<p>Examples:</p>
+<ul>
+<li><code>Result</code>, <code>Ok</code>, <code>Err</code></li>
+<li><code>Port</code> and port-related protocols</li>
+<li><code>Mapper</code> for structured transformation</li>
+<li><code>ResultMapper</code> for transforming Results</li>
+<li><code>Debuggable</code> protocol for consistent debug representations</li>
+</ul>
+<p>The Foundation block contains abstractions that support the other blocks.</p>
+<div class="admonition note">
+<p class="admonition-title">Purpose of Foundation block</p>
+<p>That Foundation block exists to provide shared abstractions.<br />
+That block defines the core building blocks that other blocks can rely on.</p>
+</div>
+<p>It can be reused across many blocks.</p>
+<hr />
+<h2 id="domain">Domain<a class="headerlink" href="#domain" title="Permanent link">&para;</a></h2>
+<p><strong>Responsibility:</strong> describe what the system is about.</p>
+<p>Examples:</p>
+<ul>
+<li><strong>Types</strong> that represent meaningful concepts (orders, tasks, users…)</li>
+<li><strong>Rules</strong> and invariants that keep those concepts valid</li>
+<li><strong>Optional</strong> domain events for significant occurrences</li>
+</ul>
+<p>This block knows nothing about HTTP, SQL, queues, filesystems or any technical details.</p>
+<div class="admonition note">
+<p class="admonition-title">Meaning of Domain</p>
+<p>In <strong>Psychology</strong>, a <em>domain</em> is simply an area of knowledge or activity.</p>
+<p>In ForgingBlocks, the <strong>Domain</strong> represents the <strong>problem space</strong> your system is concerned with — the concepts and rules that describe <em>what</em> the system is about, not <em>how</em> it is implemented.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Dependency rule</p>
+<p>The Domain depends only on <strong>Foundation</strong>.</p>
+<p>It must not depend on Application, Infrastructure, or Presentation, so that the core logic remains independent of technical concerns.</p>
+</div>
+<hr />
+<h2 id="application">Application<a class="headerlink" href="#application" title="Permanent link">&para;</a></h2>
+<p><strong>Responsibility:</strong> orchestrate business workflows by coordinating Domain logic and Infrastructure through ports.</p>
+<p>Examples:</p>
+<ul>
+<li>InboundPorts representing business operations that the system offers</li>
+<li>OutboundPorts representing external dependencies needed by the system</li>
+<li>Workflow implementations (e.g. <code>RegisterUser</code>, <code>CreateTask</code>)</li>
+<li>Application services that implement coordination logic, calling domain methods and OutboundPorts</li>
+</ul>
+<p>The Application block uses Domain models and calls Infrastructure through <strong>OutboundPorts</strong>, but does not contain technical implementation details.</p>
+<div class="admonition note">
+<p class="admonition-title">Dependency rule</p>
+<p>Application depends on Domain and Foundation.<br />
+It defines both InboundPort and OutboundPort interfaces.<br />
+Infrastructure implements the OutboundPort interfaces (Dependency Inversion Principle).</p>
+</div>
+<hr />
+<h2 id="infrastructure">Infrastructure<a class="headerlink" href="#infrastructure" title="Permanent link">&para;</a></h2>
+<p><strong>Responsibility:</strong> connect the system to external technologies.</p>
+<p>Examples:</p>
+<ul>
+<li>Concrete repositories (SQL, NoSQL, in-memory)</li>
+<li>Messaging and event bus integrations</li>
+<li>HTTP clients for external APIs</li>
+</ul>
+<p>Infrastructure implements OutboundPort interfaces defined by Application or Domain.</p>
+<div class="admonition note">
+<p class="admonition-title">Dependency Rule</p>
+<p>Infrastructure depends on OutboundPorts and Foundation block.<br />
+External dependencies are allowed here.<br />
+This is where databases, network calls, and any other external concerns lives.</p>
+</div>
+<hr />
+<h2 id="presentation">Presentation<a class="headerlink" href="#presentation" title="Permanent link">&para;</a></h2>
+<p><strong>Responsibility:</strong> expose the system to the outside world.</p>
+<p>Examples:</p>
+<ul>
+<li>HTTP controllers or routers</li>
+<li>CLI commands</li>
+<li>message consumers or event handlers</li>
+</ul>
+<p>Presentation reads external input, prepares it, and calls the Application block.<br />
+It stays as thin as possible so that the behavior remains testable and reusable.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../architecture-overview/" class="btn btn-neutral float-left" title="Architecture Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../reference/" class="btn btn-neutral float-right" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/forging-blocks-org" class="fa fa-code-fork" style="color: #fcfcfc"> forging-blocks-org/forging-blocks</a>
+        </span>
+    
+    
+      <span><a href="../architecture-overview/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../reference/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+      <script src="../../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
