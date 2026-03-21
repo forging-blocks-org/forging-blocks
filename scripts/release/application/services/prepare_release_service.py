@@ -132,7 +132,7 @@ class PrepareReleaseService(PrepareReleaseUseCase):
 
     async def _generate_changelog(self, context: ReleaseContext) -> None:
         await self._changelog_generator.generate(
-            ChangelogRequest(from_version=context.previous_version.value)
+            ChangelogRequest(from_version=context.version.value)
         )
 
     def _push_branch(self, context: ReleaseContext) -> None:
