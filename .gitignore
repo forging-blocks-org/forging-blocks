@@ -79,3 +79,5 @@ docs/docs/
 
 scripts/release/VERSION
 scripts/release/.version
+.github/workflows/local-validate-publish.yml
+.secrets.act
