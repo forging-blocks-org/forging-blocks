@@ -199,7 +199,7 @@ class TestPrepareReleaseService:
         changelog_generator_mock.generate.assert_called_once()
         call_args = changelog_generator_mock.generate.call_args[0][0]
         assert isinstance(call_args, ChangelogRequest)
-        assert call_args.from_version == current_version.value
+        assert call_args.from_version == next_version.value
 
     async def test_send_command(
         self,
