@@ -3,12 +3,13 @@
 # pyright: reportInvalidTypeVarUse=false
 # mypy: disable-error-code=misc
 
-from typing import Generic, Protocol, TypeAlias, TypeVar
+from typing import Generic, Protocol, TypeAlias, TypeVar, runtime_checkable
 
 InputType = TypeVar("InputType", contravariant=True)
 OutputType = TypeVar("OutputType", covariant=True)
 
 
+@runtime_checkable
 class Port(Protocol, Generic[InputType, OutputType]):
     """Base protocol for defining interface contracts.
 
