@@ -16,6 +16,7 @@ from .errors import (
     ValidationFieldErrors,
 )
 from .mapper import Mapper
+from .messages import Command, Event, Message, Query
 from .meta import FinalMeta, runtime_final
 from .ports import (
     InboundPort,
@@ -58,4 +59,8 @@ __all__ = [
     "FinalMeta",
     "runtime_final",
     "ResultAccessError",
+    "Command",
+    "Query",
+    "Event",
+    "Message",
 ]
