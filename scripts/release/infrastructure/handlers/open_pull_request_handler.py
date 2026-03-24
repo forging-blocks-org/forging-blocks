@@ -5,7 +5,7 @@ from scripts.release.application.ports.inbound import (
 from scripts.release.application.ports.inbound.open_pull_request_command_handler import (
     OpenPullRequestCommandHandler,
 )
-from scripts.release.domain.messages.open_pull_request_command import OpenPullRequestCommand
+from scripts.release.domain.commands import OpenPullRequestCommand
 
 
 class OpenPullRequestHandler(OpenPullRequestCommandHandler):

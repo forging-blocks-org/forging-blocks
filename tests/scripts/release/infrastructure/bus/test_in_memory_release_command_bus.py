@@ -3,7 +3,7 @@
 from unittest.mock import AsyncMock
 
 import pytest
-from scripts.release.domain.messages.open_pull_request_command import OpenPullRequestCommand
+from scripts.release.domain.commands import OpenPullRequestCommand
 from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
 )

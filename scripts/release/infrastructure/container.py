@@ -4,7 +4,7 @@ from scripts.release.application.services.open_release_pull_request_service impo
 from scripts.release.application.services.prepare_release_service import (
     PrepareReleaseService,
 )
-from scripts.release.domain.messages.open_pull_request_command import (
+from scripts.release.domain.commands.open_pull_request_command import (
     OpenPullRequestCommand,
 )
 from scripts.release.infrastructure.bus.in_memory_release_command_bus import (

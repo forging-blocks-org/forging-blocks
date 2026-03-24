@@ -1,6 +1,6 @@
 from typing import TypeAlias
 
-from forging_blocks.domain.messages.command import Command
+from forging_blocks.foundation.messages.command import Command
 
 PayloadType: TypeAlias = dict[str, str | bool]
 

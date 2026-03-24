@@ -12,7 +12,7 @@ from scripts.release.application.ports.outbound import (
     VersioningService,
 )
 from scripts.release.application.workflow import ReleaseContext, ReleaseStep
-from scripts.release.domain.messages import OpenPullRequestCommand
+from scripts.release.domain.commands import OpenPullRequestCommand
 from scripts.release.domain.value_objects import (
     ReleaseBranchName,
     ReleaseLevel,

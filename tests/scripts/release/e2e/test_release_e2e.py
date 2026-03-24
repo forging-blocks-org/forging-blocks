@@ -7,12 +7,14 @@ import pytest
 from scripts.release.application.ports.inbound import (
     PrepareReleaseInput,
 )
+from scripts.release.application.ports.outbound.changelog_generator import ChangelogRequest
 from scripts.release.application.services.open_release_pull_request_service import (
     OpenReleasePullRequestService,
 )
 from scripts.release.application.services.prepare_release_service import (
     PrepareReleaseService,
 )
+from scripts.release.domain.commands import OpenPullRequestCommand
 from scripts.release.domain.value_objects.release_branch_name import ReleaseBranchName
 from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
@@ -21,16 +23,13 @@ from scripts.release.infrastructure.changelog.git_cliff_changelog_generator impo
     GitCliffChangelogGenerator,
 )
 from scripts.release.infrastructure.git.git_version_control import GitVersionControl
+from scripts.release.infrastructure.handlers.open_pull_request_handler import OpenPullRequestHandler
+from scripts.release.infrastructure.transactions.in_memory_release_transaction import (
+    InMemoryReleaseTransaction,
+)
 from scripts.release.infrastructure.versioning.poetry_versioning_service import (
     PoetryVersioningService,
 )
-
-from release.application.ports.outbound.changelog_generator import ChangelogRequest
-from release.infrastructure.handlers.open_pull_request_handler import OpenPullRequestHandler
-from release.infrastructure.transactions.in_memory_release_transaction import (
-    InMemoryReleaseTransaction,
-)
-from scripts.release.domain.messages import OpenPullRequestCommand
 
 
 def subprocess_run(*args, **kwargs):

@@ -5,7 +5,7 @@ from scripts.release.application.ports.inbound import (
     OpenReleasePullRequestInput,
     OpenReleasePullRequestUseCase,
 )
-from scripts.release.domain.messages.open_pull_request_command import (
+from scripts.release.domain.commands.open_pull_request_command import (
     OpenPullRequestCommand,
 )
 from scripts.release.infrastructure.handlers.open_pull_request_handler import (
@@ -25,13 +25,9 @@ class TestOpenPullRequestHandler:
 
     @pytest.fixture
     def command(self) -> OpenPullRequestCommand:
-        return OpenPullRequestCommand(
-            version="1.2.0", branch="release/v1.2.0", dry_run=False
-        )
+        return OpenPullRequestCommand(version="1.2.0", branch="release/v1.2.0", dry_run=False)
 
-    def test_init_when_called_then_sets_use_case(
-        self, use_case_mock: MagicMock
-    ) -> None:
+    def test_init_when_called_then_sets_use_case(self, use_case_mock: MagicMock) -> None:
         handler = OpenPullRequestHandler(use_case_mock)
 
         assert handler._use_case == use_case_mock
@@ -59,9 +55,7 @@ class TestOpenPullRequestHandler:
         self, handler: OpenPullRequestHandler, use_case_mock: MagicMock
     ) -> None:
         use_case_mock.execute = AsyncMock()
-        command = OpenPullRequestCommand(
-            version="2.0.0", branch="release/v2.0.0", dry_run=True
-        )
+        command = OpenPullRequestCommand(version="2.0.0", branch="release/v2.0.0", dry_run=True)
 
         await handler.handle(command)
 
@@ -104,12 +98,8 @@ class TestOpenPullRequestHandler:
     ) -> None:
         use_case_mock.execute = AsyncMock()
 
-        command1 = OpenPullRequestCommand(
-            version="1.0.0", branch="release/v1.0.0", dry_run=False
-        )
-        command2 = OpenPullRequestCommand(
-            version="2.0.0", branch="release/v2.0.0", dry_run=True
-        )
+        command1 = OpenPullRequestCommand(version="1.0.0", branch="release/v1.0.0", dry_run=False)
+        command2 = OpenPullRequestCommand(version="2.0.0", branch="release/v2.0.0", dry_run=True)
 
         await handler.handle(command1)
         await handler.handle(command2)
