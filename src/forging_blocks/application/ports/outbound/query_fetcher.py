@@ -16,7 +16,7 @@ Non-Responsibilities:
 from typing import TypeVar
 
 from forging_blocks.application.ports.outbound.message_bus import MessageBus
-from forging_blocks.domain.messages.query import Query
+from forging_blocks.foundation.messages.query import Query
 from forging_blocks.foundation.ports import OutboundPort
 
 QueryFetcherResult = TypeVar("QueryFetcherResult", covariant=True)

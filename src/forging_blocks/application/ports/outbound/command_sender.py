@@ -14,7 +14,7 @@ Non-Responsibilities:
 """
 
 from forging_blocks.application.ports.outbound.message_bus import MessageBus
-from forging_blocks.domain.messages.command import Command
+from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.ports import OutboundPort
 
 

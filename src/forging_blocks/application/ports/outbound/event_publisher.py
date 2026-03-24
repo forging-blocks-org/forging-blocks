@@ -14,7 +14,7 @@ Non-Responsibilities:
 """
 
 from forging_blocks.application.ports.outbound.message_bus import MessageBus
-from forging_blocks.domain.messages.event import Event
+from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.ports import OutboundPort
 
 

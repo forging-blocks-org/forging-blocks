@@ -5,7 +5,7 @@ import pytest
 from pytest import fixture
 
 from forging_blocks.application import MessageBus, QueryFetcher
-from forging_blocks.domain import Query
+from forging_blocks.foundation.messages import Query
 
 
 class FakeQuery(Query):
