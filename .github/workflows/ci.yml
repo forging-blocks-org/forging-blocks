@@ -102,6 +102,7 @@ jobs:
           PACKAGE_NAME: "forging-blocks"
           IMPORT_NAME: "forging_blocks"
           VERSION: "${{ needs.test.outputs.VERSION }}"
+          TEST_PYPY_TOKEN: "${{ env.TEST_PYPY_TOKEN }}"
         run: |
           chmod +x ./scripts/pipeline/validate_publish.sh
           ./scripts/pipeline/validate_publish.sh
