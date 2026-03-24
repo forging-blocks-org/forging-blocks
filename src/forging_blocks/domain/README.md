@@ -13,11 +13,6 @@ domain/
 ├── aggregate_root.py            # Base class for aggregate roots
 ├── entity.py                    # Base class for entities with identity
 ├── value_object.py              # Base class for value objects (immutables)
-├── messages/
-│   ├── message.py               # Base class for messages (commands/events/queries/any message-like)
-│   ├── query.py                 # Base class for domain queries
-│   ├── command.py               # Base class for domain commands
-│   └── event.py                 # Base class for domain events
 └── README.md                    # This documentation
 ```
 
@@ -40,15 +35,15 @@ domain/
 ### 4. **Domain Commands, Events & Queries**
 - **Events:** Things that have happened (immutable, recordable).
 - **Commands:** Requests for actions (intent, not result).
-- **Queriies:** Requests for queries (query, not result).
-- All inherit from `Message` (specialized as `Command`, `Event` or `Query`).
+- **Queries:** Requests for queries (query, not result).
+- All are defined in the **Foundation** block as reusable message abstractions.
 
 ---
 
 ## 🧩 How to Use
 
 1. **Define Entities and Value Objects**
-   Extend `Entity`, `DraftEntity` and `ValueObject` to model your business concepts.
+   Extend `Entity` and `ValueObject` to model your business concepts.
 
    ```python
    from forging_blocks.domain.entity import Entity
@@ -92,8 +87,8 @@ domain/
 3. **Raise Domain Events**
    Create subclasses of `Event` and use them to communicate important business changes.
 
-4. ** Rause Domain Commands and Queries**
-    Create subclasses of `Command` and `Query` for intent and data retrieval.
+4. **Use Domain Commands and Queries**
+    Import from `forging_blocks.foundation.messages` for intent and data retrieval.
 
 ---
 

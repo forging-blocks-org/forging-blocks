@@ -4,8 +4,8 @@ from forging_blocks.domain import (
     AggregateRoot,
     AggregateVersion,
     EntityIdNoneError,
-    Event,
 )
+from forging_blocks.foundation import Event
 
 raw_event = dict[str, str]
 
@@ -24,9 +24,7 @@ class DummyEvent(Event[raw_event]):
 
 
 class OrderAggregate(AggregateRoot[int]):
-    def __init__(
-        self, aggregate_id: int, version: AggregateVersion | None = None
-    ) -> None:
+    def __init__(self, aggregate_id: int, version: AggregateVersion | None = None) -> None:
         super().__init__(aggregate_id, version)
 
 
