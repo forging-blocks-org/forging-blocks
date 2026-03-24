@@ -5,11 +5,11 @@ Tests for MessageMetadata and Message classes.
 
 from datetime import datetime, timezone
 from typing import Any
-from uuid import UUID, uuid4
+from uuid import UUID, uuid7
 
 import pytest
 
-from forging_blocks.domain import Message, MessageMetadata
+from forging_blocks.foundation.messages import Message, MessageMetadata
 
 
 class FakeMessage(Message[str]):
@@ -32,10 +32,10 @@ class FakeMessage(Message[str]):
 class TestMessageMetadata:
     """Tests for MessageMetadata class."""
 
-    causation_id = uuid4()
+    causation_id = uuid7()
     created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
-    correlation_id = uuid4()
-    message_id = uuid4()
+    correlation_id = uuid7()
+    message_id = uuid7()
     message_type = "FakeMessage"
 
     def test_init_when_no_params_then_generates_id_and_timestamp(self):
@@ -61,9 +61,7 @@ class TestMessageMetadata:
         assert metadata.created_at == self.created_at
 
     def test_init_when_partial_params_then_generates_missing_values(self):
-        metadata = MessageMetadata(
-            message_type=self.message_type, message_id=self.message_id
-        )
+        metadata = MessageMetadata(message_type=self.message_type, message_id=self.message_id)
 
         assert metadata.message_id == self.message_id
         assert isinstance(metadata.created_at, datetime)
@@ -90,19 +88,19 @@ class TestMessageMetadata:
 
         metadata1 = MessageMetadata(
             created_at=created_at,
-            message_id=uuid4(),
+            message_id=uuid7(),
             message_type=self.message_type,
         )
         metadata2 = MessageMetadata(
             created_at=created_at,
-            message_id=uuid4(),
+            message_id=uuid7(),
             message_type=self.message_type,
         )
 
         assert metadata1 != metadata2
 
     def test_eq_when_different_timestamp_then_false(self):
-        message_id = uuid4()
+        message_id = uuid7()
 
         metadata1 = MessageMetadata(
             message_type=self.message_type,
@@ -118,7 +116,7 @@ class TestMessageMetadata:
         assert metadata1 != metadata2
 
     def test_to_dict_when_called_then_returns_serializable_dict(self):
-        message_id = uuid4()
+        message_id = uuid7()
         created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
 
         metadata = MessageMetadata(
@@ -133,7 +131,7 @@ class TestMessageMetadata:
         UUID(result["causation_id"])
 
     def test_hash_when_same_values_then_same_hash(self):
-        message_id = uuid4()
+        message_id = uuid7()
         created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
 
         metadata1 = MessageMetadata(
@@ -166,7 +164,7 @@ class TestMessage:
     def test_init_when_custom_metadata_then_uses_provided_metadata(self):
         custom_metadata = MessageMetadata(
             message_type="CustomType",
-            message_id=uuid4(),
+            message_id=uuid7(),
             created_at=datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc),
         )
 
@@ -179,7 +177,7 @@ class TestMessage:
     def test_convenience_properties_when_called_then_delegates_to_metadata(self):
         custom_metadata = MessageMetadata(
             message_type="CustomType",
-            message_id=uuid4(),
+            message_id=uuid7(),
             created_at=datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc),
         )
 
@@ -214,7 +212,7 @@ class TestMessage:
         assert message != another_type_instance
 
     def test_to_dict_when_called_then_includes_metadata_type_and_payload(self):
-        message_id = uuid4()
+        message_id = uuid7()
         created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
         metadata = MessageMetadata(
             message_type="FakeMessage", message_id=message_id, created_at=created_at
@@ -232,7 +230,7 @@ class TestMessage:
         assert result["payload"] == {"data": "test_data"}
 
     def test_hash_when_same_message_id_then_same_hash(self):
-        metadata = MessageMetadata("FakeMessage", message_id=uuid4())
+        metadata = MessageMetadata("FakeMessage", message_id=uuid7())
 
         message1 = FakeMessage("data1", metadata=metadata)
         message2 = FakeMessage("data2", metadata=metadata)
@@ -247,6 +245,4 @@ class TestMessage:
 
     def test_cannot_instantiate_abstract_message_directly(self):
         with pytest.raises(TypeError, match="abstract"):
-            # This should raise TypeError because Message is abstract an payload is
-            # abstract
             Message()  # type: ignore[abstract]
