@@ -1,7 +1,7 @@
-"""Message module for domain messaging patterns.
+"""Message module for messaging patterns.
 
 This module provides the base Message class and MessageMetadata for implementing
-domain messages following Domain-Driven Design (DDD) and CQRS principles.
+foundation messages influenced by Domain-Driven Design (DDD) and CQRS principles.
 """
 
 from __future__ import annotations
@@ -9,9 +9,9 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from typing import Any, TypeVar
-from uuid import UUID, uuid4
+from uuid import UUID, uuid7
 
-from forging_blocks.domain.value_object import ValueObject
+from forging_blocks.foundation.value_object import ValueObject
 
 
 def now() -> datetime:
@@ -23,17 +23,18 @@ MessageRawType = TypeVar("MessageRawType", covariant=True)
 
 
 class MessageMetadata(ValueObject[dict[str, Any]]):
-    """Metadata associated with domain messages.
+    """Metadata associated with foundational messages.
 
-    Contains infrastructure-level information about messages such as:
+    Contains technical-level information about messages such as:
     - Unique message identifier
     - When the message was created
     - correlation_id is used to trace related messages across systems.
     - correlation_id is used to link messages that belong to the same business process.
     - causation_id is used to identify the immediate predecessor message that caused
 
-    This separation allows messages to focus on domain data while keeping
-    infrastructure concerns in metadata.
+    This separation allows messages to focus on foundational data while keeping
+    infrastructure handling concerns in metadata without foundation understand anything about
+    infrastructure rules.
 
     Example:
         >>> metadata = MessageMetadata(message_type="OrderCreated")
@@ -41,7 +42,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         >>> custom_metadata = MessageMetadata(
         ...     message_type="UserCreated",
         ...     message_id=UUID("123e4567-e89b-12d3-a456-426614174000"),
-        ...     created_at=datetime(2025, 6, 11, 19, 36, 6, tzinfo=timezone.utc)
+        ...     created_at=datetime(2025, 6, 11, 19, 36, 6, tzinfo=timezone.utc),
         ... )
     """
 
@@ -66,10 +67,10 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
                 generates a new UUID.
         """
         self._message_type = message_type
-        self._message_id = message_id or uuid4()
+        self._message_id = message_id or uuid7()
         self._created_at = created_at or now()
-        self._correlation_id = correlation_id or uuid4()
-        self._causation_id = causation_id or uuid4()
+        self._correlation_id = correlation_id or uuid7()
+        self._causation_id = causation_id or uuid7()
 
     @property
     def message_id(self) -> UUID:
@@ -145,16 +146,16 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
 
 
 class Message(ValueObject[MessageRawType], ABC):
-    """Base class for all domain messages.
+    """Base class for all foundation messages.
 
-    Messages are immutable value objects that represent intent or facts in the domain.
+    Messages are immutable value objects that represent intent or facts in the application.
     This is the base class for Events (something that happened) and Commands
     (something to do).
 
     Features:
     - Immutable by design (inherits from ValueObject)
     - Contains MessageMetadata for infrastructure concerns
-    - Focus on domain data in subclasses
+    - Focus on data in subclasses
     - Each message instance is unique (based on metadata.message_id)
 
     This class should not be used directly. Use Event or Command instead.
@@ -209,7 +210,7 @@ class Message(ValueObject[MessageRawType], ABC):
     @property
     @abstractmethod
     def _payload(self) -> dict[str, Any]:
-        """Get the domain-specific data carried by this message.
+        """Get the data carried by this message.
 
         Subclasses must implement this property to provide their specific message
         data. This makes the Message class truly abstract.
@@ -222,7 +223,7 @@ class Message(ValueObject[MessageRawType], ABC):
     def to_dict(self) -> dict[str, Any]:
         """Convert the message to a dictionary representation.
 
-        Combines metadata, message type, and domain data.
+        Combines metadata, message type, and payload data.
 
         Returns:
             Complete dictionary representation of the message.
@@ -235,7 +236,7 @@ class Message(ValueObject[MessageRawType], ABC):
     def _equality_components(self) -> tuple[Any, ...]:
         """Messages are equal if they have the same message ID.
 
-        Each message instance is unique, even if they have the same domain data.
+        Each message instance is unique, even if they have the same data.
 
         Returns:
             Tuple containing the message ID for equality comparison.

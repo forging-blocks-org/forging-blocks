@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import TypeVar
 from uuid import UUID
 
-from forging_blocks.domain.messages.message import Message
+from forging_blocks.foundation.messages.message import Message
 
 CommandRawType = TypeVar("CommandRawType", covariant=True)
 
@@ -21,10 +21,7 @@ class Command(Message[CommandRawType]):
     Example:
         >>> class CreateOrder(Command):
         ...     def __init__(
-        ...         self,
-        ...         customer_id: str,
-        ...         items: list,
-        ...         metadata: MessageMetadata | None = None
+        ...         self, customer_id: str, items: list, metadata: MessageMetadata | None = None
         ...     ):
         ...         super().__init__(metadata)
         ...         self._customer_id = customer_id
@@ -40,10 +37,7 @@ class Command(Message[CommandRawType]):
         ...
         ...     @property
         ...     def _payload(self) -> dict[str, Any]:
-        ...         return {
-        ...             "customer_id": self._customer_id,
-        ...             "items": self._items
-        ...         }
+        ...         return {"customer_id": self._customer_id, "items": self._items}
     """
 
     @property

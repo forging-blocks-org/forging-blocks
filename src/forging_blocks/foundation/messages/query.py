@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
-from forging_blocks.domain.messages.message import Message
+from forging_blocks.foundation.messages.message import Message
 
 
 class Query(Message, ABC):
@@ -17,11 +17,7 @@ class Query(Message, ABC):
 
     Example:
         >>> class GetOrder(Query):
-        ...     def __init__(
-        ...         self,
-        ...         order_id: str,
-        ...         metadata: MessageMetadata | None = None
-        ...     ):
+        ...     def __init__(self, order_id: str, metadata: MessageMetadata | None = None):
         ...         super().__init__(metadata)
         ...         self._order_id = order_id
         ...
@@ -31,9 +27,7 @@ class Query(Message, ABC):
         ...
         ...     @property
         ...     def payload(self) -> dict[str, Any]:
-        ...         return {
-        ...             "order_id": self._order_id
-        ...         }
+        ...         return {"order_id": self._order_id}
     """
 
     @property
