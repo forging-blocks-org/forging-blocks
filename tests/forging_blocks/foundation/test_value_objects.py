@@ -4,7 +4,6 @@ from forging_blocks.domain import ValueObject
 
 
 class Email(ValueObject[str]):
-
     __slots__ = ("_value",)
 
     def __init__(self, value: str):
@@ -23,7 +22,6 @@ class Email(ValueObject[str]):
 
 
 class AnotherEmailType(ValueObject[str]):
-
     __slots__ = ("_value",)
 
     def __init__(self, value: str):
