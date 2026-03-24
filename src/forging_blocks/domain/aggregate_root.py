@@ -7,8 +7,8 @@ from typing import Generic, Hashable, TypeVar
 
 from forging_blocks.domain.entity import Entity
 from forging_blocks.domain.errors.entity_id_none_error import EntityIdNoneError
-from forging_blocks.domain.messages.event import Event
-from forging_blocks.domain.value_object import ValueObject
+from forging_blocks.foundation.messages.event import Event
+from forging_blocks.foundation.value_object import ValueObject
 
 TId = TypeVar("TId", bound=Hashable)
 

@@ -1,4 +1,4 @@
-"""Domain messages package."""
+"""Foundation messages package."""
 
 from .command import Command
 from .event import Event

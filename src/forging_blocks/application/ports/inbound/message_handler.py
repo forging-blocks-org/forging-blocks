@@ -18,10 +18,10 @@ Non-Responsibilities:
 
 from typing import Protocol, TypeVar
 
-from forging_blocks.domain.messages.command import Command
-from forging_blocks.domain.messages.event import Event
-from forging_blocks.domain.messages.message import Message
-from forging_blocks.domain.messages.query import Query
+from forging_blocks.foundation.messages.command import Command
+from forging_blocks.foundation.messages.event import Event
+from forging_blocks.foundation.messages.message import Message
+from forging_blocks.foundation.messages.query import Query
 from forging_blocks.foundation.ports import InboundPort
 
 MessageType = TypeVar("MessageType", contravariant=True, bound=Message)

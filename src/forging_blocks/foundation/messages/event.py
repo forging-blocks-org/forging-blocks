@@ -4,7 +4,7 @@ from abc import abstractmethod
 from datetime import datetime
 from typing import Any, TypeVar
 
-from forging_blocks.domain.messages.message import Message
+from forging_blocks.foundation.messages.message import Message
 
 EventRawType = TypeVar("EventRawType", covariant=True)
 
@@ -25,7 +25,7 @@ class Event(Message[EventRawType]):
         ...         order_id: str,
         ...         customer_id: str,
         ...         total: float,
-        ...         metadata: MessageMetadata | None = None
+        ...         metadata: MessageMetadata | None = None,
         ...     ):
         ...         super().__init__(metadata)
         ...         self._order_id = order_id
@@ -49,7 +49,7 @@ class Event(Message[EventRawType]):
         ...         return {
         ...             "order_id": self._order_id,
         ...             "customer_id": self._customer_id,
-        ...             "total": self._total
+        ...             "total": self._total,
         ...         }
     """
 

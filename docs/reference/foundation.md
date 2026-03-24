@@ -14,7 +14,7 @@ all other blocks are built.
 
 ## Purpose
 
-- Supply **primitive abstractions** (`Result`, `Port`, `Mapper`).
+- Supply **primitive abstractions** (`Result`, `Port`, `Mapper`, `Message`, `Command`, `Event`).
 - Enable explicit, intention-revealing boundaries.
 - Support structured and predictable error handling.
 - Provide a stable base reused by all other blocks.
@@ -107,6 +107,65 @@ avoiding hidden or implicit mappings.
 `Debuggable` is a lightweight contract for exposing structured debug information.
 
 It enables introspection without leaking internal state or implementation details.
+
+---
+
+### Messages
+
+The Foundation block provides **Messages** as reusable abstractions for expressing intent, facts, and queries within the problem space.
+
+Messages are **immutable** and **architecture-neutral**, making them suitable for use across all blocks in the system.
+
+#### Message
+
+A **Message** is the base abstraction for all messages.
+
+It encapsulates:
+
+- An immutable payload
+- Message metadata such as identity, timestamps, or correlation information
+
+MessageMetadata is intentionally separated from data to avoid leaking technical concerns into foundation logic.
+
+#### Command
+
+A **Command** represents an **intent to perform an action**.
+
+Characteristics:
+
+- Imperative meaning
+- Expresses a request to change state
+- May be accepted or rejected
+
+Commands model *what someone wants to do* in the application.
+
+#### Event
+
+An **Event** represents a **fact that has already occurred**.
+
+Characteristics:
+
+- Expressed in the past tense
+- Immutable and irreversible
+- Records something that happened
+
+Events model *what is known to be true* after a state transition.
+
+#### Query
+
+A **Query** represents an **intent to retrieve information**.
+
+Characteristics:
+
+- Does not modify state
+- Expresses interest, not behavior
+- Side-effect free
+
+Queries model *what someone wants to know*.
+
+!!! note "Influence: CQRS literature"
+    The distinction between Commands, Events, and Queries is inspired by CQRS concepts described by multiple authors, including Greg Young and Vaughn Vernon.
+    ForgingBlocks treats these as semantic roles, not architectural mandates.
 
 ---
 

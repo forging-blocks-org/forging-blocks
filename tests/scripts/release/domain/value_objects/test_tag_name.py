@@ -1,7 +1,11 @@
 import pytest
+from scripts.release.domain.value_objects.tag_name import (
+    TagName as DirectTagName,
+)
 
 from scripts.release.domain.errors import InvalidTagNameError
 from scripts.release.domain.value_objects import ReleaseVersion, TagName
+from scripts.release.domain.value_objects import TagName as ImportedTagName
 
 
 @pytest.mark.unit
@@ -64,12 +68,6 @@ class TestTagName:
             tag._value = "v9.9.9"  # type: ignore
 
     def test_debug_tagname_module(self) -> None:
-        from scripts.release.domain.value_objects.tag_name import (
-            TagName as DirectTagName,
-        )
-
-        from scripts.release.domain.value_objects import TagName as ImportedTagName
-
         assert DirectTagName is ImportedTagName
 
     def test_init_when_valid_tag_then_success(self) -> None:

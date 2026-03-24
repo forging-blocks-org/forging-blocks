@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from scripts.release.domain.messages import OpenPullRequestCommand
+from scripts.release.domain.commands import OpenPullRequestCommand
 
 
 class OpenPullRequestCommandHandler(Protocol):

@@ -5,7 +5,7 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
 )
 
-from forging_blocks.domain.messages.command import Command
+from forging_blocks.foundation.messages.command import Command
 
 
 class AsyncHandlerMock:
