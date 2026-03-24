@@ -99,76 +99,6 @@ Typical responsibilities include:
 
 ---
 
-## Domain Messages
-
-The Domain block defines **Domain Messages** as first-class concepts.
-
-Domain Messages express *what can be said* in the problem space, independent of how messages are transported, stored, or handled.
-
-All domain messages are immutable and meaningful without infrastructure.
-
----
-
-### Message
-
-A **Message** is the base abstraction for all domain messages.
-
-It encapsulates:
-
-- An immutable domain payload
-- Message metadata such as identity, timestamps, or correlation information
-
-Metadata is intentionally separated from domain data to avoid leaking technical concerns into domain logic.
-
----
-
-### Command
-
-A **Command** represents an **intent to perform an action**.
-
-Characteristics:
-
-- Imperative meaning
-- Expresses a request to change state
-- May be accepted or rejected
-
-Commands model *what someone wants to do* in the domain.
-
----
-
-### Event
-
-An **Event** represents a **fact that has already occurred**.
-
-Characteristics:
-
-- Expressed in the past tense
-- Immutable and irreversible
-- Records something that happened
-
-Events model *what is known to be true* after a state transition.
-
----
-
-### Query
-
-A **Query** represents an **intent to retrieve information**.
-
-Characteristics:
-
-- Does not modify domain state
-- Expresses interest, not behavior
-- Side-effect free
-
-Queries model *what someone wants to know* about the domain.
-
----
-
-!!! note "Influence: CQRS literature"
-    The distinction between Commands, Events, and Queries is inspired by CQRS concepts described by multiple authors, including Greg Young and Vaughn Vernon.
-    ForgingBlocks treats these as semantic roles, not architectural mandates.
-
----
 
 ## Domain Errors
 
@@ -228,18 +158,6 @@ Their purpose is to support clarity and correctness—not to enforce a methodolo
 
 !!! note "Aggregate Root"
     A domain concept that defines a consistency boundary and controls access to related state.
-
-!!! note "Domain Message"
-    An immutable object that expresses intent, facts, or questions within the problem space, independent of transport or handling.
-
-!!! note "Command"
-    A domain message that represents an intent to perform an action.
-
-!!! note "Event"
-    A domain message that represents a fact that has already occurred.
-
-!!! note "Query"
-    A domain message that represents an intent to retrieve information without modifying domain state.
 
 !!! note "Domain Error"
     An explicit representation of an invalid domain state or rule violation, expressed in domain terms rather than technical terms.
