@@ -9,7 +9,5 @@ runs:
       shell: bash
 
     - name: Install shellcheck
-      run: |
-        apt-get update
-        apt-get install -y shellcheck
+      run: pip install shellcheck-py --break-system-packages
       shell: bash
