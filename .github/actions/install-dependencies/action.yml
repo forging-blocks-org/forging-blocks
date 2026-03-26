@@ -1,0 +1,50 @@
+name: Install Dependencies
+description: A GitHub Action to set up Poetry and install project dependencies.
+
+inputs:
+  groups:
+    description: "Poetry groups to install (e.g., 'dev', 'docs', 'dev,docs')"
+    default: ""
+  with-git-cliff:
+    description: "Whether to install git-cliff"
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.14.3"
+
+    - name: Install Poetry
+      run: pip install poetry
+      shell: bash
+
+    - name: Configure Poetry
+      run: |
+        poetry config virtualenvs.create true
+        poetry config virtualenvs.in-project true
+      shell: bash
+
+    - name: Cache Poetry dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/pypoetry
+          .venv
+        key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: |
+          poetry-${{ runner.os }}-
+
+    - name: Install dependencies
+      run: |
+        if [ -n "${{ inputs.groups }}" ]; then
+          poetry install --no-interaction --with "${{ inputs.groups }}"
+        else
+          poetry install --no-interaction
+        fi
+      shell: bash
+
+    - name: Install git-cliff
+      if: inputs.with-git-cliff == 'true'
+      uses: ./.github/actions/install-git-cliff

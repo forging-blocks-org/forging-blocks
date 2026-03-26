@@ -11,8 +11,18 @@ jobs:
   deploy-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-poetry
-      - run: poetry install --no-interaction --with docs
-      - run: poetry run python scripts/generate_autodoc_pages.py
-      - run: poetry run mkdocs gh-deploy --force --clean
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+        with:
+          groups: docs
+
+      - name: Generate Autodoc Pages
+        if: github.actor != 'nektos/act'
+        run: poetry run python scripts/generate_autodoc_pages.py
+
+      - name: Deploy to GitHub Pages
+        if: github.actor != 'nektos/act'
+        run: poetry run mkdocs gh-deploy --force --clean

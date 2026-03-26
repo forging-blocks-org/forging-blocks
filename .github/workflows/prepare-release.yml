@@ -1,4 +1,4 @@
-name: Release Pipeline
+name: Prepare Release
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  prepare-release:
     if: >
       github.event.pull_request.merged == true &&
       startsWith(github.event.pull_request.head.ref, 'release/v')
@@ -19,7 +19,7 @@ jobs:
       id-token: write
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -34,13 +34,3 @@ jobs:
         env:
           RELEASE_VERSION: ${{ steps.prep.outputs.version }}
         run: bash scripts/pipeline/validate_release_version.sh
-
-      - name: Install dependencies
-        uses: ./.github/actions/install-dependencies
-
-      - name: Build and validate artifacts
-        run: bash scripts/pipeline/validate_artifacts.sh
-
-      - name: Publish to PyPI
-        if: github.actor != 'nektos/act'
-        uses: pypa/gh-action-pypi-publish@v1.13.0

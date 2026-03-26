@@ -1,4 +1,4 @@
-name: Release Pipeline
+name: Publish Release
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  publish-release:
     if: >
       github.event.pull_request.merged == true &&
       startsWith(github.event.pull_request.head.ref, 'release/v')
@@ -19,21 +19,10 @@ jobs:
       id-token: write
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Prepare Release and Tagging
-        id: prep
-        env:
-          HEAD_REF: ${{ github.event.pull_request.head.ref }}
-        run: bash scripts/pipeline/prepare_release.sh
-
-      - name: Validate Release Version
-        env:
-          RELEASE_VERSION: ${{ steps.prep.outputs.version }}
-        run: bash scripts/pipeline/validate_release_version.sh
 
       - name: Install dependencies
         uses: ./.github/actions/install-dependencies

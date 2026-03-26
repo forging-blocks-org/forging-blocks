@@ -4,37 +4,35 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=scripts/pipeline/commons.sh
 source "$SCRIPT_DIR/commons.sh"
 
-require_vars PYPI_TOKEN TEST_PYPI_TOKEN
+require_vars ACTIONS_ID_TOKEN_REQUEST_TOKEN ACTIONS_ID_TOKEN_REQUEST_URL
 
 FAILED=0
 
-check_token_auth() {
+check_oidc_token() {
   local name="$1"
-  local token="$2"
-  local url="$3"
+  local audience="$2"
 
-  local http_status
-  http_status=$(curl --silent --output /dev/null --write-out "%{http_code}" \
-    --header "Authorization: Bearer $token" \
-    "$url")
+  local token
+  token=$(curl --silent --fail \
+    -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+    "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=${audience}" \
+    | python3 -c "import sys,json; print(json.load(sys.stdin)['value'])" 2>/dev/null)
 
-  if [[ "$http_status" == "200" ]]; then
-    log "$name is valid (HTTP $http_status)"
-  elif [[ "$http_status" == "401" ]]; then
-    error "$name is invalid or expired (HTTP $http_status)"
+  if [[ -z "$token" ]]; then
+    error "$name: failed to obtain OIDC token for audience '$audience'"
     FAILED=1
-  else
-    error "$name returned unexpected HTTP $http_status from $url"
-    FAILED=1
+    return
   fi
+
+  log "$name: OIDC token obtained for audience '$audience' (${token:0:10}...)"
 }
 
-log "Validating token authentication"
-check_token_auth "PYPI_TOKEN"      "$PYPI_TOKEN"      "https://pypi.org/pypi/legacy/"
-check_token_auth "TEST_PYPI_TOKEN" "$TEST_PYPI_TOKEN" "https://test.pypi.org/pypi/legacy/"
+log "Validating OIDC token availability"
+check_oidc_token "PyPI"     "pypi"
+check_oidc_token "TestPyPI" "pypi"
 
 if [[ "$FAILED" -eq 1 ]]; then
-  fail "One or more tokens failed authentication"
+  fail "One or more OIDC token requests failed"
 fi
 
-log "All tokens validated successfully"
+log "All OIDC tokens validated successfully"

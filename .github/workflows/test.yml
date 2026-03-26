@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.get-version.outputs.VERSION }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+        with:
+          groups: dev
+          with-git-cliff: true
+
+      - name: Validate Pipeline Env Contracts
+        if: github.actor != 'nektos/act'
+        run: poetry run python scripts/pipeline/validate_env_contracts.py
+
+      - name: Run CI checks
+        if: github.actor != 'nektos/act'
+        run: poetry run poe ci:check
+
+      - name: Run tests
+        if: github.actor != 'nektos/act'
+        run: poetry run poe test
+
+      - name: Extract Version
+        id: get-version
+        run: echo "VERSION=$(poetry version -s)" >> "$GITHUB_OUTPUT"

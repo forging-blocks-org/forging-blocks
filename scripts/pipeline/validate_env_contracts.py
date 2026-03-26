@@ -96,6 +96,8 @@ _GITHUB_BUILTIN: frozenset[str] = frozenset(
         "HOME",
         "PATH",
         "ACT",
+        "ACTIONS_ID_TOKEN_REQUEST_TOKEN",
+        "ACTIONS_ID_TOKEN_REQUEST_URL",
     }
 )
 
