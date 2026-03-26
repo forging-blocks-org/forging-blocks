@@ -21,6 +21,7 @@ jobs:
         uses: ./.github/actions/install-dependencies
         with:
           groups: dev
+          with-git-cliff: true
 
       - name: Validate Pipeline Env Contracts
         if: github.actor != 'nektos/act'
