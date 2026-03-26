@@ -1,0 +1,36 @@
+name: Prepare Release
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  prepare-release:
+    if: >
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/v')
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare Release and Tagging
+        id: prep
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: bash scripts/pipeline/prepare_release.sh
+
+      - name: Validate Release Version
+        env:
+          RELEASE_VERSION: ${{ steps.prep.outputs.version }}
+        run: bash scripts/pipeline/validate_release_version.sh
