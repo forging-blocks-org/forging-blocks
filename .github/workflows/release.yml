@@ -35,11 +35,8 @@ jobs:
           RELEASE_VERSION: ${{ steps.prep.outputs.version }}
         run: bash scripts/pipeline/validate_release_version.sh
 
-      - name: Set up Poetry
-        uses: ./.github/actions/setup-poetry
-
       - name: Install dependencies
-        run: poetry install --no-interaction
+        uses: ./.github/actions/install-dependencies
 
       - name: Build and validate artifacts
         run: bash scripts/pipeline/validate_artifacts.sh
