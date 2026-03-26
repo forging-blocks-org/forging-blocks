@@ -1,0 +1,40 @@
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-workflow-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup lint tools
+        uses: ./.github/actions/setup-lint-tools
+
+      - name: Lint Workflow Files (YAML)
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: .github/workflows/ .github/actions/
+          strict: true
+
+      - name: Lint Workflow Files (Actions)
+        uses: raven-actions/actionlint@v2
+
+  lint-shell-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup lint tools
+        uses: ./.github/actions/setup-lint-tools
+
+      - name: Lint Shell Scripts
+        run: shellcheck --external-sources scripts/pipeline/*.sh
