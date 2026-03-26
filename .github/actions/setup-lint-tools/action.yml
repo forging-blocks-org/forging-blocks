@@ -1,0 +1,15 @@
+name: Setup Lint Tools
+description: A GitHub Action to install lint tools (yamllint, shellcheck).
+
+runs:
+  using: composite
+  steps:
+    - name: Install yamllint
+      run: pip install yamllint --break-system-packages
+      shell: bash
+
+    - name: Install shellcheck
+      run: |
+        apt-get update
+        apt-get install -y shellcheck
+      shell: bash
