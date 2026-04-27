@@ -1,6 +1,6 @@
 """This module defines a Protocol/Interface for mapping Result between different blocks.
 
-This modules defines a protocol for mapping Result types between different blocks or
+This module defines a protocol for mapping Result types between different blocks or
 representations.
 
 You can implement this protocol to create mappers that convert Result types from one
