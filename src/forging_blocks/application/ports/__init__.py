@@ -1,4 +1,4 @@
-"""Application layer ports package.
+"""Application blocks ports package.
 
 Contains inbound and outbound port definitions.
 """

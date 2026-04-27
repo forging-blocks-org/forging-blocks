@@ -1,4 +1,4 @@
-"""Base Entity class for domain layer."""
+"""Base Entity class for domain blocks."""
 
 from __future__ import annotations
 

@@ -1,10 +1,10 @@
-"""This module defines a Protocol/Interface for mapping Result between different layers.
+"""This module defines a Protocol/Interface for mapping Result between different blocks.
 
-This modules defines a protocol for mapping Result types between different layers or
+This modules defines a protocol for mapping Result types between different blocks or
 representations.
 
 You can implement this protocol to create mappers that convert Result types from one
-form to another, facilitating data transformation across application layers.
+form to another, facilitating data transformation across application blocks.
 
 Example:
     ApplicationResult = Result[CreateTaskResponse, CombinedValidationErrors]
@@ -50,10 +50,10 @@ class ResultMapper(  # type: ignore[misc]
     ],
     Protocol,
 ):
-    """Specialized Mapper for transforming Result types across layers.
+    """Specialized Mapper for transforming Result types across blocks.
 
     A ResultMapper is a Mapper that specifically handles Result transformations,
-    typically when crossing architectural boundaries (e.g., domain → HTTP).
+    typically when crossing architectural boundaries (e.g., domain → blocks).
 
     This specialization makes the intent clear: we're mapping Results to Results,
     handling both success and error cases appropriately.
@@ -74,9 +74,7 @@ class ResultMapper(  # type: ignore[misc]
 
     ------
     **Example Usage**
-        >>> class TaskResultMapper(
-        ...     ResultMapper[TaskDTO, DomainError, JSONResponse, ErrorResponse]
-        ... ):
+        >>> class TaskResultMapper(ResultMapper[TaskDTO, DomainError, JSONResponse, ErrorResponse]):
         ...     def map(self, result):
         ...         if result.is_ok():
         ...             return Result.ok(JSONResponse(result.unwrap()))

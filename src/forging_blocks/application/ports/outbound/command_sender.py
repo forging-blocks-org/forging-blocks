@@ -1,6 +1,6 @@
 """Outbound port for asynchronously sending commands.
 
-This module defines a CommandSender, an application-layer abstraction for
+This module defines a CommandSender, an application-blocks abstraction for
 dispatching commands via an external message bus. It decouples command
 issuance from transport details and message broker implementations.
 

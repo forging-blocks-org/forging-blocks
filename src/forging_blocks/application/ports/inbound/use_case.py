@@ -2,7 +2,7 @@
 
 Use cases define the application’s orchestration boundary: they coordinate
 domain operations to fulfill a specific application intent. Use cases are
-pure application-layer logic and must not depend on infrastructure details.
+pure application-blocks logic and must not depend on infrastructure details.
 
 Responsibilities:
     - Orchestrate domain interactions.

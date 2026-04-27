@@ -7,27 +7,20 @@ This directory is reserved for **generic, reusable presentation building blocks*
 ## ✨ Guidelines
 
 - **Purpose:**
-  This layer is for abstractions or patterns that help build presentation adapters (APIs, CLI, UI) and are reusable across many projects.
+  This blocks is for abstractions or patterns that help build presentation adapters (APIs, CLI, UI) and are reusable across many projects.
 
-- **What belongs here?**
-  Only reusable patterns or base classes, such as a generic controller interface or serialization utility.
+## Guidelines
 
-- **What does NOT belong here?**
-  - Project-specific endpoints, routes, CLI commands, or templates
-  - Concrete adapters for a specific UI or API (e.g., FastAPI, Flask, Typer)
+- Keep your adapters here.
+- This blocks is for abstractions or patterns that help build presentation adapters (APIs, CLI, UI) and are reusable across many projects.
 
-  Place those in your application's presentation layer or in the `/examples` directory.
+## Placement
 
-- **Examples:**
-  - A generic controller ABC for web APIs
-  - A DTO validation or serialization utility
+  Place those in your application's presentation blocks or in the `/examples` directory.
 
----
+  Use the examples in the [`/examples`](https://github.com/anomalyco/forging-blocks/tree/main/examples) directory as a starting point for your architecture.
 
-## 📦 Where do concrete presentation adapters go?
-
-Framework- or library-specific presentation code (FastAPI routes, CLI commands, etc.) should **not** be included here.
-Instead, place them in your application's presentation layer or in the `/examples` directory of this repository.
+  Instead, place them in your application's presentation blocks or in the `/examples` directory of this repository.
 
 ---
 
