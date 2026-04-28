@@ -1,8 +1,8 @@
-# Domain Layer 🧠
+# Domain Blocks
 
-The **domain layer** is the heart of your business logic.
+The **domain blocks** is the heart of your business logic.
 It is completely independent of frameworks, databases, and other technical concerns.
-This layer models your problem space using core DDD patterns: **Entities, Value Objects, Domain Events, Aggregates, Repositories, and Domain Services**.
+This blocks models your problem space using core DDD patterns: **Entities, Value Objects, Domain Events, Aggregates, Repositories, and Domain Services**.
 
 ---
 
@@ -48,49 +48,16 @@ domain/
    ```python
    from forging_blocks.domain.entity import Entity
    from buidling_blocks.domain.value_object import ValueObject
+   2. **Model Aggregates**
+      Use `AggregateRoot` for your aggregate boundaries.
 
+   3. **Raise Domain Events**
+      Create subclasses of `Event` and use them to communicate important business changes.
 
-   class UserId(ValueObject[str]):
-       def __init__(self, id: str):
-           self._value = id
+   4. **Use Domain Commands and Queries**
+       Import from `forging_blocks.foundation.messages` for intent and data retrieval.
 
-        @property
-        def value(self) -> str:
-            return self._value
-
-        @property
-        def _equality_components(self) -> tuple:
-            return (self._value,)
-
-   class UserEmail(ValueObject[str]):
-       def __init__(self, email: str):
-           self._value = value
-
-    @property
-    def value(self) -> str:
-        return self._value
-
-   @property
-    def _equality_components(self) -> tuple:
-        return (self._value,)
-
-
-   class User(Entity):
-       def __init__(self, user_id: str, email: UserEmail):
-           super().__init__(user_id)
-           self._email = email
-   ```
-
-2. **Model Aggregates**
-   Use `AggregateRoot` for your aggregate boundaries.
-
-3. **Raise Domain Events**
-   Create subclasses of `Event` and use them to communicate important business changes.
-
-4. **Use Domain Commands and Queries**
-    Import from `forging_blocks.foundation.messages` for intent and data retrieval.
-
----
+   ---
 
 ## 🛡️ Testing Guidelines
 
@@ -101,16 +68,16 @@ domain/
 - Use mocks for outbound ports (repositories, etc.).
 - Avoid mocks for pure domain logic.
 
----
+   ---
 
-## 🧑‍💻 Extending the Domain Layer
+## 🧑‍💻 Extending the Domain Blocks
 
-- **Add new entities or value objects** as your domain grows.
+- **Add new entities or value objects** as your blocks grows.
 - **Add outbound ports** for new persistence or integration needs.
 - **Add domain services** for complex business rules.
 - **Never** import infrastructure, application, or framework code here!
 
----
+   ---
 
 ## 🏗️ Why This Matters
 
@@ -118,5 +85,5 @@ domain/
 - **Testability:** Easy, fast, isolated tests.
 - **Maintainability:** Clear separation of business rules from technical detail.
 
----
+   ---
 **For more examples and full documentation, see the project root [README](../../README.md) or the `/docs` directory.**

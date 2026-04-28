@@ -1,6 +1,6 @@
 """Outbound port for asynchronously fetching query results.
 
-QueryFetcher provides an application-layer abstraction for retrieving data
+QueryFetcher provides an application-blocks abstraction for retrieving data
 by dispatching query messages through a MessageBus. It supports CQRS-style
 architectures where queries are processed independently of commands.
 

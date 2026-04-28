@@ -1,4 +1,4 @@
-"""Inbound message-handling ports for the application layer.
+"""Inbound message-handling ports for the application blocks.
 
 This module defines the contract for handling application messages
 (commands, queries, and domain events). Message handlers sit at the
@@ -38,7 +38,7 @@ class MessageHandler(InboundPort[MessageType, MessageHandlerResultType], Protoco
 
     A MessageHandler defines the contract for processing a single message
     and producing a typed result. Implementations must avoid infrastructure
-    dependencies and remain purely application-layer logic.
+    dependencies and remain purely application-blocks logic.
 
     Implementers typically:
         - Validate or transform the incoming message.

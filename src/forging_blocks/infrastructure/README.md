@@ -7,28 +7,16 @@ This directory is reserved for **generic, reusable infrastructure building block
 ## ✨ Guidelines
 
 - **Purpose:**
-  This layer is for abstractions or patterns that help build infrastructure adapters.
+  This blocks is for abstractions or patterns that help build infrastructure adapters.
 
+## Guidelines
 
-- **What belongs here?**
-  Only abstractions or base classes that can be used in multiple projects, such as a generic repository base, message bus interface, or encryption contract.
+- Keep your adapters here.
+- This blocks is for abstractions or patterns that help build infrastructure adapters.
 
-- **What does NOT belong here?**
-  - Project-specific adapters (e.g., your app's Postgres repository, Redis cache, RabbitMQ handler)
-  - Concrete implementations that depend on frameworks or libraries
+## Placement
 
-  Place those in your application code or in the `/examples` directory.
-
-- **Examples:**
-  - A generic repository base class for any storage backend
-  - An abstract message publisher interface
-
----
-
-## 📦 Where do concrete infrastructure adapters go?
-
-Framework- or library-specific adapters (anything dependent on SQLAlchemy, Redis, etc.) should **not** be included here.
-Instead, place them in your application's infrastructure layer or in the `/examples` directory of this repository.
+Instead, place them in your application's infrastructure blocks or in the `/examples` directory of this repository.
 
 ---
 

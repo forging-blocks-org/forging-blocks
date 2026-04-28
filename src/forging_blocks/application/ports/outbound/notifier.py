@@ -19,13 +19,11 @@ from forging_blocks.foundation.ports import OutboundPort
 NotificationType = TypeVar("NotificationType", contravariant=True)
 
 
-class Notifier(
-    OutboundPort[NotificationType, None], Generic[NotificationType], Protocol
-):
+class Notifier(OutboundPort[NotificationType, None], Generic[NotificationType], Protocol):
     """Outbound port for sending asynchronous notifications.
 
     Implementers integrate with concrete notification systems. The
-    application layer must not depend on infrastructure details beyond this
+    application blocks must not depend on infrastructure details beyond this
     abstraction.
     """
 

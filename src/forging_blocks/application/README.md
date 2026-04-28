@@ -1,7 +1,7 @@
-# Application Layer ⚙️
+# Application Block
 
-The **application layer** orchestrates business workflows, coordinates domain logic, and manages cross-cutting concerns such as transactions and notifications.
-It acts as a bridge between the domain layer (business logic) and the outside world (presentation, infrastructure, external services).
+The **application block** orchestrates business workflows, coordinates domain logic, and manages cross-cutting concerns such as transactions and notifications.
+It acts as a bridge between the domain block (business logic) and the outside world (presentation, infrastructure, external services).
 
 ---
 
@@ -47,7 +47,7 @@ application/
 
 > **Best Practice:**
 > Application services (use cases) should use DTOs (Data Transfer Objects) as their input and output types, not domain entities.
-> This keeps your application layer decoupled from domain and presentation concerns, and ensures a stable contract between layers.
+> This keeps your application blocks decoupled from domain and presentation concerns, and ensures a stable contract between blocks.
 
 ### 1. Define Use Case, Request, and Response (with type hints, using AsyncUseCase or SyncUseCase)
 
