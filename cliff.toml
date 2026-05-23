@@ -14,5 +14,6 @@ commit_parsers = [
   { message = "^chore\\(cliff\\)", skip = true },
   { message = "Prepare release", skip = true },
   { message = "^chore", group = "Miscellaneous Tasks" },
+  { message = "^perf", group = "Performance" },
   { message = ".*", skip = true },
 ]
