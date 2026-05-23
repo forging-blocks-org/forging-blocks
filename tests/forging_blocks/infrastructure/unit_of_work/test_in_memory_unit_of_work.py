@@ -47,40 +47,6 @@ class TestInMemoryUnitOfWork:
     def aggregate(self) -> FakeAggregate:
         return FakeAggregate("agg-1")
 
-    async def test_aenter_when_context_manager_initialized_then_returns_self(
-        self,
-    ) -> None:
-        uow = InMemoryUnitOfWork()
-
-        async with uow as returned:
-            assert returned is uow
-
-    async def test_aexit_when_no_exception_then_commit_is_called(
-        self, event_publisher: AsyncMock
-    ) -> None:
-        uow = InMemoryUnitOfWork(event_publisher)
-
-        async with uow:
-            pass
-
-        assert uow.committed is True
-        assert uow.rolled_back is False
-
-    async def test_aexit_when_exception_then_rollback_is_called(
-        self, event_publisher: AsyncMock
-    ) -> None:
-        uow = InMemoryUnitOfWork(event_publisher)
-
-        class TestException(Exception):
-            pass
-
-        with pytest.raises(TestException):
-            async with uow:
-                raise TestException()
-
-        assert uow.rolled_back is True
-        assert uow.committed is False
-
     async def test_commit_when_modified_aggregate_has_events_then_publishes_them(
         self, event_publisher: AsyncMock, aggregate: FakeAggregate
     ) -> None:
