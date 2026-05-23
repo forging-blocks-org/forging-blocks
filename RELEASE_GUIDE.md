@@ -11,7 +11,7 @@ The goal is to make releases:
 
 !!! note "Important principle"
     Contributors prepare releases locally, create PRs for review, and **all publishing happens automatically in GitHub Actions**.
-    When the release PR is merged into `main` it will triggers the package publishing and docs deploy.
+    When the release PR is merged into `main` it will trigger the package publishing and docs deploy.
 
 ---
 
@@ -78,7 +78,6 @@ When the release PR is merged into `main`, GitHub Actions automatically:
 1. **Creates and pushes tag** (from branch name `release/vX.Y.Z`)
 2. **Builds and publishes** package to PyPI
 3. **Deploys documentation** to GitHub Pages
-4. **Creates GitHub Release** with changelog
 
 > **🔒 Important**: Publishing only happens after PR merge. If the PR is rejected, nothing gets released.
 
@@ -100,7 +99,7 @@ ForgingBlocks follows a **local-preparation + automated-publishing model**:
   - validates the release candidate
   - builds the package
   - publishes to PyPI
-  - deploys versioned documentation
+  - deploys the latest documentation
 
 **Publishing only happens after the release PR is merged.**
 
@@ -143,7 +142,6 @@ Valid `type` values:
 - perf
 - test
 - chore
-- breaking
 
 Examples:
 
@@ -225,6 +223,9 @@ flowchart TD
     L --> P[Create GitHub Release]
 ```
 
+
+> Tags are created automatically when releasing a version
+
 ---
 
 ## Release Commands Reference
@@ -237,7 +238,7 @@ poetry run poe release patch    # 0.3.6 → 0.3.7
 poetry run poe release minor    # 0.3.6 → 0.4.0
 poetry run poe release major    # 0.3.6 → 1.0.0
 
-# Execution mode (creates branch, tag, and PR)
+# Execution mode (create release branch, and PR)
 poetry run poe release patch --execute    # 0.3.6 → 0.3.7
 poetry run poe release minor --execute    # 0.3.6 → 0.4.0
 poetry run poe release major --execute    # 0.3.6 → 1.0.0
@@ -248,7 +249,7 @@ poetry run poe release major --execute    # 0.3.6 → 1.0.0
 | Mode | Creates Branch | Creates Tag | Opens PR | Safe to Run |
 |------|----------------|-------------|----------|-------------|
 | **Simulation** (default) | ❌ | ❌ | ❌ | ✅ Always safe |
-| **Execute** (`--execute`) | ✅ | ✅ | ✅ | ⚠️ Only when ready |
+| **Execute** (`--execute`) | ✅ | ✅ | ❌ | ⚠️ Only when ready |
 
 > **🔒 Safety First**: Always run simulation mode first to validate the release.
 
