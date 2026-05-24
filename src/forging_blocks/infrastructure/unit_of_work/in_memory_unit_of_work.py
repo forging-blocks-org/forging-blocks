@@ -39,7 +39,7 @@ class InMemoryUnitOfWork(UnitOfWork):
                 domain events collected from aggregates on commit.
         """
         self._event_publisher = event_publisher
-        self._modified_aggregates: list[AggregateRoot] = []
+        self._modified_aggregates: list[AggregateRoot[Any]] = []
         self._committed = False
         self._rolled_back = False
 
@@ -58,7 +58,7 @@ class InMemoryUnitOfWork(UnitOfWork):
         """Return the transaction state dict, or None if not active."""
         return None
 
-    def register_modified(self, aggregate: AggregateRoot) -> None:
+    def register_modified(self, aggregate: AggregateRoot[Any]) -> None:
         """Register an aggregate as modified within the current transaction.
 
         Args:

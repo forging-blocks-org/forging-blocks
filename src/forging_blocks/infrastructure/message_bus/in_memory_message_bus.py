@@ -7,12 +7,12 @@ to registered handlers based on message type.
 from __future__ import annotations
 
 from collections.abc import Callable
-from typing import Any, Generic, TypeVar
+from typing import Any, Generic, TypeVar, cast
 
 from forging_blocks.application.ports.outbound.message_bus import MessageBus
 from forging_blocks.foundation.messages.message import Message
 
-MessageType = TypeVar("MessageType", bound=Message, contravariant=True)
+MessageType = TypeVar("MessageType", bound=Message[Any], contravariant=True)
 MessageBusResultType = TypeVar("MessageBusResultType", covariant=True)
 
 
@@ -37,9 +37,9 @@ class InMemoryMessageBus(
 
     def __init__(self) -> None:
         """Initialize the message bus with an empty handler registry."""
-        self._handlers: dict[type[Message], Callable[[Any], Any]] = {}
+        self._handlers: dict[type[Message[Any]], Callable[[Any], Any]] = {}
 
-    def register(self, message_type: type[Message], handler: Callable[[Any], Any]) -> None:
+    def register(self, message_type: type[Message[Any]], handler: Callable[[Any], Any]) -> None:
         """Register a handler for a specific message type.
 
         Args:
@@ -70,4 +70,4 @@ class InMemoryMessageBus(
         """
         handler = self._handlers[type(message)]
         result = handler(message)
-        return result
+        return cast(MessageBusResultType, result)
