@@ -77,7 +77,7 @@ class InMemoryUnitOfWork(UnitOfWork):
             UnitOfWorkError: If commit fails.
         """
         try:
-            aggregates_with_events: list[tuple[AggregateRoot, list[Any]]] = [
+            aggregates_with_events: list[tuple[AggregateRoot[Any], list[Any]]] = [
                 (aggregate, list(aggregate.uncommitted_changes()))
                 for aggregate in self._modified_aggregates
             ]
