@@ -69,19 +69,27 @@ class InMemoryUnitOfWork(UnitOfWork):
     async def commit(self) -> None:
         """Commit all changes and publish collected domain events.
 
-        Iterates through registered modified aggregates, collects their
-        uncommitted domain events, and publishes them through the configured
-        EventPublisher.
+        Iterates through registered modified aggregates, snapshots their
+        uncommitted domain events, publishes them through the configured
+        EventPublisher, and only then clears the events from the aggregates.
 
         Raises:
             UnitOfWorkError: If commit fails.
         """
         try:
+            aggregates_with_events: list[tuple[AggregateRoot, list[Any]]] = [
+                (aggregate, list(aggregate.uncommitted_changes()))
+                for aggregate in self._modified_aggregates
+            ]
+
             if self._event_publisher is not None:
-                for aggregate in self._modified_aggregates:
-                    events = aggregate.collect_events()
+                for _, events in aggregates_with_events:
                     for event in events:
                         await self._event_publisher.publish(event)
+
+            for aggregate, _ in aggregates_with_events:
+                aggregate.collect_events()
+
             self._committed = True
         except Exception as exc:
             raise UnitOfWorkError(ErrorMessage("Failed to commit transaction.")) from exc
