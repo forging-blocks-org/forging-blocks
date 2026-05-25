@@ -1,3 +1,4 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 import pytest
 
 from forging_blocks.foundation import Err, ErrorMessage, Ok, ResultAccessError
@@ -76,9 +77,7 @@ class TestOk:
     def ok_result(self) -> Ok[int, str]:
         return Ok(123)
 
-    def test___init___when_value_is_given_then_stores_it(
-        self, ok_result: Ok[int, str]
-    ) -> None:
+    def test___init___when_value_is_given_then_stores_it(self, ok_result: Ok[int, str]) -> None:
         # Arrange done by fixture
 
         # Act
@@ -87,9 +86,7 @@ class TestOk:
         # Assert
         assert result == 123
 
-    def test_is_err_when_called_then_returns_false(
-        self, ok_result: Ok[int, str]
-    ) -> None:
+    def test_is_err_when_called_then_returns_false(self, ok_result: Ok[int, str]) -> None:
         # Arrange
 
         # Act
@@ -107,9 +104,7 @@ class TestOk:
         # Assert
         assert result is True
 
-    def test_value_when_accessed_then_returns_inner_value(
-        self, ok_result: Ok[int, str]
-    ) -> None:
+    def test_value_when_accessed_then_returns_inner_value(self, ok_result: Ok[int, str]) -> None:
         # Arrange
 
         # Act
@@ -202,9 +197,7 @@ class TestErr:
     def err_result(self) -> Err[int, str]:
         return Err("boom")
 
-    def test___init___when_error_is_given_then_stores_it(
-        self, err_result: Err[int, str]
-    ) -> None:
+    def test___init___when_error_is_given_then_stores_it(self, err_result: Err[int, str]) -> None:
         # Arrange done by fixture
 
         # Act
@@ -213,9 +206,7 @@ class TestErr:
         # Assert
         assert result == "boom"
 
-    def test_is_err_when_called_then_returns_true(
-        self, err_result: Err[int, str]
-    ) -> None:
+    def test_is_err_when_called_then_returns_true(self, err_result: Err[int, str]) -> None:
         # Arrange
 
         # Act
@@ -224,9 +215,7 @@ class TestErr:
         # Assert
         assert result is True
 
-    def test_is_ok_when_called_then_returns_false(
-        self, err_result: Err[int, str]
-    ) -> None:
+    def test_is_ok_when_called_then_returns_false(self, err_result: Err[int, str]) -> None:
         # Arrange
 
         # Act
@@ -244,9 +233,7 @@ class TestErr:
         # Assert
         assert "Cannot access value" in str(exc_info.value)
 
-    def test_error_when_accessed_then_returns_inner_error(
-        self, err_result: Err[int, str]
-    ) -> None:
+    def test_error_when_accessed_then_returns_inner_error(self, err_result: Err[int, str]) -> None:
         # Arrange
 
         # Act

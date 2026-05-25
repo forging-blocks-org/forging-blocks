@@ -1,6 +1,6 @@
 """Foundational port definition for the ForgingBlocks."""
 
-# pyright: reportInvalidTypeVarUse=false
+# pyright: reportInvalidTypeVarUse=false, reportMissingTypeArgument=false
 # mypy: disable-error-code=misc
 
 from typing import Generic, Protocol, TypeAlias, TypeVar
@@ -28,5 +28,5 @@ class Port(Protocol, Generic[InputType, OutputType]):
 InboundPort: TypeAlias = Port[InputType, OutputType]
 OutboundPort: TypeAlias = Port[InputType, OutputType]
 
-InputPort: TypeAlias = InboundPort
-OutputPort: TypeAlias = OutboundPort
+InputPort: TypeAlias = InboundPort  # type: ignore[type-arg]
+OutputPort: TypeAlias = OutboundPort  # type: ignore[type-arg]

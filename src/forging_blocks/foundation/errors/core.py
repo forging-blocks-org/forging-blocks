@@ -18,7 +18,7 @@ class ErrorMessage:
 class ErrorMetadata:
     """Represents metadata about the error."""
 
-    context: dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=lambda: {})
 
 
 @dataclass(frozen=True)

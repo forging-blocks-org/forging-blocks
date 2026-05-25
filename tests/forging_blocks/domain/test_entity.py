@@ -1,3 +1,4 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 import copy
 
 import pytest
@@ -28,9 +29,7 @@ class TestUser:
     def persisted_user(self) -> User:
         return User(1, "Alice")
 
-    def test___init___WHEN_id_is_none_THEN_creates_draft_entity(
-        self, draft_user: User
-    ) -> None:
+    def test___init___WHEN_id_is_none_THEN_creates_draft_entity(self, draft_user: User) -> None:
         result = draft_user.id
         assert result is None
 
@@ -76,15 +75,11 @@ class TestUser:
         persisted_user.__delattr__("extra")
         assert not hasattr(persisted_user, "extra")
 
-    def test_is_persisted_WHEN_id_is_none_THEN_returns_false(
-        self, draft_user: User
-    ) -> None:
+    def test_is_persisted_WHEN_id_is_none_THEN_returns_false(self, draft_user: User) -> None:
         result = draft_user.is_persisted()
         assert result is False
 
-    def test_is_persisted_WHEN_id_defined_THEN_returns_true(
-        self, persisted_user: User
-    ) -> None:
+    def test_is_persisted_WHEN_id_defined_THEN_returns_true(self, persisted_user: User) -> None:
         result = persisted_user.is_persisted()
         assert result is True
 
@@ -140,9 +135,7 @@ class TestUser:
 
         assert result is False
 
-    def test___hash___WHEN_persisted_THEN_returns_hash_of_id(
-        self, persisted_user: User
-    ) -> None:
+    def test___hash___WHEN_persisted_THEN_returns_hash_of_id(self, persisted_user: User) -> None:
         expected = hash(1)
         result = hash(persisted_user)
         assert result == expected
@@ -175,8 +168,6 @@ class TestUser:
         result = str(persisted_user)
         assert result == "User(id=1)"
 
-    def test___repr___WHEN_called_THEN_returns_same_as_str(
-        self, persisted_user: User
-    ) -> None:
+    def test___repr___WHEN_called_THEN_returns_same_as_str(self, persisted_user: User) -> None:
         result = repr(persisted_user)
         assert result == str(persisted_user)
