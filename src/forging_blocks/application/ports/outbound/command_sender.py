@@ -13,12 +13,14 @@ Non-Responsibilities:
     - Serialization or transport concerns.
 """
 
+from typing import Any
+
 from forging_blocks.application.ports.outbound.message_bus import MessageBus
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.ports import OutboundPort
 
 
-class CommandSender(OutboundPort[Command, None]):
+class CommandSender(OutboundPort[Command[Any], None]):
     """Outbound port for asynchronously sending command messages.
 
     The CommandSender delegates message dispatching to a MessageBus. It is
@@ -26,10 +28,10 @@ class CommandSender(OutboundPort[Command, None]):
     operations in other parts of the system.
     """
 
-    def __init__(self, message_bus: MessageBus[Command, None]) -> None:
+    def __init__(self, message_bus: MessageBus[Command[Any], None]) -> None:
         self._message_bus = message_bus
 
-    async def send(self, command: Command) -> None:
+    async def send(self, command: Command[Any]) -> None:
         """Send a command asynchronously.
 
         Args:

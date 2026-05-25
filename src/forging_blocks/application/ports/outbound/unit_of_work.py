@@ -20,14 +20,6 @@ from abc import ABC, abstractmethod
 from types import TracebackType
 from typing import Any
 
-from forging_blocks.foundation.errors.base import Error
-
-
-class UnitOfWorkError(Error):
-    """Error raised when a Unit of Work operation fails."""
-
-    pass
-
 
 class UnitOfWork(ABC):
     """Abstract base class for managing transactional consistency.

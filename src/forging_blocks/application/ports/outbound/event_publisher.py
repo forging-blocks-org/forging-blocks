@@ -13,12 +13,14 @@ Non-Responsibilities:
     - Guarantee ordering or durability.
 """
 
+from typing import Any
+
 from forging_blocks.application.ports.outbound.message_bus import MessageBus
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.ports import OutboundPort
 
 
-class EventPublisher(OutboundPort[Event, None]):
+class EventPublisher(OutboundPort[Event[Any], None]):
     """Outbound port for publishing domain events asynchronously.
 
     An EventPublisher provides an abstraction over event transport. Use cases
@@ -26,10 +28,10 @@ class EventPublisher(OutboundPort[Event, None]):
     transitions. The underlying MessageBus determines the delivery semantics.
     """
 
-    def __init__(self, message_bus: MessageBus[Event, None]) -> None:
+    def __init__(self, message_bus: MessageBus[Event[Any], None]) -> None:
         self._message_bus = message_bus
 
-    async def publish(self, event: Event) -> None:
+    async def publish(self, event: Event[Any]) -> None:
         """Publish a domain event.
 
         Args:
