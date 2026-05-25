@@ -1,3 +1,4 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 """Tests for the in-memory release command bus."""
 
 from unittest.mock import AsyncMock
@@ -12,8 +13,6 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
 @pytest.mark.unit
 class TestInMemoryReleaseCommandBus:
     """Test the InMemoryReleaseCommandBus."""
-
-    # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 
     @pytest.fixture
     def command_bus(self):

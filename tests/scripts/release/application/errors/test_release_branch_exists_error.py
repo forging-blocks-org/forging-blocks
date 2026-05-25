@@ -1,3 +1,4 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 """Tests for the ReleaseBranchExistsError."""
 
 import pytest
@@ -6,8 +7,6 @@ from scripts.release.application.errors.release_branch_exists_error import Relea
 
 class TestReleaseBranchExistsError:
     """Test the ReleaseBranchExistsError class."""
-
-    # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 
     def test_error_creation(self):
         """Test that ReleaseBranchExistsError can be created with a branch name."""
