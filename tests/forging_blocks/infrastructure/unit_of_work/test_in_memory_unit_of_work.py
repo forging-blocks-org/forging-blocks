@@ -80,6 +80,7 @@ class TestInMemoryUnitOfWork:
         await uow.commit()
 
         assert uow.committed is True
+        assert uow.rolled_back is False
 
     async def test_commit_when_event_publisher_raises_then_wraps_error(
         self, event_publisher: AsyncMock, aggregate: FakeAggregate
@@ -119,3 +120,29 @@ class TestInMemoryUnitOfWork:
         uow = InMemoryUnitOfWork()
 
         assert uow.session is None
+
+    async def test_commit_after_rollback_resets_rolled_back(self, aggregate: FakeAggregate) -> None:
+        uow = InMemoryUnitOfWork()
+        uow.register_modified(aggregate)
+
+        await uow.rollback()
+        assert uow.rolled_back is True
+        assert uow.committed is False
+
+        uow.register_modified(aggregate)
+        await uow.commit()
+        assert uow.committed is True
+        assert uow.rolled_back is False
+
+    async def test_rollback_after_commit_resets_committed(self, aggregate: FakeAggregate) -> None:
+        uow = InMemoryUnitOfWork()
+        uow.register_modified(aggregate)
+
+        await uow.commit()
+        assert uow.committed is True
+        assert uow.rolled_back is False
+
+        uow.register_modified(aggregate)
+        await uow.rollback()
+        assert uow.rolled_back is True
+        assert uow.committed is False

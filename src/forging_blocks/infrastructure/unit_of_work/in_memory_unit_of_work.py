@@ -92,6 +92,7 @@ class InMemoryUnitOfWork(UnitOfWork):
                 aggregate.collect_events()
 
             self._committed = True
+            self._rolled_back = False
         except Exception as exc:
             raise UnitOfWorkError(ErrorMessage("Failed to commit transaction.")) from exc
 
@@ -103,3 +104,4 @@ class InMemoryUnitOfWork(UnitOfWork):
         """
         self._modified_aggregates.clear()
         self._rolled_back = True
+        self._committed = False
