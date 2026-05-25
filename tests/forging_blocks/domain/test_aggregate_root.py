@@ -101,7 +101,7 @@ class TestAggregateRoot:
         self,
     ) -> None:
         aggregate = OrderAggregate(1)
-        result = aggregate.uncommitted_changes()
+        result = aggregate.uncommitted_changes
         assert result == []
 
     def test_record_event_when_event_recorded_then_event_is_stored_in_uncommitted_events(
@@ -110,7 +110,7 @@ class TestAggregateRoot:
         aggregate = OrderAggregate(1)
         event = DummyEvent("created")
         aggregate.record_event(event)
-        result = aggregate.uncommitted_changes()
+        result = aggregate.uncommitted_changes
         assert result == [event]
 
     def test_collect_events_when_called_then_clears_uncommitted_events_and_increments_version(
@@ -122,7 +122,7 @@ class TestAggregateRoot:
 
         aggregate.collect_events()
 
-        assert aggregate.uncommitted_changes() == []
+        assert aggregate.uncommitted_changes == []
         assert aggregate.version.value == old_version.value + 1
 
     def test__increment_version_when_called_then_increments_version_by_one(

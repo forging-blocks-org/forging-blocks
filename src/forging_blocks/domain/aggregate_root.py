@@ -63,6 +63,11 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
         """Return the current version of the aggregate."""
         return self._version
 
+    @property
+    def uncommitted_changes(self) -> list[Event[Any]]:
+        """Return a copy of uncommitted domain events recorded by this aggregate."""
+        return self._uncommitted_events.copy()
+
     def collect_events(self) -> list[Event[Any]]:
         """Collect uncommitted events, clear array, increment the version and return events."""
         events = self._uncommitted_events.copy()
@@ -74,10 +79,6 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
     def record_event(self, domain_event: Event[Any]) -> None:
         """Record a new domain event for later publication."""
         self._uncommitted_events.append(domain_event)
-
-    def uncommitted_changes(self) -> list[Event[Any]]:
-        """Return a copy of uncommitted domain events recorded by this aggregate."""
-        return self._uncommitted_events.copy()
 
     def _increment_version(self) -> None:
         """Increment the aggregate's version value."""
