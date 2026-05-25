@@ -13,6 +13,8 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
 class TestInMemoryReleaseCommandBus:
     """Test the InMemoryReleaseCommandBus."""
 
+    # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+
     @pytest.fixture
     def command_bus(self):
         """Create a command bus instance."""

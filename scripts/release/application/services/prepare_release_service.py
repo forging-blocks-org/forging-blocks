@@ -1,3 +1,5 @@
+from typing import Any
+
 from scripts.release.application.ports.inbound import (
     PrepareReleaseInput,
     PrepareReleaseOutput,
@@ -39,7 +41,7 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         versioning_service: VersioningService,
         version_control: VersionControl,
         transaction: ReleaseTransaction,
-        message_bus: ReleaseCommandBus,
+        message_bus: ReleaseCommandBus[Any],
         changelog_generator: ChangelogGenerator,
     ) -> None:
         self._versioning_service = versioning_service

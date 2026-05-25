@@ -8,6 +8,7 @@ Commit message assertions match cliff.toml rendering: git-cliff strips
 conventional commit prefixes and capitalises the description, so
 "feat: add feature after tag" is rendered as "Add feature after tag".
 """
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 
 import subprocess
 from pathlib import Path

@@ -10,6 +10,8 @@ from scripts.release.presentation.presenters.release_cli_presenter import Releas
 class TestReleaseCliPresenterErrorHandling:
     """Test the improved error handling in the release CLI presenter."""
 
+    # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+
     def setup_method(self):
         """Set up test fixtures."""
         self.mock_parser = Mock()

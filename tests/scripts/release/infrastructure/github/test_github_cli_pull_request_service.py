@@ -1,3 +1,4 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 from __future__ import annotations
 
 import os
@@ -48,10 +49,7 @@ class TestGitHubCliPullRequestServiceIntegration:
         output = service.open(pull_request)
 
         # Assert
-        assert (
-            output.url
-            == "https://github.com/forging-blocks-org/forging-blocks/pull/123"
-        )
+        assert output.url == "https://github.com/forging-blocks-org/forging-blocks/pull/123"
         assert output.pr_id == "123"
 
         # Verify the correct command was called

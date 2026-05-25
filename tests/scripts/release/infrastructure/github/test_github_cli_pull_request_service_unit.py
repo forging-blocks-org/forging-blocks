@@ -1,3 +1,4 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 from unittest.mock import Mock
 
 import pytest
@@ -30,7 +31,9 @@ class TestGitHubCliPullRequestService:
             body="Automated release for version 1.2.3",
         )
 
-    def test_init_with_provided_runner_uses_provided_runner(self, mock_command_runner: Mock) -> None:
+    def test_init_with_provided_runner_uses_provided_runner(
+        self, mock_command_runner: Mock
+    ) -> None:
         """Test that constructor uses the provided command runner."""
         # Act
         service = GitHubCliPullRequestService(runner=mock_command_runner)
@@ -244,7 +247,7 @@ class TestGitHubCliPullRequestService:
         pr = ReleasePullRequest(
             base="main",
             head=ReleaseBranchName("release/v1.0.0"),
-            title="Release v1.0.0: Major Update with \"Quotes\" & Symbols",
+            title='Release v1.0.0: Major Update with "Quotes" & Symbols',
             body="Release notes:\n- Feature A\n- Bug fix for issue #123\n- Update dependencies",
         )
 
@@ -260,8 +263,11 @@ class TestGitHubCliPullRequestService:
         title_index = call_args.index("--title") + 1
         body_index = call_args.index("--body") + 1
 
-        assert call_args[title_index] == "Release v1.0.0: Major Update with \"Quotes\" & Symbols"
-        assert call_args[body_index] == "Release notes:\n- Feature A\n- Bug fix for issue #123\n- Update dependencies"
+        assert call_args[title_index] == 'Release v1.0.0: Major Update with "Quotes" & Symbols'
+        assert (
+            call_args[body_index]
+            == "Release notes:\n- Feature A\n- Bug fix for issue #123\n- Update dependencies"
+        )
 
         assert result.pr_id == "42"
         assert result.url == expected_url

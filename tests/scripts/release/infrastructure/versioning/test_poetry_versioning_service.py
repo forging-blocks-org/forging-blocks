@@ -1,3 +1,4 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 from unittest.mock import MagicMock, create_autospec
 
 import pytest
@@ -15,9 +16,7 @@ class TestPoetryVersioningService:
     def runner_mock(self) -> MagicMock:
         return create_autospec(spec=CommandRunner, instance=True)
 
-    def test_current_version_when_poetry_fails_then_error(
-        self, runner_mock: MagicMock
-    ) -> None:
+    def test_current_version_when_poetry_fails_then_error(self, runner_mock: MagicMock) -> None:
         runner_mock.run.side_effect = RuntimeError("poetry failed")
 
         service = PoetryVersioningService(runner=runner_mock)
@@ -44,9 +43,7 @@ class TestPoetryVersioningService:
         with pytest.raises(RuntimeError):
             service.compute_next_version(ReleaseLevel.from_str("minor"))
 
-    def test_apply_version_when_poetry_fails_then_error(
-        self, runner_mock: MagicMock
-    ) -> None:
+    def test_apply_version_when_poetry_fails_then_error(self, runner_mock: MagicMock) -> None:
         runner_mock.run.side_effect = RuntimeError("poetry failed")
 
         service = PoetryVersioningService(runner=runner_mock)

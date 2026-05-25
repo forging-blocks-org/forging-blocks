@@ -12,13 +12,14 @@ Exit codes:
     1 — one or more violations found
 """
 
+# pyright: reportUnknownVariableType=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownArgumentType=false, reportMissingTypeArgument=false
 from __future__ import annotations
 
 import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterator
+from typing import Any, Iterator
 
 import yaml
 
@@ -58,7 +59,7 @@ class Violation:
 
 @dataclass
 class ValidationResult:
-    violations: list[Violation] = field(default_factory=list)
+    violations: list[Violation] = field(default_factory=list[Violation])
 
     @property
     def ok(self) -> bool:
@@ -131,7 +132,7 @@ _SCRIPT_CALL_PATTERN = re.compile(
 )
 
 
-def _collect_env_block(env_block: dict | None) -> frozenset[EnvVar]:
+def _collect_env_block(env_block: dict[str, Any] | None) -> frozenset[EnvVar]:
     if not env_block:
         return frozenset()
     return frozenset(
