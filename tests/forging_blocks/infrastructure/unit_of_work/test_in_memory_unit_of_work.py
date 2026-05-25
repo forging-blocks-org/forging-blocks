@@ -81,6 +81,7 @@ class TestInMemoryUnitOfWork:
 
         assert uow.committed is True
         assert uow.rolled_back is False
+        assert len(uow._modified_aggregates) == 0
 
     async def test_commit_when_event_publisher_raises_then_wraps_error(
         self, event_publisher: AsyncMock, aggregate: FakeAggregate

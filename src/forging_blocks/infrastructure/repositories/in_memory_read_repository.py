@@ -11,7 +11,7 @@ from typing import Generic, Sequence, TypeVar
 
 from forging_blocks.application.ports.outbound.repository import ReadOnlyRepository
 
-TReadAggregateRoot = TypeVar("TReadAggregateRoot", covariant=True)
+TReadAggregateRoot = TypeVar("TReadAggregateRoot")
 TId = TypeVar("TId", contravariant=True)
 
 

@@ -6,6 +6,7 @@ to registered handlers based on message type.
 
 from __future__ import annotations
 
+import inspect
 from collections.abc import Callable
 from typing import Any, Generic, TypeVar, cast
 
@@ -70,4 +71,6 @@ class InMemoryMessageBus(
         """
         handler = self._handlers[type(message)]
         result = handler(message)
+        if inspect.iscoroutine(result):
+            result = await result
         return cast(MessageBusResultType, result)

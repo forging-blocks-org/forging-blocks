@@ -90,11 +90,12 @@ class InMemoryUnitOfWork(UnitOfWork):
 
             for aggregate, _ in aggregates_with_events:
                 aggregate.collect_events()
-
-            self._committed = True
-            self._rolled_back = False
         except Exception as exc:
-            raise UnitOfWorkError(ErrorMessage("Failed to commit transaction.")) from exc
+            raise UnitOfWorkError(ErrorMessage(f"Failed to commit transaction: {exc}")) from exc
+
+        self._committed = True
+        self._rolled_back = False
+        self._modified_aggregates.clear()
 
     async def rollback(self) -> None:
         """Roll back the transaction and discard tracked aggregates.

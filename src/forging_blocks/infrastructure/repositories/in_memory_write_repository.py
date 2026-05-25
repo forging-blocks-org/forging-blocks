@@ -15,8 +15,8 @@ from forging_blocks.infrastructure.errors.repository_errors import (
     RepositoryNotFoundError,
 )
 
-TWriteAggregateRoot = TypeVar("TWriteAggregateRoot", contravariant=True)
-TWriteId = TypeVar("TWriteId", contravariant=True)
+TWriteAggregateRoot = TypeVar("TWriteAggregateRoot")
+TWriteId = TypeVar("TWriteId")
 
 
 class InMemoryWriteRepository(

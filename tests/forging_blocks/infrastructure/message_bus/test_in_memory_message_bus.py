@@ -127,3 +127,16 @@ class TestInMemoryMessageBus:
         await bus.dispatch(FakeCommand("second"))
 
         assert handler_results == ["first", "second"]
+
+    async def test_dispatch_when_handler_is_async_then_awaits_and_returns_result(
+        self,
+    ) -> None:
+        bus = InMemoryMessageBus()
+
+        async def handler(cmd: FakeCommand) -> str:
+            return cmd.value.upper()
+
+        bus.register(FakeCommand, handler)
+        result = await bus.dispatch(FakeCommand("hello"))
+
+        assert result == "HELLO"
