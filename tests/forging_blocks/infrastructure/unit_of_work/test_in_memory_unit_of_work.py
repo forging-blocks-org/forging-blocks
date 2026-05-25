@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock
 import pytest
 from pytest import fixture
 
-from forging_blocks.application.ports.outbound.event_publisher import EventPublisher
+from forging_blocks.application import EventPublisher, UnitOfWorkError
 from forging_blocks.domain.aggregate_root import AggregateRoot
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.infrastructure.unit_of_work.in_memory_unit_of_work import (
@@ -84,8 +84,6 @@ class TestInMemoryUnitOfWork:
     async def test_commit_when_event_publisher_raises_then_wraps_error(
         self, event_publisher: AsyncMock, aggregate: FakeAggregate
     ) -> None:
-        from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWorkError
-
         uow = InMemoryUnitOfWork(event_publisher)
         event = FakeEvent("data")
         aggregate.record_event(event)
@@ -115,7 +113,7 @@ class TestInMemoryUnitOfWork:
         uow.register_modified(aggregate)
 
         assert len(uow._modified_aggregates) == 1
-        assert uow._modified_aggregates[0] is aggregate
+        assert uow._modified_aggregates[aggregate.id] is aggregate
 
     async def test_session_property_when_called_then_returns_none(self) -> None:
         uow = InMemoryUnitOfWork()
