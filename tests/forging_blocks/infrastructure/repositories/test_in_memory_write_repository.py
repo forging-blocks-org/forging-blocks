@@ -1,4 +1,6 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+from typing import Callable
+
 import pytest
 
 from forging_blocks.infrastructure.errors.repository_errors import (
@@ -25,9 +27,16 @@ class FakeAggregate:
 
 @pytest.mark.unit
 class TestInMemoryWriteRepository:
-    async def test_save_when_aggregate_has_id_then_persists_aggregate(self) -> None:
+    @pytest.fixture
+    def create_alice_aggregate(self) -> Callable[[str], FakeAggregate]:
+        return lambda id: FakeAggregate(id, "Alice")
+
+    async def test_save_when_aggregate_has_id_then_persists_aggregate(
+        self, create_alice_aggregate: Callable[[str], FakeAggregate]
+    ) -> None:
         repo = InMemoryWriteRepository[FakeAggregate, str]()
-        aggregate = FakeAggregate("1", "Alice")
+        alice_id = "1"
+        aggregate = create_alice_aggregate(alice_id)
 
         await repo.save(aggregate)
 
@@ -50,13 +59,16 @@ class TestInMemoryWriteRepository:
 
         assert repo._storage["1"].name == "NewName"
 
-    async def test_delete_by_id_when_id_exists_then_removes_aggregate(self) -> None:
+    async def test_delete_by_id_when_id_exists_then_removes_aggregate(
+        self, create_alice_aggregate: Callable[[str], FakeAggregate]
+    ) -> None:
         repo = InMemoryWriteRepository[FakeAggregate, str]()
-        repo._storage["1"] = FakeAggregate("1", "Alice")
+        alice_id = "1"
+        repo._storage[alice_id] = create_alice_aggregate(alice_id)
 
-        await repo.delete_by_id("1")
+        await repo.delete_by_id(alice_id)
 
-        assert "1" not in repo._storage
+        assert alice_id not in repo._storage
 
     async def test_delete_by_id_when_id_does_not_exist_then_raises_not_found_error(self) -> None:
         repo = InMemoryWriteRepository[FakeAggregate, str]()
@@ -67,13 +79,21 @@ class TestInMemoryWriteRepository:
         assert "nonexistent" in str(exc_info.value)
         assert "not found" in str(exc_info.value).lower()
 
-    async def test_delete_by_id_when_id_exists_then_does_not_raise(self) -> None:
+    async def test_delete_by_id_when_id_exists_then_removes_only_target_aggregate(
+        self, create_alice_aggregate: Callable[[str], FakeAggregate]
+    ) -> None:
         repo = InMemoryWriteRepository[FakeAggregate, str]()
-        repo._storage["1"] = FakeAggregate("1", "Alice")
+        alice_id = "1"
+        john_id = "2"
+        john_aggregate = FakeAggregate(john_id, "John")
+        alice = create_alice_aggregate(alice_id)
+        repo._storage[alice_id] = alice
+        repo._storage[john_id] = john_aggregate
 
-        await repo.delete_by_id("1")
+        await repo.delete_by_id(john_id)
 
-        assert "1" not in repo._storage
+        assert john_id not in repo._storage
+        assert repo._storage[alice_id] == alice
 
     async def test_init_when_no_storage_given_then_creates_empty_storage(self) -> None:
         repo = InMemoryWriteRepository[FakeAggregate, str]()
@@ -81,15 +101,21 @@ class TestInMemoryWriteRepository:
         assert len(repo._storage) == 0
 
     async def test_init_when_storage_given_then_uses_provided_data(self) -> None:
-        storage = {"a": FakeAggregate("a", "X")}
+        fake_id = "a"
+        fake_name = "X"
+        storage = {fake_id: FakeAggregate(fake_id, fake_name)}
         repo = InMemoryWriteRepository[FakeAggregate, str](storage)
 
-        assert repo._storage["a"].name == "X"
+        assert repo._storage[fake_id].name == fake_name
 
-    async def test_storage_is_independent_copy_when_storage_given(self) -> None:
-        storage: dict[str, FakeAggregate] = {"1": FakeAggregate("1", "Alice")}
+    async def test_storage_is_independent_copy_when_storage_given(
+        self, create_alice_aggregate: Callable[[str], FakeAggregate]
+    ) -> None:
+        alice_id = "1"
+        storage: dict[str, FakeAggregate] = {alice_id: create_alice_aggregate(alice_id)}
         repo = InMemoryWriteRepository[FakeAggregate, str](storage)
 
-        storage["1"] = FakeAggregate("1", "Changed")
+        storage[alice_id] = FakeAggregate(alice_id, "Changed")
 
-        assert repo._storage["1"].name == "Alice"
+        expected_name = "Alice"
+        assert repo._storage[alice_id].name == expected_name

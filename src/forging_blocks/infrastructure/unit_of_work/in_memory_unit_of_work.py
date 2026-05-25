@@ -39,7 +39,7 @@ class InMemoryUnitOfWork(UnitOfWork):
                 domain events collected from aggregates on commit.
         """
         self._event_publisher = event_publisher
-        self._modified_aggregates: list[AggregateRoot[Any]] = []
+        self._modified_aggregates: dict[Any, AggregateRoot[Any]] = {}
         self._committed = False
         self._rolled_back = False
 
@@ -64,7 +64,7 @@ class InMemoryUnitOfWork(UnitOfWork):
         Args:
             aggregate: The aggregate root that was modified.
         """
-        self._modified_aggregates.append(aggregate)
+        self._modified_aggregates[aggregate.id] = aggregate
 
     async def commit(self) -> None:
         """Commit all changes and publish collected domain events.
