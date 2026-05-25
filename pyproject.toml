@@ -75,9 +75,9 @@ requires = ["poetry-core>=1.9.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pyright]
+typeCheckingMode = "strict"
 venvPath = "."
 venv = ".venv"
-
 include = ["src", "tests", "scripts"]
 extraPaths = ["src", "scripts"]
 exclude = [
@@ -90,7 +90,6 @@ exclude = [
   "**/.ruff_cache",
   "**/node_modules",
 ]
-typeCheckingMode = "standard"
 reportMissingImports = true
 reportMissingTypeStubs = false
 
@@ -149,6 +148,11 @@ strict_equality = true
 show_error_codes = true
 mypy_path = "src"
 exclude = ["tests/*"]
+strict = true
+warn_return_any = true
+warn_redundant_casts = true
+check_untyped_defs = true
+no_implicit_optional = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -170,7 +174,9 @@ markers = [
 
 [tool.poe.tasks]
 
-type = "mypy ."
+type = "pyright"
+"type:ci" = "pyright --level error"
+
 bandit = "bandit -r src -x tests"
 
 test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "pytest" }
@@ -184,6 +190,7 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
   "docs:generate",
   { cmd = "poetry run mkdocs build --strict" }
 ]
+
 "docs:serve" = { cmd = "poetry run mkdocs serve" }
 
 "ci:check".sequence = [
@@ -199,6 +206,7 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
   "ci:check",
   "docs:build"
 ]
+
 "ci:release".sequence = [
   "ci:simulate",
   { cmd = "poetry build" },
@@ -213,6 +221,7 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
 
 lint = { cmd = "ruff check ." }
 "lint:fix" = { cmd = "ruff check . --fix" }
+
 "lint:shell" = { cmd = "shellcheck --external-sources scripts/pipeline/*.sh" }
 "lint:contracts" = { cmd = "python scripts/pipeline/validate_env_contracts.py" }
 
