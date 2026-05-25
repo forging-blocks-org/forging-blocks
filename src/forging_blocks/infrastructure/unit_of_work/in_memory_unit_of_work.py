@@ -100,9 +100,11 @@ class InMemoryUnitOfWork(UnitOfWork):
     async def rollback(self) -> None:
         """Roll back the transaction and discard tracked aggregates.
 
-        Clears the list of modified aggregates registered during the
-        transaction.
+        Discards uncommitted events from all tracked aggregates and
+        clears the modified aggregate registry.
         """
+        for aggregate in self._modified_aggregates.values():
+            aggregate.collect_events()
         self._modified_aggregates.clear()
         self._rolled_back = True
         self._committed = False

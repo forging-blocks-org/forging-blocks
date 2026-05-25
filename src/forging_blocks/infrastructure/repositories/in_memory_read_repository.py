@@ -12,7 +12,7 @@ from typing import Generic, Sequence, TypeVar
 from forging_blocks.application.ports.outbound.repository import ReadOnlyRepository
 
 TReadAggregateRoot = TypeVar("TReadAggregateRoot")
-TId = TypeVar("TId", contravariant=True)
+TId = TypeVar("TId")
 
 
 class InMemoryReadRepository(
@@ -24,8 +24,8 @@ class InMemoryReadRepository(
     Stores aggregates in a dictionary keyed by their identifier. Designed
     for query-side usage in CQRS architectures.
 
-    The storage dictionary is injected via the constructor, enabling shared
-    state with InMemoryWriteRepository when needed.
+    The storage mapping is injected via the constructor and copied on init
+    to ensure independence from external mutation.
     """
 
     __slots__ = ("_storage",)

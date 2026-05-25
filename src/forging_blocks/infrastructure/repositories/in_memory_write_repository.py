@@ -28,8 +28,8 @@ class InMemoryWriteRepository(
     Stores aggregates in a dictionary keyed by their identifier. Designed
     for command-side usage in CQRS architectures.
 
-    The storage dictionary is injected via the constructor, enabling shared
-    state with InMemoryReadRepository when needed.
+    The storage mapping is injected via the constructor and copied on init
+    to ensure independence from external mutation.
     """
 
     __slots__ = ("_storage",)

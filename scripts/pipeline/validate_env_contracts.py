@@ -59,7 +59,7 @@ class Violation:
 
 @dataclass
 class ValidationResult:
-    violations: list[Violation] = field(default_factory=list[Violation])
+    violations: list[Violation] = field(default_factory=list)
 
     @property
     def ok(self) -> bool:
