@@ -109,7 +109,7 @@ class TestInMemoryUnitOfWork:
         assert uow.rolled_back is True
         assert uow.committed is False
         assert len(uow._modified_aggregates) == 0
-        assert len(aggregate.uncommitted_changes()) == 0
+        assert len(aggregate.uncommitted_changes) == 0
 
     async def test_register_modified_when_called_then_tracks_aggregate(
         self, aggregate: FakeAggregate

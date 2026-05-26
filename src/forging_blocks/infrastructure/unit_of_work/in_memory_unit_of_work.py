@@ -79,7 +79,7 @@ class InMemoryUnitOfWork(UnitOfWork):
         """
         try:
             aggregates_with_events: list[tuple[AggregateRoot[Any], list[Any]]] = [
-                (aggregate, list(aggregate.uncommitted_changes()))
+                (aggregate, list(aggregate.uncommitted_changes))
                 for aggregate in self._modified_aggregates.values()
             ]
 
@@ -104,7 +104,7 @@ class InMemoryUnitOfWork(UnitOfWork):
         clears the modified aggregate registry.
         """
         for aggregate in self._modified_aggregates.values():
-            aggregate.collect_events()
+            aggregate.discard_events()
         self._modified_aggregates.clear()
         self._rolled_back = True
         self._committed = False
