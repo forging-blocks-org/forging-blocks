@@ -1,6 +1,7 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 import pytest
 
-from forging_blocks.domain import ValueObject
+from forging_blocks.foundation.value_object import ValueObject
 
 
 class Email(ValueObject[str]):
@@ -37,6 +38,25 @@ class AnotherEmailType(ValueObject[str]):
 
     def _equality_components(self) -> tuple[str]:
         return (self._value,)
+
+
+class MultiComponentVO(ValueObject[str]):
+    """Value object with multiple equality components for testing __str__ branch."""
+
+    __slots__ = ("_first", "_second")
+
+    def __init__(self, first: str, second: str) -> None:
+        super().__init__()
+        self._first = first
+        self._second = second
+        self._freeze()
+
+    @property
+    def value(self) -> str:
+        return f"{self._first}:{self._second}"
+
+    def _equality_components(self) -> tuple[str, str]:
+        return (self._first, self._second)
 
 
 @pytest.mark.unit
@@ -85,3 +105,38 @@ class TestValueObject:
     def test_value_property_when_called_then_returns_underlying_value(self) -> None:
         e = Email("a@example.com")
         assert e.value == "a@example.com"
+
+    def test___str___when_multiple_components_then_returns_tuple_representation(
+        self,
+    ) -> None:
+        vo = MultiComponentVO("hello", "world")
+
+        result = str(vo)
+
+        assert "MultiComponentVO" in result
+        assert "hello" in result
+        assert "world" in result
+
+    def test___eq___when_multi_component_values_equal_then_returns_true(self) -> None:
+        vo1 = MultiComponentVO("hello", "world")
+        vo2 = MultiComponentVO("hello", "world")
+
+        assert vo1 == vo2
+
+    def test___eq___when_multi_component_values_differ_then_returns_false(self) -> None:
+        vo1 = MultiComponentVO("hello", "world")
+        vo2 = MultiComponentVO("hello", "mars")
+
+        assert vo1 != vo2
+
+    def test___hash___when_multi_component_values_equal_then_hashes_match(self) -> None:
+        vo1 = MultiComponentVO("hello", "world")
+        vo2 = MultiComponentVO("hello", "world")
+
+        assert hash(vo1) == hash(vo2)
+
+    def test___setattr___when_multi_component_is_frozen_then_raises_error(self) -> None:
+        vo = MultiComponentVO("hello", "world")
+
+        with pytest.raises(AttributeError):
+            vo._first = "changed"  # type: ignore

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import Generic, Hashable, TypeVar
+from typing import Any, Generic, Hashable, TypeVar
 
 from forging_blocks.domain.entity import Entity
 from forging_blocks.domain.errors.entity_id_none_error import EntityIdNoneError
@@ -20,7 +20,7 @@ class AggregateVersion(ValueObject[int]):
     """
 
     def __init__(self, value: int) -> None:
-        if not isinstance(value, int):
+        if not isinstance(value, int):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected int, got {type(value).__name__}")
         if value < 0:
             raise ValueError("Version cannot be negative")
@@ -49,7 +49,7 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
     and records uncommitted domain events.
     """
 
-    _uncommitted_events: list[Event]
+    _uncommitted_events: list[Event[Any]]
 
     def __init__(self, aggregate_id: TId, version: AggregateVersion | None = None) -> None:
         if not aggregate_id:
@@ -63,7 +63,12 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
         """Return the current version of the aggregate."""
         return self._version
 
-    def collect_events(self) -> list[Event]:
+    @property
+    def uncommitted_changes(self) -> list[Event[Any]]:
+        """Return a copy of uncommitted domain events recorded by this aggregate."""
+        return self._uncommitted_events.copy()
+
+    def collect_events(self) -> list[Event[Any]]:
         """Collect uncommitted events, clear array, increment the version and return events."""
         events = self._uncommitted_events.copy()
         self._uncommitted_events.clear()
@@ -71,13 +76,17 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
 
         return events
 
-    def record_event(self, domain_event: Event) -> None:
+    def discard_events(self) -> None:
+        """Discard uncommitted events without incrementing the version.
+
+        Used during rollback to clear events from a failed transaction
+        without affecting the aggregate's committed version.
+        """
+        self._uncommitted_events.clear()
+
+    def record_event(self, domain_event: Event[Any]) -> None:
         """Record a new domain event for later publication."""
         self._uncommitted_events.append(domain_event)
-
-    def uncommitted_changes(self) -> list[Event]:
-        """Return a copy of uncommitted domain events recorded by this aggregate."""
-        return self._uncommitted_events.copy()
 
     def _increment_version(self) -> None:
         """Increment the aggregate's version value."""

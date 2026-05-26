@@ -1,5 +1,6 @@
 """ForgingBlocks for application-specific modules."""
 
+from .errors import UnitOfWorkError
 from .ports import (
     CommandHandler,
     CommandSender,
@@ -25,5 +26,6 @@ __all__ = [
     "QueryFetcher",
     "Repository",
     "UnitOfWork",
+    "UnitOfWorkError",
     "UseCase",
 ]

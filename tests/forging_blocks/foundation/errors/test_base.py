@@ -1,3 +1,4 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 import pytest
 
 from forging_blocks.foundation import (
@@ -121,9 +122,7 @@ class TestFieldErrors:
         error_message2 = ErrorMessage("An error occurred2")
         error1 = Error(error_message1)
         error2 = Error(error_message2)
-        field_errors = FieldErrors(
-            errors=[error1, error2], field=FieldReference("username")
-        )
+        field_errors = FieldErrors(errors=[error1, error2], field=FieldReference("username"))
 
         actual_length = len(field_errors)
 
@@ -148,7 +147,9 @@ class TestFieldErrors:
 
         actual_str = str(field_errors)
 
-        expected_str = f"FieldErrors for field '{field_reference.value}':\n - Error: An error occurred"
+        expected_str = (
+            f"FieldErrors for field '{field_reference.value}':\n - Error: An error occurred"
+        )
         assert actual_str == expected_str
 
     def test__repr__when_errors_defined_then_returns_repr_string(self) -> None:
@@ -223,8 +224,7 @@ class TestCombinedErrors:
         actual_str = str(combined_errors)
 
         expected_str = (
-            "CombinedErrors:\n- FieldErrors for field 'username':\n - Error: An error "
-            "occurred"
+            "CombinedErrors:\n- FieldErrors for field 'username':\n - Error: An error occurred"
         )
         assert actual_str == expected_str
 

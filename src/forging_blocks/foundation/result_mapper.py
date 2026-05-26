@@ -86,14 +86,14 @@ class ResultMapper(  # type: ignore[misc]
     _success_out: SuccessOut | None = None
     _error_out: ErrorOut | None = None
 
-    def map(self, result: Result[SuccessIn, ErrorIn]) -> Result[SuccessOut, ErrorOut]:
+    def map(self, source: Result[SuccessIn, ErrorIn]) -> Result[SuccessOut, ErrorOut]:
         """Map a Result from one type representation to another.
 
         Transforms both success and error types, typically when crossing
         architectural boundaries.
 
         Args:
-            result: The input Result to transform
+            source: The input Result to transform
 
         Returns:
             A new Result with transformed types

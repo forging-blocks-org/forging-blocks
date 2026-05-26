@@ -6,7 +6,7 @@ from typing import Any
 from forging_blocks.foundation.messages.message import Message
 
 
-class Query(Message, ABC):
+class Query(Message[Any], ABC):
     """Base class for all domain queries.
 
     Queries represent a request to retrieve data from the domain.
