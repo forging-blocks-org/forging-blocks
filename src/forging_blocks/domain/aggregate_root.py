@@ -76,6 +76,14 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
 
         return events
 
+    def discard_events(self) -> None:
+        """Discard uncommitted events without incrementing the version.
+
+        Used during rollback to clear events from a failed transaction
+        without affecting the aggregate's committed version.
+        """
+        self._uncommitted_events.clear()
+
     def record_event(self, domain_event: Event[Any]) -> None:
         """Record a new domain event for later publication."""
         self._uncommitted_events.append(domain_event)

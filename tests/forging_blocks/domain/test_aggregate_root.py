@@ -125,6 +125,18 @@ class TestAggregateRoot:
         assert aggregate.uncommitted_changes == []
         assert aggregate.version.value == old_version.value + 1
 
+    def test_discard_events_when_called_then_clears_uncommitted_events_without_version_bump(
+        self,
+    ) -> None:
+        aggregate = OrderAggregate(1)
+        aggregate.record_event(DummyEvent("x"))
+        old_version = aggregate.version
+
+        aggregate.discard_events()
+
+        assert aggregate.uncommitted_changes == []
+        assert aggregate.version == old_version
+
     def test__increment_version_when_called_then_increments_version_by_one(
         self,
     ) -> None:
