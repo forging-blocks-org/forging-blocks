@@ -96,17 +96,33 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
             cmd += ["--", f"{from_tag}.."]
 
         try:
-            output = self._runner.run(cmd, check=True)
-            self._changelog_path.write_text(
-                output if output.endswith("\n") else output + "\n", encoding="utf-8"
-            )
-            return output
+            new_entries = self._runner.run(cmd, check=True)
+            self._write_changelog(new_entries)
+            return new_entries
         except FileNotFoundError as exc:
             raise ChangelogGenerationError(
                 "git-cliff is not installed or not found in PATH"
             ) from exc
         except RuntimeError as exc:
             raise ChangelogGenerationError(f"git-cliff failed: {exc}") from exc
+
+    def _write_changelog(self, new_entries: str) -> None:
+        """Prepend *new_entries* to the existing changelog file.
+
+        If the file already exists the new section is inserted at the top;
+        otherwise the file is created with only the new content.
+        """
+        existing = ""
+        if self._changelog_path.exists():
+            existing = self._changelog_path.read_text(encoding="utf-8")
+
+        new_block = new_entries.rstrip("\n")
+        if existing.strip():
+            combined = new_block + "\n\n" + existing
+        else:
+            combined = new_block + "\n"
+
+        self._changelog_path.write_text(combined, encoding="utf-8")
 
     def _parse_output(self, raw: str) -> list[str]:
         return [line.strip() for line in raw.splitlines() if line.strip()]
