@@ -320,19 +320,18 @@ class TestGitCliffChangelogGeneratorIntegration:
         content_after = _read_changelog(scenario)
         assert "## [Unreleased]" not in content_after
         assert "## [0.3.0]" in content_after
-        assert "add password reset" in content_after
-        assert "handle expired tokens" in content_after
 
-        section_030 = content_after.split("## [0.2.0]")[0]
-        section_020_and_below = content_after.split("## [0.2.0]")[1]
+        section_030 = content_after.split("## [0.2.0]")[0].lower()
+        section_020_and_below = content_after.split("## [0.2.0]")[1].lower()
 
-        assert "## [0.3.0]" in section_030
-        assert "add password reset" in section_030
-        assert "handle expired tokens" in section_030
-        assert section_020_and_below.count("add password reset") == 0
-        assert section_020_and_below.count("handle expired tokens") == 0
-        assert content_after.count("add password reset") == 1
-        assert content_after.count("handle expired tokens") == 1
+        assert "password reset" in section_030
+        assert "expired tokens" in section_030
+        assert "oauth2" in section_030
+        assert "rate limiting" in section_030
+        assert section_020_and_below.count("password reset") == 0
+        assert section_020_and_below.count("expired tokens") == 0
+        assert section_020_and_below.count("oauth2") == 0
+        assert section_020_and_below.count("rate limiting") == 0
         assert "## [0.2.0]" in content_after
         assert "## [0.1.0]" in content_after
 

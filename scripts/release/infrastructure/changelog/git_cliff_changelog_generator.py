@@ -171,15 +171,31 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
             if existing_match:
                 existing_entries = existing_match.group(1)
-                merged_entries = (
-                    existing_entries.rstrip("\n") + "\n" + group_entries + "\n\n"
-                )
-                replacement = group_header + "\n" + merged_entries
-                first_section = (
-                    first_section[: existing_match.start()]
-                    + replacement
-                    + first_section[existing_match.end() :]
-                )
+                existing_normalized = {
+                    self._normalize_entry(line.strip())
+                    for line in existing_entries.strip().splitlines()
+                    if line.strip().startswith("- ")
+                }
+                new_lines = [
+                    line
+                    for line in group_entries.splitlines()
+                    if line.strip().startswith("- ")
+                    and self._normalize_entry(line.strip())
+                    not in existing_normalized
+                ]
+                if new_lines:
+                    merged_entries = (
+                        existing_entries.rstrip("\n")
+                        + "\n"
+                        + "\n".join(new_lines)
+                        + "\n\n"
+                    )
+                    replacement = group_header + "\n" + merged_entries
+                    first_section = (
+                        first_section[: existing_match.start()]
+                        + replacement
+                        + first_section[existing_match.end() :]
+                    )
             else:
                 insert_pos = re.search(r"^## \[", first_section[2:], re.MULTILINE)
                 if insert_pos:
@@ -200,3 +216,7 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
     def _parse_output(self, raw: str) -> list[str]:
         return [line.strip() for line in raw.splitlines() if line.strip()]
+
+    def _normalize_entry(self, entry: str) -> str:
+        normalized = re.sub(r"^\- \*\*\w+\*\*:?\s*", "- ", entry)
+        return normalized.lower().strip()
