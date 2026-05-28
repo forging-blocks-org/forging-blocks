@@ -1,64 +1,15 @@
-## [Unreleased]
-
-### Features
-
-- **infrastructure**: Impl infrastructure errors
-- **infrastructure**: Impl InMemoryMessageBus
-- **infrastructure**: Impl UnitOfWork
-- **infrastructure**: Impl InMemoryReadRepository and InMemoryWriteRepository
-
-### Bug Fixes
-
-- **infrastructure/unit_of_work**: Import fix
-- Adjuting infrastructure and pipeline to pr issue
+## [0.4.0] - 2026-05-28
 
 ### Refactor
 
-- **pipeline**: Refactor in pipline script
-- **infrastructure**: Improving infrastructure classes
-- **application**: Improve types
-- Improve types
-- **infrastructure/unit_of_work**: Commit behavior marks rolled_back as false
-- **domain/aggregate_root**: Make uncommitted_changes a property
-- **domain**: Impl discard_events method of AggregateRoot
-- **infrastructure/unit_of_work**: Discard_events in rollback
-
-### Documentation
-
-- Replace layer to block
-- Remove RELEASE_GUIDE
-- **infrastructure**: README.md for infrastructure block
-- **RELEASE_GUIDE**: Align RELEASE_GUIDE with release automation
+- **release**: Improve GitCliffChangelogGenerator
 
 ### Testing
 
-- **infrastructure**: Remove unnecessary tests
+- **git-cliff**: Impl git_cliff_scenarios
+- **conftest**: Re-export fixtures
+- **scripts/release**: Refactor mock_run
 
-### Continuous Integration
-
-- **workflows**: Refactor to use created actions
-- **workflows**: Deploy-docs now is using shared actions
-- **workflows**: Release is using shared actiohs
-- **workflows**: Defined lint workflow
-- **workflows**: Defined prepare-release workflow
-- **workflows**: Defined publish-release workflow
-- **workflows**: Defined test separated workflow
-- **workflows**: Defined validfate artifacts seaprated workflow
-- **workflows**: Adding action ids to _GITHUB_BUILTIN
-- **workflows**: Fix in test.yml
-- **actions**: Install shellcheck using pip
-- **scripts**: Fix pyright issues
-
-### Miscellaneous Tasks
-
-- **actions**: Implemented dependencies and lint actions
-- **domain**: Value_object re-exports foundation ValueObject
-- **infrastructure**: Package initializer
-- **infrastructure**: Strictly typing subtypes
-- **pyproject**: Move to mypy to pyright
-- **scripts**: Improve types
-- **pyproject**: Update bandit to supports python 3.14.3
-- **infrastructure**: Pr issues fix
 ## [0.3.22] - 2026-03-24
 
 ### Features
