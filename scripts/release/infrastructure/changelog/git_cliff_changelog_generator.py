@@ -171,9 +171,15 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
             if existing_match:
                 existing_entries = existing_match.group(1)
-                merged_entries = existing_entries.rstrip("\n") + "\n" + group_entries + "\n\n"
+                merged_entries = (
+                    existing_entries.rstrip("\n") + "\n" + group_entries + "\n\n"
+                )
                 replacement = group_header + "\n" + merged_entries
-                first_section = first_section[:existing_match.start()] + replacement + first_section[existing_match.end():]
+                first_section = (
+                    first_section[: existing_match.start()]
+                    + replacement
+                    + first_section[existing_match.end() :]
+                )
             else:
                 insert_pos = re.search(r"^## \[", first_section[2:], re.MULTILINE)
                 if insert_pos:

@@ -7,7 +7,6 @@ import pytest
 
 from tests.fixtures.git_test_repository import GitTestRepository
 
-
 _CLIFF_TOML = Path(__file__).resolve().parents[2] / "cliff.toml"
 
 
