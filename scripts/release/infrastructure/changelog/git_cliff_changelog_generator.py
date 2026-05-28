@@ -43,10 +43,10 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
             tag_exists=tag_exists,
         )
 
-        raw = self._run_git_cliff(range_arg, version_tag)
+        raw = self._run_git_cliff(range_arg, version_tag, dry_run=request.dry_run)
         entries = self._parse_output(raw)
 
-        return ChangelogResponse(entries=entries)
+        return ChangelogResponse(entries=entries, raw=raw)
 
     def _tag_exists(self, tag: str) -> bool:
         try:
@@ -78,7 +78,9 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
             return requested_tag, requested_tag
         return None, requested_tag
 
-    def _run_git_cliff(self, from_tag: str | None, version_tag: str | None) -> str:
+    def _run_git_cliff(
+        self, from_tag: str | None, version_tag: str | None, *, dry_run: bool = False
+    ) -> str:
         cmd = ["git-cliff", "--output", "-"]
 
         if version_tag:
@@ -89,7 +91,8 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
         try:
             new_entries = self._runner.run(cmd, check=True)
-            self._write_changelog(new_entries)
+            if not dry_run:
+                self._write_changelog(new_entries)
             return new_entries
         except FileNotFoundError as exc:
             raise ChangelogGenerationError(
@@ -105,8 +108,8 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
         otherwise the file is created with only the new content.
 
         When the new entries contain a versioned section (e.g. ``## [0.4.0]``),
-        any ``## [Unreleased]`` block in the existing content is removed so
-        that the released version replaces the unreleased one.
+        the ``## [Unreleased]`` block from the existing content is merged
+        into the new versioned section so that unreleased changes are not lost.
         """
         existing = ""
         if self._changelog_path.exists():
@@ -116,12 +119,13 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
         is_versioned = re.search(r"^## \[\d+\.\d+", new_block, re.MULTILINE)
         if is_versioned and existing:
-            existing = re.sub(
-                r"^## \[Unreleased\].*?(?=^## \[|\Z)",
-                "",
-                existing,
-                flags=re.MULTILINE | re.DOTALL,
-            ).lstrip("\n")
+            unreleased_content = self._extract_unreleased(existing)
+            existing = self._strip_unreleased(existing)
+
+            if unreleased_content:
+                new_block = self._merge_unreleased_into_versioned(
+                    new_block, unreleased_content
+                )
 
         if existing.strip():
             combined = new_block + "\n\n" + existing
@@ -130,5 +134,95 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
         self._changelog_path.write_text(combined, encoding="utf-8")
 
+    def _extract_unreleased(self, changelog: str) -> str:
+        match = re.search(
+            r"^## \[Unreleased\]\s*\n(.*?)(?=^## \[|\Z)",
+            changelog,
+            re.MULTILINE | re.DOTALL,
+        )
+        return match.group(1).strip() if match else ""
+
+    def _strip_unreleased(self, changelog: str) -> str:
+        return re.sub(
+            r"^## \[Unreleased\].*?(?=^## \[|\Z)",
+            "",
+            changelog,
+            flags=re.MULTILINE | re.DOTALL,
+        ).lstrip("\n")
+
+    def _merge_unreleased_into_versioned(
+        self, versioned_block: str, unreleased_content: str
+    ) -> str:
+        first_section_end = re.search(r"^## \[", versioned_block[2:], re.MULTILINE)
+        section_end = first_section_end.start() + 2 if first_section_end else len(versioned_block)
+        first_section = versioned_block[:section_end]
+        rest = versioned_block[section_end:]
+
+        for group_match in re.finditer(
+            r"(### \w[^\n]*\n)(.*?)(?=### |\Z)", unreleased_content, re.DOTALL
+        ):
+            group_header = group_match.group(1).strip()
+            group_entries = group_match.group(2).strip()
+            if not group_entries:
+                continue
+
+            existing_pattern = (
+                re.escape(group_header)
+                + r"\n(.*?)(?=### |\Z)"
+            )
+            existing_match = re.search(existing_pattern, first_section, re.DOTALL)
+
+            if existing_match:
+                existing_entries = existing_match.group(1)
+                existing_normalized = {
+                    self._normalize_entry(line.strip())
+                    for line in existing_entries.strip().splitlines()
+                    if line.strip().startswith("- ")
+                }
+                new_lines = [
+                    line
+                    for line in group_entries.splitlines()
+                    if line.strip().startswith("- ")
+                    and self._normalize_entry(line.strip())
+                    not in existing_normalized
+                ]
+                if new_lines:
+                    merged_entries = (
+                        existing_entries.rstrip("\n")
+                        + "\n\n"
+                        + "\n\n".join(new_lines)
+                        + "\n\n"
+                    )
+                    replacement = group_header + "\n" + merged_entries
+                    first_section = (
+                        first_section[: existing_match.start()]
+                        + replacement
+                        + first_section[existing_match.end() :]
+                    )
+            else:
+                insert_pos = re.search(r"^## \[", first_section[2:], re.MULTILINE)
+                if insert_pos:
+                    pos = insert_pos.start() + 2
+                    remaining = first_section[pos:].lstrip("\n")
+                    first_section = (
+                        first_section[:pos]
+                        + "\n\n"
+                        + group_header
+                        + "\n\n"
+                        + group_entries
+                        + "\n\n"
+                        + remaining
+                    )
+                else:
+                    first_section += (
+                        "\n" + group_header + "\n\n" + group_entries + "\n\n"
+                    )
+
+        return first_section + rest
+
     def _parse_output(self, raw: str) -> list[str]:
         return [line.strip() for line in raw.splitlines() if line.strip()]
+
+    def _normalize_entry(self, entry: str) -> str:
+        normalized = re.sub(r"^\- \*\*\w+\*\*:?\s*", "- ", entry)
+        return normalized.lower().strip()

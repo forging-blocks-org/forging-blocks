@@ -7,7 +7,6 @@ import pytest
 
 from tests.fixtures.git_test_repository import GitTestRepository
 
-
 _CLIFF_TOML = Path(__file__).resolve().parents[2] / "cliff.toml"
 
 
@@ -90,10 +89,12 @@ def scenario_changelog_with_unreleased(
         "### Features\n"
         "\n"
         "- **auth**: add password reset\n"
+        "- **auth**: add OAuth2 support\n"
         "\n"
         "### Bug Fixes\n"
         "\n"
         "- **auth**: handle expired tokens\n"
+        "- **auth**: fix rate limiting\n"
         "\n"
         "## [0.2.0] - 2026-01-15\n"
         "\n"

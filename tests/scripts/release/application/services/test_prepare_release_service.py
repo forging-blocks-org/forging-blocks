@@ -134,7 +134,7 @@ class TestPrepareReleaseService:
         transaction_mock.__aenter__.assert_called_once()
         transaction_mock.__aexit__.assert_called_once()
 
-        versioning_service_mock.apply_version.assert_called_once_with(next_version)
+        versioning_service_mock.apply_version.assert_called_once_with(next_version, dry_run=False)
         changelog_generator_mock.generate.assert_called_once()
         version_control_mock.commit_release_artifacts.assert_called_once()
 
@@ -185,7 +185,7 @@ class TestPrepareReleaseService:
 
         transaction_mock.__aenter__.assert_called_once()
 
-        versioning_service_mock.apply_version.assert_called_once_with(next_version)
+        versioning_service_mock.apply_version.assert_called_once_with(next_version, dry_run=False)
 
         changelog_generator_mock.generate.assert_called_once()
         call_args = changelog_generator_mock.generate.call_args[0][0]
@@ -214,6 +214,8 @@ class TestPrepareReleaseService:
         service: PrepareReleaseService,
         transaction_mock: MagicMock,
         versioning_service_mock: MagicMock,
+        version_control_mock: MagicMock,
+        changelog_generator_mock: MagicMock,
         release_command_bus_mock: MagicMock,
     ) -> None:
         request = PrepareReleaseInput(level="patch", dry_run=True)
@@ -221,5 +223,12 @@ class TestPrepareReleaseService:
         await service.execute(request)
 
         transaction_mock.__aenter__.assert_not_called()
-        versioning_service_mock.apply_version.assert_not_called()
+        versioning_service_mock.apply_version.assert_called_once_with(
+            versioning_service_mock.compute_next_version.return_value, dry_run=True
+        )
+        version_control_mock.commit_release_artifacts.assert_called_once_with(dry_run=True)
+        version_control_mock.push.assert_called_once_with(
+            version_control_mock.create_branch.call_args[0][0], dry_run=True
+        )
+        changelog_generator_mock.generate.assert_called_once()
         release_command_bus_mock.send.assert_not_called()
