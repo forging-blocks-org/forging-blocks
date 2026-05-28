@@ -189,8 +189,8 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
                 if new_lines:
                     merged_entries = (
                         existing_entries.rstrip("\n")
-                        + "\n"
-                        + "\n".join(new_lines)
+                        + "\n\n"
+                        + "\n\n".join(new_lines)
                         + "\n\n"
                     )
                     replacement = group_header + "\n" + merged_entries
@@ -203,17 +203,20 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
                 insert_pos = re.search(r"^## \[", first_section[2:], re.MULTILINE)
                 if insert_pos:
                     pos = insert_pos.start() + 2
+                    remaining = first_section[pos:].lstrip("\n")
                     first_section = (
                         first_section[:pos]
-                        + "\n"
+                        + "\n\n"
                         + group_header
-                        + "\n"
+                        + "\n\n"
                         + group_entries
                         + "\n\n"
-                        + first_section[pos:]
+                        + remaining
                     )
                 else:
-                    first_section += "\n" + group_header + "\n" + group_entries + "\n"
+                    first_section += (
+                        "\n" + group_header + "\n\n" + group_entries + "\n\n"
+                    )
 
         return first_section + rest
 

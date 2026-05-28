@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import subprocess
 from pathlib import Path
 from unittest.mock import MagicMock, create_autospec, patch
@@ -27,7 +28,7 @@ def _read_changelog(scenario: Scenario) -> str:
     return scenario.changelog_path.read_text(encoding="utf-8")
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 class TestGitCliffChangelogGeneratorUnit:
     @pytest.fixture
     def runner_mock(self) -> MagicMock:
@@ -237,6 +238,184 @@ class TestGitCliffChangelogGeneratorUnit:
 
         with pytest.raises(ChangelogGenerationError, match="git-cliff failed"):
             await generator.generate(ChangelogRequest(from_version="1.0.0"))
+
+    async def test_merge_preserves_blank_line_between_existing_and_new_entries(
+        self,
+        generator: GitCliffChangelogGenerator,
+        runner_mock: MagicMock,
+        changelog_path: Path,
+    ) -> None:
+        changelog_path.write_text(
+            "## [Unreleased]\n\n"
+            "### Features\n\n"
+            "- **auth**: add password reset\n\n"
+            "## [0.3.0] - 2026-03-24\n",
+            encoding="utf-8",
+        )
+        runner_mock.run.side_effect = [
+            "abc123",
+            "## [0.4.0] - 2026-05-28\n\n"
+            "### Features\n\n"
+            "- **auth**: new feature\n\n",
+        ]
+
+        await generator.generate(ChangelogRequest(from_version="0.4.0"))
+
+        content = changelog_path.read_text(encoding="utf-8")
+        features_block = content.split("## [0.3.0]")[0]
+        assert re.search(
+            r"- \*\*auth\*\*: new feature\n\n- \*\*auth\*\*: add password reset\n\n",
+            features_block,
+        ), "Blank line missing between existing and new entries"
+
+    async def test_inserted_group_has_blank_line_after_header(
+        self,
+        generator: GitCliffChangelogGenerator,
+        runner_mock: MagicMock,
+        changelog_path: Path,
+    ) -> None:
+        changelog_path.write_text(
+            "## [Unreleased]\n\n"
+            "### Documentation\n\n"
+            "- **docs**: update README\n\n"
+            "## [0.3.0] - 2026-03-24\n",
+            encoding="utf-8",
+        )
+        runner_mock.run.side_effect = [
+            "abc123",
+            "## [0.4.0] - 2026-05-28\n\n"
+            "### Features\n\n"
+            "- **auth**: new feature\n\n",
+        ]
+
+        await generator.generate(ChangelogRequest(from_version="0.4.0"))
+
+        content = changelog_path.read_text(encoding="utf-8")
+        assert re.search(
+            r"### Documentation\n\n", content
+        ), "Blank line missing between ### Documentation and entries"
+
+    async def test_inserted_group_has_blank_line_before_next_section(
+        self,
+        generator: GitCliffChangelogGenerator,
+        runner_mock: MagicMock,
+        changelog_path: Path,
+    ) -> None:
+        changelog_path.write_text(
+            "## [Unreleased]\n\n"
+            "### Documentation\n\n"
+            "- **docs**: update README\n\n"
+            "## [0.3.0] - 2026-03-24\n",
+            encoding="utf-8",
+        )
+        runner_mock.run.side_effect = [
+            "abc123",
+            "## [0.4.0] - 2026-05-28\n\n"
+            "### Features\n\n"
+            "- **auth**: new feature\n\n",
+        ]
+
+        await generator.generate(ChangelogRequest(from_version="0.4.0"))
+
+        content = changelog_path.read_text(encoding="utf-8")
+        assert re.search(
+            r"- \*\*docs\*\*: update README\n\n+## \[0\.3\.0\]", content
+        ), "Blank line missing between inserted group and next version header"
+
+    async def test_unreleased_group_not_in_versioned_inserted_correctly(
+        self,
+        generator: GitCliffChangelogGenerator,
+        runner_mock: MagicMock,
+        changelog_path: Path,
+    ) -> None:
+        changelog_path.write_text(
+            "## [Unreleased]\n\n"
+            "### Features\n\n"
+            "- **auth**: add password reset\n\n"
+            "### Documentation\n\n"
+            "- **docs**: update README\n\n"
+            "- **docs**: add contributing guide\n\n"
+            "## [0.3.0] - 2026-03-24\n",
+            encoding="utf-8",
+        )
+        runner_mock.run.side_effect = [
+            "abc123",
+            "## [0.4.0] - 2026-05-28\n\n"
+            "### Features\n\n"
+            "- **auth**: new feature\n\n"
+            "### Bug Fixes\n\n"
+            "- **auth**: fix bug\n\n",
+        ]
+
+        await generator.generate(ChangelogRequest(from_version="0.4.0"))
+
+        content = changelog_path.read_text(encoding="utf-8")
+        assert "### Documentation" in content
+        assert "**docs**: update README" in content
+        assert "**docs**: add contributing guide" in content
+        assert "## [0.3.0]" in content
+
+    async def test_unreleased_group_inserted_after_existing_groups(
+        self,
+        generator: GitCliffChangelogGenerator,
+        runner_mock: MagicMock,
+        changelog_path: Path,
+    ) -> None:
+        changelog_path.write_text(
+            "## [Unreleased]\n\n"
+            "### Documentation\n\n"
+            "- **docs**: update README\n\n"
+            "## [0.3.0] - 2026-03-24\n",
+            encoding="utf-8",
+        )
+        runner_mock.run.side_effect = [
+            "abc123",
+            "## [0.4.0] - 2026-05-28\n\n"
+            "### Features\n\n"
+            "- **auth**: new feature\n\n"
+            "### Bug Fixes\n\n"
+            "- **auth**: fix bug\n\n",
+        ]
+
+        await generator.generate(ChangelogRequest(from_version="0.4.0"))
+
+        content = changelog_path.read_text(encoding="utf-8")
+        features_pos = content.index("### Features")
+        bugfixes_pos = content.index("### Bug Fixes")
+        doc_pos = content.index("### Documentation")
+        assert features_pos < bugfixes_pos < doc_pos
+
+    async def test_multiple_unreleased_groups_not_in_versioned_all_inserted(
+        self,
+        generator: GitCliffChangelogGenerator,
+        runner_mock: MagicMock,
+        changelog_path: Path,
+    ) -> None:
+        changelog_path.write_text(
+            "## [Unreleased]\n\n"
+            "### Features\n\n"
+            "- **auth**: add password reset\n\n"
+            "### Documentation\n\n"
+            "- **docs**: update README\n\n"
+            "### Testing\n\n"
+            "- **test**: add tests\n\n"
+            "## [0.3.0] - 2026-03-24\n",
+            encoding="utf-8",
+        )
+        runner_mock.run.side_effect = [
+            "abc123",
+            "## [0.4.0] - 2026-05-28\n\n"
+            "### Features\n\n"
+            "- **auth**: new feature\n\n",
+        ]
+
+        await generator.generate(ChangelogRequest(from_version="0.4.0"))
+
+        content = changelog_path.read_text(encoding="utf-8")
+        assert "### Documentation" in content
+        assert "### Testing" in content
+        assert "**docs**: update README" in content
+        assert "**test**: add tests" in content
 
 
 @pytest.mark.integration
