@@ -58,16 +58,20 @@ class TestGitCliffChangelogGeneratorUnit:
         self,
         generator: GitCliffChangelogGenerator,
         runner_mock: MagicMock,
+        changelog_path: Path,
     ) -> None:
+        changelog_path.write_text("## v0.9.0\n- old entry\n", encoding="utf-8")
         runner_mock.run.side_effect = [
             "abc123",  # rev-parse succeeds → tag exists
-            "## v1.0.0\n",  # git-cliff output
+            "## v1.0.0\n- new entry\n",  # git-cliff output
         ]
 
         await generator.generate(ChangelogRequest(from_version="1.0.0"))
 
         git_cliff_call = runner_mock.run.call_args_list[1]
         cmd = git_cliff_call[0][0]
+        assert "--output" in cmd
+        assert "-" in cmd
         assert "--tag" in cmd
         assert "v1.0.0" in cmd
         assert "v1.0.0.." in cmd[-1]
@@ -76,11 +80,13 @@ class TestGitCliffChangelogGeneratorUnit:
         self,
         generator: GitCliffChangelogGenerator,
         runner_mock: MagicMock,
+        changelog_path: Path,
     ) -> None:
+        changelog_path.write_text("## v0.9.0\n- old entry\n", encoding="utf-8")
         runner_mock.run.side_effect = [
             RuntimeError("not found"),  # rev-parse fails → tag missing
             "v0.9.0",  # git describe → latest tag
-            "## v1.1.0\n",  # git-cliff output
+            "## v1.1.0\n- new entry\n",  # git-cliff output
         ]
 
         await generator.generate(ChangelogRequest(from_version="1.1.0"))
@@ -94,11 +100,13 @@ class TestGitCliffChangelogGeneratorUnit:
         self,
         generator: GitCliffChangelogGenerator,
         runner_mock: MagicMock,
+        changelog_path: Path,
     ) -> None:
+        changelog_path.write_text("## v0.1.0\n- old entry\n", encoding="utf-8")
         runner_mock.run.side_effect = [
             RuntimeError("not found"),  # rev-parse fails
             RuntimeError("no tags"),  # git describe fails
-            "## v0.1.0\n",  # git-cliff output
+            "## v0.1.0\n- full history\n",  # git-cliff output
         ]
 
         await generator.generate(ChangelogRequest(from_version="0.1.0"))
@@ -115,7 +123,9 @@ class TestGitCliffChangelogGeneratorUnit:
         self,
         generator: GitCliffChangelogGenerator,
         runner_mock: MagicMock,
+        changelog_path: Path,
     ) -> None:
+        changelog_path.write_text("", encoding="utf-8")
         runner_mock.run.side_effect = [
             "abc123",
             "## v1.0.0\n- feat: something\n",
@@ -129,7 +139,9 @@ class TestGitCliffChangelogGeneratorUnit:
         self,
         generator: GitCliffChangelogGenerator,
         runner_mock: MagicMock,
+        changelog_path: Path,
     ) -> None:
+        changelog_path.write_text("", encoding="utf-8")
         runner_mock.run.side_effect = [
             "abc123",
             "\n\n",
@@ -140,15 +152,16 @@ class TestGitCliffChangelogGeneratorUnit:
         assert result.entries == []
 
     # ------------------------------------------------------------------
-    # File writing
+    # File writing — new entries prepended to existing content
     # ------------------------------------------------------------------
 
-    async def test_generate_writes_changelog_to_configured_path(
+    async def test_generate_prepends_new_entries_to_existing_changelog(
         self,
         generator: GitCliffChangelogGenerator,
         runner_mock: MagicMock,
         changelog_path: Path,
     ) -> None:
+        changelog_path.write_text("## v0.9.0\n- old entry\n", encoding="utf-8")
         runner_mock.run.side_effect = [
             "abc123",
             "## v1.0.0\n- feat: something\n",
@@ -156,10 +169,33 @@ class TestGitCliffChangelogGeneratorUnit:
 
         await generator.generate(ChangelogRequest(from_version="1.0.0"))
 
-        assert changelog_path.exists()
-        assert "## v1.0.0" in changelog_path.read_text(encoding="utf-8")
+        content = changelog_path.read_text(encoding="utf-8")
+        assert "## v1.0.0" in content
+        assert "- feat: something" in content
+        assert "## v0.9.0" in content
+        assert "- old entry" in content
+        # New section comes before old section
+        assert content.index("## v1.0.0") < content.index("## v0.9.0")
 
-    async def test_generate_ensures_changelog_ends_with_newline_when_cliff_omits_it(
+    async def test_generate_creates_file_when_no_existing_changelog(
+        self,
+        generator: GitCliffChangelogGenerator,
+        runner_mock: MagicMock,
+        changelog_path: Path,
+    ) -> None:
+        runner_mock.run.side_effect = [
+            "abc123",
+            "## v1.0.0\n- feat: new\n",
+        ]
+
+        await generator.generate(ChangelogRequest(from_version="1.0.0"))
+
+        assert changelog_path.exists()
+        content = changelog_path.read_text(encoding="utf-8")
+        assert "## v1.0.0" in content
+        assert "- feat: new" in content
+
+    async def test_generate_ensures_changelog_ends_with_newline(
         self,
         generator: GitCliffChangelogGenerator,
         runner_mock: MagicMock,
@@ -173,21 +209,6 @@ class TestGitCliffChangelogGeneratorUnit:
         await generator.generate(ChangelogRequest(from_version="1.0.0"))
 
         assert changelog_path.read_text(encoding="utf-8").endswith("\n")
-
-    async def test_generate_does_not_double_newline_when_cliff_output_already_ends_with_one(
-        self,
-        generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
-        changelog_path: Path,
-    ) -> None:
-        runner_mock.run.side_effect = [
-            "abc123",
-            "## v1.0.0\n- feat: something\n",
-        ]
-
-        await generator.generate(ChangelogRequest(from_version="1.0.0"))
-
-        assert not changelog_path.read_text(encoding="utf-8").endswith("\n\n")
 
     # ------------------------------------------------------------------
     # Error handling

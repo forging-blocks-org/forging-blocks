@@ -4,16 +4,36 @@ filter_unconventional = true
 deduplicate_commits = true
 
 commit_parsers = [
-  { message = "^feat", group = "Features" },
-  { message = "^fix", group = "Bug Fixes" },
-  { message = "^refactor", group = "Refactor" },
-  { message = "^docs?", group = "Documentation" },
-  { message = "^test", group = "Testing" },
-  { message = "^ci", group = "CI" },
+  { message = "^feat", group = "<!-- 0 -->Features" },
+  { message = "^fix", group = "<!-- 1 -->Bug Fixes" },
+  { message = "^refactor", group = "<!-- 2 -->Refactor" },
+  { message = "^perf", group = "<!-- 3 -->Performance" },
+  { message = "^docs?", group = "<!-- 4 -->Documentation" },
+  { message = "^test", group = "<!-- 5 -->Testing" },
+  { message = "^ci", group = "<!-- 6 -->Continuous Integration" },
   { message = "^chore\\(release\\)", skip = true },
   { message = "^chore\\(cliff\\)", skip = true },
   { message = "Prepare release", skip = true },
-  { message = "^chore", group = "Miscellaneous Tasks" },
-  { message = "^perf", group = "Performance" },
+  { message = "^chore", group = "<!-- 7 -->Miscellaneous Tasks" },
   { message = ".*", skip = true },
 ]
+
+[changelog]
+output = "-"
+
+body = """
+{% if version %}\
+    ## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+{% else %}\
+    ## [Unreleased]
+{% endif %}\
+{% for group, commits in commits | group_by(attribute="group") %}
+    ### {{ group | striptags }}
+    {% for commit in commits %}
+        - {% if commit.scope %}**{{ commit.scope }}**: {% endif %}{{ commit.message | upper_first }}\
+    {% endfor %}
+{% endfor %}
+"""
+
+sort_commits = "oldest"
+limit_releases = 0
