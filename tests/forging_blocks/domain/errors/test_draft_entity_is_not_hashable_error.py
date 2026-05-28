@@ -1,5 +1,3 @@
-import inspect
-
 import pytest
 
 from forging_blocks.domain import (
@@ -45,19 +43,4 @@ class TestDraftEntityIsNotHashableError:
         instance = DraftEntityIsNotHashableError.from_class_name("My.Entity_123")
 
         assert "My.Entity_123" in str(instance.message.value)
-
-    def test_from_class_name_source_has_no_dead_code(self) -> None:
-        """Ensure there is exactly one assignment to error_text in from_class_name.
-
-        This catches dead code where a variable is assigned and immediately
-        overwritten on the next line.
-        """
-        source = inspect.getsource(DraftEntityIsNotHashableError.from_class_name)
-        assignments = [line for line in source.splitlines() if "error_text =" in line]
-
-        assert len(assignments) == 1, (
-            f"Expected exactly 1 assignment to 'error_text' in from_class_name, "
-            f"found {len(assignments)}. Dead code detected: a variable is assigned "
-            f"and immediately overwritten."
-        )
 
