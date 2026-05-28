@@ -10,8 +10,8 @@ from scripts.release.infrastructure.changelog.git_cliff_changelog_generator impo
     GitCliffChangelogGenerator,
 )
 from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
-from tests.fixtures.git_test_repository import GitTestRepository
 from tests.fixtures.git_cliff_scenarios import Scenario
+from tests.fixtures.git_test_repository import GitTestRepository
 
 from scripts.release.application.errors import ChangelogGenerationError
 
@@ -376,12 +376,15 @@ class TestGitCliffChangelogGeneratorIntegration:
 
         original_run = subprocess.run
 
-        def mock_run(*args, **kwargs):
-            if args[0][0] == "git-cliff":
+        def mock_run(
+            args: list[str],
+            **kwargs: object,
+        ) -> subprocess.CompletedProcess[str]:
+            if args[0] == "git-cliff":
                 raise FileNotFoundError(
                     "[Errno 2] No such file or directory: 'git-cliff'"
                 )
-            return original_run(*args, **kwargs)
+            return original_run(args, **kwargs)  # type: ignore[return-value]
 
         with patch("subprocess.run", side_effect=mock_run):
             with pytest.raises(
