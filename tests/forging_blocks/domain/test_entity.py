@@ -171,3 +171,47 @@ class TestUser:
     def test___repr___WHEN_called_THEN_returns_same_as_str(self, persisted_user: User) -> None:
         result = repr(persisted_user)
         assert result == str(persisted_user)
+
+    def test___str___WHEN_draft_THEN_returns_class_with_none_id(self, draft_user: User) -> None:
+        result = str(draft_user)
+        assert result == "User(id=None)"
+
+    def test___repr___WHEN_draft_THEN_returns_same_as_str(self, draft_user: User) -> None:
+        result = repr(draft_user)
+        assert result == str(draft_user)
+
+    def test_copy_WHEN_entity_is_draft_THEN_copy_preserves_draft_state(
+        self, draft_user: User
+    ) -> None:
+        clone = copy.copy(draft_user)
+        assert clone.id is None
+        assert clone.name == draft_user.name
+        assert clone.is_persisted() is False
+
+    def test___delattr___WHEN_draft_entity_THEN_raises_attribute_error(
+        self, draft_user: User
+    ) -> None:
+        with pytest.raises(AttributeError) as exc_info:
+            draft_user.__delattr__("_id")
+        assert "cannot delete" in str(exc_info.value)
+
+    def test___setattr___WHEN_draft_entity_THEN_allows_id_assignment(
+        self, draft_user: User
+    ) -> None:
+        draft_user._id = 42
+        assert draft_user.id == 42
+        assert draft_user.is_persisted() is True
+
+    def test___setattr___WHEN_draft_entity_THEN_blocks_same_id_reassignment(
+        self, draft_user: User
+    ) -> None:
+        draft_user._id = 42
+        draft_user._id = 42
+        assert draft_user.id == 42
+
+    def test___setattr___WHEN_draft_entity_THEN_blocks_different_id_after_persist(
+        self, draft_user: User
+    ) -> None:
+        draft_user._id = 42
+        with pytest.raises(AttributeError):
+            draft_user._id = 99

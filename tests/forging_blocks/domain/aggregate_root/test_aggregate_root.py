@@ -28,39 +28,16 @@ class OrderAggregate(AggregateRoot[int]):
     def __init__(self, aggregate_id: int, version: AggregateVersion | None = None) -> None:
         super().__init__(aggregate_id, version)
 
+    def apply(self, event: Event) -> None:
+        self.record_event(event)
 
-@pytest.mark.unit
-class TestAggregateVersion:
-    def test___init___when_value_is_not_int_then_raises_type_error(self) -> None:
-        with pytest.raises(TypeError):
-            AggregateVersion("1")  # type: ignore
 
-    def test___init___when_value_is_negative_then_raises_value_error(self) -> None:
-        with pytest.raises(ValueError):
-            AggregateVersion(-1)
+class StringAggregate(AggregateRoot[str]):
+    def __init__(self, aggregate_id: str) -> None:
+        super().__init__(aggregate_id)
 
-    def test_value_when_accessed_then_returns_correct_integer(self) -> None:
-        version = AggregateVersion(3)
-        result = version.value
-        assert result == 3
-
-    def test_increment_when_called_then_returns_new_instance_with_value_incremented(
-        self,
-    ) -> None:
-        version = AggregateVersion(2)
-        result = version.increment()
-        assert result.value == 3
-        assert result is not version
-
-    def test___eq___when_values_are_equal_then_returns_true(self) -> None:
-        a = AggregateVersion(1)
-        b = AggregateVersion(1)
-        assert a == b
-
-    def test___eq___when_values_differ_then_returns_false(self) -> None:
-        a = AggregateVersion(1)
-        b = AggregateVersion(2)
-        assert a != b
+    def apply(self, event: Event) -> None:
+        self.record_event(event)
 
 
 @pytest.mark.unit
@@ -137,10 +114,30 @@ class TestAggregateRoot:
         assert aggregate.uncommitted_changes == []
         assert aggregate.version == old_version
 
-    def test__increment_version_when_called_then_increments_version_by_one(
-        self,
-    ) -> None:
+    def test_collect_events_when_no_events_then_does_not_increment_version(self) -> None:
         aggregate = OrderAggregate(1)
-        old_version = aggregate.version.value
-        aggregate._increment_version()
-        assert aggregate.version.value == old_version + 1
+
+        aggregate.collect_events()
+
+        assert aggregate.version.value == 0
+
+    def test___init___when_id_is_zero_then_initializes_successfully(self) -> None:
+        aggregate = OrderAggregate(0)
+
+        assert aggregate.id == 0
+        assert aggregate.version.value == 0
+
+    def test___init___when_id_is_empty_string_then_raises_entity_id_none_error(self) -> None:
+        with pytest.raises(EntityIdNoneError):
+            StringAggregate("")
+
+    def test_apply_when_called_then_records_event_in_uncommitted(self) -> None:
+        aggregate = OrderAggregate(1)
+        event = DummyEvent("created")
+
+        aggregate.apply(event)
+
+        assert event in aggregate.uncommitted_changes
+
+    def test_apply_is_abstract_on_aggregate_root(self) -> None:
+        assert getattr(AggregateRoot.apply, "__isabstractmethod__", False) is True

@@ -1,43 +1,17 @@
-"""Module defining the base abstraction for Aggregate Roots and their version control."""
+"""Base AggregateRoot class for Domain-Driven Design."""
 
 from __future__ import annotations
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Any, Generic, Hashable, TypeVar
 
 from forging_blocks.domain.entity import Entity
 from forging_blocks.domain.errors.entity_id_none_error import EntityIdNoneError
 from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.value_object import ValueObject
+
+from .aggregate_version import AggregateVersion
 
 TId = TypeVar("TId", bound=Hashable)
-
-
-class AggregateVersion(ValueObject[int]):
-    """Immutable value object representing the version of an aggregate root.
-
-    Used for optimistic concurrency control to detect conflicting updates.
-    """
-
-    def __init__(self, value: int) -> None:
-        if not isinstance(value, int):  # pyright: ignore[reportUnnecessaryIsInstance]
-            raise TypeError(f"Expected int, got {type(value).__name__}")
-        if value < 0:
-            raise ValueError("Version cannot be negative")
-        self._value = value
-
-    @property
-    def value(self) -> int:
-        """Return the integer version value."""
-        return self._value
-
-    def increment(self) -> AggregateVersion:
-        """Return a new AggregateVersion incremented by one."""
-        return AggregateVersion(self._value + 1)
-
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        """Components used for equality comparison."""
-        return (self._value,)
 
 
 class AggregateRoot(Entity[TId], Generic[TId], ABC):
@@ -52,7 +26,7 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
     _uncommitted_events: list[Event[Any]]
 
     def __init__(self, aggregate_id: TId, version: AggregateVersion | None = None) -> None:
-        if not aggregate_id:
+        if aggregate_id is None or aggregate_id == "":
             raise EntityIdNoneError(self.__class__.__name__)
         self._version = version or AggregateVersion(0)
         self._uncommitted_events = []
@@ -72,7 +46,9 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
         """Collect uncommitted events, clear array, increment the version and return events."""
         events = self._uncommitted_events.copy()
         self._uncommitted_events.clear()
-        self._increment_version()
+
+        if events:
+            self._version = self._version.increment()
 
         return events
 
@@ -88,6 +64,16 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
         """Record a new domain event for later publication."""
         self._uncommitted_events.append(domain_event)
 
-    def _increment_version(self) -> None:
-        """Increment the aggregate's version value."""
-        self._version = self._version.increment()
+    @abstractmethod
+    def apply(self, event: Event[Any]) -> None:
+        """Apply a domain event to this aggregate.
+
+        Subclasses must implement this method to define how each event
+        type mutates the aggregate's state. Implementations should call
+        ``self.record_event(event)`` to store the event for later
+        collection by the unit of work.
+
+        Args:
+            event: The domain event to apply.
+        """
+        ...
