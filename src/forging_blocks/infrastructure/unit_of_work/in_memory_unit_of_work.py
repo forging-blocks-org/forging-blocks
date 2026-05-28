@@ -11,7 +11,7 @@ from typing import Any
 from forging_blocks.application.errors.unit_of_work_error import UnitOfWorkError
 from forging_blocks.application.ports.outbound.event_publisher import EventPublisher
 from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWork
-from forging_blocks.domain.aggregate_root import AggregateRoot
+from forging_blocks.domain import AggregateRoot
 from forging_blocks.foundation.errors.core import ErrorMessage
 
 

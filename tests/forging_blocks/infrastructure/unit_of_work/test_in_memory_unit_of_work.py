@@ -36,6 +36,9 @@ class FakeAggregate(AggregateRoot[str]):
         super().__init__(aggregate_id)
         self.name = "test"
 
+    def apply(self, event: Event) -> None:
+        self.record_event(event)
+
 
 @pytest.mark.unit
 class TestInMemoryUnitOfWork:
