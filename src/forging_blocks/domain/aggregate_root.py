@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Any, Generic, Hashable, TypeVar
 
 from forging_blocks.domain.entity import Entity
@@ -52,7 +52,7 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
     _uncommitted_events: list[Event[Any]]
 
     def __init__(self, aggregate_id: TId, version: AggregateVersion | None = None) -> None:
-        if not aggregate_id:
+        if aggregate_id is None or aggregate_id == "":
             raise EntityIdNoneError(self.__class__.__name__)
         self._version = version or AggregateVersion(0)
         self._uncommitted_events = []
@@ -72,7 +72,9 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
         """Collect uncommitted events, clear array, increment the version and return events."""
         events = self._uncommitted_events.copy()
         self._uncommitted_events.clear()
-        self._increment_version()
+
+        if events:
+            self._increment_version()
 
         return events
 
@@ -91,3 +93,17 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
     def _increment_version(self) -> None:
         """Increment the aggregate's version value."""
         self._version = self._version.increment()
+
+    @abstractmethod
+    def apply(self, event: Event[Any]) -> None:
+        """Apply a domain event to this aggregate.
+
+        Subclasses must implement this method to define how each event
+        type mutates the aggregate's state. Implementations should call
+        ``self.record_event(event)`` to store the event for later
+        collection by the unit of work.
+
+        Args:
+            event: The domain event to apply.
+        """
+        ...
