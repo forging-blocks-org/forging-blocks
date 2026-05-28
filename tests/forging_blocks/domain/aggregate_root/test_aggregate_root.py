@@ -41,40 +41,6 @@ class StringAggregate(AggregateRoot[str]):
 
 
 @pytest.mark.unit
-class TestAggregateVersion:
-    def test___init___when_value_is_not_int_then_raises_type_error(self) -> None:
-        with pytest.raises(TypeError):
-            AggregateVersion("1")  # type: ignore
-
-    def test___init___when_value_is_negative_then_raises_value_error(self) -> None:
-        with pytest.raises(ValueError):
-            AggregateVersion(-1)
-
-    def test_value_when_accessed_then_returns_correct_integer(self) -> None:
-        version = AggregateVersion(3)
-        result = version.value
-        assert result == 3
-
-    def test_increment_when_called_then_returns_new_instance_with_value_incremented(
-        self,
-    ) -> None:
-        version = AggregateVersion(2)
-        result = version.increment()
-        assert result.value == 3
-        assert result is not version
-
-    def test___eq___when_values_are_equal_then_returns_true(self) -> None:
-        a = AggregateVersion(1)
-        b = AggregateVersion(1)
-        assert a == b
-
-    def test___eq___when_values_differ_then_returns_false(self) -> None:
-        a = AggregateVersion(1)
-        b = AggregateVersion(2)
-        assert a != b
-
-
-@pytest.mark.unit
 class TestAggregateRoot:
     def test___init___when_id_is_none_then_raises_entity_id_none_error(self) -> None:
         with pytest.raises(EntityIdNoneError):
@@ -147,14 +113,6 @@ class TestAggregateRoot:
 
         assert aggregate.uncommitted_changes == []
         assert aggregate.version == old_version
-
-    def test__increment_version_when_called_then_increments_version_by_one(
-        self,
-    ) -> None:
-        aggregate = OrderAggregate(1)
-        old_version = aggregate.version.value
-        aggregate._increment_version()
-        assert aggregate.version.value == old_version + 1
 
     def test_collect_events_when_no_events_then_does_not_increment_version(self) -> None:
         aggregate = OrderAggregate(1)

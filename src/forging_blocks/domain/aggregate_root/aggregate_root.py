@@ -1,4 +1,4 @@
-"""Module defining the base abstraction for Aggregate Roots and their version control."""
+"""Base AggregateRoot class for Domain-Driven Design."""
 
 from __future__ import annotations
 
@@ -8,36 +8,10 @@ from typing import Any, Generic, Hashable, TypeVar
 from forging_blocks.domain.entity import Entity
 from forging_blocks.domain.errors.entity_id_none_error import EntityIdNoneError
 from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.value_object import ValueObject
+
+from .aggregate_version import AggregateVersion
 
 TId = TypeVar("TId", bound=Hashable)
-
-
-class AggregateVersion(ValueObject[int]):
-    """Immutable value object representing the version of an aggregate root.
-
-    Used for optimistic concurrency control to detect conflicting updates.
-    """
-
-    def __init__(self, value: int) -> None:
-        if not isinstance(value, int):  # pyright: ignore[reportUnnecessaryIsInstance]
-            raise TypeError(f"Expected int, got {type(value).__name__}")
-        if value < 0:
-            raise ValueError("Version cannot be negative")
-        self._value = value
-
-    @property
-    def value(self) -> int:
-        """Return the integer version value."""
-        return self._value
-
-    def increment(self) -> AggregateVersion:
-        """Return a new AggregateVersion incremented by one."""
-        return AggregateVersion(self._value + 1)
-
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        """Components used for equality comparison."""
-        return (self._value,)
 
 
 class AggregateRoot(Entity[TId], Generic[TId], ABC):
@@ -74,7 +48,7 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
         self._uncommitted_events.clear()
 
         if events:
-            self._increment_version()
+            self._version = self._version.increment()
 
         return events
 
@@ -89,10 +63,6 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
     def record_event(self, domain_event: Event[Any]) -> None:
         """Record a new domain event for later publication."""
         self._uncommitted_events.append(domain_event)
-
-    def _increment_version(self) -> None:
-        """Increment the aggregate's version value."""
-        self._version = self._version.increment()
 
     @abstractmethod
     def apply(self, event: Event[Any]) -> None:
