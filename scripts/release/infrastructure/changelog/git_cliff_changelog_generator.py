@@ -150,6 +150,11 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
     def _merge_unreleased_into_versioned(
         self, versioned_block: str, unreleased_content: str
     ) -> str:
+        first_section_end = re.search(r"^## \[", versioned_block[2:], re.MULTILINE)
+        section_end = first_section_end.start() + 2 if first_section_end else len(versioned_block)
+        first_section = versioned_block[:section_end]
+        rest = versioned_block[section_end:]
+
         for group_match in re.finditer(
             r"(### \w[^\n]*\n)(.*?)(?=### |\Z)", unreleased_content, re.DOTALL
         ):
@@ -158,38 +163,34 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
             if not group_entries:
                 continue
 
-            if re.search(re.escape(group_header), versioned_block):
-                existing_group = re.search(
-                    re.escape(group_header) + r"\n(.*?)(?=### |\Z)",
-                    versioned_block,
-                    re.DOTALL,
-                )
-                merged_entries = (
-                    (existing_group.group(1) if existing_group else "")
-                    + group_entries
-                    + "\n"
-                )
-                versioned_block = re.sub(
-                    re.escape(group_header),
-                    group_header + "\n" + merged_entries,
-                    versioned_block,
-                )
+            existing_pattern = (
+                re.escape(group_header)
+                + r"\n(.*?)(?=### |\Z)"
+            )
+            existing_match = re.search(existing_pattern, first_section, re.DOTALL)
+
+            if existing_match:
+                existing_entries = existing_match.group(1)
+                merged_entries = existing_entries.rstrip("\n") + "\n" + group_entries + "\n\n"
+                replacement = group_header + "\n" + merged_entries
+                first_section = first_section[:existing_match.start()] + replacement + first_section[existing_match.end():]
             else:
-                insert_pos = versioned_block.find("\n\n## [")
-                if insert_pos == -1:
-                    versioned_block += "\n\n" + group_header + "\n" + group_entries + "\n"
-                else:
-                    versioned_block = (
-                        versioned_block[:insert_pos]
-                        + "\n\n"
+                insert_pos = re.search(r"^## \[", first_section[2:], re.MULTILINE)
+                if insert_pos:
+                    pos = insert_pos.start() + 2
+                    first_section = (
+                        first_section[:pos]
+                        + "\n"
                         + group_header
                         + "\n"
                         + group_entries
-                        + "\n"
-                        + versioned_block[insert_pos:]
+                        + "\n\n"
+                        + first_section[pos:]
                     )
+                else:
+                    first_section += "\n" + group_header + "\n" + group_entries + "\n"
 
-        return versioned_block
+        return first_section + rest
 
     def _parse_output(self, raw: str) -> list[str]:
         return [line.strip() for line in raw.splitlines() if line.strip()]

@@ -322,7 +322,17 @@ class TestGitCliffChangelogGeneratorIntegration:
         assert "## [0.3.0]" in content_after
         assert "add password reset" in content_after
         assert "handle expired tokens" in content_after
-        assert content_after.index("## [0.3.0]") < content_after.index("add password reset")
+
+        section_030 = content_after.split("## [0.2.0]")[0]
+        section_020_and_below = content_after.split("## [0.2.0]")[1]
+
+        assert "## [0.3.0]" in section_030
+        assert "add password reset" in section_030
+        assert "handle expired tokens" in section_030
+        assert section_020_and_below.count("add password reset") == 0
+        assert section_020_and_below.count("handle expired tokens") == 0
+        assert content_after.count("add password reset") == 1
+        assert content_after.count("handle expired tokens") == 1
         assert "## [0.2.0]" in content_after
         assert "## [0.1.0]" in content_after
 
