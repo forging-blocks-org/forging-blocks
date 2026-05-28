@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from scripts.release.application.ports.outbound import (
@@ -22,8 +23,7 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
     Range resolution strategy:
     - requested tag exists  → generate from that tag: `<tag>..`
-    - requested tag missing, other tags exist → generate from latest tag: `<latest>..`
-    - no tags at all → generate full history (no range argument)
+    - requested tag missing → generate full history (no range argument)
     """
 
     def __init__(
@@ -37,12 +37,10 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
     async def generate(self, request: ChangelogRequest) -> ChangelogResponse:
         from_tag = f"v{request.from_version}"
         tag_exists = self._tag_exists(from_tag)
-        latest_tag = self._latest_tag() if not tag_exists else None
 
         range_arg, version_tag = self._resolve_range_and_version(
             requested_tag=from_tag,
             tag_exists=tag_exists,
-            latest_tag=latest_tag,
         )
 
         raw = self._run_git_cliff(range_arg, version_tag)
@@ -60,31 +58,25 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
         except RuntimeError:
             return False
 
-    def _latest_tag(self) -> str | None:
-        try:
-            result = self._runner.run(
-                ["git", "describe", "--tags", "--abbrev=0"],
-                suppress_error_log=True,
-            )
-            return result.strip() or None
-        except RuntimeError:
-            return None
-
     def _resolve_range_and_version(
         self,
         *,
         requested_tag: str,
         tag_exists: bool,
-        latest_tag: str | None,
     ) -> tuple[str | None, str | None]:
         """Return the starting tag for the range and version tag for git-cliff.
 
         The version_tag tells git-cliff what version to display in the changelog,
         even if the tag doesn't exist yet in git.
+
+        When the requested tag doesn't exist yet (i.e. a new release), we
+        return ``None`` for the range so that git-cliff produces the full
+        history across all existing tags — ensuring the released version
+        section is populated and the ``[Unreleased]`` block is replaced.
         """
         if tag_exists:
             return requested_tag, requested_tag
-        return latest_tag, requested_tag  # version_tag ensures correct version is shown
+        return None, requested_tag
 
     def _run_git_cliff(self, from_tag: str | None, version_tag: str | None) -> str:
         cmd = ["git-cliff", "--output", "-"]
@@ -111,12 +103,26 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
         If the file already exists the new section is inserted at the top;
         otherwise the file is created with only the new content.
+
+        When the new entries contain a versioned section (e.g. ``## [0.4.0]``),
+        any ``## [Unreleased]`` block in the existing content is removed so
+        that the released version replaces the unreleased one.
         """
         existing = ""
         if self._changelog_path.exists():
             existing = self._changelog_path.read_text(encoding="utf-8")
 
         new_block = new_entries.rstrip("\n")
+
+        is_versioned = re.search(r"^## \[\d+\.\d+", new_block, re.MULTILINE)
+        if is_versioned and existing:
+            existing = re.sub(
+                r"^## \[Unreleased\].*?(?=^## \[|\Z)",
+                "",
+                existing,
+                flags=re.MULTILINE | re.DOTALL,
+            ).lstrip("\n")
+
         if existing.strip():
             combined = new_block + "\n\n" + existing
         else:

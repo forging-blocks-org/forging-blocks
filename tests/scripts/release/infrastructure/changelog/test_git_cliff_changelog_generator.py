@@ -1,14 +1,4 @@
-"""Integration tests for GitCliffChangelogGenerator.
-
-The happy-path tests run against a real temporary git repository with real git
-and git-cliff binaries, exercising the full adapter stack without mocking.
-The missing-binary error case is simulated by mocking subprocess invocation.
-
-Commit message assertions match cliff.toml rendering: git-cliff strips
-conventional commit prefixes and capitalises the description, so
-"feat: add feature after tag" is rendered as "Add feature after tag".
-"""
-# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+from __future__ import annotations
 
 import subprocess
 from pathlib import Path
@@ -21,6 +11,7 @@ from scripts.release.infrastructure.changelog.git_cliff_changelog_generator impo
 )
 from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
 from tests.fixtures.git_test_repository import GitTestRepository
+from tests.fixtures.git_cliff_scenarios import Scenario
 
 from scripts.release.application.errors import ChangelogGenerationError
 
@@ -30,6 +21,10 @@ def _make_generator(repo: GitTestRepository) -> GitCliffChangelogGenerator:
         runner=repo.scoped_runner(),
         changelog_path=repo.path / "CHANGELOG.md",
     )
+
+
+def _read_changelog(scenario: Scenario) -> str:
+    return scenario.changelog_path.read_text(encoding="utf-8")
 
 
 @pytest.mark.unit
@@ -50,10 +45,6 @@ class TestGitCliffChangelogGeneratorUnit:
     ) -> GitCliffChangelogGenerator:
         return GitCliffChangelogGenerator(runner=runner_mock, changelog_path=changelog_path)
 
-    # ------------------------------------------------------------------
-    # Range resolution — driven through generate()
-    # ------------------------------------------------------------------
-
     async def test_generate_uses_requested_tag_as_range_when_it_exists(
         self,
         generator: GitCliffChangelogGenerator,
@@ -62,8 +53,8 @@ class TestGitCliffChangelogGeneratorUnit:
     ) -> None:
         changelog_path.write_text("## v0.9.0\n- old entry\n", encoding="utf-8")
         runner_mock.run.side_effect = [
-            "abc123",  # rev-parse succeeds → tag exists
-            "## v1.0.0\n- new entry\n",  # git-cliff output
+            "abc123",
+            "## v1.0.0\n- new entry\n",
         ]
 
         await generator.generate(ChangelogRequest(from_version="1.0.0"))
@@ -76,7 +67,7 @@ class TestGitCliffChangelogGeneratorUnit:
         assert "v1.0.0" in cmd
         assert "v1.0.0.." in cmd[-1]
 
-    async def test_generate_falls_back_to_latest_tag_as_range_when_requested_tag_missing(
+    async def test_generate_uses_full_history_when_requested_tag_missing(
         self,
         generator: GitCliffChangelogGenerator,
         runner_mock: MagicMock,
@@ -84,16 +75,15 @@ class TestGitCliffChangelogGeneratorUnit:
     ) -> None:
         changelog_path.write_text("## v0.9.0\n- old entry\n", encoding="utf-8")
         runner_mock.run.side_effect = [
-            RuntimeError("not found"),  # rev-parse fails → tag missing
-            "v0.9.0",  # git describe → latest tag
-            "## v1.1.0\n- new entry\n",  # git-cliff output
+            RuntimeError("not found"),
+            "## v1.1.0\n- new entry\n",
         ]
 
         await generator.generate(ChangelogRequest(from_version="1.1.0"))
 
-        git_cliff_call = runner_mock.run.call_args_list[2]
+        git_cliff_call = runner_mock.run.call_args_list[1]
         cmd = git_cliff_call[0][0]
-        assert "v0.9.0.." in cmd[-1]
+        assert "--" not in cmd
         assert "v1.1.0" in cmd
 
     async def test_generate_produces_full_history_when_no_tags_exist(
@@ -104,20 +94,15 @@ class TestGitCliffChangelogGeneratorUnit:
     ) -> None:
         changelog_path.write_text("## v0.1.0\n- old entry\n", encoding="utf-8")
         runner_mock.run.side_effect = [
-            RuntimeError("not found"),  # rev-parse fails
-            RuntimeError("no tags"),  # git describe fails
-            "## v0.1.0\n- full history\n",  # git-cliff output
+            RuntimeError("not found"),
+            "## v0.1.0\n- full history\n",
         ]
 
         await generator.generate(ChangelogRequest(from_version="0.1.0"))
 
-        git_cliff_call = runner_mock.run.call_args_list[2]
+        git_cliff_call = runner_mock.run.call_args_list[1]
         cmd = git_cliff_call[0][0]
         assert "--" not in cmd
-
-    # ------------------------------------------------------------------
-    # Response shape
-    # ------------------------------------------------------------------
 
     async def test_generate_returns_parsed_entries(
         self,
@@ -151,10 +136,6 @@ class TestGitCliffChangelogGeneratorUnit:
 
         assert result.entries == []
 
-    # ------------------------------------------------------------------
-    # File writing — new entries prepended to existing content
-    # ------------------------------------------------------------------
-
     async def test_generate_prepends_new_entries_to_existing_changelog(
         self,
         generator: GitCliffChangelogGenerator,
@@ -174,7 +155,6 @@ class TestGitCliffChangelogGeneratorUnit:
         assert "- feat: something" in content
         assert "## v0.9.0" in content
         assert "- old entry" in content
-        # New section comes before old section
         assert content.index("## v1.0.0") < content.index("## v0.9.0")
 
     async def test_generate_creates_file_when_no_existing_changelog(
@@ -210,9 +190,27 @@ class TestGitCliffChangelogGeneratorUnit:
 
         assert changelog_path.read_text(encoding="utf-8").endswith("\n")
 
-    # ------------------------------------------------------------------
-    # Error handling
-    # ------------------------------------------------------------------
+    async def test_generate_removes_unreleased_section_when_versioned_entries_prepended(
+        self,
+        generator: GitCliffChangelogGenerator,
+        runner_mock: MagicMock,
+        changelog_path: Path,
+    ) -> None:
+        changelog_path.write_text(
+            "## [Unreleased]\n\n### Features\n- feature1\n\n## [0.3.22]\n- old entry\n",
+            encoding="utf-8",
+        )
+        runner_mock.run.side_effect = [
+            "abc123",
+            "## [0.4.0] - 2026-05-28\n\n### Features\n- new feature\n",
+        ]
+
+        await generator.generate(ChangelogRequest(from_version="0.4.0"))
+
+        content = changelog_path.read_text(encoding="utf-8")
+        assert "## [0.4.0]" in content
+        assert "## [Unreleased]" not in content
+        assert "## [0.3.22]" in content
 
     async def test_generate_raises_changelog_generation_error_when_git_cliff_not_installed(
         self,
@@ -242,84 +240,120 @@ class TestGitCliffChangelogGeneratorUnit:
 
 
 @pytest.mark.integration
-class TestGitCliffChangelogGenerator:
-    async def test_generate_when_tag_exists_then_returns_entries_since_that_tag(
-        self, git_repo: GitTestRepository
+class TestGitCliffChangelogGeneratorIntegration:
+    async def test_empty_repo_generates_versioned_section(
+        self, scenario_empty_repo: Scenario
     ) -> None:
-        """Tag exists — changelog contains only commits after it."""
-        git_repo.write_file("a.txt", "a")
-        git_repo.commit("feat: commit before tag")
-        git_repo.create_tag("v1.0.0")
-        git_repo.write_file("b.txt", "b")
-        git_repo.commit("feat: add feature after tag")
-        git_repo.write_file("c.txt", "c")
-        git_repo.commit("fix: fix bug after tag")
+        scenario = scenario_empty_repo
+        response = await _make_generator(scenario.repo).generate(
+            ChangelogRequest(from_version=scenario.from_version),
+        )
 
-        response = await _make_generator(git_repo).generate(ChangelogRequest(from_version="1.0.0"))
+        full = "\n".join(response.entries)
+        assert "[0.1.0]" in full
+        assert scenario.changelog_path.exists()
 
-        full_output = "\n".join(response.entries)
-        assert "Add feature after tag" in full_output
-        assert "Fix bug after tag" in full_output
-        assert "Commit before tag" not in full_output
-        assert "[1.0.0]" in full_output
-        assert "unreleased" not in full_output.lower()
-        assert (git_repo.path / "CHANGELOG.md").exists()
-
-    async def test_generate_when_tag_not_yet_created_then_uses_requested_version(
-        self, git_repo: GitTestRepository
+    async def test_existing_tag_returns_only_commits_after_it(
+        self, scenario_repo_with_single_tag: Scenario
     ) -> None:
-        """Requested tag doesn't exist in git yet — uses requested version in output."""
-        git_repo.write_file("a.txt", "a")
-        git_repo.commit("feat: commit before tag")
-        git_repo.create_tag("v1.0.0")
-        git_repo.write_file("b.txt", "b")
-        git_repo.commit("feat: add feature after tag")
+        scenario = scenario_repo_with_single_tag
+        response = await _make_generator(scenario.repo).generate(
+            ChangelogRequest(from_version=scenario.from_version),
+        )
 
-        response = await _make_generator(git_repo).generate(ChangelogRequest(from_version="1.1.0"))
+        full = "\n".join(response.entries)
+        assert "Resolve off-by-one error" in full
+        assert "Update README" in full
+        assert "Add hello function" not in full
+        assert "[0.1.0]" in full
+        assert "unreleased" not in full.lower()
+        assert scenario.changelog_path.exists()
 
-        full_output = "\n".join(response.entries)
-        assert "Add feature after tag" in full_output
-        assert "[1.1.0]" in full_output
-        assert "unreleased" not in full_output.lower()
-        assert (git_repo.path / "CHANGELOG.md").exists()
-
-    async def test_generate_when_tag_missing_but_other_tags_exist_then_returns_entries_since_latest_tag(
-        self, git_repo: GitTestRepository
+    async def test_future_version_returns_full_history(
+        self, scenario_repo_with_multiple_tags: Scenario
     ) -> None:
-        """Requested tag doesn't exist — falls back to latest tag in repo."""
-        git_repo.write_file("a.txt", "a")
-        git_repo.commit("feat: base commit")
-        git_repo.create_tag("v0.9.0")
-        git_repo.write_file("b.txt", "b")
-        git_repo.commit("feat: commit after latest tag")
+        scenario = scenario_repo_with_multiple_tags
+        response = await _make_generator(scenario.repo).generate(
+            ChangelogRequest(from_version=scenario.from_version),
+        )
 
-        response = await _make_generator(git_repo).generate(ChangelogRequest(from_version="1.0.0"))
+        full = "\n".join(response.entries)
+        assert "Initial scaffold" in full
+        assert "Add user registration" in full
+        assert "Prevent duplicate emails" in full
+        assert "Add password reset" in full
+        assert "Handle expired tokens" in full
+        assert "[0.3.0]" in full
+        assert scenario.changelog_path.exists()
 
-        full_output = "\n".join(response.entries)
-        assert "Commit after latest tag" in full_output
-        assert "Base commit" not in full_output
-        assert (git_repo.path / "CHANGELOG.md").exists()
-
-    async def test_generate_when_no_tags_exist_then_returns_full_history(
-        self, git_repo: GitTestRepository
+    async def test_replaces_unreleased_block_with_versioned_section(
+        self, scenario_changelog_with_unreleased: Scenario
     ) -> None:
-        """No tags at all — full commit history is returned."""
-        git_repo.write_file("a.txt", "a")
-        git_repo.commit("feat: first commit")
-        git_repo.write_file("b.txt", "b")
-        git_repo.commit("feat: second commit")
+        scenario = scenario_changelog_with_unreleased
 
-        response = await _make_generator(git_repo).generate(ChangelogRequest(from_version="1.0.0"))
+        content_before = _read_changelog(scenario)
+        assert "## [Unreleased]" in content_before
 
-        full_output = "\n".join(response.entries)
-        assert "First commit" in full_output
-        assert "Second commit" in full_output
-        assert (git_repo.path / "CHANGELOG.md").exists()
+        await _make_generator(scenario.repo).generate(
+            ChangelogRequest(from_version=scenario.from_version),
+        )
 
-    async def test_generate_when_not_a_git_repo_then_raises_changelog_generation_error(
+        content_after = _read_changelog(scenario)
+        assert "## [0.3.0]" in content_after
+        assert "## [Unreleased]" not in content_after
+        assert "## [0.2.0]" in content_after
+        assert "## [0.1.0]" in content_after
+
+    async def test_prepends_to_existing_changelog_without_unreleased(
+        self, scenario_existing_changelog_no_unreleased: Scenario
+    ) -> None:
+        scenario = scenario_existing_changelog_no_unreleased
+
+        content_before = _read_changelog(scenario)
+        assert "## [Unreleased]" not in content_before
+
+        await _make_generator(scenario.repo).generate(
+            ChangelogRequest(from_version=scenario.from_version),
+        )
+
+        content_after = _read_changelog(scenario)
+        assert "## [0.3.0]" in content_after
+        assert "## [Unreleased]" not in content_after
+        assert "## [0.2.0]" in content_after
+        assert "## [0.1.0]" in content_after
+        assert content_after.index("## [0.3.0]") < content_after.index("## [0.2.0]")
+
+    async def test_creates_changelog_when_file_does_not_exist(
+        self, scenario_repo_with_single_tag: Scenario
+    ) -> None:
+        scenario = scenario_repo_with_single_tag
+        assert not scenario.changelog_path.exists()
+
+        await _make_generator(scenario.repo).generate(
+            ChangelogRequest(from_version=scenario.from_version),
+        )
+
+        assert scenario.changelog_path.exists()
+        content = _read_changelog(scenario)
+        assert "## [0.1.0]" in content
+        assert content.endswith("\n")
+
+    async def test_conventional_commits_grouped_correctly(
+        self, scenario_repo_with_multiple_tags: Scenario
+    ) -> None:
+        scenario = scenario_repo_with_multiple_tags
+
+        response = await _make_generator(scenario.repo).generate(
+            ChangelogRequest(from_version=scenario.from_version),
+        )
+
+        full = "\n".join(response.entries)
+        assert "### Features" in full
+        assert "### Bug Fixes" in full
+
+    async def test_not_a_git_repo_raises_error(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        """git-cliff fails when cwd is not a git repository."""
         monkeypatch.chdir(tmp_path)
 
         generator = GitCliffChangelogGenerator(
@@ -330,10 +364,9 @@ class TestGitCliffChangelogGenerator:
         with pytest.raises(ChangelogGenerationError, match="git-cliff failed"):
             await generator.generate(ChangelogRequest(from_version="1.0.0"))
 
-    async def test_generate_when_file_not_found_then_changelog_generation_error(
+    async def test_git_cliff_not_installed_raises_error(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        """git-cliff raises FileNotFoundError when binary is not in PATH."""
         monkeypatch.chdir(tmp_path)
 
         generator = GitCliffChangelogGenerator(
@@ -345,11 +378,14 @@ class TestGitCliffChangelogGenerator:
 
         def mock_run(*args, **kwargs):
             if args[0][0] == "git-cliff":
-                raise FileNotFoundError("[Errno 2] No such file or directory: 'git-cliff'")
+                raise FileNotFoundError(
+                    "[Errno 2] No such file or directory: 'git-cliff'"
+                )
             return original_run(*args, **kwargs)
 
         with patch("subprocess.run", side_effect=mock_run):
             with pytest.raises(
-                ChangelogGenerationError, match="git-cliff is not installed or not found in PATH"
+                ChangelogGenerationError,
+                match="git-cliff is not installed or not found in PATH",
             ):
                 await generator.generate(ChangelogRequest(from_version="1.0.0"))
