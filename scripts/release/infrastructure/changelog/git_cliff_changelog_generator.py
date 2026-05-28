@@ -105,8 +105,8 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
         otherwise the file is created with only the new content.
 
         When the new entries contain a versioned section (e.g. ``## [0.4.0]``),
-        any ``## [Unreleased]`` block in the existing content is removed so
-        that the released version replaces the unreleased one.
+        the ``## [Unreleased]`` block from the existing content is merged
+        into the new versioned section so that unreleased changes are not lost.
         """
         existing = ""
         if self._changelog_path.exists():
@@ -116,12 +116,13 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
         is_versioned = re.search(r"^## \[\d+\.\d+", new_block, re.MULTILINE)
         if is_versioned and existing:
-            existing = re.sub(
-                r"^## \[Unreleased\].*?(?=^## \[|\Z)",
-                "",
-                existing,
-                flags=re.MULTILINE | re.DOTALL,
-            ).lstrip("\n")
+            unreleased_content = self._extract_unreleased(existing)
+            existing = self._strip_unreleased(existing)
+
+            if unreleased_content:
+                new_block = self._merge_unreleased_into_versioned(
+                    new_block, unreleased_content
+                )
 
         if existing.strip():
             combined = new_block + "\n\n" + existing
@@ -129,6 +130,66 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
             combined = new_block + "\n"
 
         self._changelog_path.write_text(combined, encoding="utf-8")
+
+    def _extract_unreleased(self, changelog: str) -> str:
+        match = re.search(
+            r"^## \[Unreleased\]\s*\n(.*?)(?=^## \[|\Z)",
+            changelog,
+            re.MULTILINE | re.DOTALL,
+        )
+        return match.group(1).strip() if match else ""
+
+    def _strip_unreleased(self, changelog: str) -> str:
+        return re.sub(
+            r"^## \[Unreleased\].*?(?=^## \[|\Z)",
+            "",
+            changelog,
+            flags=re.MULTILINE | re.DOTALL,
+        ).lstrip("\n")
+
+    def _merge_unreleased_into_versioned(
+        self, versioned_block: str, unreleased_content: str
+    ) -> str:
+        for group_match in re.finditer(
+            r"(### \w[^\n]*\n)(.*?)(?=### |\Z)", unreleased_content, re.DOTALL
+        ):
+            group_header = group_match.group(1).strip()
+            group_entries = group_match.group(2).strip()
+            if not group_entries:
+                continue
+
+            if re.search(re.escape(group_header), versioned_block):
+                existing_group = re.search(
+                    re.escape(group_header) + r"\n(.*?)(?=### |\Z)",
+                    versioned_block,
+                    re.DOTALL,
+                )
+                merged_entries = (
+                    (existing_group.group(1) if existing_group else "")
+                    + group_entries
+                    + "\n"
+                )
+                versioned_block = re.sub(
+                    re.escape(group_header),
+                    group_header + "\n" + merged_entries,
+                    versioned_block,
+                )
+            else:
+                insert_pos = versioned_block.find("\n\n## [")
+                if insert_pos == -1:
+                    versioned_block += "\n\n" + group_header + "\n" + group_entries + "\n"
+                else:
+                    versioned_block = (
+                        versioned_block[:insert_pos]
+                        + "\n\n"
+                        + group_header
+                        + "\n"
+                        + group_entries
+                        + "\n"
+                        + versioned_block[insert_pos:]
+                    )
+
+        return versioned_block
 
     def _parse_output(self, raw: str) -> list[str]:
         return [line.strip() for line in raw.splitlines() if line.strip()]

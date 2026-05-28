@@ -304,6 +304,28 @@ class TestGitCliffChangelogGeneratorIntegration:
         assert "## [0.2.0]" in content_after
         assert "## [0.1.0]" in content_after
 
+    async def test_release_merges_unreleased_content_into_versioned_section(
+        self, scenario_changelog_with_unreleased: Scenario
+    ) -> None:
+        scenario = scenario_changelog_with_unreleased
+
+        content_before = _read_changelog(scenario)
+        assert "add password reset" in content_before
+        assert "handle expired tokens" in content_before
+
+        await _make_generator(scenario.repo).generate(
+            ChangelogRequest(from_version=scenario.from_version),
+        )
+
+        content_after = _read_changelog(scenario)
+        assert "## [Unreleased]" not in content_after
+        assert "## [0.3.0]" in content_after
+        assert "add password reset" in content_after
+        assert "handle expired tokens" in content_after
+        assert content_after.index("## [0.3.0]") < content_after.index("add password reset")
+        assert "## [0.2.0]" in content_after
+        assert "## [0.1.0]" in content_after
+
     async def test_prepends_to_existing_changelog_without_unreleased(
         self, scenario_existing_changelog_no_unreleased: Scenario
     ) -> None:
