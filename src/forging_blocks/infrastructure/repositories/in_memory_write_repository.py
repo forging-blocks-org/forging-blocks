@@ -6,16 +6,17 @@ dictionary for command-side operations in CQRS architectures.
 
 from __future__ import annotations
 
-from typing import Generic, MutableMapping, TypeVar
+from typing import Any, Generic, MutableMapping, TypeVar
 
 from forging_blocks.application.ports.outbound.repository import WriteOnlyRepository
 from forging_blocks.foundation.errors.core import ErrorMessage
+from forging_blocks.foundation.identified import Identified
 from forging_blocks.infrastructure.errors.repository_errors import (
     RepositoryError,
     RepositoryNotFoundError,
 )
 
-TWriteAggregateRoot = TypeVar("TWriteAggregateRoot")
+TWriteAggregateRoot = TypeVar("TWriteAggregateRoot", bound=Identified[Any])
 TWriteId = TypeVar("TWriteId")
 
 
@@ -70,7 +71,7 @@ class InMemoryWriteRepository(
         Raises:
             RepositoryError: If the aggregate has no ID.
         """
-        aggregate_id = getattr(aggregate, "id", None)
+        aggregate_id = aggregate.id
         if aggregate_id is None:
             raise RepositoryError(ErrorMessage("Cannot save aggregate without an identifier."))
         self._storage[aggregate_id] = aggregate
