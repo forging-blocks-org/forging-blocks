@@ -65,8 +65,7 @@ domain/
 - Name test classes as `Test<ClassName>`.
 - Name test methods as `test_<method>_when_<scenario>_then_<result>`.
 - One action (Act) per test.
-- Use mocks for outbound ports (repositories, etc.).
-- Avoid mocks for pure domain logic.
+- Use mocks or fakes for outbound ports (repositories, etc.). Don't mock what you don't own.
 
    ---
 

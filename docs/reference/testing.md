@@ -18,9 +18,9 @@ This document provides a comprehensive reference for testing in the ForgingBlock
 
 | Marker | Count | What to Test | Example |
 |--------|-------|--------------|---------|
-| `@pytest.mark.unit` | 304 | Business logic, domain objects, isolated components | Domain entities, value objects, application services with mocks |
-| `@pytest.mark.integration` | 60 + 1 skipped | External system interactions, real infrastructure | Git operations, file system, subprocess calls |
-| `@pytest.mark.e2e` | 4 skipped | Complete workflows, full system behavior | CLI workflows, release processes |
+| `@pytest.mark.unit` | 360 | Business logic, domain objects, isolated components | Domain entities, value objects, application services with fakes |
+| `@pytest.mark.integration` | 84 | External system interactions, real infrastructure | Git operations, file system, subprocess calls |
+| `@pytest.mark.e2e` | 16 skipped | Complete workflows, full system behavior | CLI workflows, release processes |
 
 ## Test Architecture Principles
 
@@ -28,9 +28,9 @@ This document provides a comprehensive reference for testing in the ForgingBlock
 
 Tests are organized by isolation level, not by code structure:
 
-- **Unit**: No external dependencies, use mocks/fakes
-- **Integration**: Real external systems, isolated environments
-- **E2E**: Full system, real workflows
+- **Unit**: Pure business logic, no external dependencies. Mocks are acceptable for owned contracts.
+- **Integration**: Infrastructure adapters and external system interactions. Use fixtures/fakes that simulate real behavior, not mocks.
+- **E2E**: Presentation layer and complete workflows. Full system, real entry points.
 
 ### 2. **Fast Feedback Loops**
 
@@ -63,7 +63,7 @@ def test_when_condition_then_outcome(self) -> None:
 **Characteristics:**
 - Fast execution (< 1 second total)
 - No external dependencies
-- Use mocks/fakes for boundaries
+- Test pure business logic you own
 - High coverage of business rules
 
 **Example:**
@@ -73,25 +73,25 @@ class TestPrepareReleaseService:
     def test_execute_when_tag_exists_then_returns_error(
         self,
         service: PrepareReleaseService,
-        version_control_mock: Mock
+        fake_version_control: FakeVersionControl,
     ) -> None:
-        # Arrange
-        version_control_mock.tag_exists.return_value = True
+        # Arrange: Use a fake that simulates real behavior
+        fake_version_control.add_existing_tag(TagName("v1.0.0"))
         input_data = PrepareReleaseInput(level=ReleaseLevel.PATCH)
 
         # Act
         result = await service.execute(input_data)
 
         # Assert
-        assert result.is_err()
-        assert "already exists" in str(result.error())
+        assert result.is_err
+        assert "already exists" in str(result.error)
 ```
 
 **When to add unit tests:**
 - New domain objects (entities, value objects)
 - Business rules and validations
-- Application service logic
-- Infrastructure components (with mocked external calls)
+- Pure application coordination logic
+- Foundation components
 
 ### Integration Tests (`@pytest.mark.integration`)
 
@@ -126,8 +126,8 @@ class TestGitVersionControlIntegration:
 ```
 
 **When to add integration tests:**
+- Infrastructure adapters (repositories, message buses, external APIs)
 - External system interactions (git, GitHub API, file system)
-- Infrastructure adapters
 - CLI tools and process execution
 - Cross-boundary data flow
 
@@ -156,6 +156,7 @@ class TestReleaseWorkflow:
 ```
 
 **When to add E2E tests:**
+- Presentation layer entry points (CLI, HTTP handlers)
 - Complete CLI workflows
 - Full business processes
 - Cross-system integration scenarios
@@ -174,32 +175,37 @@ def test_git_operation(git_repo: GitTestRepository) -> None:
     git_repo.commit("Add test file")
 ```
 
-### Mocking Strategy
+### Faking Strategy
 
-**Mock at architectural boundaries:**
+**Don't mock what you don't own.** External systems should be wrapped behind a Port and replaced with a fake that simulates real behavior using captured input/output data.
 
-```python
-# Good - mock external dependency
-@pytest.fixture
-def version_control_mock() -> Mock:
-    return create_autospec(VersionControl, instance=True)
-
-# Avoid - don't mock domain objects
-# domain_entity_mock = Mock()  # ❌
-```
-
-**Use fakes for complex behavior:**
+**Use fakes for external dependencies:**
 
 ```python
 class FakeVersionControl:
+    """Simulates real version control behavior with captured data."""
     def __init__(self) -> None:
         self.tags: set[str] = set()
+        self.branches: set[str] = set()
 
     def tag_exists(self, tag: TagName) -> bool:
         return tag.value in self.tags
 
     def create_tag(self, tag: TagName) -> None:
         self.tags.add(tag.value)
+
+    def add_existing_tag(self, tag: TagName) -> None:
+        self.tags.add(tag.value)
+```
+
+**Avoid mocking what you don't own:**
+
+```python
+# ❌ Don't mock external systems you don't own
+# version_control_mock = create_autospec(VersionControl, instance=True)
+
+# ❌ Don't fake your own domain objects - test them directly
+# domain_entity_fake = FakeEntity()
 ```
 
 ## Common Patterns
@@ -208,8 +214,8 @@ class FakeVersionControl:
 
 ```python
 # Test success/failure state
-assert result.is_ok()
-assert result.is_err()
+assert result.is_ok
+assert result.is_err
 
 # Extract values when needed
 match result:
@@ -225,7 +231,7 @@ match result:
 @pytest.mark.asyncio
 async def test_async_operation(self) -> None:
     result = await service.execute(input_data)
-    assert result.is_ok()
+    assert result.is_ok
 ```
 
 ### Parametrized Tests
@@ -292,9 +298,9 @@ find /tmp -name "pytest-*" -type d -exec rm -rf {} +
 ## Coverage Guidelines
 
 **Target Coverage:**
-- Unit tests: >95% (currently 95.46%)
-- Integration tests: >60% (currently 67.74%)
-- Overall: >90% (currently 98.69%)
+- Unit tests: >95%
+- Integration tests: >60%
+- Overall: >90% (currently 98.51%)
 
 **Coverage Exclusions:**
 - `__init__.py` files
@@ -317,7 +323,8 @@ poetry run pytest --cov-report=term-missing
 
 - Use descriptive test names that explain intent
 - Test behavior, not implementation
-- Mock at architectural boundaries
+- Choose the right test level: unit for logic, integration for adapters, E2E for presentation
+- Don't mock what you don't own
 - Keep tests focused and independent
 - Use appropriate test categories
 - Run unit tests frequently during development
@@ -325,7 +332,7 @@ poetry run pytest --cov-report=term-missing
 ### ❌ **Avoid**
 
 - Testing private methods directly
-- Over-mocking internal objects
+- Mocking what you don't own - wrap external systems behind Ports and use fakes
 - Coupling tests to implementation details
 - Sharing state between tests
 - Complex test setup that obscures intent

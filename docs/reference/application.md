@@ -103,6 +103,18 @@ Message Handlers allow the application to participate in message-driven or async
 
 ---
 
+#### Specialized Handlers
+
+`MessageHandler` is parameterized into three specializations for common patterns:
+
+- **CommandHandler** — handles commands and returns no result (`MessageHandler[CommandType, None]`).
+- **EventHandler** — handles domain events and returns no result (`MessageHandler[EventType, None]`).
+- **QueryHandler** — handles queries and returns a typed result (`MessageHandler[QueryType, QueryResultType]`).
+
+These are type aliases of `MessageHandler` and do not introduce new behavior.
+
+---
+
 ## Outbound Ports
 
 Outbound ports define **capabilities the application depends on**.
@@ -261,6 +273,15 @@ Its purpose is orchestration, not computation.
 
 !!! note "Message Handler"
     An inbound port that reacts to a single incoming message (such as a command, event, or query) and coordinates application behavior.
+
+!!! note "Command Handler"
+    A specialized MessageHandler that handles commands. It is a type alias for ``MessageHandler[CommandType, None]``.
+
+!!! note "EventHandler"
+    A specialized MessageHandler that handles domain events. It is a type alias for ``MessageHandler[EventType, None]``.
+
+!!! note "Query Handler"
+    A specialized MessageHandler that handles queries and returns a typed result. It is a type alias for ``MessageHandler[QueryType, QueryResultType]``.
 
 !!! note "Outbound Port"
     An abstraction that represents a capability the application depends on, such as persistence, messaging, or notification, without specifying how that capability is implemented.

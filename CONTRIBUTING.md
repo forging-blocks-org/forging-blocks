@@ -89,8 +89,8 @@ Small, focused pull requests are easier to review.
 
 This project uses a **3-tier testing architecture**:
 
-- **Unit Tests** (`@pytest.mark.unit`) - Fast, isolated tests with mocks for business logic
-- **Integration Tests** (`@pytest.mark.integration`) - Real infrastructure in isolated environments
+- **Unit Tests** (`@pytest.mark.unit`) - Fast, isolated tests with mocks or fakes for business logic
+- **Integration Tests** (`@pytest.mark.integration`) - Real infrastructure in isolated environments. Use fixtures/fakes, not mocks.
 - **End-to-End Tests** (`@pytest.mark.e2e`) - Complete workflows (typically skipped)
 
 **During development:**
@@ -105,7 +105,7 @@ poetry run poe test
 **When adding new functionality:**
 - Add unit tests for domain logic and business rules
 - Add integration tests for external system interactions
-- Use mocks appropriately at architectural boundaries
+- Use fakes at architectural boundaries; don't mock what you don't own
 - Follow the naming pattern: `test_when_condition_then_outcome`
 
 See the [Testing Guide](https://forging-blocks-org.github.io/forging-blocks/guide/testing/) for detailed examples.

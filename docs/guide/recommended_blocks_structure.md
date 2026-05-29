@@ -77,9 +77,11 @@ Examples:
 
 - `Result`, `Ok`, `Err`
 - `Port` and port-related protocols
+- `Identified` protocol for objects carrying an identity
 - `Mapper` for structured transformation
 - `ResultMapper` for transforming Results
 - `Debuggable` protocol for consistent debug representations
+- `Message`, `Command`, `Event`, `Query` for expressing intent and facts
 
 The Foundation block contains abstractions that support the other blocks.
 
