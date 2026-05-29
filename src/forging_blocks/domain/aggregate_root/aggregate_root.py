@@ -23,14 +23,28 @@ class AggregateRoot(Entity[TId], Generic[TId], ABC):
     and records uncommitted domain events.
     """
 
-    _uncommitted_events: list[Event[Any]]
-
     def __init__(self, aggregate_id: TId, version: AggregateVersion | None = None) -> None:
-        if aggregate_id is None or aggregate_id == "":
-            raise EntityIdNoneError(self.__class__.__name__)
+        self._validate_identity(aggregate_id)
         self._version = version or AggregateVersion(0)
-        self._uncommitted_events = []
+        self._uncommitted_events: list[Event[Any]] = []
         super().__init__(aggregate_id)
+
+    def _validate_identity(self, aggregate_id: Hashable) -> None:
+        """Ensure the aggregate root identity is valid.
+
+        Aggregate roots must always have a defined, non-falsy identity
+        (Vaughn Vernon, Implementing Domain-Driven Design, Chapter 5).
+
+        Raises:
+            EntityIdNoneError: If the identity is None, an empty string,
+                or the boolean False.
+        """
+        if aggregate_id is None:
+            raise EntityIdNoneError(self.__class__.__name__)
+        if isinstance(aggregate_id, str) and aggregate_id == "":
+            raise EntityIdNoneError(self.__class__.__name__)
+        if isinstance(aggregate_id, bool) and aggregate_id is False:
+            raise EntityIdNoneError(self.__class__.__name__)
 
     @property
     def version(self) -> AggregateVersion:

@@ -40,6 +40,14 @@ class StringAggregate(AggregateRoot[str]):
         self.record_event(event)
 
 
+class BoolAggregate(AggregateRoot[bool]):
+    def __init__(self, aggregate_id: bool) -> None:
+        super().__init__(aggregate_id)
+
+    def apply(self, event: Event) -> None:
+        self.record_event(event)
+
+
 @pytest.mark.unit
 class TestAggregateRoot:
     def test___init___when_id_is_none_then_raises_entity_id_none_error(self) -> None:
@@ -141,3 +149,13 @@ class TestAggregateRoot:
 
     def test_apply_is_abstract_on_aggregate_root(self) -> None:
         assert getattr(AggregateRoot.apply, "__isabstractmethod__", False) is True
+
+    def test___init___when_id_is_false_then_raises_entity_id_none_error(self) -> None:
+        with pytest.raises(EntityIdNoneError):
+            BoolAggregate(False)
+
+    def test___init___when_id_is_true_then_initializes_successfully(self) -> None:
+        aggregate = BoolAggregate(True)
+
+        assert aggregate.id is True
+        assert aggregate.version.value == 0
