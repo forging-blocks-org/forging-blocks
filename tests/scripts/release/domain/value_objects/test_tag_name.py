@@ -1,5 +1,6 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 import pytest
+from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error import CantModifyImmutableAttributeError
 from scripts.release.domain.value_objects.tag_name import (
     TagName as DirectTagName,
 )
@@ -65,7 +66,7 @@ class TestTagName:
     def test_init_when_created_then_cannot_modify_value(self) -> None:
         tag = TagName("v1.2.3")
 
-        with pytest.raises(AttributeError):
+        with pytest.raises(CantModifyImmutableAttributeError):
             tag._value = "v9.9.9"  # type: ignore
 
     def test_debug_tagname_module(self) -> None:
