@@ -1,6 +1,7 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 import pytest
 
+from forging_blocks.foundation import CantModifyImmutableAttributeError
 from forging_blocks.foundation.value_object import ValueObject
 
 
@@ -65,11 +66,11 @@ class TestValueObject:
         with pytest.raises(ValueError):
             Email("invalid")
 
-    def test___setattr___when_object_is_frozen_then_raises_attribute_error(
+    def test___setattr___when_object_is_frozen_then_raises_cant_modify_immutable_error(
         self,
     ) -> None:
         email = Email("a@example.com")
-        with pytest.raises(AttributeError):
+        with pytest.raises(CantModifyImmutableAttributeError):
             email._value = "b@example.com"  # type: ignore
 
     def test___eq___when_values_are_equal_then_returns_true(self) -> None:
@@ -135,8 +136,10 @@ class TestValueObject:
 
         assert hash(vo1) == hash(vo2)
 
-    def test___setattr___when_multi_component_is_frozen_then_raises_error(self) -> None:
+    def test___setattr___when_multi_component_is_frozen_then_raises_cant_modify_immutable(
+        self,
+    ) -> None:
         vo = MultiComponentVO("hello", "world")
 
-        with pytest.raises(AttributeError):
+        with pytest.raises(CantModifyImmutableAttributeError):
             vo._first = "changed"  # type: ignore
