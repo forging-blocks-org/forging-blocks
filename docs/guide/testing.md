@@ -274,12 +274,11 @@ It should **support the test**, not dominate it.
 
 ---
 
-### 4. Fakes over mocks
+### 4. Mocks vs fakes
 
-Prefer **fakes** over **mocks** for external dependencies.
+**Unit tests** can use **mocks** or **fakes** for owned contracts (Ports, interfaces you control). Either approach is fine as long as the test remains focused on behavior.
 
-- **Fakes** simulate real behavior with real input/output data, making tests resilient to refactoring.
-- **Mocks** verify interactions, which couples tests to implementation details.
+**Integration tests** should use **fixtures/fakes**, not mocks. Fixtures provide real or simulated infrastructure (e.g., temporary git repos, in-memory databases), while fakes simulate real behavior with captured input/output data.
 
 **Don't mock what you don't own.** External systems (APIs, databases, file systems) should be wrapped behind a Port and replaced with a fake in tests.
 

@@ -118,7 +118,7 @@ class CreateUserService(CreateUserUseCase):
 ## 🏗️ Why This Matters
 
 - **Separation of Concerns:** Keeps business workflows free from technical details.
-- **Testability:** Use cases can be tested by replacing outbound ports with fakes.
+- **Testability:** Use cases can be tested by replacing outbound ports with mocks or fakes.
 - **Flexibility:** Infrastructure can be swapped (e.g., different notification services) without changing application logic.
 - **Explicit Boundaries:** Makes dependencies and orchestration visible and intentional.
 - **Decoupling:** Using DTOs for input/output prevents leaking domain details to the outside world.

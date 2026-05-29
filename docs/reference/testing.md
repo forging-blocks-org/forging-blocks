@@ -29,7 +29,7 @@ This document provides a comprehensive reference for testing in the ForgingBlock
 Tests are organized by isolation level, not by code structure:
 
 - **Unit**: Pure business logic, no external dependencies. Mocks are acceptable for owned contracts.
-- **Integration**: Infrastructure adapters and external system interactions. Use fakes that simulate real behavior.
+- **Integration**: Infrastructure adapters and external system interactions. Use fixtures/fakes that simulate real behavior, not mocks.
 - **E2E**: Presentation layer and complete workflows. Full system, real entry points.
 
 ### 2. **Fast Feedback Loops**

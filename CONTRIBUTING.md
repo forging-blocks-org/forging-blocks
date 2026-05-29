@@ -89,8 +89,8 @@ Small, focused pull requests are easier to review.
 
 This project uses a **3-tier testing architecture**:
 
-- **Unit Tests** (`@pytest.mark.unit`) - Fast, isolated tests with fakes/fixtures for business logic
-- **Integration Tests** (`@pytest.mark.integration`) - Real infrastructure in isolated environments
+- **Unit Tests** (`@pytest.mark.unit`) - Fast, isolated tests with mocks or fakes for business logic
+- **Integration Tests** (`@pytest.mark.integration`) - Real infrastructure in isolated environments. Use fixtures/fakes, not mocks.
 - **End-to-End Tests** (`@pytest.mark.e2e`) - Complete workflows (typically skipped)
 
 **During development:**

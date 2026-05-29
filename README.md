@@ -146,7 +146,7 @@ poetry run poe release patch --execute  # Execute patch release
 
 This project uses a **3-tier testing architecture**:
 
-- **Unit Tests** (`@pytest.mark.unit`) - Fast, isolated tests with fakes
+- **Unit Tests** (`@pytest.mark.unit`) - Fast, isolated tests with mocks or fakes
 - **Integration Tests** (`@pytest.mark.integration`) - Real infrastructure in isolated environments
 - **End-to-End Tests** (`@pytest.mark.e2e`) - Complete workflows (mostly skipped)
 
