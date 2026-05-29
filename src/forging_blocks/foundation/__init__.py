@@ -15,6 +15,7 @@ from .errors import (
     ValidationError,
     ValidationFieldErrors,
 )
+from .identified import Identified
 from .mapper import Mapper
 from .messages import Command, Event, Message, Query
 from .meta import FinalMeta, runtime_final
@@ -54,6 +55,7 @@ __all__ = [
     "ErrorMetadata",
     "FieldReference",
     "FieldErrors",
+    "Identified",
     "RuleViolationError",
     "ValidationError",
     "FinalMeta",
