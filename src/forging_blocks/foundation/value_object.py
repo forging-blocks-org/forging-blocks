@@ -10,6 +10,10 @@ from abc import ABC, abstractmethod
 from collections.abc import Hashable
 from typing import Any, Generic, TypeVar
 
+from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error import (
+    CantModifyImmutableAttributeError,
+)
+
 RawValueType = TypeVar("RawValueType", covariant=True)
 
 
@@ -50,11 +54,11 @@ class ValueObject(ABC, Generic[RawValueType]):
 
     def __setattr__(self, name: str, value: Any) -> None:
         """Prevent modification once frozen."""
-        immutability_error_message = (
-            f"{self.__class__.__name__} is immutable: cannot modify '{name}' after initialization"
-        )
         if getattr(self, "_ValueObject__is_frozen", False):
-            raise AttributeError(immutability_error_message)
+            raise CantModifyImmutableAttributeError(
+                class_name=self.__class__.__name__,
+                attribute_name=name,
+            )
         object.__setattr__(self, name, value)
 
     def __eq__(self, other: object) -> bool:
