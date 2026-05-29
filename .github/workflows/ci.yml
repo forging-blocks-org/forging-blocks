@@ -15,7 +15,7 @@ jobs:
       VERSION: ${{ steps.get-version.outputs.VERSION }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup lint tools
         uses: ./.github/actions/setup-lint-tools
@@ -66,7 +66,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Validate OIDC Tokens
         run: bash scripts/pipeline/validate_tokens.sh
@@ -84,7 +84,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
