@@ -14,7 +14,7 @@ This guide covers both **testing principles** and the **test structure** used in
 This project uses a **3-tier testing architecture** with clear separation of concerns:
 
 ### 🎯 **Unit Tests** (`@pytest.mark.unit`)
-Fast, isolated tests that verify individual components using mocks.
+Fast, isolated tests that verify pure business logic and components you own.
 
 ```bash
 poetry run poe test:unit   # ~1 second
@@ -23,9 +23,7 @@ poetry run poe test:unit   # ~1 second
 **What's included:**
 - Domain logic (entities, value objects, aggregates)
 - Foundation/framework components
-- Application services (with mocked dependencies)
-- Infrastructure components (with mocked external systems)
-- Presentation layer components (with mocked dependencies)
+- Application services (pure coordination logic, not infrastructure adapters)
 
 **Example:**
 ```python
@@ -34,26 +32,28 @@ class TestPrepareReleaseService:
     def test_execute_when_tag_exists_then_fails(
         self,
         service: PrepareReleaseService,
-        version_control_mock: Mock
+        fake_version_control: FakeVersionControl,
     ) -> None:
-        # Arrange: Mock the external dependency
-        version_control_mock.tag_exists.return_value = True
+        # Arrange: Use a fake that simulates real behavior
+        fake_version_control.add_existing_tag(TagName("v1.0.0"))
 
         # Act: Test the business logic
+        input_data = PrepareReleaseInput(level=ReleaseLevel.PATCH)
         result = await service.execute(input_data)
 
         # Assert: Verify behavior
-        assert result.is_err()
+        assert result.is_err
 ```
 
 ### 🔧 **Integration Tests** (`@pytest.mark.integration`)
-Tests that verify components work with real infrastructure in isolated environments.
+Tests that verify components against real or simulated external dependencies.
 
 ```bash
 poetry run poe test:integration   # ~2-3 seconds
 ```
 
 **What's included:**
+- Infrastructure adapters (repositories, message buses, external APIs)
 - Git operations (using real git in temporary repositories)
 - Process/subprocess execution
 - File system operations
@@ -75,13 +75,14 @@ class TestGitVersionControlIntegration:
 ```
 
 ### 🛡️ **End-to-End Tests** (`@pytest.mark.e2e`)
-Complete workflow tests that exercise the entire system.
+Complete workflow tests that exercise the entire system from entry points.
 
 ```bash
 poetry run poe test:e2e   # All currently skipped
 ```
 
 **What's included:**
+- Presentation layer entry points (CLI, HTTP handlers)
 - Full CLI workflows
 - Complete release processes
 - Multi-component integration scenarios
@@ -124,14 +125,14 @@ poetry run poe test:debug        # Debug mode with verbose output
 
 | Test Type | Count | Coverage | Speed | When to Use |
 |-----------|-------|----------|-------|-------------|
-| Unit | 304 | 95.46% | ⚡ Fast (0.96s) | Development, TDD, CI |
-| Integration | 60 + 1 skipped | 67.74% | 🔧 Moderate (2.29s) | Integration verification |
-| E2E | 4 skipped | N/A | 🛡️ Protected (skipped) | Documentation, manual testing |
-| **All Stable** | **364 passed + 1 skipped** | **98.69%** | ✅ **Complete (2.84s)** | **CI, Release** |
+| Unit | 360 | — | ⚡ Fast | Development, TDD, CI |
+| Integration | 84 | — | 🔧 Moderate | Integration verification |
+| E2E | 16 skipped | N/A | 🛡️ Protected (skipped) | Documentation, manual testing |
+| **All** | **460 passed, 17 skipped** | **98.51%** | ✅ **Complete** | **CI, Release** |
 
 **Note:** Some tests are conditionally skipped based on environment:
-- 1 GitHub CLI integration test (requires `RUN_GITHUB_CLI_TESTS=1`)
-- 4 End-to-end workflow tests (require `RUN_E2E_TESTS=1` and complex setup)
+- GitHub CLI integration tests (require `RUN_GITHUB_CLI_TESTS=1`)
+- End-to-end workflow tests (require `RUN_E2E_TESTS=1` and complex setup)
 
 Use `poetry run poe test` to run all tests including those requiring setup (with environment variables).
 
@@ -273,16 +274,16 @@ It should **support the test**, not dominate it.
 
 ---
 
-### 4. Fakes vs mocks
+### 4. Fakes over mocks
 
-Both approaches work well with Ports.
+Prefer **fakes** over **mocks** for external dependencies.
 
-- **Fakes** emphasize state and behavior.
-- **Mocks** emphasize interactions.
+- **Fakes** simulate real behavior with real input/output data, making tests resilient to refactoring.
+- **Mocks** verify interactions, which couples tests to implementation details.
 
-Choose the approach that makes the test's intent most obvious.
+**Don't mock what you don't own.** External systems (APIs, databases, file systems) should be wrapped behind a Port and replaced with a fake in tests.
 
-ForgingBlocks does not enforce a testing style — it encourages clarity.
+ForgingBlocks encourages designing with Ports so that dependencies can be replaced with fakes in tests.
 
 ---
 
@@ -291,14 +292,14 @@ ForgingBlocks does not enforce a testing style — it encourages clarity.
 ### ✅ **Best Practices**
 
 1. **Use appropriate test categories:**
-   - Unit tests for business logic and isolated components
-   - Integration tests for external system interactions
-   - E2E tests for complete workflows (sparingly)
+   - Unit tests for pure business logic you own
+   - Integration tests for infrastructure adapters and external system interactions
+   - E2E tests for presentation layer and complete workflows
 
 2. **Test intent, not implementation:**
    ```python
    # Good - tests behavior
-   assert result.is_ok()
+   assert result.is_ok
 
    # Avoid - tests implementation details
    assert isinstance(result, Ok)
@@ -310,9 +311,11 @@ ForgingBlocks does not enforce a testing style — it encourages clarity.
        # Test name tells the complete story
    ```
 
-4. **Mock at the boundaries:**
-   - Mock external dependencies (APIs, databases, file systems)
-   - Don't mock your own domain objects
+4. **Choose the right test level:**
+   - Unit tests for pure business logic you own
+   - Integration tests for infrastructure adapters and external system interactions
+   - E2E tests for presentation layer and complete workflows
+   - Don't mock what you don't own - use integration tests instead
 
 5. **Keep tests focused:**
    - One test should verify one behavior
@@ -320,9 +323,9 @@ ForgingBlocks does not enforce a testing style — it encourages clarity.
 
 ### ⚠️ **Common Pitfalls**
 
-1. **Over-mocking:** Don't mock everything - test real object interactions when safe
+1. **Unit-testing external integrations:** Infrastructure adapters and presentation should have integration/E2E tests, not unit tests with mocks
 2. **Testing implementation:** Focus on behavior, not internal structure
-3. **Brittle tests:** Avoid testing exact mock call sequences unless critical
+3. **Brittle tests:** Avoid coupling tests to internal call sequences
 4. **Slow feedback:** Run unit tests frequently, integration tests less often
 
 ---
@@ -333,7 +336,7 @@ The test environment automatically handles:
 
 - **Isolated git repositories** for integration tests
 - **Temporary directories** for file system tests
-- **Mock external services** for unit tests
+- **Fake external services** for integration tests
 - **Consistent branch naming** across CI/local environments
 
 Test fixtures provide clean, isolated environments for each test run.

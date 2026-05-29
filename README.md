@@ -46,7 +46,7 @@ This toolkit defines **layer-agnostic foundations** that compose into any design
 - `Port`, `InboundPort`, `OutboundPort` → communication boundaries
 - `Entity`, `ValueObject`, `AggregateRoot` → domain modeling
 - `Repository`, `UnitOfWork` → persistence contracts
-- `Event`, `EventBus`, `CommandHandler` → messaging and orchestration
+- `Event`, `MessageBus`, `CommandHandler` → messaging and orchestration
 
 ---
 
@@ -75,7 +75,7 @@ def divide(a: int, b: int) -> Result[int, str]:
     return Ok(a // b)
 
 result = divide(10, 2)
-if result.is_ok():
+if result.is_ok:
     print(result.value)  # → 5
 ```
 
@@ -146,7 +146,7 @@ poetry run poe release patch --execute  # Execute patch release
 
 This project uses a **3-tier testing architecture**:
 
-- **Unit Tests** (`@pytest.mark.unit`) - Fast, isolated tests with mocks
+- **Unit Tests** (`@pytest.mark.unit`) - Fast, isolated tests with fakes
 - **Integration Tests** (`@pytest.mark.integration`) - Real infrastructure in isolated environments
 - **End-to-End Tests** (`@pytest.mark.e2e`) - Complete workflows (mostly skipped)
 

@@ -81,8 +81,10 @@ ForgingBlocks simply provides the building blocks that help you write decoupled,
 |----------|----------|
 | **Result / Ok / Err** | Represents success or failure explicitly. |
 | **Mapper / ResultMapper** | Transforms values or Results into another type. |
+| **Identified** | Protocol for any object that carries an identifier. |
 | **Debuggable** | Protocol ensuring an object exposes a clear, consistent debug representation. |
 | **Port / InboundPort / OutboundPort** | Define explicit communication boundaries. |
+| **Message / Command / Event / Query** | Express intent, facts, and queries within the problem space. |
 
 ---
 

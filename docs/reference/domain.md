@@ -90,6 +90,9 @@ Typical responsibilities include:
 - Protecting invariants
 - Coordinating state changes
 - Recording domain-relevant occurrences
+- Exposing an abstract `apply(event)` method for event sourcing
+
+Aggregate Roots track their version through an `AggregateVersion` value object, which supports optimistic concurrency control.
 
 ---
 
@@ -158,6 +161,9 @@ Their purpose is to support clarity and correctness—not to enforce a methodolo
 
 !!! note "Aggregate Root"
     A domain concept that defines a consistency boundary and controls access to related state.
+
+!!! note "Aggregate Version"
+    An immutable value object used by Aggregate Roots for optimistic concurrency control, tracking version increments on state changes.
 
 !!! note "Domain Error"
     An explicit representation of an invalid domain state or rule violation, expressed in domain terms rather than technical terms.

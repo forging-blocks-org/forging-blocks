@@ -13,7 +13,7 @@ flowchart LR
 
 ## Reference Sections
 
-- **[Foundation](foundation.md)** - Core abstractions and utilities (Result, Port, etc.)
+- **[Foundation](foundation.md)** - Core abstractions and utilities (Result, Port, Identified, Messages, etc.)
 - **[Domain](domain.md)** - Domain modeling abstractions (Entity, ValueObject, AggregateRoot)
 - **[Application](application.md)** - Application layer patterns (UseCase, CommandHandler)
 - **[Infrastructure](infrastructure.md)** - Infrastructure adapters and implementations

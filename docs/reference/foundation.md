@@ -14,7 +14,7 @@ all other blocks are built.
 
 ## Purpose
 
-- Supply **primitive abstractions** (`Result`, `Port`, `Mapper`, `Message`, `Command`, `Event`).
+- Supply **primitive abstractions** (`Result`, `Port`, `Mapper`, `Identified`, `Message`, `Command`, `Event`).
 - Enable explicit, intention-revealing boundaries.
 - Support structured and predictable error handling.
 - Provide a stable base reused by all other blocks.
@@ -78,6 +78,7 @@ Foundation provides reusable error categories such as:
 
 - validation errors
 - rule violation errors
+- immutability violation errors
 - structural or invariant errors
 
 These error types are architecture-neutral and reusable across domains.
@@ -107,6 +108,16 @@ avoiding hidden or implicit mappings.
 `Debuggable` is a lightweight contract for exposing structured debug information.
 
 It enables introspection without leaking internal state or implementation details.
+
+---
+
+### Identified
+
+`Identified` is a protocol for any object that carries an identifier.
+
+It exposes an `id` property that returns the object's identity, which may be `None` for unpersisted instances.
+
+Any object whose `id` returns its identity satisfies this protocol, making it useful for generic contracts across repositories and infrastructure without coupling to a specific block.
 
 ---
 
