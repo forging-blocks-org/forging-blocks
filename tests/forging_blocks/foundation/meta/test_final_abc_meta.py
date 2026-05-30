@@ -137,7 +137,7 @@ class TestFinalABCMetaRuntimeFinalEnforcement:
     def test_overriding_sealed_method_raises_type_error(self) -> None:
         with pytest.raises(TypeError, match="runtime-final"):
 
-            class BadChild(AbstractBase):  # type: ignore[misc]
+            class _(AbstractBase):
                 def sealed_method(self) -> str:
                     return "bad"
 
@@ -147,7 +147,7 @@ class TestFinalABCMetaRuntimeFinalEnforcement:
     def test_overriding_multiple_sealed_methods_raises_type_error(self) -> None:
         with pytest.raises(TypeError, match="runtime-final"):
 
-            class BadMulti(BaseWithMultipleSealedAndAbstract):  # type: ignore[misc]
+            class _(BaseWithMultipleSealedAndAbstract):
                 def sealed_one(self) -> str:
                     return "bad"
 
@@ -163,7 +163,7 @@ class TestFinalABCMetaRuntimeFinalEnforcement:
     def test_overriding_second_sealed_method_raises_type_error(self) -> None:
         with pytest.raises(TypeError, match="runtime-final"):
 
-            class BadMulti2(BaseWithMultipleSealedAndAbstract):  # type: ignore[misc]
+            class _(BaseWithMultipleSealedAndAbstract):
                 def sealed_one(self) -> str:
                     return "ok"
 
@@ -179,7 +179,7 @@ class TestFinalABCMetaRuntimeFinalEnforcement:
     def test_override_blocked_at_deep_inheritance_level(self) -> None:
         with pytest.raises(TypeError, match="runtime-final"):
 
-            class BadDeep(Deep):  # type: ignore[misc]
+            class _(Deep):
                 def sealed_method(self) -> str:
                     return "bad"
 
