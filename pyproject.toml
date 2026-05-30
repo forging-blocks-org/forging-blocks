@@ -202,8 +202,7 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
 "ci:release".sequence = [
   "ci:simulate",
   { cmd = "poetry build" },
-  { shell = "VERSION=$(poetry version -s)" },
-  { shell = "echo 'Release candidate validated for version $VERSION'" }
+  { shell = "echo 'Release candidate validated for version $(poetry version -s)'" }
 ]
 
 "ci:release:validate".sequence = [
