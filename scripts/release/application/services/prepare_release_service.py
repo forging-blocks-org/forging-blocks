@@ -1,5 +1,3 @@
-from typing import Any
-
 from scripts.release.application.ports.inbound import (
     PrepareReleaseInput,
     PrepareReleaseOutput,
@@ -41,7 +39,7 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         versioning_service: VersioningService,
         version_control: VersionControl,
         transaction: ReleaseTransaction,
-        message_bus: ReleaseCommandBus[Any],
+        message_bus: ReleaseCommandBus,
         changelog_generator: ChangelogGenerator,
     ) -> None:
         self._versioning_service = versioning_service
@@ -70,19 +68,18 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             dry_run=request.dry_run,
         )
 
-        changelog = await self._prepare_release_transactionally(context)
+        await self._prepare_release_transactionally(context)
 
         if not context.dry_run:
             await self._send_command(context)
 
-        return self._make_output(context, changelog)
+        return self._make_output(context)
 
-    def _make_output(self, context: ReleaseContext, changelog: str = "") -> PrepareReleaseOutput:
+    def _make_output(self, context: ReleaseContext) -> PrepareReleaseOutput:
         return PrepareReleaseOutput(
             version=context.version.value,
             branch=context.branch.value,
             tag=context.tag.value,
-            changelog=changelog,
         )
 
     async def _send_command(self, context: ReleaseContext) -> None:
@@ -93,15 +90,10 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         )
         await self._message_bus.send(command)
 
-    async def _prepare_release_transactionally(self, context: ReleaseContext) -> str:
-        changelog = await self._generate_changelog(context)
-
+    async def _prepare_release_transactionally(self, context: ReleaseContext) -> None:
         if context.dry_run:
-            self._branch_handling(context, dry_run=True)
-            self._apply_version(context, dry_run=True)
-            self._version_control.commit_release_artifacts(dry_run=True)
-            self._push_branch(context, dry_run=True)
-            return changelog
+            await self._prepare_release_dry_run(context)
+            return
 
         async with self._transaction:
             self._transaction.register_step(
@@ -112,61 +104,51 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             )
 
             self._branch_handling(context)
-            self._apply_version(context)
+            self._apply_version(context, dry_run=False)
+            await self._generate_changelog(context)
 
             self._version_control.commit_release_artifacts()
             self._push_branch(context)
 
-        return changelog
+    async def _prepare_release_dry_run(self, context: ReleaseContext) -> None:
+        self._branch_handling(context, dry_run=True)
+        self._versioning_service.apply_version(context.version, dry_run=True)
+        await self._generate_changelog(context)
+        self._version_control.commit_release_artifacts(dry_run=True)
+        self._version_control.push(context.branch, dry_run=True)
 
-    def _branch_handling(
-        self, context: ReleaseContext, *, dry_run: bool = False
-    ) -> None:
+    def _branch_handling(self, context: ReleaseContext, *, dry_run: bool = False) -> None:
         if context.branch_exists:
             self._version_control.checkout(context.branch, dry_run=dry_run)
         else:
             self._version_control.create_branch(context.branch, dry_run=dry_run)
-            if not dry_run:
-                self._transaction.register_step(
-                    ReleaseStep(
-                        name="delete_local_branch",
-                        undo=lambda: self._version_control.delete_local_branch(
-                            context.branch
-                        ),
-                    )
-                )
-
-    def _apply_version(
-        self, context: ReleaseContext, *, dry_run: bool = False
-    ) -> None:
-        if not dry_run:
             self._transaction.register_step(
                 ReleaseStep(
-                    name="rollback_version",
-                    undo=lambda: self._versioning_service.rollback_version(
-                        context.previous_version
-                    ),
-                )
-            )
-        self._versioning_service.apply_version(
-            context.version, dry_run=dry_run
-        )
-
-    async def _generate_changelog(self, context: ReleaseContext) -> str:
-        response = await self._changelog_generator.generate(
-            ChangelogRequest(from_version=context.version.value, dry_run=context.dry_run)
-        )
-        return response.raw
-
-    def _push_branch(self, context: ReleaseContext, *, dry_run: bool = False) -> None:
-        if not dry_run:
-            self._transaction.register_step(
-                ReleaseStep(
-                    name="delete_remote_branch",
-                    undo=lambda: self._version_control.delete_remote_branch(
-                        context.branch
-                    ),
+                    name="delete_local_branch",
+                    undo=lambda: self._version_control.delete_local_branch(context.branch),
                 )
             )
 
-        self._version_control.push(context.branch, dry_run=dry_run)
+    def _apply_version(self, context: ReleaseContext, *, dry_run: bool = False) -> None:
+        self._transaction.register_step(
+            ReleaseStep(
+                name="rollback_version",
+                undo=lambda: self._versioning_service.rollback_version(context.previous_version),
+            )
+        )
+        self._versioning_service.apply_version(context.version, dry_run=dry_run)
+
+    async def _generate_changelog(self, context: ReleaseContext) -> None:
+        await self._changelog_generator.generate(
+            ChangelogRequest(from_version=context.version.value)
+        )
+
+    def _push_branch(self, context: ReleaseContext) -> None:
+        self._transaction.register_step(
+            ReleaseStep(
+                name="delete_remote_branch",
+                undo=lambda: self._version_control.delete_remote_branch(context.branch),
+            )
+        )
+
+        self._version_control.push(context.branch)

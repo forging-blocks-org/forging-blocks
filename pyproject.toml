@@ -1,6 +1,6 @@
 [project]
 name = "forging-blocks"
-version = "0.4.0"
+version = "0.3.22"
 description = "Composable toolkit for clean, testable, and maintainable Python applications"
 authors = [
   { name = "ForgingBlocks Org", email = "forging-blocks-org@proton.me" }
@@ -42,7 +42,7 @@ mypy = "^1.16.1"
 pytest = "^8.3.3"
 pytest-cov = "^5.0.0"
 pytest-asyncio = "^1.0.0"
-bandit = "^1.9.4"
+bandit = "^1.7.10"
 pre-commit = "^4.2.0"
 pyright = "^1.1.404"
 poethepoet = "^0.37.0"
@@ -75,9 +75,9 @@ requires = ["poetry-core>=1.9.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pyright]
-typeCheckingMode = "strict"
 venvPath = "."
 venv = ".venv"
+
 include = ["src", "tests", "scripts"]
 extraPaths = ["src", "scripts"]
 exclude = [
@@ -90,6 +90,7 @@ exclude = [
   "**/.ruff_cache",
   "**/node_modules",
 ]
+typeCheckingMode = "standard"
 reportMissingImports = true
 reportMissingTypeStubs = false
 
@@ -148,11 +149,6 @@ strict_equality = true
 show_error_codes = true
 mypy_path = "src"
 exclude = ["tests/*"]
-strict = true
-warn_return_any = true
-warn_redundant_casts = true
-check_untyped_defs = true
-no_implicit_optional = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -174,9 +170,7 @@ markers = [
 
 [tool.poe.tasks]
 
-type = "pyright"
-"type:ci" = "pyright --level error"
-
+type = "mypy ."
 bandit = "bandit -r src -x tests"
 
 test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "pytest" }
@@ -190,7 +184,6 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
   "docs:generate",
   { cmd = "poetry run mkdocs build --strict" }
 ]
-
 "docs:serve" = { cmd = "poetry run mkdocs serve" }
 
 "ci:check".sequence = [
@@ -202,27 +195,23 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
   "bandit",
 ]
 
-"ci:publish:validate" = { cmd = "bash scripts/pipeline/validate_publish_local.sh" }
-
 "ci:simulate".sequence = [
   "ci:check",
   "docs:build"
 ]
-
 "ci:release".sequence = [
   "ci:simulate",
-  "ci:publish:validate",
+  { cmd = "poetry build" },
   { shell = "echo 'Release candidate validated for version $(poetry version -s)'" }
 ]
 
 "ci:release:validate".sequence = [
   "ci:check",
-  "ci:publish:validate"
+  { cmd = "poetry build" }
 ]
 
 lint = { cmd = "ruff check ." }
 "lint:fix" = { cmd = "ruff check . --fix" }
-
 "lint:shell" = { cmd = "shellcheck --external-sources scripts/pipeline/*.sh" }
 "lint:contracts" = { cmd = "python scripts/pipeline/validate_env_contracts.py" }
 

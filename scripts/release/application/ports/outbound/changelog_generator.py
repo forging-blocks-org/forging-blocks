@@ -1,8 +1,7 @@
 """Outbound port for generating changelogs between versions."""
 
 from abc import abstractmethod
-from dataclasses import dataclass, field
-from typing import Any
+from dataclasses import dataclass
 
 from forging_blocks.foundation.ports import OutboundPort
 
@@ -11,26 +10,27 @@ from forging_blocks.foundation.ports import OutboundPort
 class ChangelogRequest:
     """Request DTO for changelog generation."""
 
-    from_version: str
-    dry_run: bool = field(default=False)
+    from_version: str  # The starting version
 
 
 @dataclass(frozen=True)
 class ChangelogResponse:
     """Response DTO for changelog generation."""
 
-    entries: list[str]
-    raw: str = field(default="")
+    entries: list[str]  # List of changelog entries
 
 
-class ChangelogGenerator(OutboundPort[Any, Any]):
+class ChangelogGenerator(OutboundPort):
     """Port for generating changelogs between versions."""
 
     @abstractmethod
     async def generate(self, request: ChangelogRequest) -> ChangelogResponse:
         """Generate a changelog between two versions.
 
-        When ``dry_run`` is True the changelog is generated but not written
-        to disk, allowing validation before a release.
+        Args:
+            request (ChangelogRequest): The request containing from and to versions.
+
+        Returns:
+            ChangelogResponse: The generated changelog entries.
         """
         ...

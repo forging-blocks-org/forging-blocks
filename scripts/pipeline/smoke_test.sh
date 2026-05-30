@@ -46,7 +46,4 @@ print(f"Detected Version: {v}")
 assert v == "${PUBLISH_VERSION}", f"Expected ${PUBLISH_VERSION}, got {v}"
 EOF
 
-deactivate
-rm -rf "$TMP_VENV"
-
 log "Smoke test passed"

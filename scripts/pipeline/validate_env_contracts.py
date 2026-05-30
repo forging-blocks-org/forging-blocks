@@ -12,14 +12,13 @@ Exit codes:
     1 — one or more violations found
 """
 
-# pyright: reportUnknownVariableType=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownArgumentType=false, reportMissingTypeArgument=false
 from __future__ import annotations
 
 import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Iterator
 
 import yaml
 
@@ -97,8 +96,6 @@ _GITHUB_BUILTIN: frozenset[str] = frozenset(
         "HOME",
         "PATH",
         "ACT",
-        "ACTIONS_ID_TOKEN_REQUEST_TOKEN",
-        "ACTIONS_ID_TOKEN_REQUEST_URL",
     }
 )
 
@@ -132,7 +129,7 @@ _SCRIPT_CALL_PATTERN = re.compile(
 )
 
 
-def _collect_env_block(env_block: dict[str, Any] | None) -> frozenset[EnvVar]:
+def _collect_env_block(env_block: dict | None) -> frozenset[EnvVar]:
     if not env_block:
         return frozenset()
     return frozenset(

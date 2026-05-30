@@ -27,12 +27,10 @@ from scripts.release.infrastructure.versioning.poetry_versioning_service import 
 )
 
 
-# pyright: reportUnknownMemberType=false, reportUnknownArgumentType=false
 class Container:
     """Composition root."""
 
     def __init__(self) -> None:
-        self._message_bus: InMemoryReleaseCommandBus | None = None
         self._command_runner = SubprocessCommandRunner()
         self._versioning_service = PoetryVersioningService(self._command_runner)
         self._version_control = GitVersionControl(self._command_runner)

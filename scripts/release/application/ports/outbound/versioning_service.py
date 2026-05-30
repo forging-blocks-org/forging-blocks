@@ -36,7 +36,6 @@ class VersioningService(OutputPort, ABC):
         dry_run: bool = False,
     ) -> None:
         """Mutate version to the given target.
-        When dry_run is True, validates only without writing.
         """
         ...
 

@@ -33,7 +33,6 @@ class GitVersionControl(VersionControl):
         dry_run: bool = False,
     ) -> None:
         if dry_run:
-            logging.info(f"[dry-run] Would checkout branch {branch.value}")
             return
         logging.info(f"Checking out branch {branch.value}...")
         self._runner.run(["git", "checkout", branch.value])
@@ -58,7 +57,6 @@ class GitVersionControl(VersionControl):
         dry_run: bool = False,
     ) -> None:
         if dry_run:
-            logging.info("[dry-run] Would commit release artifacts (version bump + changelog)")
             return
         logging.info("Committing release artifacts...")
         try:
@@ -82,7 +80,6 @@ class GitVersionControl(VersionControl):
         dry_run: bool = False,
     ) -> None:
         if dry_run:
-            logging.info(f"[dry-run] Would create release branch {branch.value}")
             return
         logging.info(f"Creating release branch {branch.value}...")
         self._runner.run(["git", "checkout", "-b", branch.value])
@@ -107,7 +104,6 @@ class GitVersionControl(VersionControl):
         dry_run: bool = False,
     ) -> None:
         if dry_run:
-            logging.info(f"[dry-run] Would push branch {branch.value} to origin")
             return
         self._runner.run(["git", "push", "origin", branch.value])
 

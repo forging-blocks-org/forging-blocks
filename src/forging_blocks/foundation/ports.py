@@ -28,5 +28,5 @@ class Port(Protocol, Generic[InputType, OutputType]):
 InboundPort: TypeAlias = Port[InputType, OutputType]
 OutboundPort: TypeAlias = Port[InputType, OutputType]
 
-InputPort: TypeAlias = InboundPort  # type: ignore[type-arg]
-OutputPort: TypeAlias = OutboundPort  # type: ignore[type-arg]
+InputPort: TypeAlias = InboundPort
+OutputPort: TypeAlias = OutboundPort
