@@ -50,9 +50,9 @@ if [[ "$DO_SMOKE" == true && "$DO_PUBLISH" == false ]]; then
 fi
 
 # ── Step 0: Setup env vars ───────────────────────────────────────────────────
-export PACKAGE_NAME="${PACKAGE_NAME:-$(cd "$REPO_ROOT" && poetry version 2>/dev/null | cut -d' ' -f1 || true)}"
+export PACKAGE_NAME="${PACKAGE_NAME:-$( (cd "$REPO_ROOT" && poetry version 2>/dev/null | cut -d' ' -f1) || true )}"
 export IMPORT_NAME="${IMPORT_NAME:-${PACKAGE_NAME//-/_}}"
-BASE_VERSION="${VERSION:-$(cd "$REPO_ROOT" && poetry version -s 2>/dev/null || true)}"
+BASE_VERSION="${VERSION:-$( (cd "$REPO_ROOT" && poetry version -s 2>/dev/null) || true )}"
 
 [[ -z "$PACKAGE_NAME" ]] && fail "PACKAGE_NAME could not be auto-detected"
 [[ -z "$BASE_VERSION" ]] && fail "VERSION could not be auto-detected"
