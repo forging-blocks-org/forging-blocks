@@ -107,7 +107,7 @@ collect_release_notes() {
   local changelog_version="$1"
   local changelog_file="CHANGELOG.md"
 
-  log "Extracting release notes for version $RELEASE_VERSION from $changelog_file"
+  log "Extracting release notes for version $RELEASE_VERSION from $changelog_file" >&2
 
   local version_escaped
   version_escaped="$(escape_version_for_regex "$changelog_version")"
@@ -117,7 +117,7 @@ collect_release_notes() {
 
   assert_release_notes_not_empty "$notes"
 
-  log "Release notes extracted (${#notes} chars)"
+  log "Release notes extracted (${#notes} chars)" >&2
 
   echo "$notes"
 }
@@ -125,8 +125,6 @@ collect_release_notes() {
 resolve_draft_flag() {
   if [[ "$DRAFT" == "true" ]]; then
     echo "--draft"
-  else
-    echo "--draft=false"
   fi
 }
 
@@ -179,13 +177,17 @@ create_github_release() {
 
   local draft_flag
   draft_flag="$(resolve_draft_flag)"
+  local extra_args=()
+  if [[ -n "$draft_flag" ]]; then
+    extra_args+=("$draft_flag")
+  fi
 
   log "Creating GitHub Release for tag $version (draft=$DRAFT)"
 
   gh release create "$version" \
     --title "$version" \
     --notes-file "$notes_file" \
-    "$draft_flag"
+    "${extra_args[@]}"
 
   log "GitHub Release $version created successfully"
 }
