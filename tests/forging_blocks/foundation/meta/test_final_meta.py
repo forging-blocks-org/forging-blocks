@@ -155,18 +155,14 @@ class TestFinalMeta:
 class TestValidateNoRuntimeFinalOverride:
 
     def test_when_no_bases_then_returns_none(self) -> None:
-        result = validate_no_runtime_final_override("MyClass", (), {"x": 1})
-
-        assert result is None
+        assert validate_no_runtime_final_override("MyClass", (), {"x": 1}) is None
 
     def test_when_base_has_final_method_not_overridden_then_returns_none(
         self,
     ) -> None:
-        result = validate_no_runtime_final_override(
+        assert validate_no_runtime_final_override(
             "Child", (HelperBaseWithFinal,), {"other_method": lambda: None}
-        )
-
-        assert result is None
+        ) is None
 
     def test_when_base_has_final_method_overridden_then_raises_type_error(
         self,
@@ -179,11 +175,9 @@ class TestValidateNoRuntimeFinalOverride:
             )
 
     def test_when_base_has_no_final_methods_then_returns_none(self) -> None:
-        result = validate_no_runtime_final_override(
+        assert validate_no_runtime_final_override(
             "Child", (HelperBasePlain,), {"normal_method": lambda self: "overridden"}
-        )
-
-        assert result is None
+        ) is None
 
     def test_error_message_contains_subclass_name(self) -> None:
         with pytest.raises(TypeError, match="in subclass 'BadChild'"):
@@ -216,13 +210,11 @@ class TestValidateNoRuntimeFinalOverride:
     def test_when_namespace_has_new_method_not_in_bases_then_returns_none(
         self,
     ) -> None:
-        result = validate_no_runtime_final_override(
+        assert validate_no_runtime_final_override(
             "Child",
             (HelperBaseWithFinal,),
             {"brand_new_method": lambda self: 42},
-        )
-
-        assert result is None
+        ) is None
 
 
 @pytest.mark.unit
@@ -244,6 +236,7 @@ class TestRuntimeFinal:
             return "test"
 
         decorated = runtime_final(sample_function)
+
         assert hasattr(decorated, "__is_runtime_final__")
         assert decorated.__is_runtime_final__ is True
 
@@ -254,6 +247,7 @@ class TestRuntimeFinal:
             return "test"
 
         decorated = runtime_final(sample_function)
+
         assert decorated() == "test"
         assert decorated.__name__ == "sample_function"
 
@@ -261,7 +255,9 @@ class TestRuntimeFinal:
         self,
     ) -> None:
         instance = ClassWithRuntimeFinalMethod()
+
         result = instance.test_method(5)
+
         assert result == 10
 
     def test_runtime_final_when_applied_to_classmethod_then_sets_attributes(
@@ -272,6 +268,7 @@ class TestRuntimeFinal:
             return "test"
 
         decorated = runtime_final(sample_classmethod)
+
         assert hasattr(decorated, "__is_runtime_final__")
         assert decorated.__is_runtime_final__ is True
 
@@ -283,5 +280,6 @@ class TestRuntimeFinal:
             return "test"
 
         decorated = runtime_final(sample_staticmethod)
+
         assert hasattr(decorated, "__is_runtime_final__")
         assert decorated.__is_runtime_final__ is True
