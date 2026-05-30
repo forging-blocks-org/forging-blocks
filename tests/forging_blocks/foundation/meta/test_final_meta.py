@@ -1,4 +1,4 @@
-# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false, reportUnknownLambdaType=false
 """Unit tests for FinalMeta and runtime_final decorators."""
 
 from __future__ import annotations
@@ -6,6 +6,7 @@ from __future__ import annotations
 import pytest
 
 from forging_blocks.foundation import FinalMeta, runtime_final
+from forging_blocks.foundation.meta.final_meta import validate_no_runtime_final_override
 
 
 class BaseWithFinalMethod(metaclass=FinalMeta):
@@ -69,6 +70,33 @@ class ClassWithRuntimeFinalMethod:
         return value * 2
 
 
+class HelperBaseWithFinal:
+    @runtime_final
+    def final_method(self) -> str:
+        return "base"
+
+
+class HelperBasePlain:
+    def normal_method(self) -> str:
+        return "normal"
+
+
+class HelperGrandParentFinal:
+    @runtime_final
+    def deep_method(self) -> str:
+        return "deep"
+
+
+class HelperBaseWithTwoFinals:
+    @runtime_final
+    def method_a(self) -> str:
+        return "a"
+
+    @runtime_final
+    def method_b(self) -> str:
+        return "b"
+
+
 @pytest.mark.unit
 class TestFinalMeta:
     def test___new___when_no_final_methods_overridden_then_creates_class(self) -> None:
@@ -121,6 +149,80 @@ class TestFinalMeta:
         instance = ChildWithAdditionalMethod()
         assert instance.final_method() == "base"
         assert instance.another_method() == "another"
+
+
+@pytest.mark.unit
+class TestValidateNoRuntimeFinalOverride:
+
+    def test_when_no_bases_then_returns_none(self) -> None:
+        result = validate_no_runtime_final_override("MyClass", (), {"x": 1})
+
+        assert result is None
+
+    def test_when_base_has_final_method_not_overridden_then_returns_none(
+        self,
+    ) -> None:
+        result = validate_no_runtime_final_override(
+            "Child", (HelperBaseWithFinal,), {"other_method": lambda: None}
+        )
+
+        assert result is None
+
+    def test_when_base_has_final_method_overridden_then_raises_type_error(
+        self,
+    ) -> None:
+        with pytest.raises(TypeError, match="runtime-final method 'final_method'"):
+            validate_no_runtime_final_override(
+                "Child",
+                (HelperBaseWithFinal,),
+                {"final_method": lambda self: "overridden"},
+            )
+
+    def test_when_base_has_no_final_methods_then_returns_none(self) -> None:
+        result = validate_no_runtime_final_override(
+            "Child", (HelperBasePlain,), {"normal_method": lambda self: "overridden"}
+        )
+
+        assert result is None
+
+    def test_error_message_contains_subclass_name(self) -> None:
+        with pytest.raises(TypeError, match="in subclass 'BadChild'"):
+            validate_no_runtime_final_override(
+                "BadChild",
+                (HelperBaseWithFinal,),
+                {"final_method": lambda self: "bad"},
+            )
+
+    def test_when_final_method_from_grandparent_overridden_then_raises_type_error(
+        self,
+    ) -> None:
+        with pytest.raises(TypeError, match="runtime-final method 'deep_method'"):
+            validate_no_runtime_final_override(
+                "BadDeep",
+                (HelperGrandParentFinal,),
+                {"deep_method": lambda self: "bad"},
+            )
+
+    def test_when_multiple_bases_and_one_final_overridden_then_raises_type_error(
+        self,
+    ) -> None:
+        with pytest.raises(TypeError, match="runtime-final method 'method_a'"):
+            validate_no_runtime_final_override(
+                "MultiChild",
+                (HelperBaseWithTwoFinals, HelperBasePlain),
+                {"method_a": lambda self: "overridden"},
+            )
+
+    def test_when_namespace_has_new_method_not_in_bases_then_returns_none(
+        self,
+    ) -> None:
+        result = validate_no_runtime_final_override(
+            "Child",
+            (HelperBaseWithFinal,),
+            {"brand_new_method": lambda self: 42},
+        )
+
+        assert result is None
 
 
 @pytest.mark.unit
