@@ -1,4 +1,4 @@
-# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false, reportUnknownLambdaType=false
 """Unit tests for FinalMeta and runtime_final decorators."""
 
 from __future__ import annotations
@@ -6,6 +6,7 @@ from __future__ import annotations
 import pytest
 
 from forging_blocks.foundation import FinalMeta, runtime_final
+from forging_blocks.foundation.meta.final_meta import validate_no_runtime_final_override
 
 
 class BaseWithFinalMethod(metaclass=FinalMeta):
@@ -42,7 +43,7 @@ class BaseWithOnlyNormalMethod(metaclass=FinalMeta):
         return "base"
 
 
-class EmptyBase(metaclass=FinalMeta):
+class StandaloneBaseWithFinal(metaclass=FinalMeta):
     @runtime_final
     def final_method(self) -> str:
         return "base"
@@ -63,37 +64,47 @@ class ChildWithAdditionalMethod(BaseWithFinalMethod):
         return "another"
 
 
-class StandaloneBaseWithFinal(metaclass=FinalMeta):
-    @runtime_final
-    def final_method(self) -> str:
-        return "base"
-
-
-# Helper class for testing method functionality
-class SampleClassWithRuntimeFinalMethod:
+class ClassWithRuntimeFinalMethod:
     @runtime_final
     def test_method(self, value: int) -> int:
         return value * 2
 
 
+class HelperBaseWithFinal:
+    @runtime_final
+    def final_method(self) -> str:
+        return "base"
+
+
+class HelperBasePlain:
+    def normal_method(self) -> str:
+        return "normal"
+
+
+class HelperGrandParentFinal:
+    @runtime_final
+    def deep_method(self) -> str:
+        return "deep"
+
+
+class HelperBaseWithTwoFinals:
+    @runtime_final
+    def method_a(self) -> str:
+        return "a"
+
+    @runtime_final
+    def method_b(self) -> str:
+        return "b"
+
+
 @pytest.mark.unit
 class TestFinalMeta:
     def test___new___when_no_final_methods_overridden_then_creates_class(self) -> None:
-        # Arrange
-        # (ChildOverridingNormalMethod already defined)
-
-        # Action
         instance = ChildOverridingNormalMethod()
-
-        # Assert
         assert instance.normal_method() == "overridden"
         assert instance.final_method() == "base"
 
     def test___new___when_final_method_overridden_then_raises_type_error(self) -> None:
-        # Arrange
-        # (BaseWithFinalMethod already defined)
-
-        # Action & Assert
         with pytest.raises(
             TypeError,
             match="Cannot override runtime-final method 'final_method' in subclass 'Child'",
@@ -106,10 +117,6 @@ class TestFinalMeta:
     def test___new___when_multiple_final_methods_one_overridden_then_raises_type_error(
         self,
     ) -> None:
-        # Arrange
-        # (BaseWithMultipleFinalMethods already defined)
-
-        # Action & Assert
         with pytest.raises(
             TypeError, match="Cannot override runtime-final method 'final_method_one'"
         ):
@@ -119,7 +126,6 @@ class TestFinalMeta:
                     return "overridden"
 
     def test___new___when_final_method_inherited_then_raises_type_error(self) -> None:
-        # Action & Assert
         with pytest.raises(
             TypeError,
             match="Cannot override runtime-final method 'final_method' in subclass 'GrandChild'",
@@ -130,28 +136,85 @@ class TestFinalMeta:
                     return "overridden"
 
     def test___new___when_no_base_classes_then_creates_class(self) -> None:
-        # Action
         instance = StandaloneBaseWithFinal()
-
-        # Assert
         assert instance.final_method() == "base"
 
     def test___new___when_non_final_method_in_base_then_allows_override(self) -> None:
-        # Action
         instance = ChildOverridingNonFinalMethod()
-
-        # Assert
         assert instance.non_final_method() == "child"
 
     def test___new___when_final_method_not_in_namespace_then_creates_class(
         self,
     ) -> None:
-        # Action
         instance = ChildWithAdditionalMethod()
-
-        # Assert
         assert instance.final_method() == "base"
         assert instance.another_method() == "another"
+
+
+@pytest.mark.unit
+class TestValidateNoRuntimeFinalOverride:
+
+    def test_when_no_bases_then_returns_none(self) -> None:
+        assert validate_no_runtime_final_override("MyClass", (), {"x": 1}) is None
+
+    def test_when_base_has_final_method_not_overridden_then_returns_none(
+        self,
+    ) -> None:
+        assert validate_no_runtime_final_override(
+            "Child", (HelperBaseWithFinal,), {"other_method": lambda: None}
+        ) is None
+
+    def test_when_base_has_final_method_overridden_then_raises_type_error(
+        self,
+    ) -> None:
+        with pytest.raises(TypeError, match="runtime-final method 'final_method'"):
+            validate_no_runtime_final_override(
+                "Child",
+                (HelperBaseWithFinal,),
+                {"final_method": lambda self: "overridden"},
+            )
+
+    def test_when_base_has_no_final_methods_then_returns_none(self) -> None:
+        assert validate_no_runtime_final_override(
+            "Child", (HelperBasePlain,), {"normal_method": lambda self: "overridden"}
+        ) is None
+
+    def test_error_message_contains_subclass_name(self) -> None:
+        with pytest.raises(TypeError, match="in subclass 'BadChild'"):
+            validate_no_runtime_final_override(
+                "BadChild",
+                (HelperBaseWithFinal,),
+                {"final_method": lambda self: "bad"},
+            )
+
+    def test_when_final_method_from_grandparent_overridden_then_raises_type_error(
+        self,
+    ) -> None:
+        with pytest.raises(TypeError, match="runtime-final method 'deep_method'"):
+            validate_no_runtime_final_override(
+                "BadDeep",
+                (HelperGrandParentFinal,),
+                {"deep_method": lambda self: "bad"},
+            )
+
+    def test_when_multiple_bases_and_one_final_overridden_then_raises_type_error(
+        self,
+    ) -> None:
+        with pytest.raises(TypeError, match="runtime-final method 'method_a'"):
+            validate_no_runtime_final_override(
+                "MultiChild",
+                (HelperBaseWithTwoFinals, HelperBasePlain),
+                {"method_a": lambda self: "overridden"},
+            )
+
+    def test_when_namespace_has_new_method_not_in_bases_then_returns_none(
+        self,
+    ) -> None:
+        assert validate_no_runtime_final_override(
+            "Child",
+            (HelperBaseWithFinal,),
+            {"brand_new_method": lambda self: 42},
+        ) is None
 
 
 @pytest.mark.unit
@@ -159,83 +222,64 @@ class TestRuntimeFinal:
     def test_runtime_final_when_applied_to_function_then_sets_final_attribute(
         self,
     ) -> None:
-        # Arrange
         def sample_function() -> str:
             return "test"
 
-        # Action
         decorated = runtime_final(sample_function)
-
-        # Assert
         assert hasattr(decorated, "__final__")
         assert decorated.__final__ is True
 
     def test_runtime_final_when_applied_to_function_then_sets_is_runtime_final_attribute(
         self,
     ) -> None:
-        # Arrange
         def sample_function() -> str:
             return "test"
 
-        # Action
         decorated = runtime_final(sample_function)
 
-        # Assert
         assert hasattr(decorated, "__is_runtime_final__")
         assert decorated.__is_runtime_final__ is True
 
     def test_runtime_final_when_applied_to_function_then_returns_same_function(
         self,
     ) -> None:
-        # Arrange
         def sample_function() -> str:
             return "test"
 
-        # Action
         decorated = runtime_final(sample_function)
 
-        # Assert
         assert decorated() == "test"
         assert decorated.__name__ == "sample_function"
 
     def test_runtime_final_when_applied_to_method_then_preserves_functionality(
         self,
     ) -> None:
-        # Arrange
-        instance = SampleClassWithRuntimeFinalMethod()
+        instance = ClassWithRuntimeFinalMethod()
 
-        # Action
         result = instance.test_method(5)
 
-        # Assert
         assert result == 10
 
     def test_runtime_final_when_applied_to_classmethod_then_sets_attributes(
         self,
     ) -> None:
-        # Arrange
         @classmethod
         def sample_classmethod(cls) -> str:
             return "test"
 
-        # Action
         decorated = runtime_final(sample_classmethod)
 
-        # Assert
         assert hasattr(decorated, "__is_runtime_final__")
         assert decorated.__is_runtime_final__ is True
 
     def test_runtime_final_when_applied_to_staticmethod_then_sets_attributes(
         self,
     ) -> None:
-        # Arrange
         @staticmethod
         def sample_staticmethod() -> str:
             return "test"
 
-        # Action
         decorated = runtime_final(sample_staticmethod)
 
-        # Assert
         assert hasattr(decorated, "__is_runtime_final__")
         assert decorated.__is_runtime_final__ is True

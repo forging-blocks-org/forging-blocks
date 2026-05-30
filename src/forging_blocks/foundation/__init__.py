@@ -18,7 +18,7 @@ from .errors import (
 from .identified import Identified
 from .mapper import Mapper
 from .messages import Command, Event, Message, Query
-from .meta import FinalMeta, runtime_final
+from .meta import FinalABCMeta, FinalMeta, runtime_final
 from .ports import (
     InboundPort,
     InputPort,
@@ -58,6 +58,7 @@ __all__ = [
     "Identified",
     "RuleViolationError",
     "ValidationError",
+    "FinalABCMeta",
     "FinalMeta",
     "runtime_final",
     "ResultAccessError",

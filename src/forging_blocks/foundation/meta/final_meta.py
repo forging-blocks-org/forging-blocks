@@ -12,6 +12,31 @@ from typing import Any, Callable, Type, TypeVar
 F = TypeVar("F", bound=Callable[..., Any])
 
 
+def validate_no_runtime_final_override(
+    name: str,
+    bases: tuple[type, ...],
+    namespace: dict[str, Any],
+) -> None:
+    """Check that no subclass overrides a @runtime_final method.
+
+    Raised at class creation time (inside metaclass ``__new__``) so the
+    violation is caught immediately, before any instance is created.
+    """
+    final_methods: set[str] = {
+        attr_name
+        for base in bases
+        for cls in base.__mro__
+        for attr_name, attr_value in cls.__dict__.items()
+        if getattr(attr_value, "__is_runtime_final__", False)
+    }
+
+    for method_name in final_methods:
+        if method_name in namespace:
+            raise TypeError(
+                f"Cannot override runtime-final method '{method_name}' in subclass '{name}'."
+            )
+
+
 class FinalMeta(type):
     """Metaclass that enforces runtime immutability of methods marked as `@runtime_final`.
 
@@ -27,23 +52,8 @@ class FinalMeta(type):
         **kwargs: Any,
     ) -> type:
         """Prevent overriding of runtime-final methods in subclasses."""
-        # Collect all runtime-final methods from base classes and their ancestors
-        final_methods: set[str] = {
-            attr_name
-            for base in bases
-            for cls in base.__mro__  # Walk the entire inheritance chain
-            for attr_name, attr_value in cls.__dict__.items()
-            if getattr(attr_value, "__is_runtime_final__", False)
-        }
-
-        # Check for any forbidden overrides in the subclass namespace
-        for method_name in final_methods:
-            if method_name in namespace:
-                raise TypeError(
-                    f"Cannot override runtime-final method '{method_name}' in subclass '{name}'."
-                )
-
-        return type.__new__(mcls, name, bases, namespace)
+        validate_no_runtime_final_override(name, bases, namespace)
+        return type.__new__(mcls, name, bases, namespace, **kwargs)
 
 
 def runtime_final(func: F) -> F:
