@@ -1,5 +1,3 @@
-import logging
-
 from scripts.release.application.ports.outbound import VersioningService
 from scripts.release.domain.value_objects import (
     ReleaseLevel,
@@ -33,12 +31,7 @@ class PoetryVersioningService(VersioningService):
     def apply_version(
         self,
         version: ReleaseVersion,
-        *,
-        dry_run: bool = False,
     ) -> None:
-        if dry_run:
-            logging.info(f"[dry-run] Would bump version to {version.value}")
-            return
         self._runner.run(["poetry", "version", version.value])
 
     def rollback_version(

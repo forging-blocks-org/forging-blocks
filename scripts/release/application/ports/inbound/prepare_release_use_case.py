@@ -26,12 +26,17 @@ class PrepareReleaseInput:
 
 @dataclass(frozen=True)
 class PrepareReleaseOutput:
-    """Response DTO for preparing a release."""
+    """Response DTO for preparing a release.
+
+    Contains only serializable primitives so it can be:
+    - printed by the CLI
+    - logged
+    - consumed by CI steps
+    """
 
     version: str
     branch: str
     tag: str
-    changelog: str = ""
 
 
 class PrepareReleaseUseCase(UseCase[PrepareReleaseInput, PrepareReleaseOutput]):

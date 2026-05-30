@@ -35,20 +35,11 @@ cat > "$EVENT_FILE" <<EOF
 }
 EOF
 
-PODMAN_SOCK="${XDG_RUNTIME_DIR}/podman/podman.sock"
-
-if [[ ! -S "$PODMAN_SOCK" ]]; then
-  echo "Podman socket not found at $PODMAN_SOCK" >&2
-  echo "Start it with: systemctl --user start podman.socket" >&2
-  exit 1
-fi
-
 echo "Using head.ref: release/${VERSION}"
-echo "Using podman socket: $PODMAN_SOCK"
 
-DOCKER_HOST="unix://${PODMAN_SOCK}" act pull_request \
+act pull_request \
   -j release \
   -W "$REPO_ROOT/.github/workflows/release.yml" \
-  --container-daemon-socket "$PODMAN_SOCK" \
+  --container-daemon-socket "$XDG_RUNTIME_DIR/podman/podman.sock" \
   --secret-file "$REPO_ROOT/.secrets.act" \
   -e "$EVENT_FILE"

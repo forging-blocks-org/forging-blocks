@@ -22,8 +22,6 @@ class VersionControl(OutputPort):
     def checkout(
         self,
         branch: ReleaseBranchName,
-        *,
-        dry_run: bool = False,
     ) -> None:
         """Checkout local branch."""
         ...
@@ -36,8 +34,6 @@ class VersionControl(OutputPort):
     @abstractmethod
     def commit_release_artifacts(
         self,
-        *,
-        dry_run: bool = False,
     ) -> None:
         """Commit the version bump and any generated artifacts (e.g., changelog).
         Must be non-interactive.
@@ -48,8 +44,6 @@ class VersionControl(OutputPort):
     def create_branch(
         self,
         branch: ReleaseBranchName,
-        *,
-        dry_run: bool = False,
     ) -> None:
         """Create local branch."""
         ...
@@ -76,8 +70,6 @@ class VersionControl(OutputPort):
     def push(
         self,
         branch: ReleaseBranchName,
-        *,
-        dry_run: bool = False,
     ) -> None:
         """Push branch and tag."""
         ...

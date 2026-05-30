@@ -29,12 +29,7 @@ class GitVersionControl(VersionControl):
     def checkout(
         self,
         branch: ReleaseBranchName,
-        *,
-        dry_run: bool = False,
     ) -> None:
-        if dry_run:
-            logging.info(f"[dry-run] Would checkout branch {branch.value}")
-            return
         logging.info(f"Checking out branch {branch.value}...")
         self._runner.run(["git", "checkout", branch.value])
         logging.info(f"✓ Checked out branch {branch.value}")
@@ -52,14 +47,7 @@ class GitVersionControl(VersionControl):
             self._runner.run(["git", "checkout", default_branch])
             logging.info(f"✓ Checked out {default_branch} branch")
 
-    def commit_release_artifacts(
-        self,
-        *,
-        dry_run: bool = False,
-    ) -> None:
-        if dry_run:
-            logging.info("[dry-run] Would commit release artifacts (version bump + changelog)")
-            return
+    def commit_release_artifacts(self) -> None:
         logging.info("Committing release artifacts...")
         try:
             self._runner.run(["git", "add", "-A"])
@@ -78,12 +66,7 @@ class GitVersionControl(VersionControl):
     def create_branch(
         self,
         branch: ReleaseBranchName,
-        *,
-        dry_run: bool = False,
     ) -> None:
-        if dry_run:
-            logging.info(f"[dry-run] Would create release branch {branch.value}")
-            return
         logging.info(f"Creating release branch {branch.value}...")
         self._runner.run(["git", "checkout", "-b", branch.value])
         logging.info(f"✓ Created branch {branch.value}")
@@ -103,12 +86,7 @@ class GitVersionControl(VersionControl):
     def push(
         self,
         branch: ReleaseBranchName,
-        *,
-        dry_run: bool = False,
     ) -> None:
-        if dry_run:
-            logging.info(f"[dry-run] Would push branch {branch.value} to origin")
-            return
         self._runner.run(["git", "push", "origin", branch.value])
 
     def remote_branch_exists(self, branch: ReleaseBranchName) -> bool:

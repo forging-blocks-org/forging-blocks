@@ -38,10 +38,6 @@ class ReleaseCliPresenter:
             self._logger.debug(f"Service output: {service_output}")
 
             if dry_run:
-                if service_output.changelog:
-                    print(f"\n--- Changelog for {service_output.version} ---\n")
-                    print(service_output.changelog)
-                    print("--- End of changelog ---\n")
                 self._logger.info("Dry run mode - no changes were made")
             else:
                 self._logger.info("Release executed successfully")

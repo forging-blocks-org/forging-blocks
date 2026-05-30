@@ -1,0 +1,22 @@
+name: Setup Poetry
+description: A GitHub Action to set up Poetry for Python dependency management.
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.14.3"
+
+    - run: pip install poetry
+      shell: bash
+
+    - run: poetry config virtualenvs.create true
+      shell: bash
+
+    - uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/pypoetry
+          ~/.cache/pip
+        key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
