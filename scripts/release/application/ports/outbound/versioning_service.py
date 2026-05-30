@@ -32,6 +32,8 @@ class VersioningService(OutputPort, ABC):
     def apply_version(
         self,
         version: ReleaseVersion,
+        *,
+        dry_run: bool = False,
     ) -> None:
         """Mutate version to the given target.
         """

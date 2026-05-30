@@ -31,6 +31,8 @@ class PoetryVersioningService(VersioningService):
     def apply_version(
         self,
         version: ReleaseVersion,
+        *,
+        dry_run: bool = False,
     ) -> None:
         self._runner.run(["poetry", "version", version.value])
 

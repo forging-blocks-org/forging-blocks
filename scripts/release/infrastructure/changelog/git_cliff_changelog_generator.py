@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from scripts.release.application.ports.outbound import (
@@ -22,8 +23,7 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
     Range resolution strategy:
     - requested tag exists  → generate from that tag: `<tag>..`
-    - requested tag missing, other tags exist → generate from latest tag: `<latest>..`
-    - no tags at all → generate full history (no range argument)
+    - requested tag missing → generate full history (no range argument)
     """
 
     def __init__(
@@ -37,12 +37,10 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
     async def generate(self, request: ChangelogRequest) -> ChangelogResponse:
         from_tag = f"v{request.from_version}"
         tag_exists = self._tag_exists(from_tag)
-        latest_tag = self._latest_tag() if not tag_exists else None
 
         range_arg, version_tag = self._resolve_range_and_version(
             requested_tag=from_tag,
             tag_exists=tag_exists,
-            latest_tag=latest_tag,
         )
 
         raw = self._run_git_cliff(range_arg, version_tag)
@@ -60,22 +58,11 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
         except RuntimeError:
             return False
 
-    def _latest_tag(self) -> str | None:
-        try:
-            result = self._runner.run(
-                ["git", "describe", "--tags", "--abbrev=0"],
-                suppress_error_log=True,
-            )
-            return result.strip() or None
-        except RuntimeError:
-            return None
-
     def _resolve_range_and_version(
         self,
         *,
         requested_tag: str,
         tag_exists: bool,
-        latest_tag: str | None,
     ) -> tuple[str | None, str | None]:
         """Return the starting tag for the range and version tag for git-cliff.
 
@@ -84,7 +71,7 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
         """
         if tag_exists:
             return requested_tag, requested_tag
-        return latest_tag, requested_tag  # version_tag ensures correct version is shown
+        return None, requested_tag
 
     def _run_git_cliff(self, from_tag: str | None, version_tag: str | None) -> str:
         cmd = ["git-cliff", "--output", "-"]
@@ -97,8 +84,9 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
         try:
             output = self._runner.run(cmd, check=True)
+            merged = self._merge_with_existing(output)
             self._changelog_path.write_text(
-                output if output.endswith("\n") else output + "\n", encoding="utf-8"
+                merged if merged.endswith("\n") else merged + "\n", encoding="utf-8"
             )
             return output
         except FileNotFoundError as exc:
@@ -107,6 +95,85 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
             ) from exc
         except RuntimeError as exc:
             raise ChangelogGenerationError(f"git-cliff failed: {exc}") from exc
+
+    def _merge_with_existing(self, new_content: str) -> str:
+        if not self._changelog_path.exists():
+            return new_content
+
+        existing = self._changelog_path.read_text(encoding="utf-8")
+
+        unreleased_match = re.search(
+            r"## \[Unreleased\]\s*\n\n(.*?)(?=\n## \[|\Z)",
+            existing,
+            re.DOTALL,
+        )
+        if not unreleased_match:
+            return new_content.rstrip("\n") + "\n\n" + existing
+
+        unreleased_body = unreleased_match.group(1).strip()
+        existing_without_unreleased = (
+            existing[: unreleased_match.start()] + existing[unreleased_match.end() :]
+        ).lstrip("\n")
+
+        if not unreleased_body:
+            return new_content.rstrip("\n") + "\n\n" + existing_without_unreleased
+
+        unreleased_groups = self._parse_groups(unreleased_body)
+        version_header, new_groups = self._parse_version_section(new_content)
+
+        new_group_headers = {h for h, _ in new_groups}
+
+        merged_new_groups = list(new_groups)
+        orphan_groups: list[tuple[str, str]] = []
+
+        for header, entries in unreleased_groups:
+            if header in new_group_headers:
+                for i, (h, e) in enumerate(merged_new_groups):
+                    if h == header:
+                        merged_new_groups[i] = (h, e + "\n\n" + entries)
+                        break
+            else:
+                orphan_groups.append((header, entries))
+
+        parts = [version_header, ""]
+        for header, entries in merged_new_groups:
+            parts.extend([header, "", entries, ""])
+        for header, entries in orphan_groups:
+            parts.extend([header, "", entries, ""])
+
+        merged_new = "\n".join(parts)
+        if not merged_new.endswith("\n\n"):
+            merged_new = merged_new.rstrip("\n") + "\n\n"
+
+        return merged_new + existing_without_unreleased
+
+    def _parse_version_section(
+        self, content: str
+    ) -> tuple[str, list[tuple[str, str]]]:
+        lines = content.split("\n")
+        header_idx = 0
+        for i, line in enumerate(lines):
+            if line.startswith("## "):
+                header_idx = i
+                break
+
+        version_header = lines[header_idx]
+        body = "\n".join(lines[header_idx + 1 :]).strip()
+        groups = self._parse_groups(body) if body else []
+        return version_header, groups
+
+    def _parse_groups(self, body: str) -> list[tuple[str, str]]:
+        parts = re.split(r"(?=^### )", body, flags=re.MULTILINE)
+        groups: list[tuple[str, str]] = []
+        for part in parts:
+            part = part.strip()
+            if not part:
+                continue
+            lines = part.split("\n")
+            header = lines[0]
+            entries = "\n".join(lines[1:]).strip()
+            groups.append((header, entries))
+        return groups
 
     def _parse_output(self, raw: str) -> list[str]:
         return [line.strip() for line in raw.splitlines() if line.strip()]
