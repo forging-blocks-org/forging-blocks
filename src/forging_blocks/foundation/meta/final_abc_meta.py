@@ -9,7 +9,7 @@ from __future__ import annotations
 from abc import ABCMeta
 from typing import Any, Type
 
-from .final_meta import FinalMeta
+from .final_meta import FinalMeta, validate_no_runtime_final_override
 
 
 class FinalABCMeta(FinalMeta, ABCMeta):
@@ -37,5 +37,6 @@ class FinalABCMeta(FinalMeta, ABCMeta):
         namespace: dict[str, Any],
         **kwargs: Any,
     ) -> type:
-        """Enforce runtime-final checks then delegate abstract collection via cooperative super()."""
-        return super().__new__(mcls, name, bases, namespace, **kwargs)
+        """Enforce runtime-final checks then delegate to ABCMeta for abstract collection."""
+        validate_no_runtime_final_override(name, bases, namespace)
+        return ABCMeta.__new__(mcls, name, bases, namespace, **kwargs)
