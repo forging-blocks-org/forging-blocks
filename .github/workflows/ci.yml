@@ -86,13 +86,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Set up Poetry
-        uses: ./.github/actions/setup-poetry
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+        with:
+          groups: dev
 
-      - name: Install dependencies (including twine)
-        run: |
-          poetry install --no-interaction --with dev
-          pip install twine
+      - name: Install twine
+        run: pip install twine
 
       - name: Run validation script
         id: validate
