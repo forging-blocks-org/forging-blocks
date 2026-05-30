@@ -52,7 +52,7 @@ class TestIdentifiedProtocol:
         """AggregateRoot should structurally satisfy Identified protocol."""
 
         class MyAggregate(AggregateRoot[str]):
-            def apply(self, event: object) -> None:  # type: ignore[override]
+            def _handle(self, event: object) -> None:
                 pass
 
         aggregate: Identified[str] = MyAggregate("agg-1")
