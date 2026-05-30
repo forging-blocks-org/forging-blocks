@@ -1,10 +1,12 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 import pytest
-from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error import CantModifyImmutableAttributeError
 from scripts.release.domain.value_objects.tag_name import (
     TagName as DirectTagName,
 )
 
+from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error import (
+    CantModifyImmutableAttributeError,
+)
 from scripts.release.domain.errors import InvalidTagNameError
 from scripts.release.domain.value_objects import ReleaseVersion, TagName
 from scripts.release.domain.value_objects import TagName as ImportedTagName
