@@ -4,10 +4,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=scripts/pipeline/commons.sh
 source "$SCRIPT_DIR/commons.sh"
 
-# ---------------------------------------------------------------------------
-# Usage
-# ---------------------------------------------------------------------------
-
 usage() {
   cat <<EOF
 Usage: RELEASE_VERSION=<version> $0 [--dry-run] [--draft]
@@ -21,10 +17,6 @@ Environment:
 EOF
   exit 1
 }
-
-# ---------------------------------------------------------------------------
-# Argument parsing
-# ---------------------------------------------------------------------------
 
 parse_arguments() {
   DRY_RUN=false
@@ -41,9 +33,44 @@ parse_arguments() {
   done
 }
 
-# ---------------------------------------------------------------------------
-# Core functions
-# ---------------------------------------------------------------------------
+validate_environment() {
+  require_vars RELEASE_VERSION
+  assert_changelog_exists
+}
+
+assert_changelog_exists() {
+  if [[ ! -f "CHANGELOG.md" ]]; then
+    fail "CHANGELOG.md not found. Cannot create GitHub Release without release notes."
+  fi
+}
+
+assert_github_cli_available() {
+  if ! command -v gh &> /dev/null; then
+    fail "GitHub CLI (gh) is not available. Cannot create GitHub Release."
+  fi
+}
+
+is_act_simulation() {
+  [[ "${ACT:-}" == "true" ]]
+}
+
+is_dry_run() {
+  [[ "$DRY_RUN" == "true" ]]
+}
+
+should_simulate() {
+  is_act_simulation || is_dry_run
+}
+
+strip_v_prefix() {
+  local version="$1"
+  echo "${version#v}"
+}
+
+resolve_changelog_version() {
+  local full_version="$1"
+  strip_v_prefix "$full_version"
+}
 
 escape_version_for_regex() {
   local version="$1"
@@ -69,41 +96,51 @@ extract_release_notes() {
   ' "$changelog_file"
 }
 
-create_github_release() {
-  local version="$1"
-  local notes="$2"
-  local draft="$3"
-
-  local notes_file
-  notes_file="$(mktemp)"
-  # shellcheck disable=SC2064
-  trap "rm -f '$notes_file'" EXIT
-
-  echo "$notes" > "$notes_file"
-
-  local draft_flag="--draft=false"
-  if [[ "$draft" == "true" ]]; then
-    draft_flag="--draft"
+assert_release_notes_not_empty() {
+  local notes="$1"
+  if [[ -z "${notes// /}" ]]; then
+    fail "Could not find release notes for version $RELEASE_VERSION in CHANGELOG.md"
   fi
+}
 
-  log "Creating GitHub Release for tag $version (draft=$draft)"
+collect_release_notes() {
+  local changelog_version="$1"
+  local changelog_file="CHANGELOG.md"
 
-  gh release create "$version" \
-    --title "$version" \
-    --notes-file "$notes_file" \
-    "$draft_flag"
+  log "Extracting release notes for version $RELEASE_VERSION from $changelog_file"
 
-  log "GitHub Release $version created successfully"
+  local version_escaped
+  version_escaped="$(escape_version_for_regex "$changelog_version")"
+
+  local notes
+  notes="$(extract_release_notes "$version_escaped" "$changelog_file")"
+
+  assert_release_notes_not_empty "$notes"
+
+  log "Release notes extracted (${#notes} chars)"
+
+  echo "$notes"
+}
+
+resolve_draft_flag() {
+  if [[ "$DRAFT" == "true" ]]; then
+    echo "--draft"
+  else
+    echo "--draft=false"
+  fi
 }
 
 simulate_github_release() {
   local version="$1"
   local notes="$2"
-  local draft="$3"
 
-  local draft_label="published"
-  if [[ "$draft" == "true" ]]; then
+  local draft_label
+  local draft_flag
+  draft_flag="$(resolve_draft_flag)"
+  if [[ "$DRAFT" == "true" ]]; then
     draft_label="draft"
+  else
+    draft_label="published"
   fi
 
   echo ""
@@ -114,7 +151,7 @@ simulate_github_release() {
   echo "  gh release create \"$version\" \\"
   echo "    --title \"$version\" \\"
   echo "    --notes-file <temp-file> \\"
-  echo "    --draft=$draft"
+  echo "    $draft_flag"
   echo ""
   echo "  Status:        $draft_label"
   echo "  Tag:           $version"
@@ -129,52 +166,57 @@ simulate_github_release() {
   echo "═══════════════════════════════════════════════════════════"
 }
 
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
+create_github_release() {
+  local version="$1"
+  local notes="$2"
+
+  local notes_file
+  notes_file="$(mktemp)"
+  # shellcheck disable=SC2064
+  trap "rm -f '$notes_file'" EXIT
+
+  echo "$notes" > "$notes_file"
+
+  local draft_flag
+  draft_flag="$(resolve_draft_flag)"
+
+  log "Creating GitHub Release for tag $version (draft=$DRAFT)"
+
+  gh release create "$version" \
+    --title "$version" \
+    --notes-file "$notes_file" \
+    "$draft_flag"
+
+  log "GitHub Release $version created successfully"
+}
+
+handle_release() {
+  local version="$1"
+  local notes="$2"
+
+  if should_simulate; then
+    if is_act_simulation; then
+      log "Local act simulation detected."
+    fi
+    simulate_github_release "$version" "$notes"
+    return
+  fi
+
+  assert_github_cli_available
+  create_github_release "$version" "$notes"
+}
 
 main() {
   parse_arguments "$@"
-  require_vars RELEASE_VERSION
+  validate_environment
 
-  local changelog_file="CHANGELOG.md"
-
-  if [[ ! -f "$changelog_file" ]]; then
-    fail "CHANGELOG.md not found. Cannot create GitHub Release without release notes."
-  fi
-
-  log "Extracting release notes for version $RELEASE_VERSION from $changelog_file"
-
-  local version_escaped
-  version_escaped="$(escape_version_for_regex "$RELEASE_VERSION")"
+  local changelog_version
+  changelog_version="$(resolve_changelog_version "$RELEASE_VERSION")"
 
   local release_notes
-  release_notes="$(extract_release_notes "$version_escaped" "$changelog_file")"
+  release_notes="$(collect_release_notes "$changelog_version")"
 
-  if [[ -z "${release_notes// /}" ]]; then
-    fail "Could not find release notes for version $RELEASE_VERSION in $changelog_file"
-  fi
-
-  log "Release notes extracted (${#release_notes} chars)"
-
-  # ACT simulation — same outcome as --dry-run
-  if [[ "${ACT:-}" == "true" ]]; then
-    log "Local act simulation detected."
-    simulate_github_release "$RELEASE_VERSION" "$release_notes" "$DRAFT"
-    exit 0
-  fi
-
-  # Local dry-run — preview without side effects
-  if [[ "$DRY_RUN" == "true" ]]; then
-    simulate_github_release "$RELEASE_VERSION" "$release_notes" "$DRAFT"
-    exit 0
-  fi
-
-  if ! command -v gh &> /dev/null; then
-    fail "GitHub CLI (gh) is not available. Cannot create GitHub Release."
-  fi
-
-  create_github_release "$RELEASE_VERSION" "$release_notes" "$DRAFT"
+  handle_release "$RELEASE_VERSION" "$release_notes"
 }
 
 main "$@"
