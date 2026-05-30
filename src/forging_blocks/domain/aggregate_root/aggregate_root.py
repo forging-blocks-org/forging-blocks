@@ -47,8 +47,8 @@ class AggregateRoot(Entity[TId], Generic[TId], metaclass=FinalABCMeta):
                 or the boolean False.
         """
         is_none = aggregate_id is None
-        is_empty_string = isinstance(aggregate_id, str) and aggregate_id == ""
-        is_false = isinstance(aggregate_id, bool) and aggregate_id is False
+        is_empty_string = aggregate_id == ""
+        is_false = aggregate_id is False
 
         if is_none or is_empty_string or is_false:
             raise EntityIdNoneError(self.__class__.__name__)
@@ -94,16 +94,33 @@ class AggregateRoot(Entity[TId], Generic[TId], metaclass=FinalABCMeta):
 
     @runtime_final
     def apply(self, event: Event[Any]) -> None:
-        """Single entry point for state transitions.
+        """Apply a new domain event during command processing.
 
         Delegates mutation to _handle(), increments version,
-        and appends to the uncommitted queue.
-        Version increment lives here so reconstitution from
-        an event store replays through the same path.
+        and appends the event to the uncommitted queue for later
+        collection by the Unit of Work.
+
+        Intended for *new* command-time transitions only.
+        For event store reconstitution, use replay() instead,
+        which applies the event without queuing it.
         """
         self._handle(event)
         self._version = self._version.increment()
         self._uncommitted_events.append(event)
+
+    @runtime_final
+    def replay(self, event: Event[Any]) -> None:
+        """Reconstitute aggregate state from a stored event.
+
+        Intended for event store reconstitution only.
+        Mutates state via _handle() and increments version,
+        but does **not** enqueue the event in uncommitted
+        changes (replayed events must not be re-published).
+
+        Use apply() for new command-time transitions.
+        """
+        self._handle(event)
+        self._version = self._version.increment()
 
     @abstractmethod
     def _handle(self, event: Event[Any]) -> None:

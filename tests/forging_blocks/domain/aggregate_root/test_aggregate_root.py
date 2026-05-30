@@ -190,3 +190,33 @@ class TestAggregateRoot:
 
         assert aggregate.id is True
         assert aggregate.version.value == 0
+
+
+@pytest.mark.unit
+class TestReplay:
+    def test_replay_when_called_then_does_not_record_event_in_uncommitted(
+        self,
+    ) -> None:
+        aggregate = OrderAggregate(1)
+        event = DummyEvent("replayed")
+
+        aggregate.replay(event)
+
+        assert aggregate.uncommitted_changes == []
+
+    def test_replay_when_called_then_increments_version(self) -> None:
+        aggregate = OrderAggregate(1)
+        event = DummyEvent("replayed")
+
+        aggregate.replay(event)
+
+        assert aggregate.version == AggregateVersion(1)
+
+    def test_replay_is_runtime_final_on_aggregate_root(self) -> None:
+        assert getattr(AggregateRoot.replay, "__is_runtime_final__", False) is True
+
+    def test_overriding_replay_raises_type_error(self) -> None:
+        with pytest.raises(TypeError, match="runtime-final"):
+            class BadAggregate(OrderAggregate):  # type: ignore[misc]
+                def replay(self, event: Event) -> None:
+                    pass
