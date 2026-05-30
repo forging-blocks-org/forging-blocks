@@ -1,4 +1,4 @@
-name: Release Pipeline
+name: Post-Merge Pipeline
 
 on:
   pull_request:
@@ -8,18 +8,72 @@ permissions:
   contents: write
 
 jobs:
-  release:
-    if: >
-      github.event.pull_request.merged == true &&
-      startsWith(github.event.pull_request.head.ref, 'release/v')
+  validate-publish:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
-      contents: write
       id-token: write
-
+    env:
+      PACKAGE_NAME: forging-blocks
+      IMPORT_NAME: forging_blocks
     steps:
-      - name: Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+        with:
+          groups: dev
+
+      - name: Install twine
+        run: pip install twine
+
+      - name: Extract base version
+        id: get-version
+        run: echo "VERSION=$(poetry version -s)" >> "$GITHUB_OUTPUT"
+
+      - name: Build and validate with Twine
+        id: validate-publish
+        env:
+          VERSION: ${{ steps.get-version.outputs.VERSION }}
+        run: bash scripts/pipeline/validate_publish.sh
+
+      - name: Validate PUBLISH_VERSION
+        env:
+          PUBLISH_VERSION: ${{ env.PUBLISH_VERSION }}
+        run: bash scripts/pipeline/validate_publish_version.sh
+
+      - name: Check if version already exists on TestPyPI
+        id: testpypi-check
+        env:
+          PACKAGE_NAME: ${{ env.PACKAGE_NAME }}
+          PUBLISH_VERSION: ${{ env.PUBLISH_VERSION }}
+        run: bash scripts/pipeline/check_testpypi.sh
+
+      - name: Upload to TestPyPI
+        if: steps.testpypi-check.outputs.already_exists == 'false'
+        uses: pypa/gh-action-pypi-publish@v1.13.0
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+      - name: Smoke Test (Install from TestPyPI)
+        if: steps.testpypi-check.outputs.already_exists == 'false'
+        env:
+          PACKAGE_NAME: ${{ env.PACKAGE_NAME }}
+          IMPORT_NAME: ${{ env.IMPORT_NAME }}
+          PUBLISH_VERSION: ${{ env.PUBLISH_VERSION }}
+        run: bash scripts/pipeline/smoke_test.sh
+
+  prepare-release:
+    if: >-
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
@@ -34,6 +88,20 @@ jobs:
         env:
           RELEASE_VERSION: ${{ steps.prep.outputs.version }}
         run: bash scripts/pipeline/validate_release_version.sh
+
+  publish-release:
+    if: >-
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/v')
+    needs: [validate-publish, prepare-release]
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
       - name: Install dependencies
         uses: ./.github/actions/install-dependencies
