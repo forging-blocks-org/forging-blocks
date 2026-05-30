@@ -43,7 +43,7 @@ class FinalMeta(type):
                     f"Cannot override runtime-final method '{method_name}' in subclass '{name}'."
                 )
 
-        return type.__new__(mcls, name, bases, namespace)
+        return super().__new__(mcls, name, bases, namespace)
 
 
 def runtime_final(func: F) -> F:
