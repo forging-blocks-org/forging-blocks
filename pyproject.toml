@@ -202,6 +202,8 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
   "bandit",
 ]
 
+"ci:publish:validate" = { cmd = "bash scripts/pipeline/validate_publish_local.sh" }
+
 "ci:simulate".sequence = [
   "ci:check",
   "docs:build"
@@ -209,14 +211,13 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
 
 "ci:release".sequence = [
   "ci:simulate",
-  { cmd = "poetry build" },
-  { shell = "VERSION=$(poetry version -s)" },
-  { shell = "echo 'Release candidate validated for version $VERSION'" }
+  "ci:publish:validate",
+  { shell = "echo 'Release candidate validated for version $(poetry version -s)'" }
 ]
 
 "ci:release:validate".sequence = [
   "ci:check",
-  { cmd = "poetry build" }
+  "ci:publish:validate"
 ]
 
 lint = { cmd = "ruff check ." }
