@@ -75,3 +75,16 @@ class TestPoetryVersioningService:
 
         version = service.current_version()
         assert version == ReleaseVersion(3, 1, 0)
+
+    def test_rollback_version_when_apply_version_called_then_restores_previous_version(
+        self,
+        service: PoetryVersioningService,
+        poetry_repo: GitTestRepository,
+    ) -> None:
+        previous = service.current_version()
+        service.apply_version(ReleaseVersion(5, 0, 0), dry_run=False)
+        service.rollback_version(previous)
+
+        content = (poetry_repo.path / "pyproject.toml").read_text(encoding="utf-8")
+        assert 'version = "5.0.0"' not in content
+        assert f'version = "{previous.value}"' in content
