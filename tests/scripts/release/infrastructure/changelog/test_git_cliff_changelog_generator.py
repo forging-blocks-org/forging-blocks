@@ -628,3 +628,26 @@ class TestGitCliffChangelogGeneratorIntegration:
 
         assert "## [0.3.0]" in content_after_first
         assert content_after_second.count("## [0.3.0]") == 1
+
+    async def test_generate_when_same_version_exists_with_different_date_then_does_not_duplicate(
+        self, scenario_repo_with_multiple_tags: Scenario
+    ) -> None:
+        scenario = scenario_repo_with_multiple_tags
+        generator = _make_generator(scenario.repo)
+
+        old_changelog = (
+            "## [0.3.0] - 2000-01-01\n\n"
+            "### Features\n\n"
+            "- old entry\n\n"
+            "## [0.2.0] - 2026-01-15\n\n"
+            "### Features\n\n"
+            "- **core**: add user registration\n\n"
+        )
+        scenario.changelog_path.write_text(old_changelog, encoding="utf-8")
+
+        await generator.generate(
+            ChangelogRequest(from_version=scenario.from_version, dry_run=False),
+        )
+
+        content = _read_changelog(scenario)
+        assert content.count("## [0.3.0]") == 1

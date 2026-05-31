@@ -116,7 +116,8 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
         )
         if not unreleased_match:
             version_header, _ = self._parse_version_section(new_content)
-            if version_header in existing:
+            bracket = re.search(r"\[([^\]]+)\]", version_header)
+            if bracket and f"## [{bracket.group(1)}]" in existing:
                 return existing
             return new_content.rstrip("\n") + "\n\n" + existing
 
