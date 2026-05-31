@@ -1,3 +1,4 @@
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -28,3 +29,42 @@ def git_repo(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> GitTestReposito
     repo = GitTestRepository.init(tmp_path)
     monkeypatch.chdir(tmp_path)
     return repo
+
+
+@pytest.fixture
+def pyproject_toml(git_repo: GitTestRepository) -> GitTestRepository:
+    """Injects a minimal pyproject.toml (version 0.0.0) into the repo and commits it."""
+    content = """\
+[tool.poetry]
+name = "test-project"
+version = "0.0.0"
+description = "Test project"
+authors = ["Test <test@test.com>"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+"""
+    (git_repo.path / "pyproject.toml").write_text(content, encoding="utf-8")
+    git_repo.commit("chore: add pyproject.toml")
+    return git_repo
+
+
+@pytest.fixture
+def git_repo_with_remote(
+    git_repo: GitTestRepository, tmp_path: Path
+) -> GitTestRepository:
+    """Adds a bare git remote (origin) to the repo and pushes main."""
+    remote_path = tmp_path / "remote.git"
+    subprocess.run(["git", "init", "--bare", str(remote_path)], check=True)
+    subprocess.run(
+        ["git", "remote", "add", "origin", str(remote_path)],
+        cwd=git_repo.path,
+        check=True,
+    )
+    subprocess.run(
+        ["git", "push", "-u", "origin", "main"],
+        cwd=git_repo.path,
+        check=True,
+    )
+    return git_repo
