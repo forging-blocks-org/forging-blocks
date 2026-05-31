@@ -47,3 +47,10 @@ jobs:
       - name: Publish to PyPI
         if: github.actor != 'nektos/act'
         uses: pypa/gh-action-pypi-publish@v1.13.0
+
+      - name: Create GitHub Release
+        if: github.actor != 'nektos/act'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ steps.prep.outputs.version }}
+        run: bash scripts/pipeline/create_github_release.sh
