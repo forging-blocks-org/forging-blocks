@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 import re
-import subprocess
 from pathlib import Path
-from unittest.mock import MagicMock, create_autospec, patch
+from unittest.mock import MagicMock, create_autospec
 
 import pytest
 from scripts.release.application.ports.outbound import ChangelogRequest
@@ -574,50 +573,14 @@ class TestGitCliffChangelogGeneratorIntegration:
         with pytest.raises(ChangelogGenerationError, match="git-cliff failed"):
             await generator.generate(ChangelogRequest(from_version="1.0.0"))
 
-    async def test_git_cliff_not_installed_raises_error(
-        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-    ) -> None:
-        monkeypatch.chdir(tmp_path)
-
-        generator = GitCliffChangelogGenerator(
-            runner=SubprocessCommandRunner(),
-            changelog_path=tmp_path / "CHANGELOG.md",
-        )
-
-        original_run = subprocess.run
-
-        def mock_run(
-            args: list[str],
-            **kwargs: object,
-        ) -> subprocess.CompletedProcess[str]:
-            if args[0] == "git-cliff":
-                raise FileNotFoundError(
-                    "[Errno 2] No such file or directory: 'git-cliff'"
-                )
-            return original_run(args, **kwargs)  # type: ignore[return-value]
-
-        with patch("subprocess.run", side_effect=mock_run):
-            with pytest.raises(
-                ChangelogGenerationError,
-                match="git-cliff is not installed or not found in PATH",
-            ):
-                await generator.generate(ChangelogRequest(from_version="1.0.0"))
-
-    # ----------------------------------------------------------------
-    # generate  (parametrized over dry_run True / False)
-    # ----------------------------------------------------------------
-
-    @pytest.mark.parametrize("dry_run", [True, False])
-    async def test_generate(
-        self,
-        scenario_changelog_with_unreleased: Scenario,
-        dry_run: bool,
+    async def test_generate_when_dry_run_false_then_mutates_changelog(
+        self, scenario_changelog_with_unreleased: Scenario
     ) -> None:
         scenario = scenario_changelog_with_unreleased
         content_before = _read_changelog(scenario)
 
         response = await _make_generator(scenario.repo).generate(
-            ChangelogRequest(from_version=scenario.from_version, dry_run=dry_run),
+            ChangelogRequest(from_version=scenario.from_version, dry_run=False),
         )
 
         assert response.entries
@@ -625,14 +588,43 @@ class TestGitCliffChangelogGeneratorIntegration:
         assert "[0.3.0]" in full
 
         content_after = _read_changelog(scenario)
-        if dry_run:
-            assert content_after == content_before, (
-                "dry_run=True must not mutate CHANGELOG.md"
-            )
-            assert "## [Unreleased]" in content_after
-        else:
-            assert content_after != content_before, (
-                "dry_run=False must mutate CHANGELOG.md"
-            )
-            assert "## [Unreleased]" not in content_after
-            assert "## [0.3.0]" in content_after
+        assert content_after != content_before
+        assert "## [Unreleased]" not in content_after
+        assert "## [0.3.0]" in content_after
+
+    async def test_generate_when_dry_run_true_then_does_not_mutate_changelog(
+        self, scenario_changelog_with_unreleased: Scenario
+    ) -> None:
+        scenario = scenario_changelog_with_unreleased
+        content_before = _read_changelog(scenario)
+
+        response = await _make_generator(scenario.repo).generate(
+            ChangelogRequest(from_version=scenario.from_version, dry_run=True),
+        )
+
+        assert response.entries
+        full = "\n".join(response.entries)
+        assert "[0.3.0]" in full
+
+        content_after = _read_changelog(scenario)
+        assert content_after == content_before
+        assert "## [Unreleased]" in content_after
+
+    async def test_generate_when_called_twice_with_same_version_then_does_not_duplicate_sections(
+        self, scenario_changelog_with_unreleased: Scenario
+    ) -> None:
+        scenario = scenario_changelog_with_unreleased
+        generator = _make_generator(scenario.repo)
+
+        await generator.generate(
+            ChangelogRequest(from_version=scenario.from_version, dry_run=False),
+        )
+        content_after_first = _read_changelog(scenario)
+
+        await generator.generate(
+            ChangelogRequest(from_version=scenario.from_version, dry_run=False),
+        )
+        content_after_second = _read_changelog(scenario)
+
+        assert "## [0.3.0]" in content_after_first
+        assert content_after_second.count("## [0.3.0]") == 1

@@ -115,6 +115,9 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
             re.DOTALL,
         )
         if not unreleased_match:
+            version_header, _ = self._parse_version_section(new_content)
+            if version_header in existing:
+                return existing
             return new_content.rstrip("\n") + "\n\n" + existing
 
         unreleased_body = unreleased_match.group(1).strip()
@@ -128,19 +131,16 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
         unreleased_groups = self._parse_groups(unreleased_body)
         version_header, new_groups = self._parse_version_section(new_content)
 
-        new_group_headers = {h for h, _ in new_groups}
-
-        merged_new_groups = list(new_groups)
+        merged_by_header = dict(new_groups)
         orphan_groups: list[tuple[str, str]] = []
 
         for header, entries in unreleased_groups:
-            if header in new_group_headers:
-                for i, (h, e) in enumerate(merged_new_groups):
-                    if h == header:
-                        merged_new_groups[i] = (h, e + "\n\n" + entries)
-                        break
+            if header in merged_by_header:
+                merged_by_header[header] = merged_by_header[header] + "\n\n" + entries
             else:
                 orphan_groups.append((header, entries))
+
+        merged_new_groups = list(merged_by_header.items())
 
         parts = [version_header, ""]
         for header, entries in merged_new_groups:
