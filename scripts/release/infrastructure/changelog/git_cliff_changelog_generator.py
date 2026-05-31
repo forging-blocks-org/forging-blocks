@@ -43,7 +43,7 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
             tag_exists=tag_exists,
         )
 
-        raw = self._run_git_cliff(range_arg, version_tag)
+        raw = self._run_git_cliff(range_arg, version_tag, dry_run=request.dry_run)
         entries = self._parse_output(raw)
 
         return ChangelogResponse(entries=entries)
@@ -73,7 +73,13 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
             return requested_tag, requested_tag
         return None, requested_tag
 
-    def _run_git_cliff(self, from_tag: str | None, version_tag: str | None) -> str:
+    def _run_git_cliff(
+        self,
+        from_tag: str | None,
+        version_tag: str | None,
+        *,
+        dry_run: bool = False,
+    ) -> str:
         cmd = ["git-cliff", "--output", "-"]
 
         if version_tag:
@@ -84,10 +90,11 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
         try:
             output = self._runner.run(cmd, check=True)
-            merged = self._merge_with_existing(output)
-            self._changelog_path.write_text(
-                merged if merged.endswith("\n") else merged + "\n", encoding="utf-8"
-            )
+            if not dry_run:
+                merged = self._merge_with_existing(output)
+                self._changelog_path.write_text(
+                    merged if merged.endswith("\n") else merged + "\n", encoding="utf-8"
+                )
             return output
         except FileNotFoundError as exc:
             raise ChangelogGenerationError(

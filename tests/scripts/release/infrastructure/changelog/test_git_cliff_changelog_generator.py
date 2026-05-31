@@ -602,3 +602,37 @@ class TestGitCliffChangelogGeneratorIntegration:
                 match="git-cliff is not installed or not found in PATH",
             ):
                 await generator.generate(ChangelogRequest(from_version="1.0.0"))
+
+    # ----------------------------------------------------------------
+    # generate  (parametrized over dry_run True / False)
+    # ----------------------------------------------------------------
+
+    @pytest.mark.parametrize("dry_run", [True, False])
+    async def test_generate(
+        self,
+        scenario_changelog_with_unreleased: Scenario,
+        dry_run: bool,
+    ) -> None:
+        scenario = scenario_changelog_with_unreleased
+        content_before = _read_changelog(scenario)
+
+        response = await _make_generator(scenario.repo).generate(
+            ChangelogRequest(from_version=scenario.from_version, dry_run=dry_run),
+        )
+
+        assert response.entries
+        full = "\n".join(response.entries)
+        assert "[0.3.0]" in full
+
+        content_after = _read_changelog(scenario)
+        if dry_run:
+            assert content_after == content_before, (
+                "dry_run=True must not mutate CHANGELOG.md"
+            )
+            assert "## [Unreleased]" in content_after
+        else:
+            assert content_after != content_before, (
+                "dry_run=False must mutate CHANGELOG.md"
+            )
+            assert "## [Unreleased]" not in content_after
+            assert "## [0.3.0]" in content_after
