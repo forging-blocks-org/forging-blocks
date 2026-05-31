@@ -11,6 +11,7 @@ class ChangelogRequest:
     """Request DTO for changelog generation."""
 
     from_version: str  # The starting version
+    dry_run: bool = False  # Whether to skip file modifications
 
 
 @dataclass(frozen=True)
