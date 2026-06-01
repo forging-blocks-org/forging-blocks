@@ -104,6 +104,7 @@ class TestMainE2E:
         self,
         service: PrepareReleaseService,
         git_repo_with_poetry: GitTestRepository,
+        version_control: GitVersionControl,
     ) -> None:
         repo = git_repo_with_poetry
         repo.write_file("README.md", "# Test")
@@ -117,7 +118,7 @@ class TestMainE2E:
         changelog_path = repo.path / "CHANGELOG.md"
         assert changelog_path.exists()
 
-        assert service._version_control.branch_exists(
+        assert version_control.branch_exists(
             ReleaseBranchName("release/v0.1.0")
         )
 
