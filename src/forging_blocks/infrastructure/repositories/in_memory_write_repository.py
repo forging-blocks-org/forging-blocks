@@ -6,7 +6,7 @@ dictionary for command-side operations in CQRS architectures.
 
 from __future__ import annotations
 
-from typing import Any, Generic, MutableMapping, TypeVar
+from typing import Any, Generic, MutableMapping, TypeVar, cast
 
 from forging_blocks.application.ports.outbound.repository import WriteOnlyRepository
 from forging_blocks.foundation.errors.core import ErrorMessage
@@ -56,8 +56,11 @@ class InMemoryWriteRepository(
             id: Unique identifier of the aggregate.
 
         Raises:
+            RepositoryError: If the ID is None, an empty string,
+                or the boolean False.
             RepositoryNotFoundError: If no aggregate exists with the given ID.
         """
+        self._validate_id(id)
         if id not in self._storage:
             raise RepositoryNotFoundError.for_id(id)
         del self._storage[id]
@@ -69,9 +72,32 @@ class InMemoryWriteRepository(
             aggregate: The aggregate to save.
 
         Raises:
-            RepositoryError: If the aggregate has no ID.
+            RepositoryError: If the aggregate has no valid identifier
+                (None, empty string, or boolean False).
         """
-        aggregate_id = aggregate.id
-        if aggregate_id is None:
-            raise RepositoryError(ErrorMessage("Cannot save aggregate without an identifier."))
+        aggregate_id: TWriteId = cast(TWriteId, aggregate.id)
+        self._validate_id(aggregate_id)
         self._storage[aggregate_id] = aggregate
+
+    @staticmethod
+    def _validate_id(identifier: object) -> None:
+        """Validate that an aggregate identifier is not None, empty, or False.
+
+        Mirrors the validation performed by
+        ``AggregateRoot._validate_identity`` so that the repository
+        independently guards against invalid identifiers.
+
+        Raises:
+            RepositoryError: If *identifier* is ``None``, an empty string
+                (``""``), or the boolean ``False``.
+        """
+        is_none = identifier is None
+        is_empty_string = identifier == ""
+        is_false = identifier is False
+
+        if is_none or is_empty_string or is_false:
+            raise RepositoryError(
+                ErrorMessage(
+                    "Invalid aggregate identifier (must not be None, empty string, or False)."
+                )
+            )

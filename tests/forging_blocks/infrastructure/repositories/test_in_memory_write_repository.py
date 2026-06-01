@@ -1,4 +1,3 @@
-# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 from typing import Callable
 
 import pytest
@@ -119,3 +118,63 @@ class TestInMemoryWriteRepository:
 
         expected_name = "Alice"
         assert repo._storage[alice_id].name == expected_name
+
+    async def test_save_when_aggregate_id_is_empty_string_then_raises_repository_error(
+        self,
+    ) -> None:
+        """Empty-string IDs must be rejected — matching AggregateRoot validation."""
+        repo = InMemoryWriteRepository[FakeAggregate, str]()
+        aggregate = FakeAggregate("", "EmptyId")
+
+        with pytest.raises(RepositoryError):
+            await repo.save(aggregate)
+
+    async def test_save_when_aggregate_id_is_false_then_raises_repository_error(
+        self,
+    ) -> None:
+        """Boolean-False IDs must be rejected — matching AggregateRoot validation."""
+        repo: InMemoryWriteRepository[FakeAggregate, str] = InMemoryWriteRepository()
+        aggregate = FakeAggregate(False, "FalseId")  # type: ignore[arg-type]
+
+        with pytest.raises(RepositoryError):
+            await repo.save(aggregate)
+
+    async def test_delete_by_id_when_id_is_none_then_raises_repository_error(
+        self,
+    ) -> None:
+        """delete_by_id must reject None before probing storage.
+
+        A None ID should never reach the storage lookup.  We populate
+        storage with a None key so that a *missing* validation would
+        succeed silently — proving the bug when the test fails.
+        """
+        repo: InMemoryWriteRepository[FakeAggregate, str] = InMemoryWriteRepository()
+        repo._storage[None] = FakeAggregate("dummy", "dummy")  # type: ignore[index]
+
+        with pytest.raises(RepositoryError):
+            await repo.delete_by_id(None)  # type: ignore[arg-type]
+
+    async def test_delete_by_id_when_id_is_empty_string_then_raises_repository_error(
+        self,
+    ) -> None:
+        """delete_by_id must reject empty-string IDs before probing storage."""
+        repo = InMemoryWriteRepository[FakeAggregate, str]()
+        repo._storage[""] = FakeAggregate("dummy", "dummy")
+
+        with pytest.raises(RepositoryError):
+            await repo.delete_by_id("")
+
+    async def test_delete_by_id_when_id_is_false_then_raises_repository_error(
+        self,
+    ) -> None:
+        """delete_by_id must reject boolean-False IDs before probing storage.
+
+        False is especially dangerous because ``False == 0`` and
+        ``hash(False) == hash(0)``, causing dict-key collisions with
+        legitimate integer IDs.
+        """
+        repo: InMemoryWriteRepository[FakeAggregate, str] = InMemoryWriteRepository()
+        repo._storage[False] = FakeAggregate("dummy", "dummy")  # type: ignore[index]
+
+        with pytest.raises(RepositoryError):
+            await repo.delete_by_id(False)  # type: ignore[arg-type]

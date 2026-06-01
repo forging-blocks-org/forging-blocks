@@ -28,7 +28,7 @@ class OrderAggregate(AggregateRoot[int]):
     def __init__(self, aggregate_id: int, version: AggregateVersion | None = None) -> None:
         super().__init__(aggregate_id, version)
 
-    def _handle(self, event: Event) -> None:
+    def _handle(self, _: Event) -> None:
         pass
 
 
@@ -36,7 +36,7 @@ class StringAggregate(AggregateRoot[str]):
     def __init__(self, aggregate_id: str) -> None:
         super().__init__(aggregate_id)
 
-    def _handle(self, event: Event) -> None:
+    def _handle(self, _: Event) -> None:
         pass
 
 
@@ -44,7 +44,7 @@ class BoolAggregate(AggregateRoot[bool]):
     def __init__(self, aggregate_id: bool) -> None:
         super().__init__(aggregate_id)
 
-    def _handle(self, event: Event) -> None:
+    def _handle(self, _: Event) -> None:
         pass
 
 
@@ -217,6 +217,6 @@ class TestReplay:
 
     def test_overriding_replay_raises_type_error(self) -> None:
         with pytest.raises(TypeError, match="runtime-final"):
-            class BadAggregate(OrderAggregate):  # type: ignore[misc]
-                def replay(self, event: Event) -> None:
+            class _(OrderAggregate):
+                def replay(self, _: Event) -> None:
                     pass
