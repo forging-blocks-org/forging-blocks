@@ -10,8 +10,8 @@ from forging_blocks.foundation.ports import OutboundPort
 class ChangelogRequest:
     """Request DTO for changelog generation."""
 
-    from_version: str  # The starting version
-    dry_run: bool = False  # Whether to skip file modifications
+    from_version: str
+    dry_run: bool = False
 
 
 @dataclass(frozen=True)
