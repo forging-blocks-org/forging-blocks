@@ -34,6 +34,8 @@ class PoetryVersioningService(VersioningService):
         *,
         dry_run: bool = False,
     ) -> None:
+        if dry_run:
+            return
         self._runner.run(["poetry", "version", version.value])
 
     def rollback_version(
