@@ -6,7 +6,7 @@ dictionary for command-side operations in CQRS architectures.
 
 from __future__ import annotations
 
-from typing import Any, Generic, MutableMapping, TypeVar
+from typing import Any, Generic, MutableMapping, TypeVar, cast
 
 from forging_blocks.application.ports.outbound.repository import WriteOnlyRepository
 from forging_blocks.foundation.errors.core import ErrorMessage
@@ -75,7 +75,7 @@ class InMemoryWriteRepository(
             RepositoryError: If the aggregate has no valid identifier
                 (None, empty string, or boolean False).
         """
-        aggregate_id = aggregate.id
+        aggregate_id: TWriteId = cast(TWriteId, aggregate.id)
         self._validate_id(aggregate_id)
         self._storage[aggregate_id] = aggregate
 
