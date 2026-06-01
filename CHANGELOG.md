@@ -10,22 +10,22 @@
 - **create_github_release**: Redirect log outputs
 - **scripts**: Add dry_run flag to ChangelogRequest
 - **release/infrastructure**: Add dry_run flag
-- GitCliffChangelogGenerator truncate duplicates
+- GitCliffChangelogGenerator truncates duplicates
 
 ### Testing
 
 - **conftest**: Extract fixtures
 - **scripts**: Improving test fixture path for git repos
-- **scripts/release**: Propertly integration testing PoetryVersioningService
+- **scripts/release**: Properly integration testing PoetryVersioningService
 - **conftest**: Git fixture creates repo inside tmp_path
-- **presentation**: E2e test relying in GitVersionControl fixture
+- **presentation**: E2e test relying on GitVersionControl fixture
 - Inject TempPathFactory
 
 ### Miscellaneous Tasks
 
 - **scripts/pipeline**: Impl create_github_release
 - **workflows**: New job to create github release
-- Improve release automationg scripts
+- Improve release automation scripts
 - **release/application**: Usecase output includes change_entries
 - **release/infrastructure**: GitCliffChangelogGenerator adjusts
 - **release/presentation**: Logging Changelog preview
