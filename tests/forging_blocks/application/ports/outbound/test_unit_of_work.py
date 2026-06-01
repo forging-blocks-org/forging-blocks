@@ -1,5 +1,4 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-from typing import Any
 from unittest.mock import AsyncMock
 
 import pytest
@@ -9,9 +8,6 @@ from forging_blocks.application import UnitOfWork
 
 
 class FakeUnitOfWork(UnitOfWork):
-    @property
-    def session(self) -> Any | None:
-        return None
 
     async def commit(self):
         print("committed")
