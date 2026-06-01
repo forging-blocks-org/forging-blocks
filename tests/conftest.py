@@ -54,8 +54,12 @@ build-backend = "poetry.core.masonry.api"
 def git_repo_with_remote(
     git_repo: GitTestRepository, tmp_path: Path
 ) -> GitTestRepository:
-    """Adds a bare git remote (origin) to the repo and pushes main."""
-    remote_path = tmp_path.parent / f"{tmp_path.name}-remote"
+    """Adds a bare git remote (origin) to the repo and pushes main.
+
+    The bare remote is created *inside* ``tmp_path`` so pytest cleans it up
+    automatically when the test finishes.
+    """
+    remote_path = tmp_path / "remote"
     subprocess.run(["git", "init", "--bare", str(remote_path)], check=True)
     subprocess.run(
         ["git", "remote", "add", "origin", str(remote_path)],
