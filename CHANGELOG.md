@@ -1,3 +1,35 @@
+## [0.3.23] - 2026-06-01
+
+### Bug Fixes
+
+- **scripts/release**: Preventing duplicate section in changelog
+
+### Refactor
+
+- **create_github_release**: Delegate logic to functions
+- **create_github_release**: Redirect log outputs
+- **scripts**: Add dry_run flag to ChangelogRequest
+- **release/infrastructure**: Add dry_run flag
+- GitCliffChangelogGenerator truncates duplicates
+
+### Testing
+
+- **conftest**: Extract fixtures
+- **scripts**: Improving test fixture path for git repos
+- **scripts/release**: Properly integration testing PoetryVersioningService
+- **conftest**: Git fixture creates repo inside tmp_path
+- **presentation**: E2e test relying on GitVersionControl fixture
+- Inject TempPathFactory
+
+### Miscellaneous Tasks
+
+- **scripts/pipeline**: Impl create_github_release
+- **workflows**: New job to create github release
+- Improve release automation scripts
+- **release/application**: Usecase output includes change_entries
+- **release/infrastructure**: GitCliffChangelogGenerator adjusts
+- **release/presentation**: Logging Changelog preview
+
 ## [0.3.22] - 2026-03-24
 
 ### Bug Fixes
