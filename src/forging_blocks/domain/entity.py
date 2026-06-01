@@ -67,7 +67,7 @@ class Entity(Generic[TId], ABC):
         """
         if self._id is None:
             raise DraftEntityIsNotHashableError.from_class_name(self.__class__.__name__)
-        return hash(self._id)
+        return hash((self.__class__, self._id))
 
     def __str__(self) -> str:
         """Return a user-friendly string representation of the entity."""
