@@ -3,10 +3,10 @@ import os
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-
 from scripts.release.application.ports.inbound.prepare_release_use_case import (
     PrepareReleaseOutput,
 )
+
 from scripts.release.presentation import __main__
 from tests.fixtures.git_test_repository import GitTestRepository
 
