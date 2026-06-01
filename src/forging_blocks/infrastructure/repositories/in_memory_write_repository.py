@@ -97,5 +97,5 @@ class InMemoryWriteRepository(
 
         if is_none or is_empty_string or is_false:
             raise RepositoryError(
-                ErrorMessage("Cannot save aggregate without a valid identifier.")
+                ErrorMessage("Invalid aggregate identifier (must not be None, empty string, or False).")
             )
