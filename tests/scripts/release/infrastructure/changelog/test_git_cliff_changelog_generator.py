@@ -83,7 +83,7 @@ class TestGitCliffChangelogGeneratorUnit:
 
         git_cliff_call = runner_mock.run.call_args_list[1]
         cmd = git_cliff_call[0][0]
-        assert "--" not in cmd
+        assert "--unreleased" in cmd
         assert "v1.1.0" in cmd
 
     async def test_generate_produces_full_history_when_no_tags_exist(
@@ -102,7 +102,7 @@ class TestGitCliffChangelogGeneratorUnit:
 
         git_cliff_call = runner_mock.run.call_args_list[1]
         cmd = git_cliff_call[0][0]
-        assert "--" not in cmd
+        assert "--unreleased" in cmd
 
     async def test_generate_returns_parsed_entries(
         self,
@@ -447,7 +447,7 @@ class TestGitCliffChangelogGeneratorIntegration:
         assert "unreleased" not in full.lower()
         assert scenario.changelog_path.exists()
 
-    async def test_future_version_returns_full_history(
+    async def test_future_version_returns_unreleased_commits(
         self, scenario_repo_with_multiple_tags: Scenario
     ) -> None:
         scenario = scenario_repo_with_multiple_tags
@@ -456,12 +456,11 @@ class TestGitCliffChangelogGeneratorIntegration:
         )
 
         full = "\n".join(response.entries)
-        assert "Initial scaffold" in full
-        assert "Add user registration" in full
-        assert "Prevent duplicate emails" in full
         assert "Add password reset" in full
         assert "Handle expired tokens" in full
         assert "[0.3.0]" in full
+        assert "Initial scaffold" not in full
+        assert "Add user registration" not in full
         assert scenario.changelog_path.exists()
 
     async def test_replaces_unreleased_block_with_versioned_section(

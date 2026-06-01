@@ -87,6 +87,8 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
         if from_tag:
             cmd += ["--", f"{from_tag}.."]
+        else:
+            cmd += ["--unreleased"]
 
         try:
             output = self._runner.run(cmd, check=True)
