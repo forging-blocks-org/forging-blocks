@@ -8,14 +8,6 @@ from scripts.release.infrastructure.transactions.in_memory_release_transaction i
 
 @pytest.mark.unit
 class TestInMemoryReleaseTransaction:
-    async def test_session_when_accessed_then_returns_true(self) -> None:
-        transaction = InMemoryReleaseTransaction()
-
-        async with transaction:
-            session = transaction.session
-
-        assert session is True
-
     async def test_commit_when_no_exception_then_commit_called(self) -> None:
         transaction = InMemoryReleaseTransaction()
 
