@@ -4,8 +4,21 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
+from scripts.release.application.ports.inbound.prepare_release_use_case import (
+    PrepareReleaseOutput,
+)
 from scripts.release.presentation import __main__
 from tests.fixtures.git_test_repository import GitTestRepository
+
+
+def _make_mock_output(*, version: str = "1.0.0") -> Mock:
+    """Create a Mock that quacks like PrepareReleaseOutput with changelog_entries."""
+    output = Mock(spec=PrepareReleaseOutput)
+    output.version = version
+    output.branch = f"release/v{version}"
+    output.tag = f"v{version}"
+    output.changelog_entries = []
+    return output
 
 
 @pytest.mark.e2e
@@ -25,7 +38,7 @@ class TestMain:
 
         mock_prepare_service = AsyncMock()
         mock_container.get_prepare_release_use_case.return_value = mock_prepare_service
-        mock_prepare_service.execute.return_value = Mock()  # Success result
+        mock_prepare_service.execute.return_value = _make_mock_output()
 
         git_repo.write_file("example_file.txt", "Initial file content")
         git_repo.commit("Add example file")
@@ -59,7 +72,7 @@ class TestMain:
 
         mock_prepare_service = AsyncMock()
         mock_container.get_prepare_release_use_case.return_value = mock_prepare_service
-        mock_prepare_service.execute.return_value = Mock()  # Success result
+        mock_prepare_service.execute.return_value = _make_mock_output()
 
         git_repo.write_file("README.md", "Initial readme")
         git_repo.commit("Add README.md")
@@ -117,7 +130,7 @@ class TestMain:
 
         mock_prepare_service = AsyncMock()
         mock_container.get_prepare_release_use_case.return_value = mock_prepare_service
-        mock_prepare_service.execute.return_value = Mock()  # Success result
+        mock_prepare_service.execute.return_value = _make_mock_output()
 
         git_repo.write_file("readme.md", "Initial setup")
         git_repo.commit("Setup for test")

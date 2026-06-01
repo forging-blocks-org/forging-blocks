@@ -39,6 +39,12 @@ class ReleaseCliPresenter:
 
             if dry_run:
                 self._logger.info("Dry run mode - no changes were made")
+                if service_output.changelog_entries:
+                    self._logger.info("\nChangelog preview:")
+                    self._logger.info("-" * 60)
+                    for entry in service_output.changelog_entries:
+                        self._logger.info(entry)
+                    self._logger.info("-" * 60)
             else:
                 self._logger.info("Release executed successfully")
 

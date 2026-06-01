@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from forging_blocks.application.ports import UseCase
 
@@ -37,6 +37,7 @@ class PrepareReleaseOutput:
     version: str
     branch: str
     tag: str
+    changelog_entries: list[str] = field(default_factory=list)
 
 
 class PrepareReleaseUseCase(UseCase[PrepareReleaseInput, PrepareReleaseOutput]):

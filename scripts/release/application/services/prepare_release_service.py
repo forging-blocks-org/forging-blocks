@@ -68,18 +68,21 @@ class PrepareReleaseService(PrepareReleaseUseCase):
             dry_run=request.dry_run,
         )
 
-        await self._prepare_release_transactionally(context)
+        changelog_entries = await self._prepare_release_transactionally(context)
 
         if not context.dry_run:
             await self._send_command(context)
 
-        return self._make_output(context)
+        return self._make_output(context, changelog_entries)
 
-    def _make_output(self, context: ReleaseContext) -> PrepareReleaseOutput:
+    def _make_output(
+        self, context: ReleaseContext, changelog_entries: list[str]
+    ) -> PrepareReleaseOutput:
         return PrepareReleaseOutput(
             version=context.version.value,
             branch=context.branch.value,
             tag=context.tag.value,
+            changelog_entries=changelog_entries,
         )
 
     async def _send_command(self, context: ReleaseContext) -> None:
@@ -90,10 +93,11 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         )
         await self._message_bus.send(command)
 
-    async def _prepare_release_transactionally(self, context: ReleaseContext) -> None:
+    async def _prepare_release_transactionally(
+        self, context: ReleaseContext
+    ) -> list[str]:
         if context.dry_run:
-            await self._prepare_release_dry_run(context)
-            return
+            return await self._prepare_release_dry_run(context)
 
         async with self._transaction:
             self._transaction.register_step(
@@ -105,17 +109,22 @@ class PrepareReleaseService(PrepareReleaseUseCase):
 
             self._branch_handling(context)
             self._apply_version(context, dry_run=False)
-            await self._generate_changelog(context)
+            changelog_entries = await self._generate_changelog(context)
 
             self._version_control.commit_release_artifacts()
             self._push_branch(context)
 
-    async def _prepare_release_dry_run(self, context: ReleaseContext) -> None:
+        return changelog_entries
+
+    async def _prepare_release_dry_run(
+        self, context: ReleaseContext
+    ) -> list[str]:
         self._branch_handling(context, dry_run=True)
         self._versioning_service.apply_version(context.version, dry_run=True)
-        await self._generate_changelog(context)
+        changelog_entries = await self._generate_changelog(context)
         self._version_control.commit_release_artifacts(dry_run=True)
         self._version_control.push(context.branch, dry_run=True)
+        return changelog_entries
 
     def _branch_handling(self, context: ReleaseContext, *, dry_run: bool = False) -> None:
         if context.branch_exists:
@@ -138,13 +147,14 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         )
         self._versioning_service.apply_version(context.version, dry_run=dry_run)
 
-    async def _generate_changelog(self, context: ReleaseContext) -> None:
-        await self._changelog_generator.generate(
+    async def _generate_changelog(self, context: ReleaseContext) -> list[str]:
+        response = await self._changelog_generator.generate(
             ChangelogRequest(
                 from_version=context.version.value,
                 dry_run=context.dry_run,
             )
         )
+        return response.entries
 
     def _push_branch(self, context: ReleaseContext) -> None:
         self._transaction.register_step(
