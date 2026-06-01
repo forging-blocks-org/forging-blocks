@@ -36,4 +36,4 @@ body = """
 """
 
 sort_commits = "oldest"
-limit_releases = 0
+limit_releases = 1
