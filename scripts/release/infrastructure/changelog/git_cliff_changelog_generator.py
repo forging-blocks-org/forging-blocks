@@ -168,7 +168,17 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
                 break
 
         version_header = lines[header_idx]
-        body = "\n".join(lines[header_idx + 1 :]).strip()
+
+        # Truncate at any subsequent version header to avoid merging
+        # sections when git-cliff produces duplicate `## [...]` blocks.
+        body_lines = lines[header_idx + 1 :]
+        truncate_at = len(body_lines)
+        for i, line in enumerate(body_lines):
+            if line.startswith("## "):
+                truncate_at = i
+                break
+        body = "\n".join(body_lines[:truncate_at]).strip()
+
         groups = self._parse_groups(body) if body else []
         return version_header, groups
 
