@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import os
-import subprocess
 from unittest.mock import MagicMock
 
 import pytest
@@ -144,6 +143,7 @@ class TestMainE2E:
         self,
         service: PrepareReleaseService,
         git_repo_with_poetry: GitTestRepository,
+        version_control: GitVersionControl,
     ) -> None:
         repo = git_repo_with_poetry
         repo.write_file("README.md", "# Test")
@@ -151,41 +151,25 @@ class TestMainE2E:
 
         await service.execute(PrepareReleaseInput(level="minor", dry_run=False))
 
-        branches = subprocess.run(
-            ["git", "branch", "-r"],
-            cwd=repo.path,
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout
-
-        assert "origin/release/v0.1.0" in branches
+        assert version_control.remote_branch_exists(
+            ReleaseBranchName("release/v0.1.0")
+        )
 
     async def test_execute_when_dry_run_true_then_does_not_push(
         self,
         service: PrepareReleaseService,
         git_repo_with_poetry: GitTestRepository,
+        version_control: GitVersionControl,
     ) -> None:
         repo = git_repo_with_poetry
         repo.write_file("README.md", "# Test")
         repo.commit("feat: initial feature")
 
-        branches_before = subprocess.run(
-            ["git", "branch", "-a"],
-            cwd=repo.path,
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout
-
         await service.execute(PrepareReleaseInput(level="minor", dry_run=True))
 
-        branches_after = subprocess.run(
-            ["git", "branch", "-a"],
-            cwd=repo.path,
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout
-
-        assert branches_after == branches_before
+        assert not version_control.branch_exists(
+            ReleaseBranchName("release/v0.1.0")
+        )
+        assert not version_control.remote_branch_exists(
+            ReleaseBranchName("release/v0.1.0")
+        )
