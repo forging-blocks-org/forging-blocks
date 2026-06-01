@@ -24,6 +24,13 @@ repos:
 
   - repo: local
     hooks:
+      - id: ci-simulate
+        name: Run CI simulate
+        entry: poetry run poe ci:simulate
+        language: system
+        pass_filenames: false
+        always_run: true
+
       - id: prevent-mkdocs-yml-change
         name: Prevent committing modified mkdocs.yml
         entry: bash -c 'git diff --cached --name-only | grep -q "^mkdocs.yml$" && { echo "❌ mkdocs.yml changes are not allowed to be committed!"; exit 1; } || exit 0'
