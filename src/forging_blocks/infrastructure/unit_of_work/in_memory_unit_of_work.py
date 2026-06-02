@@ -65,41 +65,48 @@ class InMemoryUnitOfWork(UnitOfWork):
     async def commit(self) -> None:
         """Commit all changes and publish collected domain events.
 
-        Iterates through registered modified aggregates, snapshots their
-        uncommitted domain events, publishes them through the configured
-        EventPublisher, and only then clears the events from the aggregates.
-
         Raises:
             UnitOfWorkError: If commit fails.
         """
         try:
-            aggregates_with_events: list[tuple[AggregateRoot[Any], list[Any]]] = [
-                (aggregate, list(aggregate.uncommitted_changes))
-                for aggregate in self._modified_aggregates.values()
-            ]
-
-            if self._event_publisher is not None:
-                for _, events in aggregates_with_events:
-                    for event in events:
-                        await self._event_publisher.publish(event)
-
-            for aggregate, _ in aggregates_with_events:
-                aggregate.collect_events()
+            await self._publish_events()
+            self._clear_events()
+            self._mark_committed()
         except Exception as exc:
             raise UnitOfWorkError(ErrorMessage(f"Failed to commit transaction: {exc}")) from exc
 
+    async def rollback(self) -> None:
+        """Roll back the transaction and discard tracked aggregates."""
+        self._discard_all_events()
+        self._mark_rolled_back()
+
+    async def _publish_events(self) -> None:
+        """Publish all uncommitted events from modified aggregates."""
+        if self._event_publisher is None:
+            return
+
+        for aggregate in self._modified_aggregates.values():
+            for event in aggregate.uncommitted_changes:
+                await self._event_publisher.publish(event)
+
+    def _clear_events(self) -> None:
+        """Clear events from all modified aggregates."""
+        for aggregate in self._modified_aggregates.values():
+            aggregate.collect_events()
+
+    def _discard_all_events(self) -> None:
+        """Discard uncommitted events from all modified aggregates."""
+        for aggregate in self._modified_aggregates.values():
+            aggregate.discard_events()
+
+    def _mark_committed(self) -> None:
+        """Mark transaction as committed and reset state."""
         self._committed = True
         self._rolled_back = False
         self._modified_aggregates.clear()
 
-    async def rollback(self) -> None:
-        """Roll back the transaction and discard tracked aggregates.
-
-        Discards uncommitted events from all tracked aggregates and
-        clears the modified aggregate registry.
-        """
-        for aggregate in self._modified_aggregates.values():
-            aggregate.discard_events()
-        self._modified_aggregates.clear()
+    def _mark_rolled_back(self) -> None:
+        """Mark transaction as rolled back and reset state."""
         self._rolled_back = True
         self._committed = False
+        self._modified_aggregates.clear()
