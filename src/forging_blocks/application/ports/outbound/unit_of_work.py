@@ -18,7 +18,6 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from types import TracebackType
-from typing import Any
 
 
 class UnitOfWork(ABC):
@@ -56,19 +55,6 @@ class UnitOfWork(ABC):
             await self.commit()
         else:
             await self.rollback()
-
-    @property
-    @abstractmethod
-    def session(self) -> Any | None:
-        """Return the underlying session or transactional context.
-
-        Returns:
-            A context object representing the transaction, or None.
-
-        Notes:
-            This is infrastructure-defined (DB session, connection, etc.).
-        """
-        ...
 
     @abstractmethod
     async def commit(self) -> None:

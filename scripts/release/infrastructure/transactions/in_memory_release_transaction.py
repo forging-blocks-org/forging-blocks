@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Callable
+from typing import Callable
 
 from scripts.release.application.ports.outbound import ReleaseTransaction
 from scripts.release.application.workflow import ReleaseStep
@@ -9,10 +9,6 @@ class InMemoryReleaseTransaction(ReleaseTransaction):
     def __init__(self) -> None:
         self._undo_stack: list[Callable[[], None]] = []
         self._logger = logging.getLogger(__name__)
-
-    @property
-    def session(self) -> Any | None:
-        return True
 
     def register_step(self, step: ReleaseStep) -> None:
         self._undo_stack.append(step.undo)

@@ -54,11 +54,6 @@ class InMemoryUnitOfWork(UnitOfWork):
         """Return True if the transaction has been rolled back."""
         return self._rolled_back
 
-    @property
-    def session(self) -> Any | None:
-        """Return the transaction state dict, or None if not active."""
-        return None
-
     def register_modified(self, aggregate: AggregateRoot[Any]) -> None:
         """Register an aggregate as modified within the current transaction.
 

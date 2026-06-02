@@ -124,11 +124,6 @@ class TestInMemoryUnitOfWork:
         assert len(uow._modified_aggregates) == 1
         assert uow._modified_aggregates[aggregate.id] is aggregate
 
-    async def test_session_property_when_called_then_returns_none(self) -> None:
-        uow = InMemoryUnitOfWork()
-
-        assert uow.session is None
-
     async def test_commit_after_rollback_resets_rolled_back(self, aggregate: FakeAggregate) -> None:
         uow = InMemoryUnitOfWork()
         uow.register_modified(aggregate)
