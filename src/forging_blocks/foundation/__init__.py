@@ -11,6 +11,7 @@ from .errors import (
     FieldErrors,
     FieldReference,
     NoneNotAllowedError,
+    ResultAccessError,
     RuleViolationError,
     ValidationError,
     ValidationFieldErrors,
@@ -28,7 +29,7 @@ from .ports import (
     OutputType,
     Port,
 )
-from .result import Err, Ok, Result, ResultAccessError
+from .result import Err, Ok, Result
 from .result_mapper import ResultMapper
 
 __all__ = [
