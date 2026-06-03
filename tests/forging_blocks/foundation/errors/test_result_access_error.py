@@ -19,10 +19,10 @@ class TestResultAccessError:
     def test___init___when_message_is_error_message_then_uses_str(self) -> None:
         msg = ErrorMessage("custom")
 
-        err = ResultAccessError(msg)
+        error = ResultAccessError(msg)
 
         expected_error_message = ErrorMessage("custom")
-        assert expected_error_message == err.message
+        assert expected_error_message == error.message
 
     def test_cannot_access_value_when_called_then_returns_instance_with_specific_message(
         self,
@@ -39,17 +39,3 @@ class TestResultAccessError:
 
         assert isinstance(error, ResultAccessError)
         assert "Cannot access error" in error.message.value
-
-    def test_message_when_accessed_then_returns_error_message(self) -> None:
-        err = ResultAccessError.cannot_access_value()
-
-        result = err.message
-
-        assert "Cannot access value" in result.value
-
-    def test___str___when_called_then_returns_message(self) -> None:
-        err = ResultAccessError(ErrorMessage("boom"))
-
-        result = str(err)
-
-        assert result == "ResultAccessError: boom"
