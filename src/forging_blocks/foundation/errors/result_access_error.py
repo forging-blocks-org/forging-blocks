@@ -15,7 +15,7 @@ class ResultAccessError(Error):
 
     @property
     def message(self) -> ErrorMessage:
-        """Return the stored message as a string."""
+        """Return the stored error message."""
         return self._message
 
     @classmethod
