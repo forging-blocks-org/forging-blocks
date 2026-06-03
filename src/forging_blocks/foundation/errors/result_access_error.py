@@ -9,14 +9,6 @@ class ResultAccessError(Error):
         message = message or ErrorMessage("Invalid access on Result type.")
         super().__init__(message)
 
-    def __str__(self) -> str:
-        """Readable string representation using parent formatting."""
-        return super().__str__()
-
-    @property
-    def message(self) -> ErrorMessage:
-        """Return the stored error message."""
-        return self._message
 
     @classmethod
     def cannot_access_value(cls) -> "ResultAccessError":
