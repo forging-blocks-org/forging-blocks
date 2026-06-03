@@ -19,17 +19,16 @@ class ResultAccessError(Error):
     def __init__(self, message: ErrorMessage | None = None) -> None:
         if message is None:
             message = ErrorMessage("Invalid access on Result type.")
-        self._error_message = message
         super().__init__(message)
 
     def __str__(self) -> str:
-        """Readable string representation."""
-        return self._error_message.value
+        """Readable string representation using parent formatting."""
+        return super().__str__()
 
     @property
     def message(self) -> ErrorMessage:
         """Return the stored message as a string."""
-        return self._error_message
+        return self._message
 
     @classmethod
     def cannot_access_value(cls) -> ResultAccessError:

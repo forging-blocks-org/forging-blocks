@@ -40,7 +40,7 @@ class TestResultAccessError:
 
         # Assert
         assert isinstance(error, ResultAccessError)
-        assert "Cannot access value" in error._error_message.value
+        assert "Cannot access value" in error.message.value
 
     def test_cannot_access_error_when_called_then_returns_instance_with_specific_message(
         self,
@@ -63,12 +63,9 @@ class TestResultAccessError:
         assert "Cannot access value" in result.value
 
     def test___str___when_called_then_returns_message(self) -> None:
-        # Arrange
         err = ResultAccessError(ErrorMessage("boom"))
-        # Act
         result = str(err)
-        # Assert
-        assert result == "boom"
+        assert result == "ResultAccessError: boom"
 
 
 @pytest.mark.unit
