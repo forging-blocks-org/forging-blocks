@@ -12,9 +12,7 @@
 - **application**: Remove session property from UnitOfWork
 - **infrastructure**: Remove session property
 - **foundation**: Extract ResultAccessError to its own file
-- **foundation**: Extract ResultAccessError
 - **foundation**: Re-export module initializer
-- **foundation**: Extract ResultAccessError to its own file
 - **foundation**: Remove methods that were not aggregating behavior
 
 ### Documentation
