@@ -1,3 +1,33 @@
+## [0.4.0] - 2026-06-04
+
+### Bug Fixes
+
+- **domain/entity**: Hash relies on the class and id
+- **domain**: Fix bug related to aggregate_root identity falsy
+- **infrastructure**: Cast aggregate_id to TWriteId
+- **foundation**: Fix issues reported in pr
+
+### Refactor
+
+- **application**: Remove session property from UnitOfWork
+- **infrastructure**: Remove session property
+- **foundation**: Extract ResultAccessError to its own file
+- **foundation**: Extract ResultAccessError
+- **foundation**: Re-export module initializer
+- **foundation**: Extract ResultAccessError to its own file
+- **foundation**: Remove methods that were not aggregating behavior
+
+### Documentation
+
+- **foundation**: Add module-level docstring
+
+### Miscellaneous Tasks
+
+- Pre-commit always simulate ci before allow commit
+- **scripts/release**: Remove session property
+- **foundation**: Remove pyright ignore clause
+- **py.typed**: Add type marker file
+
 ## [0.3.23] - 2026-06-01
 
 ### Bug Fixes
