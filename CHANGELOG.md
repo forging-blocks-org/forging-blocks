@@ -21,7 +21,7 @@
 
 ### Miscellaneous Tasks
 
-- Pre-commit always simulate ci before allow commit
+- Pre-commit: always simulate CI before allowing commits
 - **scripts/release**: Remove session property
 - **foundation**: Remove pyright ignore clause
 - **py.typed**: Add type marker file
