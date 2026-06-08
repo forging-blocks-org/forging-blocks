@@ -11,7 +11,10 @@ class AggregateVersion(ValueObject[int]):
     Used for optimistic concurrency control to detect conflicting updates.
     """
 
+    __slots__ = ("_value",)
+
     def __init__(self, value: int) -> None:
+        super().__init__()
         if not isinstance(value, int):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected int, got {type(value).__name__}")
         if value < 0:
