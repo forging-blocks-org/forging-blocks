@@ -8,6 +8,7 @@ side of the Either monad (the ``Right`` in Haskell / Scala).
 from collections.abc import Callable
 
 from forging_blocks.foundation.errors import ResultAccessError
+
 from .result import Result
 
 
@@ -60,7 +61,11 @@ class Ok[ValueType, ErrorType]:
         self,
         fn: Callable[[ValueType], MappedValueType],
     ) -> Result[MappedValueType, ErrorType]:
-        """Apply ``fn`` to the wrapped value and wrap the result in a new Ok."""
+        """Apply ``fn`` to the wrapped value and wrap the result in a new Ok.
+
+        This is the Functor map — ``fmap`` in Haskell, ``.map`` on Scala's
+        ``Option`` / ``Either``.
+        """
         return Ok(fn(self._value))
 
     def map_error[MappedErrorType](
@@ -82,13 +87,26 @@ class Ok[ValueType, ErrorType]:
         return fn(self._value)
 
     def get_value_or(self, default: ValueType) -> ValueType:
-        """Return the wrapped value, ignoring ``default``."""
+        """Return the wrapped value, ignoring ``default``.
+
+        Args:
+            default: Ignored — this Result is a success.
+
+        Returns:
+            The unwrapped success value.
+        """
         return self._value
 
     def get_value_or_else(
         self,
         fn: Callable[[ErrorType], ValueType],
     ) -> ValueType:
-        """Return the wrapped value, ignoring ``fn``."""
-        return self._value
+        """Return the wrapped value, ignoring ``fn``.
 
+        Args:
+            fn: Ignored — this Result is a success.
+
+        Returns:
+            The unwrapped success value.
+        """
+        return self._value
