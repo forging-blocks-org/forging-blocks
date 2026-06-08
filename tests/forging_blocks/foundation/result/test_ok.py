@@ -2,7 +2,7 @@
 import pytest
 
 from forging_blocks.foundation.errors import ResultAccessError
-from forging_blocks.foundation.result import Err, Ok
+from forging_blocks.foundation.result import Err, Ok, Result
 
 
 @pytest.mark.unit
@@ -31,23 +31,23 @@ class TestOk:
         assert result == "Ok(123)"
 
     def test___eq___when_comparing_two_equal_ok_results_then_returns_true(self) -> None:
-        a = Ok(1)
-        b = Ok(1)
+        a: Ok[object, object] = Ok(1)
+        b: Ok[object, object] = Ok(1)
 
         result = a.__eq__(b)
 
         assert result is True
 
     def test___eq___when_comparing_different_ok_results_then_returns_false(self) -> None:
-        a = Ok(1)
-        b = Ok(2)
+        a: Ok[object, object] = Ok(1)
+        b: Ok[object, object] = Ok(2)
 
         result = a.__eq__(b)
 
         assert result is False
 
     def test___eq___when_comparing_with_different_type_then_returns_false(self) -> None:
-        ok = Ok(1)
+        ok: Ok[object, object] = Ok(1)
         other = object()
 
         result = ok.__eq__(other)
@@ -115,7 +115,7 @@ class TestOk:
     def test_flat_map_when_called_with_fn_returning_err_then_returns_that_err(
         self, ok_result: Ok[int, str]
     ) -> None:
-        result = ok_result.flat_map(lambda _: Err("failed"))
+        result: Result[str, str] = ok_result.flat_map(lambda _: Err("failed"))
 
         assert result == Err("failed")
 
