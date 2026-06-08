@@ -38,7 +38,6 @@ packages = [{ include = "forging_blocks", from = "src" }]
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.14.3"
-mypy = "^1.16.1"
 pytest = "^8.3.3"
 pytest-cov = "^5.0.0"
 pytest-asyncio = "^1.0.0"
@@ -118,8 +117,6 @@ omit = [
     "**/__init__.py",
     "*/foundation/debuggable.py",
     "*/foundation/mapper.py",
-    "*/foundation/result.py",
-    "*/foundation/result_mapper.py",
     "*/foundation/ports.py",
     "*/application/ports/outbound/notifier.py",
     "*/application/ports/outbound/repository.py",
@@ -141,14 +138,19 @@ exclude_lines = [
     "Protocol\\(",
 ]
 
-[tool.mypy]
-python_version = "3.14"
-disallow_untyped_defs = true
-warn_unused_ignores = true
-strict_equality = true
-show_error_codes = true
-mypy_path = "src"
-exclude = ["tests/*"]
+[tool.pyright.ini_options]
+pythonVersion = "3.14"
+typeCheckingMode = "strict"
+include = ["src"]
+exclude = ["**/__pycache__", ".venv", "build", "dist"]
+executionEnvironments = [
+  { root = "src" }
+]
+venvPath = "."
+venv = ".venv"
+reportMissingTypeStubs = "warning"
+reportUnknownMemberType = "none"
+reportUnnecessaryTypeIgnoreComment = "warning"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
