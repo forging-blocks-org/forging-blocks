@@ -77,6 +77,13 @@ Value Objects are well-suited for modeling concepts such as identifiers, measure
     Value Objects help prevent domain rules from being scattered across the codebase.
     By wrapping meaning in explicit types, constraints become visible, reusable, and testable.
 
+!!! note "Where the implementation lives"
+    The `ValueObject` base class is defined in the **Foundation** block, because
+    value-based equality and immutability are generic enough to be reused
+    outside the Domain block as well.
+    The Domain block simply re-exports the same class so that domain code can
+    import it from a natural location.
+
 ---
 
 ## Aggregate Roots
