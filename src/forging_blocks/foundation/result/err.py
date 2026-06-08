@@ -9,6 +9,7 @@ proceed.
 from collections.abc import Callable
 
 from forging_blocks.foundation.errors import ResultAccessError
+
 from .result import Result
 
 
@@ -61,7 +62,11 @@ class Err[ValueType, ErrorType]:
         self,
         fn: Callable[[ValueType], MappedValueType],
     ) -> Result[MappedValueType, ErrorType]:
-        """Pass through unchanged — there is no value to transform."""
+        """Pass through unchanged — there is no value to transform.
+
+        This is the Functor map on the error path — the error propagates
+        unchanged while ``fn`` is silently ignored.
+        """
         return Err(self._error)
 
     def map_error[MappedErrorType](
@@ -79,13 +84,27 @@ class Err[ValueType, ErrorType]:
         return Err(self._error)
 
     def get_value_or(self, default: ValueType) -> ValueType:
-        """Return ``default`` — there is no success value."""
+        """Return ``default`` — there is no success value.
+
+        Args:
+            default: The value to return when this result is an error.
+
+        Returns:
+            ``default``, since there is no success value to unwrap.
+        """
         return default
 
     def get_value_or_else(
         self,
         fn: Callable[[ErrorType], ValueType],
     ) -> ValueType:
-        """Call ``fn`` with the wrapped error to compute a fallback."""
-        return fn(self._error)
+        """Call ``fn`` with the wrapped error to compute a fallback.
 
+        Args:
+            fn: A callable that accepts the error and returns a recovery value
+                of the same type as the success case.
+
+        Returns:
+            The result of ``fn(error)``.
+        """
+        return fn(self._error)
