@@ -19,7 +19,6 @@ class ReleaseLevel(ValueObject[ReleaseLevelEnum]):
     def __init__(self, level: ReleaseLevelEnum) -> None:
         super().__init__()
         self._level = level
-        self._freeze()
 
     @classmethod
     def from_str(cls, value: str) -> ReleaseLevel:

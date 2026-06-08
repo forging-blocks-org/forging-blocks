@@ -18,7 +18,6 @@ class ReleaseVersion(ValueObject[str]):
         self._major = major
         self._minor = minor
         self._patch = patch
-        self._freeze()
 
     @classmethod
     def from_str(cls, raw_value: str) -> ReleaseVersion:

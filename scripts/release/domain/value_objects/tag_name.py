@@ -33,7 +33,6 @@ class TagName(ValueObject[str]):
             raise InvalidTagNameError(value) from exc
 
         self._value = value
-        self._freeze()
 
     @classmethod
     def for_version(cls, version: ReleaseVersion) -> "TagName":
