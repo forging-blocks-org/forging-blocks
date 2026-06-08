@@ -76,12 +76,14 @@ Think of blocks as **named boundaries** that you are free to use or ignore depen
 Examples:
 
 - `Result`, `Ok`, `Err`
-- `Port` and port-related protocols
+- `Port` and port-related protocols (`InboundPort`, `OutboundPort`, `InputPort`, `OutputPort`)
 - `Identified` protocol for objects carrying an identity
-- `Mapper` for structured transformation
-- `ResultMapper` for transforming Results
+- `Mapper` protocol for structured transformation
 - `Debuggable` protocol for consistent debug representations
-- `Message`, `Command`, `Event`, `Query` for expressing intent and facts
+- `ValueObject` base class for immutable concepts defined by their values
+- `Error` and its structured descendants (validation, rule violation, field, combined) for predictable error handling
+- `Message`, `Command`, `Event`, `Query` for expressing intent, facts, and queries
+- `FinalMeta`, `FinalABCMeta`, and `runtime_final` for runtime enforcement of method finality
 
 The Foundation block contains abstractions that support the other blocks.
 

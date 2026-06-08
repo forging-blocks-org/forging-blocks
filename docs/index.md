@@ -80,11 +80,14 @@ ForgingBlocks simply provides the building blocks that help you write decoupled,
 | Concept | Purpose |
 |----------|----------|
 | **Result / Ok / Err** | Represents success or failure explicitly. |
-| **Mapper / ResultMapper** | Transforms values or Results into another type. |
+| **Mapper** | Transforms values from one type into another in an observable way. |
 | **Identified** | Protocol for any object that carries an identifier. |
 | **Debuggable** | Protocol ensuring an object exposes a clear, consistent debug representation. |
-| **Port / InboundPort / OutboundPort** | Define explicit communication boundaries. |
+| **Port / InboundPort / OutboundPort / InputPort / OutputPort** | Define explicit communication boundaries. |
+| **ValueObject** | Base class for immutable concepts defined entirely by their values. |
+| **Error / ValidationError / RuleViolationError / FieldErrors / CombinedErrors** | Structured, composable error model. |
 | **Message / Command / Event / Query** | Express intent, facts, and queries within the problem space. |
+| **FinalMeta / FinalABCMeta / runtime_final** | Optional runtime enforcement of method finality. |
 
 ---
 
