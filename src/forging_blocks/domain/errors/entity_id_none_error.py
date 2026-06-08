@@ -1,6 +1,6 @@
 """Module defining the EntityIdNotNoneNotAllowedError."""
 
-from forging_blocks.foundation.errors.base import NoneNotAllowedError
+from forging_blocks.foundation.errors.none_not_allowed_error import NoneNotAllowedError
 from forging_blocks.foundation.errors.core import ErrorMessage, ErrorMetadata
 
 

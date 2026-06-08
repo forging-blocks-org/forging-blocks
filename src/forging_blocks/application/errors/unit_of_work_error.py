@@ -1,4 +1,4 @@
-from forging_blocks.foundation.errors.base import Error
+from forging_blocks.foundation.errors.error import Error
 
 
 class UnitOfWorkError(Error):

@@ -6,7 +6,7 @@ save failures, deletion of non-existent aggregates, and retrieval errors.
 
 from __future__ import annotations
 
-from forging_blocks.foundation.errors.base import Error
+from forging_blocks.foundation.errors.error import Error
 from forging_blocks.foundation.errors.core import ErrorMessage
 
 

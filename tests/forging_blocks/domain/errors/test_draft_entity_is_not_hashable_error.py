@@ -3,7 +3,7 @@ import pytest
 from forging_blocks.domain import (
     DraftEntityIsNotHashableError,
 )
-from forging_blocks.foundation.errors.base import Error
+from forging_blocks.foundation.errors.error import Error
 
 
 @pytest.mark.unit
