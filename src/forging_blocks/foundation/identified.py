@@ -1,11 +1,9 @@
 """Protocol for domain objects that carry an identifier."""
 
-from typing import Protocol, TypeVar
-
-TId_co = TypeVar("TId_co", covariant=True)
+from typing import Protocol
 
 
-class Identified(Protocol[TId_co]):
+class Identified[IdentityType](Protocol):
     """Protocol for objects that expose an ``id`` property.
 
     Satisfied by any object whose ``id`` returns the object's identity,
@@ -13,5 +11,4 @@ class Identified(Protocol[TId_co]):
     """
 
     @property
-    def id(self) -> TId_co | None:
-        ...
+    def id(self) -> IdentityType | None: ...

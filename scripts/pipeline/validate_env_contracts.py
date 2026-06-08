@@ -18,9 +18,9 @@ import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterator
+from typing import Any, Iterator, cast
 
-import yaml
+import yaml  # type: ignore[import-untyped]
 
 # ---------------------------------------------------------------------------
 # Domain
@@ -58,7 +58,7 @@ class Violation:
 
 @dataclass
 class ValidationResult:
-    violations: list[Violation] = field(default_factory=list)
+    violations: list[Violation] = field(default_factory=lambda: [])
 
     @property
     def ok(self) -> bool:
@@ -129,7 +129,7 @@ _SCRIPT_CALL_PATTERN = re.compile(
 )
 
 
-def _collect_env_block(env_block: dict | None) -> frozenset[EnvVar]:
+def _collect_env_block(env_block: dict[str, Any] | None) -> frozenset[EnvVar]:
     if not env_block:
         return frozenset()
     return frozenset(
@@ -152,11 +152,13 @@ def extract_workflow_injections(workflow_path: Path) -> list[WorkflowInjection]:
     doc = yaml.safe_load(workflow_path.read_text())
     injections: list[WorkflowInjection] = []
 
-    jobs = doc.get("jobs", {}) or {}
+    jobs: dict[str, Any] = doc.get("jobs", {}) or {}
     for job_name, job in jobs.items():
-        job_env = _collect_env_block(job.get("env"))
-        for step in job.get("steps") or []:
-            run_block = step.get("run", "")
+        job_dict: dict[str, Any] = job
+        job_env = _collect_env_block(job_dict.get("env"))
+        steps: list[dict[str, Any]] = cast(list[dict[str, Any]], job_dict.get("steps") or [])
+        for step in steps:
+            run_block: str = step.get("run", "")
             if not run_block:
                 continue
             step_env = _collect_env_block(step.get("env"))

@@ -36,8 +36,8 @@ class TestUnitOfWork:
         """Tests that `commit()` is called when exiting the context manager without an
         exception.
         """
-        unit_of_work.commit = AsyncMock()
-        unit_of_work.rollback = AsyncMock()
+        unit_of_work.commit = AsyncMock()  # type: ignore[method-assign]
+        unit_of_work.rollback = AsyncMock()  # type: ignore[method-assign]
 
         async with unit_of_work:
             pass
@@ -52,8 +52,8 @@ class TestUnitOfWork:
         """Tests that `rollback()` is called when exiting the context manager with an
         exception.
         """
-        unit_of_work.commit = AsyncMock()
-        unit_of_work.rollback = AsyncMock()
+        unit_of_work.commit = AsyncMock()  # type: ignore[method-assign]
+        unit_of_work.rollback = AsyncMock()  # type: ignore[method-assign]
 
         class TestException(Exception):
             pass

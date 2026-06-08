@@ -14,7 +14,7 @@ Non-Responsibilities:
     - Delivery guarantees (up to infrastructure).
 """
 
-from typing import Protocol, TypeVar
+from typing import Generic, Protocol, TypeVar
 
 from forging_blocks.foundation import OutboundPort
 
@@ -22,7 +22,11 @@ MessageType = TypeVar("MessageType", contravariant=True)
 MessageBusResultType = TypeVar("MessageBusResultType", covariant=True)
 
 
-class MessageBus(OutboundPort[MessageType, MessageBusResultType], Protocol):
+class MessageBus(
+    Generic[MessageType, MessageBusResultType],
+    OutboundPort[MessageType, MessageBusResultType],
+    Protocol,
+):
     """Outbound port representing a generic asynchronous message bus.
 
     A MessageBus dispatches messages to infrastructure or internal handlers.

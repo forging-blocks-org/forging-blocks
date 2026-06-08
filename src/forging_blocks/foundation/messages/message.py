@@ -9,7 +9,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from typing import Any, TypeVar
-from uuid import UUID, uuid7
+from uuid import UUID, uuid7  # type: ignore[attr-defined]
 
 from forging_blocks.foundation.value_object import ValueObject
 
@@ -19,7 +19,7 @@ def now() -> datetime:
     return datetime.now(timezone.utc)
 
 
-MessageRawType = TypeVar("MessageRawType", covariant=True)
+MessageRawType = TypeVar("MessageRawType")
 
 
 class MessageMetadata(ValueObject[dict[str, Any]]):
@@ -136,6 +136,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         """
         return self.value
 
+    @property
     def _equality_components(self) -> tuple[Any, ...]:
         """Message metadata equality is based on message ID and timestamp.
 
@@ -175,10 +176,10 @@ class Message(ValueObject[MessageRawType], ABC):
         """Check equality based on _equality_components."""
         if not isinstance(other, Message):
             return False
-        return self._equality_components() == other._equality_components()
+        return self._equality_components == other._equality_components
 
     def __hash__(self) -> int:
-        return hash(self._equality_components())
+        return hash(self._equality_components)
 
     @property
     def metadata(self) -> MessageMetadata:
@@ -233,6 +234,7 @@ class Message(ValueObject[MessageRawType], ABC):
             "payload": self._payload,
         }
 
+    @property
     def _equality_components(self) -> tuple[Any, ...]:
         """Messages are equal if they have the same message ID.
 

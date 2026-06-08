@@ -15,7 +15,7 @@ Non-Responsibilities:
     - UI or framework-specific concerns.
 """
 
-from typing import Protocol, TypeVar
+from typing import Generic, Protocol, TypeVar
 
 from forging_blocks.foundation.ports import InboundPort
 
@@ -23,7 +23,11 @@ RequestType = TypeVar("RequestType", contravariant=True)
 ResponseType = TypeVar("ResponseType", covariant=True)
 
 
-class UseCase(InboundPort[RequestType, ResponseType], Protocol):
+class UseCase(
+    Generic[RequestType, ResponseType],
+    InboundPort[RequestType, ResponseType],
+    Protocol,
+):
     """Inbound port for defining application use case operations.
 
     A UseCase represents an application-level action that may involve multiple

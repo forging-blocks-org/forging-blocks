@@ -23,14 +23,11 @@ from .meta import FinalABCMeta, FinalMeta, runtime_final
 from .ports import (
     InboundPort,
     InputPort,
-    InputType,
     OutboundPort,
     OutputPort,
-    OutputType,
     Port,
 )
 from .result import Err, Ok, Result
-from .result_mapper import ResultMapper
 
 __all__ = [
     "Port",
@@ -38,13 +35,10 @@ __all__ = [
     "OutboundPort",
     "InputPort",
     "OutputPort",
-    "InputType",
-    "OutputType",
     "Mapper",
     "Result",
     "Ok",
     "Err",
-    "ResultMapper",
     "Error",
     "ValidationFieldErrors",
     "CombinedValidationErrors",

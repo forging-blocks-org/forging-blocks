@@ -16,7 +16,7 @@ Non-Responsibilities:
     - Persistence (handled by repositories).
 """
 
-from typing import Any, Protocol, TypeVar
+from typing import Any, Generic, Protocol, TypeAlias, TypeVar
 
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
@@ -33,7 +33,11 @@ EventType = TypeVar("EventType", contravariant=True, bound=Event[Any])
 QueryType = TypeVar("QueryType", contravariant=True, bound=Query)
 
 
-class MessageHandler(InboundPort[MessageType, MessageHandlerResultType], Protocol):
+class MessageHandler(
+    Generic[MessageType, MessageHandlerResultType],
+    InboundPort[MessageType, MessageHandlerResultType],
+    Protocol,
+):
     """Inbound port for handling messages asynchronously.
 
     A MessageHandler defines the contract for processing a single message
@@ -66,6 +70,6 @@ class MessageHandler(InboundPort[MessageType, MessageHandlerResultType], Protoco
         ...
 
 
-CommandHandler = MessageHandler[CommandType, None]
-QueryHandler = MessageHandler[QueryType, QueryResultType]
-EventHandler = MessageHandler[EventType, None]
+CommandHandler: TypeAlias = MessageHandler[CommandType, None]
+QueryHandler: TypeAlias = MessageHandler[QueryType, QueryResultType]
+EventHandler: TypeAlias = MessageHandler[EventType, None]

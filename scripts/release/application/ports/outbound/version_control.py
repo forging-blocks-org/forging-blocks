@@ -4,7 +4,7 @@ from forging_blocks.foundation import OutputPort
 from scripts.release.domain.value_objects import ReleaseBranchName
 
 
-class VersionControl(OutputPort):
+class VersionControl(OutputPort[ReleaseBranchName, bool]):
     """Abstracts version control operations required by the release workflow.
 
     Must be non-interactive. All methods must raise on failure.

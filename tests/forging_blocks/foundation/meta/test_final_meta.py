@@ -155,14 +155,14 @@ class TestFinalMeta:
 class TestValidateNoRuntimeFinalOverride:
 
     def test_when_no_bases_then_returns_none(self) -> None:
-        assert validate_no_runtime_final_override("MyClass", (), {"x": 1}) is None
+        assert validate_no_runtime_final_override("MyClass", (), {"x": 1}) is None  # type: ignore[func-returns-value]
 
     def test_when_base_has_final_method_not_overridden_then_returns_none(
         self,
     ) -> None:
         assert validate_no_runtime_final_override(
             "Child", (HelperBaseWithFinal,), {"other_method": lambda: None}
-        ) is None
+        ) is None  # type: ignore[func-returns-value]
 
     def test_when_base_has_final_method_overridden_then_raises_type_error(
         self,
@@ -177,7 +177,7 @@ class TestValidateNoRuntimeFinalOverride:
     def test_when_base_has_no_final_methods_then_returns_none(self) -> None:
         assert validate_no_runtime_final_override(
             "Child", (HelperBasePlain,), {"normal_method": lambda self: "overridden"}
-        ) is None
+        ) is None  # type: ignore[func-returns-value]
 
     def test_error_message_contains_subclass_name(self) -> None:
         with pytest.raises(TypeError, match="in subclass 'BadChild'"):
@@ -214,7 +214,7 @@ class TestValidateNoRuntimeFinalOverride:
             "Child",
             (HelperBaseWithFinal,),
             {"brand_new_method": lambda self: 42},
-        ) is None
+        ) is None  # type: ignore[func-returns-value]
 
 
 @pytest.mark.unit
@@ -263,7 +263,7 @@ class TestRuntimeFinal:
     def test_runtime_final_when_applied_to_classmethod_then_sets_attributes(
         self,
     ) -> None:
-        @classmethod
+        @classmethod  # type: ignore[misc]
         def sample_classmethod(cls) -> str:
             return "test"
 
@@ -275,7 +275,7 @@ class TestRuntimeFinal:
     def test_runtime_final_when_applied_to_staticmethod_then_sets_attributes(
         self,
     ) -> None:
-        @staticmethod
+        @staticmethod  # type: ignore[misc]
         def sample_staticmethod() -> str:
             return "test"
 

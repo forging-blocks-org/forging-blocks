@@ -31,5 +31,6 @@ class ReleaseLevel(ValueObject[ReleaseLevelEnum]):
     def value(self) -> ReleaseLevelEnum:
         return self._level
 
+    @property
     def _equality_components(self) -> tuple[Hashable, ...]:
         return (self._level,)

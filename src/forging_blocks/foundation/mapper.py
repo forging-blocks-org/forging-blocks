@@ -1,34 +1,28 @@
 """Mapper Protocol for generic object transformation."""
 
-from typing import Generic, Protocol, TypeVar
-
-SourceType = TypeVar("SourceType", contravariant=True)
-TargetType = TypeVar("TargetType", covariant=True)
+from typing import Protocol
 
 
-class Mapper(Generic[SourceType, TargetType], Protocol):
+class Mapper[SourceType, TargetType](Protocol):
     """Protocol for mapping objects from one type to another.
 
     Mappers encapsulate transformation logic between types. This is a
     foundational abstraction that can be used across any context where
     object transformation is needed.
 
-    The protocol uses variance annotations to ensure type safety:
-
-    - ``SourceType`` is **contravariant**: accepts the declared type or supertypes
-    - ``TargetType`` is **covariant**: returns the declared type or subtypes
+    Variance is inferred automatically by the type checker from usage.
 
     ---
     **Type Parameters**
     -------------------
-    - **SourceType** — The input type to be transformed (contravariant)
-    - **TargetType** — The output type after transformation (covariant)
+    - **SourceType** — The input type to be transformed.
+    - **TargetType** — The output type after transformation.
 
     ---
     **Example**
     -----------
 
-    ```python
+```python
     class UserDTO:
         def __init__(self, username: str, email: str):
             self.username = username
@@ -49,7 +43,7 @@ class Mapper(Generic[SourceType, TargetType], Protocol):
     mapper = UserMapper()
     dto = UserDTO(username="alice", email="alice@example.com")
     user = mapper.map(dto)
-    ```
+```
     """
 
     def map(self, source: SourceType) -> TargetType:

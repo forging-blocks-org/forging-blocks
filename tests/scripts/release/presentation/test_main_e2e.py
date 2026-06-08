@@ -90,7 +90,7 @@ class TestMainE2E:
             pull_request_service=pull_request_service,
         )
         handler = OpenPullRequestHandler(open_pr_service)
-        await bus.register(OpenPullRequestCommand, handler)
+        await bus.register(OpenPullRequestCommand, handler)  # type: ignore[reportArgumentType]
 
         return PrepareReleaseService(
             versioning_service=versioning_service,
