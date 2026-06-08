@@ -103,7 +103,99 @@ The design is:
 
 ---
 
-## 4. What to explore next
+## 4. Modeling a value with ValueObject
+
+```python
+from forging_blocks.foundation.value_object import ValueObject
+
+
+class Email(ValueObject[str]):
+    def __init__(self, value: str) -> None:
+        super().__init__()
+        if "@" not in value:
+            raise ValueError("Invalid email")
+        self._value = value
+        self._freeze()
+
+    @property
+    def value(self) -> str:
+        return self._value
+
+    @property
+    def _equality_components(self) -> tuple[str, ...]:
+        return (self._value,)
+```
+
+Two `Email` instances with the same value are considered equal and can be
+used interchangeably as dictionary keys or set members. Attempting to
+mutate one after construction raises a `CantModifyImmutableAttributeError`.
+
+---
+
+## 5. Composing errors with structured types
+
+```python
+from forging_blocks.foundation import (
+    CombinedValidationErrors,
+    ErrorMessage,
+    FieldReference,
+    ValidationError,
+    ValidationFieldErrors,
+)
+
+
+def validate_email(value: str) -> list[ValidationError]:
+    errors: list[ValidationError] = []
+    if "@" not in value:
+        errors.append(
+            ValidationError(ErrorMessage("email must contain '@'"))
+        )
+    return errors
+
+
+def validate_name(value: str) -> list[ValidationError]:
+    errors: list[ValidationError] = []
+    if not value.strip():
+        errors.append(
+            ValidationError(ErrorMessage("name must not be empty"))
+        )
+    return errors
+
+
+def validate_user(email: str, name: str) -> list[ValidationFieldErrors]:
+    field_errors: list[ValidationFieldErrors] = []
+
+    email_errors = validate_email(email)
+    if email_errors:
+        field_errors.append(
+            ValidationFieldErrors(FieldReference("email"), email_errors)
+        )
+
+    name_errors = validate_name(name)
+    if name_errors:
+        field_errors.append(
+            ValidationFieldErrors(FieldReference("name"), name_errors)
+        )
+
+    return field_errors
+```
+
+Usage:
+
+```python
+issues = validate_user("no-at-symbol", "")
+
+if issues:
+    raise CombinedValidationErrors(issues)
+```
+
+The error model is intentionally architecture-neutral.
+The same types can be raised as exceptions, returned inside an `Err`, or
+aggregated for reporting.
+
+---
+
+## 6. What to explore next
 
 Once you are comfortable with these examples, you can:
 
