@@ -1,10 +1,10 @@
-from typing import Generic, Protocol, TypeVar
+from typing import Any, Generic, Protocol, TypeVar
 
 from forging_blocks.application.ports.inbound.message_handler import CommandHandler
 from forging_blocks.application.ports.outbound.message_bus import MessageBus
 from forging_blocks.foundation.messages.command import Command
 
-CommandType = TypeVar("CommandType", bound=Command, contravariant=True)
+CommandType = TypeVar("CommandType", bound=Command[Any], contravariant=True)
 
 
 class ReleaseCommandBus(MessageBus[CommandType, None], Generic[CommandType], Protocol):
@@ -13,7 +13,11 @@ class ReleaseCommandBus(MessageBus[CommandType, None], Generic[CommandType], Pro
     publishes domain command asynchronously.
     """
 
-    async def register(self, command_type: type[Command], handler: CommandHandler) -> None:
+    async def register[CT: Command[Any]](
+        self,
+        command_type: type[CT],
+        handler: CommandHandler[CT]
+    ) -> None:
         """Register a message handler for a specific message type.
 
         Args:

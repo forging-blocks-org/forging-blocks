@@ -19,6 +19,7 @@ class Email(ValueObject[str]):
     def value(self) -> str:
         return self._value
 
+    @property
     def _equality_components(self) -> tuple[str]:
         return (self._value,)
 
@@ -37,6 +38,7 @@ class AnotherEmailType(ValueObject[str]):
     def value(self) -> str:
         return self._value
 
+    @property
     def _equality_components(self) -> tuple[str]:
         return (self._value,)
 
@@ -56,6 +58,7 @@ class MultiComponentVO(ValueObject[str]):
     def value(self) -> str:
         return f"{self._first}:{self._second}"
 
+    @property
     def _equality_components(self) -> tuple[str, str]:
         return (self._first, self._second)
 

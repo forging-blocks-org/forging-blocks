@@ -23,10 +23,8 @@ from .meta import FinalABCMeta, FinalMeta, runtime_final
 from .ports import (
     InboundPort,
     InputPort,
-    InputType,
     OutboundPort,
     OutputPort,
-    OutputType,
     Port,
 )
 from .result import Err, Ok, Result
@@ -37,8 +35,6 @@ __all__ = [
     "OutboundPort",
     "InputPort",
     "OutputPort",
-    "InputType",
-    "OutputType",
     "Mapper",
     "Result",
     "Ok",

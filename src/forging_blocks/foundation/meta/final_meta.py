@@ -5,11 +5,8 @@ It complements the static `@final` decorator from `typing` by preventing
 subclasses from overriding these methods at runtime.
 """
 
-from __future__ import annotations
-
-from typing import Any, Callable, Type, TypeVar
-
-F = TypeVar("F", bound=Callable[..., Any])
+from collections.abc import Callable
+from typing import Any
 
 
 def validate_no_runtime_final_override(
@@ -45,7 +42,7 @@ class FinalMeta(type):
     """
 
     def __new__(
-        mcls: Type[type],
+        mcls: type,
         name: str,
         bases: tuple[type, ...],
         namespace: dict[str, Any],
@@ -53,10 +50,13 @@ class FinalMeta(type):
     ) -> type:
         """Prevent overriding of runtime-final methods in subclasses."""
         validate_no_runtime_final_override(name, bases, namespace)
-        return type.__new__(mcls, name, bases, namespace, **kwargs)
+        return type.__new__(mcls, name, bases, namespace, **kwargs)  # type: ignore[no-any-return]
 
 
-def runtime_final(func: F) -> F:
+type AnyCallable = Callable[..., Any]
+
+
+def runtime_final[F: AnyCallable](func: F) -> F:
     """Decorator that marks a method as runtime-final and type-hint final.
 
     Adds both static (`__final__`) and runtime (`__is_runtime_final__`) flags.

@@ -36,6 +36,7 @@ class Container:
         self._version_control = GitVersionControl(self._command_runner)
         self._changelog_generator = GitCliffChangelogGenerator(self._command_runner)
         self._pull_request_service = GitHubCliPullRequestService(self._command_runner)
+        self._message_bus: InMemoryReleaseCommandBus | None = None
 
     async def initialize(self) -> None:
         await self._setup_message_handlers()
@@ -67,4 +68,4 @@ class Container:
         )
         open_pull_request_handler = OpenPullRequestHandler(open_pull_request_service)
 
-        await self._message_bus.register(OpenPullRequestCommand, open_pull_request_handler)
+        await self._message_bus.register(OpenPullRequestCommand, open_pull_request_handler)  # type: ignore[reportArgumentType]

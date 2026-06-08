@@ -27,6 +27,7 @@ class AggregateVersion(ValueObject[int]):
         """Return a new AggregateVersion incremented by one."""
         return AggregateVersion(self._value + 1)
 
+    @property
     def _equality_components(self) -> tuple[Hashable, ...]:
         """Components used for equality comparison."""
         return (self._value,)

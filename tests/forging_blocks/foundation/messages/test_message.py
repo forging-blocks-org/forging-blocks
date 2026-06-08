@@ -6,7 +6,7 @@ Tests for MessageMetadata and Message classes.
 
 from datetime import datetime, timezone
 from typing import Any
-from uuid import UUID, uuid7
+from uuid import UUID, uuid7  # type: ignore[attr-defined]
 
 import pytest
 

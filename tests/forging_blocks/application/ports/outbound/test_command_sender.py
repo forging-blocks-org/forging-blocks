@@ -14,7 +14,7 @@ class FakeCommand(Command[str]):
     def value(self) -> str:
         return "foo"
 
-    def _payload(self) -> dict[str, Any]:
+    def _payload(self) -> dict[str, Any]:  # type: ignore[override]
         return {"foo": "foo"}
 
 

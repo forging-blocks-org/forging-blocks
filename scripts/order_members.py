@@ -29,7 +29,7 @@ import sys
 from pathlib import Path
 from typing import Sequence
 
-import libcst as cst
+import libcst as cst  # type: ignore[import-not-found]
 
 # Order priority based on Google Python Style Guide conventions
 ORDER_PRIORITY = [

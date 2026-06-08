@@ -118,7 +118,7 @@ async def message_bus(git_repo_with_poetry):
 
     handler = OpenPullRequestHandler(open_pr_service)
 
-    await bus.register(OpenPullRequestCommand, handler)
+    await bus.register(OpenPullRequestCommand, handler)  # type: ignore[reportArgumentType]
 
     return bus
 

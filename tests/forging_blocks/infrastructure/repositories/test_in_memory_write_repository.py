@@ -1,3 +1,5 @@
+# pyright: reportPrivateUsage=false
+
 from typing import Callable
 
 import pytest

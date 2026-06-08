@@ -44,5 +44,6 @@ class ReleaseVersion(ValueObject[str]):
     def patch(self) -> int:
         return self._patch
 
+    @property
     def _equality_components(self) -> tuple[Hashable, ...]:
         return (self._major, self._minor, self._patch)

@@ -37,7 +37,7 @@ class PrepareReleaseOutput:
     version: str
     branch: str
     tag: str
-    changelog_entries: list[str] = field(default_factory=list)
+    changelog_entries: list[str] = field(default_factory=lambda: [])
 
 
 class PrepareReleaseUseCase(UseCase[PrepareReleaseInput, PrepareReleaseOutput]):

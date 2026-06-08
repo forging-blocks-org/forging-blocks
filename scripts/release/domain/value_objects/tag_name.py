@@ -43,5 +43,6 @@ class TagName(ValueObject[str]):
     def value(self) -> str:
         return self._value
 
+    @property
     def _equality_components(self) -> tuple[Hashable, ...]:
         return (self._value,)
