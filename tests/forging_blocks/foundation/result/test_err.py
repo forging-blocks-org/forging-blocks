@@ -31,23 +31,23 @@ class TestErr:
         assert result == "Err(boom)"
 
     def test___eq___when_comparing_two_equal_err_results_then_returns_true(self) -> None:
-        a = Err("x")
-        b = Err("x")
+        a: Err[object, str] = Err("x")
+        b: Err[object, str] = Err("x")
 
         result = a.__eq__(b)
 
         assert result is True
 
     def test___eq___when_comparing_different_err_results_then_returns_false(self) -> None:
-        a = Err("x")
-        b = Err("y")
+        a: Err[object, str] = Err("x")
+        b: Err[object, str] = Err("y")
 
         result = a.__eq__(b)
 
         assert result is False
 
     def test___eq___when_comparing_with_different_type_then_returns_false(self) -> None:
-        err = Err("boom")
+        err: Err[object, str] = Err("boom")
         other = object()
 
         result = err.__eq__(other)

@@ -13,7 +13,7 @@ from forging_blocks.foundation.errors import ResultAccessError
 from .result import Result
 
 
-class Err[ValueType, ErrorType]:
+class Err[ValueType, ErrorType](Result[ValueType, ErrorType]):
     """Represents a failed result, holding an error of type ``ErrorType``."""
 
     __match_args__ = ("_error",)
