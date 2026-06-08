@@ -30,7 +30,6 @@ from .ports import (
     Port,
 )
 from .result import Err, Ok, Result
-from .result_mapper import ResultMapper
 
 __all__ = [
     "Port",
@@ -44,7 +43,6 @@ __all__ = [
     "Result",
     "Ok",
     "Err",
-    "ResultMapper",
     "Error",
     "ValidationFieldErrors",
     "CombinedValidationErrors",
