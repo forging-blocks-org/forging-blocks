@@ -74,13 +74,30 @@ class Result[ValueType, ErrorType](Protocol):
         ...
 
     def get_value_or(self, default: ValueType) -> ValueType:
-        """Return the success value if Ok, otherwise return ``default``."""
+        """Return the wrapped success value if Ok, otherwise return the provided default.
+
+        Args:
+            default: The value to return if this result is an error.
+
+        Returns:
+            The unwrapped success value if Ok; otherwise, `default`.
+        """
         ...
 
     def get_value_or_else(
         self,
         fn: Callable[[ErrorType], ValueType],
     ) -> ValueType:
-        """Return the success value if Ok, otherwise call ``fn`` with the error to compute a fallback."""
-        ...
+        """Return the wrapped success value if Ok, otherwise compute one from the error.
 
+        Applies `fn` to the wrapped error (if present) to compute and return a recovery value.
+        Useful for transforming or logging errors before fallback.
+
+        Args:
+            fn: A callable that accepts the error and returns a recovery value of the same type
+                as the success case.
+
+        Returns:
+            The unwrapped success value if Ok; otherwise, the result of `fn(error)`.
+        """
+        ...
