@@ -13,7 +13,6 @@ class Email(ValueObject[str]):
         if "@" not in value:
             raise ValueError("Invalid email format")
         self._value = value
-        self._freeze()
 
     @property
     def value(self) -> str:
@@ -32,7 +31,6 @@ class AnotherEmailType(ValueObject[str]):
         if "@" not in value:
             raise ValueError("Invalid email format")
         self._value = value
-        self._freeze()
 
     @property
     def value(self) -> str:
@@ -52,7 +50,6 @@ class MultiComponentVO(ValueObject[str]):
         super().__init__()
         self._first = first
         self._second = second
-        self._freeze()
 
     @property
     def value(self) -> str:
