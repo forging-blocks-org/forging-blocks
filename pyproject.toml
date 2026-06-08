@@ -74,6 +74,7 @@ requires = ["poetry-core>=1.9.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pyright]
+pythonVersion = "3.14"
 venvPath = "."
 venv = ".venv"
 
@@ -89,7 +90,10 @@ exclude = [
   "**/.ruff_cache",
   "**/node_modules",
 ]
-typeCheckingMode = "standard"
+executionEnvironments = [
+  { root = "src" }
+]
+typeCheckingMode = "strict"
 reportMissingImports = true
 reportMissingTypeStubs = false
 
@@ -138,20 +142,6 @@ exclude_lines = [
     "Protocol\\(",
 ]
 
-[tool.pyright.ini_options]
-pythonVersion = "3.14"
-typeCheckingMode = "strict"
-include = ["src"]
-exclude = ["**/__pycache__", ".venv", "build", "dist"]
-executionEnvironments = [
-  { root = "src" }
-]
-venvPath = "."
-venv = ".venv"
-reportMissingTypeStubs = "warning"
-reportUnknownMemberType = "none"
-reportUnnecessaryTypeIgnoreComment = "warning"
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src", "scripts", "scripts/release"]
@@ -172,7 +162,7 @@ markers = [
 
 [tool.poe.tasks]
 
-type = "mypy ."
+type = "pyright"
 bandit = "bandit -r src -x tests"
 
 test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "pytest" }
