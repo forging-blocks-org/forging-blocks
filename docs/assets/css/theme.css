@@ -239,6 +239,56 @@ body {
   content: none;
 }
 
+/* Auto-generated docstring section details — match admonition note style */
+.md-typeset details:not(.quote) {
+  border: 3px solid var(--bw-accent-orange);
+  background-color: var(--bw-bg-surface);
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.md-typeset details:not(.quote) > summary {
+  background-color: var(--bw-bg-hover);
+  color: var(--bw-accent-orange);
+  padding-left: 0.6rem;
+  font-weight: 600;
+}
+
+.md-typeset details:not(.quote) > summary::before {
+  content: none;
+}
+
+/* Source code quote details — consistent with code block theme */
+.md-typeset details.quote {
+  border: 1px solid var(--bw-border);
+  background-color: var(--bw-bg-root);
+}
+
+.md-typeset details.quote > summary {
+  background-color: var(--bw-bg-surface);
+  color: var(--bw-fg-muted);
+  padding-left: 0.6rem;
+  font-weight: 500;
+  font-size: 0.85em;
+}
+
+.md-typeset details.quote > summary::before {
+  content: none;
+}
+
+/* Source code table (highlighttable) — theme line numbers */
+.md-typeset .highlighttable {
+  border: 1px solid var(--bw-border);
+}
+
+.md-typeset .highlighttable .linenos {
+  background-color: var(--bw-bg-surface);
+}
+
+.md-typeset .highlighttable .linenodiv pre {
+  color: var(--bw-fg-muted);
+}
+
 .md-sidebar--primary > .md-nav__list > .md-nav__link,
 .md-sidebar--secondary > .md-nav__list > .md-nav__link {
   background-color: unset !important;

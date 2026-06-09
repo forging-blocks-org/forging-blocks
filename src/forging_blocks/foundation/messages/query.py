@@ -16,14 +16,16 @@ class Query(Message[Any]):
     ListProducts).
 
     Example:
-        >>> class GetOrder(Query):
-        ...     def __init__(self, order_id: str):
-        ...         super().__init__()
-        ...         self._order_id = order_id
-        ...
-        ...     @property
-        ...     def _payload(self) -> dict[str, Any]:
-        ...         return {"order_id": self._order_id}
+        ```python
+        class GetOrder(Query):
+            def __init__(self, order_id: str):
+                super().__init__()
+                self._order_id = order_id
+
+            @property
+            def _payload(self) -> dict[str, Any]:
+                return {"order_id": self._order_id}
+        ```
     """
 
     @property

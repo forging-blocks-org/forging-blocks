@@ -3,7 +3,7 @@
 from typing import Protocol, Sequence
 
 
-class SupportsAutoFreeze(Protocol): # pragma: no cover
+class SupportsAutoFreeze(Protocol):  # pragma: no cover
     """Contract for classes compatible with the @auto_freeze decorator.
 
     Implementers must provide methods to transition between mutable and
@@ -11,17 +11,19 @@ class SupportsAutoFreeze(Protocol): # pragma: no cover
     based on class configuration.
 
     Example:
-        >>> @auto_freeze
-        ... class Email(ValueObject[str]):
-        ...     def freeze_instance(self) -> None:
-        ...         object.__setattr__(self, "_Email__is_frozen", True)
-        ...
-        ...     def unfreeze_instance(self) -> None:
-        ...         object.__setattr__(self, "_Email__is_frozen", False)
-        ...
-        ...     @classmethod
-        ...     def should_use_internal_freezing(cls) -> bool:
-        ...         return True
+        ```python
+        @auto_freeze
+        class Email(ValueObject[str]):
+            def freeze_instance(self) -> None:
+                object.__setattr__(self, "_Email__is_frozen", True)
+
+            def unfreeze_instance(self) -> None:
+                object.__setattr__(self, "_Email__is_frozen", False)
+
+            @classmethod
+            def should_use_internal_freezing(cls) -> bool:
+                return True
+        ```
     """
 
     @classmethod

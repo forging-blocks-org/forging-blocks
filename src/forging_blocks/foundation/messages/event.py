@@ -17,20 +17,22 @@ class Event[RawEventType](Message[RawEventType]):
     PaymentProcessed).
 
     Example:
-        >>> class OrderCreated(Event):
-        ...     def __init__(self, order_id: str, customer_id: str, total: float):
-        ...         super().__init__()
-        ...         self._order_id = order_id
-        ...         self._customer_id = customer_id
-        ...         self._total = total
-        ...
-        ...     @property
-        ...     def _payload(self) -> dict[str, Any]:
-        ...         return {
-        ...             "order_id": self._order_id,
-        ...             "customer_id": self._customer_id,
-        ...             "total": self._total,
-        ...         }
+        ```python
+        class OrderCreated(Event):
+            def __init__(self, order_id: str, customer_id: str, total: float):
+                super().__init__()
+                self._order_id = order_id
+                self._customer_id = customer_id
+                self._total = total
+
+            @property
+            def _payload(self) -> dict[str, Any]:
+                return {
+                    "order_id": self._order_id,
+                    "customer_id": self._customer_id,
+                    "total": self._total,
+                }
+        ```
     """
 
     @property
