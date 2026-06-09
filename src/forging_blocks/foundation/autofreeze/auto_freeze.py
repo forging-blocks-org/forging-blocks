@@ -34,7 +34,7 @@ class _AutoFreezeDecorator:
         ) -> None:
             original_init(instance, *args, **kwargs)
 
-            if class_.should_use_internal_freezing():
+            if class_.should_use_internal_freezing():  # type: ignore[attr-defined]
                 if attrs is None:
                     instance.freeze_instance()
                 else:
@@ -65,6 +65,15 @@ class _AutoFreezeDecorator:
 
 @overload
 def auto_freeze[T](class_: type[T]) -> type[T]:
+    ...
+
+
+@overload
+def auto_freeze[T](
+    class_: type[T],
+    *,
+    attrs: Sequence[str] | None = None,
+) -> type[T]:
     ...
 
 
