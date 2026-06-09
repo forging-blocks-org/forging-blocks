@@ -37,13 +37,16 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
     infrastructure rules.
 
     Example:
-        >>> metadata = MessageMetadata(message_type="OrderCreated")
-        >>> # Or with custom values
-        >>> custom_metadata = MessageMetadata(
-        ...     message_type="UserCreated",
-        ...     message_id=UUID("123e4567-e89b-12d3-a456-426614174000"),
-        ...     created_at=datetime(2025, 6, 11, 19, 36, 6, tzinfo=timezone.utc),
-        ... )
+        ```python
+        metadata = MessageMetadata(message_type="OrderCreated")
+
+        # Or with custom values
+        custom_metadata = MessageMetadata(
+            message_type="UserCreated",
+            message_id=UUID("123e4567-e89b-12d3-a456-426614174000"),
+            created_at=datetime(2025, 6, 11, 19, 36, 6, tzinfo=timezone.utc),
+        )
+        ```
     """
 
     __slots__ = (
