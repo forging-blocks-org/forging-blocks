@@ -50,7 +50,6 @@ class Email(ValueObject[str]):
         if "@" not in value:
             raise ValueError("Invalid email")
         self._value = value
-        self._freeze()
 
     @property
     def value(self) -> str:
