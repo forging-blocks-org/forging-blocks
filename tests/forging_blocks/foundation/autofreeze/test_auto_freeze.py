@@ -14,7 +14,6 @@ from forging_blocks.foundation.autofreeze.auto_freeze import (
     auto_freeze,
 )
 
-
 # ---------------------------------------------------------------------------
 # Test helpers — lightweight classes that implement SupportsAutoFreeze
 # protocol via MagicMock so every call is observable.
