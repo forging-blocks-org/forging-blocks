@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from forging_blocks.foundation.errors.error import Error
 from forging_blocks.foundation.errors.core import ErrorMessage, ErrorMetadata
+from forging_blocks.foundation.errors.error import Error
 
 
 class CantModifyImmutableAttributeError(Error):

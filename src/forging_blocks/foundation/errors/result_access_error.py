@@ -1,6 +1,6 @@
 """Errors raised when accessing Result.value or Result.error on the wrong variant"""
-from forging_blocks.foundation.errors.error import Error
 from forging_blocks.foundation.errors.core import ErrorMessage
+from forging_blocks.foundation.errors.error import Error
 
 
 class ResultAccessError(Error):
