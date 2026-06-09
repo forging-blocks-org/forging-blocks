@@ -7,16 +7,17 @@ try/except blocks through your code, you compose operations with
 :meth:`~Result.map`, :meth:`~Result.flat_map`, and
 :meth:`~Result.map_error`.
 
-Quick start::
+Quick start:
 
-    >>> from forging_blocks.foundation.result import Ok, Err
+    ```python
+    from forging_blocks.foundation.result import Ok, Err
 
-    >>> Ok(42).map(lambda x: x + 1)
-    Ok(43)
+    Ok(42).map(lambda x: x + 1)  # -> Ok(43)
 
-    >>> Err("boom").map(lambda x: x + 1)   # no-op — error short-circuits
-    Err("boom")
+    Err("boom").map(lambda x: x + 1)  # no-op — error short-circuits -> Err("boom")
+    ```
 """
+
 from .err import Err
 from .ok import Ok
 from .result import Result
