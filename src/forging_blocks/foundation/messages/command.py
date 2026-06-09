@@ -16,17 +16,19 @@ class Command[RawCommandType](Message[RawCommandType]):
     ProcessPayment).
 
     Example:
-        >>> class CreateOrder(Command):
-        ...     def __init__(
-        ...         self, customer_id: str, items: list, metadata: MessageMetadata | None = None
-        ...     ):
-        ...         super().__init__(metadata)
-        ...         self._customer_id = customer_id
-        ...         self._items = items
-        ...
-        ...     @property
-        ...     def _payload(self) -> dict[str, Any]:
-        ...         return {"customer_id": self._customer_id, "items": self._items}
+        ```python
+        class CreateOrder(Command):
+            def __init__(
+                self, customer_id: str, items: list, metadata: MessageMetadata | None = None
+            ):
+                super().__init__(metadata)
+                self._customer_id = customer_id
+                self._items = items
+
+            @property
+            def _payload(self) -> dict[str, Any]:
+                return {"customer_id": self._customer_id, "items": self._items}
+        ```
     """
 
     @property
