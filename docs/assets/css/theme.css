@@ -239,6 +239,25 @@ body {
   content: none;
 }
 
+/* Auto-generated docstring section details — match admonition note style */
+.md-typeset details:not(.quote) {
+  border: 3px solid var(--bw-accent-orange);
+  background-color: var(--bw-bg-surface);
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.md-typeset details:not(.quote) > summary {
+  background-color: var(--bw-bg-hover);
+  color: var(--bw-accent-orange);
+  padding-left: 0.6rem;
+  font-weight: 600;
+}
+
+.md-typeset details:not(.quote) > summary::before {
+  content: none;
+}
+
 .md-sidebar--primary > .md-nav__list > .md-nav__link,
 .md-sidebar--secondary > .md-nav__list > .md-nav__link {
   background-color: unset !important;
