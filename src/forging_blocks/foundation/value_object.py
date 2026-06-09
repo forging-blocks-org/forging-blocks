@@ -28,22 +28,24 @@ class ValueObject[RawValueType](ABC):
     subclasses can finish setting up via ``super().__init__()``.
 
     Example:
-        >>> class Email(ValueObject[str]):
-        ...     __slots__ = ("_value",)
-        ...
-        ...     def __init__(self, value: str):
-        ...         super().__init__()
-        ...         if "@" not in value:
-        ...             raise ValueError("Invalid email format")
-        ...         self._value = value
-        ...
-        ...     @property
-        ...     def value(self) -> str:
-        ...         return self._value
-        ...
-        ...     @property
-        ...     def _equality_components(self) -> tuple[Hashable, ...]:
-        ...         return (self._value,)
+        ```python
+        class Email(ValueObject[str]):
+            __slots__ = ("_value",)
+
+            def __init__(self, value: str):
+                super().__init__()
+                if "@" not in value:
+                    raise ValueError("Invalid email format")
+                self._value = value
+
+            @property
+            def value(self) -> str:
+                return self._value
+
+            @property
+            def _equality_components(self) -> tuple[Hashable, ...]:
+                return (self._value,)
+        ```
     """
 
     __is_frozen: bool = False
