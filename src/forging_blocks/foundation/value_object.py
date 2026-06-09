@@ -4,20 +4,18 @@ This module provides the base ValueObject class for implementing domain value ob
 following the principles of Domain-Driven Design (DDD).
 """
 
-import functools
 import inspect
 from abc import ABC, abstractmethod
 from collections.abc import Hashable
 from typing import Any
 
+from forging_blocks.foundation.autofreeze import auto_freeze
 from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error import (
     CantModifyImmutableAttributeError,
 )
 
 
-_auto_freeze_marker = "__value_object_auto_freeze_wrapped"
-
-
+@auto_freeze
 class ValueObject[RawValueType](ABC):
     """Base class for all domain value objects.
 
@@ -53,20 +51,8 @@ class ValueObject[RawValueType](ABC):
     def __init_subclass__(cls, **kwargs: Any) -> None:
         """Automatically freeze concrete subclasses after __init__ completes."""
         super().__init_subclass__(**kwargs)
-        if inspect.isabstract(cls):
-            return
-        original_init = cls.__init__
-        if hasattr(original_init, _auto_freeze_marker):
-            return
-
-        @functools.wraps(original_init)
-        def _auto_freeze_init(self: Any, *args: Any, **kwargs: Any) -> None:
-            original_init(self, *args, **kwargs)
-            if cls.should_use_internal_freezing():
-                self.freeze_instance()  # type: ignore[no-untyped-call]
-
-        object.__setattr__(_auto_freeze_init, _auto_freeze_marker, True)
-        cls.__init__ = _auto_freeze_init  # type: ignore[misc]
+        if not inspect.isabstract(cls):
+            auto_freeze(cls)
 
     def __init__(self) -> None:
         object.__setattr__(self, "_ValueObject__is_frozen", False)
@@ -108,8 +94,13 @@ class ValueObject[RawValueType](ABC):
 
     @classmethod
     def should_use_internal_freezing(cls) -> bool:
-        """Override and return False to disable auto-freeze for a class tree."""
-        return True
+        """Return True for concrete classes, False for abstract ones.
+
+        Abstract classes (like ValueObject itself) must not auto-freeze
+        because their ``__init__`` is called mid-way through subclass
+        ``__init__`` via ``super().__init__()``.
+        """
+        return not inspect.isabstract(cls)
 
     def freeze_instance(self) -> None:
         """Make the instance immutable. Raises CantModifyImmutableAttributeError on attr set."""
