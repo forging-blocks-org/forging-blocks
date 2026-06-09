@@ -28,6 +28,7 @@ from .ports import (
     Port,
 )
 from .result import Err, Ok, Result
+from .value_object import ValueObject
 
 __all__ = [
     "Port",
@@ -61,4 +62,5 @@ __all__ = [
     "Query",
     "Event",
     "Message",
+    "ValueObject",
 ]

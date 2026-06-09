@@ -115,7 +115,6 @@ class Email(ValueObject[str]):
         if "@" not in value:
             raise ValueError("Invalid email")
         self._value = value
-        self._freeze()
 
     @property
     def value(self) -> str:
@@ -126,9 +125,11 @@ class Email(ValueObject[str]):
         return (self._value,)
 ```
 
-Two `Email` instances with the same value are considered equal and can be
-used interchangeably as dictionary keys or set members. Attempting to
-mutate one after construction raises a `CantModifyImmutableAttributeError`.
+`ValueObject` uses automatic freezing — subclasses need **no** `@auto_freeze`
+decorator or `_freeze()` call. Two `Email` instances with the same value are
+considered equal and can be used interchangeably as dictionary keys or set
+members. Attempting to mutate one after construction raises a
+`CantModifyImmutableAttributeError`.
 
 ---
 

@@ -3,7 +3,8 @@
 Defines error classes for handling rule violation scenarios.
 """
 
-from forging_blocks.foundation.errors.base import CombinedErrors, Error
+from forging_blocks.foundation.errors.combined_errors import CombinedErrors
+from forging_blocks.foundation.errors.error import Error
 
 
 class RuleViolationError(Error):

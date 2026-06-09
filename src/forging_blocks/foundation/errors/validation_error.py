@@ -3,7 +3,9 @@
 Defines error classes related to validation failures within the system.
 """
 
-from forging_blocks.foundation.errors.base import CombinedErrors, Error, FieldErrors
+from forging_blocks.foundation.errors.combined_errors import CombinedErrors
+from forging_blocks.foundation.errors.error import Error
+from forging_blocks.foundation.errors.field_errors import FieldErrors
 
 
 class ValidationError(Error):

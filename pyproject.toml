@@ -132,14 +132,15 @@ omit = [
 exclude_lines = [
     "# pragma: no cover",
     "if TYPE_CHECKING:",
-    "class .*\\(.*Protocol.*\\):",
     "raise NotImplementedError",
     "@abstractmethod",
     "\\.\\.\\.",
     "pass",
     "TypeVar\\(",
     "Generic\\(",
-    "Protocol\\(",
+]
+exclude_also = [
+    "class .*\\(.*Protocol.*\\):",
 ]
 
 [tool.pytest.ini_options]

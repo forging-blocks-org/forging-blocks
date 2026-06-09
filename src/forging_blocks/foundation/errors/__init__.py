@@ -1,8 +1,11 @@
 """ForgingBlocks foundation.errors package initialization."""
 
-from .base import CombinedErrors, Error, FieldErrors, NoneNotAllowedError
 from .cant_modify_immutable_attribute_error import CantModifyImmutableAttributeError
+from .combined_errors import CombinedErrors
 from .core import ErrorMessage, ErrorMetadata, FieldReference
+from .error import Error
+from .field_errors import FieldErrors
+from .none_not_allowed_error import NoneNotAllowedError
 from .result_access_error import ResultAccessError
 from .rule_violation_error import CombinedRuleViolationErrors, RuleViolationError
 from .validation_error import (

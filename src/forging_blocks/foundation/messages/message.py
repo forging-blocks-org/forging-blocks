@@ -46,6 +46,14 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         ... )
     """
 
+    __slots__ = (
+        "_message_type",
+        "_message_id",
+        "_created_at",
+        "_correlation_id",
+        "_causation_id",
+    )
+
     def __init__(
         self,
         message_type: str,
@@ -66,6 +74,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
             causation_id: Identifier of the message that caused this one. If None,
                 generates a new UUID.
         """
+        super().__init__()
         self._message_type = message_type
         self._message_id = message_id or uuid7()
         self._created_at = created_at or now()
@@ -169,6 +178,7 @@ class Message(ValueObject[MessageRawType], ABC):
             metadata: Message metadata. If None, creates new metadata with
                 generated ID and current timestamp.
         """
+        super().__init__()
         effective_type = self.__class__.__name__
         self._metadata = metadata or MessageMetadata(message_type=effective_type)
 

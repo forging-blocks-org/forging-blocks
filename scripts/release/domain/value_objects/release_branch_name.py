@@ -33,7 +33,6 @@ class ReleaseBranchName(ValueObject[str]):
             raise InvalidReleaseBranchNameError(value) from exc
 
         self._value = value
-        self._freeze()
 
     @classmethod
     def from_version(cls, version: ReleaseVersion) -> "ReleaseBranchName":

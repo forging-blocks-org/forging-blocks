@@ -213,6 +213,69 @@ re-exported from the top-level `forging_blocks.foundation` namespace.
 
 ---
 
+### Auto-freeze
+
+`@auto_freeze` is a decorator that **automatically freezes instances after
+`__init__` completes**, enforcing immutability without requiring subclasses
+to call `_freeze()` or add any freeze-related code.
+
+`ValueObject` uses `@auto_freeze` internally so that every concrete subclass
+gets immutability for free. You can also apply `@auto_freeze` to your own
+classes that need automatic immutability but are not `ValueObject`
+subclasses.
+
+A class decorated with `@auto_freeze` must satisfy the `SupportsAutoFreeze`
+protocol by providing three methods:
+
+- `freeze_instance()` — transition the instance into an immutable state.
+- `unfreeze_instance()` — transition back to mutable (intended for test
+  setup and transaction rollback; not for normal application code).
+- `should_use_internal_freezing()` — classmethod that returns `True` for
+  concrete classes and `False` for abstract intermediate classes that
+  should stay unfrozen.
+
+Classes that implement `freeze_attributes(attrs)` can also opt into
+**partial freezing**, where only specific attributes (e.g. `"_id"`) are
+made immutable while others remain writable. This is useful for Entities
+where identity must be fixed but other fields may change over time.
+
+Usage:
+
+```python
+from forging_blocks.foundation.autofreeze import auto_freeze
+
+
+@auto_freeze
+class MyImmutableClass:
+    def __init__(self, name: str) -> None:
+        self._name = name
+
+    def freeze_instance(self) -> None:
+        object.__setattr__(self, "__frozen", True)
+
+    def unfreeze_instance(self) -> None:
+        object.__setattr__(self, "__frozen", False)
+
+    @classmethod
+    def should_use_internal_freezing(cls) -> bool:
+        return True
+
+    def __setattr__(self, name: str, value: object) -> None:
+        if getattr(self, "__frozen", False):
+            msg = (
+                f"Cannot modify attribute '{name}' on "
+                f"frozen instance of '{type(self).__name__}'"
+            )
+            raise AttributeError(msg)
+        object.__setattr__(self, name, value)
+```
+
+Most users won't need `@auto_freeze` directly — extending `ValueObject` is
+the simpler path. The decorator is available for cases where you want
+automatic immutability without value-object semantics.
+
+---
+
 ### Meta utilities
 
 Foundation provides a small set of metaclass utilities for **runtime
