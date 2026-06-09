@@ -77,7 +77,8 @@ When the release PR is merged into `main`, GitHub Actions automatically:
 
 1. **Creates and pushes tag** (from branch name `release/vX.Y.Z`)
 2. **Builds and publishes** package to PyPI
-3. **Deploys documentation** to GitHub Pages
+3. **Deploys versioned documentation** to GitHub Pages (e.g. `0.4.0`) and updates the `latest` alias
+4. **Creates GitHub Release** with changelog
 
 > **🔒 Important**: Publishing only happens after PR merge. If the PR is rejected, nothing gets released.
 
@@ -99,9 +100,8 @@ ForgingBlocks follows a **local-preparation + automated-publishing model**:
   - validates the release candidate
   - builds the package
   - publishes to PyPI
-  - deploys the latest documentation
-
-**Publishing only happens after the release PR is merged.**
+  - deploys versioned documentation (e.g. `0.4.0` → aliased as `latest`)
+  - creates the GitHub Release
 
 ---
 
@@ -262,8 +262,42 @@ poetry run poe release major --execute    # 0.3.6 → 1.0.0
 - [ ] Review and merge the PR
 - [ ] Verify PyPI, docs, and GitHub Release
 
+
+## Versioned Documentation
+
+Documentation is versioned using [mike](https://github.com/jimporter/mike). Each release gets its own immutable docs snapshot, while the `dev` version is updated on every push to `main`.
+
+### Doc Versions
+
+| Alias | URL | Updated |
+|-------|-----|---------|
+| `latest` | `/` | On each release |
+| `dev` | `/dev/` | Every push to `main` |
+| `0.4.0` | `/0.4.0/` | Never (snapshot) |
+
+### Manual Docs Commands
+
+```bash
+# Deploy current version as latest (one-time setup or manual release)
+poetry run poe docs:deploy-version 0.4.0
+
+# Serve docs locally with version selector
+poetry run poe docs:serve-versioned
+
+# List deployed versions
+poetry run poe docs:list-versions
+
+# Deploy dev version locally
+poetry run poe docs:deploy-version dev --dry-run
+```
+
+### How It Works
+
+- **`deploy-docs.yml`**: On every push to `main`, generates autodocs and deploys the `dev` version.
+- **`release.yml`**: After a release PR is merged and the package is published, deploys the versioned docs (e.g. `0.4.0`) and updates the `latest` alias.
+
+The version selector in the docs header lets users switch between versions.
+
 ---
 
 ## Summary
-
-Prepare → Review → Merge → GitHub Actions publishes.
