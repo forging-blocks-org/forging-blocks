@@ -9,6 +9,7 @@ permissions:
 
 jobs:
   deploy-docs:
+    concurrency: docs-deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

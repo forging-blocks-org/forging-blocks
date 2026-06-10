@@ -58,6 +58,7 @@ jobs:
         run: bash scripts/pipeline/create_github_release.sh
 
   deploy-docs:
+    concurrency: docs-deploy
     needs: release
     runs-on: ubuntu-latest
     permissions:
