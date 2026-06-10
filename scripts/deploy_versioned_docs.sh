@@ -22,7 +22,7 @@ if [[ -z "$VERSION" ]]; then
   echo ""
   echo "  version   Deploy a release version (e.g. 0.4.0) and alias it as 'latest'"
   echo "  dev       Deploy the development version"
-  echo "  --dry-run Build only, do not push to gh-pages"
+  echo "  --dry-run Build and commit locally, do not push to gh-pages"
   exit 1
 fi
 
