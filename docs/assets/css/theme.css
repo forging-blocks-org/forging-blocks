@@ -322,15 +322,15 @@ body {
 .md-version__current:hover {
   color: #313131 !important;
   text-decoration: underline !important;
-  text-decoration-color: #d65d0e !important;
+  text-decoration-color: var(--bw-accent-orange) !important;
 }
 
 .md-version__item .md-version__link {
-  color: #d65d0e !important;
+  color: var(--bw-accent-orange) !important;
 }
 
 .md-version__item .md-version__link:hover {
-  color: #d65d0e !important;
+  color: var(--bw-accent-orange) !important;
   text-decoration: underline !important;
-  text-decoration-color: #d65d0e !important;
+  text-decoration-color: var(--bw-accent-orange) !important;
 }
