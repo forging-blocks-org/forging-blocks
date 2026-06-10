@@ -1,0 +1,101 @@
+name: Release Pipeline
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: >
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/v')
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: write
+      id-token: write
+    outputs:
+      version: ${{ steps.prep.outputs.version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Prepare Release and Tagging
+        id: prep
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: bash scripts/pipeline/prepare_release.sh
+
+      - name: Validate Release Version
+        env:
+          RELEASE_VERSION: ${{ steps.prep.outputs.version }}
+        run: bash scripts/pipeline/validate_release_version.sh
+
+      - name: Set up Poetry
+        uses: ./.github/actions/setup-poetry
+
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      - name: Build and validate artifacts
+        run: bash scripts/pipeline/validate_artifacts.sh
+
+      - name: Publish to PyPI
+        if: github.actor != 'nektos/act'
+        uses: pypa/gh-action-pypi-publish@v1.13.0
+
+      - name: Create GitHub Release
+        if: github.actor != 'nektos/act'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ steps.prep.outputs.version }}
+        run: bash scripts/pipeline/create_github_release.sh
+
+  deploy-docs:
+    concurrency: docs-deploy
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GIT_AUTHOR_NAME: "github-actions[bot]"
+      GIT_AUTHOR_EMAIL: "github-actions[bot]@users.noreply.github.com"
+      GIT_COMMITTER_NAME: "github-actions[bot]"
+      GIT_COMMITTER_EMAIL: "github-actions[bot]@users.noreply.github.com"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Poetry
+        uses: ./.github/actions/setup-poetry
+
+      - name: Install docs dependencies
+        run: poetry install --no-interaction --with docs
+
+      - name: Generate autodoc pages
+        run: poetry run python scripts/generate_autodoc_pages.py
+
+      - name: Provide git metadata for act
+        if: ${{ github.actor == 'nektos/act' }}
+        run: |
+          # If .git is a file (worktree pointer), move it aside then create a local repo for act runs.
+          if [ ! -d .git ]; then
+            if [ -f .git ]; then mv .git .git.orig || true; fi
+            git init
+            git add -A || true
+            git commit -m "temp" || true
+          fi
+
+      - name: Deploy versioned docs
+        env:
+          VERSION: ${{ needs.release.outputs.version }}
+        run: |
+          poetry run mike deploy --push --update-aliases "$VERSION" latest

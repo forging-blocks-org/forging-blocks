@@ -1,0 +1,43 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+from typing import Any
+from unittest.mock import AsyncMock, MagicMock
+
+import pytest
+from pytest import fixture
+
+from forging_blocks.application import CommandSender, MessageBus
+from forging_blocks.foundation.messages import Command
+
+
+class FakeCommand(Command[str]):
+    @property
+    def value(self) -> str:
+        return "foo"
+
+    def _payload(self) -> dict[str, Any]:  # type: ignore[override]
+        return {"foo": "foo"}
+
+
+@pytest.mark.unit
+class TestCommandSender:
+    @fixture
+    def message_bus(self) -> MagicMock:
+        bus = MagicMock(spec=MessageBus)
+        bus.dispatch = AsyncMock()
+
+        return bus
+
+    def test_init_when_called_then_set_message_bus(self, message_bus: MagicMock) -> None:
+        sender = CommandSender(message_bus)
+
+        assert sender._message_bus == message_bus
+
+    async def test_send_when_called_then_call_message_bus_dispatch_with_given_command(
+        self, message_bus: MagicMock
+    ) -> None:
+        command = FakeCommand()
+        sender = CommandSender(message_bus)
+
+        await sender.send(command)
+
+        message_bus.dispatch.assert_awaited_with(command)

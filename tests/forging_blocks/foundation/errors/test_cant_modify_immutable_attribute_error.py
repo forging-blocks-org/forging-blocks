@@ -1,0 +1,35 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+import pytest
+
+from forging_blocks.foundation import (
+    CantModifyImmutableAttributeError,
+    ErrorMessage,
+    ErrorMetadata,
+)
+
+
+@pytest.mark.unit
+class TestCantModifyImmutableAttributeError:
+    def test_initialization(self):
+        # Arrange
+        attribute_name = "test_attribute"
+        class_name = "TestClass"
+
+        # Act
+        error = CantModifyImmutableAttributeError(
+            class_name=class_name,
+            attribute_name=attribute_name,
+        )
+
+        # Assert
+        expected_message = ErrorMessage(
+            f"Cannot modify immutable attribute '{attribute_name}' of class '{class_name}'."
+        )
+        expected_metadata = ErrorMetadata(
+            {
+                "class_name": class_name,
+                "attribute_name": attribute_name,
+            }
+        )
+        assert expected_message == error.message
+        assert expected_metadata == error.metadata

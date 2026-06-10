@@ -1,0 +1,36 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-docs:
+    concurrency: docs-deploy
+    runs-on: ubuntu-latest
+    env:
+      GIT_AUTHOR_NAME: "github-actions[bot]"
+      GIT_AUTHOR_EMAIL: "github-actions[bot]@users.noreply.github.com"
+      GIT_COMMITTER_NAME: "github-actions[bot]"
+      GIT_COMMITTER_EMAIL: "github-actions[bot]@users.noreply.github.com"
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup-poetry
+      - run: poetry install --no-interaction --with docs
+      - run: poetry run python scripts/generate_autodoc_pages.py
+      - name: Provide git metadata for act
+        if: ${{ github.actor == 'nektos/act' }}
+        run: |
+          # If .git is a file (worktree pointer), move it aside then create a local repo for act runs.
+          if [ ! -d .git ]; then
+            if [ -f .git ]; then mv .git .git.orig || true; fi
+            git init
+            git add -A || true
+            git commit -m "temp" || true
+          fi
+      - run: poetry run mike deploy --push dev

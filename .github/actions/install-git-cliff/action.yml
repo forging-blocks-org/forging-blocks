@@ -1,0 +1,9 @@
+name: Install git-cliff
+description: A GitHub Action to install git-cliff for generating changelogs.
+
+runs:
+  using: composite
+  steps:
+    - uses: orhun/git-cliff-action@v4
+      with:
+        config: cliff.toml

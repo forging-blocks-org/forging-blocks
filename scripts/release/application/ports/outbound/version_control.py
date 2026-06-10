@@ -1,0 +1,93 @@
+from abc import abstractmethod
+
+from forging_blocks.foundation import OutputPort
+from scripts.release.domain.value_objects import ReleaseBranchName
+
+
+class VersionControl(OutputPort[ReleaseBranchName, bool]):
+    """Abstracts version control operations required by the release workflow.
+
+    Must be non-interactive. All methods must raise on failure.
+    """
+
+    @abstractmethod
+    def branch_exists(
+        self,
+        branch: ReleaseBranchName,
+    ) -> bool:
+        """Local branch existence check."""
+        ...
+
+    @abstractmethod
+    def checkout(
+        self,
+        branch: ReleaseBranchName,
+        *,
+        dry_run: bool = False,
+    ) -> None:
+        """Checkout local branch."""
+        ...
+
+    @abstractmethod
+    def checkout_main(self) -> None:
+        """Return to the main branch (or the configured default branch)."""
+        ...
+
+    @abstractmethod
+    def commit_release_artifacts(
+        self,
+        *,
+        dry_run: bool = False,
+    ) -> None:
+        """Commit the version bump and any generated artifacts (e.g., changelog).
+        Must be non-interactive.
+        """
+        ...
+
+    @abstractmethod
+    def create_branch(
+        self,
+        branch: ReleaseBranchName,
+        *,
+        dry_run: bool = False,
+    ) -> None:
+        """Create local branch."""
+        ...
+
+    @abstractmethod
+    def delete_local_branch(
+        self,
+        branch: ReleaseBranchName,
+    ) -> None:
+        """Delete local branch if present."""
+        ...
+
+    @abstractmethod
+    def delete_remote_branch(
+        self,
+        branch: ReleaseBranchName,
+    ) -> None:
+        """Delete remote branch (origin) if present.
+        Must be implemented as a non-interactive command (e.g., git push origin :branch).
+        """
+        ...
+
+    @abstractmethod
+    def push(
+        self,
+        branch: ReleaseBranchName,
+        *,
+        dry_run: bool = False,
+    ) -> None:
+        """Push branch and tag."""
+        ...
+
+    @abstractmethod
+    def remote_branch_exists(
+        self,
+        branch: ReleaseBranchName,
+    ) -> bool:
+        """Remote existence check (origin/<branch>).
+        This is important for idempotency and avoiding non-fast-forward surprises.
+        """
+        ...

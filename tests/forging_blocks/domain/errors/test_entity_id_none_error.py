@@ -1,0 +1,20 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+import pytest
+
+from forging_blocks.domain import EntityIdNoneError
+
+
+@pytest.mark.unit
+class TestEntityIdNoneError:
+    def test_entity_id_none_error_message(self):
+        # Arrange
+        actual_fake_class_name = "FakeClassName"
+
+        # Action
+        error = EntityIdNoneError(actual_fake_class_name)
+
+        # Assert
+        assert error.message.value == (
+            f"Entity ID have to be defined for '{actual_fake_class_name}'."
+        )
+        assert error.metadata.context["entity_class_name"] == actual_fake_class_name
