@@ -1,9 +1,8 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-import pytest
 from pathlib import Path
 
 import libcst as cst
-
+import pytest
 from scripts.order_members import (
     ORDER_PRIORITY,
     ReorderClassMembers,
@@ -12,8 +11,8 @@ from scripts.order_members import (
     get_attribute_name,
     has_decorator,
     is_docstring_stmt,
-    reorder_file,
     main,
+    reorder_file,
 )
 
 

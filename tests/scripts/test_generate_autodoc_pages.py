@@ -1,20 +1,20 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-import pytest
 from pathlib import Path
 
+import pytest
 from scripts.generate_autodoc_pages import (
-    SRC_DIR,
     OUT_DIR,
+    SRC_DIR,
     build_autodoc_section,
     ensure_autodoc_index,
     ensure_dir,
     find_source_files,
     generate_markdown,
     import_path,
+    main,
     module_title,
     read_docstring,
     update_nav,
-    main,
 )
 
 
