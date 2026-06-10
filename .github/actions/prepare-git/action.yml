@@ -1,0 +1,22 @@
+name: Prepare Git for Act Runtime
+description: >-
+  Handle .git worktree pointer for local act (GitHub Actions simulator) runs.
+  In act, .git may be a file pointing to a worktree location. This action
+  converts it to a proper local repository so git operations work.
+
+runs:
+  using: composite
+  steps:
+    - name: Prepare git for act runtime
+      shell: bash
+      run: |
+        if [ ! -d .git ]; then
+          if [ -f .git ]; then
+            # .git is a file (worktree pointer) — move it aside
+            mv .git .git.orig || true
+          fi
+          # Initialize a temporary local repo for act runs
+          git init
+          git add -A || true
+          git commit -m "temp: local repo for act" || true
+        fi

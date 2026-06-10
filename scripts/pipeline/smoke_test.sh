@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=scripts/pipeline/commons.sh
 source "$SCRIPT_DIR/commons.sh"
@@ -23,6 +25,7 @@ until [[ "$CONSECUTIVE_SUCCESS" -ge "$REQUIRED_SUCCESSES" ]]; do
   # Check JSON API endpoint
   if curl --silent --fail --output /dev/null \
       --max-time 10 \
+      --connect-timeout 5 \
       "https://test.pypi.org/pypi/${PACKAGE_NAME}/${PUBLISH_VERSION}/json"; then
     CONSECUTIVE_SUCCESS=$(( CONSECUTIVE_SUCCESS + 1 ))
     log "Found package (success ${CONSECUTIVE_SUCCESS}/${REQUIRED_SUCCESSES})"
@@ -40,7 +43,7 @@ done
 log "${PACKAGE_NAME}==${PUBLISH_VERSION} is available — installing"
 
 TMP_VENV=$(mktemp -d)
-trap 'rm -rf $TMP_VENV' EXIT
+trap 'rm -rf "$TMP_VENV"' EXIT
 
 python3 -m venv "$TMP_VENV"
 # shellcheck disable=SC1091
@@ -50,17 +53,21 @@ source "$TMP_VENV/bin/activate"
 pip install --quiet --no-cache-dir \
   --index-url https://test.pypi.org/simple/ \
   --extra-index-url https://pypi.org/simple/ \
+  --default-timeout=30 \
   "${PACKAGE_NAME}==${PUBLISH_VERSION}"
 
 log "Verifying installed version"
 
-python3 - <<EOF
+python3 <<EOF
+import sys
 import ${IMPORT_NAME}
 from importlib.metadata import version
 
 v = version("${PACKAGE_NAME}")
 print(f"Detected Version: {v}")
-assert v == "${PUBLISH_VERSION}", f"Expected ${PUBLISH_VERSION}, got {v}"
+if v != "${PUBLISH_VERSION}":
+  print(f"ERROR: Expected ${PUBLISH_VERSION}, got {v}", file=sys.stderr)
+  sys.exit(1)
 print("Version verification passed")
 EOF
 
