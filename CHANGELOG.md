@@ -48,14 +48,14 @@
 - **theme**: Adjusting css for auto-generated docs
 - **foundation**: Convert SupportsAutoFreeze example from doctest to fenced code block
 - **messages**: Convert Command example from doctest to fenced code block
-- **messages**: Convert Command example from doctest to fenced code block
 - **messages**: Convert MessageMetadata example from doctest to fenced code block
 - **messages**: Convert Query example from doctest to fenced code block
 - **result**: Convert quick-start doctest to fenced code block with annotations
-- **foundation**: Convert ValueObject example from doctest to fenced code blockm
+- **foundation**: Convert ValueObject example from doctest to fenced code block
 - Update changelog, contributing and release guides for versioned docs
 - Update version URLs in release guide
-- Add detailed API Reference navigation structure to mkdocs.yml\nchore: Clarify --dry-run behavior in deploy script
+- Add detailed API Reference navigation structure to mkdocs.yml
+- Clarify --dry-run behavior in deploy script
 - **mkdocs**: Adjusting mkdocs.yml
 
 - Add versioned documentation management commands and updated release guide
