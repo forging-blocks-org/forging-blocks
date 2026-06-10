@@ -339,7 +339,10 @@ class TestMain:
     def test_when_no_argv_then_uses_default_paths(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        monkeypatch.setattr(Path, "rglob", lambda self, pattern: [])
+        def _noop_rglob(self: Path, pattern: str) -> list[Path]:
+            return []
+
+        monkeypatch.setattr(Path, "rglob", _noop_rglob)
 
         result = main([])
 
