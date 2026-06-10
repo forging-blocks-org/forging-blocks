@@ -13,36 +13,8 @@ from scripts.generate_autodoc_pages import (
     import_path,
     main,
     module_title,
-    read_docstring,
     update_nav,
 )
-
-
-@pytest.mark.unit
-class TestReadDocstring:
-    def test_when_valid_docstring_then_returns_it(self, tmp_path: Path) -> None:
-        file = tmp_path / "test.py"
-        file.write_text('"""Hello world."""\n')
-
-        result = read_docstring(file)
-
-        assert result == "Hello world."
-
-    def test_when_no_docstring_then_returns_empty(self, tmp_path: Path) -> None:
-        file = tmp_path / "test.py"
-        file.write_text("x = 1\n")
-
-        result = read_docstring(file)
-
-        assert result == ""
-
-    def test_when_syntax_error_then_returns_empty(self, tmp_path: Path) -> None:
-        file = tmp_path / "test.py"
-        file.write_text("this is not valid python {{{")
-
-        result = read_docstring(file)
-
-        assert result == ""
 
 
 @pytest.mark.unit
@@ -154,7 +126,6 @@ class TestGenerateMarkdown:
         assert expected_md.exists()
         content = expected_md.read_text()
         assert "# My Module" in content
-        assert "My docstring." in content
         assert "::: forging_blocks.domain.my_module" in content
 
     def test_when_source_without_docstring_then_creates_markdown_without_doc(
@@ -217,7 +188,7 @@ class TestBuildAutodocSection:
     def test_when_empty_list_then_returns_minimal(self) -> None:
         section = build_autodoc_section([])
 
-        assert section == "  - API Reference:"
+        assert section == "      - API Reference:"
 
     def test_when_file_relative_to_has_no_parts_then_skips(
         self, monkeypatch: pytest.MonkeyPatch
@@ -234,7 +205,7 @@ class TestBuildAutodocSection:
 
         section = build_autodoc_section([file])
 
-        assert section == "  - API Reference:"
+        assert section == "      - API Reference:"
 
 
 @pytest.mark.unit

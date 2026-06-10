@@ -7,7 +7,6 @@ for curated Guide or Reference documentation.
 
 from __future__ import annotations
 
-import ast
 import re
 import sys
 from pathlib import Path
@@ -15,17 +14,6 @@ from pathlib import Path
 SRC_DIR = Path("src/forging_blocks")
 OUT_DIR = Path("docs/reference/autodoc")
 MKDOCS_YML = Path("mkdocs.yml")
-
-
-def read_docstring(file: Path) -> str:
-    """Read the top-level docstring from a Python file."""
-    try:
-        source = file.read_text(encoding="utf-8")
-        tree = ast.parse(source)
-        return ast.get_docstring(tree) or ""
-    except Exception as e:
-        print(f"⚠️ Failed reading {file}: {e}")
-        return ""
 
 
 def module_title(path: Path) -> str:
@@ -52,16 +40,12 @@ def find_source_files(base: Path) -> list[Path]:
 def generate_markdown(src: Path) -> Path:
     """Generate a markdown file for a given Python source file."""
     title = module_title(src)
-    doc = read_docstring(src)
     out = OUT_DIR / src.relative_to(SRC_DIR).with_suffix(".md")
     ensure_dir(out)
 
-    content = [f"# {title}", ""]
-    if doc:
-        content.append(doc)
-        content.append("")
-
-    content += [
+    content = [
+        f"# {title}",
+        "",
         f"::: {import_path(src)}",
         "    options:",
         "      show_source: true",
@@ -73,7 +57,7 @@ def generate_markdown(src: Path) -> Path:
     return out
 
 
-def build_autodoc_section(files: list[Path], indent: str = "  ") -> str:
+def build_autodoc_section(files: list[Path], indent: str = "      ") -> str:
     """Build the MkDocs navigation section for autodoc pages."""
     grouped: dict[str, dict[str | None, list[tuple[str, str]]]] = {}
 
@@ -125,9 +109,7 @@ def build_autodoc_section(files: list[Path], indent: str = "  ") -> str:
 def update_nav(mkdocs: str, section: str) -> str:
     """Update the MkDocs navigation section with the autodoc section."""
     # Try to find and replace existing API Reference section
-    pattern = (
-        r"(?ms)^  - API Reference:.*?(?=^  - [A-Z]|^[a-z_]+:|\Z)"
-    )
+    pattern = r"(?ms)^      - API Reference:.*?(?=^      - [A-Z]|^  - [A-Z]|^[a-z_]+:|\Z)"
     if re.search(pattern, mkdocs):
         return re.sub(pattern, section + "\n", mkdocs)
 
@@ -169,7 +151,6 @@ def main() -> None:
         sys.exit(1)
 
     files = [generate_markdown(p) for p in find_source_files(SRC_DIR)]
-
     ensure_autodoc_index(OUT_DIR)
 
     mkdocs_text = MKDOCS_YML.read_text(encoding="utf-8")

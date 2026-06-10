@@ -9,10 +9,17 @@ permissions:
 
 jobs:
   deploy-docs:
+    concurrency: docs-deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/setup-poetry
       - run: poetry install --no-interaction --with docs
       - run: poetry run python scripts/generate_autodoc_pages.py
-      - run: poetry run mkdocs gh-deploy --force --clean
+      - name: Set up git for mike
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - run: poetry run mike deploy --push dev

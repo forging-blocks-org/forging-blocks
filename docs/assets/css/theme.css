@@ -313,3 +313,24 @@ body {
   background-color: var(--bw-accent-orange) !important;
   color: var(--bw-bg-root) !important;
 }
+
+/* Version selector dropdown */
+.md-version__current {
+  color: #313131 !important;
+}
+
+.md-version__current:hover {
+  color: #313131 !important;
+  text-decoration: underline !important;
+  text-decoration-color: var(--bw-accent-orange) !important;
+}
+
+.md-version__item .md-version__link {
+  color: var(--bw-accent-orange) !important;
+}
+
+.md-version__item .md-version__link:hover {
+  color: var(--bw-accent-orange) !important;
+  text-decoration: underline !important;
+  text-decoration-color: var(--bw-accent-orange) !important;
+}

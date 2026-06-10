@@ -133,9 +133,12 @@ poetry run poe ci:check          # Run full CI suite
 poetry run poe ci:simulate       # Include documentation build
 
 # Documentation
-poetry run poe docs:build        # Build documentation
-poetry run poe docs:generate     # Generate API reference
-```
+poetry run poe docs:build           # Build documentation
+poetry run poe docs:serve           # Serve docs locally
+poetry run poe docs:generate        # Generate API reference
+poetry run poe docs:deploy-version  # Deploy versioned docs (see --help)
+poetry run poe docs:serve-versioned # Serve with version selector
+poetry run poe docs:list-versions   # List deployed versions
 
 ### Release Process (Maintainers Only)
 

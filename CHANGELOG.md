@@ -1,3 +1,14 @@
+## [Unreleased]
+
+### Features
+
+- **docs**: Versioned documentation with mike — each release gets its own immutable docs snapshot, `dev` updates on every push to main, version selector in nav
+- **ci**: Release pipeline deploys versioned docs after PyPI publish
+
+### Documentation
+
+- Add versioned documentation management commands and updated release guide
+
 ## [0.4.0] - 2026-06-04
 
 ### Bug Fixes
