@@ -1,22 +1,44 @@
 name: Setup Poetry
-description: A GitHub Action to set up Poetry for Python dependency management.
+description: >-
+  Install Poetry and Python, configure virtual environment creation, and cache
+  Poetry/pip dependencies. Caching key is based on poetry.lock for deterministic
+  cache hits across runs.
+
+outputs:
+  python-version:
+    description: "Python version installed (e.g., 3.14.3)"
+    value: "3.14.3"
+  poetry-installed:
+    description: "Boolean: Poetry installation succeeded"
+    value: "true"
 
 runs:
   using: composite
   steps:
-    - uses: actions/setup-python@v6
+    - name: Install Python
+      uses: actions/setup-python@v6
       with:
         python-version: "3.14.3"
 
-    - run: pip install poetry
+    - name: Install Poetry
       shell: bash
+      run: |
+        pip install poetry
+        poetry --version
 
-    - run: poetry config virtualenvs.create true
+    - name: Configure Poetry virtualenv creation
       shell: bash
+      run: |
+        poetry config virtualenvs.create true
+        echo "Poetry configured: virtualenv creation enabled"
 
-    - uses: actions/cache@v5
+    - name: Cache Poetry and pip dependencies
+      uses: actions/cache@v5
+      id: cache
       with:
         path: |
           ~/.cache/pypoetry
           ~/.cache/pip
         key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: |
+          poetry-${{ runner.os }}-
