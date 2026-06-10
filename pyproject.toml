@@ -151,7 +151,7 @@ addopts = [
     "--strict-markers",
     "--strict-config",
     "--cov=forging_blocks",
-    "--cov=scripts/release",
+    "--cov=scripts",
     "--cov-report=term-missing",
     "--cov-fail-under=90",
 ]
