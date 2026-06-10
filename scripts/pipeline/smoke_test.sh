@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=scripts/pipeline/commons.sh
 source "$SCRIPT_DIR/commons.sh"
 
 require_vars PACKAGE_NAME IMPORT_NAME PUBLISH_VERSION
@@ -39,7 +40,7 @@ done
 log "${PACKAGE_NAME}==${PUBLISH_VERSION} is available — installing"
 
 TMP_VENV=$(mktemp -d)
-trap "rm -rf $TMP_VENV" EXIT
+trap 'rm -rf $TMP_VENV' EXIT
 
 python3 -m venv "$TMP_VENV"
 # shellcheck disable=SC1091
