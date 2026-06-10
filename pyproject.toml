@@ -182,6 +182,7 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
   { cmd = "poetry run mike deploy dev" },
   { cmd = "poetry run mike serve" }
 ]
+"docs:serve-versioned" = { cmd = "poetry run mike serve" }
 "docs:deploy-version" = { cmd = "bash scripts/deploy_versioned_docs.sh" }
 "docs:list-versions" = { cmd = "poetry run mike list" }
 
