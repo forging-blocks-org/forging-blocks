@@ -73,7 +73,7 @@ def generate_markdown(src: Path) -> Path:
     return out
 
 
-def build_autodoc_section(files: list[Path], indent: str = "      ") -> str:
+def build_autodoc_section(files: list[Path], indent: str = "  ") -> str:
     """Build the MkDocs navigation section for autodoc pages."""
     grouped: dict[str, dict[str | None, list[tuple[str, str]]]] = {}
 
@@ -126,7 +126,7 @@ def update_nav(mkdocs: str, section: str) -> str:
     """Update the MkDocs navigation section with the autodoc section."""
     # Try to find and replace existing API Reference section
     pattern = (
-        r"(?ms)^      - API Reference:.*?(?=^      - [A-Z]|^  - [A-Z]|^[a-z_]+:|\Z)"
+        r"(?ms)^  - API Reference:.*?(?=^  - [A-Z]|^[a-z_]+:|\Z)"
     )
     if re.search(pattern, mkdocs):
         return re.sub(pattern, section + "\n", mkdocs)
@@ -169,6 +169,8 @@ def main() -> None:
         sys.exit(1)
 
     files = [generate_markdown(p) for p in find_source_files(SRC_DIR)]
+
+    ensure_autodoc_index(OUT_DIR)
 
     mkdocs_text = MKDOCS_YML.read_text(encoding="utf-8")
     section = build_autodoc_section(files)
