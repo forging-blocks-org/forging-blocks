@@ -1,0 +1,74 @@
+name: Deploy Docs
+description: Build and deploy documentation with mike, including act runtime support.
+
+inputs:
+  version:
+    description: "Documentation version to deploy (e.g., '1.2.3' or 'dev')"
+    required: true
+  update-aliases:
+    description: "Comma-separated list of aliases to update alongside version (e.g., 'latest')"
+    required: false
+    default: ""
+  git-author-name:
+    description: "Git author name for commits"
+    required: false
+    default: "automation[bot]"
+  git-author-email:
+    description: "Git author email for commits"
+    required: false
+    default: "automation[bot]@users.noreply.github.com"
+  skip-dependencies:
+    description: "Skip poetry install if dependencies already set up"
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Set git config
+      shell: bash
+      env:
+        GIT_AUTHOR_NAME: ${{ inputs.git-author-name }}
+        GIT_AUTHOR_EMAIL: ${{ inputs.git-author-email }}
+        GIT_COMMITTER_NAME: ${{ inputs.git-author-name }}
+        GIT_COMMITTER_EMAIL: ${{ inputs.git-author-email }}
+      run: |
+        git config --global user.name "$GIT_AUTHOR_NAME"
+        git config --global user.email "$GIT_AUTHOR_EMAIL"
+
+    - name: Set up Poetry (if needed)
+      if: inputs.skip-dependencies == 'false'
+      uses: ./.github/actions/setup-poetry
+
+    - name: Install docs dependencies
+      if: inputs.skip-dependencies == 'false'
+      shell: bash
+      run: poetry install --no-interaction --with docs
+
+    - name: Generate documentation pages
+      shell: bash
+      run: poetry run python scripts/generate_autodoc_pages.py
+
+    - name: Prepare git metadata for local CI runs
+      shell: bash
+      run: |
+        if [ ! -d .git ]; then
+          if [ -f .git ]; then
+            mv .git .git.orig || true
+          fi
+          git init
+          git add -A || true
+          git commit -m "temp" || true
+        fi
+
+    - name: Deploy documentation
+      shell: bash
+      run: |
+        VERSION="${{ inputs.version }}"
+        ALIASES="${{ inputs.update-aliases }}"
+
+        if [ -z "$ALIASES" ]; then
+          poetry run mike deploy --push "$VERSION"
+        else
+          poetry run mike deploy --push --update-aliases "$VERSION" $ALIASES
+        fi
