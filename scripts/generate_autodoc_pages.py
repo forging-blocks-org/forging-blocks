@@ -151,6 +151,7 @@ def main() -> None:
         sys.exit(1)
 
     files = [generate_markdown(p) for p in find_source_files(SRC_DIR)]
+    ensure_autodoc_index(OUT_DIR)
 
     mkdocs_text = MKDOCS_YML.read_text(encoding="utf-8")
     section = build_autodoc_section(files)
