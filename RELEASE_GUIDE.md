@@ -271,9 +271,9 @@ Documentation is versioned using [mike](https://github.com/jimporter/mike). Each
 
 | Alias | URL | Updated |
 |-------|-----|---------|
-| `latest` | `/` | On each release |
-| `dev` | `/dev/` | Every push to `main` |
-| `0.4.0` | `/0.4.0/` | Never (snapshot) |
+| `latest` | `https://forging-blocks-org.github.io/forging-blocks/` | On each release |
+| `dev` | `/forging-blocks/dev/` | Every push to `main` |
+| `0.4.0` | `/forging-blocks/0.4.0/` | Never (snapshot) |
 
 ### Manual Docs Commands
 
