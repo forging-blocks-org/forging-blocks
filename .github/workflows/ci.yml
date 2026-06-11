@@ -153,3 +153,44 @@ jobs:
           chmod +x ./scripts/pipeline/smoke_test.sh
           ./scripts/pipeline/smoke_test.sh
         timeout-minutes: 10
+
+  validate-docs-sync:
+    name: Validate Documentation Generation
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: "0"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Setup Poetry
+        uses: ./.github/actions/setup-poetry
+
+      - name: Install documentation dependencies
+        run: |
+          poetry install --no-interaction --with docs
+
+      - name: Generate documentation pages
+        run: |
+          poetry run python scripts/generate_autodoc_pages.py
+
+      - name: Check for uncommitted generated docs
+        run: |
+          # Restore mkdocs.yml — the API Reference nav section is generated at deploy time
+          git checkout -- mkdocs.yml
+
+          if ! git diff --quiet --exit-code; then
+            echo "❌ Generated documentation is out of sync with source."
+            echo "Run: poetry run python scripts/generate_autodoc_pages.py"
+            echo "Then commit the changes."
+            git diff --name-only
+            exit 1
+          fi
+          echo "✅ Generated documentation is in sync with source."

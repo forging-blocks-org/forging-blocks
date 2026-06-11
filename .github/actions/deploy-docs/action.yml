@@ -57,10 +57,27 @@ runs:
       run: |
         poetry install --no-interaction --with docs
 
-    - name: Generate documentation pages
+    - name: Enforce clean working tree
       shell: bash
       run: |
-        poetry run python scripts/generate_autodoc_pages.py
+        if ! git diff --quiet --exit-code; then
+          echo "ERROR: Working tree has uncommitted changes. Cannot proceed with deployment." >&2
+          echo "Uncommitted files:" >&2
+          git diff --name-only >&2
+          exit 1
+        fi
+
+    - name: Sync gh-pages branch
+      shell: bash
+      run: |
+        # Fetch latest remote state (limited depth to avoid excessive data)
+        git fetch origin gh-pages --depth=20 || true
+
+        # Ensure we're tracking origin/gh-pages correctly
+        if git rev-parse --verify origin/gh-pages >/dev/null 2>&1; then
+          git checkout gh-pages 2>/dev/null || git checkout -b gh-pages origin/gh-pages
+          git rebase origin/gh-pages || true
+        fi
 
     - name: Prepare git for act runtime
       shell: bash
@@ -76,17 +93,10 @@ runs:
           git commit -m "temp: local repo for act" || true
         fi
 
-    - name: Sync gh-pages branch
+    - name: Generate documentation pages
       shell: bash
       run: |
-        # Fetch latest remote state (limited depth to avoid excessive data)
-        git fetch origin gh-pages --depth=20 || true
-
-        # Ensure we're tracking origin/gh-pages correctly
-        if git rev-parse --verify origin/gh-pages >/dev/null 2>&1; then
-          git checkout gh-pages 2>/dev/null || git checkout -b gh-pages origin/gh-pages
-          git rebase origin/gh-pages || true
-        fi
+        poetry run python scripts/generate_autodoc_pages.py
 
     - name: Deploy documentation
       shell: bash
@@ -99,3 +109,10 @@ runs:
         else
           poetry run mike deploy --push --ignore-remote-status --update-aliases "$VERSION" $ALIASES
         fi
+
+    - name: Restore mkdocs.yml
+      shell: bash
+      run: |
+        # The API Reference nav section was generated for the gh-pages build only.
+        # Restore mkdocs.yml to keep main branch unchanged.
+        git checkout -- mkdocs.yml
