@@ -15,7 +15,7 @@ jobs:
       VERSION: ${{ steps.get-version.outputs.VERSION }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: ./.github/actions/checkout
 
       - name: Lint Workflow Files (YAML)
         uses: ibiqlik/action-yamllint@v3
