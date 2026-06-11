@@ -67,17 +67,6 @@ runs:
           exit 1
         fi
 
-    - name: Sync gh-pages branch
-      shell: bash
-      run: |
-        git fetch origin gh-pages --depth=20 || true
-
-        if git rev-parse --verify origin/gh-pages >/dev/null 2>&1; then
-          git worktree add /tmp/gh-pages origin/gh-pages
-        else
-          git worktree add --orphan -b gh-pages /tmp/gh-pages
-        fi
-
     - name: Prepare git for act runtime
       shell: bash
       run: |
@@ -103,15 +92,9 @@ runs:
         ALIASES="${{ inputs.update-aliases }}"
 
         if [ -z "$ALIASES" ]; then
-          poetry run mike deploy --push --ignore-remote-status \
-            --config-file mkdocs.yml \
-            --deploy-prefix /tmp/gh-pages \
-            "$VERSION"
+          poetry run mike deploy --push --ignore-remote-status "$VERSION"
         else
-          poetry run mike deploy --push --ignore-remote-status --update-aliases \
-            --config-file mkdocs.yml \
-            --deploy-prefix /tmp/gh-pages \
-            "$VERSION" $ALIASES
+          poetry run mike deploy --push --ignore-remote-status --update-aliases "$VERSION" $ALIASES
         fi
 
     - name: Restore mkdocs.yml
