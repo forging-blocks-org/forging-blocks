@@ -97,7 +97,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: ./.github/actions/checkout
 
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
@@ -160,9 +160,10 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: ./.github/actions/checkout
         with:
-          fetch-depth: 0
+          fetch-depth: "0"
 
       - name: Set up Python
         uses: actions/setup-python@v5
