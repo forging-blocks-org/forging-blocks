@@ -315,8 +315,22 @@ body {
 }
 
 /* Version selector dropdown */
+
+/* Hide version text — only show the arrow icon */
 .md-version__current {
   color: #313131 !important;
+  font-size: 0 !important;
+  width: 2.4rem;
+  overflow: hidden;
+}
+
+/* Keep the :after arrow visible */
+.md-version__current:after {
+  font-size: .8rem;
+}
+
+.md-version__alias {
+  display: none !important;
 }
 
 .md-version__current:hover {
