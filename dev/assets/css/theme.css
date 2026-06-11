@@ -328,6 +328,7 @@ body {
   align-items: center;
   padding: 0 0.4rem 0 0.8rem;
   transition: background-color .25s, box-shadow .25s;
+  position: relative;
 }
 
 .md-header .md-version:hover {
@@ -337,16 +338,38 @@ body {
 
 /* Dropdown list: open upward from the floating button */
 .md-header .md-version .md-version__list {
-  bottom: 100%;
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  right: 0;
+  left: auto;
   top: auto;
-  margin-bottom: 0.4rem;
+  margin: 0;
   border-radius: 0.4rem;
-  min-width: 8rem;
+  min-width: 10rem;
+  width: auto;
+  background-color: var(--bw-bg-surface) !important;
+  border: 1px solid var(--bw-border) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  overflow: visible;
+  list-style: none;
+  padding: 0.4rem 0;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Show dropdown on parent hover */
+.md-header .md-version:hover .md-version__list {
+  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Version button: arrow icon only, no text */
 .md-version__current {
-  color: var(--bw-fg-primary) !important;
+  color: var(--bw-accent-orange) !important;
   font-size: 0 !important;
   width: auto;
   overflow: hidden;
@@ -358,7 +381,7 @@ body {
 }
 
 .md-version__current:hover {
-  color: var(--bw-accent-orange) !important;
+  color: var(--bw-accent-yellow) !important;
   text-decoration: none !important;
 }
 
@@ -375,12 +398,30 @@ body {
 }
 
 /* Dropdown items */
+.md-version__item {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
 .md-version__item .md-version__link {
-  color: var(--bw-fg-primary) !important;
+  display: block;
+  color: var(--bw-accent-orange) !important;
+  padding: 0.6rem 1.2rem;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  line-height: 1.4;
 }
 
 .md-version__item .md-version__link:hover {
-  color: var(--bw-accent-orange) !important;
-  background: var(--bw-bg-hover);
+  color: var(--bw-accent-yellow) !important;
+  background-color: var(--bw-bg-hover);
   text-decoration: none !important;
+}
+
+/* Ensure dropdown items are visible */
+.md-header .md-version:hover .md-version__item {
+  visibility: visible;
 }
