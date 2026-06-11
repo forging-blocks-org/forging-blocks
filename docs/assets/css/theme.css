@@ -314,37 +314,73 @@ body {
   color: var(--bw-bg-root) !important;
 }
 
-/* Version selector dropdown */
+/* Version selector — floating button at bottom-right, detached from header */
+.md-header .md-version {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  z-index: 4;
+  height: 2.4rem;
+  background: var(--bw-bg-surface);
+  border-radius: 1.2rem;
+  box-shadow: var(--md-shadow-z2);
+  display: flex;
+  align-items: center;
+  padding: 0 0.4rem 0 0.8rem;
+  transition: background-color .25s, box-shadow .25s;
+}
 
-/* Hide version text — only show the arrow icon */
+.md-header .md-version:hover {
+  background: var(--bw-bg-hover);
+  box-shadow: var(--md-shadow-z3);
+}
+
+/* Dropdown list: open upward from the floating button */
+.md-header .md-version .md-version__list {
+  bottom: 100%;
+  top: auto;
+  margin-bottom: 0.4rem;
+  border-radius: 0.4rem;
+  min-width: 8rem;
+}
+
+/* Version button: arrow icon only, no text */
 .md-version__current {
-  color: #313131 !important;
+  color: var(--bw-fg-primary) !important;
   font-size: 0 !important;
-  width: 2.4rem;
+  width: auto;
   overflow: hidden;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  padding: 0 0.4rem 0 0;
+  line-height: 2.4rem;
 }
 
-/* Keep the :after arrow visible */
+.md-version__current:hover {
+  color: var(--bw-accent-orange) !important;
+  text-decoration: none !important;
+}
+
+/* Arrow icon via :after */
 .md-version__current:after {
-  font-size: .8rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0;
 }
 
+/* Hide alias */
 .md-version__alias {
   display: none !important;
 }
 
-.md-version__current:hover {
-  color: #313131 !important;
-  text-decoration: underline !important;
-  text-decoration-color: var(--bw-accent-orange) !important;
-}
-
+/* Dropdown items */
 .md-version__item .md-version__link {
-  color: var(--bw-accent-orange) !important;
+  color: var(--bw-fg-primary) !important;
 }
 
 .md-version__item .md-version__link:hover {
   color: var(--bw-accent-orange) !important;
-  text-decoration: underline !important;
-  text-decoration-color: var(--bw-accent-orange) !important;
+  background: var(--bw-bg-hover);
+  text-decoration: none !important;
 }
