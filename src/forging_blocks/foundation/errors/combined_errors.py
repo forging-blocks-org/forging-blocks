@@ -15,6 +15,12 @@ class CombinedErrors(Error, Generic[ErrorType]):
     """Base class for combining multiple errors into one."""
 
     def __init__(self, errors: Iterable[ErrorType]) -> None:
+        """Initialise with an iterable of errors to combine.
+
+        Args:
+            errors: The errors to aggregate. Stored internally as a
+                tuple to preserve the original collection.
+        """
         self._errors: Sequence[ErrorType] = tuple(errors)
         combined_message = f"{len(self._errors)} errors occurred."
         super().__init__(message=ErrorMessage(combined_message))
