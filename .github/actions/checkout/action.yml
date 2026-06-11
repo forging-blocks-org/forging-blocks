@@ -1,4 +1,5 @@
 name: Checkout
+description: Checkout repository
 
 inputs:
   fetch-depth:
