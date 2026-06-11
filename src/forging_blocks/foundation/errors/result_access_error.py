@@ -7,6 +7,12 @@ class ResultAccessError(Error):
     """Exception raised when trying to access value or err from an inappropriate Result variant."""
 
     def __init__(self, message: ErrorMessage | None = None) -> None:
+        """Initialise with an optional custom error message.
+
+        Args:
+            message: Optional :class:`ErrorMessage` describing the invalid
+                access. Defaults to a generic message when not provided.
+        """
         message = message or ErrorMessage("Invalid access on Result type.")
         super().__init__(message)
 
