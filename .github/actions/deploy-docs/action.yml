@@ -57,36 +57,6 @@ runs:
       run: |
         poetry install --no-interaction --with docs
 
-    - name: Generate documentation pages
-      shell: bash
-      run: |
-        poetry run python scripts/generate_autodoc_pages.py
-
-    - name: Commit generated documentation
-      shell: bash
-      run: |
-        # Stage and commit generated docs if there are changes
-        if ! git diff --quiet --exit-code; then
-          git add -A
-          git commit -m "docs: auto-generated documentation pages"
-        else
-          echo "No generated documentation changes to commit"
-        fi
-
-    - name: Prepare git for act runtime
-      shell: bash
-      run: |
-        # Handle .git worktree pointer for local act (GitHub Actions simulator) runs
-        if [ ! -d .git ]; then
-          if [ -f .git ]; then
-            mv .git .git.orig || true
-          fi
-          # Initialize temporary local repo for act runs
-          git init
-          git add -A || true
-          git commit -m "temp: local repo for act" || true
-        fi
-
     - name: Enforce clean working tree
       shell: bash
       run: |
@@ -109,6 +79,25 @@ runs:
           git rebase origin/gh-pages || true
         fi
 
+    - name: Prepare git for act runtime
+      shell: bash
+      run: |
+        # Handle .git worktree pointer for local act (GitHub Actions simulator) runs
+        if [ ! -d .git ]; then
+          if [ -f .git ]; then
+            mv .git .git.orig || true
+          fi
+          # Initialize temporary local repo for act runs
+          git init
+          git add -A || true
+          git commit -m "temp: local repo for act" || true
+        fi
+
+    - name: Generate documentation pages
+      shell: bash
+      run: |
+        poetry run python scripts/generate_autodoc_pages.py
+
     - name: Deploy documentation
       shell: bash
       run: |
@@ -120,3 +109,10 @@ runs:
         else
           poetry run mike deploy --push --ignore-remote-status --update-aliases "$VERSION" $ALIASES
         fi
+
+    - name: Restore mkdocs.yml
+      shell: bash
+      run: |
+        # The API Reference nav section was generated for the gh-pages build only.
+        # Restore mkdocs.yml to keep main branch unchanged.
+        git checkout -- mkdocs.yml

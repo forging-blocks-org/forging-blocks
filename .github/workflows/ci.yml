@@ -182,6 +182,9 @@ jobs:
 
       - name: Check for uncommitted generated docs
         run: |
+          # Restore mkdocs.yml — the API Reference nav section is generated at deploy time
+          git checkout -- mkdocs.yml
+
           if ! git diff --quiet --exit-code; then
             echo "❌ Generated documentation is out of sync with source."
             echo "Run: poetry run python scripts/generate_autodoc_pages.py"
