@@ -67,18 +67,6 @@ runs:
           exit 1
         fi
 
-    - name: Sync gh-pages branch
-      shell: bash
-      run: |
-        # Fetch latest remote state (limited depth to avoid excessive data)
-        git fetch origin gh-pages --depth=20 || true
-
-        # Ensure we're tracking origin/gh-pages correctly
-        if git rev-parse --verify origin/gh-pages >/dev/null 2>&1; then
-          git checkout gh-pages 2>/dev/null || git checkout -b gh-pages origin/gh-pages
-          git rebase origin/gh-pages || true
-        fi
-
     - name: Prepare git for act runtime
       shell: bash
       run: |
@@ -87,7 +75,6 @@ runs:
           if [ -f .git ]; then
             mv .git .git.orig || true
           fi
-          # Initialize temporary local repo for act runs
           git init
           git add -A || true
           git commit -m "temp: local repo for act" || true
@@ -113,6 +100,4 @@ runs:
     - name: Restore mkdocs.yml
       shell: bash
       run: |
-        # The API Reference nav section was generated for the gh-pages build only.
-        # Restore mkdocs.yml to keep main branch unchanged.
         git checkout -- mkdocs.yml
