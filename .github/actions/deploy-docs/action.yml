@@ -70,13 +70,12 @@ runs:
     - name: Sync gh-pages branch
       shell: bash
       run: |
-        # Fetch latest remote state (limited depth to avoid excessive data)
         git fetch origin gh-pages --depth=20 || true
 
-        # Ensure we're tracking origin/gh-pages correctly
         if git rev-parse --verify origin/gh-pages >/dev/null 2>&1; then
-          git checkout gh-pages 2>/dev/null || git checkout -b gh-pages origin/gh-pages
-          git rebase origin/gh-pages || true
+          git worktree add /tmp/gh-pages origin/gh-pages
+        else
+          git worktree add --orphan -b gh-pages /tmp/gh-pages
         fi
 
     - name: Prepare git for act runtime
@@ -87,7 +86,6 @@ runs:
           if [ -f .git ]; then
             mv .git .git.orig || true
           fi
-          # Initialize temporary local repo for act runs
           git init
           git add -A || true
           git commit -m "temp: local repo for act" || true
@@ -105,14 +103,18 @@ runs:
         ALIASES="${{ inputs.update-aliases }}"
 
         if [ -z "$ALIASES" ]; then
-          poetry run mike deploy --push --ignore-remote-status "$VERSION"
+          poetry run mike deploy --push --ignore-remote-status \
+            --config-file mkdocs.yml \
+            --deploy-prefix /tmp/gh-pages \
+            "$VERSION"
         else
-          poetry run mike deploy --push --ignore-remote-status --update-aliases "$VERSION" $ALIASES
+          poetry run mike deploy --push --ignore-remote-status --update-aliases \
+            --config-file mkdocs.yml \
+            --deploy-prefix /tmp/gh-pages \
+            "$VERSION" $ALIASES
         fi
 
     - name: Restore mkdocs.yml
       shell: bash
       run: |
-        # The API Reference nav section was generated for the gh-pages build only.
-        # Restore mkdocs.yml to keep main branch unchanged.
         git checkout -- mkdocs.yml
