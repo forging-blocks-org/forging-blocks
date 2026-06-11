@@ -13,6 +13,14 @@ class Error(Exception, Debuggable):
     """Base class for all structured errors that can be raised like standard Exceptions."""
 
     def __init__(self, message: ErrorMessage, metadata: ErrorMetadata | None = None) -> None:
+        """Initialise the error with a structured message and optional metadata.
+
+        Args:
+            message: The structured error message describing what went wrong.
+            metadata: Optional structured metadata with additional diagnostic
+                context. Defaults to an empty :class:`ErrorMetadata` when
+                not provided.
+        """
         super().__init__(message.value)
         self._message = message
         self._metadata = metadata or ErrorMetadata(context={})
