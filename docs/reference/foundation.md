@@ -211,6 +211,80 @@ In practice, you can import `ValueObject` from either
 or from `forging_blocks.domain.value_object` (the re-export). It is not
 re-exported from the top-level `forging_blocks.foundation` namespace.
 
+#### Why ValueObject over a frozen dataclass?
+
+Python's `@dataclass(frozen=True)` and `ValueObject` both produce immutable
+objects, but they differ in a critical way: **when immutability kicks in**.
+
+| Mechanism | Freeze timing | Can set attrs in `__init__`? | Equality / hashing |
+|---|---|---|---|
+| `@dataclass(frozen=True)` | Before `__init__` runs | ❌ Must use `object.__setattr__` in `__post_init__` | Based on all fields (automatic) |
+| `ValueObject` (`@auto_freeze`) | **After** `__init__` completes | ✅ Natural `self._x = x` works | Based on `_equality_components` (explicit, selective) |
+
+**Frozen dataclass** prevents *all* `__setattr__` from the moment the object is
+created, including inside `__init__`. Any validation or transformation during
+initialization must work around this by calling `object.__setattr__`, which is
+verbose and error-prone:
+
+```python
+@dataclass(frozen=True)
+class Email:
+    value: str
+
+    def __post_init__(self):
+        if "@" not in self.value:
+            raise ValueError("Invalid email")
+        # Already frozen — self.value = ... would raise FrozenInstanceError
+        # Must use object.__setattr__ for any transformation:
+        object.__setattr__(self, "value", self.value.lower().strip())
+```
+
+**ValueObject** keeps the instance mutable during `__init__`, so you can
+validate, transform, and assign attributes naturally. Immutability is
+enforced *after* construction via `@auto_freeze`:
+
+```python
+class Email(ValueObject[str]):
+    __slots__ = ("_value",)
+
+    def __init__(self, value: str) -> None:
+        super().__init__()
+        if "@" not in value:
+            raise ValueError("Invalid email format")
+        self._value = value.lower().strip()  # Natural assignment
+
+    @property
+    def value(self) -> str:
+        return self._value
+
+    @property
+    def _equality_components(self) -> tuple[Hashable, ...]:
+        return (self._value,)
+```
+
+Beyond timing, `ValueObject` gives you **four things for free** that a frozen
+dataclass requires manual wiring for:
+
+1. **Auto-freeze** — `@auto_freeze` is applied automatically, so every concrete
+   subclass becomes immutable with zero boilerplate.
+2. **Equality** — you control exactly which fields participate via
+   `_equality_components`, rather than relying on all fields automatically.
+3. **Hashing** — derived from the same components as equality.
+4. **Domain-appropriate error** — raises `CantModifyImmutableAttributeError`
+   instead of the generic `FrozenInstanceError`.
+
+**When to use each:**
+
+- Use `ValueObject` when you need domain semantics: selective equality,
+  natural `__init__` with validation, and a domain-specific error type.
+  This covers the vast majority of domain modeling.
+- Use `@dataclass(frozen=True)` when you need a simple, throwaway data holder
+  where all-field equality is acceptable and you don't need validation
+  during construction.
+- Use `@auto_freeze` directly on a dataclass or plain class when you want
+  post-init immutability but don't need the value-object semantics
+  (equality components, hash, etc.).
+
 ---
 
 ### Auto-freeze
