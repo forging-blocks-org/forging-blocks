@@ -24,7 +24,11 @@ jobs:
           strict: true
 
       - name: Lint Workflow Files (Actions)
+        # Skip in act runs due to GitHub API connectivity issues in ephemeral containers
+        if: ${{ env.ACT != 'true' }}
         uses: raven-actions/actionlint@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint Shell Scripts
         run: shellcheck --external-sources scripts/pipeline/*.sh
