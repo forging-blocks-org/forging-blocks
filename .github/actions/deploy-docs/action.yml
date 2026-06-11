@@ -62,6 +62,17 @@ runs:
       run: |
         poetry run python scripts/generate_autodoc_pages.py
 
+    - name: Commit generated documentation
+      shell: bash
+      run: |
+        # Stage and commit generated docs if there are changes
+        if ! git diff --quiet --exit-code; then
+          git add -A
+          git commit -m "docs: auto-generated documentation pages"
+        else
+          echo "No generated documentation changes to commit"
+        fi
+
     - name: Prepare git for act runtime
       shell: bash
       run: |
@@ -74,6 +85,16 @@ runs:
           git init
           git add -A || true
           git commit -m "temp: local repo for act" || true
+        fi
+
+    - name: Enforce clean working tree
+      shell: bash
+      run: |
+        if ! git diff --quiet --exit-code; then
+          echo "ERROR: Working tree has uncommitted changes. Cannot proceed with deployment." >&2
+          echo "Uncommitted files:" >&2
+          git diff --name-only >&2
+          exit 1
         fi
 
     - name: Sync gh-pages branch
