@@ -23,12 +23,6 @@ class _AutoFreezeDecorator:
     Validates that the target implements the :class:`SupportsAutoFreeze` protocol,
     then wraps its ``__init__`` so that :meth:`freeze_instance` (or selectively
     :meth:`freeze_attributes`) is called at the end of construction.
-
-    Args:
-        attrs: Optional sequence of attribute names to selectively freeze.
-            When ``None`` (the default) the entire instance is frozen via
-            :meth:`freeze_instance`. When provided, only the named attributes
-            are frozen via :meth:`freeze_attributes`.
     """
 
     def __init__(
@@ -39,8 +33,10 @@ class _AutoFreezeDecorator:
         """Initialise the decorator with optional selective-freeze attributes.
 
         Args:
-            attrs: Attribute names to selectively freeze. ``None`` means
-                freeze the entire instance.
+            attrs: Attribute names to selectively freeze. When ``None``
+                (the default), the entire instance is frozen via
+                :meth:`freeze_instance`. When provided, only those
+                attributes are frozen via :meth:`freeze_attributes`.
         """
         self._attrs = attrs
 
