@@ -25,6 +25,8 @@ jobs:
 
       - name: Lint Workflow Files (Actions)
         uses: raven-actions/actionlint@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint Shell Scripts
         run: shellcheck --external-sources scripts/pipeline/*.sh
