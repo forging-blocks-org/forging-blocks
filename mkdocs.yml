@@ -14,6 +14,7 @@ extra_css:
 extra:
   version:
     provider: mike
+    default: latest  # Set which version is the default landing page
 
 theme:
   name: material
