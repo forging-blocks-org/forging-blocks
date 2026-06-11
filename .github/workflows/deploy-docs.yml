@@ -17,6 +17,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Fetch gh-pages branch
+        shell: bash
+        run: git fetch origin gh-pages:gh-pages || true
+
       - name: Deploy documentation
         uses: ./.github/actions/deploy-docs
         with:
