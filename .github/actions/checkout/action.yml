@@ -11,5 +11,6 @@ runs:
   using: composite
   steps:
     - uses: actions/checkout@v6
+      shell: bash
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
