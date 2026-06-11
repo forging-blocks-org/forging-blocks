@@ -1,0 +1,97 @@
+name: Smoke Test TestPyPI Package
+description: Wait for package to appear on TestPyPI, install it, and verify version
+
+inputs:
+  package-name:
+    description: Package name (e.g., forging-blocks)
+    required: true
+  import-name:
+    description: Python import name (e.g., forging_blocks)
+    required: true
+  publish-version:
+    description: Version to install and verify
+    required: true
+  max-wait-seconds:
+    description: Maximum seconds to wait for package to appear on TestPyPI
+    required: false
+    default: "180"
+  poll-interval-seconds:
+    description: Seconds between TestPyPI availability checks
+    required: false
+    default: "5"
+
+runs:
+  using: composite
+  steps:
+    - name: Smoke Test (Install from TestPyPI)
+      shell: bash
+      env:
+        PACKAGE_NAME: ${{ inputs.package-name }}
+        IMPORT_NAME: ${{ inputs.import-name }}
+        PUBLISH_VERSION: ${{ inputs.publish-version }}
+        MAX_WAIT: ${{ inputs.max-wait-seconds }}
+        INTERVAL: ${{ inputs.poll-interval-seconds }}
+      run: |
+        set -euo pipefail
+
+        CONSECUTIVE_SUCCESS=0
+        REQUIRED_SUCCESSES=2
+        ELAPSED=0
+
+        echo "Waiting for ${PACKAGE_NAME}==${PUBLISH_VERSION} to appear on TestPyPI..."
+
+        until [[ "$CONSECUTIVE_SUCCESS" -ge "$REQUIRED_SUCCESSES" ]]; do
+
+          if [[ "$ELAPSED" -ge "$MAX_WAIT" ]]; then
+            echo "ERROR: Timed out after ${MAX_WAIT}s waiting for ${PACKAGE_NAME}==${PUBLISH_VERSION} on TestPyPI" >&2
+            exit 1
+          fi
+
+          # Check JSON API endpoint
+          if curl --silent --fail --output /dev/null \
+              --max-time 10 \
+              --connect-timeout 5 \
+              "https://test.pypi.org/pypi/${PACKAGE_NAME}/${PUBLISH_VERSION}/json"; then
+            CONSECUTIVE_SUCCESS=$(( CONSECUTIVE_SUCCESS + 1 ))
+            echo "Found package (success ${CONSECUTIVE_SUCCESS}/${REQUIRED_SUCCESSES})"
+          else
+            CONSECUTIVE_SUCCESS=0
+            echo "Not available yet — retrying in ${INTERVAL}s (${ELAPSED}s elapsed)"
+          fi
+
+          if [[ "$CONSECUTIVE_SUCCESS" -lt "$REQUIRED_SUCCESSES" ]]; then
+            sleep "$INTERVAL"
+            ELAPSED=$(( ELAPSED + INTERVAL ))
+          fi
+        done
+
+        echo "${PACKAGE_NAME}==${PUBLISH_VERSION} is available — installing"
+
+        TMP_VENV=$(mktemp -d)
+        trap 'rm -rf "$TMP_VENV"' EXIT
+
+        python3 -m venv "$TMP_VENV"
+        source "$TMP_VENV/bin/activate"
+
+        pip install --quiet --no-cache-dir \
+          --index-url https://test.pypi.org/simple/ \
+          --extra-index-url https://pypi.org/simple/ \
+          --default-timeout=30 \
+          "${PACKAGE_NAME}==${PUBLISH_VERSION}"
+
+        echo "Verifying installed version"
+
+        python3 <<EOF
+        import sys
+        import ${IMPORT_NAME}
+        from importlib.metadata import version
+
+        v = version("${PACKAGE_NAME}")
+        print(f"Detected Version: {v}")
+        if v != "${PUBLISH_VERSION}":
+          print(f"ERROR: Expected ${PUBLISH_VERSION}, got {v}", file=sys.stderr)
+          sys.exit(1)
+        print("Version verification passed")
+        EOF
+
+        echo "Smoke test passed"

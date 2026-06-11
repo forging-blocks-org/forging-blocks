@@ -1,0 +1,89 @@
+name: Deploy Docs
+description: >-
+  Build and deploy documentation using mike. Handles Poetry setup, autodoc
+  generation, git configuration, and act runtime compatibility. Reusable across
+  multiple workflows (e.g., post-release, scheduled deploys).
+
+inputs:
+  version:
+    description: "Documentation version to deploy (e.g., '1.2.3', 'dev', 'latest')"
+    required: true
+  update-aliases:
+    description: "Comma-separated list of aliases to update (e.g., 'latest')"
+    required: false
+    default: ""
+  author-name:
+    description: "Git author name for documentation commits"
+    required: false
+    default: "forging-blocks"
+  author-email:
+    description: "Git author email for documentation commits"
+    required: false
+    default: "forging-blocks-org@proton.me"
+  skip-dependencies:
+    description: "Skip poetry install if already done in workflow"
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Validate version input
+      shell: bash
+      run: |
+        if [ -z "${{ inputs.version }}" ]; then
+          echo "ERROR: version input is required and must not be empty" >&2
+          exit 1
+        fi
+        echo "Deploying documentation version: ${{ inputs.version }}"
+
+    - name: Configure git
+      shell: bash
+      env:
+        GIT_AUTHOR_NAME: ${{ inputs.author-name }}
+        GIT_AUTHOR_EMAIL: ${{ inputs.author-email }}
+      run: |
+        git config --global user.name "$GIT_AUTHOR_NAME"
+        git config --global user.email "$GIT_AUTHOR_EMAIL"
+        echo "Git configured: $GIT_AUTHOR_NAME <$GIT_AUTHOR_EMAIL>"
+
+    - name: Setup Poetry
+      if: inputs.skip-dependencies == 'false'
+      uses: ./.github/actions/setup-poetry
+
+    - name: Install documentation dependencies
+      if: inputs.skip-dependencies == 'false'
+      shell: bash
+      run: |
+        poetry install --no-interaction --with docs
+
+    - name: Generate documentation pages
+      shell: bash
+      run: |
+        poetry run python scripts/generate_autodoc_pages.py
+
+    - name: Prepare git for act runtime
+      shell: bash
+      run: |
+        # Handle .git worktree pointer for local act (GitHub Actions simulator) runs
+        if [ ! -d .git ]; then
+          if [ -f .git ]; then
+            mv .git .git.orig || true
+          fi
+          # Initialize temporary local repo for act runs
+          git init
+          git add -A || true
+          git commit -m "temp: local repo for act" || true
+        fi
+
+    - name: Deploy documentation
+      shell: bash
+      run: |
+        VERSION="${{ inputs.version }}"
+        ALIASES="${{ inputs.update-aliases }}"
+
+        if [ -z "$ALIASES" ]; then
+          poetry run mike deploy --push --ignore-remote-status "$VERSION"
+        else
+          poetry run mike deploy --push --ignore-remote-status --update-aliases "$VERSION" $ALIASES
+        fi
