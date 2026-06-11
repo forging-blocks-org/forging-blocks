@@ -17,6 +17,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Fetch gh-pages branch
+        shell: bash
+        run: |
+          if git ls-remote --exit-code origin gh-pages > /dev/null 2>&1; then
+            git fetch origin gh-pages:gh-pages
+          fi
+
       - name: Deploy documentation
         uses: ./.github/actions/deploy-docs
         with:
