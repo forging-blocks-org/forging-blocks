@@ -344,12 +344,9 @@ body {
   min-width: 8rem;
 }
 
-/* Version button: arrow icon only, no text */
+/* Version button: show version name in orange, with arrow icon */
 .md-version__current {
-  color: var(--bw-fg-primary) !important;
-  font-size: 0 !important;
-  width: auto;
-  overflow: hidden;
+  color: var(--bw-accent-orange) !important;
   cursor: pointer;
   background: transparent;
   border: 0;
@@ -358,15 +355,8 @@ body {
 }
 
 .md-version__current:hover {
-  color: var(--bw-accent-orange) !important;
+  color: var(--bw-accent-yellow-strong) !important;
   text-decoration: none !important;
-}
-
-/* Arrow icon via :after */
-.md-version__current:after {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 0;
 }
 
 /* Hide alias */
@@ -376,11 +366,12 @@ body {
 
 /* Dropdown items */
 .md-version__item .md-version__link {
-  color: var(--bw-fg-primary) !important;
+  color: var(--bw-accent-orange) !important;
 }
 
-.md-version__item .md-version__link:hover {
-  color: var(--bw-accent-orange) !important;
+.md-version__item .md-version__link:hover,
+.md-version__item .md-version__link:focus {
+  color: var(--bw-accent-yellow-strong) !important;
   background: var(--bw-bg-hover);
   text-decoration: none !important;
 }
