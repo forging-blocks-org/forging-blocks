@@ -425,3 +425,116 @@ body {
 .md-header .md-version:hover .md-version__item {
   visibility: visible;
 }
+
+
+/* Django-style version dropdown — floating button at bottom-right */
+.django-version-dropdown {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.django-version-dropdown__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--bw-bg-surface);
+  border: 1px solid var(--bw-border);
+  border-radius: 4px;
+  color: var(--bw-fg-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.django-version-dropdown__button:hover {
+  background: var(--bw-bg-hover);
+  border-color: var(--bw-accent-orange);
+  color: var(--bw-accent-yellow);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+.django-version-dropdown__button:focus {
+  outline: 2px solid var(--bw-accent-orange);
+  outline-offset: 2px;
+}
+
+.django-version-dropdown__arrow {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.django-version-dropdown__button[aria-expanded="true"] .django-version-dropdown__arrow {
+  transform: rotate(180deg);
+}
+
+.django-version-dropdown__list {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 180px;
+  max-width: 280px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--bw-bg-surface);
+  border: 1px solid var(--bw-border);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 0;
+  z-index: 1001;
+}
+
+.django-version-dropdown__item {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--bw-fg-primary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.django-version-dropdown__item:hover {
+  background: var(--bw-bg-hover);
+  color: var(--bw-accent-yellow);
+  text-decoration: none;
+}
+
+.django-version-dropdown__item:focus {
+  outline: none;
+  background: var(--bw-bg-hover);
+  color: var(--bw-accent-yellow);
+}
+
+.django-version-dropdown__item--current {
+  color: var(--bw-accent-orange);
+  font-weight: 600;
+}
+
+.django-version-dropdown__item--current:hover {
+  color: var(--bw-accent-yellow);
+  background: var(--bw-bg-hover);
+}
+
+/* Responsive: on mobile, make dropdown full width */
+@media only screen and (max-width: 48rem) {
+  .django-version-dropdown {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+  }
+  
+  .django-version-dropdown__list {
+    right: 0;
+    left: 0;
+    min-width: auto;
+    max-width: none;
+  }
+}
