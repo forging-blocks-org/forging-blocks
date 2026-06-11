@@ -76,6 +76,18 @@ runs:
           git commit -m "temp: local repo for act" || true
         fi
 
+    - name: Sync gh-pages branch
+      shell: bash
+      run: |
+        # Fetch latest remote state (limited depth to avoid excessive data)
+        git fetch origin gh-pages --depth=20 || true
+
+        # Ensure we're tracking origin/gh-pages correctly
+        if git rev-parse --verify origin/gh-pages >/dev/null 2>&1; then
+          git checkout gh-pages 2>/dev/null || git checkout -b gh-pages origin/gh-pages
+          git rebase origin/gh-pages || true
+        fi
+
     - name: Deploy documentation
       shell: bash
       run: |
