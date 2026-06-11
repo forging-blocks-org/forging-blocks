@@ -56,13 +56,11 @@ runs:
       shell: bash
       run: |
         poetry install --no-interaction --with docs
-      timeout-minutes: 15
 
     - name: Generate documentation pages
       shell: bash
       run: |
         poetry run python scripts/generate_autodoc_pages.py
-      timeout-minutes: 10
 
     - name: Prepare git for act runtime
       shell: bash
@@ -85,8 +83,7 @@ runs:
         ALIASES="${{ inputs.update-aliases }}"
 
         if [ -z "$ALIASES" ]; then
-          poetry run mike deploy --push "$VERSION"
+          poetry run mike deploy --push --ignore-remote-status "$VERSION"
         else
-          poetry run mike deploy --push --update-aliases "$VERSION" $ALIASES
+          poetry run mike deploy --push --ignore-remote-status --update-aliases "$VERSION" $ALIASES
         fi
-      timeout-minutes: 10
