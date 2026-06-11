@@ -14,6 +14,15 @@ class FieldErrors(Error):
     """Base class for errors associated with a specific field."""
 
     def __init__(self, field: FieldReference, errors: Iterable[Error]) -> None:
+        """Initialise with a field reference and the errors associated with it.
+
+        Args:
+            field: Reference to the field these errors belong to.
+            errors: The errors associated with *field*. Must be non-empty.
+
+        Raises:
+            ValueError: If *errors* is empty or *field* is falsy.
+        """
         self._field = field
         self._errors: Sequence[Error] = tuple(errors)
 
