@@ -113,9 +113,7 @@ window.addEventListener("DOMContentLoaded", function() {
     return container;
   }
 
-  // Use embedded versions data if available (for redirect page), otherwise fetch
-  if (window.__VERSIONS_DATA) {
-    var versions = window.__VERSIONS_DATA;
+  function initDropdown(versions) {
     // Filter out hidden versions if present
     var visibleVersions = versions.filter(function(v) {
       return !v.properties || !v.properties.hidden;
@@ -135,6 +133,11 @@ window.addEventListener("DOMContentLoaded", function() {
     
     var dropdown = makeDropdown(visibleVersions, realVersion);
     document.body.appendChild(dropdown);
+  }
+
+  // Use embedded versions data if available (for redirect page), otherwise fetch
+  if (window.__VERSIONS_DATA) {
+    initDropdown(window.__VERSIONS_DATA);
   } else {
     // Fetch versions.json
     fetch("/versions.json")
@@ -143,25 +146,7 @@ window.addEventListener("DOMContentLoaded", function() {
         return response.json();
       })
       .then(function(versions) {
-        // Filter out hidden versions if present
-        var visibleVersions = versions.filter(function(v) {
-          return !v.properties || !v.properties.hidden;
-        });
-        
-        // Find the real version - prioritize exact version match over alias
-        var realVersionObj = versions.find(function(v) {
-          return v.version === CURRENT_VERSION;
-        });
-        // If no exact match, check aliases
-        if (!realVersionObj) {
-          realVersionObj = versions.find(function(v) {
-            return v.aliases && v.aliases.includes(CURRENT_VERSION);
-          });
-        }
-        var realVersion = realVersionObj ? realVersionObj.version : CURRENT_VERSION;
-        
-        var dropdown = makeDropdown(visibleVersions, realVersion);
-        document.body.appendChild(dropdown);
+        initDropdown(versions);
       })
       .catch(function(err) {
         console.warn("Version dropdown: Could not load versions.json", err);
