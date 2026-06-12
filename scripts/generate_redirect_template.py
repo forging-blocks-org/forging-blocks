@@ -20,32 +20,32 @@ def extract_head_assets(html: str) -> str:
     head_match = re.search(r"<head>(.*?)</head>", html, re.DOTALL)
     if not head_match:
         raise ValueError("No <head> found in HTML")
-    
+
     head_content = head_match.group(1)
-    
+
     # Extract individual elements we want to keep
-    parts = []
-    
+    parts: list[str] = []
+
     # Meta charset and viewport
     for tag in ["<meta charset", '<meta name="viewport"',
                 '<meta name="description"', '<meta name="author"']:
         m = re.search(rf"({re.escape(tag)}[^>]*>)", head_content)
         if m:
             parts.append(m.group(1))
-    
+
     # Generator
     m = re.search(r"(<meta name=\"generator\"[^>]*>)", head_content)
     if m:
         parts.append(m.group(1))
-    
+
     # Title (we override this)
     # Favicon
     m = re.search(r"(<link rel=\"icon\"[^>]*>)", head_content)
     if m:
-        parts.append(f'<link rel="icon" href="{{{{ href }}}}assets/favicon.ico">')
-    
+        parts.append('<link rel="icon" href="{{ href }}assets/favicon.ico">')
+
     # Remove canonical and next links
-    
+
     # CSS stylesheets (keep all local ones, skip external)
     for m in re.finditer(
         r'<link rel="stylesheet" href="(?!https?://)([^"]+)"', head_content
@@ -53,23 +53,23 @@ def extract_head_assets(html: str) -> str:
         href = m.group(1)
         # Skip mkdocstrings CSS if it causes issues (usually fine)
         parts.append(f'<link rel="stylesheet" href="{{{{ href }}}}{href}">')
-    
+
     # Google Fonts and preconnect (keep as-is, they're external)
     for m in re.finditer(
         r'<link[^>]*fonts\.[^>]*>', head_content
     ):
         parts.append(m.group(0))
-    
+
     # Inline style for fonts
     m = re.search(r"<style>:root\{[^}]*--md-text-font[^<]*</style>", head_content)
     if m:
         parts.append(m.group(0))
-    
+
     # MkDocs Material JS scope setup
     m = re.search(r"<script>__md_scope.*?</script>", head_content, re.DOTALL)
     if m:
         parts.append(m.group(0))
-    
+
     return "\n    ".join(parts)
 
 
@@ -80,9 +80,9 @@ def extract_header(html: str) -> str:
     )
     if not header_match:
         raise ValueError("No <header> found in HTML")
-    
+
     header = header_match.group(1)
-    
+
     # Fix the header topic to show "Redirecting..." instead of "Home"
     header = re.sub(
         r'(<span class="md-ellipsis">)\s*(Home|ForgingBlocks)\s*(</span>)\s*'
@@ -91,35 +91,31 @@ def extract_header(html: str) -> str:
         header,
         flags=re.DOTALL,
     )
-    
+
     # Add {{ href }} prefix to local asset references
     header = re.sub(
         r'(src|href)="(?!https?://|#|\.\./)([^"]+)"',
         r'\1="{{ href }}\2"',
         header,
     )
-    
+
     # Fix the home link: if it's just "." keep it as "." (it stays on root)
     # but other relative links should get the {{ href }} prefix
     # Actually we want all local assets to point to the version directory
-    
+
     return header
 
 
 def extract_scripts(html: str) -> str:
     """Extract JS scripts from the page."""
-    scripts = []
+    scripts: list[str] = []
     for m in re.finditer(
         r'<script src="(?!https?://)(assets/[^"]+)"[^>]*></script>', html
     ):
         scripts.append(f'<script src="{{{{ href }}}}{m.group(1)}"></script>')
-    
-    # Also add the search/translations inline script
-    trans_match = re.search(
-        r'(<script id="__config"[^>]*>.*?</script>)', html, re.DOTALL
-    )
-    # Skip __config - it's too complex and not needed for redirect page
-    
+
+    # Skip __config inline script - it's too complex and not needed for redirect page
+
     return "\n    ".join(scripts)
 
 
@@ -128,7 +124,10 @@ def extract_body_attrs(html: str) -> str:
     m = re.search(r"<body([^>]*)>", html)
     if m:
         return m.group(1).strip()
-    return 'dir="ltr" data-md-color-scheme="slate" data-md-color-primary="orange" data-md-color-accent="amber"'
+    return (
+        'dir="ltr" data-md-color-scheme="slate" '
+        'data-md-color-primary="orange" data-md-color-accent="amber"'
+    )
 
 
 def generate_template(source_html: str, output_path: Path) -> None:
@@ -137,7 +136,7 @@ def generate_template(source_html: str, output_path: Path) -> None:
     header = extract_header(source_html)
     scripts = extract_scripts(source_html)
     body_attrs = extract_body_attrs(source_html)
-    
+
     template = f'''<!DOCTYPE html>
 <html lang="en" class="no-js">
   <head>
@@ -202,7 +201,7 @@ def generate_template(source_html: str, output_path: Path) -> None:
   </body>
 </html>
 '''
-    
+
     output_path.write_text(template, encoding="utf-8")
     print(f"✅ Generated redirect template: {output_path}")
 
@@ -212,19 +211,19 @@ def main() -> int:
     # Default paths
     site_dir = Path("site")
     output = Path("docs/redirect_template.html")
-    
+
     # Allow overriding via args
     if len(sys.argv) >= 2:
         site_dir = Path(sys.argv[1])
     if len(sys.argv) >= 3:
         output = Path(sys.argv[2])
-    
+
     index_html = site_dir / "index.html"
     if not index_html.exists():
         print(f"❌ Built site not found at: {index_html}")
-        print(f"   Run 'mkdocs build' first, then re-run this script.")
+        print("   Run 'mkdocs build' first, then re-run this script.")
         return 1
-    
+
     source_html = index_html.read_text(encoding="utf-8")
     generate_template(source_html, output)
     return 0
