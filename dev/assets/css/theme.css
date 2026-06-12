@@ -314,118 +314,10 @@ body {
   color: var(--bw-bg-root) !important;
 }
 
-/* Version selector — floating button at bottom-right, detached from header */
+/* HIDE MIKE'S BUILT-IN VERSION SELECTOR — using custom dropdown instead */
 .md-header .md-version {
-  position: fixed;
-  bottom: 1.2rem;
-  right: 1.2rem;
-  z-index: 4;
-  height: 2.4rem;
-  background: var(--bw-bg-surface);
-  border-radius: 1.2rem;
-  box-shadow: var(--md-shadow-z2);
-  display: flex;
-  align-items: center;
-  padding: 0 0.4rem 0 0.8rem;
-  transition: background-color .25s, box-shadow .25s;
-  position: relative;
-}
-
-.md-header .md-version:hover {
-  background: var(--bw-bg-hover);
-  box-shadow: var(--md-shadow-z3);
-}
-
-/* Dropdown list: open upward from the floating button */
-.md-header .md-version .md-version__list {
-  position: absolute;
-  bottom: calc(100% + 0.5rem);
-  right: 0;
-  left: auto;
-  top: auto;
-  margin: 0;
-  border-radius: 0.4rem;
-  min-width: 10rem;
-  width: auto;
-  background-color: var(--bw-bg-surface) !important;
-  border: 1px solid var(--bw-border) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-  z-index: 1000;
-  overflow: visible;
-  list-style: none;
-  padding: 0.4rem 0;
-  display: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-}
-
-/* Show dropdown on parent hover */
-.md-header .md-version:hover .md-version__list {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Version button: arrow icon only, no text */
-.md-version__current {
-  color: var(--bw-accent-orange) !important;
-  font-size: 0 !important;
-  width: auto;
-  overflow: hidden;
-  cursor: pointer;
-  background: transparent;
-  border: 0;
-  padding: 0 0.4rem 0 0;
-  line-height: 2.4rem;
-}
-
-.md-version__current:hover {
-  color: var(--bw-accent-yellow) !important;
-  text-decoration: none !important;
-}
-
-/* Arrow icon via :after */
-.md-version__current:after {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 0;
-}
-
-/* Hide alias */
-.md-version__alias {
   display: none !important;
 }
-
-/* Dropdown items */
-.md-version__item {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.md-version__item .md-version__link {
-  display: block;
-  color: var(--bw-accent-orange) !important;
-  padding: 0.6rem 1.2rem;
-  text-decoration: none;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  font-size: 0.875rem;
-  line-height: 1.4;
-}
-
-.md-version__item .md-version__link:hover {
-  color: var(--bw-accent-yellow) !important;
-  background-color: var(--bw-bg-hover);
-  text-decoration: none !important;
-}
-
-/* Ensure dropdown items are visible */
-.md-header .md-version:hover .md-version__item {
-  visibility: visible;
-}
-
 
 /* Django-style version dropdown — floating button at bottom-right */
 .django-version-dropdown {
@@ -530,7 +422,7 @@ body {
     right: 1rem;
     left: 1rem;
   }
-  
+
   .django-version-dropdown__list {
     right: 0;
     left: 0;

@@ -1,11 +1,12 @@
 window.addEventListener("DOMContentLoaded", function() {
   // Find the base URL from the current page
   var basePath = window.location.pathname;
-  var versionMatch = basePath.match(/\/([^\/]+)\//);
+  // Match version in path like /en/latest/, /en/dev/, /en/0.4.1/, or /latest/, /dev/
+  var versionMatch = basePath.match(/(?:\/en)?\/([^\/]+)\//);
   var CURRENT_VERSION = versionMatch ? versionMatch[1] : 'latest';
   
   // For local development, we may not have a version in the path
-  if (CURRENT_VERSION === '' || CURRENT_VERSION === 'index.html') {
+  if (CURRENT_VERSION === '' || CURRENT_VERSION === 'index.html' || CURRENT_VERSION === 'en') {
     CURRENT_VERSION = 'latest';
   }
 
@@ -39,7 +40,7 @@ window.addEventListener("DOMContentLoaded", function() {
     versions.forEach(function(v) {
       var link = document.createElement("a");
       link.className = "django-version-dropdown__item";
-      link.href = "/en/" + v.version + "/";
+      link.href = "/" + v.version + "/";
       link.textContent = v.title || v.version;
       link.setAttribute("role", "option");
       if (v.version === selected) {
@@ -99,7 +100,8 @@ window.addEventListener("DOMContentLoaded", function() {
   }
 
   // Fetch versions.json
-  fetch("../versions.json")
+  // Fetch versions.json from the site root
+  fetch("/versions.json")
     .then(function(response) {
       if (!response.ok) throw new Error("Failed to load versions.json");
       return response.json();
@@ -110,11 +112,16 @@ window.addEventListener("DOMContentLoaded", function() {
         return !v.properties || !v.properties.hidden;
       });
       
-      // Find the real version (handles aliases)
+      // Find the real version - prioritize exact version match over alias
       var realVersionObj = versions.find(function(v) {
-        return v.version === CURRENT_VERSION || 
-               (v.aliases && v.aliases.includes(CURRENT_VERSION));
+        return v.version === CURRENT_VERSION;
       });
+      // If no exact match, check aliases
+      if (!realVersionObj) {
+        realVersionObj = versions.find(function(v) {
+          return v.aliases && v.aliases.includes(CURRENT_VERSION);
+        });
+      }
       var realVersion = realVersionObj ? realVersionObj.version : CURRENT_VERSION;
       
       var dropdown = makeDropdown(visibleVersions, realVersion);
