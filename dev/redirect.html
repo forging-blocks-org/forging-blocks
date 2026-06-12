@@ -40,7 +40,7 @@
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
               <h1>Redirecting to default version...</h1>
-              <p>If you are not redirected automatically, <a id="redirect-link" href="{{href}}">click here</a>.</p>
+              <p>If you are not redirected automatically, <a id="redirect-link" href="{href}">click here</a>.</p>
               <div id="django-version-dropdown" style="margin-top: 2rem;"></div>
             </article>
           </div>
@@ -48,11 +48,36 @@
       </main>
     </div>
     <script src="assets/javascripts/bundle.f55a23d4.min.js"></script>
+    <script>
+      // Embed versions data directly to avoid fetch issues
+      window.__VERSIONS_DATA = [
+  {
+    "version": "latest",
+    "title": "latest",
+    "aliases": [
+      "dev"
+    ],
+    "is_default": true
+  },
+  {
+    "version": "dev",
+    "title": "dev",
+    "aliases": [],
+    "is_default": false
+  },
+  {
+    "version": "0.4.1",
+    "title": "0.4.1",
+    "aliases": [],
+    "is_default": false
+  }
+];
+    </script>
     <script src="assets/js/version-dropdown.js"></script>
     <script>
       // Redirect after showing dropdown briefly
       setTimeout(function() {
-        window.location.replace("{{href}}" + window.location.search + window.location.hash);
+        window.location.replace("{href}" + window.location.search + window.location.hash);
       }, 3000);
     </script>
   </body>

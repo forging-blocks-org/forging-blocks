@@ -113,36 +113,58 @@ window.addEventListener("DOMContentLoaded", function() {
     return container;
   }
 
-  // Fetch versions.json
-  fetch("/versions.json")
-    .then(function(response) {
-      if (!response.ok) throw new Error("Failed to load versions.json");
-      return response.json();
-    })
-    .then(function(versions) {
-      // Filter out hidden versions if present
-      var visibleVersions = versions.filter(function(v) {
-        return !v.properties || !v.properties.hidden;
-      });
-      
-      // Find the real version - prioritize exact version match over alias
-      var realVersionObj = versions.find(function(v) {
-        return v.version === CURRENT_VERSION;
-      });
-      // If no exact match, check aliases
-      if (!realVersionObj) {
-        realVersionObj = versions.find(function(v) {
-          return v.aliases && v.aliases.includes(CURRENT_VERSION);
-        });
-      }
-      var realVersion = realVersionObj ? realVersionObj.version : CURRENT_VERSION;
-      
-      var dropdown = makeDropdown(visibleVersions, realVersion);
-      
-      // Insert at bottom-right of page (fixed position)
-      document.body.appendChild(dropdown);
-    })
-    .catch(function(err) {
-      console.warn("Version dropdown: Could not load versions.json", err);
+  // Use embedded versions data if available (for redirect page), otherwise fetch
+  if (window.__VERSIONS_DATA) {
+    var versions = window.__VERSIONS_DATA;
+    // Filter out hidden versions if present
+    var visibleVersions = versions.filter(function(v) {
+      return !v.properties || !v.properties.hidden;
     });
+    
+    // Find the real version - prioritize exact version match over alias
+    var realVersionObj = versions.find(function(v) {
+      return v.version === CURRENT_VERSION;
+    });
+    // If no exact match, check aliases
+    if (!realVersionObj) {
+      realVersionObj = versions.find(function(v) {
+        return v.aliases && v.aliases.includes(CURRENT_VERSION);
+      });
+    }
+    var realVersion = realVersionObj ? realVersionObj.version : CURRENT_VERSION;
+    
+    var dropdown = makeDropdown(visibleVersions, realVersion);
+    document.body.appendChild(dropdown);
+  } else {
+    // Fetch versions.json
+    fetch("/versions.json")
+      .then(function(response) {
+        if (!response.ok) throw new Error("Failed to load versions.json");
+        return response.json();
+      })
+      .then(function(versions) {
+        // Filter out hidden versions if present
+        var visibleVersions = versions.filter(function(v) {
+          return !v.properties || !v.properties.hidden;
+        });
+        
+        // Find the real version - prioritize exact version match over alias
+        var realVersionObj = versions.find(function(v) {
+          return v.version === CURRENT_VERSION;
+        });
+        // If no exact match, check aliases
+        if (!realVersionObj) {
+          realVersionObj = versions.find(function(v) {
+            return v.aliases && v.aliases.includes(CURRENT_VERSION);
+          });
+        }
+        var realVersion = realVersionObj ? realVersionObj.version : CURRENT_VERSION;
+        
+        var dropdown = makeDropdown(visibleVersions, realVersion);
+        document.body.appendChild(dropdown);
+      })
+      .catch(function(err) {
+        console.warn("Version dropdown: Could not load versions.json", err);
+      });
+  }
 });
