@@ -1,11 +1,31 @@
 window.addEventListener("DOMContentLoaded", function() {
+  // Find our own script tag to derive the correct base directory
+  // for versions.json and the versioned path prefix.  This works
+  // regardless of the page URL (root, nested, or directory-style).
+  var scripts = document.getElementsByTagName("script");
+  var scriptUrl = null;
+  for (var i = 0; i < scripts.length; i++) {
+    var src = scripts[i].src;
+    if (src && src.indexOf("version-dropdown.js") !== -1) {
+      scriptUrl = new URL(src);
+      break;
+    }
+  }
+
+  // Determine the versions.json URL relative to the script location.
+  // The script lives at <version>/assets/js/version-dropdown.js, so
+  // versions.json is two directory levels up from the script.
+  var versionsJsonUrl = "versions.json";
+  if (scriptUrl) {
+    var scriptDir = scriptUrl.pathname.replace(/\/[^\/]*$/, "");
+    // Go up two levels: assets/js/ → version root
+    var versionRoot = scriptDir.replace(/\/[^\/]+\/[^\/]+$/, "");
+    versionsJsonUrl = versionRoot + "/versions.json";
+  }
+
   var basePath = window.location.pathname;
 
-  // Fetch versions first, then derive the current version from
-  // path segments matched against known identifiers.  This handles
-  // GitHub Pages subdirectory paths like /forging-blocks/dev/
-  // where the first segment is the repo name, not a version.
-  fetch("versions.json")
+  fetch(versionsJsonUrl)
     .then(function(response) {
       if (!response.ok) throw new Error("Failed to load versions.json");
       return response.json();
@@ -24,27 +44,35 @@ window.addEventListener("DOMContentLoaded", function() {
         }
       });
 
-      // Walk path segments from right to left looking for a match
-      var pathSegments = basePath.replace(/\/$/, '').split('/');
-      var CURRENT_VERSION = 'latest';
-      var versionIdx = -1;
-
-      for (var i = pathSegments.length - 1; i >= 0; i--) {
-        if (knownIds.indexOf(pathSegments[i]) !== -1) {
-          CURRENT_VERSION = pathSegments[i];
-          versionIdx = i;
-          break;
+      // Find version by scanning path segments right-to-left.
+      // Falls back to the script URL path when the page path
+      // doesn't contain a version (e.g. the root redirect page).
+      function findVersionMatch(path) {
+        var segments = path.replace(/\/$/, "").split("/");
+        for (var i = segments.length - 1; i >= 0; i--) {
+          if (knownIds.indexOf(segments[i]) !== -1) {
+            return { version: segments[i], idx: i, segments: segments };
+          }
         }
+        return { version: "latest", idx: -1, segments: segments };
       }
 
-      // If no version found in path, we are on the root (or an unversioned page)
+      var match = findVersionMatch(basePath);
+      if (match.idx === -1 && scriptUrl) {
+        match = findVersionMatch(scriptUrl.pathname);
+      }
+
+      var pathSegments = match.segments;
+      var CURRENT_VERSION = match.version;
+      var versionIdx = match.idx;
+
       var isVersionedPath = versionIdx !== -1;
       var baseUrl = isVersionedPath
-        ? pathSegments.slice(0, versionIdx).join('/') + '/'
-        : '/';
+        ? pathSegments.slice(0, versionIdx).join("/") + "/"
+        : "/";
       var isLocalDev = !isVersionedPath;
 
-      // Resolve the canonical version (aliases → real version)
+      // Resolve canonical version (aliases → real version)
       var realVersionObj = versions.find(function(v) {
         return v.version === CURRENT_VERSION;
       });
@@ -95,7 +123,7 @@ window.addEventListener("DOMContentLoaded", function() {
     versions.forEach(function(v) {
       var link = document.createElement("a");
       link.className = "django-version-dropdown__item";
-      link.href = isLocalDev ? '/' : (baseUrl + v.version + "/");
+      link.href = isLocalDev ? "/" : (baseUrl + v.version + "/");
       link.textContent = v.title || v.version;
       link.setAttribute("role", "option");
       if (v.version === selected) {
