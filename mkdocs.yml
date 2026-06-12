@@ -164,8 +164,9 @@ plugins:
   - autorefs
   - section-index
   - mike:
-      alias_type: symlink
+      alias_type: redirect
       version_selector: true
+      redirect_template: docs/redirect_template.html
   - mkdocstrings:
       handlers:
         python:
