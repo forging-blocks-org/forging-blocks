@@ -177,9 +177,9 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
 "docs:build" = { cmd = "python scripts/generate_autodoc_pages.py && poetry run mkdocs build --strict" }
 
 "docs:serve" = { shell = "python scripts/generate_autodoc_pages.py && poetry run mike serve" }
-"docs:deploy:dev" = { cmd = "poetry run poe docs:generate && poetry run mike deploy --push --update-aliases dev latest" }
+"docs:deploy:dev" = { shell = "poetry run poe docs:generate && poetry run mike deploy --push --update-aliases dev latest && poetry run mike set-default --push dev" }
 
-"docs:deploy:release" = { cmd = "poetry run poe docs:generate && poetry run mike deploy --push $(poetry version -s)" }
+"docs:deploy:release" = { shell = "poetry run poe docs:generate && poetry run mike deploy --push --update-aliases v$(poetry version -s) latest && poetry run mike set-default --push latest" }
 
 "docs:versions" = { cmd = "poetry run mike list" }
 
