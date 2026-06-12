@@ -56,12 +56,24 @@ if [[ "$VERSION" == "dev" ]]; then
   else
     poetry run mike deploy --push $MIKE_OPTS dev
   fi
+  echo "==> Setting default version to dev..."
+  if [[ -n "$DRY_RUN" ]]; then
+    poetry run mike set-default $MIKE_OPTS dev
+  else
+    poetry run mike set-default --push $MIKE_OPTS dev
+  fi
 else
   echo "==> Deploying version $VERSION as latest..."
   if [[ -n "$DRY_RUN" ]]; then
     poetry run mike deploy --update-aliases $MIKE_OPTS "$VERSION" latest
   else
     poetry run mike deploy --push --update-aliases $MIKE_OPTS "$VERSION" latest
+  fi
+  echo "==> Setting default version to latest..."
+  if [[ -n "$DRY_RUN" ]]; then
+    poetry run mike set-default $MIKE_OPTS latest
+  else
+    poetry run mike set-default --push $MIKE_OPTS latest
   fi
 fi
 
