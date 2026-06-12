@@ -173,18 +173,15 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
 "test:debug" = "pytest -x -vvv -s"
 
 "docs:generate" = { cmd = "python scripts/generate_autodoc_pages.py" }
-"docs:build".sequence = [
-  "docs:generate",
-  { cmd = "poetry run mkdocs build --strict" }
-]
-"docs:serve".sequence = [
-  "docs:generate",
-  { cmd = "poetry run mike deploy dev" },
-  { cmd = "poetry run mike serve" }
-]
-"docs:serve-versioned" = { cmd = "poetry run mike serve" }
-"docs:deploy-version" = { cmd = "bash scripts/deploy_versioned_docs.sh" }
-"docs:list-versions" = { cmd = "poetry run mike list" }
+
+"docs:build" = { cmd = "python scripts/generate_autodoc_pages.py && poetry run mkdocs build --strict" }
+
+"docs:serve" = { shell = "python scripts/generate_autodoc_pages.py && poetry run mike serve" }
+"docs:deploy:dev" = { cmd = "poetry run poe docs:generate && poetry run mike deploy --push --update-aliases dev latest" }
+
+"docs:deploy:release" = { cmd = "poetry run poe docs:generate && poetry run mike deploy --push $(poetry version -s)" }
+
+"docs:versions" = { cmd = "poetry run mike list" }
 
 "ci:check".sequence = [
   "lint:shell",

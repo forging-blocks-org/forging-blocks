@@ -10,19 +10,104 @@ class SupportsAutoFreeze(Protocol):  # pragma: no cover
     immutable states. The @auto_freeze decorator calls these methods
     based on class configuration.
 
-    Example:
+    **Traditional class** — the simplest use case: a plain Python class
+    that becomes immutable after ``__init__``:
+
         ```python
+        from forging_blocks.foundation.autofreeze import auto_freeze
+        from forging_blocks.foundation.errors import (
+            CantModifyImmutableAttributeError,
+        )
+
         @auto_freeze
-        class Email(ValueObject[str]):
+        class Money:
+            def __init__(self, amount: int, currency: str) -> None:
+                if amount < 0:
+                    raise ValueError("Amount cannot be negative")
+                self._amount = amount
+                self._currency = currency
+
             def freeze_instance(self) -> None:
-                object.__setattr__(self, "_Email__is_frozen", True)
+                object.__setattr__(self, "_Money__frozen", True)
 
             def unfreeze_instance(self) -> None:
-                object.__setattr__(self, "_Email__is_frozen", False)
+                object.__setattr__(self, "_Money__frozen", False)
 
             @classmethod
             def should_use_internal_freezing(cls) -> bool:
                 return True
+
+            def __setattr__(self, name: str, value: object) -> None:
+                if getattr(self, "_Money__frozen", False):
+                    raise CantModifyImmutableAttributeError(
+                        class_name=self.__class__.__name__,
+                        attribute_name=name,
+                    )
+                object.__setattr__(self, name, value)
+        ```
+
+    **Regular dataclass** — ``@auto_freeze`` adds post-init immutability
+    to a dataclass that otherwise allows mutation:
+
+        ```python
+        from dataclasses import dataclass
+
+        from forging_blocks.foundation.autofreeze import auto_freeze
+        from forging_blocks.foundation.errors import (
+            CantModifyImmutableAttributeError,
+        )
+
+        @auto_freeze
+        @dataclass
+        class Point:
+            x: float
+            y: float
+
+            def freeze_instance(self) -> None:
+                object.__setattr__(self, "_Point__frozen", True)
+
+            def unfreeze_instance(self) -> None:
+                object.__setattr__(self, "_Point__frozen", False)
+
+            @classmethod
+            def should_use_internal_freezing(cls) -> bool:
+                return True
+
+            def __setattr__(self, name: str, value: object) -> None:
+                if getattr(self, "_Point__frozen", False):
+                    raise CantModifyImmutableAttributeError(
+                        class_name=self.__class__.__name__,
+                        attribute_name=name,
+                    )
+                object.__setattr__(self, name, value)
+        ```
+
+    **Frozen dataclass** — when combined with ``@dataclass(frozen=True)``,
+    the decorator still calls ``freeze_instance`` after init, but
+    immutability is already enforced by the dataclass machinery.
+    ``@auto_freeze`` is generally redundant here unless you need
+    ``unfreeze_instance`` for test tooling:
+
+        ```python
+        from dataclasses import dataclass
+
+        from forging_blocks.foundation.autofreeze import auto_freeze
+
+        @auto_freeze
+        @dataclass(frozen=True)
+        class ImmutablePoint:
+            x: float
+            y: float
+
+            def freeze_instance(self) -> None:
+                pass  # frozen=True already prevents mutation
+
+            def unfreeze_instance(self) -> None:
+                pass
+
+            @classmethod
+            def should_use_internal_freezing(cls) -> bool:
+                return False  # already frozen, no extra work needed
         ```
     """
 
