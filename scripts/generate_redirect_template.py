@@ -54,9 +54,9 @@ def extract_head_assets(html: str) -> str:
         # Skip mkdocstrings CSS if it causes issues (usually fine)
         parts.append(f'<link rel="stylesheet" href="{{{{ href }}}}{href}">')
     
-    # Google Fonts (keep as-is, they're external)
+    # Google Fonts and preconnect (keep as-is, they're external)
     for m in re.finditer(
-        r'<link[^>]*fonts\.googleapis\.com[^>]*>', head_content
+        r'<link[^>]*fonts\.[^>]*>', head_content
     ):
         parts.append(m.group(0))
     
@@ -66,7 +66,7 @@ def extract_head_assets(html: str) -> str:
         parts.append(m.group(0))
     
     # MkDocs Material JS scope setup
-    m = re.search(r"<script>__md_scope[^<]*</script>", head_content)
+    m = re.search(r"<script>__md_scope.*?</script>", head_content, re.DOTALL)
     if m:
         parts.append(m.group(0))
     
