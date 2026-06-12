@@ -8,7 +8,6 @@
     <link rel="icon" href="assets/favicon.ico">
     <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
     <title>ForgingBlocks - Redirecting</title>
-    
     <link rel="stylesheet" href="assets/stylesheets/main.84d31ad4.min.css">
     <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,33 +48,23 @@
     </div>
     <script src="assets/javascripts/bundle.f55a23d4.min.js"></script>
     <script>
-      // Embed versions data directly to avoid fetch issues
       window.__VERSIONS_DATA = [
-  {
-    "version": "latest",
-    "title": "latest",
-    "aliases": [
-      "dev"
-    ],
-    "is_default": true
-  },
-  {
-    "version": "dev",
-    "title": "dev",
-    "aliases": [],
-    "is_default": false
-  },
-  {
-    "version": "0.4.1",
-    "title": "0.4.1",
-    "aliases": [],
-    "is_default": false
-  }
-];
+        {
+          "version": "dev",
+          "title": "dev",
+          "aliases": [],
+          "is_default": false
+        },
+        {
+          "version": "0.4.1",
+          "title": "0.4.1",
+          "aliases": ["latest"],
+          "is_default": false
+        }
+      ];
     </script>
     <script src="assets/js/version-dropdown.js"></script>
     <script>
-      // Redirect after showing dropdown briefly
       setTimeout(function() {
         window.location.replace("{href}" + window.location.search + window.location.hash);
       }, 3000);
