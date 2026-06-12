@@ -12,16 +12,10 @@ window.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  // Determine the versions.json URL relative to the script location.
-  // The script lives at <version>/assets/js/version-dropdown.js, so
-  // versions.json is two directory levels up from the script.
-  var versionsJsonUrl = "versions.json";
-  if (scriptUrl) {
-    var scriptDir = scriptUrl.pathname.replace(/\/[^\/]*$/, "");
-    // Go up two levels: assets/js/ → version root
-    var versionRoot = scriptDir.replace(/\/[^\/]+\/[^\/]+$/, "");
-    versionsJsonUrl = versionRoot + "/versions.json";
-  }
+  // versions.json always lives at the site root, regardless of
+  // whether the script is served from a versioned path (e.g.
+  // /dev/assets/js/…) or a flat local build (/assets/js/…).
+  var versionsJsonUrl = "/versions.json";
 
   var basePath = window.location.pathname;
 
