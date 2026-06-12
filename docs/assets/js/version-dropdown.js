@@ -10,6 +10,19 @@ window.addEventListener("DOMContentLoaded", function() {
     CURRENT_VERSION = 'latest';
   }
 
+  // Determine if we're in a versioned deployment (production) or local single build
+  var isVersionedPath = versionMatch !== null;
+  var baseUrl = isVersionedPath ? basePath.substring(0, basePath.indexOf(CURRENT_VERSION)) : '/';
+  
+  // For local development without versioned paths, link to root
+  if (!isVersionedPath) {
+    baseUrl = '/';
+  }
+
+  // In local development (no versioned paths), all version links should point to root
+  // since we only have a single build. In production (mike), versioned paths exist.
+  var isLocalDev = !isVersionedPath;
+
   function makeDropdown(versions, selected) {
     var container = document.createElement("div");
     container.className = "django-version-dropdown";
@@ -40,7 +53,8 @@ window.addEventListener("DOMContentLoaded", function() {
     versions.forEach(function(v) {
       var link = document.createElement("a");
       link.className = "django-version-dropdown__item";
-      link.href = "/" + v.version + "/";
+      // In local dev, all versions point to root since we only have one build
+      link.href = isLocalDev ? '/' : (baseUrl + v.version + "/");
       link.textContent = v.title || v.version;
       link.setAttribute("role", "option");
       if (v.version === selected) {
@@ -100,7 +114,6 @@ window.addEventListener("DOMContentLoaded", function() {
   }
 
   // Fetch versions.json
-  // Fetch versions.json from the site root
   fetch("/versions.json")
     .then(function(response) {
       if (!response.ok) throw new Error("Failed to load versions.json");
