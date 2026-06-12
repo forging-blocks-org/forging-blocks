@@ -1,140 +1,84 @@
-name: CI
+name: Release Pipeline
 
 on:
   pull_request:
-  push:
-    branches: [main]
+    types: [closed]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  test:
+  release:
+    if: >
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/v')
     runs-on: ubuntu-latest
-    outputs:
-      VERSION: ${{ steps.get-version.outputs.VERSION }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Lint Workflow Files (YAML)
-        uses: ibiqlik/action-yamllint@v3
-        with:
-          file_or_dir: .github/workflows/ .github/actions/
-          strict: true
-
-      - name: Lint Workflow Files (Actions)
-        uses: raven-actions/actionlint@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Lint Shell Scripts
-        run: shellcheck --external-sources scripts/pipeline/*.sh
-
-      - name: Set up Poetry
-        uses: ./.github/actions/setup-poetry
-
-      - name: Install git-cliff
-        uses: ./.github/actions/install-git-cliff
-
-      - name: Install dependencies
-        run: poetry install --no-interaction --with dev
-
-      - name: Validate Pipeline Env Contracts
-        run: poetry run python scripts/pipeline/validate_env_contracts.py
-
-      - name: Run CI checks
-        run: poetry run poe ci:check
-
-      - name: Run tests
-        run: poetry run poe test
-
-      - name: Extract Version
-        id: get-version
-        run: echo "VERSION=$(poetry version -s)" >> "$GITHUB_OUTPUT"
-
-      - name: Build and Validate Artifacts
-        run: bash scripts/pipeline/validate_artifacts.sh
-
-  validate-pypi-tokens:
-    runs-on: ubuntu-latest
-    needs: test
-    if: github.event_name == 'pull_request'
     environment: pypi
     permissions:
+      contents: write
       id-token: write
-    steps:
-      - name: Verify OIDC token is available
-        run: |
-          TOKEN=$(curl --silent --fail \
-            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=pypi" \
-            | python3 -c "import sys,json; print(json.load(sys.stdin)['value'][:10])")
-          if [ -z "$TOKEN" ]; then
-            echo "OIDC token request failed" >&2
-            exit 1
-          fi
-          echo "OIDC token available"
-
-  validate-publish:
-    runs-on: ubuntu-latest
-    needs: test
-    if: github.event_name == 'pull_request'
-    permissions:
-      id-token: write
-    env:
-      PACKAGE_NAME: forging-blocks
-      IMPORT_NAME: forging_blocks
+    outputs:
+      version: ${{ steps.prep.outputs.version }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Prepare Release and Tagging
+        id: prep
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: bash scripts/pipeline/prepare_release.sh
+
+      - name: Validate Release Version
+        env:
+          RELEASE_VERSION: ${{ steps.prep.outputs.version }}
+        run: bash scripts/pipeline/validate_release_version.sh
 
       - name: Set up Poetry
         uses: ./.github/actions/setup-poetry
 
-      - name: Install dependencies (including twine)
-        run: |
-          poetry install --no-interaction --with dev
-          pip install twine
+      - name: Install dependencies
+        run: poetry install --no-interaction
 
-      - name: Run validation script
-        id: validate
-        env:
-          PACKAGE_NAME: "forging-blocks"
-          IMPORT_NAME: "forging_blocks"
-          VERSION: "${{ needs.test.outputs.VERSION }}"
-          TEST_PYPY_TOKEN: "${{ env.TEST_PYPY_TOKEN }}"
-        run: |
-          chmod +x ./scripts/pipeline/validate_publish.sh
-          ./scripts/pipeline/validate_publish.sh
+      - name: Build and validate artifacts
+        run: bash scripts/pipeline/validate_artifacts.sh
 
-      - name: Validate PUBLISH_VERSION
-        env:
-          PUBLISH_VERSION: "${{ env.PUBLISH_VERSION }}"
-        run: bash scripts/pipeline/validate_publish_version.sh
-
-      - name: Check if version already exists on TestPyPI
-        id: testpypi-check
-        env:
-          PACKAGE_NAME: "${{ env.PACKAGE_NAME }}"
-          PUBLISH_VERSION: "${{ env.PUBLISH_VERSION }}"
-        run: |
-          chmod +x ./scripts/pipeline/check_testpypi.sh
-          ./scripts/pipeline/check_testpypi.sh
-
-      - name: Upload to TestPyPI
-        if: steps.testpypi-check.outputs.already_exists == 'false'
+      - name: Publish to PyPI
+        if: github.actor != 'nektos/act'
         uses: pypa/gh-action-pypi-publish@v1.13.0
-        with:
-          repository-url: https://test.pypi.org/legacy/
 
-      - name: Smoke Test (Install from TestPyPI)
-        if: steps.testpypi-check.outputs.already_exists == 'false'
+      - name: Create GitHub Release
+        if: github.actor != 'nektos/act'
         env:
-          PACKAGE_NAME: "${{ env.PACKAGE_NAME }}"
-          IMPORT_NAME: "${{ env.IMPORT_NAME }}"
-          PUBLISH_VERSION: "${{ env.PUBLISH_VERSION }}"
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ steps.prep.outputs.version }}
+        run: bash scripts/pipeline/create_github_release.sh
+
+  deploy-docs:
+    concurrency: docs-deploy
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Fetch gh-pages branch
+        shell: bash
         run: |
-          chmod +x ./scripts/pipeline/smoke_test.sh
-          ./scripts/pipeline/smoke_test.sh
+          if git ls-remote --exit-code origin gh-pages > /dev/null 2>&1; then
+            git fetch origin gh-pages:gh-pages
+          fi
+
+      - name: Deploy versioned documentation
+        uses: ./.github/actions/deploy-docs
+        with:
+          version: ${{ needs.release.outputs.version }}
+          author-name: "github-actions[bot]"
+          author-email: "github-actions[bot]@users.noreply.github.com"

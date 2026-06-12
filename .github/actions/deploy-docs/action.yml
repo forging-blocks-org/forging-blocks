@@ -6,12 +6,8 @@ description: >-
 
 inputs:
   version:
-    description: "Documentation version to deploy (e.g., '1.2.3', 'dev', 'latest')"
+    description: "Documentation version to deploy (e.g., 'dev', '0.4.0')"
     required: true
-  update-aliases:
-    description: "Comma-separated list of aliases to update (e.g., 'latest')"
-    required: false
-    default: ""
   author-name:
     description: "Git author name for documentation commits"
     required: false
@@ -20,6 +16,10 @@ inputs:
     description: "Git author email for documentation commits"
     required: false
     default: "forging-blocks-org@proton.me"
+  dry-run:
+    description: "Build and commit locally, do not push to gh-pages"
+    required: false
+    default: "false"
   skip-dependencies:
     description: "Skip poetry install if already done in workflow"
     required: false
@@ -36,6 +36,18 @@ runs:
           exit 1
         fi
         echo "Deploying documentation version: ${{ inputs.version }}"
+
+    - name: Prepare git for act runtime
+      shell: bash
+      run: |
+        if [ ! -d .git ]; then
+          if [ -f .git ]; then
+            mv .git .git.orig || true
+          fi
+          git init
+          git add -A || true
+          git commit -m "temp: local repo for act" || true
+        fi
 
     - name: Configure git
       shell: bash
@@ -67,35 +79,14 @@ runs:
           exit 1
         fi
 
-    - name: Prepare git for act runtime
-      shell: bash
-      run: |
-        # Handle .git worktree pointer for local act (GitHub Actions simulator) runs
-        if [ ! -d .git ]; then
-          if [ -f .git ]; then
-            mv .git .git.orig || true
-          fi
-          git init
-          git add -A || true
-          git commit -m "temp: local repo for act" || true
-        fi
-
-    - name: Generate documentation pages
-      shell: bash
-      run: |
-        poetry run python scripts/generate_autodoc_pages.py
-
     - name: Deploy documentation
       shell: bash
       run: |
-        VERSION="${{ inputs.version }}"
-        ALIASES="${{ inputs.update-aliases }}"
-
-        if [ -z "$ALIASES" ]; then
-          poetry run mike deploy --push --ignore-remote-status "$VERSION"
-        else
-          poetry run mike deploy --push --ignore-remote-status --update-aliases "$VERSION" $ALIASES
+        ARGS="--ignore-remote-status"
+        if [ "${{ inputs.dry-run }}" == "true" ]; then
+          ARGS="$ARGS --dry-run"
         fi
+        ./scripts/deploy_versioned_docs.sh "${{ inputs.version }}" $ARGS
 
     - name: Restore mkdocs.yml
       shell: bash
