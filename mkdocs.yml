@@ -11,10 +11,9 @@ extra_css:
   - assets/css/theme.css
   - assets/css/mermaid-theme.css
 
-extra:
-  version:
-    provider: mike
-    default: latest  # Set which version is the default landing page
+extra_javascript:
+  - assets/js/version-dropdown.js
+  - assets/js/mermaid-init.js
 
 theme:
   name: material
@@ -164,6 +163,9 @@ plugins:
   - search
   - autorefs
   - section-index
+  - mike:
+      alias_type: symlink
+      version_selector: true
   - mkdocstrings:
       handlers:
         python:
