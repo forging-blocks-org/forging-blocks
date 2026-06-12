@@ -1,0 +1,20 @@
+[
+  {
+    "version": "latest",
+    "title": "latest",
+    "aliases": ["dev"],
+    "is_default": true
+  },
+  {
+    "version": "dev",
+    "title": "dev",
+    "aliases": [],
+    "is_default": false
+  },
+  {
+    "version": "0.4.1",
+    "title": "0.4.1",
+    "aliases": [],
+    "is_default": false
+  }
+]
