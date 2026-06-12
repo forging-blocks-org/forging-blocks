@@ -1,60 +1,129 @@
 window.addEventListener("DOMContentLoaded", function() {
-  // Find the base URL from the current page
+  // Find our own script tag to derive the correct base directory
+  // for versions.json and the versioned path prefix.  This works
+  // regardless of the page URL (root, nested, or directory-style).
+  var scripts = document.getElementsByTagName("script");
+  var scriptUrl = null;
+  for (var i = 0; i < scripts.length; i++) {
+    var src = scripts[i].src;
+    if (src && src.indexOf("version-dropdown.js") !== -1) {
+      scriptUrl = new URL(src);
+      break;
+    }
+  }
+
+  // Determine the versions.json URL relative to the script location.
+  // The script lives at <version>/assets/js/version-dropdown.js, so
+  // versions.json is two directory levels up from the script.
+  var versionsJsonUrl = "versions.json";
+  if (scriptUrl) {
+    var scriptDir = scriptUrl.pathname.replace(/\/[^\/]*$/, "");
+    // Go up two levels: assets/js/ → version root
+    var versionRoot = scriptDir.replace(/\/[^\/]+\/[^\/]+$/, "");
+    versionsJsonUrl = versionRoot + "/versions.json";
+  }
+
   var basePath = window.location.pathname;
-  // Match version in path like /en/latest/, /en/dev/, /en/0.4.1/, or /latest/, /dev/
-  var versionMatch = basePath.match(/(?:\/en)?\/([^\/]+)\//);
-  var CURRENT_VERSION = versionMatch ? versionMatch[1] : 'latest';
-  
-  // For local development, we may not have a version in the path
-  if (CURRENT_VERSION === '' || CURRENT_VERSION === 'index.html' || CURRENT_VERSION === 'en') {
-    CURRENT_VERSION = 'latest';
-  }
 
-  // Determine if we're in a versioned deployment (production) or local single build
-  var isVersionedPath = versionMatch !== null;
-  var baseUrl = isVersionedPath ? basePath.substring(0, basePath.indexOf(CURRENT_VERSION)) : '/';
-  
-  // For local development without versioned paths, link to root
-  if (!isVersionedPath) {
-    baseUrl = '/';
-  }
+  fetch(versionsJsonUrl)
+    .then(function(response) {
+      if (!response.ok) throw new Error("Failed to load versions.json");
+      return response.json();
+    })
+    .then(function(versions) {
+      var visibleVersions = versions.filter(function(v) {
+        return !v.properties || !v.properties.hidden;
+      });
 
-  // In local development (no versioned paths), all version links should point to root
-  // since we only have a single build. In production (mike), versioned paths exist.
-  var isLocalDev = !isVersionedPath;
+      // Build a set of all known version identifiers (names + aliases)
+      var knownIds = [];
+      versions.forEach(function(v) {
+        knownIds.push(v.version);
+        if (v.aliases) {
+          knownIds = knownIds.concat(v.aliases);
+        }
+      });
 
-  function makeDropdown(versions, selected) {
+      // Find version by scanning path segments right-to-left.
+      // Falls back to the script URL path when the page path
+      // doesn't contain a version (e.g. the root redirect page).
+      function findVersionMatch(path) {
+        var segments = path.replace(/\/$/, "").split("/");
+        for (var i = segments.length - 1; i >= 0; i--) {
+          if (knownIds.indexOf(segments[i]) !== -1) {
+            return { version: segments[i], idx: i, segments: segments };
+          }
+        }
+        return { version: "latest", idx: -1, segments: segments };
+      }
+
+      var match = findVersionMatch(basePath);
+      if (match.idx === -1 && scriptUrl) {
+        match = findVersionMatch(scriptUrl.pathname);
+      }
+
+      var pathSegments = match.segments;
+      var CURRENT_VERSION = match.version;
+      var versionIdx = match.idx;
+
+      var isVersionedPath = versionIdx !== -1;
+      var baseUrl = isVersionedPath
+        ? pathSegments.slice(0, versionIdx).join("/") + "/"
+        : "/";
+      var isLocalDev = !isVersionedPath;
+
+      // Resolve canonical version (aliases → real version)
+      var realVersionObj = versions.find(function(v) {
+        return v.version === CURRENT_VERSION;
+      });
+      if (!realVersionObj) {
+        realVersionObj = versions.find(function(v) {
+          return v.aliases && v.aliases.indexOf(CURRENT_VERSION) !== -1;
+        });
+      }
+      var realVersion = realVersionObj
+        ? realVersionObj.version
+        : CURRENT_VERSION;
+
+      document.body.appendChild(
+        makeDropdown(visibleVersions, realVersion, isLocalDev, baseUrl)
+      );
+    })
+    .catch(function(err) {
+      console.warn("Version dropdown: Could not load versions.json", err);
+    });
+
+  function makeDropdown(versions, selected, isLocalDev, baseUrl) {
     var container = document.createElement("div");
     container.className = "django-version-dropdown";
     container.id = "django-version-dropdown";
-    
+
     var button = document.createElement("button");
     button.className = "django-version-dropdown__button";
     button.type = "button";
     button.setAttribute("aria-haspopup", "listbox");
     button.setAttribute("aria-expanded", "false");
-    
+
     var versionText = document.createElement("span");
     versionText.className = "django-version-dropdown__text";
     versionText.textContent = "Documentation version: " + selected;
-    
+
     var arrow = document.createElement("span");
     arrow.className = "django-version-dropdown__arrow";
     arrow.innerHTML = "▼";
-    
+
     button.appendChild(versionText);
     button.appendChild(arrow);
-    
+
     var dropdown = document.createElement("div");
     dropdown.className = "django-version-dropdown__list";
     dropdown.setAttribute("role", "listbox");
     dropdown.style.display = "none";
-    
+
     versions.forEach(function(v) {
       var link = document.createElement("a");
       link.className = "django-version-dropdown__item";
-      // In local dev, all versions point to root since we only have one build
-      link.href = isLocalDev ? '/' : (baseUrl + v.version + "/");
+      link.href = isLocalDev ? "/" : (baseUrl + v.version + "/");
       link.textContent = v.title || v.version;
       link.setAttribute("role", "option");
       if (v.version === selected) {
@@ -65,27 +134,24 @@ window.addEventListener("DOMContentLoaded", function() {
       }
       dropdown.appendChild(link);
     });
-    
+
     container.appendChild(button);
     container.appendChild(dropdown);
-    
-    // Toggle dropdown on button click
+
     button.addEventListener("click", function(e) {
       e.stopPropagation();
       var isOpen = dropdown.style.display === "block";
       dropdown.style.display = isOpen ? "none" : "block";
       button.setAttribute("aria-expanded", !isOpen);
     });
-    
-    // Close dropdown when clicking outside
+
     document.addEventListener("click", function(e) {
       if (!container.contains(e.target)) {
         dropdown.style.display = "none";
         button.setAttribute("aria-expanded", "false");
       }
     });
-    
-    // Handle keyboard navigation
+
     button.addEventListener("keydown", function(e) {
       if (e.key === "Escape") {
         dropdown.style.display = "none";
@@ -98,7 +164,7 @@ window.addEventListener("DOMContentLoaded", function() {
         dropdown.querySelector("a").focus();
       }
     });
-    
+
     dropdown.addEventListener("keydown", function(e) {
       if (e.key === "Escape") {
         dropdown.style.display = "none";
@@ -109,40 +175,7 @@ window.addEventListener("DOMContentLoaded", function() {
         button.focus();
       }
     });
-    
+
     return container;
   }
-
-  // Fetch versions.json
-  fetch("versions.json")
-    .then(function(response) {
-      if (!response.ok) throw new Error("Failed to load versions.json");
-      return response.json();
-    })
-    .then(function(versions) {
-      // Filter out hidden versions if present
-      var visibleVersions = versions.filter(function(v) {
-        return !v.properties || !v.properties.hidden;
-      });
-      
-      // Find the real version - prioritize exact version match over alias
-      var realVersionObj = versions.find(function(v) {
-        return v.version === CURRENT_VERSION;
-      });
-      // If no exact match, check aliases
-      if (!realVersionObj) {
-        realVersionObj = versions.find(function(v) {
-          return v.aliases && v.aliases.includes(CURRENT_VERSION);
-        });
-      }
-      var realVersion = realVersionObj ? realVersionObj.version : CURRENT_VERSION;
-      
-      var dropdown = makeDropdown(visibleVersions, realVersion);
-      
-      // Insert at bottom-right of page (fixed position)
-      document.body.appendChild(dropdown);
-    })
-    .catch(function(err) {
-      console.warn("Version dropdown: Could not load versions.json", err);
-    });
 });
