@@ -14,10 +14,9 @@ Non-Responsibilities:
     - Interact directly with aggregates.
 """
 
-from __future__ import annotations
-
 from abc import ABC, abstractmethod
 from types import TracebackType
+from typing import Self
 
 
 class UnitOfWork(ABC):
@@ -28,7 +27,7 @@ class UnitOfWork(ABC):
     published atomically.
     """
 
-    async def __aenter__(self) -> UnitOfWork:
+    async def __aenter__(self) -> Self:
         """Enter the Unit of Work context.
 
         Returns:
@@ -38,7 +37,7 @@ class UnitOfWork(ABC):
 
     async def __aexit__(
         self,
-        exc_type: type | None,
+        exc_type: type[BaseException] | None,
         exc_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:
