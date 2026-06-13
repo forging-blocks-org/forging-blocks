@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
-from typing import Any, TypeVar
+from typing import Any
 from uuid import UUID, uuid7  # type: ignore[attr-defined]
 
 from forging_blocks.foundation.value_object import ValueObject
@@ -17,9 +17,6 @@ from forging_blocks.foundation.value_object import ValueObject
 def now() -> datetime:
     """Get the current UTC datetime."""
     return datetime.now(timezone.utc)
-
-
-MessageRawType = TypeVar("MessageRawType")
 
 
 class MessageMetadata(ValueObject[dict[str, Any]]):
@@ -158,7 +155,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         return (self._message_id, self._created_at)
 
 
-class Message(ValueObject[MessageRawType], ABC):
+class Message[MessageRawType](ValueObject[MessageRawType], ABC):
     """Base class for all foundation messages.
 
     Messages are immutable value objects that represent intent or facts in the application.
