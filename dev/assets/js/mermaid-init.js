@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function {
+document.addEventListener("DOMContentLoaded", function() {
     // Function to render Mermaid diagrams
     function renderMermaidDiagrams() {
         if (window.mermaid) {

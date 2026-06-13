@@ -1,19 +1,25 @@
 [
   {
-    "version": "latest",
-    "title": "latest",
-    "aliases": ["dev"],
+    "version": "v0.4.1",
+    "title": "0.4.1",
+    "aliases": ["latest"],
     "is_default": true
   },
   {
-    "version": "dev",
-    "title": "dev",
+    "version": "v0.4.0",
+    "title": "0.4.0",
     "aliases": [],
     "is_default": false
   },
   {
-    "version": "0.4.1",
-    "title": "0.4.1",
+    "version": "v0.3.0",
+    "title": "0.3.0",
+    "aliases": [],
+    "is_default": false
+  },
+  {
+    "version": "dev",
+    "title": "dev",
     "aliases": [],
     "is_default": false
   }
