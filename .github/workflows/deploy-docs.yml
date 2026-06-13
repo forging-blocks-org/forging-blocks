@@ -3,6 +3,17 @@ name: Deploy Documentation
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Documentation version to deploy (e.g., '0.4.1', 'dev')"
+        required: true
+        type: string
+      dry-run:
+        description: "Build and commit locally, do not push to gh-pages"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -27,6 +38,7 @@ jobs:
       - name: Deploy documentation
         uses: ./.github/actions/deploy-docs
         with:
-          version: dev
+          version: ${{ github.event.inputs.version || 'dev' }}
+          dry-run: ${{ github.event.inputs.dry-run || 'false' }}
           author-name: "forging-blocks"
           author-email: "forging-blocks-org@proton.me"
