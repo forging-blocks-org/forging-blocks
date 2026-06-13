@@ -193,7 +193,14 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
 ]
 
 "ci:simulate".sequence = [
-  "ci:check",
+  "lint:shell",
+  "lint:contracts",
+  "lint",
+  "type",
+  "test",
+  "bandit",
+  { shell = "poetry build && pip install --quiet twine && twine check dist/*" },
+  { shell = "python scripts/generate_autodoc_pages.py && git checkout -- mkdocs.yml && git diff --quiet --exit-code -- docs/ || (echo 'ERROR: docs out of sync' && exit 1)" },
   "docs:build"
 ]
 "ci:release".sequence = [
