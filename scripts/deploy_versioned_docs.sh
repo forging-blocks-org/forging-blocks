@@ -65,9 +65,9 @@ if [[ "$VERSION" == "dev" ]]; then
 else
   echo "==> Deploying version $VERSION as latest..."
   if [[ -n "$DRY_RUN" ]]; then
-    poetry run mike deploy --update-aliases $MIKE_OPTS "$VERSION" latest
+    poetry run mike deploy --update-aliases $MIKE_OPTS "v$VERSION" latest "$VERSION"
   else
-    poetry run mike deploy --push --update-aliases $MIKE_OPTS "$VERSION" latest
+    poetry run mike deploy --push --update-aliases $MIKE_OPTS "v$VERSION" latest "$VERSION"
   fi
   echo "==> Setting default version to latest..."
   if [[ -n "$DRY_RUN" ]]; then
