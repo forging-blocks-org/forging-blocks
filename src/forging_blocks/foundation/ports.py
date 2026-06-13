@@ -1,12 +1,9 @@
 """Foundational port definition for the ForgingBlocks."""
 
-from typing import Protocol, TypeVar
-
-InputType = TypeVar("InputType", contravariant=True)
-OutputType = TypeVar("OutputType", covariant=True)
+from typing import Protocol
 
 
-class Port(Protocol[InputType, OutputType]):  # type: ignore[reportInvalidTypeVarUse]
+class Port[InputType, OutputType](Protocol):
     """Base protocol for defining interface contracts.
 
     Port is a generic Protocol that serves as the foundation for interface
@@ -20,17 +17,17 @@ class Port(Protocol[InputType, OutputType]):  # type: ignore[reportInvalidTypeVa
     """
 
 
-class InboundPort(Port[InputType, OutputType], Protocol):  # type: ignore[reportInvalidTypeVarUse]
+class InboundPort[InputType, OutputType](Port[InputType, OutputType], Protocol):
     """Alias for Port used as an inbound marker."""
 
 
-class OutboundPort(Port[InputType, OutputType], Protocol):  # type: ignore[reportInvalidTypeVarUse]
+class OutboundPort[InputType, OutputType](Port[InputType, OutputType], Protocol):
     """Alias for Port used as an outbound marker."""
 
 
-class InputPort(InboundPort[InputType, OutputType], Protocol):  # type: ignore[reportInvalidTypeVarUse]
+class InputPort[InputType, OutputType](InboundPort[InputType, OutputType], Protocol):
     """Alias for InboundPort."""
 
 
-class OutputPort(OutboundPort[InputType, OutputType], Protocol):  # type: ignore[reportInvalidTypeVarUse]
+class OutputPort[InputType, OutputType](OutboundPort[InputType, OutputType], Protocol):
     """Alias for OutboundPort."""
