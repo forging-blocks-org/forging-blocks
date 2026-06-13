@@ -6,18 +6,6 @@
     "is_default": true
   },
   {
-    "version": "v0.4.0",
-    "title": "0.4.0",
-    "aliases": [],
-    "is_default": false
-  },
-  {
-    "version": "v0.3.0",
-    "title": "0.3.0",
-    "aliases": [],
-    "is_default": false
-  },
-  {
     "version": "dev",
     "title": "dev",
     "aliases": [],
