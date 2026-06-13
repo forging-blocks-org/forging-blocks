@@ -12,10 +12,23 @@ window.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  // versions.json always lives at the site root, regardless of
-  // whether the script is served from a versioned path (e.g.
-  // /dev/assets/js/…) or a flat local build (/assets/js/…).
-  var versionsJsonUrl = "/versions.json";
+  // Derive the site root from our own script URL so that
+  // versions.json is found regardless of subpath (GitHub Pages)
+  // or versioned directory depth.  The script always lives at
+  //   <siteRoot>/[<version>/]assets/js/version-dropdown.js
+  // so we strip 3 segments (versioned) or 2 segments (flat).
+  var versionsJsonUrl = "/versions.json";  // fallback
+  if (scriptUrl) {
+    var scriptDir = scriptUrl.pathname.replace(/\/[^\/]*$/, "");
+    // Try 3 levels up: <site>/<version>/assets/js/ → <site>
+    var siteRoot = scriptDir.replace(/\/[^\/]+\/[^\/]+\/[^\/]+$/, "");
+    // If the regex didn't match (flat build has only 2 levels),
+    // try 2 levels up: <site>/assets/js/ → <site>
+    if (siteRoot === scriptDir) {
+      siteRoot = scriptDir.replace(/\/[^\/]+\/[^\/]+$/, "");
+    }
+    versionsJsonUrl = siteRoot + "/versions.json";
+  }
 
   var basePath = window.location.pathname;
 
