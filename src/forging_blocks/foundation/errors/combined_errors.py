@@ -3,15 +3,13 @@
 Defines CombinedErrors which aggregates multiple Error instances into one.
 """
 
-from typing import Generic, Iterable, Iterator, Sequence, TypeVar
+from typing import Iterable, Iterator, Sequence
 
 from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.errors.error import Error
 
-ErrorType = TypeVar("ErrorType", bound="Error")
 
-
-class CombinedErrors(Error, Generic[ErrorType]):
+class CombinedErrors[ErrorType: Error](Error):
     """Base class for combining multiple errors into one."""
 
     def __init__(self, errors: Iterable[ErrorType]) -> None:
