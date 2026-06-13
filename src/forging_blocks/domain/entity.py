@@ -2,18 +2,17 @@
 
 from __future__ import annotations
 
+
 from abc import ABC
 from collections.abc import Hashable
-from typing import Any, Generic, TypeVar, cast
+from typing import Any, cast
 
 from forging_blocks.domain.errors.draft_entity_is_not_hashable_error import (
     DraftEntityIsNotHashableError,
 )
 
-TId = TypeVar("TId", bound=Hashable)
 
-
-class Entity(Generic[TId], ABC):
+class Entity[TId: Hashable](ABC):
     """Base class for all domain entities.
 
     An entity is defined by its identity rather than its attributes. Two entities with the same
