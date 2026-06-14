@@ -8,9 +8,7 @@ from scripts.generate_redirect_template import (
     extract_header,
     extract_scripts,
     generate_template,
-    main,
 )
-
 
 def _build_head_html(*extras: str) -> str:
     base = """<head>
