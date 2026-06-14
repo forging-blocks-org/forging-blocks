@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-
 from abc import ABC
 from collections.abc import Hashable
 from typing import Any, cast

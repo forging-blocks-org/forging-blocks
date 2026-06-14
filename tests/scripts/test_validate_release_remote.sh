@@ -14,13 +14,13 @@ passed=0
 failed=0
 
 test_pass() {
-    echo -e "${GREEN}✓${NC} $1"
+    echo -e "${GREEN}[OK]${NC} $1"
     ((passed++))
     ((total++))
 }
 
 test_fail() {
-    echo -e "${RED}✗${NC} $1"
+    echo -e "${RED}[FAIL]${NC} $1"
     ((failed++))
     ((total++))
 }
@@ -182,16 +182,16 @@ echo -e "Failed: ${RED}$failed${NC}"
 echo ""
 
 if [[ $failed -eq 0 ]]; then
-    echo -e "${GREEN}✓ All tests passed!${NC}"
+    echo -e "${GREEN}[OK] All tests passed!${NC}"
     echo ""
     echo "The script is ready to merge:"
-    echo "  ✓ Valid syntax"
-    echo "  ✓ All dependencies available"
-    echo "  ✓ Proper structure (6 functions)"
-    echo "  ✓ No dead code (all functions used)"
-    echo "  ✓ Working runtime behavior"
+    echo "  [OK] Valid syntax"
+    echo "  [OK] All dependencies available"
+    echo "  [OK] Proper structure (6 functions)"
+    echo "  [OK] No dead code (all functions used)"
+    echo "  [OK] Working runtime behavior"
     exit 0
 else
-    echo -e "${RED}✗ $failed test(s) failed${NC}"
+    echo -e "${RED}[FAIL] $failed test(s) failed${NC}"
     exit 1
 fi

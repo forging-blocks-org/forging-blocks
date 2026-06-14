@@ -20,10 +20,10 @@ class GitVersionControl(VersionControl):
             self._runner.run(
                 ["git", "rev-parse", "--verify", branch.value], suppress_error_log=True
             )
-            logging.info(f"✓ Branch {branch.value} exists")
+            logging.info(f"[OK] Branch {branch.value} exists")
             return True
         except RuntimeError:
-            logging.info(f"✓ Branch {branch.value} does not exist")
+            logging.info(f"[OK] Branch {branch.value} does not exist")
             return False
 
     def checkout(
@@ -36,20 +36,20 @@ class GitVersionControl(VersionControl):
             return
         logging.info(f"Checking out branch {branch.value}...")
         self._runner.run(["git", "checkout", branch.value])
-        logging.info(f"✓ Checked out branch {branch.value}")
+        logging.info(f"[OK] Checked out branch {branch.value}")
 
     def checkout_main(self) -> None:
         logging.info("Checking out main branch...")
         try:
             self._runner.run(["git", "checkout", "main"])
-            logging.info("✓ Checked out main branch")
+            logging.info("[OK] Checked out main branch")
         except RuntimeError:
             raw = self._runner.run(
                 ["git", "symbolic-ref", "--short", "refs/remotes/origin/HEAD"]
             ).strip()
             default_branch = raw.split("/")[-1]
             self._runner.run(["git", "checkout", default_branch])
-            logging.info(f"✓ Checked out {default_branch} branch")
+            logging.info(f"[OK] Checked out {default_branch} branch")
 
     def commit_release_artifacts(
         self,
@@ -62,14 +62,14 @@ class GitVersionControl(VersionControl):
         try:
             self._runner.run(["git", "add", "-A"])
             self._runner.run(["git", "commit", "-m", "chore(release): prepare release"])
-            logging.info("✓ Committed release artifacts")
+            logging.info("[OK] Committed release artifacts")
         except RuntimeError as e:
             error_msg = str(e)
 
             if self._is_pre_commit_failure(error_msg):
                 self._runner.run(["git", "add", "-A"])
                 self._runner.run(["git", "commit", "-m", "chore(release): prepare release"])
-                logging.info("✓ Committed release artifacts")
+                logging.info("[OK] Committed release artifacts")
             else:
                 raise
 
@@ -83,7 +83,7 @@ class GitVersionControl(VersionControl):
             return
         logging.info(f"Creating release branch {branch.value}...")
         self._runner.run(["git", "checkout", "-b", branch.value])
-        logging.info(f"✓ Created branch {branch.value}")
+        logging.info(f"[OK] Created branch {branch.value}")
 
     def delete_local_branch(
         self,

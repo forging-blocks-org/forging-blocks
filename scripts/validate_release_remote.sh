@@ -72,7 +72,7 @@ validate_workflow_run() {
     local workflow_type="$2"
 
     if [[ -z "$run_b64" ]]; then
-        echo -e "${RED}✗${NC} No $workflow_type workflow run found"
+        echo -e "${RED}[FAIL]${NC} No $workflow_type workflow run found"
         return 1
     fi
 
@@ -100,11 +100,11 @@ validate_workflow_run() {
     fi
 
     if [[ "$conclusion" == "success" ]]; then
-        echo -e "${GREEN}✓${NC} $workflow_type workflow passed (#$number, branch: $head_branch)"
+        echo -e "${GREEN}[OK]${NC} $workflow_type workflow passed (#$number, branch: $head_branch)"
         return 0
     fi
 
-    echo -e "${RED}✗${NC} $workflow_type workflow failed (conclusion: $conclusion, #$number, branch: $head_branch)"
+    echo -e "${RED}[FAIL]${NC} $workflow_type workflow failed (conclusion: $conclusion, #$number, branch: $head_branch)"
     return 1
 }
 
@@ -166,7 +166,7 @@ main() {
     fi
 
     echo ""
-    echo -e "${GREEN}✓ Release validation passed${NC}"
+    echo -e "${GREEN}[OK] Release validation passed${NC}"
     return 0
 }
 
