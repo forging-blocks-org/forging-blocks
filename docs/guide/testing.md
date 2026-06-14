@@ -13,7 +13,7 @@ This guide covers both **testing principles** and the **test structure** used in
 
 This project uses a **3-tier testing architecture** with clear separation of concerns:
 
-### 🎯 **Unit Tests** (`@pytest.mark.unit`)
+### **Unit Tests** (`@pytest.mark.unit`)
 Fast, isolated tests that verify pure business logic and components you own.
 
 ```bash
@@ -45,7 +45,7 @@ class TestPrepareReleaseService:
         assert result.is_err
 ```
 
-### 🔧 **Integration Tests** (`@pytest.mark.integration`)
+### **Integration Tests** (`@pytest.mark.integration`)
 Tests that verify components against real or simulated external dependencies.
 
 ```bash
@@ -74,7 +74,7 @@ class TestGitVersionControlIntegration:
         assert version_control.branch_exists(ReleaseBranchName("release/v1.2.0"))
 ```
 
-### 🛡️ **End-to-End Tests** (`@pytest.mark.e2e`)
+### **End-to-End Tests** (`@pytest.mark.e2e`)
 Complete workflow tests that exercise the entire system from entry points.
 
 ```bash
@@ -103,7 +103,7 @@ class TestMain:
         ...
 ```
 
-### 🚀 **Running Tests**
+### **Running Tests**
 
 ```bash
 # Primary Commands (for daily development)
@@ -121,15 +121,15 @@ poetry run poe test:debug        # Debug mode with verbose output
 - Some tests are **conditionally skipped** based on environment configuration
 - Skipped tests are still valuable as documentation of system capabilities
 
-### 📊 **Test Results Summary**
+### **Test Results Summary**
 
 | Test Type | Count | Coverage | Speed | When to Use |
+| Test Type | Count | Coverage | Speed | When to Use |
 |-----------|-------|----------|-------|-------------|
-| Unit | 360 | — | ⚡ Fast | Development, TDD, CI |
-| Integration | 84 | — | 🔧 Moderate | Integration verification |
-| E2E | 16 skipped | N/A | 🛡️ Protected (skipped) | Documentation, manual testing |
-| **All** | **460 passed, 17 skipped** | **98.51%** | ✅ **Complete** | **CI, Release** |
-
+| Unit | 360 | — | Fast | Development, TDD, CI |
+| Integration | 84 | — | Moderate | Integration verification |
+| E2E | 16 skipped | N/A | Protected (skipped) | Documentation, manual testing |
+| **All** | **460 passed, 17 skipped** | **98.51%** | **Complete** | **CI, Release** |
 **Note:** Some tests are conditionally skipped based on environment:
 - GitHub CLI integration tests (require `RUN_GITHUB_CLI_TESTS=1`)
 - End-to-end workflow tests (require `RUN_E2E_TESTS=1` and complex setup)
@@ -288,7 +288,7 @@ ForgingBlocks encourages designing with Ports so that dependencies can be replac
 
 ## Testing Guidelines
 
-### ✅ **Best Practices**
+### **Best Practices**
 
 1. **Use appropriate test categories:**
    - Unit tests for pure business logic you own
@@ -320,7 +320,7 @@ ForgingBlocks encourages designing with Ports so that dependencies can be replac
    - One test should verify one behavior
    - Use clear arrange/act/assert structure
 
-### ⚠️ **Common Pitfalls**
+### **Common Pitfalls**
 
 1. **Unit-testing external integrations:** Infrastructure adapters and presentation should have integration/E2E tests, not unit tests with mocks
 2. **Testing implementation:** Focus on behavior, not internal structure
