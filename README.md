@@ -91,9 +91,7 @@ if result.is_ok:
 
 ---
 
-## 🛠️ Development
-
-### Prerequisites
+## [Tools] Development
 
 - Python 3.14+
 - [Poetry](https://python-poetry.org/) for dependency management
@@ -152,14 +150,13 @@ This project uses a **3-tier testing architecture**:
 
 **Quick feedback during development:**
 ```bash
-poetry run poe test:unit    # ⚡ Fast (~1s) - run frequently
+poetry run poe test:unit    # [Fast] Fast (~1s) - run frequently
 ```
 
 **Verify integrations before commits:**
 ```bash
-poetry run poe test         # 🔍 Complete test suite (~3s) - run before commits
+poetry run poe test         # [Full] Complete test suite (~3s) - run before commits
 ```
-
 See [Testing Guide](https://forging-blocks-org.github.io/forging-blocks/guide/testing/) for detailed information.
 
 ---
