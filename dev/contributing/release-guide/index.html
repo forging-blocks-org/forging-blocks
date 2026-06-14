@@ -3762,7 +3762,7 @@ When the release PR is merged into <code>main</code> it will trigger the package
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1"># 5. GitHub Actions handles the rest automatically</span>
 </span></code></pre></div>
 <blockquote>
-<p><strong>💡 Always simulate first</strong>: Run without <code>--execute</code> to validate before creating the release PR.</p>
+<p><strong>[TIP] Always simulate first</strong>: Run without <code>--execute</code> to validate before creating the release PR.</p>
 </blockquote>
 <h2 id="how-to-release">How to Release<a class="headerlink" href="#how-to-release" title="Permanent link">&para;</a></h2>
 <h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
@@ -3804,7 +3804,7 @@ When the release PR is merged into <code>main</code> it will trigger the package
 <li><strong>Creates GitHub Release</strong> with changelog</li>
 </ol>
 <blockquote>
-<p><strong>🔒 Important</strong>: Publishing only happens after PR merge. If the PR is rejected, nothing gets released.</p>
+<p><strong>[IMPORTANT] Important</strong>: Publishing only happens after PR merge. If the PR is rejected, nothing gets released.</p>
 </blockquote>
 <hr />
 <h2 id="mental-model-read-this-first">Mental Model (Read This First)<a class="headerlink" href="#mental-model-read-this-first" title="Permanent link">&para;</a></h2>
@@ -3836,10 +3836,10 @@ When the release PR is merged into <code>main</code> it will trigger the package
 - No local credentials needed<br />
 - Clear audit trail through GitHub Actions logs</p>
 <p>This separation ensures that:<br />
-✅ <strong>No releases without code review</strong><br />
-✅ <strong>No local environment dependencies for publishing</strong><br />
-✅ <strong>Clear audit trail for all releases</strong><br />
-✅ <strong>Consistent tagging from branch names</strong></p>
+[OK] <strong>No releases without code review</strong><br />
+[OK] <strong>No local environment dependencies for publishing</strong><br />
+[OK] <strong>Clear audit trail for all releases</strong><br />
+[OK] <strong>Consistent tagging from branch names</strong></p>
 <hr />
 <h2 id="commit-convention-required">Commit Convention (Required)<a class="headerlink" href="#commit-convention-required" title="Permanent link">&para;</a></h2>
 <p>Automatic changelog generation relies on commit messages following this format:</p>
@@ -3944,23 +3944,27 @@ When the release PR is merged into <code>main</code> it will trigger the package
 <tbody>
 <tr>
 <td><strong>Simulation</strong> (default)</td>
-<td>❌</td>
-<td>❌</td>
-<td>❌</td>
-<td>✅ Always safe</td>
+<td>[FAIL]</td>
+<td>[FAIL]</td>
+<td>[FAIL]</td>
+<td>[OK] Always safe</td>
 </tr>
 <tr>
 <td><strong>Execute</strong> (<code>--execute</code>)</td>
-<td>✅</td>
-<td>✅</td>
-<td>❌</td>
-<td>⚠️ Only when ready</td>
+<td>[OK]</td>
+<td>[OK]</td>
+<td>[FAIL]</td>
+<td>[WARN] Only when ready</td>
+</tr>
+<tr>
+<td>&gt; <strong>[IMPORTANT] Safety First</strong>: Always run simulation mode first to validate the release.</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p><strong>🔒 Safety First</strong>: Always run simulation mode first to validate the release.</p>
-</blockquote>
 <hr />
 <h2 id="maintainer-checklist">Maintainer Checklist<a class="headerlink" href="#maintainer-checklist" title="Permanent link">&para;</a></h2>
 <ul>
