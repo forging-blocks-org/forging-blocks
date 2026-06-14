@@ -133,7 +133,6 @@ def extract_header(html: str) -> str:
     def replace_attr(match: re.Match[str]) -> str:
         attr_name: str = match.group(1)
         url: str = match.group(2)
-        # Special cases that should not be prefixed
         if url in (".", "#") or url.startswith("../"):
             return match.group(0)
         if _is_local_url(url):
