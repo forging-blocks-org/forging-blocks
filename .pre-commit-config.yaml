@@ -30,6 +30,7 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+        stages: [push]
 
       - id: prevent-mkdocs-yml-change
         name: Prevent committing modified mkdocs.yml
