@@ -33,6 +33,6 @@ repos:
 
       - id: prevent-mkdocs-yml-change
         name: Prevent committing modified mkdocs.yml
-        entry: bash -c 'git diff --cached --name-only | grep -q "^mkdocs.yml$" && { echo "❌ mkdocs.yml changes are not allowed to be committed!"; exit 1; } || exit 0'
+        entry: bash -c 'git diff --cached --name-only | grep -q "^mkdocs.yml$" && { echo "[ERROR] mkdocs.yml changes are not allowed to be committed!"; exit 1; } || exit 0'
         language: system
         types: [file]
