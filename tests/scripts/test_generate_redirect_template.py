@@ -10,6 +10,7 @@ from scripts.generate_redirect_template import (
     generate_template,
 )
 
+
 def _build_head_html(*extras: str) -> str:
     base = """<head>
     <meta charset="utf-8">
