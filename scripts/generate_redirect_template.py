@@ -161,7 +161,7 @@ def extract_header(html: str) -> str:
 def extract_scripts(html: str) -> str:
     """Extract JS scripts from the page."""
     scripts: list[str] = []
-    for m in re.finditer(r'<script src="([^"]+)"[^>]*>\s*</script\s*>', html):
+    for m in re.finditer(r'<script src="([^"]+)"[^>]*></script[^>]*>', html, re.IGNORECASE):
         src = m.group(1)
         if _is_trusted_url(src):
             scripts.append(f'<script src="{{{{ href }}}}{src}"></script>')
