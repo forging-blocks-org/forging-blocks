@@ -13,7 +13,6 @@ import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
-
 # Trusted external domains that are allowed in the redirect template
 TRUSTED_EXTERNAL_DOMAINS = {
     "fonts.googleapis.com",
@@ -88,7 +87,8 @@ def extract_head_assets(html: str) -> str:
         # Skip untrusted external stylesheets
 
     # Google Fonts and preconnect (keep only trusted external)
-    for m in re.finditer(r'<link[^>]*href="https?://fonts\.(?:googleapis|gstatic)\.com[^"]*"[^>]*>', head_content):
+    fonts_pattern = r'<link[^>]*href="https?://fonts\.(?:googleapis|gstatic)\.com[^"]*"[^>]*>'
+    for m in re.finditer(fonts_pattern, head_content):
         link_tag = m.group(0)
         # Extract href from the link tag
         href_match = re.search(r'href="([^"]+)"', link_tag)
