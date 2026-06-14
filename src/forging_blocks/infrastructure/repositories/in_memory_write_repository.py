@@ -6,7 +6,8 @@ dictionary for command-side operations in CQRS architectures.
 
 from __future__ import annotations
 
-from typing import Any, Generic, MutableMapping, TypeVar, cast
+from collections.abc import MutableMapping
+from typing import Any, cast
 
 from forging_blocks.application.ports.outbound.repository import WriteOnlyRepository
 from forging_blocks.foundation.errors.core import ErrorMessage
@@ -16,12 +17,8 @@ from forging_blocks.infrastructure.errors.repository_errors import (
     RepositoryNotFoundError,
 )
 
-TWriteAggregateRoot = TypeVar("TWriteAggregateRoot", bound=Identified[Any])
-TWriteId = TypeVar("TWriteId")
 
-
-class InMemoryWriteRepository(
-    Generic[TWriteAggregateRoot, TWriteId],
+class InMemoryWriteRepository[TWriteAggregateRoot: Identified[Any], TWriteId](
     WriteOnlyRepository[TWriteAggregateRoot, TWriteId],
 ):
     """In-memory implementation of WriteOnlyRepository for command operations.
