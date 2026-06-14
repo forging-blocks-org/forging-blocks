@@ -8,11 +8,52 @@ The template uses Jinja2 `{{ href }}` placeholders that mike replaces
 at set-default time with the version path (e.g., `dev/`).
 """
 
-from __future__ import annotations
-
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
+
+
+# Trusted external domains that are allowed in the redirect template
+TRUSTED_EXTERNAL_DOMAINS = {
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+}
+
+
+def _is_local_url(url: str) -> bool:
+    """Check if a URL is a local relative path.
+
+    Args:
+        url: The URL to check
+
+    Returns:
+        True if the URL is a local relative path, False otherwise
+    """
+    if not url:
+        return False
+    return url.startswith(("/", "./", "../")) or not urlparse(url).netloc
+
+
+def _is_trusted_url(url: str) -> bool:
+    """Check if a URL is from a trusted domain or is a local relative path.
+
+    Args:
+        url: The URL to check
+
+    Returns:
+        True if the URL is trusted (local or from allowlist), False otherwise
+    """
+    if _is_local_url(url):
+        return True
+
+    # Parse the URL and check the hostname against allowlist
+    try:
+        parsed = urlparse(url)
+        hostname = parsed.hostname or ""
+        return hostname in TRUSTED_EXTERNAL_DOMAINS
+    except Exception:
+        return False
 
 
 def extract_head_assets(html: str) -> str:
@@ -39,27 +80,20 @@ def extract_head_assets(html: str) -> str:
 
     # Generator
     m = re.search(r"(<meta name=\"generator\"[^>]*>)", head_content)
-    if m:
-        parts.append(m.group(1))
-
-    # Title (we override this)
-    # Favicon
-    m = re.search(r"(<link rel=\"icon\"[^>]*>)", head_content)
-    if m:
-        parts.append('<link rel="icon" href="{{ href }}assets/favicon.ico">')
-
-    # Remove canonical and next links
-
-    # CSS stylesheets (keep all local ones, skip external)
-    for m in re.finditer(r'<link rel="stylesheet" href="(?!https?://)([^"]+)"', head_content):
+    # CSS stylesheets (keep all trusted ones, skip untrusted external)
+    for m in re.finditer(r'<link rel="stylesheet" href="([^"]+)"', head_content):
         href = m.group(1)
-        # Skip mkdocstrings CSS if it causes issues (usually fine)
-        parts.append(f'<link rel="stylesheet" href="{{{{ href }}}}{href}">')
+        if _is_trusted_url(href):
+            parts.append(f'<link rel="stylesheet" href="{{{{ href }}}}{href}">')
+        # Skip untrusted external stylesheets
 
-    # Google Fonts and preconnect (keep as-is, they're external)
-    for m in re.finditer(r"<link[^>]*fonts\.[^>]*>", head_content):
-        parts.append(m.group(0))
-
+    # Google Fonts and preconnect (keep only trusted external)
+    for m in re.finditer(r'<link[^>]*href="https?://fonts\.(?:googleapis|gstatic)\.com[^"]*"[^>]*>', head_content):
+        link_tag = m.group(0)
+        # Extract href from the link tag
+        href_match = re.search(r'href="([^"]+)"', link_tag)
+        if href_match and _is_trusted_url(href_match.group(1)):
+            parts.append(link_tag)
     # Inline style for fonts
     m = re.search(r"<style>:root\{[^}]*--md-text-font[^<]*</style>", head_content)
     if m:
@@ -90,16 +124,27 @@ def extract_header(html: str) -> str:
         flags=re.DOTALL,
     )
 
-    # Add {{ href }} prefix to local asset references
+    # Add {{ href }} prefix to local/trusted asset references
+    # Special cases that should NOT get the prefix:
+    # - "." (current page)
+    # - "#" (anchor)
+    # - "../" (parent relative)
+    # - Trusted external domains (fonts.googleapis.com, fonts.gstatic.com)
+    def replace_attr(match: re.Match[str]) -> str:
+        attr_name: str = match.group(1)
+        url: str = match.group(2)
+        # Special cases that should not be prefixed
+        if url in (".", "#") or url.startswith("../"):
+            return match.group(0)
+        if _is_local_url(url):
+            return f'{attr_name}="{{{{ href }}}}{url}"'
+        return match.group(0)
+
     header = re.sub(
-        r'(src|href)="(?!https?://|#|\.\./)([^"]+)"',
-        r'\1="{{ href }}\2"',
+        r'(src|href)="([^"]+)"',
+        replace_attr,
         header,
     )
-
-    # Fix the home link: if it's just "." keep it as "." (it stays on root)
-    # but other relative links should get the {{ href }} prefix
-    # Actually we want all local assets to point to the version directory
 
     return header
 
@@ -107,8 +152,11 @@ def extract_header(html: str) -> str:
 def extract_scripts(html: str) -> str:
     """Extract JS scripts from the page."""
     scripts: list[str] = []
-    for m in re.finditer(r'<script src="(?!https?://)(assets/[^"]+)"[^>]*></script>', html):
-        scripts.append(f'<script src="{{{{ href }}}}{m.group(1)}"></script>')
+    for m in re.finditer(r'<script src="([^"]+)"[^>]*></script>', html):
+        src = m.group(1)
+        if _is_trusted_url(src):
+            scripts.append(f'<script src="{{{{ href }}}}{src}"></script>')
+        # Skip untrusted external scripts
 
     # Skip __config inline script - it's too complex and not needed for redirect page
 
