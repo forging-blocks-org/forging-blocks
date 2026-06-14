@@ -12,50 +12,29 @@ NC='\033[0m'
 total=0
 passed=0
 failed=0
-
 SCRIPT="scripts/validate_release_remote.sh"
 
 run_test() {
     local test_name="$1"
-    local json_data="$2"
+    local json_input="$2"
     local expected_pattern="$3"
 
-    local temp_dir
-    temp_dir=$(mktemp -d)
-    local json_file="$temp_dir/gh_output.json"
-    local gh_mock="$temp_dir/gh"
+    ((total++))
 
-    printf '%s' "$json_data" > "$json_file"
-
-    cat > "$gh_mock" << MOCK
-#!/usr/bin/env bash
-cat "$json_file"
-exit 0
-MOCK
-    chmod +x "$gh_mock"
-
-    local output
-    output=$(PATH="$temp_dir:$PATH" bash "$SCRIPT" 2>&1 || true)
-
-    rm -rf "$temp_dir"
-
-    # Strip ANSI color codes before checking
-    local clean_output
+    output=$(bash "$SCRIPT" "$json_input" 2>&1 || true)
     clean_output=$(echo "$output" | sed 's/\x1b\[[0-9;]*m//g')
 
     if echo "$clean_output" | grep -qE "$expected_pattern"; then
-        echo -e "${GREEN}✓${NC} $test_name"
+        echo -e "${GREEN}[OK]${NC} $test_name"
         ((passed++))
     else
-        echo -e "${RED}✗${NC} $test_name"
+        echo -e "${RED}[FAIL]${NC} $test_name"
         echo "  Expected pattern: $expected_pattern"
         echo "  Output:"
         echo "$clean_output" | head -15
         ((failed++))
     fi
-    ((total++))
 }
-
 echo "╔════════════════════════════════════════════════════════════════╗"
 echo "║ Unit Tests: validate_release_remote.sh                       ║"
 echo "╚════════════════════════════════════════════════════════════════╝"
@@ -111,11 +90,10 @@ echo "Total:  $total"
 echo -e "Passed: ${GREEN}$passed${NC}"
 echo -e "Failed: ${RED}$failed${NC}"
 echo ""
-
 if [[ $failed -eq 0 ]]; then
-    echo -e "${GREEN}✓ All unit tests passed!${NC}"
+    echo -e "${GREEN}[OK] All unit tests passed!${NC}"
     exit 0
 else
-    echo -e "${RED}✗ $failed test(s) failed${NC}"
+    echo -e "${RED}[FAIL] $failed test(s) failed${NC}"
     exit 1
 fi
