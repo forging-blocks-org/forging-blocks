@@ -6,17 +6,12 @@ dictionary for query-side operations in CQRS architectures.
 
 from __future__ import annotations
 
-from collections.abc import Mapping
-from typing import Generic, Sequence, TypeVar
+from collections.abc import Mapping, Sequence
 
 from forging_blocks.application.ports.outbound.repository import ReadOnlyRepository
 
-TReadAggregateRoot = TypeVar("TReadAggregateRoot")
-TId = TypeVar("TId")
 
-
-class InMemoryReadRepository(
-    Generic[TReadAggregateRoot, TId],
+class InMemoryReadRepository[TReadAggregateRoot, TId](
     ReadOnlyRepository[TReadAggregateRoot, TId],
 ):
     """In-memory implementation of ReadOnlyRepository for query operations.
