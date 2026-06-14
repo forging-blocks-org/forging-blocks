@@ -44,10 +44,10 @@ MOCK
     clean_output=$(echo "$output" | sed 's/\x1b\[[0-9;]*m//g')
 
     if echo "$clean_output" | grep -qE "$expected_pattern"; then
-        echo -e "${GREEN}✓${NC} $test_name"
+        echo -e "${GREEN}[OK]${NC} $test_name"
         ((passed++))
     else
-        echo -e "${RED}✗${NC} $test_name"
+        echo -e "${RED}[FAIL]${NC} $test_name"
         echo "  Expected pattern: $expected_pattern"
         echo "  Output:"
         echo "$clean_output" | head -15
@@ -113,9 +113,9 @@ echo -e "Failed: ${RED}$failed${NC}"
 echo ""
 
 if [[ $failed -eq 0 ]]; then
-    echo -e "${GREEN}✓ All unit tests passed!${NC}"
+    echo -e "${GREEN}[OK] All unit tests passed!${NC}"
     exit 0
 else
-    echo -e "${RED}✗ $failed test(s) failed${NC}"
+    echo -e "${RED}[FAIL] $failed test(s) failed${NC}"
     exit 1
 fi

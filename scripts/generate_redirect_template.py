@@ -27,8 +27,12 @@ def extract_head_assets(html: str) -> str:
     parts: list[str] = []
 
     # Meta charset and viewport
-    for tag in ["<meta charset", '<meta name="viewport"',
-                '<meta name="description"', '<meta name="author"']:
+    for tag in [
+        "<meta charset",
+        '<meta name="viewport"',
+        '<meta name="description"',
+        '<meta name="author"',
+    ]:
         m = re.search(rf"({re.escape(tag)}[^>]*>)", head_content)
         if m:
             parts.append(m.group(1))
@@ -47,17 +51,13 @@ def extract_head_assets(html: str) -> str:
     # Remove canonical and next links
 
     # CSS stylesheets (keep all local ones, skip external)
-    for m in re.finditer(
-        r'<link rel="stylesheet" href="(?!https?://)([^"]+)"', head_content
-    ):
+    for m in re.finditer(r'<link rel="stylesheet" href="(?!https?://)([^"]+)"', head_content):
         href = m.group(1)
         # Skip mkdocstrings CSS if it causes issues (usually fine)
         parts.append(f'<link rel="stylesheet" href="{{{{ href }}}}{href}">')
 
     # Google Fonts and preconnect (keep as-is, they're external)
-    for m in re.finditer(
-        r'<link[^>]*fonts\.[^>]*>', head_content
-    ):
+    for m in re.finditer(r"<link[^>]*fonts\.[^>]*>", head_content):
         parts.append(m.group(0))
 
     # Inline style for fonts
@@ -75,9 +75,7 @@ def extract_head_assets(html: str) -> str:
 
 def extract_header(html: str) -> str:
     """Extract the Material theme header/nav."""
-    header_match = re.search(
-        r"(<header class=.md-header[^>]*>.*?</header>)", html, re.DOTALL
-    )
+    header_match = re.search(r"(<header class=.md-header[^>]*>.*?</header>)", html, re.DOTALL)
     if not header_match:
         raise ValueError("No <header> found in HTML")
 
@@ -87,7 +85,7 @@ def extract_header(html: str) -> str:
     header = re.sub(
         r'(<span class="md-ellipsis">)\s*(Home|ForgingBlocks)\s*(</span>)\s*'
         r'(</div>\s*<div class="md-header__topic"[^>]*>\s*<span class="md-ellipsis">)\s*[^<]*\s*',
-        r'\1ForgingBlocks\3\4Redirecting...',
+        r"\1ForgingBlocks\3\4Redirecting...",
         header,
         flags=re.DOTALL,
     )
@@ -109,9 +107,7 @@ def extract_header(html: str) -> str:
 def extract_scripts(html: str) -> str:
     """Extract JS scripts from the page."""
     scripts: list[str] = []
-    for m in re.finditer(
-        r'<script src="(?!https?://)(assets/[^"]+)"[^>]*></script>', html
-    ):
+    for m in re.finditer(r'<script src="(?!https?://)(assets/[^"]+)"[^>]*></script>', html):
         scripts.append(f'<script src="{{{{ href }}}}{m.group(1)}"></script>')
 
     # Skip __config inline script - it's too complex and not needed for redirect page
@@ -137,7 +133,7 @@ def generate_template(source_html: str, output_path: Path) -> None:
     scripts = extract_scripts(source_html)
     body_attrs = extract_body_attrs(source_html)
 
-    template = f'''<!DOCTYPE html>
+    template = f"""<!DOCTYPE html>
 <html lang="en" class="no-js">
   <head>
     {head_assets}
@@ -200,10 +196,10 @@ def generate_template(source_html: str, output_path: Path) -> None:
     </script>
   </body>
 </html>
-'''
+"""
 
     output_path.write_text(template, encoding="utf-8")
-    print(f"✅ Generated redirect template: {output_path}")
+    print(f"[OK] Generated redirect template: {output_path}")
 
 
 def main() -> int:
@@ -220,7 +216,7 @@ def main() -> int:
 
     index_html = site_dir / "index.html"
     if not index_html.exists():
-        print(f"❌ Built site not found at: {index_html}")
+        print(f"[ERROR] Built site not found at: {index_html}")
         print("   Run 'mkdocs build' first, then re-run this script.")
         return 1
 
