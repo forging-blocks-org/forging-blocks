@@ -15,16 +15,12 @@ Non-Responsibilities:
     - UI or framework-specific concerns.
 """
 
-from typing import Generic, Protocol, TypeVar
+from typing import Protocol
 
 from forging_blocks.foundation.ports import InboundPort
 
-RequestType = TypeVar("RequestType", contravariant=True)
-ResponseType = TypeVar("ResponseType", covariant=True)
 
-
-class UseCase(
-    Generic[RequestType, ResponseType],
+class UseCase[RequestType, ResponseType](
     InboundPort[RequestType, ResponseType],
     Protocol,
 ):
