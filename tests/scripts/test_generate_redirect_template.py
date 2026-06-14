@@ -78,7 +78,7 @@ class TestExtractHeadAssets:
         assert "{{ href }}assets/favicon.ico" in result
         assert "{{ href }}assets/stylesheets/main" in result
         assert "__md_scope" in result
-        assert "fonts.googleapis.com" in result
+        assert 'href="https://fonts.googleapis.com/css' in result
         assert "--md-text-font" in result
 
     def test_when_head_missing_then_raises_value_error(self) -> None:
@@ -220,6 +220,24 @@ class TestExtractScripts:
 
         assert "foo.js" in result
         assert "bar.js" in result
+
+    def test_when_closing_script_tag_has_extra_attributes_then_still_matches(self) -> None:
+        html = """<html><head></head><body>
+<script src="assets/attr.js"></script foo="bar">
+</body></html>"""
+        result = extract_scripts(html)
+
+        assert "attr.js" in result
+
+    def test_when_script_tags_are_uppercase_then_still_matches(self) -> None:
+        html = """<html><head></head><body>
+<SCRIPT src="assets/upper.js"></SCRIPT>
+<script src="assets/mixed.js"></SCRIPT>
+</body></html>"""
+        result = extract_scripts(html)
+
+        assert "upper.js" in result
+        assert "mixed.js" in result
 
 
 @pytest.mark.unit
