@@ -552,7 +552,7 @@
           <li class="md-nav__item">
   <a href="#unit-tests-pytestmarkunit" class="md-nav__link">
     <span class="md-ellipsis">
-      🎯 Unit Tests (@pytest.mark.unit)
+      Unit Tests (@pytest.mark.unit)
     </span>
   </a>
   
@@ -561,7 +561,7 @@
           <li class="md-nav__item">
   <a href="#integration-tests-pytestmarkintegration" class="md-nav__link">
     <span class="md-ellipsis">
-      🔧 Integration Tests (@pytest.mark.integration)
+      Integration Tests (@pytest.mark.integration)
     </span>
   </a>
   
@@ -570,7 +570,7 @@
           <li class="md-nav__item">
   <a href="#end-to-end-tests-pytestmarke2e" class="md-nav__link">
     <span class="md-ellipsis">
-      🛡️ End-to-End Tests (@pytest.mark.e2e)
+      End-to-End Tests (@pytest.mark.e2e)
     </span>
   </a>
   
@@ -579,7 +579,7 @@
           <li class="md-nav__item">
   <a href="#running-tests" class="md-nav__link">
     <span class="md-ellipsis">
-      🚀 Running Tests
+      Running Tests
     </span>
   </a>
   
@@ -588,7 +588,7 @@
           <li class="md-nav__item">
   <a href="#test-results-summary" class="md-nav__link">
     <span class="md-ellipsis">
-      📊 Test Results Summary
+      Test Results Summary
     </span>
   </a>
   
@@ -693,7 +693,7 @@
           <li class="md-nav__item">
   <a href="#best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      ✅ Best Practices
+      Best Practices
     </span>
   </a>
   
@@ -702,7 +702,7 @@
           <li class="md-nav__item">
   <a href="#common-pitfalls" class="md-nav__link">
     <span class="md-ellipsis">
-      ⚠️ Common Pitfalls
+      Common Pitfalls
     </span>
   </a>
   
@@ -3491,7 +3491,7 @@
           <li class="md-nav__item">
   <a href="#unit-tests-pytestmarkunit" class="md-nav__link">
     <span class="md-ellipsis">
-      🎯 Unit Tests (@pytest.mark.unit)
+      Unit Tests (@pytest.mark.unit)
     </span>
   </a>
   
@@ -3500,7 +3500,7 @@
           <li class="md-nav__item">
   <a href="#integration-tests-pytestmarkintegration" class="md-nav__link">
     <span class="md-ellipsis">
-      🔧 Integration Tests (@pytest.mark.integration)
+      Integration Tests (@pytest.mark.integration)
     </span>
   </a>
   
@@ -3509,7 +3509,7 @@
           <li class="md-nav__item">
   <a href="#end-to-end-tests-pytestmarke2e" class="md-nav__link">
     <span class="md-ellipsis">
-      🛡️ End-to-End Tests (@pytest.mark.e2e)
+      End-to-End Tests (@pytest.mark.e2e)
     </span>
   </a>
   
@@ -3518,7 +3518,7 @@
           <li class="md-nav__item">
   <a href="#running-tests" class="md-nav__link">
     <span class="md-ellipsis">
-      🚀 Running Tests
+      Running Tests
     </span>
   </a>
   
@@ -3527,7 +3527,7 @@
           <li class="md-nav__item">
   <a href="#test-results-summary" class="md-nav__link">
     <span class="md-ellipsis">
-      📊 Test Results Summary
+      Test Results Summary
     </span>
   </a>
   
@@ -3632,7 +3632,7 @@
           <li class="md-nav__item">
   <a href="#best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      ✅ Best Practices
+      Best Practices
     </span>
   </a>
   
@@ -3641,7 +3641,7 @@
           <li class="md-nav__item">
   <a href="#common-pitfalls" class="md-nav__link">
     <span class="md-ellipsis">
-      ⚠️ Common Pitfalls
+      Common Pitfalls
     </span>
   </a>
   
@@ -3693,7 +3693,7 @@ This makes your code easier to test without relying on internal details.</p>
 <hr />
 <h2 id="test-structure-categories">Test Structure &amp; Categories<a class="headerlink" href="#test-structure-categories" title="Permanent link">&para;</a></h2>
 <p>This project uses a <strong>3-tier testing architecture</strong> with clear separation of concerns:</p>
-<h3 id="unit-tests-pytestmarkunit">🎯 <strong>Unit Tests</strong> (<code>@pytest.mark.unit</code>)<a class="headerlink" href="#unit-tests-pytestmarkunit" title="Permanent link">&para;</a></h3>
+<h3 id="unit-tests-pytestmarkunit"><strong>Unit Tests</strong> (<code>@pytest.mark.unit</code>)<a class="headerlink" href="#unit-tests-pytestmarkunit" title="Permanent link">&para;</a></h3>
 <p>Fast, isolated tests that verify pure business logic and components you own.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:unit<span class="w">   </span><span class="c1"># ~1 second</span>
 </span></code></pre></div>
@@ -3719,7 +3719,7 @@ This makes your code easier to test without relying on internal details.</p>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        <span class="c1"># Assert: Verify behavior</span>
 </span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">is_err</span>
 </span></code></pre></div></p>
-<h3 id="integration-tests-pytestmarkintegration">🔧 <strong>Integration Tests</strong> (<code>@pytest.mark.integration</code>)<a class="headerlink" href="#integration-tests-pytestmarkintegration" title="Permanent link">&para;</a></h3>
+<h3 id="integration-tests-pytestmarkintegration"><strong>Integration Tests</strong> (<code>@pytest.mark.integration</code>)<a class="headerlink" href="#integration-tests-pytestmarkintegration" title="Permanent link">&para;</a></h3>
 <p>Tests that verify components against real or simulated external dependencies.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:integration<span class="w">   </span><span class="c1"># ~2-3 seconds</span>
 </span></code></pre></div>
@@ -3742,7 +3742,7 @@ This makes your code easier to test without relying on internal details.</p>
 </span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>        <span class="n">version_control</span><span class="o">.</span><span class="n">create_branch</span><span class="p">(</span><span class="n">ReleaseBranchName</span><span class="p">(</span><span class="s2">&quot;release/v1.2.0&quot;</span><span class="p">))</span>
 </span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="k">assert</span> <span class="n">version_control</span><span class="o">.</span><span class="n">branch_exists</span><span class="p">(</span><span class="n">ReleaseBranchName</span><span class="p">(</span><span class="s2">&quot;release/v1.2.0&quot;</span><span class="p">))</span>
 </span></code></pre></div></p>
-<h3 id="end-to-end-tests-pytestmarke2e">🛡️ <strong>End-to-End Tests</strong> (<code>@pytest.mark.e2e</code>)<a class="headerlink" href="#end-to-end-tests-pytestmarke2e" title="Permanent link">&para;</a></h3>
+<h3 id="end-to-end-tests-pytestmarke2e"><strong>End-to-End Tests</strong> (<code>@pytest.mark.e2e</code>)<a class="headerlink" href="#end-to-end-tests-pytestmarke2e" title="Permanent link">&para;</a></h3>
 <p>Complete workflow tests that exercise the entire system from entry points.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:e2e<span class="w">   </span><span class="c1"># All currently skipped</span>
 </span></code></pre></div>
@@ -3764,7 +3764,7 @@ This makes your code easier to test without relying on internal details.</p>
 </span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="c1"># Full workflow test - only run in special environments</span>
 </span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="o">...</span>
 </span></code></pre></div>
-<h3 id="running-tests">🚀 <strong>Running Tests</strong><a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h3>
+<h3 id="running-tests"><strong>Running Tests</strong><a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Primary Commands (for daily development)</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span><span class="nb">test</span><span class="w">              </span><span class="c1"># Run ALL tests (recommended default)</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:unit<span class="w">         </span><span class="c1"># Run unit tests only (fast feedback)</span>
@@ -3778,49 +3778,15 @@ This makes your code easier to test without relying on internal details.</p>
 - <code>poetry run poe test</code> runs <strong>ALL</strong> tests including E2E (complete confidence)<br />
 - Some tests are <strong>conditionally skipped</strong> based on environment configuration<br />
 - Skipped tests are still valuable as documentation of system capabilities</p>
-<h3 id="test-results-summary">📊 <strong>Test Results Summary</strong><a class="headerlink" href="#test-results-summary" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Test Type</th>
-<th>Count</th>
-<th>Coverage</th>
-<th>Speed</th>
-<th>When to Use</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Unit</td>
-<td>360</td>
-<td>—</td>
-<td>⚡ Fast</td>
-<td>Development, TDD, CI</td>
-</tr>
-<tr>
-<td>Integration</td>
-<td>84</td>
-<td>—</td>
-<td>🔧 Moderate</td>
-<td>Integration verification</td>
-</tr>
-<tr>
-<td>E2E</td>
-<td>16 skipped</td>
-<td>N/A</td>
-<td>🛡️ Protected (skipped)</td>
-<td>Documentation, manual testing</td>
-</tr>
-<tr>
-<td><strong>All</strong></td>
-<td><strong>460 passed, 17 skipped</strong></td>
-<td><strong>98.51%</strong></td>
-<td>✅ <strong>Complete</strong></td>
-<td><strong>CI, Release</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Note:</strong> Some tests are conditionally skipped based on environment:<br />
+<h3 id="test-results-summary"><strong>Test Results Summary</strong><a class="headerlink" href="#test-results-summary" title="Permanent link">&para;</a></h3>
+<p>| Test Type | Count | Coverage | Speed | When to Use |<br />
+| Test Type | Count | Coverage | Speed | When to Use |<br />
+|-----------|-------|----------|-------|-------------|<br />
+| Unit | 360 | — | Fast | Development, TDD, CI |<br />
+| Integration | 84 | — | Moderate | Integration verification |<br />
+| E2E | 16 skipped | N/A | Protected (skipped) | Documentation, manual testing |<br />
+| <strong>All</strong> | <strong>460 passed, 17 skipped</strong> | <strong>98.51%</strong> | <strong>Complete</strong> | <strong>CI, Release</strong> |<br />
+<strong>Note:</strong> Some tests are conditionally skipped based on environment:<br />
 - GitHub CLI integration tests (require <code>RUN_GITHUB_CLI_TESTS=1</code>)<br />
 - End-to-end workflow tests (require <code>RUN_E2E_TESTS=1</code> and complex setup)</p>
 <p>Use <code>poetry run poe test</code> to run all tests including those requiring setup (with environment variables).</p>
@@ -3936,7 +3902,7 @@ This lets you verify behavior without involving infrastructure.</p>
 <p>ForgingBlocks encourages designing with Ports so that dependencies can be replaced with fakes in tests.</p>
 <hr />
 <h2 id="testing-guidelines">Testing Guidelines<a class="headerlink" href="#testing-guidelines" title="Permanent link">&para;</a></h2>
-<h3 id="best-practices">✅ <strong>Best Practices</strong><a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h3>
+<h3 id="best-practices"><strong>Best Practices</strong><a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h3>
 <ol>
 <li><strong>Use appropriate test categories:</strong></li>
 <li>Unit tests for pure business logic you own</li>
@@ -3974,7 +3940,7 @@ This lets you verify behavior without involving infrastructure.</p>
 <li>One test should verify one behavior</li>
 <li>Use clear arrange/act/assert structure</li>
 </ol>
-<h3 id="common-pitfalls">⚠️ <strong>Common Pitfalls</strong><a class="headerlink" href="#common-pitfalls" title="Permanent link">&para;</a></h3>
+<h3 id="common-pitfalls"><strong>Common Pitfalls</strong><a class="headerlink" href="#common-pitfalls" title="Permanent link">&para;</a></h3>
 <ol>
 <li><strong>Unit-testing external integrations:</strong> Infrastructure adapters and presentation should have integration/E2E tests, not unit tests with mocks</li>
 <li><strong>Testing implementation:</strong> Focus on behavior, not internal structure</li>

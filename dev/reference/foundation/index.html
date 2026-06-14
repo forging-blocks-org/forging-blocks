@@ -3946,13 +3946,13 @@ objects, but they differ in a critical way: <strong>when immutability kicks in</
 <tr>
 <td><code>@dataclass(frozen=True)</code></td>
 <td>Before <code>__init__</code> runs</td>
-<td>❌ Must use <code>object.__setattr__</code> in <code>__post_init__</code></td>
+<td>No - Must use <code>object.__setattr__</code> in <code>__post_init__</code></td>
 <td>Based on all fields (automatic)</td>
 </tr>
 <tr>
 <td><code>ValueObject</code> (<code>@auto_freeze</code>)</td>
 <td><strong>After</strong> <code>__init__</code> completes</td>
-<td>✅ Natural <code>self._x = x</code> works</td>
+<td>Yes - Natural <code>self._x = x</code> works</td>
 <td>Based on <code>_equality_components</code> (explicit, selective)</td>
 </tr>
 </tbody>

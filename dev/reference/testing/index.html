@@ -1103,7 +1103,7 @@
           <li class="md-nav__item">
   <a href="#do" class="md-nav__link">
     <span class="md-ellipsis">
-      ✅ Do
+      Do
     </span>
   </a>
   
@@ -1112,7 +1112,7 @@
           <li class="md-nav__item">
   <a href="#avoid" class="md-nav__link">
     <span class="md-ellipsis">
-      ❌ Avoid
+      Avoid
     </span>
   </a>
   
@@ -3794,7 +3794,7 @@
           <li class="md-nav__item">
   <a href="#do" class="md-nav__link">
     <span class="md-ellipsis">
-      ✅ Do
+      Do
     </span>
   </a>
   
@@ -3803,7 +3803,7 @@
           <li class="md-nav__item">
   <a href="#avoid" class="md-nav__link">
     <span class="md-ellipsis">
-      ❌ Avoid
+      Avoid
     </span>
   </a>
   
@@ -4055,10 +4055,10 @@
 </span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 </span></code></pre></div>
 <p><strong>Avoid mocking what you don't own:</strong></p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># ❌ Don&#39;t mock external systems you don&#39;t own</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Don&#39;t mock external systems you don&#39;t own</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># version_control_mock = create_autospec(VersionControl, instance=True)</span>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># ❌ Don&#39;t fake your own domain objects - test them directly</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Don&#39;t fake your own domain objects - test them directly</span>
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># domain_entity_fake = FakeEntity()</span>
 </span></code></pre></div>
 <h2 id="common-patterns">Common Patterns<a class="headerlink" href="#common-patterns" title="Permanent link">&para;</a></h2>
@@ -4141,7 +4141,7 @@ Test artifacts are automatically cleaned up, but manual cleanup:<br />
 </span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
 </span></code></pre></div></p>
 <h2 id="best-practices-summary">Best Practices Summary<a class="headerlink" href="#best-practices-summary" title="Permanent link">&para;</a></h2>
-<h3 id="do">✅ <strong>Do</strong><a class="headerlink" href="#do" title="Permanent link">&para;</a></h3>
+<h3 id="do"><strong>Do</strong><a class="headerlink" href="#do" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Use descriptive test names that explain intent</li>
 <li>Test behavior, not implementation</li>
@@ -4151,7 +4151,7 @@ Test artifacts are automatically cleaned up, but manual cleanup:<br />
 <li>Use appropriate test categories</li>
 <li>Run unit tests frequently during development</li>
 </ul>
-<h3 id="avoid">❌ <strong>Avoid</strong><a class="headerlink" href="#avoid" title="Permanent link">&para;</a></h3>
+<h3 id="avoid"><strong>Avoid</strong><a class="headerlink" href="#avoid" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Testing private methods directly</li>
 <li>Mocking what you don't own - wrap external systems behind Ports and use fakes</li>
