@@ -8,17 +8,13 @@ from __future__ import annotations
 
 import inspect
 from collections.abc import Callable
-from typing import Any, Generic, TypeVar, cast
+from typing import Any, cast
 
 from forging_blocks.application.ports.outbound.message_bus import MessageBus
 from forging_blocks.foundation.messages.message import Message
 
-MessageType = TypeVar("MessageType", bound=Message[Any], contravariant=True)
-MessageBusResultType = TypeVar("MessageBusResultType", covariant=True)
 
-
-class InMemoryMessageBus(
-    Generic[MessageType, MessageBusResultType],
+class InMemoryMessageBus[MessageType: Message[Any], MessageBusResultType](
     MessageBus[MessageType, MessageBusResultType],
 ):
     """In-memory message bus that routes messages to registered handlers.
