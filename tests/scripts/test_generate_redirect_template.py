@@ -211,6 +211,16 @@ class TestExtractScripts:
         assert "local.js" in result
         assert "cdn.example.com" not in result
 
+    def test_when_closing_tag_has_trailing_whitespace_then_still_matches(self) -> None:
+        html = """<html><head></head><body>
+<script src="assets/foo.js"></script >
+<script src="assets/bar.js"></script  >
+</body></html>"""
+        result = extract_scripts(html)
+
+        assert "foo.js" in result
+        assert "bar.js" in result
+
 
 @pytest.mark.unit
 class TestExtractBodyAttrs:
