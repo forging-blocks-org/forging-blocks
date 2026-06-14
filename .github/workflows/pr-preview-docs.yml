@@ -1,0 +1,63 @@
+name: Deploy PR Preview Docs
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - "pyproject.toml"
+      - ".github/workflows/pr-preview-with-rossjrw.yml"
+
+concurrency: preview-${{ github.ref }}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build-and-deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Setup Poetry
+        uses: ./.github/actions/setup-poetry
+
+      - name: Install documentation dependencies
+        if: github.event.action != 'closed'
+        run: |
+          poetry install --no-interaction --with docs
+
+      - name: Generate documentation pages
+        if: github.event.action != 'closed'
+        run: |
+          poetry run python scripts/generate_autodoc_pages.py
+
+      - name: Build documentation site
+        if: github.event.action != 'closed'
+        run: |
+          poetry run mkdocs build --strict
+
+      - name: Deploy PR preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./site/
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto
+          comment: true
+          qr-code: true
+          wait-for-pages-deployment: true
