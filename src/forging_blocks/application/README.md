@@ -5,7 +5,7 @@ It acts as a bridge between the domain block (business logic) and the outside wo
 
 ---
 
-## 📁 Directory Structure
+## Directory Structure
 
 ```
 application/
@@ -21,7 +21,7 @@ application/
 
 ---
 
-## ✨ Core Concepts
+## Core Concepts
 
 ### 1. **Application Inbound Ports**
 - **Purpose:** Orchestrate business workflows by coordinating Domain logic and Infrastructure through ports.
@@ -43,7 +43,7 @@ application/
 
 ---
 
-## 🧩 How to Use
+## How to Use
 
 > **Best Practice:**
 > Application services (use cases) should use DTOs (Data Transfer Objects) as their input and output types, not domain entities.
@@ -114,8 +114,7 @@ class CreateUserService(CreateUserUseCase):
 ```
 
 ---
-
-## 🏗️ Why This Matters
+## Why This Matters
 
 - **Separation of Concerns:** Keeps business workflows free from technical details.
 - **Testability:** Use cases can be tested by replacing outbound ports with mocks or fakes.
@@ -125,7 +124,7 @@ class CreateUserService(CreateUserUseCase):
 
 ---
 
-## 🧑‍💻 Extending the Application Layer
+## Extending the Application Layer
 
 - **Add new inbound ports** for new use cases.
 - **Add new outbound ports** for new integrations (e.g., background jobs, analytics, etc.).
