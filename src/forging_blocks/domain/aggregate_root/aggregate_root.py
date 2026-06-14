@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+
 from abc import abstractmethod
-from typing import Any, Generic, Hashable, TypeVar
+from collections.abc import Hashable
+from typing import Any
 
 from forging_blocks.domain.entity import Entity
 from forging_blocks.domain.errors.entity_id_none_error import EntityIdNoneError
@@ -12,10 +14,8 @@ from forging_blocks.foundation.messages.event import Event
 
 from .aggregate_version import AggregateVersion
 
-TId = TypeVar("TId", bound=Hashable)
 
-
-class AggregateRoot(Entity[TId], Generic[TId], metaclass=FinalABCMeta):
+class AggregateRoot[TId: Hashable](Entity[TId], metaclass=FinalABCMeta):
     """Base class for Aggregate Roots in a Domain-Driven Design context.
 
     An Aggregate Root represents the entry point for manipulating

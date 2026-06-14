@@ -16,20 +16,10 @@ Non-Responsibilities:
 
 from __future__ import annotations
 
-from typing import Generic, Protocol, Sequence, TypeVar
-
-TAggregateRoot = TypeVar("TAggregateRoot")
-TId = TypeVar("TId", contravariant=True)
-
-TReadResult = TypeVar("TReadResult", covariant=True)
-TReadAggregateRoot = TypeVar("TReadAggregateRoot", covariant=True)
-TReadId = TypeVar("TReadId", contravariant=True)
-
-TWriteAggregateRoot = TypeVar("TWriteAggregateRoot", contravariant=True)
-TWriteId = TypeVar("TWriteId", contravariant=True)
+from typing import Protocol, Sequence
 
 
-class ReadOnlyRepository(Generic[TReadAggregateRoot, TId], Protocol):
+class ReadOnlyRepository[TReadAggregateRoot, TId](Protocol):
     """Read-only repository abstraction for query operations.
 
     This interface is optimized for query-side usage in CQRS architectures.
@@ -65,7 +55,7 @@ class ReadOnlyRepository(Generic[TReadAggregateRoot, TId], Protocol):
         ...
 
 
-class WriteOnlyRepository(Protocol, Generic[TWriteAggregateRoot, TWriteId]):
+class WriteOnlyRepository[TWriteAggregateRoot, TWriteId](Protocol):
     """Write-only repository abstraction for command operations.
 
     This interface supports command-side operations where writes are applied
@@ -92,7 +82,7 @@ class WriteOnlyRepository(Protocol, Generic[TWriteAggregateRoot, TWriteId]):
         ...
 
 
-class Repository(
+class Repository[TAggregateRoot, TId](
     ReadOnlyRepository[TAggregateRoot, TId],
     WriteOnlyRepository[TAggregateRoot, TId],
     Protocol,

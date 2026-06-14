@@ -12,14 +12,15 @@ Non-Responsibilities:
     - Implement retries or throttling unless defined by infrastructure.
 """
 
-from typing import Generic, Protocol, TypeVar
+from typing import Protocol
 
 from forging_blocks.foundation.ports import OutboundPort
 
-NotificationType = TypeVar("NotificationType", contravariant=True)
 
-
-class Notifier(OutboundPort[NotificationType, None], Generic[NotificationType], Protocol):
+class Notifier[NotificationType](
+    OutboundPort[NotificationType, None],
+    Protocol,
+):
     """Outbound port for sending asynchronous notifications.
 
     Implementers integrate with concrete notification systems. The

@@ -14,16 +14,12 @@ Non-Responsibilities:
     - Delivery guarantees (up to infrastructure).
 """
 
-from typing import Generic, Protocol, TypeVar
+from typing import Protocol
 
 from forging_blocks.foundation import OutboundPort
 
-MessageType = TypeVar("MessageType", contravariant=True)
-MessageBusResultType = TypeVar("MessageBusResultType", covariant=True)
 
-
-class MessageBus(
-    Generic[MessageType, MessageBusResultType],
+class MessageBus[MessageType, MessageBusResultType](
     OutboundPort[MessageType, MessageBusResultType],
     Protocol,
 ):
