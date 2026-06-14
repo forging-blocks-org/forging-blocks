@@ -187,10 +187,10 @@ jobs:
           git checkout -- mkdocs.yml
 
           if ! git diff --quiet --exit-code; then
-            echo "❌ Generated documentation is out of sync with source."
+            echo "[ERROR] Generated documentation is out of sync with source."
             echo "Run: poetry run python scripts/generate_autodoc_pages.py"
             echo "Then commit the changes."
             git diff --name-only
             exit 1
           fi
-          echo "✅ Generated documentation is in sync with source."
+          echo "[OK] Generated documentation is in sync with source."
