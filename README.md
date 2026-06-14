@@ -11,7 +11,7 @@ Composable **abstractions and interfaces** for writing clean, testable, and main
 
 ---
 
-## 🌱 Overview
+## Overview
 
 > Not a framework — a **toolkit** of composable contracts and abstractions.
 
@@ -36,7 +36,7 @@ You can use it to:
 
 ---
 
-## 🧩 Core Concepts
+## Core Concepts
 
 > Foundations, not frameworks — ForgingBlocks provides the *language* for clean architecture.
 
@@ -50,7 +50,7 @@ This toolkit defines **layer-agnostic foundations** that compose into any design
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ```bash
 poetry add forging-blocks
@@ -64,7 +64,7 @@ uv add forging-blocks
 
 ---
 
-## ⚡ Quick Example
+## Quick Example
 
 ```python
 from forging_blocks.foundation import Result, Ok, Err
@@ -81,13 +81,13 @@ if result.is_ok:
 
 ---
 
-## 📚 Learn More
+## Learn More
 
-- [📘 Documentation](https://forging-blocks-org.github.io/forging-blocks/)
-- [🚀 Getting Started Guide](https://forging-blocks-org.github.io/forging-blocks/guide/getting-started/)
-- [🏗️ Architecture Overview](https://forging-blocks-org.github.io/forging-blocks/guide/recommended_blocks_structure/)
-- [🧱 Principles & Guidelines](https://forging-blocks-org.github.io/forging-blocks/guide/principles/)
-- [🧩 Release Process](RELEASE_GUIDE.md)
+- [Documentation](https://forging-blocks-org.github.io/forging-blocks/)
+- [Getting Started Guide](https://forging-blocks-org.github.io/forging-blocks/guide/getting-started/)
+- [Architecture Overview](https://forging-blocks-org.github.io/forging-blocks/guide/recommended_blocks_structure/)
+- [Principles & Guidelines](https://forging-blocks-org.github.io/forging-blocks/guide/principles/)
+- [Release Process](RELEASE_GUIDE.md)
 
 ---
 
@@ -142,7 +142,7 @@ poetry run poe release patch        # Test release (simulation)
 poetry run poe release patch --execute  # Execute patch release
 ```
 
-### 🧪 **Test Architecture**
+### **Test Architecture**
 
 This project uses a **3-tier testing architecture**:
 
@@ -164,7 +164,7 @@ See [Testing Guide](https://forging-blocks-org.github.io/forging-blocks/guide/te
 
 ---
 
-## 🧠 Why It Matters
+## Why It Matters
 
 Most systems fail not because of missing features,
 but because of **tight coupling**, **implicit dependencies**, and **unclear responsibilities**.
@@ -174,9 +174,9 @@ so your system remains testable, extensible, and adaptable as it grows.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome! 🎉
+Contributions are welcome!
 
 1. Fork the repository
 2. Install dependencies: `poetry install`
@@ -203,7 +203,7 @@ See [RELEASE_GUIDE.md](RELEASE_GUIDE.md) for complete release instructions.
 
 ---
 
-## ⚖️ License
+## License
 
 MIT — see [LICENSE](LICENSE)
 
