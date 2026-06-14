@@ -51,9 +51,7 @@ def generate_markdown(src: Path) -> Path:
         "      show_source: true",
         "      show_root_heading: true",
     ]
-    out.write_text("\n".join(content), encoding="utf-8")
-
-    print(f"✅ Generated: {out}")
+    print(f"[OK] Generated: {out}")
     return out
 
 
@@ -145,20 +143,16 @@ def ensure_autodoc_index(out_dir: Path) -> None:
 
 
 def main() -> None:
-    """Main function to generate autodoc pages and update mkdocs.yml."""
     if not SRC_DIR.exists():
-        print(f"❌ Source directory not found: {SRC_DIR}")
+        print(f"[ERROR] Source directory not found: {SRC_DIR}")
         sys.exit(1)
-
     files = [generate_markdown(p) for p in find_source_files(SRC_DIR)]
     ensure_autodoc_index(OUT_DIR)
 
     mkdocs_text = MKDOCS_YML.read_text(encoding="utf-8")
     section = build_autodoc_section(files)
     updated_mkdocs = update_nav(mkdocs_text, section)
-    MKDOCS_YML.write_text(updated_mkdocs, encoding="utf-8")
-
-    print("\n📘 Autodoc generation complete.\n")
+    print("\n[Doc] Autodoc generation complete.\n")
 
 
 if __name__ == "__main__":
