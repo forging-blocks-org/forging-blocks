@@ -31,7 +31,7 @@ poetry run poe release patch --execute
 # 5. GitHub Actions handles the rest automatically
 ```
 
-> **💡 Always simulate first**: Run without `--execute` to validate before creating the release PR.
+> **[TIP] Always simulate first**: Run without `--execute` to validate before creating the release PR.
 
 ## How to Release
 
@@ -80,7 +80,7 @@ When the release PR is merged into `main`, GitHub Actions automatically:
 3. **Deploys versioned documentation** to GitHub Pages (e.g. `0.4.0`) and updates the `latest` alias
 4. **Creates GitHub Release** with changelog
 
-> **🔒 Important**: Publishing only happens after PR merge. If the PR is rejected, nothing gets released.
+> **[IMPORTANT] Important**: Publishing only happens after PR merge. If the PR is rejected, nothing gets released.
 
 ---
 
@@ -118,10 +118,10 @@ ForgingBlocks follows a **local-preparation + automated-publishing model**:
 - Clear audit trail through GitHub Actions logs
 
 This separation ensures that:
-✅ **No releases without code review**
-✅ **No local environment dependencies for publishing**
-✅ **Clear audit trail for all releases**
-✅ **Consistent tagging from branch names**
+[OK] **No releases without code review**
+[OK] **No local environment dependencies for publishing**
+[OK] **Clear audit trail for all releases**
+[OK] **Consistent tagging from branch names**
 
 ---
 
@@ -248,10 +248,9 @@ poetry run poe release major --execute    # 0.3.6 → 1.0.0
 
 | Mode | Creates Branch | Creates Tag | Opens PR | Safe to Run |
 |------|----------------|-------------|----------|-------------|
-| **Simulation** (default) | ❌ | ❌ | ❌ | ✅ Always safe |
-| **Execute** (`--execute`) | ✅ | ✅ | ❌ | ⚠️ Only when ready |
-
-> **🔒 Safety First**: Always run simulation mode first to validate the release.
+| **Simulation** (default) | [FAIL] | [FAIL] | [FAIL] | [OK] Always safe |
+| **Execute** (`--execute`) | [OK] | [OK] | [FAIL] | [WARN] Only when ready |
+> **[IMPORTANT] Safety First**: Always run simulation mode first to validate the release.
 
 ---
 
