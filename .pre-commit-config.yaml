@@ -30,9 +30,11 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+        stages: [pre-push]
 
       - id: prevent-mkdocs-yml-change
         name: Prevent committing modified mkdocs.yml
         entry: bash -c 'git diff --cached --name-only | grep -q "^mkdocs.yml$" && { echo "[ERROR] mkdocs.yml changes are not allowed to be committed!"; exit 1; } || exit 0'
         language: system
         types: [file]
+        files: ^mkdocs\.yml$
