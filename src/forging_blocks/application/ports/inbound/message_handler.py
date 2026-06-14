@@ -16,7 +16,7 @@ Non-Responsibilities:
     - Persistence (handled by repositories).
 """
 
-from typing import Any, Generic, Protocol, TypeAlias, TypeVar
+from typing import Any, Protocol, TypeAlias, TypeVar
 
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
@@ -24,17 +24,13 @@ from forging_blocks.foundation.messages.message import Message
 from forging_blocks.foundation.messages.query import Query
 from forging_blocks.foundation.ports import InboundPort
 
-MessageType = TypeVar("MessageType", contravariant=True, bound=Message[Any])
-MessageHandlerResultType = TypeVar("MessageHandlerResultType", covariant=True)
-QueryResultType = TypeVar("QueryResultType", covariant=True)
 CommandType = TypeVar("CommandType", contravariant=True, bound=Command[Any])
-CommandResultType = TypeVar("CommandResultType", covariant=True)
-EventType = TypeVar("EventType", contravariant=True, bound=Event[Any])
 QueryType = TypeVar("QueryType", contravariant=True, bound=Query)
+EventType = TypeVar("EventType", contravariant=True, bound=Event[Any])
+QueryResultType = TypeVar("QueryResultType", covariant=True)
 
 
-class MessageHandler(
-    Generic[MessageType, MessageHandlerResultType],
+class MessageHandler[MessageType: Message[Any], MessageHandlerResultType](
     InboundPort[MessageType, MessageHandlerResultType],
     Protocol,
 ):
