@@ -78,7 +78,17 @@ def extract_head_assets(html: str) -> str:
             parts.append(m.group(1))
 
     # Generator
+    # Favicon
+    m = re.search(r'<link rel="icon" href="([^"]+)"[^>]*>', head_content)
+    if m:
+        href = m.group(1)
+        if _is_trusted_url(href):
+            parts.append(f'<link rel="icon" href="{{{{ href }}}}{href}">')
+
     m = re.search(r"(<meta name=\"generator\"[^>]*>)", head_content)
+    if m:
+        parts.append(m.group(1))
+
     # CSS stylesheets (keep all trusted ones, skip untrusted external)
     for m in re.finditer(r'<link rel="stylesheet" href="([^"]+)"', head_content):
         href = m.group(1)
