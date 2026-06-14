@@ -3545,7 +3545,7 @@
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="Entity (forging_blocks.domain.entity.Entity)" href="../../entity/#forging_blocks.domain.entity.Entity">Entity</a>[<span title="forging_blocks.domain.aggregate_root.aggregate_root.TId">TId</span>]</code>, <code><span title="typing.Generic">Generic</span>[<span title="forging_blocks.domain.aggregate_root.aggregate_root.TId">TId</span>]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="Entity (forging_blocks.domain.entity.Entity)" href="../../entity/#forging_blocks.domain.entity.Entity">Entity</a>[<span title="forging_blocks.domain.aggregate_root.aggregate_root.AggregateRoot[TId]">TId</span>]</code></p>
 
 
         <p>Base class for Aggregate Roots in a Domain-Driven Design context.</p>
@@ -3683,7 +3683,7 @@ Addison-Wesley. Ch.8, Ch.10, Appendix A.</p>
 <span class="normal"><a href="#__codelineno-0-129">129</a></span>
 <span class="normal"><a href="#__codelineno-0-130">130</a></span>
 <span class="normal"><a href="#__codelineno-0-131">131</a></span>
-<span class="normal"><a href="#__codelineno-0-132">132</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="k">class</span><span class="w"> </span><span class="nc">AggregateRoot</span><span class="p">(</span><span class="n">Entity</span><span class="p">[</span><span class="n">TId</span><span class="p">],</span> <span class="n">Generic</span><span class="p">[</span><span class="n">TId</span><span class="p">],</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">FinalABCMeta</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-132">132</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="k">class</span><span class="w"> </span><span class="nc">AggregateRoot</span><span class="p">[</span><span class="n">TId</span><span class="p">:</span> <span class="n">Hashable</span><span class="p">](</span><span class="n">Entity</span><span class="p">[</span><span class="n">TId</span><span class="p">],</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">FinalABCMeta</span><span class="p">):</span>
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for Aggregate Roots in a Domain-Driven Design context.</span>
 </span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    An Aggregate Root represents the entry point for manipulating</span>
