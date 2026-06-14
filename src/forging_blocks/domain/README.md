@@ -6,7 +6,7 @@ This blocks models your problem space using core DDD patterns: **Entities, Value
 
 ---
 
-## 📁 Directory Structure
+## Directory Structure
 
 ```
 domain/
@@ -18,7 +18,7 @@ domain/
 
 ---
 
-## ✨ Core Concepts
+## Core Concepts
 
 ### 1. **Entities**
 - Objects defined by their unique identity and encapsulated logic.
@@ -40,7 +40,7 @@ domain/
 
 ---
 
-## 🧩 How to Use
+## How to Use
 
 1. **Define Entities and Value Objects**
    Extend `Entity` and `ValueObject` to model your business concepts.
@@ -59,7 +59,7 @@ domain/
 
    ---
 
-## 🛡️ Testing Guidelines
+## Testing Guidelines
 
 - Use AAA (Arrange, Act, Assert) pattern.
 - Name test classes as `Test<ClassName>`.
@@ -68,8 +68,7 @@ domain/
 - Use mocks or fakes for outbound ports (repositories, etc.). Don't mock what you don't own.
 
    ---
-
-## 🧑‍💻 Extending the Domain Blocks
+## Extending the Domain Blocks
 
 - **Add new entities or value objects** as your blocks grows.
 - **Add outbound ports** for new persistence or integration needs.
@@ -77,8 +76,7 @@ domain/
 - **Never** import infrastructure, application, or framework code here!
 
    ---
-
-## 🏗️ Why This Matters
+## Why This Matters
 
 - **Independence:** Domain logic stays pure and reusable.
 - **Testability:** Easy, fast, isolated tests.
