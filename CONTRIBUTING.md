@@ -72,6 +72,20 @@ If a change affects public behavior, documentation updates are expected.
 3. **Install dependencies**: `poetry install`
 4. **Set up pre-commit hooks**: `pre-commit install`
 
+
+### Automation Hooks
+
+The project uses `pre-commit` to automate quality checks.
+
+- **Pre-commit (Linting):** Runs on every commit. It checks for code style, trailing whitespace, and common errors. It is designed to be fast.
+- **Pre-push (Pipeline):** Runs on every push. It executes the full pipeline (`poetry run poe ci:simulate`), including type checking, all tests, and security scanning, to ensure the remote branch remains stable.
+
+To install both:
+```bash
+pre-commit install
+pre-commit install --hook-type pre-push
+```
+
 ### Making Changes
 
 1. **Create a feature branch**: `git checkout -b feature/your-feature`
