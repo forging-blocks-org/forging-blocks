@@ -1,10 +1,10 @@
-# Presentation Layer Guidelines 🎨
+# Presentation Layer Guidelines
 
 This directory is reserved for **generic, reusable presentation building blocks** only.
 
 ---
 
-## ✨ Guidelines
+## Guidelines
 
 - **Purpose:**
   This blocks is for abstractions or patterns that help build presentation adapters (APIs, CLI, UI) and are reusable across many projects.
@@ -23,8 +23,7 @@ This directory is reserved for **generic, reusable presentation building blocks*
   Instead, place them in your application's presentation blocks or in the `/examples` directory of this repository.
 
 ---
-
-## 🏗️ Why This Matters
+## Why This Matters
 
 - **Clarity & Cleanliness:**
   Keeps your toolbox focused on reusable, generic presentation logic.

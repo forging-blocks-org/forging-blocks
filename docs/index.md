@@ -1,4 +1,4 @@
-# 🧩 ForgingBlocks
+# ForgingBlocks
 
 **ForgingBlocks** provides a set of small, composable **foundational contracts** that help you design software with **clarity**, **intent**, and **expressiveness**.
 
@@ -10,7 +10,7 @@ ForgingBlocks relies only on standard features available in **Python 3.14+** (su
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 Install using Poetry, pip or uv:
 
@@ -51,7 +51,7 @@ def divide_with_remainder(dividend: int, divisor: int) -> Result[tuple[int, int]
 
 ---
 
-🛠️ How can ForgingBlocks help me?
+How can ForgingBlocks help me?
 
 ForgingBlocks helps you keep your project's structure clear, intentional, and easy to reason about.
 
@@ -75,7 +75,7 @@ ForgingBlocks simply provides the building blocks that help you write decoupled,
 
 ---
 
-## 🧠 Core Concepts
+## Core Concepts
 
 | Concept | Purpose |
 |----------|----------|
@@ -91,7 +91,7 @@ ForgingBlocks simply provides the building blocks that help you write decoupled,
 
 ---
 
-## 🏗️ Organizational Blocks
+## Organizational Blocks
 
 Each block represents a **boundary of responsibility**.
 
@@ -109,7 +109,7 @@ ForgingBlocks provides small abstractions that help you keep these boundaries in
 
 ---
 
-## 🧭 Why It Matters
+## Why It Matters
 
 Many systems become difficult to evolve not because of missing features, but due to **coupling**, **implicit assumptions**, and **unclear responsibilities**.
 
@@ -117,14 +117,14 @@ ForgingBlocks helps you shape software that is **clear**, **testable**, and **ma
 
 ---
 
-## 📚 Learn More
+## Learn More
 
 - [Getting Started](guide/getting-started.md)
 - [Blocks Overview](guide/recommended_blocks_structure.md)
 - [Organizing Your Project](guide/principles.md)
 - [Reference Index](reference/index.md)
 
-## 📋 Project Resources
+## Project Resources
 
 - [Contributing Guide](contributing/index.md)
 - [Release Guide](contributing/release-guide.md)

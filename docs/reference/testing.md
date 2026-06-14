@@ -201,10 +201,10 @@ class FakeVersionControl:
 **Avoid mocking what you don't own:**
 
 ```python
-# ❌ Don't mock external systems you don't own
+# Don't mock external systems you don't own
 # version_control_mock = create_autospec(VersionControl, instance=True)
 
-# ❌ Don't fake your own domain objects - test them directly
+# Don't fake your own domain objects - test them directly
 # domain_entity_fake = FakeEntity()
 ```
 
@@ -318,8 +318,7 @@ poetry run pytest --cov-report=term-missing
 ```
 
 ## Best Practices Summary
-
-### ✅ **Do**
+### **Do**
 
 - Use descriptive test names that explain intent
 - Test behavior, not implementation
@@ -329,7 +328,7 @@ poetry run pytest --cov-report=term-missing
 - Use appropriate test categories
 - Run unit tests frequently during development
 
-### ❌ **Avoid**
+### **Avoid**
 
 - Testing private methods directly
 - Mocking what you don't own - wrap external systems behind Ports and use fakes

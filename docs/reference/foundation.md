@@ -218,8 +218,8 @@ objects, but they differ in a critical way: **when immutability kicks in**.
 
 | Mechanism | Freeze timing | Can set attrs in `__init__`? | Equality / hashing |
 |---|---|---|---|
-| `@dataclass(frozen=True)` | Before `__init__` runs | ❌ Must use `object.__setattr__` in `__post_init__` | Based on all fields (automatic) |
-| `ValueObject` (`@auto_freeze`) | **After** `__init__` completes | ✅ Natural `self._x = x` works | Based on `_equality_components` (explicit, selective) |
+| `@dataclass(frozen=True)` | Before `__init__` runs | No - Must use `object.__setattr__` in `__post_init__` | Based on all fields (automatic) |
+| `ValueObject` (`@auto_freeze`) | **After** `__init__` completes | Yes - Natural `self._x = x` works | Based on `_equality_components` (explicit, selective) |
 
 **Frozen dataclass** prevents *all* `__setattr__` from the moment the object is
 created, including inside `__init__`. Any validation or transformation during

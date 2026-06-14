@@ -1,4 +1,4 @@
-# Infrastructure Layer Guidelines 🏗️
+# Infrastructure Layer Guidelines
 
 This directory provides **generic, reusable infrastructure building blocks**
 that implement the outbound ports defined in the application layer.
@@ -18,15 +18,14 @@ that implement the outbound ports defined in the application layer.
 
 ---
 
-## ✨ Guidelines
+## Guidelines
 
 - **Purpose:** Provide reusable adapters that implement application-layer ports.
 - **Design:** Each class in its own file. All implementations are dependency-injectable.
 - **SOLID:** Read and write repositories are separated (CQRS), enabling clean read/write split.
 
 ---
-
-## 🏗️ Why This Matters
+## Why This Matters
 
 - **Clarity & Cleanliness:** Keeps your toolbox focused and reusable.
 - **Separation:** Framework- and project-specific code lives with your app, keeping

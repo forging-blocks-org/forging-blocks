@@ -2,7 +2,7 @@
 
 Welcome! Thank you for your interest in contributing to ForgingBlocks.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # 1. Fork and clone the repository
@@ -16,28 +16,25 @@ poetry install
 poetry run poe test
 ```
 
-## 📚 Contributing Guides
+## Contributing Guides
 
-### [📋 Contribution Guide](contributing.md)
+### [Contribution Guide](contributing.md)
 **Start here for complete setup and workflow**
 - Development environment setup
 - Code contribution process
 - Pull request guidelines
 - Available development commands
-
-### [📖 Documentation Conventions](docs-conventions.md)
+### [Documentation Conventions](docs-conventions.md)
 **For documentation contributors**
 - Writing style and tone guidelines
 - Documentation structure rules
 - Consistency requirements
-
-### [🚀 Release Guide](release-guide.md)
+### [Release Guide](release-guide.md)
 **For maintainers**
 - How to prepare releases using poe tasks
 - Automated PR-based release workflow
 - Publishing to PyPI and docs deployment
-
-## 🤝 Contributing Philosophy
+## Contributing Philosophy
 
 ForgingBlocks values:
 - **Quality over quantity** - Well-thought-out, focused contributions
@@ -45,7 +42,7 @@ ForgingBlocks values:
 - **Explicit over implicit** - Make intentions and behaviors clear
 - **Consistency over convenience** - Follow established patterns
 
-## ❓ Need Help?
+## Need Help?
 
 - New to the project? Start with the [Contribution Guide](contributing.md)
 - Documentation questions? See [Documentation Conventions](docs-conventions.md)
