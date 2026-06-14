@@ -1,3 +1,111 @@
+## [0.4.2] - 2026-06-14
+
+### Features
+
+- **docs**: Impl version-dropdown
+- **docs/assets**: Impl version-dropdown.js
+
+### Bug Fixes
+
+- **docs**: Add extra.version.provider mike config so version selector renders in Material theme
+- **scripts**: Include __md_scope init and font preconnect in redirect template
+- **scripts**: Resolve ruff F841 and pyright strict-mode errors
+- **build**: Align docs:deploy poe tasks with CI deploy pipeline
+- **docs**: Use relative path for versions.json fetch
+- **docs**: Resolve version from path by matching against known identifiers
+- **docs**: Resolve versions.json and version from script location
+
+### Refactor
+
+- **docs**: Remove top-most version-dropdown
+- **foundation**: Replace TypeVar and Generic with PEP 695 type parameters
+- **foundation**: Migrate port protocols to PEP 695 type parameters
+- **foundation**: Replace TypeVar and Generic with PEP 695 type parameters
+- **domain**: Replace TypeVar and Generic with PEP 696 type params
+- **domain**: PEP 696 type params compliant
+- **application**: Modernize MessageHandler to PEP 695 inline generics; retain TypeVars for CommandHandler/QueryHandler/EventHandler TypeAlias definitions
+- **application**: Modernize UseCase to PEP 695 inline generics; drop module-level TypeVar declarations
+- **application**: Modernize MessageBus to PEP 695 inline generics; drop module-level TypeVar declarations
+- **application**: Modernize Notifier to PEP 695 inline generics; drop module-level TypeVar declaration
+- **application**: Modernize QueryFetcher to PEP 695 inline generics; drop module-level TypeVar declaration
+- **application**: Modernize ReadOnlyRepository/WriteOnlyRepository/Repository to PEP 695 inline generics; drop module-level TypeVar declarations
+- **infrastructure**: Modernize InMemoryMessageBus to PEP 695 inline generics; drop module-level TypeVar declarations
+- **infrastructure**: Modernize InMemoryReadRepository to PEP 695 inline generics; drop module-level TypeVar declarations
+- **infrastructure**: Modernize InMemoryWriteRepository to PEP 695 inline generics; drop module-level TypeVar declarations; add MutableMapping import
+
+### Documentation
+
+- Add task issue template for github
+- **foundation**: Add docstrings to auto-freeze decorator module, _AutoFreezeDecorator class, and auto_freeze function with protocol validation details and usage examples
+- **foundation**: Document CantModifyImmutableAttributeError.__init__ class_name and attribute_name parameters
+- **foundation**: Document CombinedErrors.__init__ errors iterable parameter explaining internal tuple storage
+- **foundation**: Document Error.__init__ message and metadata parameters with default ErrorMetadata fallback
+- **foundation**: Document FieldErrors.__init__ field and errors parameters including ValueError on empty input
+- **foundation**: Document ResultAccessError.__init__ optional message parameter with default fallback message
+- **foundation**: Remove redundant Args section from _AutoFreezeDecorator class docstring, merge detail into __init__
+- **foundation**: Replace circular SupportsAutoFreeze example with traditional class, regular dataclass, and frozen dataclass examples
+- **foundation**: Explain why ValueObject over frozen dataclass — freeze timing, natural __init__, selective equality
+- **assets**: Version visual aesthetics
+- **version-dropdown**: Appears in all routes
+- **version-dropdown**: Appears locally ou in remote
+- **versions.json**: Update version control json
+- **versions**: Add newline
+
+### Testing
+
+- Implement smoke test pipeline script
+
+### Continuous Integration
+
+- **scripts**: Run mike set-default after each deploy
+- Add workflow_dispatch to deploy-docs for manual version deployment
+
+### Miscellaneous Tasks
+
+- **actions**: Orhun/git-cliff-action
+- **actions**: Update setup-python to v6
+- **workflows**: Improve deploy-docs workflow
+- **scripts**: Add retry strategy
+- **actions**: Define deploy-doocs action
+- Update deploy-docs action configuration
+- Add git configuration action
+- Update setup-poetry action workflow
+- **actions**: Add smoke-test
+- **actions/deploy-docs**: Ignore-remote-status
+- **workflows**: Add if env.ACT to add compatibility with local act
+- **workflows**: Add github_token
+- **actions**: Change provider to taiki-e
+- **actions/deploy-docs**: Rebase gh-pages
+- **workflows/ci**: Add a validation pre-merge job
+- **actions**: Add commit to deploy-docs action
+- **actions/checkout**: Define checkout action
+- **workflows**: Use internal checkout
+- **actions**: Add description
+- **actions**: Add shell
+- **workflows**: Use internal checkout action
+- **actions**: Remove shell
+- Using actions/checkout
+- **actions/deploy-docs**: Sync with gh-pages
+- **actions/deploy-docs**: Sync deploy-docs
+- **workflows/deploy-docs**: Fetch from gh-pages branch
+- **workflows**: Add guard in case branch doesnt exists
+- **mkdocs**: Default versions is latest
+- **pyproject**: Poe tasks for mkdocs mike plugin
+- **mkdocs**: Add mike config and js for versioned documentation
+- **docs**: Versions.json created to mike versioned docs
+- **scripts**: Integrate with mike
+- **actions**: Deploying versioned documentations
+- **workflows**: Release.yml also deploy docs
+- **docs**: Correct version string in versions.json
+- **scripts**: Add redirect template generator
+- **docs**: Add custom redirect template for mike set-default
+- **mkdocs**: Configure mike redirect alias type and template
+- **docs**: Regenerate redirect template with __md_scope and preconnect
+- **mkdocs**: Remove auto-generated API Reference nav section
+- **scripts**: Update mike usage
+- **workflows**: Add new line
+- **pyproject**: Sync ci:simulate
+
 ## [0.4.1] - 2026-06-10
 
 ### Features
