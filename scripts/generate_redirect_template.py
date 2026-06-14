@@ -119,7 +119,14 @@ def extract_body_attrs(html: str) -> str:
     """Extract body tag attributes."""
     m = re.search(r"<body([^>]*)>", html)
     if m:
-        return m.group(1).strip()
+        attrs = m.group(1).strip()
+        # Handle self-closing body tag (<body/>)
+        if attrs.endswith("/"):
+            return (
+                'dir="ltr" data-md-color-scheme="slate" '
+                'data-md-color-primary="orange" data-md-color-accent="amber"'
+            )
+        return attrs
     return (
         'dir="ltr" data-md-color-scheme="slate" '
         'data-md-color-primary="orange" data-md-color-accent="amber"'
@@ -181,6 +188,18 @@ def generate_template(source_html: str, output_path: Path) -> None:
           }}, 3000);
         }}
 
+        /*
+         * Extract the directory prefix from serverDefault so that the
+         * version-pinned redirect stays relative to the same base as the
+         * serverDefault path.
+         *
+         *   root  page: serverDefault = "dev/"        => prefix = ""
+         *   alias page: serverDefault = "../v0.4.1/"  => prefix = "../"
+         */
+        var defaultPath = serverDefault.replace(/\\/$/, "");
+        var lastSlash = defaultPath.lastIndexOf("/");
+        var prefix = lastSlash >= 0 ? defaultPath.substring(0, lastSlash + 1) : "";
+
         fetch(versionsUrl)
           .then(function(r) {{ return r.ok ? r.json() : Promise.reject(r); }})
           .then(function(versions) {{
@@ -189,7 +208,7 @@ def generate_template(source_html: str, output_path: Path) -> None:
               if (versions[i].is_default) {{ def = versions[i]; break; }}
             }}
             if (!def && versions.length > 0) def = versions[0];
-            doRedirect(def ? def.version + "/" : serverDefault);
+            doRedirect(def ? prefix + def.version + "/" : serverDefault);
           }})
           .catch(function() {{ doRedirect(serverDefault); }});
       }})();
