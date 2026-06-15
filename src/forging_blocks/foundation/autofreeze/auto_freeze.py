@@ -1,11 +1,54 @@
 """Auto-freeze decorator for enforcing immutability on class instances.
 
 Provides the :func:`auto_freeze` decorator that automatically freezes instances
-after ``__init__`` completes. Classes decorated with ``@auto_freeze`` must satisfy
-:class:`~forging_blocks.foundation.autofreeze.SupportsAutoFreeze` (i.e. implement
-:meth:`freeze_instance` and optionally :meth:`freeze_attributes`). The decorator
-injects a wrapper around ``__init__`` that calls the freezing protocol at the
-end of construction.
+after ``__init__`` completes. The decorator injects a frozen state marker and
+a ``__setattr__`` override to prevent attribute modifications.
+
+Can be used as ``@auto_freeze``, ``@auto_freeze()``, or
+``@auto_freeze(attrs=[...])`` for selective freezing.
+
+Useful for: Entities, value objects, and any domain type that
+should be immutable after construction.
+
+Example:
+    ```python
+    from forging_blocks.foundation.autofreeze import auto_freeze
+    from forging_blocks.foundation.errors import CantModifyImmutableAttributeError
+
+
+    @auto_freeze
+    class Money:
+        def __init__(self, amount: int, currency: str) -> None:
+            if amount < 0:
+                raise ValueError("Amount cannot be negative")
+            self._amount = amount
+            self._currency = currency.upper()
+
+        @property
+        def amount(self) -> int:
+            return self._amount
+
+        @property
+        def currency(self) -> str:
+            return self._currency
+    ```
+
+    With selective freezing (e.g., for Entities):
+    ```python
+    @auto_freeze(attrs=["_id"])
+    class User:
+        def __init__(self, user_id: str, name: str) -> None:
+            self._id = user_id
+            self._name = name
+
+        @property
+        def id(self) -> str:
+            return self._id
+
+        @property
+        def name(self) -> str:
+            return self._name
+    ```
 """
 
 from __future__ import annotations
@@ -15,15 +58,21 @@ from collections.abc import Callable, Sequence
 from functools import wraps
 from typing import Any, overload
 
+from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error import (
+    CantModifyImmutableAttributeError,
+)
+
 _AUTO_FREEZE_MARKER = "__auto_freeze_applied"
+_FROZEN_FLAG = "_autofreeze__frozen"
+_FROZEN_ATTRS_FLAG = "_autofreeze__frozen_attrs"
+_INIT_DEPTH_FLAG = "_autofreeze__init_depth"
 
 
 class _AutoFreezeDecorator:
     """Callable class that applies auto-freeze behaviour to a target class.
 
-    Validates that the target implements the :class:`SupportsAutoFreeze` protocol,
-    then wraps its ``__init__`` so that :meth:`freeze_instance` (or selectively
-    :meth:`freeze_attributes`) is called at the end of construction.
+    Injects a ``__setattr__`` that prevents modifications to frozen attributes.
+    No protocol implementation is required on the target class.
     """
 
     def __init__(
@@ -35,38 +84,33 @@ class _AutoFreezeDecorator:
 
         Args:
             attrs: Attribute names to selectively freeze. When ``None``
-                (the default), the entire instance is frozen via
-                :meth:`freeze_instance`. When provided, only those
-                attributes are frozen via :meth:`freeze_attributes`.
+                (the default), the entire instance is frozen. When provided,
+                only those attributes are frozen.
         """
         self._attrs = attrs
 
     def __call__[T](self, class_: type[T]) -> type[T]:
         """Apply the auto-freeze behaviour to *class_*.
 
-        Validates the protocol contract on *class_*, then replaces
-        ``__init__`` with a wrapper that calls the freeze protocol after
-        the original initialiser runs. If *class_* has already been
-        decorated (detected via an internal marker), returns the class
-        unchanged to avoid double-wrapping.
+        Injects a frozen state marker and wraps ``__setattr__`` to enforce
+        immutability. If *class_* has already been decorated (detected via
+        an internal marker), returns the class unchanged to avoid double-wrapping.
 
         Args:
             class_: The target class to decorate.
 
         Returns:
             The decorated class (may be the original if already decorated).
-
-        Raises:
-            TypeError: If *class_* does not implement the required
-                :class:`SupportsAutoFreeze` protocol methods.
         """
-        self._validate_protocol(class_)
-
         if hasattr(class_.__init__, _AUTO_FREEZE_MARKER):
             return class_
 
         original_init = class_.__init__
         attrs = self._attrs
+
+        # Store original __setattr__ (may be object's default)
+        original_setattr = class_.__setattr__
+        has_custom_setattr = original_setattr is not object.__setattr__
 
         @wraps(original_init)
         def wrapped_init(
@@ -74,41 +118,56 @@ class _AutoFreezeDecorator:
             *args: Any,
             **kwargs: Any,
         ) -> None:
-            original_init(instance, *args, **kwargs)
+            # Track initialization depth to support super().__init__() chaining
+            init_depth = getattr(instance, _INIT_DEPTH_FLAG, 0)
+            object.__setattr__(instance, _INIT_DEPTH_FLAG, init_depth + 1)
 
-            # Skip freezing for abstract classes (they can't be instantiated directly)
-            if inspect.isabstract(class_):
-                return
+            try:
+                original_init(instance, *args, **kwargs)
+            finally:
+                # Decrement depth
+                new_depth = getattr(instance, _INIT_DEPTH_FLAG, 1) - 1
+                if new_depth <= 0:
+                    object.__delattr__(instance, _INIT_DEPTH_FLAG)
+                else:
+                    object.__setattr__(instance, _INIT_DEPTH_FLAG, new_depth)
 
-            if attrs is None:
-                instance.freeze_instance()
-            else:
-                instance.freeze_attributes(attrs)
+                # Only freeze when outermost __init__ completes (depth == 0)
+                if new_depth == 0 and not inspect.isabstract(class_):
+                    if attrs is None:
+                        # Full freeze - mark entire instance as frozen
+                        object.__setattr__(instance, _FROZEN_FLAG, True)
+                    else:
+                        # Selective freeze - track which attributes are frozen
+                        object.__setattr__(instance, _FROZEN_ATTRS_FLAG, set(attrs))
 
         object.__setattr__(wrapped_init, _AUTO_FREEZE_MARKER, True)
-
         class_.__init__ = wrapped_init  # type: ignore[method-assign]
 
+        # Only inject __setattr__ if class doesn't already have a custom one
+        if not has_custom_setattr:
+
+            def frozen_setattr(instance: Any, name: str, value: Any) -> None:
+                # Check for full freeze
+                if getattr(instance, _FROZEN_FLAG, False):
+                    raise CantModifyImmutableAttributeError(
+                        class_name=instance.__class__.__name__,
+                        attribute_name=name,
+                    )
+
+                # Check for selective freeze
+                frozen_attrs = getattr(instance, _FROZEN_ATTRS_FLAG, None)
+                if frozen_attrs is not None and name in frozen_attrs:
+                    raise CantModifyImmutableAttributeError(
+                        class_name=instance.__class__.__name__,
+                        attribute_name=name,
+                    )
+
+                object.__setattr__(instance, name, value)
+
+            class_.__setattr__ = frozen_setattr  # type: ignore[method-assign]
+
         return class_
-
-    @staticmethod
-    def _validate_protocol[T](class_: type[T]) -> None:
-        """Verify that *class_* implements the :class:`SupportsAutoFreeze` protocol.
-
-        Checks for the presence of the required methods:
-        :meth:`freeze_instance` and optionally :meth:`freeze_attributes`.
-
-        Args:
-            class_: The class to validate.
-
-        Raises:
-            TypeError: If any required protocol method is missing.
-        """
-        if not hasattr(class_, "freeze_instance"):
-            raise TypeError(
-                f"{class_.__name__} does not implement SupportsAutoFreeze protocol.\n"
-                f"Missing: freeze_instance"
-            )
 
 
 @overload
@@ -139,87 +198,19 @@ def auto_freeze[T](
     """Automatically freeze class instances after ``__init__`` completes.
 
     Can be used as ``@auto_freeze``, ``@auto_freeze()``, or
-    ``@auto_freeze(attrs=[...])``. The decorated class must implement
-    :class:`~forging_blocks.foundation.autofreeze.SupportsAutoFreeze`.
-
-    Useful for: Entities, value objects, and any domain type that
-    should be immutable after construction.
+    ``@auto_freeze(attrs=[...])``. No protocol implementation is required
+    on the target class - the decorator handles freezing internally.
 
     Args:
         class_: The target class (when used directly as ``@auto_freeze``).
             ``None`` when used with parentheses (``@auto_freeze()``).
         attrs: Optional attribute names for selective freezing. If ``None``,
-            the whole instance is frozen via :meth:`freeze_instance`. When
-            provided, only those attributes are frozen via
-            :meth:`freeze_attributes`.
+            the whole instance is frozen. When provided, only those attributes
+            are frozen.
 
     Returns:
         The decorated class if *class_* is provided; otherwise a callable
         that can be used as a decorator.
-
-    Raises:
-        TypeError: If the target class does not implement the required
-            protocol methods (``freeze_instance``).
-
-    Example:
-
-        ```python
-        from forging_blocks.foundation.autofreeze import auto_freeze
-        from forging_blocks.foundation.errors import (
-            CantModifyImmutableAttributeError,
-        )
-
-
-        @auto_freeze
-        class Money:
-            def __init__(self, amount: int, currency: str) -> None:
-                if amount < 0:
-                    raise ValueError("Amount cannot be negative")
-                self._amount = amount
-                self._currency = currency
-
-            def freeze_instance(self) -> None:
-                object.__setattr__(self, "_Money__frozen", True)
-
-            def __setattr__(self, name: str, value: object) -> None:
-                if getattr(self, "_Money__frozen", False):
-                    raise CantModifyImmutableAttributeError(
-                        class_name=self.__class__.__name__,
-                        attribute_name=name,
-                    )
-                object.__setattr__(self, name, value)
-        ```
-
-        With selective freezing:
-
-        ```python
-        from forging_blocks.foundation.autofreeze import auto_freeze
-        from forging_blocks.foundation.errors import (
-            CantModifyImmutableAttributeError,
-        )
-
-
-        @auto_freeze(attrs=["_user_id", "_email"])
-        class User:
-            def __init__(self, user_id: str, email: str, name: str) -> None:
-                self._user_id = user_id
-                self._email = email
-                self._name = name
-
-            def freeze_attributes(self, attrs: Sequence[str]) -> None:
-                frozen_attrs = getattr(self, "_User__frozen_attrs", set())
-                frozen_attrs.update(attrs)
-                object.__setattr__(self, "_User__frozen_attrs", frozen_attrs)
-
-            def __setattr__(self, name: str, value: object) -> None:
-                frozen_attrs = getattr(self, "_User__frozen_attrs", set())
-                if name in frozen_attrs:
-                    raise CantModifyImmutableAttributeError(
-                        class_name=self.__class__.__name__,
-                        attribute_name=name,
-                    )
-                object.__setattr__(self, name, value)
-        ```
     """
     decorator = _AutoFreezeDecorator(attrs=attrs)
 
