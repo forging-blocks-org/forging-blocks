@@ -10,6 +10,7 @@ end of construction.
 
 from __future__ import annotations
 
+import inspect
 from collections.abc import Callable, Sequence
 from functools import wraps
 from typing import Any, overload
@@ -74,6 +75,10 @@ class _AutoFreezeDecorator:
             **kwargs: Any,
         ) -> None:
             original_init(instance, *args, **kwargs)
+
+            # Skip freezing for abstract classes (they can't be instantiated directly)
+            if inspect.isabstract(class_):
+                return
 
             if attrs is None:
                 instance.freeze_instance()
