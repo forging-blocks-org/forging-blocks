@@ -4,8 +4,8 @@ Modeled after Rust's ``Result`` enum and the ``Either`` monad from functional
 programming (think ``Either`` in Scala or Haskell), the Result type makes
 errors a first-class part of your return type.  Instead of scattering
 try/except blocks through your code, you compose operations with
-:meth:`~Result.map`, :meth:`~Result.flat_map`, and
-:meth:`~Result.map_error`.
+`Result.map`, `Result.flat_map`, and
+`Result.map_error`.
 
 Quick start:
 
