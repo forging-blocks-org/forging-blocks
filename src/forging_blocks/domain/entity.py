@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import inspect
 from abc import ABC
-from collections.abc import Hashable, Sequence
+from collections.abc import Hashable
 from typing import Any, cast
 
 from forging_blocks.domain.errors import (
@@ -27,7 +27,6 @@ class Entity[TId: Hashable](ABC):
     """
 
     _id: TId | None
-    _Entity__frozen_attrs: set[str]
 
     def __init_subclass__(cls, **kwargs: Any) -> None:
         """Automatically apply selective freeze to concrete subclasses."""
@@ -37,31 +36,14 @@ class Entity[TId: Hashable](ABC):
 
     def __init__(self, entity_id: TId | None) -> None:
         object.__setattr__(self, "_id", entity_id)
-        object.__setattr__(self, "_Entity__frozen_attrs", set())
-
-    def freeze_instance(self) -> None:
-        """Freeze the entire instance (not used with selective freezing).
-
-        Required by SupportsAutoFreeze protocol but not called for Entity
-        since @auto_freeze(attrs=["_id"]) uses freeze_attributes instead.
-        """
-        raise NotImplementedError("Entity uses selective freezing via freeze_attributes")
-
-    def freeze_attributes(self, attrs: Sequence[str]) -> None:
-        """Track which attributes should be frozen.
-
-        For Entity, _id becomes immutable once it's set to a non-None value.
-        This method is called by @auto_freeze after __init__.
-        """
-        frozen_attrs: set[str] = getattr(self, "_Entity__frozen_attrs", set())
-        frozen_attrs.update(attrs)
-        object.__setattr__(self, "_Entity__frozen_attrs", frozen_attrs)
 
     def __setattr__(self, name: str, value: Any) -> None:
         """Prevent modification of '_id' once set to a non-None value."""
-        frozen_attrs: set[str] = getattr(self, "_Entity__frozen_attrs", set())
+        # Check for selective freeze (auto_freeze sets _autofreeze__frozen_attrs)
+        frozen_attrs = getattr(self, "_autofreeze__frozen_attrs", None)
         if (
-            name in frozen_attrs
+            frozen_attrs is not None
+            and name in frozen_attrs
             and name == "_id"
             and getattr(self, "_id", None) is not None
             and value != self._id
