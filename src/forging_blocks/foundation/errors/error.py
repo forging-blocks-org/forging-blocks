@@ -18,7 +18,7 @@ class Error(Exception, Debuggable):
         Args:
             message: The structured error message describing what went wrong.
             metadata: Optional structured metadata with additional diagnostic
-                context. Defaults to an empty :class:`ErrorMetadata` when
+                context. Defaults to an empty `ErrorMetadata` when
                 not provided.
         """
         super().__init__(message.value)

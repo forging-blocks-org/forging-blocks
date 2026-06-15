@@ -1,7 +1,7 @@
 """FinalABCMeta metaclass.
 
-Combines :class:`FinalMeta` runtime-final enforcement with
-:class:`ABCMeta` abstract-base-class support into a single metaclass.
+Combines `FinalMeta` runtime-final enforcement with
+`ABCMeta` abstract-base-class support into a single metaclass.
 """
 
 from __future__ import annotations
@@ -13,21 +13,19 @@ from .final_meta import FinalMeta, validate_no_runtime_final_override
 
 
 class FinalABCMeta(FinalMeta, ABCMeta):
-    """Metaclass combining :class:`FinalMeta` and :class:`ABCMeta`.
+    """Metaclass combining `FinalMeta` and `ABCMeta`.
 
-    Enables both abstract base class functionality via :class:`ABCMeta`
+    Enables both abstract base class functionality via `ABCMeta`
     and runtime enforcement of methods decorated with :func:`runtime_final`.
 
     Usage::
 
         class MyBase(metaclass=FinalABCMeta):
             @runtime_final
-            def sealed_method(self) -> None:
-                ...
+            def sealed_method(self) -> None: ...
 
             @abstractmethod
-            def abstract_method(self) -> None:
-                ...
+            def abstract_method(self) -> None: ...
     """
 
     def __new__(

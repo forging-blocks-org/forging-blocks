@@ -1,7 +1,7 @@
 """Err variant of the Result type — represents a failed computation.
 
-Wrap an error with ``Err(error)`` to short-circuit chains of :meth:`map` and
-:meth:`flat_map` calls.  This is the *left* side of the Either monad (the
+Wrap an error with ``Err(error)`` to short-circuit chains of ``map`` and
+``flat_map`` calls.  This is the *left* side of the Either monad (the
 ``Left`` in Haskell / Scala), carrying the reason the computation could not
 proceed.
 """
@@ -20,7 +20,7 @@ class Err[ValueType, ErrorType](Result[ValueType, ErrorType]):
     __match_args__ = ("_error",)
 
     def __init__(self, error: ErrorType) -> None:
-        """Wrap ``error`` as a failed :class:`Result`."""
+        """Wrap ``error`` as a failed ``Result``."""
         self._error = error
 
     def __repr__(self) -> str:
@@ -53,7 +53,7 @@ class Err[ValueType, ErrorType](Result[ValueType, ErrorType]):
 
     @property
     def value(self) -> ValueType:
-        """Raises :class:`ResultAccessError` — there is no success value to access."""
+        """Raises `ResultAccessError` — there is no success value to access."""
         raise ResultAccessError.cannot_access_value()
 
     @property

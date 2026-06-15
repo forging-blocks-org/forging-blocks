@@ -2,11 +2,11 @@
 
 A disciplined alternative to raising exceptions — the Result type makes success
 and failure explicit in your function signatures. Conceptually it is the same
-idea as :class:`Either` in Scala or Haskell, specialised so that the *right*
+idea as `Either` in Scala or Haskell, specialised so that the *right*
 side holds a success value and the *left* side holds an error.
 
-Use :class:`Ok` to wrap a success value and :class:`Err` to wrap an error, then
-compose operations with :meth:`map`, :meth:`flat_map`, and :meth:`map_error`
+Use `Ok` to wrap a success value and `Err` to wrap an error, then
+compose operations with `map`, `flat_map`, and `map_error`
 instead of writing try/except blocks.
 """
 
@@ -16,23 +16,23 @@ from typing import Protocol, runtime_checkable
 
 @runtime_checkable
 class Result[ValueType, ErrorType](Protocol):
-    """Protocol that defines the shared interface for :class:`Ok` and :class:`Err`."""
+    """Protocol that defines the shared interface for `Ok` and `Err`."""
 
     @property
     def is_ok(self) -> bool:
-        """Return ``True`` when this Result holds a success value (is :class:`Ok`)."""
+        """Return ``True`` when this Result holds a success value (is `Ok`)."""
         ...
 
     @property
     def is_err(self) -> bool:
-        """Return ``True`` when this Result holds an error (is :class:`Err`)."""
+        """Return ``True`` when this Result holds an error (is `Err`)."""
         ...
 
     @property
     def value(self) -> ValueType:
         """Unwrap and return the success value.
 
-        Raises :class:`ResultAccessError` if this Result is an :class:`Err`.
+        Raises `ResultAccessError` if this Result is an `Err`.
         """
         ...
 
@@ -40,7 +40,7 @@ class Result[ValueType, ErrorType](Protocol):
     def error(self) -> ErrorType:
         """Unwrap and return the error.
 
-        Raises :class:`ResultAccessError` if this Result is an :class:`Ok`.
+        Raises `ResultAccessError` if this Result is an `Ok`.
         """
         ...
 
