@@ -3,9 +3,9 @@
 Provides the :func:`auto_freeze` decorator that automatically freezes instances
 after ``__init__`` completes. Classes decorated with ``@auto_freeze`` must satisfy
 :class:`~forging_blocks.foundation.autofreeze.SupportsAutoFreeze` (i.e. implement
-:meth:`freeze_instance`, :meth:`unfreeze_instance`, and
-:meth:`should_use_internal_freezing`). The decorator injects a wrapper around
-``__init__`` that calls the freezing protocol at the end of construction.
+:meth:`freeze_instance` and optionally :meth:`freeze_attributes`). The decorator
+injects a wrapper around ``__init__`` that calls the freezing protocol at the
+end of construction.
 """
 
 from __future__ import annotations
@@ -75,11 +75,10 @@ class _AutoFreezeDecorator:
         ) -> None:
             original_init(instance, *args, **kwargs)
 
-            if class_.should_use_internal_freezing():  # type: ignore[attr-defined]
-                if attrs is None:
-                    instance.freeze_instance()
-                else:
-                    instance.freeze_attributes(attrs)
+            if attrs is None:
+                instance.freeze_instance()
+            else:
+                instance.freeze_attributes(attrs)
 
         object.__setattr__(wrapped_init, _AUTO_FREEZE_MARKER, True)
 
@@ -91,9 +90,8 @@ class _AutoFreezeDecorator:
     def _validate_protocol[T](class_: type[T]) -> None:
         """Verify that *class_* implements the :class:`SupportsAutoFreeze` protocol.
 
-        Checks for the presence of the three required methods:
-        :meth:`should_use_internal_freezing`, :meth:`freeze_instance`, and
-        :meth:`unfreeze_instance`.
+        Checks for the presence of the required methods:
+        :meth:`freeze_instance` and optionally :meth:`freeze_attributes`.
 
         Args:
             class_: The class to validate.
@@ -101,24 +99,15 @@ class _AutoFreezeDecorator:
         Raises:
             TypeError: If any required protocol method is missing.
         """
-        required = {
-            "should_use_internal_freezing": "classmethod",
-            "freeze_instance": "instance method",
-            "unfreeze_instance": "instance method",
-        }
-
-        missing = [name for name in required if not hasattr(class_, name)]
-
-        if missing:
+        if not hasattr(class_, "freeze_instance"):
             raise TypeError(
                 f"{class_.__name__} does not implement SupportsAutoFreeze protocol.\n"
-                f"Missing: {', '.join(missing)}"
+                f"Missing: freeze_instance"
             )
 
 
 @overload
-def auto_freeze[T](class_: type[T]) -> type[T]:
-    ...
+def auto_freeze[T](class_: type[T]) -> type[T]: ...
 
 
 @overload
@@ -126,8 +115,7 @@ def auto_freeze[T](
     class_: type[T],
     *,
     attrs: Sequence[str] | None = None,
-) -> type[T]:
-    ...
+) -> type[T]: ...
 
 
 @overload
@@ -135,8 +123,7 @@ def auto_freeze[T](
     class_: None = None,
     *,
     attrs: Sequence[str] | None = None,
-) -> Callable[[type[T]], type[T]]:
-    ...
+) -> Callable[[type[T]], type[T]]: ...
 
 
 def auto_freeze[T](
@@ -167,41 +154,66 @@ def auto_freeze[T](
 
     Raises:
         TypeError: If the target class does not implement the required
-            protocol methods (``should_use_internal_freezing``,
-            ``freeze_instance``, ``unfreeze_instance``).
+            protocol methods (``freeze_instance``).
 
     Example:
 
         ```python
         from forging_blocks.foundation.autofreeze import auto_freeze
+        from forging_blocks.foundation.errors import (
+            CantModifyImmutableAttributeError,
+        )
+
 
         @auto_freeze
         class Money:
             def __init__(self, amount: int, currency: str) -> None:
+                if amount < 0:
+                    raise ValueError("Amount cannot be negative")
                 self._amount = amount
                 self._currency = currency
-
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
 
             def freeze_instance(self) -> None:
                 object.__setattr__(self, "_Money__frozen", True)
 
-            def unfreeze_instance(self) -> None:
-                object.__setattr__(self, "_Money__frozen", False)
+            def __setattr__(self, name: str, value: object) -> None:
+                if getattr(self, "_Money__frozen", False):
+                    raise CantModifyImmutableAttributeError(
+                        class_name=self.__class__.__name__,
+                        attribute_name=name,
+                    )
+                object.__setattr__(self, name, value)
         ```
 
         With selective freezing:
 
         ```python
-        @auto_freeze(attrs=["_id"])
+        from forging_blocks.foundation.autofreeze import auto_freeze
+        from forging_blocks.foundation.errors import (
+            CantModifyImmutableAttributeError,
+        )
+
+
+        @auto_freeze(attrs=["_user_id", "_email"])
         class User:
-            def __init__(self, user_id: str, name: str) -> None:
-                self._id = user_id
+            def __init__(self, user_id: str, email: str, name: str) -> None:
+                self._user_id = user_id
+                self._email = email
                 self._name = name
 
-            ...  # protocol methods + freeze_attributes
+            def freeze_attributes(self, attrs: Sequence[str]) -> None:
+                frozen_attrs = getattr(self, "_User__frozen_attrs", set())
+                frozen_attrs.update(attrs)
+                object.__setattr__(self, "_User__frozen_attrs", frozen_attrs)
+
+            def __setattr__(self, name: str, value: object) -> None:
+                frozen_attrs = getattr(self, "_User__frozen_attrs", set())
+                if name in frozen_attrs:
+                    raise CantModifyImmutableAttributeError(
+                        class_name=self.__class__.__name__,
+                        attribute_name=name,
+                    )
+                object.__setattr__(self, name, value)
         ```
     """
     decorator = _AutoFreezeDecorator(attrs=attrs)
