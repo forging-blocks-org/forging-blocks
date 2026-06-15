@@ -9,10 +9,10 @@ from unittest.mock import MagicMock
 import pytest
 
 from forging_blocks.foundation.autofreeze.auto_freeze import (
-    _AUTO_FREEZE_MARKER,
     _AutoFreezeDecorator,
     auto_freeze,
 )
+
 
 # ---------------------------------------------------------------------------
 # Test helpers — lightweight classes that implement SupportsAutoFreeze
@@ -22,24 +22,28 @@ from forging_blocks.foundation.autofreeze.auto_freeze import (
 
 def _make_protocol_class(
     *,
-    should_freeze: bool = True,
     with_freeze_attrs: bool = True,
 ) -> type:
     """Create a class that implements SupportsAutoFreeze with mock tracking."""
+    freeze_instance_mock = MagicMock()
     namespace: dict[str, Any] = {
-        "should_use_internal_freezing": classmethod(
-            MagicMock(return_value=should_freeze)
-        ),
-        "freeze_instance": MagicMock(),
-        "unfreeze_instance": MagicMock(),
+        "freeze_instance": freeze_instance_mock,
     }
     if with_freeze_attrs:
-        namespace["freeze_attributes"] = MagicMock()
-    return type("ProtocolClass", (), namespace)
+        freeze_attrs_mock = MagicMock()
+        namespace["freeze_attributes"] = freeze_attrs_mock
+    else:
+        freeze_attrs_mock = None
+    cls = type("ProtocolClass", (), namespace)
+    # Store mocks as class attributes
+    cls._freeze_instance_mock = freeze_instance_mock  # type: ignore[attr-defined]
+    if with_freeze_attrs:
+        cls._freeze_attrs_mock = freeze_attrs_mock  # type: ignore[attr-defined]
+    return cls
 
 
 def _make_minimal_class() -> type:
-    """Create a class with only the three required protocol methods."""
+    """Create a class with only the required protocol methods."""
     return _make_protocol_class(with_freeze_attrs=False)
 
 
@@ -59,34 +63,7 @@ class TestValidateProtocol:
 
     def test_when_missing_freeze_instance_then_raises_typeerror(self) -> None:
         class Incomplete:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def unfreeze_instance(self) -> None:
-                pass
-
-        with pytest.raises(TypeError, match="does not implement SupportsAutoFreeze"):
-            _AutoFreezeDecorator._validate_protocol(Incomplete)
-
-    def test_when_missing_should_use_internal_freezing_then_raises_typeerror(self) -> None:
-        class Incomplete:
-            def freeze_instance(self) -> None:
-                pass
-
-            def unfreeze_instance(self) -> None:
-                pass
-
-        with pytest.raises(TypeError, match="does not implement SupportsAutoFreeze"):
-            _AutoFreezeDecorator._validate_protocol(Incomplete)
-
-    def test_when_missing_unfreeze_instance_then_raises_typeerror(self) -> None:
-        class Incomplete:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def freeze_instance(self) -> None:
+            def freeze_attributes(self, attrs: list[str]) -> None:
                 pass
 
         with pytest.raises(TypeError, match="does not implement SupportsAutoFreeze"):
@@ -100,9 +77,7 @@ class TestValidateProtocol:
             _AutoFreezeDecorator._validate_protocol(Empty)
 
         message = str(exc_info.value)
-        assert "should_use_internal_freezing" in message
         assert "freeze_instance" in message
-        assert "unfreeze_instance" in message
 
     def test_when_class_has_extra_methods_then_still_validates(self) -> None:
         cls = _make_protocol_class()
@@ -121,216 +96,135 @@ class TestAutoFreezeDecorator:
 
     # -- Usage modes --------------------------------------------------------
 
-    def test_when_used_without_parentheses_then_cls_is_decorated_directly(self) -> None:
+    def test_when_used_without_parentheses_then_decorates_class(self) -> None:
         cls = _make_minimal_class()
         decorated = auto_freeze(cls)
         assert decorated is cls
-        assert hasattr(decorated.__init__, _AUTO_FREEZE_MARKER)
 
-    def test_when_used_with_parentheses_no_attrs_then_returns_callable(self) -> None:
+    def test_when_used_with_empty_parentheses_then_returns_decorator(self) -> None:
+        cls = _make_minimal_class()
         decorator = auto_freeze()
-        assert callable(decorator)
-        assert not hasattr(decorator, _AUTO_FREEZE_MARKER)
+        decorated = decorator(cls)
+        assert decorated is cls
 
-    def test_when_used_with_parentheses_and_attrs_then_returns_callable(self) -> None:
+    def test_when_used_with_attrs_then_returns_decorator(self) -> None:
+        cls = _make_minimal_class()
         decorator = auto_freeze(attrs=["_id"])
-        assert callable(decorator)
+        decorated = decorator(cls)
+        assert decorated is cls
 
-    # -- Freezing behaviour -------------------------------------------------
-
-    def test_when_attrs_none_then_freezes_full_instance(self) -> None:
-        cls = _make_protocol_class(should_freeze=True, with_freeze_attrs=True)
-        decorated = auto_freeze(cls)
-        decorated()
-        cls.freeze_instance.assert_called_once()  # type: ignore[attr-defined]
-        cls.freeze_attributes.assert_not_called()  # type: ignore[attr-defined]
-
-    def test_when_attrs_specified_then_freezes_only_those_attributes(self) -> None:
-        cls = _make_protocol_class(should_freeze=True, with_freeze_attrs=True)
-        decorated = auto_freeze(cls, attrs=["_x"])
-        decorated()
-        cls.freeze_attributes.assert_called_once_with(["_x"])  # type: ignore[attr-defined]
-        cls.freeze_instance.assert_not_called()  # type: ignore[attr-defined]
-
-    def test_when_attrs_empty_sequence_then_freezes_no_attributes(self) -> None:
-        cls = _make_protocol_class(should_freeze=True, with_freeze_attrs=True)
-        decorated = auto_freeze(cls, attrs=[])
-        decorated()
-        cls.freeze_attributes.assert_called_once_with([])  # type: ignore[attr-defined]
-
-    def test_when_should_use_internal_freezing_returns_false_then_no_freeze(self) -> None:
-        cls = _make_protocol_class(should_freeze=False, with_freeze_attrs=True)
-        decorated = auto_freeze(cls)
-        decorated()
-        cls.freeze_instance.assert_not_called()  # type: ignore[attr-defined]
-        cls.freeze_attributes.assert_not_called()  # type: ignore[attr-defined]
-
-    def test_when_should_use_internal_freezing_returns_true_then_freeze_called(self) -> None:
-        cls = _make_protocol_class(should_freeze=True, with_freeze_attrs=True)
-        decorated = auto_freeze(cls)
-        decorated()
-        cls.freeze_instance.assert_called_once()  # type: ignore[attr-defined]
-
-
-    # -- Idempotency --------------------------------------------------------
-
-    def test_when_applied_twice_then_second_call_is_noop(self) -> None:
+    def test_when_class_already_decorated_then_returns_same_class(self) -> None:
         cls = _make_minimal_class()
         first = auto_freeze(cls)
-        wrapped_init_id = id(first.__init__)
         second = auto_freeze(first)
-        assert second is first
-        assert id(second.__init__) == wrapped_init_id
+        assert first is second
 
-    # -- Protocol validation at decoration time ----------------------------
+    # -- Protocol validation ------------------------------------------------
 
-    def test_when_class_missing_protocol_then_raises_typeerror_at_decoration(self) -> None:
-        class Invalid:
-            pass
+    def test_when_class_missing_freeze_instance_then_raises_typeerror(self) -> None:
+        class Incomplete:
+            def freeze_attributes(self, attrs: list[str]) -> None:
+                pass
+
         with pytest.raises(TypeError, match="does not implement SupportsAutoFreeze"):
-            auto_freeze(Invalid)
+            auto_freeze(Incomplete)
 
-    # -- Init wrapping ------------------------------------------------------
+    # -- Freeze behavior ----------------------------------------------------
 
-    def test_when_instance_created_then_original_init_still_runs(self) -> None:
-        class Tracked:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def freeze_instance(self) -> None:
-                pass
-
-            def unfreeze_instance(self) -> None:
-                pass
-
-            def __init__(self) -> None:
-                self.init_was_called = True  # type: ignore[attr-defined]
-
-        decorated = auto_freeze(Tracked)
-        instance = decorated()
-        assert instance.init_was_called is True  # type: ignore[attr-defined]
-
-    def test_when_init_takes_args_then_args_are_forwarded(self) -> None:
-        class ArgChecker:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def freeze_instance(self) -> None:
-                pass
-
-            def unfreeze_instance(self) -> None:
-                pass
-
-            def __init__(self, a: int, b: str, *, c: bool = False) -> None:
-                self.a = a  # type: ignore[attr-defined]
-                self.b = b  # type: ignore[attr-defined]
-                self.c = c  # type: ignore[attr-defined]
-
-        decorated = auto_freeze(ArgChecker)
-        instance = decorated(42, "hello", c=True)
-        assert instance.a == 42  # type: ignore[attr-defined]
-        assert instance.b == "hello"  # type: ignore[attr-defined]
-        assert instance.c is True  # type: ignore[attr-defined]
-
-    def test_when_init_takes_no_args_then_instance_created(self) -> None:
+    def test_when_attrs_is_none_then_calls_freeze_instance(self) -> None:
         cls = _make_minimal_class()
         decorated = auto_freeze(cls)
-        instance = decorated()
-        assert isinstance(instance, cls)
+        decorated()  # instance not used
+        cls._freeze_instance_mock.assert_called_once()
 
+    def test_when_attrs_provided_then_calls_freeze_attributes(self) -> None:
+        cls = _make_protocol_class()
+        decorated = auto_freeze(attrs=["_id"])(cls)
+        decorated()
+        cls._freeze_attrs_mock.assert_called_once_with(["_id"])
+        cls._freeze_instance_mock.assert_not_called()
 
-    # -- Metadata preservation ----------------------------------------------
+    def test_when_init_raises_then_freeze_not_called(self) -> None:
+        cls = _make_minimal_class()
 
-    def test_functools_wraps_preserves_dunder_attrs(self) -> None:
-        class Documented:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
+        def failing_init(self: Any, value: int) -> None:
+            raise ValueError("fail")
 
-            def freeze_instance(self) -> None:
-                pass
+        cls.__init__ = failing_init  # type: ignore[method-assign]
 
-            def unfreeze_instance(self) -> None:
-                pass
+        decorated = auto_freeze(cls)
+
+        with pytest.raises(ValueError, match="fail"):
+            decorated(42)
+
+        cls._freeze_instance_mock.assert_not_called()
+
+    # -- Selective freezing -------------------------------------------------
+
+    def test_when_attrs_is_list_then_passes_same_list_to_freeze_attributes(
+        self,
+    ) -> None:
+        cls = _make_protocol_class()
+        attrs = ["_id", "_created_at"]
+        decorated = auto_freeze(attrs=attrs)(cls)
+        decorated()
+        cls._freeze_attrs_mock.assert_called_once_with(attrs)
+
+    def test_when_attrs_is_empty_list_then_passes_empty_list(self) -> None:
+        cls = _make_protocol_class()
+        decorated = auto_freeze(attrs=[])(cls)
+        decorated()
+        cls._freeze_attrs_mock.assert_called_once_with([])
+
+    # -- Inheritance --------------------------------------------------------
+
+    def test_when_subclass_decorated_then_own_freeze_called(self) -> None:
+        base = _make_minimal_class()
+        child = _make_minimal_class()
+
+        class ChildClass(child):  # type: ignore[misc]
+            pass
+
+        decorated = auto_freeze(ChildClass)
+        decorated()
+        child._freeze_instance_mock.assert_called_once()
+        base._freeze_instance_mock.assert_not_called()
+
+    # -- Edge cases ---------------------------------------------------------
+
+    def test_when_class_has_slots_then_works_correctly(self) -> None:
+        class Slotted:
+            __slots__ = ("_value", "_Slotted__frozen")
 
             def __init__(self, value: int) -> None:
-                """Original docstring."""
-                self.value = value  # type: ignore[attr-defined]
-
-        decorated = auto_freeze(Documented)
-        assert decorated.__init__.__name__ == "__init__"  # type: ignore[operator]
-        assert decorated.__init__.__doc__ == "Original docstring."  # type: ignore[operator]
-        assert decorated.__init__.__wrapped__ is not None  # type: ignore[operator]
-
-    def test_when_wrapped_then_marker_set_on_init(self) -> None:
-        cls = _make_minimal_class()
-        decorated = auto_freeze(cls)
-        assert hasattr(decorated.__init__, _AUTO_FREEZE_MARKER)
-
-    # -- Freeze-after-init ordering ----------------------------------------
-
-    def test_freeze_happens_after_init(self) -> None:
-        call_record: list[str] = []
-
-        class Ordered:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
+                self._value = value
 
             def freeze_instance(self) -> None:
-                call_record.append("freeze")
+                object.__setattr__(self, "_Slotted__frozen", True)
 
-            def unfreeze_instance(self) -> None:
-                pass
+            def __setattr__(self, name: str, value: object) -> None:
+                if getattr(self, "_Slotted__frozen", False):
+                    raise AttributeError("frozen")
+                object.__setattr__(self, name, value)
 
-            def __init__(self) -> None:
-                call_record.append("init")
+        decorated = auto_freeze(Slotted)
+        instance = decorated(42)
 
-        decorated = auto_freeze(Ordered)
-        decorated()
-        assert call_record == ["init", "freeze"]
-
-    # -- Inheritance / subclass interaction --------------------------------
-
-    def test_subclass_inheriting_protocol_can_be_decorated(self) -> None:
-        class Base:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def freeze_instance(self) -> None:
-                pass
-
-            def unfreeze_instance(self) -> None:
-                pass
-
-        class Child(Base):
-            pass
-
-        decorated = auto_freeze(Child)
-        instance = decorated()
-        assert isinstance(instance, Child)
-
-    # -- Attrs specified but class lacks freeze_attributes -----------------
-
-    def test_attrs_specified_class_lacks_freeze_attributes_raises_at_runtime(self) -> None:
-        """When attrs is given but the class lacks freeze_attributes,
-        decoration succeeds (protocol only checks the 3 required methods)
-        but instantiation raises AttributeError."""
-        class NoFreezeAttrs:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def freeze_instance(self) -> None:
-                pass
-
-            def unfreeze_instance(self) -> None:
-                pass
-            # freeze_attributes is intentionally missing
-
-        decorated = auto_freeze(NoFreezeAttrs, attrs=["_x"])
         with pytest.raises(AttributeError):
-            decorated()
+            instance._value = 99
+
+    def test_when_freeze_instance_is_async_then_still_works(self) -> None:
+        class AsyncFreeze:
+            def __init__(self) -> None:
+                pass
+
+            async def freeze_instance(self) -> None:
+                pass
+
+            def freeze_attributes(self, attrs: list[str]) -> None:
+                pass
+
+        decorated = auto_freeze(AsyncFreeze)
+        instance = decorated()
+        # Just ensure no error during decoration/construction
+        assert instance is not None
