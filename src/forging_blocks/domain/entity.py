@@ -6,9 +6,10 @@ import inspect
 from abc import ABC
 from collections.abc import Hashable, Sequence
 from typing import Any, cast
-
-from forging_blocks.domain.errors.draft_entity_is_not_hashable_error import (
+from forging_blocks.domain.errors import (
     DraftEntityIsNotHashableError,
+    EntityIdDeletionError,
+    EntityIdModificationError,
 )
 from forging_blocks.foundation.autofreeze import auto_freeze
 
@@ -37,23 +38,10 @@ class Entity[TId: Hashable](ABC):
         object.__setattr__(self, "_id", entity_id)
         object.__setattr__(self, "_Entity__frozen_attrs", set())
 
-    @classmethod
-    def should_use_internal_freezing(cls) -> bool:
-        """Return True for concrete classes, False for abstract ones.
-
-        Abstract classes must not auto-freeze because their ``__init__`` is called
-        mid-way through subclass ``__init__`` via ``super().__init__()``.
-        """
-        return not inspect.isabstract(cls)
-
     def freeze_instance(self) -> None:
         """Freeze the entire instance (not used with selective freezing)."""
         # Not used when attrs is provided to @auto_freeze
         pass
-
-    def unfreeze_instance(self) -> None:
-        """Unfreeze the entire instance."""
-        object.__setattr__(self, "_Entity__frozen_attrs", set())
 
     def freeze_attributes(self, attrs: Sequence[str]) -> None:
         """Track which attributes should be frozen.
@@ -74,16 +62,17 @@ class Entity[TId: Hashable](ABC):
             and getattr(self, "_id", None) is not None
             and value != self._id
         ):
-            raise AttributeError(
-                f"{self.__class__.__name__}: cannot modify '{name}' once set "
-                f"(current value={self._id!r})."
+            raise EntityIdModificationError(
+                class_name=self.__class__.__name__,
+                attribute_name=name,
+                current_value=self._id,
             )
         object.__setattr__(self, name, value)
 
     def __delattr__(self, name: str) -> None:
         """Prevent deletion of '_id'."""
         if name == "_id":
-            raise AttributeError(f"{self.__class__.__name__}: cannot delete 'id'.")
+            raise EntityIdDeletionError(class_name=self.__class__.__name__)
         object.__delattr__(self, name)
 
     def __eq__(self, other: object) -> bool:
