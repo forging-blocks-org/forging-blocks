@@ -6,130 +6,108 @@ from typing import Protocol, Sequence
 class SupportsAutoFreeze(Protocol):  # pragma: no cover
     """Contract for classes compatible with the @auto_freeze decorator.
 
-    Implementers must provide methods to transition between mutable and
-    immutable states. The @auto_freeze decorator calls these methods
-    based on class configuration.
+    Implementers must provide methods to transition instances to an immutable
+    state. The @auto_freeze decorator calls these methods based on class
+    configuration.
 
     **Traditional class** — the simplest use case: a plain Python class
     that becomes immutable after ``__init__``:
 
-        ```python
-        from forging_blocks.foundation.autofreeze import auto_freeze
-        from forging_blocks.foundation.errors import (
-            CantModifyImmutableAttributeError,
-        )
+    ```python
+    from forging_blocks.foundation.autofreeze import auto_freeze
+    from forging_blocks.foundation.errors import (
+        CantModifyImmutableAttributeError,
+    )
 
-        @auto_freeze
-        class Money:
-            def __init__(self, amount: int, currency: str) -> None:
-                if amount < 0:
-                    raise ValueError("Amount cannot be negative")
-                self._amount = amount
-                self._currency = currency
 
-            def freeze_instance(self) -> None:
-                object.__setattr__(self, "_Money__frozen", True)
+    @auto_freeze
+    class Money:
+        def __init__(self, amount: int, currency: str) -> None:
+            if amount < 0:
+                raise ValueError("Amount cannot be negative")
+            self._amount = amount
+            self._currency = currency
 
-            def unfreeze_instance(self) -> None:
-                object.__setattr__(self, "_Money__frozen", False)
+        def freeze_instance(self) -> None:
+            object.__setattr__(self, "_Money__frozen", True)
 
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def __setattr__(self, name: str, value: object) -> None:
-                if getattr(self, "_Money__frozen", False):
-                    raise CantModifyImmutableAttributeError(
-                        class_name=self.__class__.__name__,
-                        attribute_name=name,
-                    )
-                object.__setattr__(self, name, value)
-        ```
+        def __setattr__(self, name: str, value: object) -> None:
+            if getattr(self, "_Money__frozen", False):
+                raise CantModifyImmutableAttributeError(
+                    class_name=self.__class__.__name__,
+                    attribute_name=name,
+                )
+            object.__setattr__(self, name, value)
+    ```
 
     **Regular dataclass** — ``@auto_freeze`` adds post-init immutability
-    to a dataclass that otherwise allows mutation:
+    to a dataclass that would otherwise allow mutation:
 
-        ```python
-        from dataclasses import dataclass
+    ```python
+    from dataclasses import dataclass
 
-        from forging_blocks.foundation.autofreeze import auto_freeze
-        from forging_blocks.foundation.errors import (
-            CantModifyImmutableAttributeError,
-        )
+    from forging_blocks.foundation.autofreeze import auto_freeze
+    from forging_blocks.foundation.errors import (
+        CantModifyImmutableAttributeError,
+    )
 
-        @auto_freeze
-        @dataclass
-        class Point:
-            x: float
-            y: float
 
-            def freeze_instance(self) -> None:
-                object.__setattr__(self, "_Point__frozen", True)
+    @auto_freeze
+    @dataclass
+    class Point:
+        x: float
+        y: float
 
-            def unfreeze_instance(self) -> None:
-                object.__setattr__(self, "_Point__frozen", False)
+        def freeze_instance(self) -> None:
+            object.__setattr__(self, "_Point__frozen", True)
 
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
+        def __setattr__(self, name: str, value: object) -> None:
+            if getattr(self, "_Point__frozen", False):
+                raise CantModifyImmutableAttributeError(
+                    class_name=self.__class__.__name__,
+                    attribute_name=name,
+                )
+            object.__setattr__(self, name, value)
+    ```
 
-            def __setattr__(self, name: str, value: object) -> None:
-                if getattr(self, "_Point__frozen", False):
-                    raise CantModifyImmutableAttributeError(
-                        class_name=self.__class__.__name__,
-                        attribute_name=name,
-                    )
-                object.__setattr__(self, name, value)
-        ```
+    **Selective freezing (Entities)** — freeze only specific attributes
+    (e.g., identity fields) while keeping others mutable:
 
-    **Frozen dataclass** — when combined with ``@dataclass(frozen=True)``,
-    the decorator still calls ``freeze_instance`` after init, but
-    immutability is already enforced by the dataclass machinery.
-    ``@auto_freeze`` is generally redundant here unless you need
-    ``unfreeze_instance`` for test tooling:
+    ```python
+    from forging_blocks.foundation.autofreeze import auto_freeze
+    from forging_blocks.foundation.errors import (
+        CantModifyImmutableAttributeError,
+    )
 
-        ```python
-        from dataclasses import dataclass
 
-        from forging_blocks.foundation.autofreeze import auto_freeze
+    @auto_freeze(attrs=["_user_id", "_email"])
+    class User:
+        def __init__(self, user_id: str, email: str, name: str) -> None:
+            self._user_id = user_id
+            self._email = email
+            self._name = name
 
-        @auto_freeze
-        @dataclass(frozen=True)
-        class ImmutablePoint:
-            x: float
-            y: float
+        def freeze_attributes(self, attrs: Sequence[str]) -> None:
+            frozen_attrs = getattr(self, "_User__frozen_attrs", set())
+            frozen_attrs.update(attrs)
+            object.__setattr__(self, "_User__frozen_attrs", frozen_attrs)
 
-            def freeze_instance(self) -> None:
-                pass  # frozen=True already prevents mutation
-
-            def unfreeze_instance(self) -> None:
-                pass
-
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return False  # already frozen, no extra work needed
-        ```
+        def __setattr__(self, name: str, value: object) -> None:
+            frozen_attrs = getattr(self, "_User__frozen_attrs", set())
+            if name in frozen_attrs:
+                raise CantModifyImmutableAttributeError(
+                    class_name=self.__class__.__name__,
+                    attribute_name=name,
+                )
+            object.__setattr__(self, name, value)
+    ```
     """
-
-    @classmethod
-    def should_use_internal_freezing(cls) -> bool:
-        """Determine whether the decorator should auto-freeze on init.
-
-        Returns:
-            True if instances should be automatically frozen after __init__
-            completes, False to opt out of automatic freezing.
-
-        Notes:
-            - Override to return False to disable auto-freeze for a class tree.
-            - Decorator checks this at runtime before calling freeze_instance().
-        """
-        ...
 
     def freeze_instance(self) -> None:
         """Transition the instance into an immutable state.
 
         Called automatically by @auto_freeze after __init__ completes
-        (if should_use_internal_freezing() returns True).
+        (when used without the attrs parameter).
 
         Responsibilities:
             - Mark the instance as frozen.
@@ -139,22 +117,6 @@ class SupportsAutoFreeze(Protocol):  # pragma: no cover
         Notes:
             - Implementation details are class-specific.
             - May use internal flags or other mechanisms.
-        """
-        ...
-
-    def unfreeze_instance(self) -> None:
-        """Transition the instance into a mutable state.
-
-        Typically used only in testing or rollback scenarios.
-        Normal application code should not call this directly.
-
-        Responsibilities:
-            - Remove the frozen marker.
-            - Allow subsequent attribute modifications.
-
-        Notes:
-            - Use sparingly; violates immutability contract.
-            - Intended for test setup/teardown and transaction rollback.
         """
         ...
 
