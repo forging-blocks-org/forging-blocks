@@ -6,6 +6,7 @@ import inspect
 from abc import ABC
 from collections.abc import Hashable, Sequence
 from typing import Any, cast
+
 from forging_blocks.domain.errors import (
     DraftEntityIsNotHashableError,
     EntityIdDeletionError,
@@ -39,9 +40,12 @@ class Entity[TId: Hashable](ABC):
         object.__setattr__(self, "_Entity__frozen_attrs", set())
 
     def freeze_instance(self) -> None:
-        """Freeze the entire instance (not used with selective freezing)."""
-        # Not used when attrs is provided to @auto_freeze
-        pass
+        """Freeze the entire instance (not used with selective freezing).
+
+        Required by SupportsAutoFreeze protocol but not called for Entity
+        since @auto_freeze(attrs=["_id"]) uses freeze_attributes instead.
+        """
+        raise NotImplementedError("Entity uses selective freezing via freeze_attributes")
 
     def freeze_attributes(self, attrs: Sequence[str]) -> None:
         """Track which attributes should be frozen.
