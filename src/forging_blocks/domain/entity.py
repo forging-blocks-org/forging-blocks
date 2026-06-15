@@ -39,8 +39,8 @@ class Entity[TId: Hashable](ABC):
 
     def __setattr__(self, name: str, value: Any) -> None:
         """Prevent modification of '_id' once set to a non-None value."""
-        # Check for selective freeze (auto_freeze sets _autofreeze__frozen_attrs)
         frozen_attrs = getattr(self, "_autofreeze__frozen_attrs", None)
+
         if (
             frozen_attrs is not None
             and name in frozen_attrs
@@ -53,6 +53,7 @@ class Entity[TId: Hashable](ABC):
                 attribute_name=name,
                 current_value=self._id,
             )
+
         object.__setattr__(self, name, value)
 
     def __delattr__(self, name: str) -> None:
