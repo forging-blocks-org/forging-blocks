@@ -10,7 +10,7 @@ class ResultAccessError(Error):
         """Initialise with an optional custom error message.
 
         Args:
-            message: Optional :class:`ErrorMessage` describing the invalid
+            message: Optional `ErrorMessage` describing the invalid
                 access. Defaults to a generic message when not provided.
         """
         message = message or ErrorMessage("Invalid access on Result type.")
