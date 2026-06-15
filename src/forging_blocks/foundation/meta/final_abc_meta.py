@@ -22,12 +22,10 @@ class FinalABCMeta(FinalMeta, ABCMeta):
 
         class MyBase(metaclass=FinalABCMeta):
             @runtime_final
-            def sealed_method(self) -> None:
-                ...
+            def sealed_method(self) -> None: ...
 
             @abstractmethod
-            def abstract_method(self) -> None:
-                ...
+            def abstract_method(self) -> None: ...
     """
 
     def __new__(
