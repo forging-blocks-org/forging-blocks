@@ -108,7 +108,6 @@ class _AutoFreezeDecorator:
         original_init = class_.__init__
         attrs = self._attrs
 
-        # Store original __setattr__ (may be object's default)
         original_setattr = class_.__setattr__
         has_custom_setattr = original_setattr is not object.__setattr__
 
@@ -118,33 +117,27 @@ class _AutoFreezeDecorator:
             *args: Any,
             **kwargs: Any,
         ) -> None:
-            # Track initialization depth to support super().__init__() chaining
             init_depth = getattr(instance, _INIT_DEPTH_FLAG, 0)
             object.__setattr__(instance, _INIT_DEPTH_FLAG, init_depth + 1)
 
             try:
                 original_init(instance, *args, **kwargs)
             finally:
-                # Decrement depth
                 new_depth = getattr(instance, _INIT_DEPTH_FLAG, 1) - 1
                 if new_depth <= 0:
                     object.__delattr__(instance, _INIT_DEPTH_FLAG)
                 else:
                     object.__setattr__(instance, _INIT_DEPTH_FLAG, new_depth)
 
-                # Only freeze when outermost __init__ completes (depth == 0)
                 if new_depth == 0 and not inspect.isabstract(class_):
                     if attrs is None:
-                        # Full freeze - mark entire instance as frozen
                         object.__setattr__(instance, _FROZEN_FLAG, True)
                     else:
-                        # Selective freeze - track which attributes are frozen
                         object.__setattr__(instance, _FROZEN_ATTRS_FLAG, set(attrs))
 
         object.__setattr__(wrapped_init, _AUTO_FREEZE_MARKER, True)
         class_.__init__ = wrapped_init  # type: ignore[method-assign]
 
-        # Only inject __setattr__ if class doesn't already have a custom one
         if not has_custom_setattr:
 
             def frozen_setattr(instance: Any, name: str, value: Any) -> None:
@@ -155,7 +148,6 @@ class _AutoFreezeDecorator:
                         attribute_name=name,
                     )
 
-                # Check for selective freeze
                 frozen_attrs = getattr(instance, _FROZEN_ATTRS_FLAG, None)
                 if frozen_attrs is not None and name in frozen_attrs:
                     raise CantModifyImmutableAttributeError(
