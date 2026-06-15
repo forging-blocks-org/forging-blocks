@@ -4,111 +4,13 @@
 from __future__ import annotations
 
 from typing import Any
-from unittest.mock import MagicMock
 
 import pytest
 
-from forging_blocks.foundation.autofreeze.auto_freeze import (
-    _AUTO_FREEZE_MARKER,
-    _AutoFreezeDecorator,
-    auto_freeze,
+from forging_blocks.foundation.autofreeze.auto_freeze import auto_freeze
+from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error import (
+    CantModifyImmutableAttributeError,
 )
-
-# ---------------------------------------------------------------------------
-# Test helpers — lightweight classes that implement SupportsAutoFreeze
-# protocol via MagicMock so every call is observable.
-# ---------------------------------------------------------------------------
-
-
-def _make_protocol_class(
-    *,
-    should_freeze: bool = True,
-    with_freeze_attrs: bool = True,
-) -> type:
-    """Create a class that implements SupportsAutoFreeze with mock tracking."""
-    namespace: dict[str, Any] = {
-        "should_use_internal_freezing": classmethod(
-            MagicMock(return_value=should_freeze)
-        ),
-        "freeze_instance": MagicMock(),
-        "unfreeze_instance": MagicMock(),
-    }
-    if with_freeze_attrs:
-        namespace["freeze_attributes"] = MagicMock()
-    return type("ProtocolClass", (), namespace)
-
-
-def _make_minimal_class() -> type:
-    """Create a class with only the three required protocol methods."""
-    return _make_protocol_class(with_freeze_attrs=False)
-
-
-# ---------------------------------------------------------------------------
-# Tests for _validate_protocol
-# ---------------------------------------------------------------------------
-
-
-@pytest.mark.unit
-class TestValidateProtocol:
-    """Tests for the internal _validate_protocol function."""
-
-    def test_when_all_required_methods_present_then_returns_none(self) -> None:
-        cls = _make_minimal_class()
-        result = _AutoFreezeDecorator._validate_protocol(cls)
-        assert result is None
-
-    def test_when_missing_freeze_instance_then_raises_typeerror(self) -> None:
-        class Incomplete:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def unfreeze_instance(self) -> None:
-                pass
-
-        with pytest.raises(TypeError, match="does not implement SupportsAutoFreeze"):
-            _AutoFreezeDecorator._validate_protocol(Incomplete)
-
-    def test_when_missing_should_use_internal_freezing_then_raises_typeerror(self) -> None:
-        class Incomplete:
-            def freeze_instance(self) -> None:
-                pass
-
-            def unfreeze_instance(self) -> None:
-                pass
-
-        with pytest.raises(TypeError, match="does not implement SupportsAutoFreeze"):
-            _AutoFreezeDecorator._validate_protocol(Incomplete)
-
-    def test_when_missing_unfreeze_instance_then_raises_typeerror(self) -> None:
-        class Incomplete:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def freeze_instance(self) -> None:
-                pass
-
-        with pytest.raises(TypeError, match="does not implement SupportsAutoFreeze"):
-            _AutoFreezeDecorator._validate_protocol(Incomplete)
-
-    def test_when_missing_multiple_methods_then_lists_all_missing(self) -> None:
-        class Empty:
-            pass
-
-        with pytest.raises(TypeError) as exc_info:
-            _AutoFreezeDecorator._validate_protocol(Empty)
-
-        message = str(exc_info.value)
-        assert "should_use_internal_freezing" in message
-        assert "freeze_instance" in message
-        assert "unfreeze_instance" in message
-
-    def test_when_class_has_extra_methods_then_still_validates(self) -> None:
-        cls = _make_protocol_class()
-        result = _AutoFreezeDecorator._validate_protocol(cls)
-        assert result is None
-
 
 # ---------------------------------------------------------------------------
 # Tests for the auto_freeze decorator
@@ -121,216 +23,254 @@ class TestAutoFreezeDecorator:
 
     # -- Usage modes --------------------------------------------------------
 
-    def test_when_used_without_parentheses_then_cls_is_decorated_directly(self) -> None:
-        cls = _make_minimal_class()
-        decorated = auto_freeze(cls)
-        assert decorated is cls
-        assert hasattr(decorated.__init__, _AUTO_FREEZE_MARKER)
-
-    def test_when_used_with_parentheses_no_attrs_then_returns_callable(self) -> None:
-        decorator = auto_freeze()
-        assert callable(decorator)
-        assert not hasattr(decorator, _AUTO_FREEZE_MARKER)
-
-    def test_when_used_with_parentheses_and_attrs_then_returns_callable(self) -> None:
-        decorator = auto_freeze(attrs=["_id"])
-        assert callable(decorator)
-
-    # -- Freezing behaviour -------------------------------------------------
-
-    def test_when_attrs_none_then_freezes_full_instance(self) -> None:
-        cls = _make_protocol_class(should_freeze=True, with_freeze_attrs=True)
-        decorated = auto_freeze(cls)
-        decorated()
-        cls.freeze_instance.assert_called_once()  # type: ignore[attr-defined]
-        cls.freeze_attributes.assert_not_called()  # type: ignore[attr-defined]
-
-    def test_when_attrs_specified_then_freezes_only_those_attributes(self) -> None:
-        cls = _make_protocol_class(should_freeze=True, with_freeze_attrs=True)
-        decorated = auto_freeze(cls, attrs=["_x"])
-        decorated()
-        cls.freeze_attributes.assert_called_once_with(["_x"])  # type: ignore[attr-defined]
-        cls.freeze_instance.assert_not_called()  # type: ignore[attr-defined]
-
-    def test_when_attrs_empty_sequence_then_freezes_no_attributes(self) -> None:
-        cls = _make_protocol_class(should_freeze=True, with_freeze_attrs=True)
-        decorated = auto_freeze(cls, attrs=[])
-        decorated()
-        cls.freeze_attributes.assert_called_once_with([])  # type: ignore[attr-defined]
-
-    def test_when_should_use_internal_freezing_returns_false_then_no_freeze(self) -> None:
-        cls = _make_protocol_class(should_freeze=False, with_freeze_attrs=True)
-        decorated = auto_freeze(cls)
-        decorated()
-        cls.freeze_instance.assert_not_called()  # type: ignore[attr-defined]
-        cls.freeze_attributes.assert_not_called()  # type: ignore[attr-defined]
-
-    def test_when_should_use_internal_freezing_returns_true_then_freeze_called(self) -> None:
-        cls = _make_protocol_class(should_freeze=True, with_freeze_attrs=True)
-        decorated = auto_freeze(cls)
-        decorated()
-        cls.freeze_instance.assert_called_once()  # type: ignore[attr-defined]
-
-
-    # -- Idempotency --------------------------------------------------------
-
-    def test_when_applied_twice_then_second_call_is_noop(self) -> None:
-        cls = _make_minimal_class()
-        first = auto_freeze(cls)
-        wrapped_init_id = id(first.__init__)
-        second = auto_freeze(first)
-        assert second is first
-        assert id(second.__init__) == wrapped_init_id
-
-    # -- Protocol validation at decoration time ----------------------------
-
-    def test_when_class_missing_protocol_then_raises_typeerror_at_decoration(self) -> None:
-        class Invalid:
-            pass
-        with pytest.raises(TypeError, match="does not implement SupportsAutoFreeze"):
-            auto_freeze(Invalid)
-
-    # -- Init wrapping ------------------------------------------------------
-
-    def test_when_instance_created_then_original_init_still_runs(self) -> None:
-        class Tracked:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def freeze_instance(self) -> None:
-                pass
-
-            def unfreeze_instance(self) -> None:
-                pass
-
+    def test_when_used_without_parentheses_then_decorates_class(self) -> None:
+        class MyClass:
             def __init__(self) -> None:
-                self.init_was_called = True  # type: ignore[attr-defined]
+                pass
 
-        decorated = auto_freeze(Tracked)
+        decorated = auto_freeze(MyClass)
+        assert decorated is MyClass
+
+    def test_when_used_with_empty_parentheses_then_returns_decorator(self) -> None:
+        class MyClass:
+            def __init__(self) -> None:
+                pass
+
+        decorator = auto_freeze()
+        decorated = decorator(MyClass)
+        assert decorated is MyClass
+
+    def test_when_used_with_attrs_then_returns_decorator(self) -> None:
+        class MyClass:
+            def __init__(self) -> None:
+                pass
+
+        decorator = auto_freeze(attrs=["_id"])
+        decorated = decorator(MyClass)
+        assert decorated is MyClass
+
+    def test_when_class_already_decorated_then_returns_same_class(self) -> None:
+        class MyClass:
+            def __init__(self) -> None:
+                pass
+
+        first = auto_freeze(MyClass)
+        second = auto_freeze(first)
+        assert first is second
+
+    # -- Freeze behavior ----------------------------------------------------
+
+    def test_when_attrs_is_none_then_freezes_entire_instance(self) -> None:
+        class MyClass:
+            def __init__(self, value: int) -> None:
+                self.value = value
+
+        decorated = auto_freeze(MyClass)
+        instance = decorated(42)
+
+        assert instance.value == 42
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance.value = 99
+
+    def test_when_attrs_provided_then_only_freezes_specified_attributes(self) -> None:
+        class MyClass:
+            def __init__(self, id_: int, name: str) -> None:
+                self.id = id_
+                self.name = name
+
+        decorated = auto_freeze(attrs=["id"])(MyClass)
+        instance = decorated(1, "test")
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance.id = 99
+
+        instance.name = "new name"
+        assert instance.name == "new name"
+
+    def test_when_init_raises_then_instance_not_frozen(self) -> None:
+        class MyClass:
+            def __init__(self, value: int) -> None:
+                if value < 0:
+                    raise ValueError("fail")
+                self.value = value
+
+        decorated = auto_freeze(MyClass)
+
+        with pytest.raises(ValueError, match="fail"):
+            decorated(-1)
+
+    # -- Selective freezing -------------------------------------------------
+
+    def test_when_attrs_is_list_then_only_those_attributes_frozen(self) -> None:
+        class MyClass:
+            def __init__(self, a: int, b: int, c: int) -> None:
+                self.a = a
+                self.b = b
+                self.c = c
+
+        decorated = auto_freeze(attrs=["a", "b"])(MyClass)
+        instance = decorated(1, 2, 3)
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance.a = 99
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance.b = 99
+
+        instance.c = 99
+        assert instance.c == 99
+
+    def test_when_attrs_is_empty_list_then_no_attributes_frozen(self) -> None:
+        class MyClass:
+            def __init__(self, a: int) -> None:
+                self.a = a
+
+        decorated = auto_freeze(attrs=[])(MyClass)
+        instance = decorated(1)
+
+        instance.a = 99
+        assert instance.a == 99
+
+    # -- Abstract classes ---------------------------------------------------
+
+    def test_when_class_is_abstract_then_not_frozen(self) -> None:
+        from abc import ABC, abstractmethod
+
+        class AbstractBase(ABC):
+            @abstractmethod
+            def do_something(self) -> None:
+                pass
+
+        auto_freeze(AbstractBase)
+
+        @auto_freeze
+        class Concrete(AbstractBase):
+            def __init__(self, value: int) -> None:
+                self.value = value
+
+            def do_something(self) -> None:
+                pass
+
+        instance = Concrete(42)
+        assert instance.value == 42
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance.value = 99
+
+    # -- Existing __setattr__ preservation ----------------------------------
+
+    def test_when_class_has_custom_setattr_then_class_handles_freezing(self) -> None:
+        """When a class has custom __setattr__, it must handle frozen checks itself."""
+
+        class MyClass:
+            def __init__(self, value: int) -> None:
+                self._value = value
+
+            def __setattr__(self, name: str, value: Any) -> None:
+                # Frozen check must come FIRST for frozen objects
+                if getattr(self, "_autofreeze__frozen", False):
+                    raise CantModifyImmutableAttributeError(
+                        class_name=self.__class__.__name__,
+                        attribute_name=name,
+                    )
+                # Custom validation
+                if name == "_value" and value < 0:
+                    raise ValueError("value must be non-negative")
+                object.__setattr__(self, name, value)
+
+        decorated = auto_freeze(MyClass)
+        instance = decorated(10)
+
+        # Custom validation works during __init__ (before freeze)
+        # After freeze, class's own frozen check blocks modifications
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance._value = -5
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance._value = 20
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance._value = 30
+
+    def test_when_class_has_slots_then_works_correctly(self) -> None:
+        class Slotted:
+            __slots__ = (
+                "_value",
+                "_autofreeze__frozen",
+                "_autofreeze__frozen_attrs",
+                "_autofreeze__init_depth",
+            )
+
+            def __init__(self, value: int) -> None:
+                self._value = value
+
+        decorated = auto_freeze(Slotted)
+        instance = decorated(42)
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance._value = 99
+
+    # -- Inheritance (requires manual decorator on each class) -------------
+
+    def test_when_subclass_also_decorated_then_frozen_independently(self) -> None:
+        @auto_freeze
+        class Base:
+            def __init__(self, value: int) -> None:
+                self.value = value
+
+        @auto_freeze
+        class Child(Base):
+            def __init__(self, value: int, extra: str) -> None:
+                super().__init__(value)
+                self.extra = extra
+
+        instance = Child(1, "test")
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance.value = 99
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance.extra = "hacked"
+
+    def test_when_freeze_instance_is_async_then_still_works(self) -> None:
+        class AsyncFreeze:
+            def __init__(self) -> None:
+                pass
+
+            async def some_async_method(self) -> None:
+                pass
+
+        decorated = auto_freeze(AsyncFreeze)
         instance = decorated()
-        assert instance.init_was_called is True  # type: ignore[attr-defined]
+        assert instance is not None
 
-    def test_when_init_takes_args_then_args_are_forwarded(self) -> None:
-        class ArgChecker:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
+    # -- super().__init__ chaining -----------------------------------------
 
-            def freeze_instance(self) -> None:
-                pass
+    def test_when_super_init_chaining_then_freezes_at_end(self) -> None:
+        from abc import ABC, abstractmethod
 
-            def unfreeze_instance(self) -> None:
-                pass
-
-            def __init__(self, a: int, b: str, *, c: bool = False) -> None:
-                self.a = a  # type: ignore[attr-defined]
-                self.b = b  # type: ignore[attr-defined]
-                self.c = c  # type: ignore[attr-defined]
-
-        decorated = auto_freeze(ArgChecker)
-        instance = decorated(42, "hello", c=True)
-        assert instance.a == 42  # type: ignore[attr-defined]
-        assert instance.b == "hello"  # type: ignore[attr-defined]
-        assert instance.c is True  # type: ignore[attr-defined]
-
-    def test_when_init_takes_no_args_then_instance_created(self) -> None:
-        cls = _make_minimal_class()
-        decorated = auto_freeze(cls)
-        instance = decorated()
-        assert isinstance(instance, cls)
-
-
-    # -- Metadata preservation ----------------------------------------------
-
-    def test_functools_wraps_preserves_dunder_attrs(self) -> None:
-        class Documented:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def freeze_instance(self) -> None:
-                pass
-
-            def unfreeze_instance(self) -> None:
+        @auto_freeze
+        class Base(ABC):
+            @abstractmethod
+            def base_method(self) -> None:
                 pass
 
             def __init__(self, value: int) -> None:
-                """Original docstring."""
-                self.value = value  # type: ignore[attr-defined]
+                self.base_value = value
 
-        decorated = auto_freeze(Documented)
-        assert decorated.__init__.__name__ == "__init__"  # type: ignore[operator]
-        assert decorated.__init__.__doc__ == "Original docstring."  # type: ignore[operator]
-        assert decorated.__init__.__wrapped__ is not None  # type: ignore[operator]
-
-    def test_when_wrapped_then_marker_set_on_init(self) -> None:
-        cls = _make_minimal_class()
-        decorated = auto_freeze(cls)
-        assert hasattr(decorated.__init__, _AUTO_FREEZE_MARKER)
-
-    # -- Freeze-after-init ordering ----------------------------------------
-
-    def test_freeze_happens_after_init(self) -> None:
-        call_record: list[str] = []
-
-        class Ordered:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def freeze_instance(self) -> None:
-                call_record.append("freeze")
-
-            def unfreeze_instance(self) -> None:
-                pass
-
-            def __init__(self) -> None:
-                call_record.append("init")
-
-        decorated = auto_freeze(Ordered)
-        decorated()
-        assert call_record == ["init", "freeze"]
-
-    # -- Inheritance / subclass interaction --------------------------------
-
-    def test_subclass_inheriting_protocol_can_be_decorated(self) -> None:
-        class Base:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def freeze_instance(self) -> None:
-                pass
-
-            def unfreeze_instance(self) -> None:
-                pass
-
+        @auto_freeze
         class Child(Base):
-            pass
+            def __init__(self, value: int, extra: str) -> None:
+                super().__init__(value)
+                self.extra = extra
 
-        decorated = auto_freeze(Child)
-        instance = decorated()
-        assert isinstance(instance, Child)
-
-    # -- Attrs specified but class lacks freeze_attributes -----------------
-
-    def test_attrs_specified_class_lacks_freeze_attributes_raises_at_runtime(self) -> None:
-        """When attrs is given but the class lacks freeze_attributes,
-        decoration succeeds (protocol only checks the 3 required methods)
-        but instantiation raises AttributeError."""
-        class NoFreezeAttrs:
-            @classmethod
-            def should_use_internal_freezing(cls) -> bool:
-                return True
-
-            def freeze_instance(self) -> None:
+            def base_method(self) -> None:
                 pass
 
-            def unfreeze_instance(self) -> None:
-                pass
-            # freeze_attributes is intentionally missing
+        instance = Child(42, "test")
+        assert instance.base_value == 42
+        assert instance.extra == "test"
 
-        decorated = auto_freeze(NoFreezeAttrs, attrs=["_x"])
-        with pytest.raises(AttributeError):
-            decorated()
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance.base_value = 99
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance.extra = "hacked"

@@ -290,64 +290,86 @@ dataclass requires manual wiring for:
 ### Auto-freeze
 
 `@auto_freeze` is a decorator that **automatically freezes instances after
-`__init__` completes**, enforcing immutability without requiring subclasses
-to call `_freeze()` or add any freeze-related code.
+``__init__`` completes**, enforcing immutability without requiring any
+protocol methods on the decorated class. The decorator handles everything
+internally: injecting a frozen state marker, wrapping ``__setattr__``, and
+tracking init depth to support ``super().__init__()`` chains.
 
-`ValueObject` uses `@auto_freeze` internally so that every concrete subclass
-gets immutability for free. You can also apply `@auto_freeze` to your own
-classes that need automatic immutability but are not `ValueObject`
-subclasses.
-
-A class decorated with `@auto_freeze` must satisfy the `SupportsAutoFreeze`
-protocol by providing three methods:
-
-- `freeze_instance()` — transition the instance into an immutable state.
-- `unfreeze_instance()` — transition back to mutable (intended for test
-  setup and transaction rollback; not for normal application code).
-- `should_use_internal_freezing()` — classmethod that returns `True` for
-  concrete classes and `False` for abstract intermediate classes that
-  should stay unfrozen.
-
-Classes that implement `freeze_attributes(attrs)` can also opt into
-**partial freezing**, where only specific attributes (e.g. `"_id"`) are
-made immutable while others remain writable. This is useful for Entities
-where identity must be fixed but other fields may change over time.
-
-Usage:
+`ValueObject` uses ``@auto_freeze`` internally so that every concrete
+subclass gets immutability for free. You can also apply ``@auto_freeze``
+to your own classes — just decorate and write a normal ``__init__``:
 
 ```python
 from forging_blocks.foundation.autofreeze import auto_freeze
 
 
 @auto_freeze
-class MyImmutableClass:
-    def __init__(self, name: str) -> None:
-        self._name = name
+class Money:
+    def __init__(self, amount: int, currency: str) -> None:
+        self._amount = amount
+        self._currency = currency.upper()
 
-    def freeze_instance(self) -> None:
-        object.__setattr__(self, "__frozen", True)
+    @property
+    def amount(self) -> int:
+        return self._amount
 
-    def unfreeze_instance(self) -> None:
-        object.__setattr__(self, "__frozen", False)
-
-    @classmethod
-    def should_use_internal_freezing(cls) -> bool:
-        return True
-
-    def __setattr__(self, name: str, value: object) -> None:
-        if getattr(self, "__frozen", False):
-            msg = (
-                f"Cannot modify attribute '{name}' on "
-                f"frozen instance of '{type(self).__name__}'"
-            )
-            raise AttributeError(msg)
-        object.__setattr__(self, name, value)
+    @property
+    def currency(self) -> str:
+        return self._currency
 ```
 
-Most users won't need `@auto_freeze` directly — extending `ValueObject` is
-the simpler path. The decorator is available for cases where you want
-automatic immutability without value-object semantics.
+After ``__init__`` completes, any attempt to modify an attribute raises
+``CantModifyImmutableAttributeError``.
 
+#### Selective freezing
+
+Pass ``attrs=["_id"]`` to freeze only specific attributes while leaving
+others writable. This is used by ``Entity`` to lock the identity field
+while allowing other attributes to change over time:
+
+```python
+@auto_freeze(attrs=["_id"])
+class User:
+    def __init__(self, user_id: str, name: str) -> None:
+        self._id = user_id
+        self._name = name
+```
+
+#### How it works
+
+1. **Init wrapping** — ``__init__`` is wrapped with depth tracking
+   (``_autofreeze__init_depth``) so that ``super().__init__()`` chains
+   freeze only when the outermost init finishes.
+2. **``__setattr__`` injection** — If the class does not have a custom
+   ``__setattr__``, the decorator injects one that checks the frozen
+   flags before allowing writes.
+3. **Markers** — ``_autofreeze__frozen`` (full freeze) or
+   ``_autofreeze__frozen_attrs`` (selective freeze) are set on the
+   instance after init.
+4. **Abstract class skip** — Abstract classes (``inspect.isabstract``)
+   are not frozen, so intermediate bases in a hierarchy can call
+   ``super().__init__()`` without triggering a freeze.
+
+#### Classes with custom ``__setattr__``
+
+If the target class defines its own ``__setattr__`` (e.g., ``Entity``
+needs custom error types like ``EntityIdModificationError``), the
+decorator does **not** overwrite it. The class is responsible for
+checking ``_autofreeze__frozen`` or ``_autofreeze__frozen_attrs``
+itself, then calling ``object.__setattr__``:
+
+```python
+def __setattr__(self, name: str, value: Any) -> None:
+    frozen_attrs = getattr(self, "_autofreeze__frozen_attrs", None)
+    if frozen_attrs is not None and name in frozen_attrs:
+        raise EntityIdModificationError(...)
+    object.__setattr__(self, name, value)
+```
+
+Most users won't need ``@auto_freeze`` directly — extending
+``ValueObject`` is the simpler path. The decorator is available for
+cases where you want automatic immutability without value-object
+semantics.
 ---
 
 ### Meta utilities

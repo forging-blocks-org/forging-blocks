@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
+import inspect
 from abc import ABC
 from collections.abc import Hashable
 from typing import Any, cast
 
-from forging_blocks.domain.errors.draft_entity_is_not_hashable_error import (
+from forging_blocks.domain.errors import (
     DraftEntityIsNotHashableError,
+    EntityIdDeletionError,
+    EntityIdModificationError,
 )
+from forging_blocks.foundation.autofreeze import auto_freeze
 
 
 class Entity[TId: Hashable](ABC):
@@ -16,33 +20,46 @@ class Entity[TId: Hashable](ABC):
 
     An entity is defined by its identity rather than its attributes. Two entities with the same
     identifier are considered equal, regardless of their other attributes.
+
+    Concrete subclasses are automatically frozen (selective freeze on '_id') after ``__init__``
+    completes. Intermediate abstract classes remain unfrozen so their concrete leaf subclasses
+    can finish setting up via ``super().__init__()``.
     """
 
     _id: TId | None
-    __is_frozen: bool
+
+    def __init_subclass__(cls, **kwargs: Any) -> None:
+        """Automatically apply selective freeze to concrete subclasses."""
+        super().__init_subclass__(**kwargs)
+        if not inspect.isabstract(cls):
+            auto_freeze(attrs=["_id"])(cls)
 
     def __init__(self, entity_id: TId | None) -> None:
         object.__setattr__(self, "_id", entity_id)
-        object.__setattr__(self, "_Entity__is_frozen", True)
 
     def __setattr__(self, name: str, value: Any) -> None:
-        """Prevent modification of '_id' once set."""
+        """Prevent modification of '_id' once set to a non-None value."""
+        frozen_attrs = getattr(self, "_autofreeze__frozen_attrs", None)
+
         if (
-            getattr(self, "_Entity__is_frozen", False)
+            frozen_attrs is not None
+            and name in frozen_attrs
             and name == "_id"
             and getattr(self, "_id", None) is not None
             and value != self._id
         ):
-            raise AttributeError(
-                f"{self.__class__.__name__}: cannot modify '{name}' once set "
-                f"(current value={self._id!r})."
+            raise EntityIdModificationError(
+                class_name=self.__class__.__name__,
+                attribute_name=name,
+                current_value=self._id,
             )
+
         object.__setattr__(self, name, value)
 
     def __delattr__(self, name: str) -> None:
         """Prevent deletion of '_id'."""
         if name == "_id":
-            raise AttributeError(f"{self.__class__.__name__}: cannot delete 'id'.")
+            raise EntityIdDeletionError(class_name=self.__class__.__name__)
         object.__delattr__(self, name)
 
     def __eq__(self, other: object) -> bool:

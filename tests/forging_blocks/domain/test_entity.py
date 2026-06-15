@@ -6,6 +6,8 @@ import pytest
 from forging_blocks.domain import (
     DraftEntityIsNotHashableError,
     Entity,
+    EntityIdDeletionError,
+    EntityIdModificationError,
 )
 
 
@@ -39,13 +41,16 @@ class TestUser:
         result = persisted_user.id
         assert result == 1
 
-    def test___setattr___when_trying_to_modify_id_then_raises_attribute_error(
+    def test___setattr___when_trying_to_modify_id_then_raises_entity_id_modification_error(
         self, persisted_user: User
     ) -> None:
         new_id = 99
-        with pytest.raises(AttributeError) as exc_info:
+        with pytest.raises(EntityIdModificationError) as exc_info:
             persisted_user.__setattr__("_id", new_id)
-        assert "cannot modify" in str(exc_info.value)
+        assert "Cannot modify" in str(exc_info.value)
+        assert exc_info.value.context["class_name"] == "User"
+        assert exc_info.value.context["attribute_name"] == "_id"
+        assert exc_info.value.context["current_value"] == 1
 
     def test___setattr___when_setting_same_id_value_then_allows_copy_safe_reassign(
         self, persisted_user: User
@@ -61,12 +66,14 @@ class TestUser:
         persisted_user.__setattr__("name", new_name)
         assert persisted_user.name == new_name
 
-    def test___delattr___when_deleting_id_then_raises_attribute_error(
+    def test___delattr___when_deleting_id_then_raises_entity_id_deletion_error(
         self, persisted_user: User
     ) -> None:
-        with pytest.raises(AttributeError) as exc_info:
+        with pytest.raises(EntityIdDeletionError) as exc_info:
             persisted_user.__delattr__("_id")
-        assert "cannot delete" in str(exc_info.value)
+        assert "Cannot delete" in str(exc_info.value)
+        assert exc_info.value.context["class_name"] == "User"
+        assert exc_info.value.context["attribute_name"] == "id"
 
     def test___delattr___when_deleting_non_id_attribute_then_deletes_successfully(
         self, persisted_user: User
@@ -191,12 +198,14 @@ class TestUser:
         assert clone.name == draft_user.name
         assert clone.is_persisted() is False
 
-    def test___delattr___when_draft_entity_then_raises_attribute_error(
+    def test___delattr___when_draft_entity_then_raises_entity_id_deletion_error(
         self, draft_user: User
     ) -> None:
-        with pytest.raises(AttributeError) as exc_info:
+        with pytest.raises(EntityIdDeletionError) as exc_info:
             draft_user.__delattr__("_id")
-        assert "cannot delete" in str(exc_info.value)
+        assert "Cannot delete" in str(exc_info.value)
+        assert exc_info.value.context["class_name"] == "User"
+        assert exc_info.value.context["attribute_name"] == "id"
 
     def test___setattr___when_draft_entity_then_allows_id_assignment(
         self, draft_user: User
@@ -216,5 +225,5 @@ class TestUser:
         self, draft_user: User
     ) -> None:
         draft_user._id = 42
-        with pytest.raises(AttributeError):
+        with pytest.raises(EntityIdModificationError):
             draft_user._id = 99

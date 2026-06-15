@@ -143,32 +143,3 @@ class TestValueObject:
 
         with pytest.raises(CantModifyImmutableAttributeError):
             vo._first = "changed"  # type: ignore
-
-    def test_should_use_internal_freezing_when_called_then_returns_true(self) -> None:
-        assert Email.should_use_internal_freezing() is True
-
-    def test_freeze_instance_when_called_then_instance_becomes_immutable(self) -> None:
-        email = Email("a@example.com")
-        email.unfreeze_instance()
-
-        email.freeze_instance()
-
-        with pytest.raises(CantModifyImmutableAttributeError):
-            email._value = "b@example.com"  # type: ignore
-
-    def test_unfreeze_instance_when_called_then_instance_becomes_mutable(self) -> None:
-        email = Email("a@example.com")
-
-        email.unfreeze_instance()
-
-        email._value = "b@example.com"  # type: ignore
-        assert email._value == "b@example.com"  # type: ignore
-
-    def test__freeze_when_called_then_delegates_to_freeze_instance(self) -> None:
-        email = Email("a@example.com")
-        email.unfreeze_instance()
-
-        email._freeze()
-
-        with pytest.raises(CantModifyImmutableAttributeError):
-            email._value = "changed"  # type: ignore
