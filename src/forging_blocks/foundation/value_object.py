@@ -15,6 +15,7 @@ from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error impo
 )
 
 
+@auto_freeze
 class ValueObject[RawValueType](ABC):
     """Base class for all domain value objects.
     rather than by an identity. Two value objects with the same attributes
