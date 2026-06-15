@@ -1,7 +1,7 @@
 """Ok variant of the Result type — represents a successful computation.
 
 Wrap a value with ``Ok(value)`` and chain operations without fear of
-:class:`Err` short-circuits leaking into your logic.  This is the *right*
+`Err` short-circuits leaking into your logic.  This is the *right*
 side of the Either monad (the ``Right`` in Haskell / Scala).
 """
 
@@ -19,7 +19,7 @@ class Ok[ValueType, ErrorType](Result[ValueType, ErrorType]):
     __match_args__ = ("_value",)
 
     def __init__(self, value: ValueType) -> None:
-        """Wrap ``value`` as a successful :class:`Result`."""
+        """Wrap ``value`` as a successful `Result`."""
         self._value = value
 
     def __repr__(self) -> str:
@@ -57,7 +57,7 @@ class Ok[ValueType, ErrorType](Result[ValueType, ErrorType]):
 
     @property
     def error(self) -> ErrorType:
-        """Raises :class:`ResultAccessError` — there is no error to access."""
+        """Raises `ResultAccessError` — there is no error to access."""
         raise ResultAccessError.cannot_access_error()
 
     def map[MappedValueType](
@@ -84,7 +84,7 @@ class Ok[ValueType, ErrorType](Result[ValueType, ErrorType]):
     ) -> Result[MappedValueType, ErrorType]:
         """Apply ``fn`` to the wrapped value and return its Result directly.
 
-        Unlike :meth:`map`, ``fn`` itself returns a Result, so you can chain
+        Unlike `map`, ``fn`` itself returns a Result, so you can chain
         multiple fallible operations without nesting ``Ok(Ok(...))``.
         """
         return fn(self._value)
