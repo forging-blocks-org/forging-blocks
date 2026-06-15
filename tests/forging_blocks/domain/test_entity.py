@@ -218,3 +218,18 @@ class TestUser:
         draft_user._id = 42
         with pytest.raises(AttributeError):
             draft_user._id = 99
+
+    def test_unfreeze_instance_when_persisted_then_allows_id_modification(
+        self, persisted_user: User
+    ) -> None:
+        with pytest.raises(AttributeError):
+            persisted_user._id = 99
+
+        persisted_user.unfreeze_instance()
+
+        persisted_user._id = 99
+        assert persisted_user.id == 99
+
+        persisted_user.freeze_attributes(["_id"])
+        with pytest.raises(AttributeError):
+            persisted_user._id = 100

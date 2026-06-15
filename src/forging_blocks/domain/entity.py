@@ -2,13 +2,15 @@
 
 from __future__ import annotations
 
+import inspect
 from abc import ABC
-from collections.abc import Hashable
+from collections.abc import Hashable, Sequence
 from typing import Any, cast
 
 from forging_blocks.domain.errors.draft_entity_is_not_hashable_error import (
     DraftEntityIsNotHashableError,
 )
+from forging_blocks.foundation.autofreeze import auto_freeze
 
 
 class Entity[TId: Hashable](ABC):
@@ -16,19 +18,58 @@ class Entity[TId: Hashable](ABC):
 
     An entity is defined by its identity rather than its attributes. Two entities with the same
     identifier are considered equal, regardless of their other attributes.
+
+    Concrete subclasses are automatically frozen (selective freeze on '_id') after ``__init__``
+    completes. Intermediate abstract classes remain unfrozen so their concrete leaf subclasses
+    can finish setting up via ``super().__init__()``.
     """
 
     _id: TId | None
-    __is_frozen: bool
+    _Entity__frozen_attrs: set[str]
+
+    def __init_subclass__(cls, **kwargs: Any) -> None:
+        """Automatically apply selective freeze to concrete subclasses."""
+        super().__init_subclass__(**kwargs)
+        if not inspect.isabstract(cls):
+            auto_freeze(attrs=["_id"])(cls)
 
     def __init__(self, entity_id: TId | None) -> None:
         object.__setattr__(self, "_id", entity_id)
-        object.__setattr__(self, "_Entity__is_frozen", True)
+        object.__setattr__(self, "_Entity__frozen_attrs", set())
+
+    @classmethod
+    def should_use_internal_freezing(cls) -> bool:
+        """Return True for concrete classes, False for abstract ones.
+
+        Abstract classes must not auto-freeze because their ``__init__`` is called
+        mid-way through subclass ``__init__`` via ``super().__init__()``.
+        """
+        return not inspect.isabstract(cls)
+
+    def freeze_instance(self) -> None:
+        """Freeze the entire instance (not used with selective freezing)."""
+        # Not used when attrs is provided to @auto_freeze
+        pass
+
+    def unfreeze_instance(self) -> None:
+        """Unfreeze the entire instance."""
+        object.__setattr__(self, "_Entity__frozen_attrs", set())
+
+    def freeze_attributes(self, attrs: Sequence[str]) -> None:
+        """Track which attributes should be frozen.
+
+        For Entity, _id becomes immutable once it's set to a non-None value.
+        This method is called by @auto_freeze after __init__.
+        """
+        frozen_attrs: set[str] = getattr(self, "_Entity__frozen_attrs", set())
+        frozen_attrs.update(attrs)
+        object.__setattr__(self, "_Entity__frozen_attrs", frozen_attrs)
 
     def __setattr__(self, name: str, value: Any) -> None:
-        """Prevent modification of '_id' once set."""
+        """Prevent modification of '_id' once set to a non-None value."""
+        frozen_attrs: set[str] = getattr(self, "_Entity__frozen_attrs", set())
         if (
-            getattr(self, "_Entity__is_frozen", False)
+            name in frozen_attrs
             and name == "_id"
             and getattr(self, "_id", None) is not None
             and value != self._id
