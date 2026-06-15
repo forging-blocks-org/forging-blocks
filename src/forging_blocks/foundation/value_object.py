@@ -15,11 +15,8 @@ from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error impo
 )
 
 
-@auto_freeze
 class ValueObject[RawValueType](ABC):
     """Base class for all domain value objects.
-
-    Value objects are immutable objects defined entirely by their attributes
     rather than by an identity. Two value objects with the same attributes
     are considered equal.
 
@@ -94,23 +91,9 @@ class ValueObject[RawValueType](ABC):
     def _equality_components(self) -> tuple[Hashable, ...]:
         """Return the components used for equality and hashing."""
 
-    @classmethod
-    def should_use_internal_freezing(cls) -> bool:
-        """Return True for concrete classes, False for abstract ones.
-
-        Abstract classes (like ValueObject itself) must not auto-freeze
-        because their ``__init__`` is called mid-way through subclass
-        ``__init__`` via ``super().__init__()``.
-        """
-        return not inspect.isabstract(cls)
-
     def freeze_instance(self) -> None:
         """Make the instance immutable. Raises CantModifyImmutableAttributeError on attr set."""
         object.__setattr__(self, "_ValueObject__is_frozen", True)
-
-    def unfreeze_instance(self) -> None:
-        """Make the instance mutable again."""
-        object.__setattr__(self, "_ValueObject__is_frozen", False)
 
     def _freeze(self) -> None:
         """Freeze the object. Delegates to freeze_instance()."""
