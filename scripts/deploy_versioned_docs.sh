@@ -41,6 +41,8 @@ if [[ -z "$VERSION" ]]; then
   exit 1
 fi
 
+VERSION="${VERSION#v}"
+
 echo "==> Generating autodoc pages..."
 poetry run python scripts/generate_autodoc_pages.py
 
