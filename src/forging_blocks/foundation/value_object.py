@@ -7,7 +7,7 @@ following the principles of Domain-Driven Design (DDD).
 import inspect
 from abc import ABC, abstractmethod
 from collections.abc import Hashable
-from typing import Any
+from typing import Any, cast
 
 from forging_blocks.foundation.autofreeze import auto_freeze
 
@@ -52,9 +52,10 @@ class ValueObject[RawValueType](ABC):
             auto_freeze(cls)
 
     def __eq__(self, other: object) -> bool:
-        if not isinstance(other, self.__class__):
+        if type(self) is not type(other):
             return False
-        return self._equality_components == other._equality_components
+        other_vo = cast("ValueObject[Any]", other)
+        return self._equality_components == other_vo._equality_components
 
     def __hash__(self) -> int:
         return hash(self._equality_components)
