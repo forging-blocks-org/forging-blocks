@@ -8,6 +8,23 @@ This page shows how **ForgingBlocks concepts can be projected** onto a hexagonal
     ForgingBlocks does **not** enforce Hexagonal Architecture.
     This page presents it as an **interpretation** of responsibilities defined in the Reference section.
 
+---
+
+## Quick summary
+
+Hexagonal Architecture (Ports and Adapters) emphasizes separation between core behavior and external systems. This page shows how **ForgingBlocks concepts can be projected** onto this arrangement — **not enforced**.
+
+Mapping:
+- **Core** — Domain (business rules) + Application (Use Cases, Handlers)
+- **Inbound Ports** — Define how behavior is triggered (UseCase, MessageHandler)
+- **Outbound Ports** — Define required external capabilities (Repository, MessageBus, UnitOfWork)
+- **Adapters** — Implement ports (Infrastructure: SQL repos, message brokers, HTTP clients)
+- **Dependencies point toward the core**
+
+Fits when: external systems change frequently; testing without infrastructure matters; inbound/outbound isolation needed.
+
+---
+
 ## Conceptual mapping
 
 - The core contains Domain and Application logic.
@@ -27,6 +44,7 @@ graph LR
     ApplicationCore -->|dispatch/persist/notify| OutboundAdapters[Outbound Adapters<br/>Repositories, Message Bus]
 ```
 
+---
 
 ## When this style fits
 
