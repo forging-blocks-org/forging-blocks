@@ -1,11 +1,22 @@
 # Contributing to ForgingBlocks
 
+Hey there :)
+
 Thank you for your interest in contributing to ForgingBlocks.
 
 This document explains **how to participate** in the project and where to find the rules that apply once you start contributing.
 
 You do not need to read everything before opening a pull request.
 This guide is meant to help you orient yourself.
+
+---
+## Quick summary
+
+- This file explains **how to contribute**.
+- Other documents explain **how things should be written or structured**.
+- When in doubt, ask questions early.
+
+Contributions are welcome as long as they respect the project's emphasis on clarity, boundaries, and intentional design.
 
 ---
 
@@ -40,6 +51,8 @@ Understanding this separation will make contributing easier.
 ## Documentation contributions
 
 Documentation is a first-class concern in this project.
+
+You have to write expressive docstrings because docstrings generates autodocs.
 
 If you plan to modify or add documentation, please read:
 
@@ -88,7 +101,7 @@ pre-commit install --hook-type pre-push
 
 ### Making Changes
 
-1. **Create a feature branch**: `git checkout -b feature/your-feature`
+1. **Create a feature branch**: `git checkout -b feat/your-feature`
 2. **Make your changes**
 3. **Add tests** for new functionality (see [Testing Guidelines](#testing-guidelines))
 4. **Run the full test suite**:
@@ -153,6 +166,7 @@ poetry run poe docs:generate        # Generate API reference
 poetry run poe docs:deploy-version  # Deploy versioned docs (see --help)
 poetry run poe docs:serve-versioned # Serve with version selector
 poetry run poe docs:list-versions   # List deployed versions
+```
 
 ### Release Process (Maintainers Only)
 
@@ -165,13 +179,3 @@ poetry run poe release patch
 # Execute release (creates branch and PR)
 poetry run poe release patch --execute
 ```
-
----
-
-## In short
-
-- This file explains **how to contribute**.
-- Other documents explain **how things should be written or structured**.
-- When in doubt, ask questions early.
-
-Contributions are welcome as long as they respect the project’s emphasis on clarity, boundaries, and intentional design.

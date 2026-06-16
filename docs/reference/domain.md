@@ -6,11 +6,22 @@ The **Domain** block represents the **problem space** your system is concerned w
 It contains the concepts, rules, and constraints that give meaning to your software,
 independent of frameworks, databases, delivery mechanisms, or deployment concerns.
 
-The goal of the Domain block is **clarity of intent**, not architectural purity.
+---
+## Quick summary
+
+The **Domain** block represents the **problem space** your system is concerned with. It expresses concepts, rules, and constraints independently of frameworks, databases, or delivery mechanisms.
+
+Core abstractions:
+- **Entity** — Identity matters over time (identity-based equality, version tracking)
+- **Value Object** — Immutable, defined by its values (no identity, prevents primitive obsession)
+- **Aggregate Root** — Consistency boundary that protects invariants and controls mutation
+- **Domain Errors** — Explicit representations of invalid domain states in domain terms
+
+The Domain block depends only on **Foundation** and must not depend on Application, Infrastructure, or Presentation.
+
+These are optional tools for clarity and correctness — not mandatory patterns.
 
 ---
-
-## Purpose of the Domain block
 
 The Domain block exists to:
 

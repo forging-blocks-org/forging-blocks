@@ -6,11 +6,27 @@ The **Application** block defines **what the system does**.
 It expresses system behavior by coordinating domain concepts, handling incoming requests, and invoking outbound capabilities.
 It does **not** contain business rules themselves, nor technical details.
 
-The Application block sits between the outside world and the Domain, acting as a **behavioral boundary**.
-
 ---
 
-## Purpose of the Application block
+## Quick summary
+
+The **Application** block defines **what the system does** — it coordinates domain concepts, handles incoming requests, and invokes outbound capabilities. It sits between the outside world and the Domain as a **behavioral boundary**.
+
+Core abstractions:
+- **Inbound Ports** — How the system can be interacted with
+  - **Use Case** — Cohesive unit of application behavior (orchestrates domain + outbound)
+  - **Message Handler** — Reacts to a single message (Command, Event, Query)
+- **Outbound Ports** — Capabilities the application depends on
+  - **Repository** — Persistence abstraction (ReadOnly, WriteOnly, ReadWrite)
+  - **Unit of Work** — Transactional boundary
+  - **Message Bus** — Dispatches messages
+  - **Command Sender** — Fire-and-forget commands
+  - **Event Publisher** — Publishes domain events
+  - **Query Fetcher** — Retrieves data asynchronously
+
+Depends on **Domain** and **Foundation**; must not depend on Presentation or Infrastructure implementations.
+
+---
 
 The Application block exists to:
 

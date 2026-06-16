@@ -2,11 +2,19 @@
 
 This guide walks through a small, complete example to help you get started with ForgingBlocks.
 
-The focus is on **explicit outcomes** and **clear boundaries**, not on frameworks or infrastructure.
+---
+## Quick summary
+
+This guide walks through a **small, complete example** to help you get started with ForgingBlocks. The focus is on **explicit outcomes** and **clear boundaries** — not frameworks or infrastructure.
+
+What you'll learn:
+- **Result** — Parse input with explicit success/failure handling (`Ok`/`Err`)
+- **ValueObject** — Wrap primitives to make domain rules visible and reusable
+- **get_value_or_else** — Handle failures without manual unpacking
+
+No framework setup required — just pure Python with ForgingBlocks abstractions.
 
 ---
-
-## Parsing input with Result
 
 ```python
 from forging_blocks.foundation import Result, Ok, Err

@@ -5,11 +5,21 @@
 This document is for contributors who are **writing or modifying documentation** in the ForgingBlocks repository.
 
 It defines the conventions used across the documentation.
-These rules are intentional and should be followed consistently.
+---
+## Quick summary
+
+This document defines **conventions for writing and modifying documentation** in ForgingBlocks. These rules are intentional and ensure consistency across all documentation.
+
+Key principles:
+- Explicit behavior over implied behavior
+- Clear responsibility boundaries
+- Neutral, non-prescriptive language
+- Consistency across sections and pages
+- Explain *why* before *how*
+
+The goal is to help readers reason, not to persuade them.
 
 ---
-
-## General principles
 
 Documentation favors:
 
@@ -80,11 +90,3 @@ When modifying documentation:
 If a change requires explanation, add context explicitly.
 
 ---
-
-## In short
-
-- These conventions are deliberate.
-- Consistency is more important than creativity.
-- When in doubt, match existing documentation.
-
-This document acts as a shared contract between contributors.

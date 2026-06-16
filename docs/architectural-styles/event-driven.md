@@ -8,6 +8,22 @@ This page shows how **ForgingBlocks abstractions can participate** in an event-d
     ForgingBlocks does **not** require an event-driven architecture.
     This page presents it as a **pattern**, not a mandate.
 
+---
+
+## Quick summary
+
+Event-Driven Architecture focuses on **reacting to events** and **propagating facts** across system boundaries. This page shows how **ForgingBlocks abstractions can participate** in this design — **not required**.
+
+Mapping:
+- **Domain Events** — Facts that occurred (`Event`, past tense, immutable)
+- **Event Handlers** — React to events (`EventHandler`, `MessageHandler[EventType, None]`)
+- **Message Bus** — Routes events between components (`MessageBus` outbound port)
+- **Loose coupling** — Components don't call each other directly
+
+Fits when: loose coupling required; asynchronous processing desirable; frequent external system integration.
+
+---
+
 ## Conceptual mapping
 
 - Domain events represent facts that occurred.
@@ -27,6 +43,7 @@ graph LR
     EventBus -->|dispatch| ConsumerB[Consumer B<br/>Event Handler]
 ```
 
+---
 
 ## When this style fits
 

@@ -4,11 +4,23 @@
 This section explains a **practical way** to organize code using blocks.
 It is a recommendation, not a rule: you can use all of these blocks, some of them, or even create your own.
 
-A **block** is simply a group of code that shares a responsibility and a boundary.
+---
+## Quick summary
+
+This section explains a **practical way to organize code using blocks** (groups of code sharing a responsibility and boundary). It's a recommendation, not a rule — use all, some, or create your own.
+
+Common blocks and their responsibilities:
+- **Foundation** — Reusable low-level abstractions (`Result`, `Port`, `Mapper`, `ValueObject`, `Messages`, errors, meta utilities). No dependencies.
+- **Domain** — Problem space concepts (Entities, Value Objects, Aggregates, Domain Errors). Depends only on Foundation.
+- **Application** — Orchestrates workflows (Use Cases, Message Handlers, Inbound/Outbound Ports). Depends on Domain + Foundation.
+- **Infrastructure** — External tech integrations (repositories, message brokers, API clients). Implements Application's outbound ports.
+- **Presentation** — Entry points (HTTP, CLI, message listeners). Calls Application; stays thin.
+
+Dependency rules (inward-pointing): Foundation → Domain → Application; Infrastructure/Presentation depend on Application; all depend on Foundation.
+
+**Block ≠ Layer** — Blocks are architecture-neutral named boundaries; interpret as layers if helpful.
 
 ---
-
-## Overview of the blocks
 
 The common blocks are:
 

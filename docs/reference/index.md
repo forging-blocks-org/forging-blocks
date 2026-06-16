@@ -1,7 +1,20 @@
 # Reference
-## Overview of ForgingBlocks Components
+---
+## Quick summary
 
-```mermaid
+The **Reference** section defines the **meaning and responsibility** of each ForgingBlocks component. These pages are precise and definition-oriented — meant to be consulted as needed, not read linearly.
+
+Components:
+- **Foundation** — Core abstractions (Result, Port, Identified, Messages)
+- **Domain** — Domain modeling (Entity, ValueObject, AggregateRoot)
+- **Application** — Application layer patterns (UseCase, CommandHandler)
+- **Infrastructure** — Technical adapters and implementations
+- **Presentation** — Input/output boundaries
+- **Testing** — Testing reference and guidelines
+
+Dependencies flow inward: Domain → Application → Infrastructure/Presentation, all depending on Foundation.
+
+---
 flowchart LR
     D[Domain<br/>Problem-space concepts] -->|depends on| F[Foundation<br/>Shared abstractions]
     A[Application<br/>Coordination & behavior] -->|depends on| D
@@ -11,8 +24,9 @@ flowchart LR
     P[Presentation<br/>Input boundaries] -->|depends on| A
 ```
 
-## Reference Sections
+---
 
+## Reference Sections
 - **[Foundation](foundation.md)** - Core abstractions and utilities (Result, Port, Identified, Messages, etc.)
 - **[Domain](domain.md)** - Domain modeling abstractions (Entity, ValueObject, AggregateRoot)
 - **[Application](application.md)** - Application layer patterns (UseCase, CommandHandler)

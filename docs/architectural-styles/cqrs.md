@@ -8,6 +8,21 @@ This page shows how **ForgingBlocks concepts can be projected** to support a CQR
     ForgingBlocks does **not** require CQRS.
     This page presents it as an **architectural pattern**, not a requirement.
 
+---
+
+## Quick summary
+
+Command Query Responsibility Segregation (CQRS) separates **write behavior** from **read behavior**. This page shows how **ForgingBlocks concepts can be projected** to support CQRS — **not required**.
+
+Mapping:
+- **Commands** — Express intent to change state (`Command`, `CommandHandler`, `WriteOnlyRepository`)
+- **Queries** — Retrieve information (`Query`, `QueryHandler`, `ReadOnlyRepository`)
+- **Models may diverge** over time (separate read/write stores with replication)
+
+Fits when: read/write workloads differ significantly; scalability dominates; eventual consistency acceptable.
+
+---
+
 ## Conceptual mapping
 
 - Commands express intent to change state.
@@ -29,6 +44,7 @@ graph LR
     WriteStore -.->|replicate| ReadStore
 ```
 
+---
 
 ## When this style fits
 

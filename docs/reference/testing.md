@@ -1,9 +1,22 @@
 # Testing Reference
 
-This document provides a comprehensive reference for testing in the ForgingBlocks project.
+---
+## Quick summary
 
-## Quick Reference
+This document provides a **comprehensive testing reference** for ForgingBlocks. It defines the **3-tier testing architecture** and provides guidelines for writing effective tests at each level.
 
+Test tiers:
+- **Unit** (`@pytest.mark.unit`) — Pure business logic, no external deps. Fast (<1s total). Use mocks for owned contracts only.
+- **Integration** (`@pytest.mark.integration`) — Real external systems (DB, APIs, message brokers) in controlled environments. Use fakes, not mocks, for what you don't own.
+- **End-to-End** (`@pytest.mark.e2e`) — Complete workflows through presentation layer. Conditionally skipped.
+
+Key principles:
+- **Don't mock what you don't own** — Wrap external systems behind Ports, use fakes
+- **Test names describe intent** — `test_when_condition_then_outcome`
+- **Isolation by boundary, not structure** — Unit = pure logic; Integration = real externals
+- **Fast feedback** — Run unit tests frequently; integration before commit; E2E conditionally
+
+---
 ### Test Commands
 
 | Command | Purpose | Speed | Use Case |

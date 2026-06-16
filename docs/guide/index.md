@@ -6,11 +6,21 @@ This documentation is organized to help you build a **clear mental model** of Fo
 
 You do not need to read everything, and you do not need to follow a strict order.
 Each section is designed to stand on its own.
+---
+## Quick summary
 
-You can use **all** of them or only some of them.
+The **Guide** section helps you build a mental model of ForgingBlocks. You don't need to read everything or follow a strict order — each section stands on its own.
+
+Key points:
+- Organized around **responsibility boundaries**, not a single architecture
+- Pages explain **what building blocks are**, **how they compose**, and **how architectural styles relate**
+- **Reference** section = precise definitions (source of truth)
+- **Architectural Styles** = optional interpretations, not requirements
+- Suggested learning paths provided, but you can move freely
+
+The goal: help you make **intentional design decisions**, not prescribe an architecture.
 
 ---
-
 ## A mental model first
 
 ForgingBlocks is built around a small set of **responsibility boundaries**.
@@ -99,13 +109,3 @@ You do **not** need to adopt any architectural style to use ForgingBlocks succes
 They are provided as learning aids, not as requirements.
 
 ---
-
-## In short
-
-- Start where it feels useful.
-- Treat examples as guidance, not templates.
-- Use the Reference when you need clarity.
-- Explore Architectural Styles only if they help your understanding.
-
-The goal of this documentation is not to tell you *what architecture to use*,
-but to help you make **intentional design decisions**.

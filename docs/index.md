@@ -10,6 +10,20 @@ ForgingBlocks relies only on standard features available in **Python 3.14+** (su
 
 ---
 
+## Quick summary
+
+ForgingBlocks provides **foundational contracts** for designing software with clarity, intent, and expressiveness.
+
+It is **not a framework** — it gives you a vocabulary and building blocks to shape your own architecture using standard Python 3.14+ features (Protocols, Generics, Type Hints).
+
+Key points:
+- Small, composable abstractions (Result, Port, Entity, ValueObject, UseCase, etc.)
+- Architecture-neutral — works with your preferred style
+- Focus on explicit outcomes, clear boundaries, and testability
+- Zero dependencies, lightweight
+
+---
+
 ## Getting Started
 
 Install using Poetry, pip or uv:

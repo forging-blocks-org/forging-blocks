@@ -4,11 +4,18 @@
 This page shows larger, more realistic examples that build on the
 concepts introduced in the [Testing](testing.md) guide.
 
-The focus here is on **observable behavior**, not on testing the toolkit itself.
+---
+## Quick summary
+
+This page shows **larger, realistic test examples** building on concepts from the [Testing](testing.md) guide. The focus is on **observable behavior** — testing your code, not the toolkit.
+
+Examples:
+1. **Composing behavior with Result** — Chaining `Result`-returning functions, testing success/error paths with pattern matching
+2. **Testing a simple use case** — Using a fake repository to test application-layer behavior without real infrastructure
+
+Key takeaway: Tests should describe **what happened**, not how the toolkit represents it. Use pattern matching when you need data; otherwise assert success/failure and move on.
 
 ---
-
-## 1. Composing behavior with Result
 
 ```python
 from forging_blocks.foundation import Result, Ok, Err
