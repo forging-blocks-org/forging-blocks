@@ -2,11 +2,21 @@
 
 This document provides a clear, layered explanation of how applications built with ForgingBlocks are typically structured.
 It replaces the previous all-in-one diagram with **three focused diagrams**, each capturing a single conceptual dimension.
+---
+## Quick summary
+
+This document provides a **clear, layered explanation** of how ForgingBlocks applications are typically structured, using **three focused diagrams** (each capturing one conceptual dimension) instead of one overwhelming diagram.
+
+Diagrams:
+1. **High-Level Architectural Layers** — Request flow: Presentation → Application → Domain; Infrastructure implements outbound ports
+2. **Domain Composition** — Internal domain structure: Aggregates enforce invariants; Entities hold identity/state; Value Objects are immutable; Events capture changes
+3. **Ports & Adapters (Hexagonal View)** — How Application communicates outward: Presentation calls inbound ports; Application owns/defines ports; Infrastructure implements outbound ports; dependencies point inward
+
+Key principle: **Presentation never calls Infrastructure directly**. Application defines ports; Infrastructure implements them.
+
+Includes a minimal TL;DR diagram for quick reference.
 
 ---
-
-# 1. High-Level Architectural Layers
-
 A macro overview showing how requests flow through the system.
 
 ```mermaid
