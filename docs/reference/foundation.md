@@ -7,11 +7,25 @@ across the entire system.
 It contains **no domain logic**, **no application orchestration**, and
 **no infrastructure concerns**.
 
-Foundation exists to define **stable contracts and primitives** on top of which
-all other blocks are built.
+---
+## Quick summary
+
+The **Foundation** block provides low-level, reusable abstractions shared across the entire system. It contains **no domain logic, no application orchestration, and no infrastructure concerns** — only stable contracts and primitives.
+
+Key abstractions:
+- **Result** — Explicit outcomes (Ok/Err) without exceptions for control flow
+- **Port** — Boundaries between components (what is expected, not how implemented)
+- **Mapper** — Explicit transformations between types
+- **ValueObject** — Immutable, value-based equality objects
+- **Auto-freeze** — Automatic immutability after `__init__`
+- **Identified** — Protocol for objects carrying an identifier
+- **Messages** — Command, Event, Query (immutable, architecture-neutral)
+- **Errors** — Structured error model (message + metadata)
+- **Meta utilities** — Runtime enforcement (runtime_final, runtime_sealed, runtime_abstract)
+
+Foundation depends on nothing; all other blocks depend on Foundation.
 
 ---
-
 ## Purpose
 
 - Supply **primitive abstractions** (`Result`, `Port`, `Mapper`, `Identified`, `ValueObject`, `Message`, `Command`, `Event`, `Query`, plus error and meta utilities).
