@@ -3,11 +3,21 @@
 
 ForgingBlocks is designed around a set of practical principles that help teams write code that is easy to **understand**, **change**, and **test** over time.
 
-These principles are **architecture-neutral**.
+---
+## Quick summary
 
-You can apply them whether your project is:
+ForgingBlocks is designed around **practical, architecture-neutral principles** that help teams write code that's easy to understand, change, and test over time — regardless of project size or style.
 
-- Small
+The 7 principles:
+1. **Clarity over cleverness** — Readable code wins; names express intent
+2. **Boundaries as first-class concepts** — Clear boundaries keep systems understandable (Ports, blocks, explicit contracts)
+3. **Explicit outcomes** — Model success/failure with `Result`; avoid surprise exceptions
+4. **Decoupling from tools** — Core behavior independent of databases, frameworks, queues
+5. **Small, composable abstractions** — Small protocols over deep hierarchies; adopt individually
+6. **Teachable by design** — Concepts separated and named; junior engineers can understand
+7. **Respecting existing ideas, without enforcing them** — Acknowledges DDD/Hexagonal/Clean Architecture but doesn't enforce them
+
+---
 - Large
 - Monolithic
 - Distributed
