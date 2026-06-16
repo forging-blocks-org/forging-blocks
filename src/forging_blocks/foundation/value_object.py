@@ -52,7 +52,7 @@ class ValueObject[RawValueType](ABC):
             auto_freeze(cls)
 
     def __eq__(self, other: object) -> bool:
-        if not isinstance(other, self.__class__):
+        if type(self) is not type(other):
             return False
         return self._equality_components == other._equality_components
 
