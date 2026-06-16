@@ -5,11 +5,25 @@
 ForgingBlocks encourages designs where behavior and outcomes are explicit.
 This makes your code easier to test without relying on internal details.
 
-This guide covers both **testing principles** and the **test structure** used in this project.
+---
+## Quick summary
+
+This guide covers **testing principles** and the **3-tier test structure** used in ForgingBlocks. ForgingBlocks designs make behavior explicit, making code easier to test without relying on internal details.
+
+Test tiers:
+- **Unit** (`@pytest.mark.unit`) — Fast, isolated tests for pure business logic (Domain, Value Objects, Aggregates). Mocks/fakes OK for owned contracts.
+- **Integration** (`@pytest.mark.integration`) — Real/simulated external dependencies (repositories, message buses, APIs). Use fixtures/fakes, **not mocks**.
+- **E2E** (`@pytest.mark.e2e`) — Complete workflows from entry points (CLI, HTTP). Conditionally skipped; document full system behavior.
+
+Key principles:
+- **Test intent first** — Focus on behavior, not `Result` representation
+- **Use fakes for Ports** — Replace Port dependencies with fakes to verify behavior without infrastructure
+- **Don't mock what you don't own** — Wrap external systems behind Ports, use fakes in tests
+- **Pattern matching supports, doesn't dominate** — Use when returned value matters to intent
+
+Commands: `poe test:unit` (fast), `poe test` (all), `poe test:e2e` (conditional).
 
 ---
-
-## Test Structure & Categories
 
 This project uses a **3-tier testing architecture** with clear separation of concerns:
 
