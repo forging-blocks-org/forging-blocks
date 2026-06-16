@@ -3,11 +3,21 @@
 
 This page collects small, focused examples that show how to use ForgingBlocks concepts in isolation.
 
-Each example is **self-contained** and does not assume any particular project structure.
+---
+## Quick summary
+
+This page collects **small, focused, architecture-neutral examples** showing how to use ForgingBlocks concepts in isolation. Each example is self-contained and assumes no particular project structure.
+
+Examples included:
+1. **Validation with Result** — Input parsing with explicit success/failure
+2. **Simple domain-like type** — Building types that don't rely on infrastructure
+3. **Using a port and adapter** — Defining boundaries with Port and implementing adapters
+4. **Modeling a value with ValueObject** — Immutable, value-based equality types
+5. **Composing errors with structured types** — Structured error modeling
+
+These are usage snippets, not templates — adapt them to your context.
 
 ---
-
-## 1. Validation with Result
 
 ```python
 from dataclasses import dataclass
