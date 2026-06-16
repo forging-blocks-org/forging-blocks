@@ -41,6 +41,29 @@ class AnotherEmailType(ValueObject[str]):
         return (self._value,)
 
 
+class ParentVO(ValueObject[str]):
+    __slots__ = ("_value",)
+
+    def __init__(self, value: str):
+        super().__init__()
+        self._value = value
+
+    @property
+    def value(self) -> str:
+        return self._value
+
+    @property
+    def _equality_components(self) -> tuple[str]:
+        return (self._value,)
+
+
+class ChildVO(ParentVO):
+    __slots__ = ()
+
+    def __init__(self, value: str):
+        super().__init__(value)
+
+
 class MultiComponentVO(ValueObject[str]):
     """Value object with multiple equality components for testing __str__ branch."""
 
@@ -89,6 +112,35 @@ class TestValueObject:
         e1 = Email("a@example.com")
         e2 = AnotherEmailType("b@example.com")
         assert e1 != e2
+
+    def test___eq___when_parent_child_same_value_then_equality_is_symmetric(
+        self,
+    ) -> None:
+        """Test that equality is symmetric for parent/child value objects.
+
+        Equality must satisfy: a == b == b == a
+        The old isinstance check violated this because:
+        isinstance(child, ParentVO) is True
+        isinstance(parent, ChildVO) is False
+        So parent == child was True but child == parent was False.
+
+        With the fix, different types are not equal, but comparison is symmetric.
+        """
+        parent = ParentVO("same_value")
+        child = ChildVO("same_value")
+
+        # Different types should not be equal, but comparison must be symmetric
+        assert parent != child
+        assert child != parent
+        assert (parent == child) == (child == parent)
+
+        # Direct method calls should also be symmetric
+        assert parent.__eq__(child) == child.__eq__(parent)
+
+        # Same type with same value should be equal
+        parent2 = ParentVO("same_value")
+        assert parent == parent2
+        assert parent2 == parent
 
     def test___hash___when_values_are_equal_then_hashes_match(self) -> None:
         e1 = Email("a@example.com")
