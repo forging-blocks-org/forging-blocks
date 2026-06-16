@@ -91,7 +91,7 @@ if result.is_ok:
 
 ---
 
-## [DEV] Development
+## Development
 
 ### Prerequisites
 
@@ -157,7 +157,7 @@ poetry run poe test:unit    # [FAST] Fast (~1s) - run frequently
 
 **Verify integrations before commits:**
 ```bash
-poetry run poe test         # [INFO] Complete test suite (~3s) - run before commits
+poetry run poe test         # Complete test suite (~3s) - run before commits
 ```
 
 See [Testing Guide](https://forging-blocks-org.github.io/forging-blocks/guide/testing/) for detailed information.

@@ -17,8 +17,7 @@ This directory contains scripts and templates to set up the complete GitHub proj
 
 ## What Gets Created
 
-### [LABEL] Repository Labels
-
+### Repository Labels
 #### Epic Labels (18 total)
 - `epic:1.1:messaging` - Message/Event System
 - `epic:1.2:repository` - Repository Pattern
@@ -53,10 +52,7 @@ This directory contains scripts and templates to set up the complete GitHub proj
 #### Priority Labels (4 total)
 - `priority:p0:critical`, `priority:p1:high`, `priority:p2:medium`, `priority:p3:low`
 
-### [TARGET] Milestones (10 total)
-
-1. **v0.4.0 - Core Completeness** (4 months)
-2. **v0.5.0 - Developer Experience** (7 months)
+### Milestones (10 total)
 3. **v0.6.0 - Plugin Ecosystem Foundation** (9 months)
 4. **v0.7.0 - Performance & Testing** (11 months)
 5. **v0.8.0 - Resilience & Configuration** (13 months)
@@ -66,12 +62,12 @@ This directory contains scripts and templates to set up the complete GitHub proj
 9. **v0.12.0 - Release Candidate** (17.5 months)
 10. **v1.0.0 - Production Release** (18 months)
 
-### [PROJECT] GitHub Project
+### GitHub Project
 
 - **Name**: "ForgingBlocks v1.0.0 Roadmap"
 - **Description**: "Track progress from v0.3.10 to v1.0.0 production release"
 
-### [NOTE] Issue Templates
+### Issue Templates
 
 - **Epic Template** (`.github/ISSUE_TEMPLATE/epic.md`)
 - **Task Template** (`.github/ISSUE_TEMPLATE/task.md`)
