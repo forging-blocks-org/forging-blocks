@@ -137,14 +137,6 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
             "message_type": self._message_type,
         }
 
-    def to_dict(self) -> dict[str, Any]:
-        """Convert metadata to dictionary representation.
-
-        Returns:
-            Dictionary representation of the metadata.
-        """
-        return self.value
-
     @property
     def _equality_components(self) -> tuple[Any, ...]:
         """Message metadata equality is based on message ID and timestamp.
@@ -153,6 +145,14 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
             Tuple containing message_id and created_at.
         """
         return (self._message_id, self._created_at)
+
+    def to_dict(self) -> dict[str, Any]:
+        """Convert metadata to dictionary representation.
+
+        Returns:
+            Dictionary representation of the metadata.
+        """
+        return self.value
 
 
 class Message[MessageRawType](ValueObject[MessageRawType], ABC):
@@ -231,6 +231,17 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         """
         pass
 
+    @property
+    def _equality_components(self) -> tuple[Any, ...]:
+        """Messages are equal if they have the same message ID.
+
+        Each message instance is unique, even if they have the same data.
+
+        Returns:
+            Tuple containing the message ID for equality comparison.
+        """
+        return (self._metadata.message_id,)
+
     def to_dict(self) -> dict[str, Any]:
         """Convert the message to a dictionary representation.
 
@@ -243,14 +254,3 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
             "metadata": self._metadata.to_dict(),
             "payload": self._payload,
         }
-
-    @property
-    def _equality_components(self) -> tuple[Any, ...]:
-        """Messages are equal if they have the same message ID.
-
-        Each message instance is unique, even if they have the same data.
-
-        Returns:
-            Tuple containing the message ID for equality comparison.
-        """
-        return (self._metadata.message_id,)
