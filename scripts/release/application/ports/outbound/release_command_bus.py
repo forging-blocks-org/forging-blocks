@@ -26,7 +26,6 @@ class ReleaseCommandBus(MessageBus[CommandType, None], Generic[CommandType], Pro
             - Handlers should be asynchronous.
             - Registration is typically done at application startup.
         """
-        ...
 
     async def send(self, message: CommandType) -> None:
         """Publish a release-related domain command.
@@ -38,4 +37,3 @@ class ReleaseCommandBus(MessageBus[CommandType, None], Generic[CommandType], Pro
             - Asynchronous and fire-and-forget.
             - Delivery reliability depends on the CommandBus implementation.
         """
-        ...
