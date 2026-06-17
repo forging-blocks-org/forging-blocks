@@ -23,11 +23,3 @@ class InboundPort[InputType, OutputType](Port[InputType, OutputType], Protocol):
 
 class OutboundPort[InputType, OutputType](Port[InputType, OutputType], Protocol):
     """Alias for Port used as an outbound marker."""
-
-
-class InputPort[InputType, OutputType](InboundPort[InputType, OutputType], Protocol):
-    """Alias for InboundPort."""
-
-
-class OutputPort[InputType, OutputType](OutboundPort[InputType, OutputType], Protocol):
-    """Alias for OutboundPort."""
