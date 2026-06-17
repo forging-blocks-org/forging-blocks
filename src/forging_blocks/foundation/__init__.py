@@ -22,9 +22,7 @@ from .messages import Command, Event, Message, Query
 from .meta import FinalABCMeta, FinalMeta, runtime_final
 from .ports import (
     InboundPort,
-    InputPort,
     OutboundPort,
-    OutputPort,
     Port,
 )
 from .result import Err, Ok, Result
@@ -34,8 +32,6 @@ __all__ = [
     "Port",
     "InboundPort",
     "OutboundPort",
-    "InputPort",
-    "OutputPort",
     "Mapper",
     "Result",
     "Ok",
