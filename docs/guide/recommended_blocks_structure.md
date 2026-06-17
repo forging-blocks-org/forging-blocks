@@ -88,7 +88,7 @@ Think of blocks as **named boundaries** that you are free to use or ignore depen
 Examples:
 
 - `Result`, `Ok`, `Err`
-- `Port` and port-related protocols (`InboundPort`, `OutboundPort`, `InputPort`, `OutputPort`)
+- `Port` and port-related protocols (`InboundPort`, `OutboundPort`)
 - `Identified` protocol for objects carrying an identity
 - `Mapper` protocol for structured transformation
 - `Debuggable` protocol for consistent debug representations
