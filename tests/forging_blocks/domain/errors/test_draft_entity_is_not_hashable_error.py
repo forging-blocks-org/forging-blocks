@@ -37,10 +37,11 @@ class TestDraftEntityIsNotHashableError:
     def test_from_class_name_with_single_char(self) -> None:
         instance = DraftEntityIsNotHashableError.from_class_name("X")
 
-        assert str(instance.message.value) == "Unhashable X: draft entities (id=None) are not hashable"
+        assert (
+            str(instance.message.value) == "Unhashable X: draft entities (id=None) are not hashable"
+        )
 
     def test_from_class_name_with_special_characters(self) -> None:
         instance = DraftEntityIsNotHashableError.from_class_name("My.Entity_123")
 
         assert "My.Entity_123" in str(instance.message.value)
-

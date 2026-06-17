@@ -319,9 +319,7 @@ class TestMain:
         content = file.read_text()
         assert content.index("MAX_SIZE") < content.index("bar")
 
-    def test_when_directory_provided_then_processes_recursively(
-        self, tmp_path: Path
-    ) -> None:
+    def test_when_directory_provided_then_processes_recursively(self, tmp_path: Path) -> None:
         sub = tmp_path / "sub"
         sub.mkdir()
         (sub / "a.py").write_text("class Foo:\n    pass\n")
@@ -335,9 +333,7 @@ class TestMain:
 
         assert result == 0
 
-    def test_when_no_argv_then_uses_default_paths(
-        self, monkeypatch: pytest.MonkeyPatch
-    ) -> None:
+    def test_when_no_argv_then_uses_default_paths(self, monkeypatch: pytest.MonkeyPatch) -> None:
         def _noop_rglob(self: Path, pattern: str) -> list[Path]:
             return []
 
@@ -355,11 +351,7 @@ class TestMainBlock:
     ) -> None:
         import sys
 
-        script = (
-            Path(__file__).resolve().parent.parent.parent
-            / "scripts"
-            / "order_members.py"
-        )
+        script = Path(__file__).resolve().parent.parent.parent / "scripts" / "order_members.py"
         test_file = tmp_path / "test.py"
         test_file.write_text("class Foo:\n    pass\n")
         monkeypatch.setattr(sys, "argv", ["order_members.py", str(test_file)])

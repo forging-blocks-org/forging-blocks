@@ -36,6 +36,4 @@ class ScopedCommandRunner(CommandRunner):
         except subprocess.CalledProcessError as exc:
             log_level = logging.DEBUG if suppress_error_log else logging.ERROR
             logging.log(log_level, f"Command failed: {' '.join(cmd)}\n{exc.stderr}")
-            raise RuntimeError(
-                f"Command failed: {' '.join(cmd)}\n{exc.stderr}"
-            ) from exc
+            raise RuntimeError(f"Command failed: {' '.join(cmd)}\n{exc.stderr}") from exc

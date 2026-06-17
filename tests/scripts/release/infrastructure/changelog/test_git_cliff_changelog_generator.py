@@ -253,9 +253,7 @@ class TestGitCliffChangelogGeneratorUnit:
         )
         runner_mock.run.side_effect = [
             "abc123",
-            "## [0.4.0] - 2026-05-28\n\n"
-            "### Features\n\n"
-            "- **auth**: new feature\n\n",
+            "## [0.4.0] - 2026-05-28\n\n### Features\n\n- **auth**: new feature\n\n",
         ]
 
         await generator.generate(ChangelogRequest(from_version="0.4.0"))
@@ -282,17 +280,15 @@ class TestGitCliffChangelogGeneratorUnit:
         )
         runner_mock.run.side_effect = [
             "abc123",
-            "## [0.4.0] - 2026-05-28\n\n"
-            "### Features\n\n"
-            "- **auth**: new feature\n\n",
+            "## [0.4.0] - 2026-05-28\n\n### Features\n\n- **auth**: new feature\n\n",
         ]
 
         await generator.generate(ChangelogRequest(from_version="0.4.0"))
 
         content = changelog_path.read_text(encoding="utf-8")
-        assert re.search(
-            r"### Documentation\n\n", content
-        ), "Blank line missing between ### Documentation and entries"
+        assert re.search(r"### Documentation\n\n", content), (
+            "Blank line missing between ### Documentation and entries"
+        )
 
     async def test_inserted_group_has_blank_line_before_next_section(
         self,
@@ -309,17 +305,15 @@ class TestGitCliffChangelogGeneratorUnit:
         )
         runner_mock.run.side_effect = [
             "abc123",
-            "## [0.4.0] - 2026-05-28\n\n"
-            "### Features\n\n"
-            "- **auth**: new feature\n\n",
+            "## [0.4.0] - 2026-05-28\n\n### Features\n\n- **auth**: new feature\n\n",
         ]
 
         await generator.generate(ChangelogRequest(from_version="0.4.0"))
 
         content = changelog_path.read_text(encoding="utf-8")
-        assert re.search(
-            r"- \*\*docs\*\*: update README\n\n+## \[0\.3\.0\]", content
-        ), "Blank line missing between inserted group and next version header"
+        assert re.search(r"- \*\*docs\*\*: update README\n\n+## \[0\.3\.0\]", content), (
+            "Blank line missing between inserted group and next version header"
+        )
 
     async def test_unreleased_group_not_in_versioned_inserted_correctly(
         self,
@@ -403,9 +397,7 @@ class TestGitCliffChangelogGeneratorUnit:
         )
         runner_mock.run.side_effect = [
             "abc123",
-            "## [0.4.0] - 2026-05-28\n\n"
-            "### Features\n\n"
-            "- **auth**: new feature\n\n",
+            "## [0.4.0] - 2026-05-28\n\n### Features\n\n- **auth**: new feature\n\n",
         ]
 
         await generator.generate(ChangelogRequest(from_version="0.4.0"))

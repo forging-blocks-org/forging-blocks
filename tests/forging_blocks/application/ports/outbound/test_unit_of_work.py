@@ -8,7 +8,6 @@ from forging_blocks.application import UnitOfWork
 
 
 class FakeUnitOfWork(UnitOfWork):
-
     async def commit(self):
         print("committed")
 

@@ -153,16 +153,18 @@ class TestFinalMeta:
 
 @pytest.mark.unit
 class TestValidateNoRuntimeFinalOverride:
-
     def test_when_no_bases_then_returns_none(self) -> None:
         assert validate_no_runtime_final_override("MyClass", (), {"x": 1}) is None  # type: ignore[func-returns-value]
 
     def test_when_base_has_final_method_not_overridden_then_returns_none(
         self,
     ) -> None:
-        assert validate_no_runtime_final_override(
-            "Child", (HelperBaseWithFinal,), {"other_method": lambda: None}
-        ) is None  # type: ignore[func-returns-value]
+        assert (
+            validate_no_runtime_final_override(
+                "Child", (HelperBaseWithFinal,), {"other_method": lambda: None}
+            )
+            is None
+        )  # type: ignore[func-returns-value]
 
     def test_when_base_has_final_method_overridden_then_raises_type_error(
         self,
@@ -175,9 +177,12 @@ class TestValidateNoRuntimeFinalOverride:
             )
 
     def test_when_base_has_no_final_methods_then_returns_none(self) -> None:
-        assert validate_no_runtime_final_override(
-            "Child", (HelperBasePlain,), {"normal_method": lambda self: "overridden"}
-        ) is None  # type: ignore[func-returns-value]
+        assert (
+            validate_no_runtime_final_override(
+                "Child", (HelperBasePlain,), {"normal_method": lambda self: "overridden"}
+            )
+            is None
+        )  # type: ignore[func-returns-value]
 
     def test_error_message_contains_subclass_name(self) -> None:
         with pytest.raises(TypeError, match="in subclass 'BadChild'"):
@@ -210,11 +215,14 @@ class TestValidateNoRuntimeFinalOverride:
     def test_when_namespace_has_new_method_not_in_bases_then_returns_none(
         self,
     ) -> None:
-        assert validate_no_runtime_final_override(
-            "Child",
-            (HelperBaseWithFinal,),
-            {"brand_new_method": lambda self: 42},
-        ) is None  # type: ignore[func-returns-value]
+        assert (
+            validate_no_runtime_final_override(
+                "Child",
+                (HelperBaseWithFinal,),
+                {"brand_new_method": lambda self: 42},
+            )
+            is None
+        )  # type: ignore[func-returns-value]
 
 
 @pytest.mark.unit

@@ -59,9 +59,7 @@ class TestMainE2E:
         return PoetryVersioningService(runner=git_repo_with_poetry.scoped_runner())
 
     @pytest.fixture
-    def version_control(
-        self, git_repo_with_poetry: GitTestRepository
-    ) -> GitVersionControl:
+    def version_control(self, git_repo_with_poetry: GitTestRepository) -> GitVersionControl:
         return GitVersionControl(runner=git_repo_with_poetry.scoped_runner())
 
     @pytest.fixture
@@ -118,9 +116,7 @@ class TestMainE2E:
         changelog_path = repo.path / "CHANGELOG.md"
         assert changelog_path.exists()
 
-        assert version_control.branch_exists(
-            ReleaseBranchName("release/v0.1.0")
-        )
+        assert version_control.branch_exists(ReleaseBranchName("release/v0.1.0"))
 
     async def test_execute_when_dry_run_true_then_does_not_mutate_files(
         self,
@@ -152,9 +148,7 @@ class TestMainE2E:
 
         await service.execute(PrepareReleaseInput(level="minor", dry_run=False))
 
-        assert version_control.remote_branch_exists(
-            ReleaseBranchName("release/v0.1.0")
-        )
+        assert version_control.remote_branch_exists(ReleaseBranchName("release/v0.1.0"))
 
     async def test_execute_when_dry_run_true_then_does_not_push(
         self,
@@ -168,9 +162,5 @@ class TestMainE2E:
 
         await service.execute(PrepareReleaseInput(level="minor", dry_run=True))
 
-        assert not version_control.branch_exists(
-            ReleaseBranchName("release/v0.1.0")
-        )
-        assert not version_control.remote_branch_exists(
-            ReleaseBranchName("release/v0.1.0")
-        )
+        assert not version_control.branch_exists(ReleaseBranchName("release/v0.1.0"))
+        assert not version_control.remote_branch_exists(ReleaseBranchName("release/v0.1.0"))

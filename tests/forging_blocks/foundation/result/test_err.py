@@ -84,9 +84,7 @@ class TestErr:
 
         assert result == "boom"
 
-    def test_map_when_called_then_passes_through_unchanged(
-        self, err_result: Err[int, str]
-    ) -> None:
+    def test_map_when_called_then_passes_through_unchanged(self, err_result: Err[int, str]) -> None:
         result = err_result.map(lambda x: x + 1)
 
         assert result == Err("boom")
@@ -112,9 +110,7 @@ class TestErr:
 
         assert result == Err("boom")
 
-    def test_get_value_or_when_called_then_returns_default(
-        self, err_result: Err[int, str]
-    ) -> None:
+    def test_get_value_or_when_called_then_returns_default(self, err_result: Err[int, str]) -> None:
         result = err_result.get_value_or(42)
 
         assert result == 42

@@ -112,7 +112,6 @@ class Incomplete(AbstractBase):
 
 @pytest.mark.unit
 class TestFinalABCMetaAbstractEnforcement:
-
     def test_instantiating_base_with_abstract_method_raises_type_error(self) -> None:
         with pytest.raises(TypeError):
             AbstractBase()  # type: ignore[abstract]
@@ -133,7 +132,6 @@ class TestFinalABCMetaAbstractEnforcement:
 
 @pytest.mark.unit
 class TestFinalABCMetaRuntimeFinalEnforcement:
-
     def test_overriding_sealed_method_raises_type_error(self) -> None:
         with pytest.raises(TypeError, match="runtime-final"):
 
@@ -194,7 +192,6 @@ class TestFinalABCMetaRuntimeFinalEnforcement:
 
 @pytest.mark.unit
 class TestFinalABCMetaCombinedBehavior:
-
     def test_sealed_method_returns_correct_value(self) -> None:
         instance = ConcreteChild()
         assert instance.sealed_method() == "base"
