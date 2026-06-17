@@ -51,8 +51,6 @@ Example:
     ```
 """
 
-from __future__ import annotations
-
 import inspect
 from collections.abc import Callable, Sequence
 from functools import wraps
