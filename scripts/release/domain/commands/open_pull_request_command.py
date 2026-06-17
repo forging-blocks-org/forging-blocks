@@ -1,4 +1,4 @@
-from typing import TypeAlias
+from typing import TypeAlias, cast
 
 from forging_blocks.foundation.messages.command import Command
 
@@ -35,5 +35,5 @@ class OpenPullRequestCommand(Command[PayloadType]):
         return self._dry_run
 
     @property
-    def _payload(self) -> PayloadType:
-        return self._value
+    def _payload(self) -> dict[str, object]:
+        return cast(dict[str, object], self._value)
