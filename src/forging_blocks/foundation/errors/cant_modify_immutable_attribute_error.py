@@ -4,7 +4,7 @@ from forging_blocks.foundation.errors.core import ErrorMessage, ErrorMetadata
 from forging_blocks.foundation.errors.error import Error
 
 
-class CantModifyImmutableAttributeError(Error):
+class CantModifyImmutableAttributeError(Error[dict[str, object]]):
     """Raised when there is an attempt to modify an immutable attribute of an object."""
 
     def __init__(self, class_name: str, attribute_name: str):
@@ -17,7 +17,7 @@ class CantModifyImmutableAttributeError(Error):
         message = ErrorMessage(
             f"Cannot modify immutable attribute '{attribute_name}' of class '{class_name}'."
         )
-        metadata = ErrorMetadata(
+        metadata = ErrorMetadata[dict[str, object]](
             {
                 "class_name": class_name,
                 "attribute_name": attribute_name,

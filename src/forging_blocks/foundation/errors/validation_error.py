@@ -8,11 +8,11 @@ from forging_blocks.foundation.errors.error import Error
 from forging_blocks.foundation.errors.field_errors import FieldErrors
 
 
-class ValidationError(Error):
+class ValidationError(Error[dict[str, object]]):
     """Base class for validation errors."""
 
 
-class ValidationFieldErrors(FieldErrors):
+class ValidationFieldErrors(FieldErrors[Error[dict[str, object]]]):
     """Validation errors associated with a specific field."""
 
 

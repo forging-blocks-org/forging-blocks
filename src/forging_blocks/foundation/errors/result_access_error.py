@@ -4,7 +4,7 @@ from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.errors.error import Error
 
 
-class ResultAccessError(Error):
+class ResultAccessError(Error[dict[str, object]]):
     """Exception raised when trying to access value or err from an inappropriate Result variant."""
 
     def __init__(self, message: ErrorMessage | None = None) -> None:

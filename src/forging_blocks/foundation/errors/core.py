@@ -3,8 +3,9 @@
 Defines fundamental data structures for error messages, metadata, and field references.
 """
 
+from collections.abc import Mapping
 from dataclasses import dataclass, field
-from typing import Any
+from typing import cast
 
 
 @dataclass(frozen=True)
@@ -15,10 +16,10 @@ class ErrorMessage:
 
 
 @dataclass(frozen=True)
-class ErrorMetadata:
+class ErrorMetadata[T: Mapping[str, object]]:
     """Represents metadata about the error."""
 
-    context: dict[str, Any] = field(default_factory=lambda: {})
+    context: T = field(default_factory=lambda: cast(T, {}))
 
 
 @dataclass(frozen=True)
