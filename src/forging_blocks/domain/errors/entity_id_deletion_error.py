@@ -4,7 +4,7 @@ from forging_blocks.foundation.errors.core import ErrorMessage, ErrorMetadata
 from forging_blocks.foundation.errors.error import Error
 
 
-class EntityIdDeletionError(Error):
+class EntityIdDeletionError(Error[dict[str, object]]):
     """Raised when there is an attempt to delete an entity's identifier."""
 
     def __init__(self, class_name: str) -> None:
@@ -16,7 +16,7 @@ class EntityIdDeletionError(Error):
         message = ErrorMessage(
             f"Cannot delete 'id' of {class_name} as it defines the entity's identity."
         )
-        metadata = ErrorMetadata(
+        metadata = ErrorMetadata[dict[str, object]](
             {
                 "class_name": class_name,
                 "attribute_name": "id",

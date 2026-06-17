@@ -2,7 +2,6 @@
 
 from abc import abstractmethod
 from collections.abc import Hashable
-from typing import Any
 
 from forging_blocks.domain.entity import Entity
 from forging_blocks.domain.errors.entity_id_none_error import EntityIdNoneError
@@ -12,7 +11,7 @@ from forging_blocks.foundation.messages.event import Event
 from .aggregate_version import AggregateVersion
 
 
-class AggregateRoot[TId: Hashable](Entity[TId], metaclass=FinalABCMeta):
+class AggregateRoot[TId: Hashable, EventPayloadType = object](Entity[TId], metaclass=FinalABCMeta):
     """Base class for Aggregate Roots in a Domain-Driven Design context.
 
     An Aggregate Root represents the entry point for manipulating
@@ -28,7 +27,7 @@ class AggregateRoot[TId: Hashable](Entity[TId], metaclass=FinalABCMeta):
     def __init__(self, aggregate_id: TId, version: AggregateVersion | None = None) -> None:
         self._validate_identity(aggregate_id)
         self._version = version or AggregateVersion(0)
-        self._uncommitted_events: list[Event[Any]] = []
+        self._uncommitted_events: list[Event[EventPayloadType]] = []
         super().__init__(aggregate_id)
 
     @runtime_final
@@ -56,12 +55,12 @@ class AggregateRoot[TId: Hashable](Entity[TId], metaclass=FinalABCMeta):
         return self._version
 
     @property
-    def uncommitted_changes(self) -> list[Event[Any]]:
+    def uncommitted_changes(self) -> list[Event[EventPayloadType]]:
         """Return a copy of uncommitted domain events recorded by this aggregate."""
         return self._uncommitted_events.copy()
 
     @runtime_final
-    def collect_events(self) -> list[Event[Any]]:
+    def collect_events(self) -> list[Event[EventPayloadType]]:
         """Drain uncommitted events for the dispatcher.
 
         Called by the Unit of Work or repository after persistence.
@@ -81,7 +80,7 @@ class AggregateRoot[TId: Hashable](Entity[TId], metaclass=FinalABCMeta):
         self._uncommitted_events.clear()
 
     @runtime_final
-    def record_event(self, domain_event: Event[Any]) -> None:
+    def record_event(self, domain_event: Event[EventPayloadType]) -> None:
         """Record an event that occurred outside aggregate state mutation.
 
         Use for integration events or application-layer concerns
@@ -90,7 +89,7 @@ class AggregateRoot[TId: Hashable](Entity[TId], metaclass=FinalABCMeta):
         self._uncommitted_events.append(domain_event)
 
     @runtime_final
-    def apply(self, event: Event[Any]) -> None:
+    def apply(self, event: Event[EventPayloadType]) -> None:
         """Apply a new domain event during command processing.
 
         Delegates mutation to _handle(), increments version,
@@ -106,7 +105,7 @@ class AggregateRoot[TId: Hashable](Entity[TId], metaclass=FinalABCMeta):
         self._uncommitted_events.append(event)
 
     @runtime_final
-    def replay(self, event: Event[Any]) -> None:
+    def replay(self, event: Event[EventPayloadType]) -> None:
         """Reconstitute aggregate state from a stored event.
 
         Intended for event store reconstitution only.
@@ -120,7 +119,7 @@ class AggregateRoot[TId: Hashable](Entity[TId], metaclass=FinalABCMeta):
         self._version = self._version.increment()
 
     @abstractmethod
-    def _handle(self, event: Event[Any]) -> None:
+    def _handle(self, event: Event[EventPayloadType]) -> None:
         """Mutate aggregate state in response to an event.
 
         Implemented by concrete subclasses. Called exclusively
