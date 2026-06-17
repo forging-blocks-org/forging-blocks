@@ -46,7 +46,7 @@ class TestInMemoryMessageBus:
             Command[object], object
         ]()
 
-        assert len(bus._handlers) == 0
+        assert len(getattr(bus, "_handlers")) == 0
 
     def test_register_when_new_message_type_then_registers_handler(self) -> None:
         bus: InMemoryMessageBus[Command[object], object] = InMemoryMessageBus[
@@ -58,8 +58,8 @@ class TestInMemoryMessageBus:
 
         bus.register(FakeCommand, handler)
 
-        assert FakeCommand in bus._handlers
-        assert bus._handlers[FakeCommand] is handler
+        assert FakeCommand in getattr(bus, "_handlers")
+        assert getattr(bus, "_handlers")[FakeCommand] is handler
 
     def test_register_when_message_type_already_registered_then_raises_value_error(
         self,
