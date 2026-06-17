@@ -1,24 +1,24 @@
-from typing import Any, TypeAlias
+from typing import Any, TypeAlias, cast
 
-from forging_blocks.application.ports.inbound.message_handler import CommandHandler
+from forging_blocks.application.ports.inbound.message_handler import MessageHandler
 from forging_blocks.foundation.messages.command import Command
 from scripts.release.application.ports.outbound import ReleaseCommandBus
 
-CommandSubscriberType: TypeAlias = dict[type[Command[Any]], CommandHandler[Command[Any]]]
+CommandSubscriberType: TypeAlias = dict[type[Command[Any]], MessageHandler[Command[Any], None]]
 
 
 class InMemoryReleaseCommandBus(ReleaseCommandBus[Command[Any]]):
     def __init__(self) -> None:
-        self._subscribers: dict[type[Command[Any]], CommandHandler[Command[Any]]] = {}
+        self._subscribers: dict[type[Command[Any]], MessageHandler[Command[Any], None]] = {}
 
     async def dispatch(self, message: Command[Any]) -> None:
         """Dispatch a message to the registered handler."""
         await self.send(message)
 
     async def register[CT: Command[Any]](
-        self, command_type: type[CT], handler: CommandHandler[CT]
+        self, command_type: type[CT], handler: MessageHandler[CT, None]
     ) -> None:
-        self._subscribers[command_type] = handler  # type: ignore[reportArgumentType]
+        self._subscribers[command_type] = cast(MessageHandler[Command[Any], None], handler)
 
     async def send(self, message: Command[Any]) -> None:
         handler = self._subscribers[type(message)]
