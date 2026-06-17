@@ -8,7 +8,7 @@ from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.errors.error import Error
 
 
-class RepositoryError(Error):
+class RepositoryError(Error[dict[str, object]]):
     """Generic error raised when a repository operation fails.
 
     This is the base error for all repository-level failures. Concrete

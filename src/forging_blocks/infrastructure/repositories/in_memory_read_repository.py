@@ -4,8 +4,6 @@ Provides a concrete implementation of ReadOnlyRepository backed by a
 dictionary for query-side operations in CQRS architectures.
 """
 
-from __future__ import annotations
-
 from collections.abc import Mapping, Sequence
 
 from forging_blocks.application.ports.outbound.repository import ReadOnlyRepository

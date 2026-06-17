@@ -4,8 +4,6 @@ Provides an in-memory transactional boundary that coordinates changes across
 repositories and publishes domain events on successful commit.
 """
 
-from typing import Any
-
 from forging_blocks.application.errors.unit_of_work_error import UnitOfWorkError
 from forging_blocks.application.ports.outbound.event_publisher import EventPublisher
 from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWork
@@ -13,7 +11,7 @@ from forging_blocks.domain import AggregateRoot
 from forging_blocks.foundation.errors.core import ErrorMessage
 
 
-class InMemoryUnitOfWork(UnitOfWork):
+class InMemoryUnitOfWork[IdType, EventPayloadType](UnitOfWork):
     """In-memory implementation of UnitOfWork for coordinating transactions.
 
     Tracks aggregates modified during the transaction and publishes their
@@ -30,7 +28,7 @@ class InMemoryUnitOfWork(UnitOfWork):
 
     __slots__ = ("_committed", "_event_publisher", "_modified_aggregates", "_rolled_back")
 
-    def __init__(self, event_publisher: EventPublisher | None = None) -> None:
+    def __init__(self, event_publisher: EventPublisher[EventPayloadType] | None = None) -> None:
         """Initialize the in-memory unit of work.
 
         Args:
@@ -38,7 +36,7 @@ class InMemoryUnitOfWork(UnitOfWork):
                 domain events collected from aggregates on commit.
         """
         self._event_publisher = event_publisher
-        self._modified_aggregates: dict[Any, AggregateRoot[Any]] = {}
+        self._modified_aggregates: dict[IdType, AggregateRoot[IdType, EventPayloadType]] = {}
         self._committed = False
         self._rolled_back = False
 
@@ -52,12 +50,14 @@ class InMemoryUnitOfWork(UnitOfWork):
         """Return True if the transaction has been rolled back."""
         return self._rolled_back
 
-    def register_modified(self, aggregate: AggregateRoot[Any]) -> None:
+    def register_modified(self, aggregate: AggregateRoot[IdType, EventPayloadType]) -> None:
         """Register an aggregate as modified within the current transaction.
 
         Args:
             aggregate: The aggregate root that was modified.
         """
+        if aggregate.id is None:
+            raise ValueError("Cannot register aggregate with None id")
         self._modified_aggregates[aggregate.id] = aggregate
 
     async def commit(self) -> None:
