@@ -157,9 +157,7 @@ class GitCliffChangelogGenerator(ChangelogGenerator):
 
         return merged_new + existing_without_unreleased
 
-    def _parse_version_section(
-        self, content: str
-    ) -> tuple[str, list[tuple[str, str]]]:
+    def _parse_version_section(self, content: str) -> tuple[str, list[tuple[str, str]]]:
         lines = content.split("\n")
         header_idx = 0
         for i, line in enumerate(lines):
