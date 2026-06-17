@@ -1,7 +1,5 @@
 """Base Entity class for domain blocks."""
 
-from __future__ import annotations
-
 import inspect
 from abc import ABC
 from collections.abc import Hashable

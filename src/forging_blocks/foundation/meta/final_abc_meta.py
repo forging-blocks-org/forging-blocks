@@ -4,8 +4,6 @@ Combines `FinalMeta` runtime-final enforcement with
 `ABCMeta` abstract-base-class support into a single metaclass.
 """
 
-from __future__ import annotations
-
 from abc import ABCMeta
 from typing import Any, Type
 

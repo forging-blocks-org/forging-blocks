@@ -4,8 +4,6 @@ Provides an in-memory transactional boundary that coordinates changes across
 repositories and publishes domain events on successful commit.
 """
 
-from __future__ import annotations
-
 from typing import Any
 
 from forging_blocks.application.errors.unit_of_work_error import UnitOfWorkError
