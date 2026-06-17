@@ -4,8 +4,6 @@ This module provides the base Message class and MessageMetadata for implementing
 foundation messages influenced by Domain-Driven Design (DDD) and CQRS principles.
 """
 
-from __future__ import annotations
-
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from typing import Any
