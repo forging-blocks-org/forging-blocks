@@ -167,12 +167,12 @@ They enable replacement, testing, and decoupling without imposing an architectur
 input and output type. The concrete meaning of a port is defined by the
 components that extend it.
 
-In addition to the base `Port`, Foundation exposes two pairs of role-marking
+In addition to the base `Port`, Foundation exposes two role-marking
 aliases that you can use to give a boundary a more specific semantic name:
 
-- `InboundPort` and `InputPort` describe boundaries that **accept input** from
+- `InboundPort` describes boundaries that **accept input** from
   the outside world.
-- `OutboundPort` and `OutputPort` describe boundaries that **produce output**
+- `OutboundPort` describes boundaries that **produce output**
   towards the outside world.
 
 These aliases are intentionally not prescriptive.
