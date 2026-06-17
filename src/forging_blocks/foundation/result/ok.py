@@ -6,11 +6,13 @@ side of the Either monad (the ``Right`` in Haskell / Scala).
 """
 
 from collections.abc import Callable
-from typing import cast
+from typing import TypeVar
 
 from forging_blocks.foundation.errors import ResultAccessError
 
 from .result import Result
+
+OkType = TypeVar("OkType", bound="Ok[object, object]")
 
 
 class Ok[ValueType, ErrorType](Result[ValueType, ErrorType]):
@@ -34,7 +36,8 @@ class Ok[ValueType, ErrorType](Result[ValueType, ErrorType]):
         """Two Oks are equal when their wrapped values are equal."""
         if not isinstance(other, Ok):
             return False
-        return self._value == cast(Ok[ValueType, ErrorType], other)._value
+        other_ok: OkType = other  # type: ignore[assignment]
+        return self._value == other_ok._value
 
     def __hash__(self) -> int:
         """Hash based on the wrapped value."""
@@ -61,55 +64,27 @@ class Ok[ValueType, ErrorType](Result[ValueType, ErrorType]):
         raise ResultAccessError.cannot_access_error()
 
     def map[MappedValueType](
-        self,
-        fn: Callable[[ValueType], MappedValueType],
+        self, fn: Callable[[ValueType], MappedValueType]
     ) -> Result[MappedValueType, ErrorType]:
-        """Apply ``fn`` to the wrapped value and wrap the result in a new Ok.
-
-        This is the Functor map — ``fmap`` in Haskell, ``.map`` on Scala's
-        ``Option`` / ``Either``.
-        """
+        """Apply ``fn`` to the wrapped value and wrap the result in a new Ok."""
         return Ok(fn(self._value))
 
     def map_error[MappedErrorType](
-        self,
-        fn: Callable[[ErrorType], MappedErrorType],
+        self, fn: Callable[[ErrorType], MappedErrorType]
     ) -> Result[ValueType, MappedErrorType]:
         """Pass through unchanged — there is no error to transform."""
         return Ok(self._value)
 
     def flat_map[MappedValueType](
-        self,
-        fn: Callable[[ValueType], Result[MappedValueType, ErrorType]],
+        self, fn: Callable[[ValueType], Result[MappedValueType, ErrorType]]
     ) -> Result[MappedValueType, ErrorType]:
-        """Apply ``fn`` to the wrapped value and return its Result directly.
-
-        Unlike `map`, ``fn`` itself returns a Result, so you can chain
-        multiple fallible operations without nesting ``Ok(Ok(...))``.
-        """
+        """Apply ``fn`` to the wrapped value and return its Result directly."""
         return fn(self._value)
 
     def get_value_or(self, default: ValueType) -> ValueType:
-        """Return the wrapped value, ignoring ``default``.
-
-        Args:
-            default: Ignored — this Result is a success.
-
-        Returns:
-            The unwrapped success value.
-        """
+        """Return the wrapped value, ignoring ``default``."""
         return self._value
 
-    def get_value_or_else(
-        self,
-        fn: Callable[[ErrorType], ValueType],
-    ) -> ValueType:
-        """Return the wrapped value, ignoring ``fn``.
-
-        Args:
-            fn: Ignored — this Result is a success.
-
-        Returns:
-            The unwrapped success value.
-        """
+    def get_value_or_else(self, fn: Callable[[ErrorType], ValueType]) -> ValueType:
+        """Return the wrapped value, ignoring ``fn``."""
         return self._value
