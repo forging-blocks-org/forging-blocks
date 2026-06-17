@@ -4,9 +4,7 @@ Provides a simple synchronous dispatch mechanism that routes messages
 to registered handlers based on message type.
 """
 
-from __future__ import annotations
-
-import inspect
+import asyncio
 from collections.abc import Callable
 from typing import Any, cast
 
@@ -67,6 +65,6 @@ class InMemoryMessageBus[MessageType: Message[Any], MessageBusResultType](
         """
         handler = self._handlers[type(message)]
         result = handler(message)
-        if inspect.iscoroutine(result):
+        if asyncio.iscoroutine(result):
             result = await result
         return cast(MessageBusResultType, result)
