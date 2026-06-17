@@ -97,7 +97,7 @@ ForgingBlocks simply provides the building blocks that help you write decoupled,
 | **Mapper** | Transforms values from one type into another in an observable way. |
 | **Identified** | Protocol for any object that carries an identifier. |
 | **Debuggable** | Protocol ensuring an object exposes a clear, consistent debug representation. |
-| **Port / InboundPort / OutboundPort / InputPort / OutputPort** | Define explicit communication boundaries. |
+| **Port / InboundPort / OutboundPort** | Define explicit communication boundaries. |
 | **ValueObject** | Base class for immutable concepts defined entirely by their values. |
 | **Error / ValidationError / RuleViolationError / FieldErrors / CombinedErrors** | Structured, composable error model. |
 | **Message / Command / Event / Query** | Express intent, facts, and queries within the problem space. |
