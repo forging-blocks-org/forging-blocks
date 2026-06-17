@@ -4,8 +4,7 @@ from forging_blocks.foundation.errors.rule_violation_error import RuleViolationE
 
 # RuntimeError
 class TagAlreadyExistsError(RuleViolationError):
-    """Raised when attempting to create a release with an existing tag.
-    """
+    """Raised when attempting to create a release with an existing tag."""
 
     def __init__(self, tag_name: str) -> None:
         message = ErrorMessage(f"Tag '{tag_name}' already exists.")

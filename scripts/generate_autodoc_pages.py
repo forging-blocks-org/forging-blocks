@@ -91,7 +91,7 @@ def build_autodoc_section(files: list[Path], indent: str = "      ") -> str:
 
         # Sort: None (direct) first, then alphabetically
         for sublayer, entries in sorted(
-            subgroups.items(), key=lambda x: ("" if x[0] is None else x[0])
+            subgroups.items(), key=lambda x: "" if x[0] is None else x[0]
         ):
             if sublayer is None:
                 # Direct entries

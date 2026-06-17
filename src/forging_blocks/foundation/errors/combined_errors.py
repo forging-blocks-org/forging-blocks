@@ -9,7 +9,7 @@ from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.errors.error import Error
 
 
-class CombinedErrors[ErrorType: Error](Error):
+class CombinedErrors[ErrorType: Error[dict[str, object]]](Error[dict[str, object]]):
     """Base class for combining multiple errors into one."""
 
     def __init__(self, errors: Iterable[ErrorType]) -> None:

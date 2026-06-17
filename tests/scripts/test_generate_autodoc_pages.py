@@ -77,9 +77,7 @@ class TestEnsureDir:
 
 @pytest.mark.unit
 class TestFindSourceFiles:
-    def test_when_directory_then_returns_py_files_excluding_init(
-        self, tmp_path: Path
-    ) -> None:
+    def test_when_directory_then_returns_py_files_excluding_init(self, tmp_path: Path) -> None:
         (tmp_path / "module.py").write_text("")
         (tmp_path / "__init__.py").write_text("")
         (tmp_path / "sub").mkdir()
@@ -307,9 +305,7 @@ class TestMainBlock:
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
         script = (
-            Path(__file__).resolve().parent.parent.parent
-            / "scripts"
-            / "generate_autodoc_pages.py"
+            Path(__file__).resolve().parent.parent.parent / "scripts" / "generate_autodoc_pages.py"
         )
         src_dir = tmp_path / "src" / "forging_blocks"
         out_dir = tmp_path / "docs" / "reference" / "autodoc"

@@ -106,7 +106,7 @@ fix = true
 [tool.ruff.lint]
 select = ["E", "W", "F", "I", "B", "C4"]
 ignore = ["B008"]  # Only ignore function calls in argument defaults
-per-file-ignores = {"tests/**" = ["E501", "B011"]}  # Allow long lines and assert False in tests
+per-file-ignores = {"tests/**" = ["E501", "B011", "B009"]}  # Allow long lines, assert False, and getattr in tests
 
 [tool.ruff.lint.isort]
 known-first-party = ["forging_blocks"]

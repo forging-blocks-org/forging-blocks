@@ -2,11 +2,10 @@
 
 Tests for MessageMetadata and Message classes.
 """
-# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 
 from datetime import datetime, timezone
-from typing import Any
-from uuid import UUID, uuid7  # type: ignore[attr-defined]
+from typing import Any, cast
+from uuid import UUID, uuid7
 
 import pytest
 
@@ -128,8 +127,8 @@ class TestMessageMetadata:
         assert result["message_id"] == str(message_id)
         assert result["created_at"] == "2025-06-11T19:44:14+00:00"
         assert result["message_type"] == self.message_type
-        UUID(result["correlation_id"])
-        UUID(result["causation_id"])
+        UUID(str(result["correlation_id"]))
+        UUID(str(result["causation_id"]))
 
     def test_hash_when_same_values_then_same_hash(self):
         message_id = uuid7()
@@ -223,11 +222,12 @@ class TestMessage:
         result = message.to_dict()
 
         meta = result["metadata"]
+        assert isinstance(meta, dict)
         assert meta["message_id"] == str(message_id)
         assert meta["created_at"] == "2025-06-11T19:44:14+00:00"
         assert meta["message_type"] == "FakeMessage"
-        UUID(meta["correlation_id"])
-        UUID(meta["causation_id"])
+        UUID(str(cast(str, meta["correlation_id"])))
+        UUID(str(cast(str, meta["causation_id"])))
         assert result["payload"] == {"data": "test_data"}
 
     def test_hash_when_same_message_id_then_same_hash(self):
@@ -246,4 +246,4 @@ class TestMessage:
 
     def test_cannot_instantiate_abstract_message_directly(self):
         with pytest.raises(TypeError, match="abstract"):
-            Message()  # type: ignore[abstract]
+            type.__call__(Message)

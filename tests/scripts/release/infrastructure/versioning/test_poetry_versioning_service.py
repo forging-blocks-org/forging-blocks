@@ -91,7 +91,6 @@ class TestPoetryVersioningService:
         assert f'version = "{previous.value}"' in content
 
 
-
 @pytest.mark.integration
 class TestPoetryVersioningServiceErrors:
     """Error-propagation tests using real Poetry in a repo without pyproject.toml.
@@ -107,9 +106,7 @@ class TestPoetryVersioningServiceErrors:
         return git_repo
 
     @pytest.fixture
-    def service(
-        self, non_poetry_repo: GitTestRepository
-    ) -> PoetryVersioningService:
+    def service(self, non_poetry_repo: GitTestRepository) -> PoetryVersioningService:
         return PoetryVersioningService(runner=non_poetry_repo.scoped_runner())
 
     def test_current_version_when_poetry_fails_then_error(

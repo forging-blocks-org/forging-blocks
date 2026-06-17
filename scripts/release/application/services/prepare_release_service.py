@@ -96,9 +96,7 @@ class PrepareReleaseService(PrepareReleaseUseCase):
         )
         await self._message_bus.send(command)
 
-    async def _prepare_release_transactionally(
-        self, context: ReleaseContext
-    ) -> list[str]:
+    async def _prepare_release_transactionally(self, context: ReleaseContext) -> list[str]:
         if context.dry_run:
             return await self._prepare_release_dry_run(context)
 
@@ -119,9 +117,7 @@ class PrepareReleaseService(PrepareReleaseUseCase):
 
         return changelog_entries
 
-    async def _prepare_release_dry_run(
-        self, context: ReleaseContext
-    ) -> list[str]:
+    async def _prepare_release_dry_run(self, context: ReleaseContext) -> list[str]:
         self._branch_handling(context, dry_run=True)
         self._versioning_service.apply_version(context.version, dry_run=True)
         changelog_entries = await self._generate_changelog(context)

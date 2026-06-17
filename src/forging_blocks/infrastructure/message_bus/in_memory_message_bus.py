@@ -6,13 +6,13 @@ to registered handlers based on message type.
 
 import asyncio
 from collections.abc import Callable
-from typing import Any, cast
+from typing import cast
 
 from forging_blocks.application.ports.outbound.message_bus import MessageBus
 from forging_blocks.foundation.messages.message import Message
 
 
-class InMemoryMessageBus[MessageType: Message[Any], MessageBusResultType](
+class InMemoryMessageBus[MessageType: Message[object], MessageBusResultType](
     MessageBus[MessageType, MessageBusResultType],
 ):
     """In-memory message bus that routes messages to registered handlers.
@@ -23,7 +23,7 @@ class InMemoryMessageBus[MessageType: Message[Any], MessageBusResultType](
 
     Usage::
 
-        bus = InMemoryMessageBus[Command, None]()
+        bus = InMemoryMessageBus[Command[object], None]()
         bus.register(MyCommand, my_handler)
         await bus.dispatch(MyCommand())
     """
@@ -32,9 +32,11 @@ class InMemoryMessageBus[MessageType: Message[Any], MessageBusResultType](
 
     def __init__(self) -> None:
         """Initialize the message bus with an empty handler registry."""
-        self._handlers: dict[type[Message[Any]], Callable[[Any], Any]] = {}
+        self._handlers: dict[type[Message[object]], Callable[[Message[object]], object]] = {}
 
-    def register(self, message_type: type[Message[Any]], handler: Callable[[Any], Any]) -> None:
+    def register[MT: Message[object]](
+        self, message_type: type[MT], handler: Callable[[MT], object]
+    ) -> None:
         """Register a handler for a specific message type.
 
         Args:
@@ -49,7 +51,7 @@ class InMemoryMessageBus[MessageType: Message[Any], MessageBusResultType](
             raise ValueError(
                 f"Handler already registered for message type '{message_type.__name__}'."
             )
-        self._handlers[message_type] = handler
+        self._handlers[message_type] = cast(Callable[[Message[object]], object], handler)
 
     async def dispatch(self, message: MessageType) -> MessageBusResultType:
         """Dispatch a message to the registered handler.

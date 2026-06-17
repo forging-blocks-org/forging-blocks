@@ -50,7 +50,6 @@ class ReadOnlyRepository[TReadAggregateRoot, TId](Protocol):
             A sequence of aggregate or read model instances.
 
         Notes:
-            Data sources may differ from command-side storage.
         """
         ...
 
@@ -71,7 +70,7 @@ class WriteOnlyRepository[TWriteAggregateRoot, TWriteId](Protocol):
         Raises:
             RepositoryError: If deletion fails.
         """
-        ...
+        pass
 
     async def save(self, aggregate: TWriteAggregateRoot) -> None:
         """Persist an aggregate instance.
@@ -79,7 +78,7 @@ class WriteOnlyRepository[TWriteAggregateRoot, TWriteId](Protocol):
         Args:
             aggregate: The aggregate to save.
         """
-        ...
+        pass
 
 
 class Repository[TAggregateRoot, TId](

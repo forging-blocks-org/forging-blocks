@@ -29,7 +29,7 @@ class FakeEvent(Event[str]):
         return {"data": self._data}
 
 
-class FakeAggregate(AggregateRoot[str]):
+class FakeAggregate(AggregateRoot[str, str]):
     """A fake aggregate root for testing."""
 
     def __init__(self, aggregate_id: str) -> None:

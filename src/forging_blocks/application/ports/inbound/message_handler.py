@@ -16,7 +16,7 @@ Non-Responsibilities:
     - Persistence (handled by repositories).
 """
 
-from typing import Any, Protocol, TypeAlias, TypeVar
+from typing import Protocol, TypeVar
 
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
@@ -24,13 +24,17 @@ from forging_blocks.foundation.messages.message import Message
 from forging_blocks.foundation.messages.query import Query
 from forging_blocks.foundation.ports import InboundPort
 
-CommandType = TypeVar("CommandType", contravariant=True, bound=Command[Any])
-QueryType = TypeVar("QueryType", contravariant=True, bound=Query)
-EventType = TypeVar("EventType", contravariant=True, bound=Event[Any])
+CommandPayloadType = TypeVar("CommandPayloadType", contravariant=True)
+QueryPayloadType = TypeVar("QueryPayloadType", contravariant=True)
+EventPayloadType = TypeVar("EventPayloadType", contravariant=True)
 QueryResultType = TypeVar("QueryResultType", covariant=True)
 
+CommandType = TypeVar("CommandType", contravariant=True, bound=Command[object])
+QueryType = TypeVar("QueryType", contravariant=True, bound=Query[object])
+EventType = TypeVar("EventType", contravariant=True, bound=Event[object])
 
-class MessageHandler[MessageType: Message[Any], MessageHandlerResultType](
+
+class MessageHandler[MessageType: Message[object], MessageHandlerResultType](
     InboundPort[MessageType, MessageHandlerResultType],
     Protocol,
 ):
@@ -66,6 +70,22 @@ class MessageHandler[MessageType: Message[Any], MessageHandlerResultType](
         ...
 
 
-CommandHandler: TypeAlias = MessageHandler[CommandType, None]
-QueryHandler: TypeAlias = MessageHandler[QueryType, QueryResultType]
-EventHandler: TypeAlias = MessageHandler[EventType, None]
+class CommandHandler[CommandPayloadType](
+    MessageHandler[Command[CommandPayloadType], None],
+    Protocol,
+):
+    """Inbound port for handling commands asynchronously."""
+
+
+class QueryHandler[QueryPayloadType, QueryResultType](
+    MessageHandler[Query[QueryPayloadType], QueryResultType],
+    Protocol,
+):
+    """Inbound port for handling queries asynchronously."""
+
+
+class EventHandler[EventPayloadType](
+    MessageHandler[Event[EventPayloadType], None],
+    Protocol,
+):
+    """Inbound port for handling events asynchronously."""

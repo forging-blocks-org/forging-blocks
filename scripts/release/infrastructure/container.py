@@ -68,4 +68,4 @@ class Container:
         )
         open_pull_request_handler = OpenPullRequestHandler(open_pull_request_service)
 
-        await self._message_bus.register(OpenPullRequestCommand, open_pull_request_handler)  # type: ignore[reportArgumentType]
+        await self._message_bus.register(OpenPullRequestCommand, open_pull_request_handler)

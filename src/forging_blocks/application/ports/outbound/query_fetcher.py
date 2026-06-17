@@ -18,20 +18,22 @@ from forging_blocks.foundation.messages.query import Query
 from forging_blocks.foundation.ports import OutboundPort
 
 
-class QueryFetcher[QueryFetcherResult](
-    OutboundPort[Query, QueryFetcherResult],
+class QueryFetcher[QueryPayloadType, QueryFetcherResult](
+    OutboundPort[Query[QueryPayloadType], QueryFetcherResult],
 ):
     """Outbound port for dispatching query messages.
 
     The QueryFetcher abstracts query execution through a MessageBus. It does
     not apply any interpretation to the returned data; shaping is the query
-    handler’s responsibility.
+    handler's responsibility.
     """
 
-    def __init__(self, message_bus: MessageBus[Query, QueryFetcherResult]) -> None:
+    def __init__(
+        self, message_bus: MessageBus[Query[QueryPayloadType], QueryFetcherResult]
+    ) -> None:
         self._message_bus = message_bus
 
-    async def fetch(self, query: Query) -> QueryFetcherResult:
+    async def fetch(self, query: Query[QueryPayloadType]) -> QueryFetcherResult:
         """Fetch the result of a query.
 
         Args:

@@ -6,7 +6,7 @@ from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.errors.error import Error
 
 
-class DraftEntityIsNotHashableError(Error):
+class DraftEntityIsNotHashableError(Error[dict[str, object]]):
     """Raised because draft entities are not hashable."""
 
     @classmethod

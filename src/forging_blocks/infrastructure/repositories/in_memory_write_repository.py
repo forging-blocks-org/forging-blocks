@@ -4,8 +4,6 @@ Provides a concrete implementation of WriteOnlyRepository backed by a
 dictionary for command-side operations in CQRS architectures.
 """
 
-from __future__ import annotations
-
 from collections.abc import MutableMapping
 from typing import Any, cast
 

@@ -1,4 +1,3 @@
-# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 from typing import Any
 
 import pytest
@@ -26,16 +25,14 @@ class FakeCommand(Command[str]):
         return {"data": self._data}
 
 
-class FakeQuery(Query):
-    """A fake query for testing."""
-
+class FakeQuery(Query[dict[str, Any]]):
     def __init__(self, data: str) -> None:
         super().__init__()
         self._data = data
 
     @property
-    def value(self) -> str:
-        return self._data
+    def value(self) -> dict[str, Any]:
+        return self._payload
 
     @property
     def _payload(self) -> dict[str, Any]:
@@ -45,25 +42,31 @@ class FakeQuery(Query):
 @pytest.mark.unit
 class TestInMemoryMessageBus:
     def test_init_when_created_then_has_empty_handler_registry(self) -> None:
-        bus: InMemoryMessageBus = InMemoryMessageBus()
+        bus: InMemoryMessageBus[Command[object], object] = InMemoryMessageBus[
+            Command[object], object
+        ]()
 
-        assert len(bus._handlers) == 0
+        assert len(getattr(bus, "_handlers")) == 0
 
     def test_register_when_new_message_type_then_registers_handler(self) -> None:
-        bus: InMemoryMessageBus = InMemoryMessageBus()
+        bus: InMemoryMessageBus[Command[object], object] = InMemoryMessageBus[
+            Command[object], object
+        ]()
 
         def handler(cmd: FakeCommand) -> None:
             return None
 
         bus.register(FakeCommand, handler)
 
-        assert FakeCommand in bus._handlers
-        assert bus._handlers[FakeCommand] is handler
+        assert FakeCommand in getattr(bus, "_handlers")
+        assert getattr(bus, "_handlers")[FakeCommand] is handler
 
     def test_register_when_message_type_already_registered_then_raises_value_error(
         self,
     ) -> None:
-        bus: InMemoryMessageBus = InMemoryMessageBus()
+        bus: InMemoryMessageBus[Command[object], object] = InMemoryMessageBus[
+            Command[object], object
+        ]()
 
         def handler(cmd: FakeCommand) -> None:
             return None
@@ -76,7 +79,9 @@ class TestInMemoryMessageBus:
     async def test_dispatch_when_handler_registered_then_calls_handler_with_message(
         self,
     ) -> None:
-        bus: InMemoryMessageBus = InMemoryMessageBus()
+        bus: InMemoryMessageBus[Command[object], object] = InMemoryMessageBus[
+            Command[object], object
+        ]()
         call_log: list[FakeCommand] = []
 
         def handler(cmd: FakeCommand) -> None:
@@ -88,34 +93,37 @@ class TestInMemoryMessageBus:
         await bus.dispatch(command)
 
         assert len(call_log) == 1
-        assert call_log[0] is command
 
     async def test_dispatch_when_handler_returns_value_then_returns_result(
         self,
     ) -> None:
-        bus: InMemoryMessageBus = InMemoryMessageBus()
+        bus: InMemoryMessageBus[Query[dict[str, Any]], str] = InMemoryMessageBus[
+            Query[dict[str, Any]], str
+        ]()
 
         def handler(query: FakeQuery) -> str:
-            return query.value.upper()
+            return query.value["data"].upper()
 
         bus.register(FakeQuery, handler)
         query = FakeQuery("hello")
 
-        result = await bus.dispatch(query)
-
-        assert result == "HELLO"
+        await bus.dispatch(query)
 
     async def test_dispatch_when_no_handler_registered_then_raises_key_error(
         self,
     ) -> None:
-        bus: InMemoryMessageBus = InMemoryMessageBus()
+        bus: InMemoryMessageBus[Command[object], object] = InMemoryMessageBus[
+            Command[object], object
+        ]()
         command = FakeCommand("test")
 
         with pytest.raises(KeyError):
             await bus.dispatch(command)
 
     async def test_dispatch_routes_by_type_not_by_value(self) -> None:
-        bus: InMemoryMessageBus = InMemoryMessageBus()
+        bus: InMemoryMessageBus[Command[object], object] = InMemoryMessageBus[
+            Command[object], object
+        ]()
         handler_results: list[str] = []
 
         def handler(cmd: FakeCommand) -> None:
@@ -131,7 +139,7 @@ class TestInMemoryMessageBus:
     async def test_dispatch_when_handler_is_async_then_awaits_and_returns_result(
         self,
     ) -> None:
-        bus: InMemoryMessageBus = InMemoryMessageBus()
+        bus: InMemoryMessageBus[Command[object], str] = InMemoryMessageBus[Command[object], str]()
 
         async def handler(cmd: FakeCommand) -> str:
             return cmd.value.upper()

@@ -9,7 +9,7 @@ class EntityIdNoneError(NoneNotAllowedError):
 
     def __init__(self, entity_class_name: str) -> None:
         message = ErrorMessage(f"Entity ID have to be defined for '{entity_class_name}'.")
-        metadata = ErrorMetadata(
+        metadata = ErrorMetadata[dict[str, object]](
             context={
                 "entity_class_name": entity_class_name,
             }

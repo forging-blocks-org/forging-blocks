@@ -13,4 +13,4 @@ class OpenPullRequestCommandHandler(Protocol):
 
         :return: None
         """
-        ...
+        pass

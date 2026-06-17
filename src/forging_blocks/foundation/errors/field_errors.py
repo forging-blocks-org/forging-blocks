@@ -10,10 +10,10 @@ from forging_blocks.foundation.errors.core import ErrorMessage, FieldReference
 from forging_blocks.foundation.errors.error import Error
 
 
-class FieldErrors(Error):
+class FieldErrors[ContainedErrorType: Error[dict[str, object]]](Error[dict[str, object]]):
     """Base class for errors associated with a specific field."""
 
-    def __init__(self, field: FieldReference, errors: Iterable[Error]) -> None:
+    def __init__(self, field: FieldReference, errors: Iterable[ContainedErrorType]) -> None:
         """Initialise with a field reference and the errors associated with it.
 
         Args:
@@ -24,7 +24,7 @@ class FieldErrors(Error):
             ValueError: If *errors* is empty or *field* is falsy.
         """
         self._field = field
-        self._errors: Sequence[Error] = tuple(errors)
+        self._errors: Sequence[ContainedErrorType] = tuple(errors)
 
         if not errors or not field:
             raise ValueError("FieldErrors must contain at least one error and field defined.")
@@ -44,7 +44,7 @@ class FieldErrors(Error):
         error_messages = "\n".join(f" - {str(error)}" for error in self._errors)
         return f"{self._get_title_prefix()} for field '{self._field.value}':\n{error_messages}"
 
-    def __iter__(self) -> Iterator[Error]:
+    def __iter__(self) -> Iterator[ContainedErrorType]:
         """Iterate over the errors associated with the field."""
         return iter(self._errors)
 
@@ -58,7 +58,7 @@ class FieldErrors(Error):
         return self._field
 
     @property
-    def errors(self) -> Sequence[Error]:
+    def errors(self) -> Sequence[ContainedErrorType]:
         """The collection of errors associated with the field."""
         return self._errors
 

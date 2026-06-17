@@ -6,18 +6,12 @@ foundation messages influenced by Domain-Driven Design (DDD) and CQRS principles
 
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
-from typing import Any
 from uuid import UUID, uuid7  # type: ignore[attr-defined]
 
 from forging_blocks.foundation.value_object import ValueObject
 
 
-def now() -> datetime:
-    """Get the current UTC datetime."""
-    return datetime.now(timezone.utc)
-
-
-class MessageMetadata(ValueObject[dict[str, Any]]):
+class MessageMetadata(ValueObject[dict[str, object]]):
     """Metadata associated with foundational messages.
 
     Contains technical-level information about messages such as:
@@ -75,7 +69,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         super().__init__()
         self._message_type = message_type
         self._message_id = message_id or uuid7()
-        self._created_at = created_at or now()
+        self._created_at = created_at or datetime.now(timezone.utc)
         self._correlation_id = correlation_id or uuid7()
         self._causation_id = causation_id or uuid7()
 
@@ -125,7 +119,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         return self._message_type
 
     @property
-    def value(self) -> dict[str, Any]:
+    def value(self) -> dict[str, object]:
         """Get the raw dictionary representation of the metadata."""
         return {
             "created_at": self._created_at.isoformat(),
@@ -136,7 +130,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         }
 
     @property
-    def _equality_components(self) -> tuple[Any, ...]:
+    def _equality_components(self) -> tuple[object, ...]:
         """Message metadata equality is based on message ID and timestamp.
 
         Returns:
@@ -144,7 +138,7 @@ class MessageMetadata(ValueObject[dict[str, Any]]):
         """
         return (self._message_id, self._created_at)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> dict[str, object]:
         """Convert metadata to dictionary representation.
 
         Returns:
@@ -180,7 +174,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         effective_type = self.__class__.__name__
         self._metadata = metadata or MessageMetadata(message_type=effective_type)
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """Check equality based on _equality_components."""
         if not isinstance(other, Message):
             return False
@@ -218,7 +212,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
 
     @property
     @abstractmethod
-    def _payload(self) -> dict[str, Any]:
+    def _payload(self) -> dict[str, object]:
         """Get the data carried by this message.
 
         Subclasses must implement this property to provide their specific message
@@ -227,10 +221,10 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         Returns:
             The message payload.
         """
-        pass
+        ...
 
     @property
-    def _equality_components(self) -> tuple[Any, ...]:
+    def _equality_components(self) -> tuple[object, ...]:
         """Messages are equal if they have the same message ID.
 
         Each message instance is unique, even if they have the same data.
@@ -240,7 +234,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         """
         return (self._metadata.message_id,)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> dict[str, object]:
         """Convert the message to a dictionary representation.
 
         Combines metadata, message type, and payload data.

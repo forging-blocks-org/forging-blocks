@@ -27,8 +27,7 @@ class OpenReleasePullRequestInput:
 
 @dataclass(frozen=True)
 class OpenReleasePullRequestOutput:
-    """Response DTO for creating a release pull request.
-    """
+    """Response DTO for creating a release pull request."""
 
     pr_id: str | None
     url: str | None
