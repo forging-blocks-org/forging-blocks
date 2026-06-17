@@ -76,8 +76,6 @@ class CommandHandler[CommandPayloadType](
 ):
     """Inbound port for handling commands asynchronously."""
 
-    ...
-
 
 class QueryHandler[QueryPayloadType, QueryResultType](
     MessageHandler[Query[QueryPayloadType], QueryResultType],
@@ -85,13 +83,9 @@ class QueryHandler[QueryPayloadType, QueryResultType](
 ):
     """Inbound port for handling queries asynchronously."""
 
-    ...
-
 
 class EventHandler[EventPayloadType](
     MessageHandler[Event[EventPayloadType], None],
     Protocol,
 ):
     """Inbound port for handling events asynchronously."""
-
-    ...
