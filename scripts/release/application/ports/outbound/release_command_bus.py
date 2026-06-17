@@ -1,6 +1,6 @@
 from typing import Any, Generic, Protocol, TypeVar
 
-from forging_blocks.application.ports.inbound.message_handler import CommandHandler
+from forging_blocks.application.ports.inbound.message_handler import MessageHandler
 from forging_blocks.application.ports.outbound.message_bus import MessageBus
 from forging_blocks.foundation.messages.command import Command
 
@@ -14,9 +14,7 @@ class ReleaseCommandBus(MessageBus[CommandType, None], Generic[CommandType], Pro
     """
 
     async def register[CT: Command[Any]](
-        self,
-        command_type: type[CT],
-        handler: CommandHandler[CT]
+        self, command_type: type[CT], handler: MessageHandler[CT, None]
     ) -> None:
         """Register a message handler for a specific message type.
 
