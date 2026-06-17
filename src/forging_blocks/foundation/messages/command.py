@@ -17,7 +17,7 @@ class Command[RawCommandType](Message[RawCommandType]):
 
     Example:
         ```python
-        class CreateOrder(Command):
+        class CreateOrder(Command[dict[str, object]]):
             def __init__(
                 self, customer_id: str, items: list, metadata: MessageMetadata | None = None
             ):
@@ -26,7 +26,7 @@ class Command[RawCommandType](Message[RawCommandType]):
                 self._items = items
 
             @property
-            def _payload(self) -> dict[str, Any]:
+            def _payload(self) -> dict[str, object]:
                 return {"customer_id": self._customer_id, "items": self._items}
         ```
     """
