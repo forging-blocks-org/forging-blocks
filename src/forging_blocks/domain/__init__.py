@@ -8,6 +8,13 @@ from .errors import (
     EntityIdModificationError,
     EntityIdNoneError,
 )
+from .specifications import (
+    AndSpecification,
+    ExpressionSpecification,
+    NotSpecification,
+    OrSpecification,
+    Specification,
+)
 from .value_object import ValueObject
 
 __all__ = [
@@ -19,4 +26,9 @@ __all__ = [
     "AggregateRoot",
     "AggregateVersion",
     "ValueObject",
+    "Specification",
+    "ExpressionSpecification",
+    "AndSpecification",
+    "OrSpecification",
+    "NotSpecification",
 ]

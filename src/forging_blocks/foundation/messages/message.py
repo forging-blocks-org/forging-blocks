@@ -146,6 +146,26 @@ class MessageMetadata(ValueObject[dict[str, object]]):
         """
         return self.value
 
+    @classmethod
+    def from_dict(cls, data: dict[str, object]) -> MessageMetadata:
+        """Create metadata from a dictionary representation.
+
+        Args:
+            data: Dictionary containing the serialised metadata fields.
+
+        Returns:
+            A new MessageMetadata instance reconstituted from *data*.
+        """
+        return cls(
+            message_type=str(data["message_type"]),
+            message_id=UUID(data["message_id"]) if "message_id" in data else None,
+            created_at=datetime.fromisoformat(str(data["created_at"]))
+            if "created_at" in data
+            else None,
+            correlation_id=UUID(data["correlation_id"]) if "correlation_id" in data else None,
+            causation_id=UUID(data["causation_id"]) if "causation_id" in data else None,
+        )
+
 
 class Message[MessageRawType](ValueObject[MessageRawType], ABC):
     """Base class for all foundation messages.
@@ -237,12 +257,59 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
     def to_dict(self) -> dict[str, object]:
         """Convert the message to a dictionary representation.
 
-        Combines metadata, message type, and payload data.
+        Combines metadata, message type, payload, and domain data.
 
         Returns:
             Complete dictionary representation of the message.
         """
-        return {
+        result: dict[str, object] = {
             "metadata": self._metadata.to_dict(),
             "payload": self._payload,
         }
+        result["data"] = self.get_domain_data()
+        return result
+
+    def get_domain_data(self) -> dict[str, object]:
+        """Return the domain-level data carried by this message.
+
+        The default implementation delegates to ``_payload``. Subclasses
+        that use the decorator-based approach (``@event_dataclass`` etc.)
+        override this to return only the message fields.
+
+        Returns:
+            Dictionary of domain data fields.
+        """
+        return self._payload
+
+    @classmethod
+    def from_dict(cls, data: dict[str, object]) -> Message:
+        """Create a message instance from a dictionary representation.
+
+        Args:
+            data: Dictionary containing the serialised message.
+
+        Returns:
+            A new message instance reconstituted from *data*.
+        """
+        metadata = MessageMetadata.from_dict(dict(data["metadata"]))  # type: ignore[arg-type]
+        payload = dict(data.get("payload", data.get("data", {})))  # type: ignore[arg-type]
+        return cls._from_domain_data(payload, metadata)
+
+    @classmethod
+    def _from_domain_data(cls, data: dict[str, object], metadata: MessageMetadata) -> Message:
+        """Reconstruct a message from domain data and metadata.
+
+        Subclasses override this to provide custom reconstruction logic.
+        The default raises ``NotImplementedError``.
+
+        Args:
+            data: The domain data dictionary.
+            metadata: The message metadata.
+
+        Returns:
+            A new message instance.
+
+        Raises:
+            NotImplementedError: If the subclass has not overridden this method.
+        """
+        raise NotImplementedError
