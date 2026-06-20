@@ -126,25 +126,27 @@ def message_dataclass(
             return cls(metadata=metadata, **data)
 
         # Pyright cannot verify attribute assignment on a closed generic class.
-        # We use setattr with explicit string keys and validate the result against
-        # _PatchedMessage to preserve type safety without suppression comments.
-        dc_cls.__init__ = new_init
-        dc_cls.get_payload_fields = get_payload_fields
-        dc_cls._from_payload_fields = _from_payload_fields
+        # Assign through a cast(Any, dc_cls) boundary so pyright permits the
+        # monkey-patching while ruff's B009 (prefer direct assignment) is satisfied.
+        # The result is validated against _PatchedMessage below.
+        patched = cast(Any, dc_cls)
+        patched.__init__ = new_init
+        patched.get_payload_fields = get_payload_fields
+        patched._from_payload_fields = _from_payload_fields
 
         # Patch abstract members so decorated subclasses of Event/Command/Query
         # can be instantiated without manually implementing _payload / value.
         # ``_from_payload_fields`` is intentionally not patched here: it is never
         # declared abstract by the Message hierarchy, so it cannot appear in
-        # ``__abstractmethods__``. It is added explicitly above via setattr.
+        # ``__abstractmethods__``. It is added explicitly above.
         abstract_methods: frozenset[str] = getattr(dc_cls, "__abstractmethods__", frozenset())
         if "_payload" in abstract_methods:
-            dc_cls._payload = property(lambda self: self.get_payload_fields())
+            patched._payload = property(lambda self: self.get_payload_fields())
             dc_cls.__abstractmethods__ = frozenset(
                 m for m in dc_cls.__abstractmethods__ if m != "_payload"
             )
         if "value" in abstract_methods:
-            dc_cls.value = property(lambda self: self.get_payload_fields())
+            patched.value = property(lambda self: self.get_payload_fields())
             dc_cls.__abstractmethods__ = frozenset(
                 m for m in dc_cls.__abstractmethods__ if m != "value"
             )

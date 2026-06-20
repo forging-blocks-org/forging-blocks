@@ -337,7 +337,7 @@ class TestMessageDataclassDecorator:
         assert evt.get_domain_data() == {"order_id": "O1"}
 
         with pytest.raises(dataclasses.FrozenInstanceError):
-            evt.order_id = "mutated"
+            cast(Any, evt).order_id = "mutated"
 
 
 class TestSerializableProtocol:
