@@ -1,5 +1,13 @@
 """ForgingBlocks for domain-specific modules."""
 
+from forging_blocks.foundation.specification import (
+    AndSpecification,
+    ExpressionSpecification,
+    NotSpecification,
+    OrSpecification,
+    Specification,
+)
+
 from .aggregate_root import AggregateRoot, AggregateVersion
 from .entity import Entity
 from .errors import (
@@ -7,13 +15,6 @@ from .errors import (
     EntityIdDeletionError,
     EntityIdModificationError,
     EntityIdNoneError,
-)
-from .specifications import (
-    AndSpecification,
-    ExpressionSpecification,
-    NotSpecification,
-    OrSpecification,
-    Specification,
 )
 from .value_object import ValueObject
 

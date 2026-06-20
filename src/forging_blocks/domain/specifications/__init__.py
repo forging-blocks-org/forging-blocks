@@ -1,7 +1,12 @@
 """Specification pattern for domain-level query predicates."""
 
-from .composite import AndSpecification, NotSpecification, OrSpecification
-from .specification import ExpressionSpecification, Specification
+from forging_blocks.foundation.specification import (
+    AndSpecification,
+    ExpressionSpecification,
+    NotSpecification,
+    OrSpecification,
+    Specification,
+)
 
 __all__ = [
     "Specification",

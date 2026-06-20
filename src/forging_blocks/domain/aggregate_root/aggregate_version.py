@@ -15,8 +15,6 @@ class AggregateVersion(ValueObject[int]):
 
     def __init__(self, value: int) -> None:
         super().__init__()
-        if not isinstance(value, int):  # pyright: ignore[reportUnnecessaryIsInstance]
-            raise TypeError(f"Expected int, got {type(value).__name__}")
         if value < 0:
             raise ValueError("Version cannot be negative")
         self._value = value
