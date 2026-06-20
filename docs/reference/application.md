@@ -18,11 +18,14 @@ Core abstractions:
   - **Message Handler** — Reacts to a single message (Command, Event, Query)
 - **Outbound Ports** — Capabilities the application depends on
   - **Repository** — Persistence abstraction (ReadOnly, WriteOnly, ReadWrite)
+  - **Specification Repository** — Read repository with specification-based queries
   - **Unit of Work** — Transactional boundary
   - **Message Bus** — Dispatches messages
   - **Command Sender** — Fire-and-forget commands
   - **Event Publisher** — Publishes domain events
+  - **Event Store** — Appends and retrieves domain events for event sourcing
   - **Query Fetcher** — Retrieves data asynchronously
+- **Errors** — Application-level error types (UnitOfWork, EventStore, EventBus, Concurrency)
 
 Depends on **Domain** and **Foundation**; must not depend on Presentation or Infrastructure implementations.
 
@@ -163,6 +166,24 @@ Repositories:
 
 ---
 
+### Specification Repository
+
+A **Specification Repository** extends `ReadOnlyRepository` with query methods
+that accept `Specification` predicates.
+
+It allows the application to query persisted objects by composable business
+rules rather than by raw identifiers alone:
+
+- `find_matching(spec)` returns all entities that satisfy a specification.
+- `count_matching(spec)` returns the count of satisfying entities.
+- `exists_matching(spec)` returns whether at least one entity satisfies a
+  specification.
+
+The specifications themselves are defined in the **Foundation** block, keeping
+the query contract decoupled from any persistence mechanism.
+
+---
+
 ### Unit of Work
 
 A **Unit of Work** defines a transactional boundary for application operations.
@@ -222,6 +243,27 @@ Event publishing enables integration and eventual consistency.
 
 ---
 
+### Event Store
+
+An **Event Store** appends and retrieves domain events for event-sourced
+aggregates.
+
+It is agnostic of storage backend — in-memory, relational, or event-native
+implementations are all supported.
+
+Responsibilities include:
+
+- Appending new events to an aggregate's event stream.
+- Retrieving events within an optional version range.
+- Tracking the current version of each event stream.
+- Enforcing optimistic concurrency via an `expected_version` check.
+
+Operations return a `Result` that carries either the success value or an
+`EventStoreError`, making concurrency and storage failures explicit rather
+than exceptional.
+
+---
+
 ### Query Fetcher
 
 A **Query Fetcher** allows the application to retrieve data by dispatching queries through a Message Bus.
@@ -237,6 +279,27 @@ Characteristics:
 !!! note "Outbound ports and Infrastructure"
     Outbound ports define *what the application needs*.
     Infrastructure provides *how those needs are fulfilled*.
+
+---
+
+## Errors
+
+The Application block defines its own **error types** for operations that can
+fail at the application boundary.
+
+These errors extend the Foundation `Error` base class and are commonly carried
+inside a `Result`:
+
+- `UnitOfWorkError` represents a failure within a Unit of Work, such as a
+  commit or rollback problem.
+- `EventStoreError` is the base error for event store operations.
+- `ConcurrencyError` is raised when an optimistic concurrency check fails,
+  carrying the aggregate id, expected version, and actual version.
+- `EventBusError` represents a failure in event bus dispatch, such as a missing
+  handler.
+
+Like Foundation errors, these are structured objects (message + metadata) that
+can be both returned inside `Err` and raised as exceptions.
 
 ---
 
@@ -306,6 +369,10 @@ Its purpose is orchestration, not computation.
     An outbound port that abstracts access to persisted domain objects.
     Repositories provide retrieval and storage operations without embedding domain rules or storage details.
 
+!!! note "Specification Repository"
+    An outbound port that extends a read-only repository with query methods
+    accepting ``Specification`` predicates for in-memory filtering.
+
 !!! note "Unit of Work"
     An outbound port that defines a transactional boundary.
     It coordinates multiple persistence operations and ensures consistency across application-level changes.
@@ -320,5 +387,14 @@ Its purpose is orchestration, not computation.
 !!! note "Event Publisher"
     An outbound port used to publish domain events, allowing the system to communicate facts that occurred without coupling to consumers or delivery mechanisms.
 
+!!! note "Event Store"
+    An outbound port that appends and retrieves domain events for event-sourced
+    aggregates, supporting optimistic concurrency via an expected version check.
+
 !!! note "Query Fetcher"
     An outbound port used to retrieve data by issuing queries and receiving responses, typically without mutating state.
+
+!!! note "Application Errors"
+    Structured error types (``UnitOfWorkError``, ``EventStoreError``,
+    ``ConcurrencyError``, ``EventBusError``) that represent application-level
+    failures, extending the Foundation ``Error`` base class.

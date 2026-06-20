@@ -141,6 +141,26 @@ They make incorrect states explicit and testable.
 
 ---
 
+## Specification
+
+The **Specification** pattern is available to the Domain block for expressing
+composable business rules as predicates over candidate objects.
+
+A `Specification` encapsulates a rule that can be evaluated with
+`is_satisfied_by(candidate)`, and compositions (`&`, `|`, `~`) allow rules to
+be combined into richer predicates.
+
+Specifications are well-suited for querying, validation, and filtering within
+domain logic.
+
+!!! note "Where the implementation lives"
+    The specification pattern is defined in the **Foundation** block because
+    composable predicates are generic enough to be reused outside the Domain
+    block. The Domain block re-exports the same API so that domain code can
+    import it from a natural location.
+
+---
+
 ## What the Domain block does not do
 
 The Domain block does **not**:
@@ -185,3 +205,8 @@ Their purpose is to support clarity and correctness—not to enforce a methodolo
 
 !!! note "Domain Error"
     An explicit representation of an invalid domain state or rule violation, expressed in domain terms rather than technical terms.
+
+!!! note "Specification"
+    A composable predicate over a candidate object, used to express business
+    rules for querying, validation, and filtering. Defined in Foundation and
+    re-exported by the Domain block.

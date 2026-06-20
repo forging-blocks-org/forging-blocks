@@ -13,6 +13,7 @@ Typical implementations:
 - **Message Brokers** — RabbitMQ, Redis, Kafka, in-memory
 - **External API Clients** — HTTP, gRPC, third-party integrations
 - **Unit of Work** — Transaction management
+- **Serialization** — `Serializable` protocol for dictionary round-tripping
 
 Characteristics:
 - May use frameworks and libraries
@@ -48,6 +49,15 @@ Adapters for RabbitMQ, Redis, Kafka, etc.
 
 ### **External API Clients**
 HTTP, gRPC, or other remote integrations.
+
+### **Serialization**
+The `Serializable` protocol defines a structural contract for objects that can
+be converted to and from plain dictionaries via `to_dict()` and `from_dict()`.
+
+It is structural — any class that defines both methods with matching signatures
+satisfies the protocol automatically, without explicit registration or
+inheritance. This enables generic serialization infrastructure (JSON adapters,
+database mappers, event stores) to work with any compliant type.
 
 ---
 

@@ -5,16 +5,17 @@
 The **Reference** section defines the **meaning and responsibility** of each ForgingBlocks component. These pages are precise and definition-oriented — meant to be consulted as needed, not read linearly.
 
 Components:
-- **Foundation** — Core abstractions (Result, Port, Identified, Messages)
-- **Domain** — Domain modeling (Entity, ValueObject, AggregateRoot)
-- **Application** — Application layer patterns (UseCase, CommandHandler)
-- **Infrastructure** — Technical adapters and implementations
+- **Foundation** — Core abstractions (Result, Port, Identified, Messages, Specification)
+- **Domain** — Domain modeling (Entity, ValueObject, AggregateRoot, Specification)
+- **Application** — Application layer patterns (UseCase, CommandHandler, Repository, EventStore)
+- **Infrastructure** — Technical adapters and implementations (Repositories, Serializable)
 - **Presentation** — Input/output boundaries
 - **Testing** — Testing reference and guidelines
 
 Dependencies flow inward: Domain → Application → Infrastructure/Presentation, all depending on Foundation.
 
 ---
+```mermaid
 flowchart LR
     D[Domain<br/>Problem-space concepts] -->|depends on| F[Foundation<br/>Shared abstractions]
     A[Application<br/>Coordination & behavior] -->|depends on| D
@@ -27,9 +28,9 @@ flowchart LR
 ---
 
 ## Reference Sections
-- **[Foundation](foundation.md)** - Core abstractions and utilities (Result, Port, Identified, Messages, etc.)
-- **[Domain](domain.md)** - Domain modeling abstractions (Entity, ValueObject, AggregateRoot)
-- **[Application](application.md)** - Application layer patterns (UseCase, CommandHandler)
-- **[Infrastructure](infrastructure.md)** - Infrastructure adapters and implementations
+- **[Foundation](foundation.md)** - Core abstractions and utilities (Result, Port, Identified, Messages, Specification, etc.)
+- **[Domain](domain.md)** - Domain modeling abstractions (Entity, ValueObject, AggregateRoot, Specification)
+- **[Application](application.md)** - Application layer patterns (UseCase, CommandHandler, Repository, EventStore, SpecificationRepository)
+- **[Infrastructure](infrastructure.md)** - Infrastructure adapters and implementations (Repositories, Serializable)
 - **[Presentation](presentation.md)** - Input/output boundaries and presentation layer
 - **[Testing](testing.md)** - Comprehensive testing reference and guidelines
