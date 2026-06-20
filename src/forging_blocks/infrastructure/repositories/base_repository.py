@@ -4,22 +4,19 @@ Provides shared infrastructure for repository implementations.
 """
 
 from collections.abc import Mapping, MutableMapping, Sequence
-from typing import Any, TypeVar
+from typing import Any
 
 from forging_blocks.application.ports.outbound.repository import (
     ReadOnlyRepository,
     WriteOnlyRepository,
 )
-from forging_blocks.domain.specifications.specification import Specification
 from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.identified import Identified
+from forging_blocks.foundation.specification import Specification
 from forging_blocks.infrastructure.errors.repository_errors import (
     RepositoryError,
     RepositoryNotFoundError,
 )
-
-TEntity = TypeVar("TEntity")
-TId = TypeVar("TId")
 
 
 class BaseReadRepository[TEntity, TId](ReadOnlyRepository[TEntity, TId]):
@@ -128,19 +125,19 @@ class BaseWriteRepository[TEntity: Identified[Any], TId](WriteOnlyRepository[TEn
             raise RepositoryNotFoundError.for_id(id)
         del self._storage[id]
 
-    async def save(self, entity: TEntity) -> None:
+    async def save(self, aggregate: TEntity) -> None:
         """Persist an entity instance.
 
         Args:
-            entity: The entity to save.
+            aggregate: The entity to save.
 
         Raises:
             RepositoryError: If the entity has no valid identifier
                 (None, empty string, or boolean False).
         """
-        entity_id: TId = entity.id  # type: ignore[assignment]
+        entity_id: TId = aggregate.id  # type: ignore[assignment]
         self._validate_id(entity_id)
-        self._storage[entity_id] = entity
+        self._storage[entity_id] = aggregate
 
     @staticmethod
     def _validate_id(identifier: object) -> None:
@@ -187,6 +184,4 @@ class BaseRepository[TEntity: Identified[Any], TId](
             storage: An optional mutable mapping to use as backing storage.
                 If None, a new empty dictionary is used.
         """
-        # Initialize both base classes with the same storage
-        BaseReadRepository.__init__(self, storage)
-        BaseWriteRepository.__init__(self, storage)
+        super().__init__(storage)

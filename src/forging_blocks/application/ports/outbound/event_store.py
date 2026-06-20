@@ -1,43 +1,25 @@
 """Event store port for event-sourced aggregates.
 
-Defines the ``EventStore`` abstract interface for appending and retrieving
+Defines the ``EventStore`` protocol for appending and retrieving
 domain events. The interface is agnostic of storage backend — in-memory,
 relational, or event-native implementations are all supported.
 """
 
-from abc import ABC, abstractmethod
 from collections.abc import Sequence
+from typing import Protocol
 from uuid import UUID
 
+from forging_blocks.application.errors.event_store_error import EventStoreError
 from forging_blocks.foundation.messages.event import Event
+from forging_blocks.foundation.ports import OutboundPort
 from forging_blocks.foundation.result import Result
 
 
-class EventStoreError(Exception):
-    """Base error for event store operations."""
-
-
-class ConcurrencyError(EventStoreError):
-    """Raised when an optimistic concurrency check fails.
-
-    Attributes:
-        aggregate_id: The aggregate that experienced the conflict.
-        expected_version: The version the caller expected.
-        actual_version: The version currently stored.
-    """
-
-    def __init__(self, aggregate_id: UUID, expected_version: int, actual_version: int) -> None:
-        self.aggregate_id = aggregate_id
-        self.expected_version = expected_version
-        self.actual_version = actual_version
-        super().__init__(
-            f"Concurrency conflict for aggregate {aggregate_id}: "
-            f"expected version {expected_version}, actual {actual_version}"
-        )
-
-
-class EventStore[EventPayloadType](ABC):
-    """Abstract event store for appending and retrieving domain events.
+class EventStore[EventPayloadType](
+    OutboundPort[object, object],
+    Protocol,
+):
+    """Protocol for event stores that persist and retrieve domain events.
 
     Implementations must handle:
       - Appending new events to an event stream.
@@ -46,7 +28,6 @@ class EventStore[EventPayloadType](ABC):
       - Optimistic concurrency via ``expected_version``.
     """
 
-    @abstractmethod
     async def append_events(
         self,
         aggregate_id: UUID,
@@ -67,7 +48,6 @@ class EventStore[EventPayloadType](ABC):
         """
         ...
 
-    @abstractmethod
     async def get_events(
         self,
         aggregate_id: UUID,
@@ -89,7 +69,6 @@ class EventStore[EventPayloadType](ABC):
         """
         ...
 
-    @abstractmethod
     async def get_current_version(self, aggregate_id: UUID) -> Result[int, EventStoreError]:
         """Retrieve the current version of an aggregate's event stream.
 

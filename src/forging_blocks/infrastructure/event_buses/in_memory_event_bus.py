@@ -5,16 +5,14 @@ commands to a single registered handler.  Handlers are looked up
 by the exact type of the message.
 """
 
-from typing import Any
+from typing import Any, cast
 
+from forging_blocks.application.errors.event_bus_error import EventBusError
 from forging_blocks.application.ports.inbound.message_handler import (
     CommandHandler,
     EventHandler,
 )
-from forging_blocks.application.ports.outbound.event_bus import (
-    EventBus,
-    EventBusError,
-)
+from forging_blocks.application.ports.outbound.event_bus import EventBus
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.result import Err, Ok, Result
@@ -33,10 +31,10 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType](
     __slots__ = ("_command_handlers", "_event_handlers")
 
     def __init__(self) -> None:
-        self._event_handlers: dict[type, list[EventHandler[Any]]] = {}
-        self._command_handlers: dict[type, CommandHandler[Any]] = {}
+        self._event_handlers: dict[type[Any], list[EventHandler[Any]]] = {}
+        self._command_handlers: dict[type[Any], CommandHandler[Any]] = {}
 
-    def register_handler(self, message_type: type, handler: Any) -> None:
+    def register_handler(self, message_type: type[Any], handler: Any) -> None:
         """Register a handler for a message type.
 
         For event types, multiple handlers can be registered (fan-out).
@@ -47,7 +45,7 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType](
             handler: A handler instance.
         """
         if issubclass(message_type, Event):
-            self._event_handlers.setdefault(message_type, []).append(handler)
+            self._event_handlers.setdefault(cast(type[Any], message_type), []).append(handler)
         elif issubclass(message_type, Command):
             self._command_handlers[message_type] = handler
 

@@ -11,13 +11,11 @@ implementation.
 from collections.abc import Sequence
 from uuid import UUID
 
-from forging_blocks.application.ports.outbound.event_store import (
-    ConcurrencyError,
-    EventStore,
-    EventStoreError,
-)
+from forging_blocks.application.errors.concurrency_error import ConcurrencyError
+from forging_blocks.application.errors.event_store_error import EventStoreError
+from forging_blocks.application.ports.outbound.event_store import EventStore
 from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.result import Result
+from forging_blocks.foundation.result import Err, Ok, Result
 
 
 class InMemoryEventStore[EventPayloadType](EventStore[EventPayloadType]):
@@ -55,13 +53,13 @@ class InMemoryEventStore[EventPayloadType](EventStore[EventPayloadType]):
         current = self._versions.get(aggregate_id, 0)
 
         if expected_version is not None and current != expected_version:
-            return Result.from_err(ConcurrencyError(aggregate_id, expected_version, current))
+            return Err(ConcurrencyError(aggregate_id, expected_version, current))
 
         stream = self._streams.setdefault(aggregate_id, [])
         stream.extend(events)
         new_version = current + len(events)
         self._versions[aggregate_id] = new_version
-        return Result.from_ok(new_version)
+        return Ok(new_version)
 
     async def get_events(
         self,
@@ -83,7 +81,7 @@ class InMemoryEventStore[EventPayloadType](EventStore[EventPayloadType]):
         start = from_version if from_version is not None else 0
         end = to_version + 1 if to_version is not None else len(stream)
         sliced = stream[start:end]
-        return Result.from_ok(sliced)
+        return Ok(sliced)
 
     async def get_current_version(self, aggregate_id: UUID) -> Result[int, EventStoreError]:
         """Get the current version of an aggregate's stream.
@@ -94,4 +92,4 @@ class InMemoryEventStore[EventPayloadType](EventStore[EventPayloadType]):
         Returns:
             A ``Result`` containing the version number (0 for empty streams).
         """
-        return Result.from_ok(self._versions.get(aggregate_id, 0))
+        return Ok(self._versions.get(aggregate_id, 0))

@@ -24,22 +24,22 @@ class TestInMemoryEventStore:
     """Tests for the InMemoryEventStore implementation."""
 
     @pytest.fixture
-    def event_store(self):
+    def event_store(self) -> InMemoryEventStore:
         """Create a fresh InMemoryEventStore for each test."""
         return InMemoryEventStore()
 
     @pytest.mark.asyncio
-    async def test_save_and_get_events(self, event_store):
+    async def test_save_and_get_events(self, event_store: InMemoryEventStore) -> None:
         """Test saving and retrieving events."""
         aggregate_id = "test-aggregate-1"
-        events = [
+        events: list[dict[str, object]] = [
             {"type": "Event1", "data": {"value": 1}},
             {"type": "Event2", "data": {"value": 2}},
         ]
 
         await event_store.save_events(aggregate_id, events)
 
-        retrieved = await event_store.get_events(aggregate_id)
+        retrieved: list[dict[str, object]] = await event_store.get_events(aggregate_id)
         assert len(retrieved) == 2
         assert retrieved[0]["type"] == "Event1"
         assert retrieved[1]["type"] == "Event2"
@@ -47,10 +47,10 @@ class TestInMemoryEventStore:
         assert retrieved[1]["version"] == 2
 
     @pytest.mark.asyncio
-    async def test_concurrency_error(self, event_store):
+    async def test_concurrency_error(self, event_store: InMemoryEventStore) -> None:
         """Test that concurrency error is raised when expected version doesn't match."""
         aggregate_id = "test-aggregate-2"
-        events = [{"type": "Event1", "data": {"value": 1}}]
+        events: list[dict[str, object]] = [{"type": "Event1", "data": {"value": 1}}]
 
         await event_store.save_events(aggregate_id, events)
 
@@ -61,10 +61,10 @@ class TestInMemoryEventStore:
             )
 
     @pytest.mark.asyncio
-    async def test_concurrency_success(self, event_store):
+    async def test_concurrency_success(self, event_store: InMemoryEventStore) -> None:
         """Test that save succeeds when expected version matches."""
         aggregate_id = "test-aggregate-3"
-        events = [{"type": "Event1", "data": {"value": 1}}]
+        events: list[dict[str, object]] = [{"type": "Event1", "data": {"value": 1}}]
 
         await event_store.save_events(aggregate_id, events)
 
@@ -73,14 +73,14 @@ class TestInMemoryEventStore:
             aggregate_id, [{"type": "Event2", "data": {"value": 2}}], expected_version=1
         )
 
-        retrieved = await event_store.get_events(aggregate_id)
+        retrieved: list[dict[str, object]] = await event_store.get_events(aggregate_id)
         assert len(retrieved) == 2
 
     @pytest.mark.asyncio
-    async def test_get_events_with_version_range(self, event_store):
+    async def test_get_events_with_version_range(self, event_store: InMemoryEventStore) -> None:
         """Test retrieving events with version range filters."""
         aggregate_id = "test-aggregate-4"
-        events = [
+        events: list[dict[str, object]] = [
             {"type": "Event1", "data": {"value": 1}},
             {"type": "Event2", "data": {"value": 2}},
             {"type": "Event3", "data": {"value": 3}},
@@ -89,7 +89,9 @@ class TestInMemoryEventStore:
         await event_store.save_events(aggregate_id, events)
 
         # Get events from version 2
-        retrieved = await event_store.get_events(aggregate_id, from_version=2)
+        retrieved: list[dict[str, object]] = await event_store.get_events(
+            aggregate_id, from_version=2
+        )
         assert len(retrieved) == 2
         assert retrieved[0]["version"] == 2
         assert retrieved[1]["version"] == 3
@@ -106,36 +108,36 @@ class TestInMemoryEventStore:
         assert retrieved[0]["version"] == 2
 
     @pytest.mark.asyncio
-    async def test_get_events_empty_aggregate(self, event_store):
+    async def test_get_events_empty_aggregate(self, event_store: InMemoryEventStore) -> None:
         """Test retrieving events for non-existent aggregate."""
-        retrieved = await event_store.get_events("non-existent")
+        retrieved: list[dict[str, object]] = await event_store.get_events("non-existent")
         assert retrieved == []
 
     @pytest.mark.asyncio
-    async def test_save_and_get_snapshot(self, event_store):
+    async def test_save_and_get_snapshot(self, event_store: InMemoryEventStore) -> None:
         """Test saving and retrieving snapshots."""
         aggregate_id = "test-aggregate-5"
-        snapshot = {"state": "active", "count": 42}
+        snapshot: dict[str, object] = {"state": "active", "count": 42}
 
         await event_store.save_snapshot(aggregate_id, 10, snapshot)
 
-        retrieved = await event_store.get_snapshot(aggregate_id, 10)
+        retrieved: dict[str, object] | None = await event_store.get_snapshot(aggregate_id, 10)
         assert retrieved == snapshot
 
     @pytest.mark.asyncio
-    async def test_get_snapshot_not_found(self, event_store):
+    async def test_get_snapshot_not_found(self, event_store: InMemoryEventStore) -> None:
         """Test retrieving non-existent snapshot."""
-        retrieved = await event_store.get_snapshot("non-existent", 1)
+        retrieved: dict[str, object] | None = await event_store.get_snapshot("non-existent", 1)
         assert retrieved is None
 
     @pytest.mark.asyncio
-    async def test_multiple_aggregates(self, event_store):
+    async def test_multiple_aggregates(self, event_store: InMemoryEventStore) -> None:
         """Test that events are isolated per aggregate."""
         await event_store.save_events("agg-1", [{"type": "E1", "data": {}}])
         await event_store.save_events("agg-2", [{"type": "E2", "data": {}}])
 
-        events_1 = await event_store.get_events("agg-1")
-        events_2 = await event_store.get_events("agg-2")
+        events_1: list[dict[str, object]] = await event_store.get_events("agg-1")
+        events_2: list[dict[str, object]] = await event_store.get_events("agg-2")
 
         assert len(events_1) == 1
         assert events_1[0]["type"] == "E1"

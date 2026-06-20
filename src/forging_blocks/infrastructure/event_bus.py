@@ -5,16 +5,19 @@ This module provides the EventBus port and its in-memory implementation.
 """
 
 from abc import ABC, abstractmethod
-from typing import Callable, Type, TypeVar
+from collections.abc import Awaitable
+from typing import Any, Callable, Type, TypeVar
 
+from forging_blocks.foundation.errors.core import ErrorMessage
+from forging_blocks.foundation.errors.error import Error
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 
-EventHandler = Callable[[Event], None]
-CommandHandler = Callable[[Command], None]
+EventHandler = Callable[[Event[Any]], Awaitable[None]]
+CommandHandler = Callable[[Command[Any]], Awaitable[None]]
 
-E = TypeVar("E", bound=Event)
-C = TypeVar("C", bound=Command)
+E = TypeVar("E", bound=Event[Any])
+C = TypeVar("C", bound=Command[Any])
 
 
 class EventBus(ABC):
@@ -27,7 +30,7 @@ class EventBus(ABC):
     """
 
     @abstractmethod
-    async def publish(self, event: Event) -> None:
+    async def publish(self, event: Event[Any]) -> None:
         """
         Publish an event to all registered handlers.
 
@@ -37,7 +40,7 @@ class EventBus(ABC):
         pass
 
     @abstractmethod
-    async def send(self, command: Command) -> None:
+    async def send(self, command: Command[Any]) -> None:
         """
         Send a command to its handler.
 
@@ -72,9 +75,10 @@ class EventBus(ABC):
         pass
 
 
-class NoHandlerError(Exception):
+class NoHandlerError(Error[dict[str, object]]):
     """
     Raised when no handler is registered for a command type.
     """
 
-    pass
+    def __init__(self, message: str) -> None:
+        super().__init__(ErrorMessage(message))

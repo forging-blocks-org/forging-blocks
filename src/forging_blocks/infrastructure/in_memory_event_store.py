@@ -6,7 +6,7 @@ and development purposes.
 """
 
 from collections import defaultdict
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from forging_blocks.infrastructure.event_store import ConcurrencyError, EventStore
 
@@ -19,11 +19,14 @@ class InMemoryEventStore(EventStore):
     """
 
     def __init__(self) -> None:
-        self._events: Dict[str, List[dict]] = defaultdict(list)
-        self._snapshots: Dict[str, Dict[int, dict]] = defaultdict(dict)
+        self._events: Dict[str, List[dict[str, Any]]] = defaultdict(list)
+        self._snapshots: Dict[str, Dict[int, dict[str, Any]]] = defaultdict(dict)
 
     async def save_events(
-        self, aggregate_id: str, events: List[dict], expected_version: Optional[int] = None
+        self,
+        aggregate_id: str,
+        events: List[dict[str, Any]],
+        expected_version: Optional[int] = None,
     ) -> None:
         """
         Save a list of events for an aggregate.
@@ -55,7 +58,7 @@ class InMemoryEventStore(EventStore):
         aggregate_id: str,
         from_version: Optional[int] = None,
         to_version: Optional[int] = None,
-    ) -> List[dict]:
+    ) -> list[dict[str, object]]:
         """
         Retrieve events for an aggregate.
 
@@ -77,7 +80,7 @@ class InMemoryEventStore(EventStore):
 
         return events
 
-    async def get_snapshot(self, aggregate_id: str, version: int) -> Optional[dict]:
+    async def get_snapshot(self, aggregate_id: str, version: int) -> dict[str, object] | None:
         """
         Retrieve a snapshot of an aggregate at a specific version.
 
@@ -90,7 +93,9 @@ class InMemoryEventStore(EventStore):
         """
         return self._snapshots.get(aggregate_id, {}).get(version)
 
-    async def save_snapshot(self, aggregate_id: str, version: int, snapshot: dict) -> None:
+    async def save_snapshot(
+        self, aggregate_id: str, version: int, snapshot: dict[str, object]
+    ) -> None:
         """
         Save a snapshot of an aggregate.
 

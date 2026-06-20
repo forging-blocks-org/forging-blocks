@@ -4,17 +4,16 @@ Provides a repository specifically designed for AggregateRoot persistence
 with event sourcing support.
 """
 
-from typing import Generic, TypeVar
+from typing import Any
 
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
 from forging_blocks.infrastructure.event_store import EventStore
 from forging_blocks.infrastructure.repositories.base_repository import BaseRepository
 
-TAggregateRoot = TypeVar("TAggregateRoot", bound=AggregateRoot)
-TId = TypeVar("TId")
 
-
-class AggregateRepository(BaseRepository[TAggregateRoot, TId], Generic[TAggregateRoot, TId]):
+class AggregateRepository[TAggregateRoot: AggregateRoot[Any, Any], TId: Any](
+    BaseRepository[TAggregateRoot, TId]
+):
     """Repository for AggregateRoot persistence with event sourcing.
 
     Extends BaseRepository with event store integration for

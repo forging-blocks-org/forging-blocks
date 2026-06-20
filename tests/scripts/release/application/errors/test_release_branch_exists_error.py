@@ -14,7 +14,10 @@ class TestReleaseBranchExistsError:
         error = ReleaseBranchExistsError(branch_name)
 
         assert error.branch_name == branch_name
-        assert str(error) == f"Release branch '{branch_name}' already exists with the same changes"
+        assert (
+            str(error)
+            == f"ReleaseBranchExistsError: Release branch '{branch_name}' already exists with the same changes"
+        )
 
     def test_error_inheritance(self):
         """Test that ReleaseBranchExistsError inherits from Exception."""

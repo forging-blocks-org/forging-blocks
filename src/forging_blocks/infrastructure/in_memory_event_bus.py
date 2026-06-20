@@ -6,14 +6,15 @@ and development purposes.
 """
 
 from collections import defaultdict
-from typing import Callable, List, Type
+from collections.abc import Awaitable
+from typing import Any, Callable, List, Type
 
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.infrastructure.event_bus import EventBus, NoHandlerError
 
-EventHandler = Callable[[Event], None]
-CommandHandler = Callable[[Command], None]
+EventHandler = Callable[[Event[Any]], Awaitable[None]]
+CommandHandler = Callable[[Command[Any]], Awaitable[None]]
 
 
 class InMemoryEventBus(EventBus):
@@ -24,10 +25,10 @@ class InMemoryEventBus(EventBus):
     """
 
     def __init__(self) -> None:
-        self._event_handlers: dict[Type[Event], List[EventHandler]] = defaultdict(list)
-        self._command_handlers: dict[Type[Command], CommandHandler] = {}
+        self._event_handlers: dict[Type[Event[Any]], List[EventHandler]] = defaultdict(list)
+        self._command_handlers: dict[Type[Command[Any]], CommandHandler] = {}
 
-    async def publish(self, event: Event) -> None:
+    async def publish(self, event: Event[Any]) -> None:
         """
         Publish an event to all registered handlers.
 
@@ -38,7 +39,7 @@ class InMemoryEventBus(EventBus):
         for handler in handlers:
             await handler(event)
 
-    async def send(self, command: Command) -> None:
+    async def send(self, command: Command[Any]) -> None:
         """
         Send a command to its handler.
 
@@ -55,7 +56,7 @@ class InMemoryEventBus(EventBus):
             )
         await handler(command)
 
-    def subscribe(self, event_type: Type[Event], handler: EventHandler) -> None:
+    def subscribe(self, event_type: Type[Event[Any]], handler: EventHandler) -> None:
         """
         Subscribe a handler to an event type.
 
@@ -66,7 +67,7 @@ class InMemoryEventBus(EventBus):
         self._event_handlers[event_type].append(handler)
 
     def register_command_handler(
-        self, command_type: Type[Command], handler: CommandHandler
+        self, command_type: Type[Command[Any]], handler: CommandHandler
     ) -> None:
         """
         Register a handler for a command type.

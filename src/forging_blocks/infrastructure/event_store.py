@@ -5,7 +5,10 @@ This module provides the EventStore port and its in-memory implementation.
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import Any, List, Optional
+
+from forging_blocks.foundation.errors.core import ErrorMessage
+from forging_blocks.foundation.errors.error import Error
 
 
 class EventStore(ABC):
@@ -18,7 +21,10 @@ class EventStore(ABC):
 
     @abstractmethod
     async def save_events(
-        self, aggregate_id: str, events: List[dict], expected_version: Optional[int] = None
+        self,
+        aggregate_id: str,
+        events: List[dict[str, Any]],
+        expected_version: Optional[int] = None,
     ) -> None:
         """
         Save a list of events for an aggregate.
@@ -39,7 +45,7 @@ class EventStore(ABC):
         aggregate_id: str,
         from_version: Optional[int] = None,
         to_version: Optional[int] = None,
-    ) -> List[dict]:
+    ) -> list[dict[str, object]]:
         """
         Retrieve events for an aggregate.
 
@@ -54,7 +60,7 @@ class EventStore(ABC):
         pass
 
     @abstractmethod
-    async def get_snapshot(self, aggregate_id: str, version: int) -> Optional[dict]:
+    async def get_snapshot(self, aggregate_id: str, version: int) -> dict[str, object] | None:
         """
         Retrieve a snapshot of an aggregate at a specific version.
 
@@ -68,7 +74,9 @@ class EventStore(ABC):
         pass
 
     @abstractmethod
-    async def save_snapshot(self, aggregate_id: str, version: int, snapshot: dict) -> None:
+    async def save_snapshot(
+        self, aggregate_id: str, version: int, snapshot: dict[str, object]
+    ) -> None:
         """
         Save a snapshot of an aggregate.
 
@@ -80,9 +88,10 @@ class EventStore(ABC):
         pass
 
 
-class ConcurrencyError(Exception):
+class ConcurrencyError(Error[dict[str, object]]):
     """
     Raised when a concurrency conflict is detected.
     """
 
-    pass
+    def __init__(self, message: str) -> None:
+        super().__init__(ErrorMessage(message))

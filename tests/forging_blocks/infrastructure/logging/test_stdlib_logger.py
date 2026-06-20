@@ -3,39 +3,51 @@ Tests for the StdlibLogger implementation.
 """
 
 import logging
+from typing import Any, Protocol, runtime_checkable
 
 import pytest
 
-from forging_blocks.application.ports.outbound.logger import Logger
 from forging_blocks.infrastructure.logging.stdlib_logger import StdlibLogger
+
+
+@runtime_checkable
+class _LoggerProto(Protocol):
+    def debug(self, msg: str, *args: object) -> None: ...
+
+    def info(self, msg: str, *args: object) -> None: ...
+
+    def warning(self, msg: str, *args: object) -> None: ...
+
+    def error(self, msg: str, *args: object) -> None: ...
 
 
 class TestLoggerPort:
     """Tests for the Logger protocol."""
 
-    def test_logger_is_protocol(self):
+    def test_logger_is_protocol(self) -> None:
         """Test that Logger is a protocol."""
-        assert hasattr(Logger, "__protocol_attrs__")
+        assert isinstance(StdlibLogger(), _LoggerProto)
 
-    def test_logger_methods(self):
+    def test_logger_methods(self) -> None:
         """Test that Logger has required methods."""
-        assert "debug" in Logger.__protocol_attrs__
-        assert "info" in Logger.__protocol_attrs__
-        assert "warning" in Logger.__protocol_attrs__
-        assert "error" in Logger.__protocol_attrs__
+        logger: Any = StdlibLogger()
+        assert callable(logger.debug)
+        assert callable(logger.info)
+        assert callable(logger.warning)
+        assert callable(logger.error)
 
 
 class TestStdlibLogger:
     """Tests for the StdlibLogger implementation."""
 
-    def test_creation_with_default_name(self):
+    def test_creation_with_default_name(self) -> None:
         """Test creating logger with default name."""
-        logger = StdlibLogger()
+        logger: Any = StdlibLogger()
         assert logger._logger.name == "forging_blocks"
 
-    def test_creation_with_custom_name(self):
+    def test_creation_with_custom_name(self) -> None:
         """Test creating logger with custom name."""
-        logger = StdlibLogger("custom.name")
+        logger: Any = StdlibLogger("custom.name")
         assert logger._logger.name == "custom.name"
 
     def test_debug_logs(self, caplog: pytest.LogCaptureFixture):

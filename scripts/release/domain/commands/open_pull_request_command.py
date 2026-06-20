@@ -1,12 +1,15 @@
-from typing import TypeAlias, cast
+from typing import Self, TypeAlias, cast
 
 from forging_blocks.foundation.messages.command import Command
+from forging_blocks.foundation.messages.message import MessageMetadata
 
 PayloadType: TypeAlias = dict[str, str | bool]
 
 
 class OpenPullRequestCommand(Command[PayloadType]):
-    def __init__(self, *, version: str, branch: str, dry_run: bool) -> None:
+    def __init__(
+        self, *, version: str, branch: str, dry_run: bool, metadata: MessageMetadata | None = None
+    ) -> None:
         self._version = version
         self._branch = branch
         self._dry_run = dry_run
@@ -16,7 +19,7 @@ class OpenPullRequestCommand(Command[PayloadType]):
             "dry_run": self._dry_run,
         }
 
-        super().__init__()
+        super().__init__(metadata)
 
     @property
     def value(self) -> PayloadType:
@@ -37,3 +40,13 @@ class OpenPullRequestCommand(Command[PayloadType]):
     @property
     def _payload(self) -> dict[str, object]:
         return cast(dict[str, object], self._value)
+
+    @classmethod
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+        """Reconstruct from payload fields and metadata."""
+        return cls(
+            version=str(data["version"]),
+            branch=str(data["branch"]),
+            dry_run=bool(data["dry_run"]),
+            metadata=metadata,
+        )
