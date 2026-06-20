@@ -26,6 +26,14 @@ from .ports import (
     Port,
 )
 from .result import Err, Ok, Result
+from .specification import (
+    AndSpecification,
+    ComposableSpecification,
+    ExpressionSpecification,
+    NotSpecification,
+    OrSpecification,
+    Specification,
+)
 from .value_object import ValueObject
 
 __all__ = [
@@ -58,5 +66,11 @@ __all__ = [
     "Query",
     "Event",
     "Message",
+    "AndSpecification",
+    "ComposableSpecification",
+    "ExpressionSpecification",
+    "NotSpecification",
+    "OrSpecification",
+    "Specification",
     "ValueObject",
 ]
