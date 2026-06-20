@@ -2,7 +2,7 @@
 
 import dataclasses
 from datetime import datetime, timezone
-from typing import Any, cast
+from typing import Any, Self, cast
 from uuid import uuid7
 
 import pytest
@@ -28,9 +28,7 @@ class SimpleEvent(Event[dict[str, object]]):
         return self._payload
 
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "SimpleEvent":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls()
 
 
@@ -62,9 +60,7 @@ class CustomEvent(Event[dict[str, object]]):
         return self._payload
 
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "CustomEvent":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(value=str(data["value"]), metadata=metadata)
 
 
@@ -236,7 +232,7 @@ class TestMessageDataclassDecorator:
 
         original = OrderCreated(order_id="O1", total=99.95)
         d = original.to_dict()
-        restored = cast(OrderCreated, OrderCreated.from_dict(d))
+        restored = OrderCreated.from_dict(d)
         assert isinstance(restored, OrderCreated)
         assert restored.order_id == "O1"
         assert restored.total == 99.95
@@ -264,7 +260,7 @@ class TestMessageDataclassDecorator:
         original = OrderCreated(order_id="O1")
         d = original.to_dict()
         del d["payload"]
-        restored = cast(OrderCreated, OrderCreated.from_dict(d))
+        restored = OrderCreated.from_dict(d)
         assert restored.order_id == "O1"
 
     def test_command_dataclass_alias(self) -> None:

@@ -1,6 +1,6 @@
 """Tests for the InMemoryEventBus implementation."""
 
-from typing import Any, cast
+from typing import Any, Self, cast
 
 import pytest
 
@@ -33,9 +33,7 @@ class FakeEvent(Event[dict[str, object]]):
         return self._payload
 
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "FakeEvent":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(name=str(data.get("name", "")), metadata=metadata)
 
 
@@ -55,9 +53,7 @@ class FakeCommand(Command[dict[str, object]]):
         return self._payload
 
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "FakeCommand":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(name=str(data.get("name", "")), metadata=metadata)
 
 

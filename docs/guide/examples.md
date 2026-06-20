@@ -65,7 +65,7 @@ class Task:
     title: str
     completed: bool = False
 
-    def complete(self) -> "Task":
+    def complete(self) -> Self:
         return Task(id=self.id, title=self.title, completed=True)
 ```
 

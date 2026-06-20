@@ -1,4 +1,6 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+from typing import Self
+
 import pytest
 
 from forging_blocks.domain import (
@@ -26,9 +28,7 @@ class DummyEvent(Event[raw_event]):
         return {"name": self.name}
 
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "DummyEvent":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(name=str(data.get("name", "")), metadata=metadata)
 
 

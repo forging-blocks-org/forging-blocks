@@ -5,7 +5,7 @@ Tests for Command class.
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Self
 from uuid import uuid4
 
 import pytest
@@ -15,9 +15,7 @@ from forging_blocks.foundation.messages import Command, Message, MessageMetadata
 
 class PayloadAndValueNotImplCommand(Command):
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "PayloadAndValueNotImplCommand":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls()
 
 
@@ -49,9 +47,7 @@ class FakeUserCommand(Command[dict[str, Any]]):
         return {"customer_id": self._customer_id, "amount": self._amount}
 
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "FakeUserCommand":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(
             customer_id=str(data.get("customer_id", "")),
             amount=float(str(data.get("amount", 0.0))),

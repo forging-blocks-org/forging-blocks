@@ -1,5 +1,5 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-from typing import Any
+from typing import Any, Self
 from unittest.mock import AsyncMock
 
 import pytest
@@ -30,9 +30,7 @@ class FakeEvent(Event[str]):
         return {"data": self._data}
 
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "FakeEvent":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(data=str(data.get("data", "")), metadata=metadata)
 
 

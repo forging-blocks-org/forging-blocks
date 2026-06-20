@@ -2,7 +2,7 @@
 Tests for the EventBus port and InMemoryEventBus implementation.
 """
 
-from typing import Any
+from typing import Any, Self
 
 import pytest
 
@@ -29,9 +29,7 @@ class FakeEvent(Event[dict[str, object]]):
         return self._payload
 
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "FakeEvent":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(value=str(data.get("value", "")), metadata=metadata)
 
 
@@ -51,9 +49,7 @@ class FakeCommand(Command[dict[str, object]]):
         return self._payload
 
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "FakeCommand":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(value=str(data.get("value", "")), metadata=metadata)
 
 
@@ -192,7 +188,7 @@ class TestInMemoryEventBus:
             @classmethod
             def _from_payload_fields(
                 cls, data: dict[str, object], metadata: MessageMetadata
-            ) -> "EventA":
+            ) -> Self:
                 return cls()
 
         class EventB(Event[dict[str, object]]):
@@ -207,7 +203,7 @@ class TestInMemoryEventBus:
             @classmethod
             def _from_payload_fields(
                 cls, data: dict[str, object], metadata: MessageMetadata
-            ) -> "EventB":
+            ) -> Self:
                 return cls()
 
         received_a: list[Event[Any]] = []

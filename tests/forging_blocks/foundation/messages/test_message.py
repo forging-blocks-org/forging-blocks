@@ -4,7 +4,7 @@ Tests for MessageMetadata and Message classes.
 """
 
 from datetime import datetime, timezone
-from typing import Any, cast
+from typing import Any, Self, cast
 from uuid import UUID, uuid7
 
 import pytest
@@ -28,9 +28,7 @@ class FakeMessage(Message[str]):
         return {"data": self._data}
 
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "FakeMessage":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(data=str(data.get("data", "")), metadata=metadata)
 
 

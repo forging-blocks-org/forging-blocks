@@ -2,6 +2,8 @@
 Tests for the AggregateRepository implementation.
 """
 
+from typing import Self
+
 import pytest
 
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
@@ -28,9 +30,7 @@ class FakeEvent(Event[dict[str, object]]):
         return self._payload
 
     @classmethod
-    def _from_payload_fields(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "FakeEvent":
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(value=str(data.get("value", "")), metadata=metadata)
 
 

@@ -7,7 +7,7 @@ foundation messages influenced by Domain-Driven Design (DDD) and CQRS principles
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from datetime import datetime, timezone
-from typing import Any, cast
+from typing import Self, cast
 from uuid import UUID, uuid7
 
 from forging_blocks.foundation.value_object import ValueObject
@@ -284,7 +284,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         return self._payload
 
     @classmethod
-    def from_dict(cls, data: dict[str, object]) -> "Message[Any]":
+    def from_dict(cls, data: dict[str, object]) -> Self:
         """Create a message instance from a dictionary representation.
 
         Args:
@@ -298,9 +298,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         return cls._from_domain_data(payload, metadata)
 
     @classmethod
-    def _from_domain_data(
-        cls, data: dict[str, object], metadata: MessageMetadata
-    ) -> "Message[Any]":
+    def _from_domain_data(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         """Reconstruct a message from domain data and metadata.
 
         Subclasses override this to provide custom reconstruction logic.
@@ -321,7 +319,5 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
 
         method = getattr(cls, "_from_payload_fields", None)
         if method is not None:
-            return cast(Callable[[dict[str, object], MessageMetadata], "Message[Any]"], method)(
-                data, metadata
-            )
+            return cast(Callable[..., Self], method)(data, metadata)
         raise NotImplementedError
