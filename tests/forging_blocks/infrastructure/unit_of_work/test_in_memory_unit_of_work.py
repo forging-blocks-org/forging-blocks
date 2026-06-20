@@ -8,6 +8,7 @@ from pytest import fixture
 from forging_blocks.application import EventPublisher, UnitOfWorkError
 from forging_blocks.domain.aggregate_root import AggregateRoot
 from forging_blocks.foundation.messages.event import Event
+from forging_blocks.foundation.messages.message import MessageMetadata
 from forging_blocks.infrastructure.unit_of_work.in_memory_unit_of_work import (
     InMemoryUnitOfWork,
 )
@@ -16,8 +17,8 @@ from forging_blocks.infrastructure.unit_of_work.in_memory_unit_of_work import (
 class FakeEvent(Event[str]):
     """A fake domain event for testing."""
 
-    def __init__(self, data: str) -> None:
-        super().__init__()
+    def __init__(self, data: str, metadata: MessageMetadata | None = None) -> None:
+        super().__init__(metadata)
         self._data = data
 
     @property
@@ -27,6 +28,12 @@ class FakeEvent(Event[str]):
     @property
     def _payload(self) -> dict[str, Any]:
         return {"data": self._data}
+
+    @classmethod
+    def _from_payload_fields(
+        cls, data: dict[str, object], metadata: MessageMetadata
+    ) -> "FakeEvent":
+        return cls(data=str(data.get("data", "")), metadata=metadata)
 
 
 class FakeAggregate(AggregateRoot[str, str]):

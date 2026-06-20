@@ -5,8 +5,10 @@ foundation messages influenced by Domain-Driven Design (DDD) and CQRS principles
 """
 
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from datetime import datetime, timezone
-from uuid import UUID, uuid7  # type: ignore[attr-defined]
+from typing import Any, cast
+from uuid import UUID, uuid7
 
 from forging_blocks.foundation.value_object import ValueObject
 
@@ -158,12 +160,12 @@ class MessageMetadata(ValueObject[dict[str, object]]):
         """
         return cls(
             message_type=str(data["message_type"]),
-            message_id=UUID(data["message_id"]) if "message_id" in data else None,
+            message_id=UUID(str(data["message_id"])) if "message_id" in data else None,
             created_at=datetime.fromisoformat(str(data["created_at"]))
             if "created_at" in data
             else None,
-            correlation_id=UUID(data["correlation_id"]) if "correlation_id" in data else None,
-            causation_id=UUID(data["causation_id"]) if "causation_id" in data else None,
+            correlation_id=UUID(str(data["correlation_id"])) if "correlation_id" in data else None,
+            causation_id=UUID(str(data["causation_id"])) if "causation_id" in data else None,
         )
 
 
@@ -191,7 +193,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
                 generated ID and current timestamp.
         """
         super().__init__()
-        effective_type = self.__class__.__name__
+        effective_type = type(self).__name__
         self._metadata = metadata or MessageMetadata(message_type=effective_type)
 
     def __eq__(self, other: object) -> bool:
@@ -282,7 +284,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         return self._payload
 
     @classmethod
-    def from_dict(cls, data: dict[str, object]) -> Message:
+    def from_dict(cls, data: dict[str, object]) -> "Message[Any]":
         """Create a message instance from a dictionary representation.
 
         Args:
@@ -291,16 +293,19 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         Returns:
             A new message instance reconstituted from *data*.
         """
-        metadata = MessageMetadata.from_dict(dict(data["metadata"]))  # type: ignore[arg-type]
-        payload = dict(data.get("payload", data.get("data", {})))  # type: ignore[arg-type]
+        metadata = MessageMetadata.from_dict(cast(dict[str, object], data["metadata"]))
+        payload = cast(dict[str, object], data.get("payload", data.get("data", {})))
         return cls._from_domain_data(payload, metadata)
 
     @classmethod
-    def _from_domain_data(cls, data: dict[str, object], metadata: MessageMetadata) -> Message:
+    def _from_domain_data(
+        cls, data: dict[str, object], metadata: MessageMetadata
+    ) -> "Message[Any]":
         """Reconstruct a message from domain data and metadata.
 
         Subclasses override this to provide custom reconstruction logic.
-        The default raises ``NotImplementedError``.
+        By default, calls ``_from_payload_fields`` if available, otherwise raises
+        ``NotImplementedError``.
 
         Args:
             data: The domain data dictionary.
@@ -310,6 +315,13 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
             A new message instance.
 
         Raises:
-            NotImplementedError: If the subclass has not overridden this method.
+            NotImplementedError: If the subclass has not overridden this method or
+                does not have a ``_from_payload_fields`` method.
         """
+
+        method = getattr(cls, "_from_payload_fields", None)
+        if method is not None:
+            return cast(Callable[[dict[str, object], MessageMetadata], "Message[Any]"], method)(
+                data, metadata
+            )
         raise NotImplementedError

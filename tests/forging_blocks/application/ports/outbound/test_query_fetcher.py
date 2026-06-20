@@ -6,7 +6,7 @@ import pytest
 from pytest import fixture
 
 from forging_blocks.application import MessageBus, QueryFetcher
-from forging_blocks.foundation.messages import Query
+from forging_blocks.foundation.messages import MessageMetadata, Query
 
 
 class FakeQuery(Query):
@@ -17,6 +17,12 @@ class FakeQuery(Query):
     @property
     def _payload(self) -> dict[str, Any]:
         return {"foo": "bar"}
+
+    @classmethod
+    def _from_payload_fields(
+        cls, data: dict[str, object], metadata: MessageMetadata
+    ) -> "FakeQuery":
+        return cls()
 
 
 @pytest.mark.unit

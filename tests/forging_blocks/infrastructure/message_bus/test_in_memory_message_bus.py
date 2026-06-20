@@ -3,6 +3,7 @@ from typing import Any
 import pytest
 
 from forging_blocks.foundation.messages.command import Command
+from forging_blocks.foundation.messages.message import MessageMetadata
 from forging_blocks.foundation.messages.query import Query
 from forging_blocks.infrastructure.message_bus.in_memory_message_bus import (
     InMemoryMessageBus,
@@ -12,8 +13,8 @@ from forging_blocks.infrastructure.message_bus.in_memory_message_bus import (
 class FakeCommand(Command[str]):
     """A fake command for testing."""
 
-    def __init__(self, data: str) -> None:
-        super().__init__()
+    def __init__(self, data: str, metadata: MessageMetadata | None = None) -> None:
+        super().__init__(metadata)
         self._data = data
 
     @property
@@ -24,10 +25,16 @@ class FakeCommand(Command[str]):
     def _payload(self) -> dict[str, Any]:
         return {"data": self._data}
 
+    @classmethod
+    def _from_payload_fields(
+        cls, data: dict[str, object], metadata: MessageMetadata
+    ) -> "FakeCommand":
+        return cls(data=str(data.get("data", "")), metadata=metadata)
+
 
 class FakeQuery(Query[dict[str, Any]]):
-    def __init__(self, data: str) -> None:
-        super().__init__()
+    def __init__(self, data: str, metadata: MessageMetadata | None = None) -> None:
+        super().__init__(metadata)
         self._data = data
 
     @property
@@ -37,6 +44,12 @@ class FakeQuery(Query[dict[str, Any]]):
     @property
     def _payload(self) -> dict[str, Any]:
         return {"data": self._data}
+
+    @classmethod
+    def _from_payload_fields(
+        cls, data: dict[str, object], metadata: MessageMetadata
+    ) -> "FakeQuery":
+        return cls(data=str(data.get("data", "")), metadata=metadata)
 
 
 @pytest.mark.unit

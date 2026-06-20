@@ -5,7 +5,7 @@ import pytest
 from pytest import fixture
 
 from forging_blocks.application import EventPublisher, MessageBus
-from forging_blocks.foundation.messages import Event
+from forging_blocks.foundation.messages import Event, MessageMetadata
 
 
 class FakeEvent(Event):
@@ -16,6 +16,12 @@ class FakeEvent(Event):
     @property
     def _payload(self) -> dict[str, str]:
         return {"foo": "bar"}
+
+    @classmethod
+    def _from_payload_fields(
+        cls, data: dict[str, object], metadata: MessageMetadata
+    ) -> "FakeEvent":
+        return cls()
 
 
 @pytest.mark.unit

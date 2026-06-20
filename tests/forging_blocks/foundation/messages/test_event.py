@@ -7,7 +7,11 @@ from forging_blocks.foundation.messages import Event, MessageMetadata
 
 
 class PayloadNotImplementEvent(Event):
-    pass
+    @classmethod
+    def _from_payload_fields(
+        cls, data: dict[str, object], metadata: MessageMetadata
+    ) -> "PayloadNotImplementEvent":
+        return cls()
 
 
 class FakeEvent(Event):
@@ -46,6 +50,17 @@ class FakeEvent(Event):
             "customer_id": self._customer_id,
             "total": self._total,
         }
+
+    @classmethod
+    def _from_payload_fields(
+        cls, data: dict[str, object], metadata: MessageMetadata
+    ) -> "FakeEvent":
+        return cls(
+            order_id=str(data.get("order_id", "")),
+            customer_id=str(data.get("customer_id", "")),
+            total=float(str(data.get("total", 0.0))),
+            metadata=metadata,
+        )
 
 
 @pytest.mark.unit

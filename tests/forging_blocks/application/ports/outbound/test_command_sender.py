@@ -6,7 +6,7 @@ import pytest
 from pytest import fixture
 
 from forging_blocks.application import CommandSender, MessageBus
-from forging_blocks.foundation.messages import Command
+from forging_blocks.foundation.messages import Command, MessageMetadata
 
 
 class FakeCommand(Command[str]):
@@ -16,6 +16,12 @@ class FakeCommand(Command[str]):
 
     def _payload(self) -> dict[str, Any]:  # type: ignore[override]
         return {"foo": "foo"}
+
+    @classmethod
+    def _from_payload_fields(
+        cls, data: dict[str, object], metadata: MessageMetadata
+    ) -> "FakeCommand":
+        return cls()
 
 
 @pytest.mark.unit
