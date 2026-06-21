@@ -40,9 +40,6 @@ class NotCallablePredicateError[MetadataType: Mapping[str, object]](Error[Metada
         Args:
             predicate: The object that was provided as a predicate but is not callable.
                 The type name of this object will be included in the error message.
-
-        Raises:
-            None. This constructor only creates the error; it doesn't raise it.
         """
         message = ErrorMessage(f"predicate must be Callable and not {type(predicate).__name__}")
         super().__init__(message)

@@ -151,10 +151,11 @@ def message_dataclass(
                 m for m in dc_cls.__abstractmethods__ if m != "value"
             )
 
-        assert isinstance(dc_cls, _PatchedMessage), (
-            f"{dc_cls.__name__!r} does not satisfy _PatchedMessage after decoration. "
-            "This is a bug in message_dataclass."
-        )
+        if not isinstance(dc_cls, _PatchedMessage):
+            raise TypeError(
+                f"{dc_cls.__name__!r} does not satisfy _PatchedMessage after decoration. "
+                "This is a bug in message_dataclass."
+            )
 
         return cast(type[_M], dc_cls)
 
