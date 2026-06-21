@@ -19,6 +19,8 @@ These are usage snippets, not templates — adapt them to your context.
 
 ---
 
+## 1. Validation with Result
+
 ```python
 from dataclasses import dataclass
 from forging_blocks.foundation import Result, Ok, Err
@@ -57,6 +59,7 @@ match result:
 
 ```python
 from dataclasses import dataclass
+from typing import Self
 
 
 @dataclass(frozen=True)
@@ -76,8 +79,6 @@ This type does not rely on any infrastructure. It can be tested directly, extend
 ## 3. Using a port and adapter
 
 ```python
-from typing import Protocol
-
 from forging_blocks.foundation import Err, Ok, Port, Result
 
 
