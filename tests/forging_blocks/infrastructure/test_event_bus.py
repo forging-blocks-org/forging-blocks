@@ -11,46 +11,9 @@ from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.messages.message import MessageMetadata
 from forging_blocks.infrastructure.event_bus import EventBus, NoHandlerError
 from forging_blocks.infrastructure.in_memory_event_bus import InMemoryEventBus
-
-
-class FakeEvent(Event[dict[str, object]]):
-    """Fake event for testing."""
-
-    def __init__(self, value: str, metadata: MessageMetadata | None = None):
-        super().__init__(metadata)
-        self._value = value
-
-    @property
-    def _payload(self) -> dict[str, object]:
-        return {"value": self._value}
-
-    @property
-    def value(self) -> dict[str, object]:
-        return self._payload
-
-    @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
-        return cls(value=str(data.get("value", "")), metadata=metadata)
-
-
-class FakeCommand(Command[dict[str, object]]):
-    """Fake command for testing."""
-
-    def __init__(self, value: str, metadata: MessageMetadata | None = None):
-        super().__init__(metadata)
-        self._value = value
-
-    @property
-    def _payload(self) -> dict[str, object]:
-        return {"value": self._value}
-
-    @property
-    def value(self) -> dict[str, object]:
-        return self._payload
-
-    @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
-        return cls(value=str(data.get("value", "")), metadata=metadata)
+from tests.fixtures.fake_event_with_value import FakeEventWithValue
+from tests.fixtures.simple_fake_command import SimpleFakeCommand
+from tests.fixtures.simple_fake_command_with_value import SimpleFakeCommandWithValue
 
 
 class TestEventBus:
@@ -81,14 +44,14 @@ class TestInMemoryEventBus:
         async def handler(event: Event[Any]) -> None:
             received_events.append(event)
 
-        event_bus.subscribe(FakeEvent, handler)
+        event_bus.subscribe(FakeEventWithValue, handler)
 
-        event = FakeEvent("test-value")
+        event = FakeEventWithValue("test-value")
         await event_bus.publish(event)
 
         assert len(received_events) == 1
         event = received_events[0]
-        assert isinstance(event, FakeEvent)
+        assert isinstance(event, FakeEventWithValue)
         assert event.value["value"] == "test-value"
 
     @pytest.mark.asyncio
@@ -103,25 +66,25 @@ class TestInMemoryEventBus:
         async def handler2(event: Event[Any]) -> None:
             received_2.append(event)
 
-        event_bus.subscribe(FakeEvent, handler1)
-        event_bus.subscribe(FakeEvent, handler2)
+        event_bus.subscribe(FakeEventWithValue, handler1)
+        event_bus.subscribe(FakeEventWithValue, handler2)
 
-        event = FakeEvent("test-value")
+        event = FakeEventWithValue("test-value")
         await event_bus.publish(event)
 
         assert len(received_1) == 1
         assert len(received_2) == 1
         e1 = received_1[0]
-        assert isinstance(e1, FakeEvent)
+        assert isinstance(e1, FakeEventWithValue)
         assert e1.value["value"] == "test-value"
         e2 = received_2[0]
-        assert isinstance(e2, FakeEvent)
+        assert isinstance(e2, FakeEventWithValue)
         assert e2.value["value"] == "test-value"
 
     @pytest.mark.asyncio
     async def test_publish_no_subscribers(self, event_bus: InMemoryEventBus) -> None:
         """Test publishing an event with no subscribers."""
-        event = FakeEvent("test-value")
+        event = FakeEventWithValue("test-value")
         # Should not raise
         await event_bus.publish(event)
 
@@ -133,20 +96,20 @@ class TestInMemoryEventBus:
         async def handler(command: Command[Any]) -> None:
             received_commands.append(command)
 
-        event_bus.register_command_handler(FakeCommand, handler)
+        event_bus.register_command_handler(SimpleFakeCommandWithValue, handler)
 
-        command = FakeCommand("test-value")
+        command = SimpleFakeCommandWithValue("test-value")
         await event_bus.send(command)
 
         assert len(received_commands) == 1
         c = received_commands[0]
-        assert isinstance(c, FakeCommand)
+        assert isinstance(c, SimpleFakeCommandWithValue)
         assert c.value["value"] == "test-value"
 
     @pytest.mark.asyncio
     async def test_send_command_no_handler(self, event_bus: InMemoryEventBus) -> None:
         """Test sending a command with no handler raises NoHandlerError."""
-        command = FakeCommand("test-value")
+        command = SimpleFakeCommand("test-value")
 
         with pytest.raises(NoHandlerError):
             await event_bus.send(command)
@@ -163,10 +126,10 @@ class TestInMemoryEventBus:
         async def handler2(command: Command[Any]) -> None:
             received_2.append(command)
 
-        event_bus.register_command_handler(FakeCommand, handler1)
-        event_bus.register_command_handler(FakeCommand, handler2)
+        event_bus.register_command_handler(SimpleFakeCommand, handler1)
+        event_bus.register_command_handler(SimpleFakeCommand, handler2)
 
-        command = FakeCommand("test-value")
+        command = SimpleFakeCommand("test-value")
         await event_bus.send(command)
 
         assert len(received_1) == 0
