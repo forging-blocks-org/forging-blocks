@@ -55,24 +55,34 @@ match result:
 
 ---
 
-## 2. Simple domain-like type
+## 2. Simple domain-like type (Entity)
 
 ```python
-from dataclasses import dataclass
 from typing import Self
 
+from forging_blocks.domain import Entity
 
-@dataclass(frozen=True)
-class Task:
-    id: int
-    title: str
-    completed: bool = False
+
+class Task(Entity[int]):
+    def __init__(self, id: int, title: str, completed: bool = False) -> None:
+        super().__init__(id)
+        self._title = title
+        self._completed = completed
+
+    @property
+    def title(self) -> str:
+        return self._title
+
+    @property
+    def completed(self) -> bool:
+        return self._completed
 
     def complete(self) -> Self:
-        return Task(id=self.id, title=self.title, completed=True)
+        self._completed = True
+        return self
 ```
 
-This type does not rely on any infrastructure. It can be tested directly, extended easily, and used in a wide range of designs.
+`Entity` uses **selective freezing** via `@auto_freeze(attrs=["_id"])` — the identity field (`_id`) is frozen after `__init__`, while other attributes remain mutable. This ensures the entity's identity never changes, while its state can evolve. See [Domain > Entities](../../reference/domain.md#entities) for why identity matters, and [Foundation > Auto-freeze > Selective freezing](../../reference/foundation.md#selective-freezing) for the mechanism.
 
 ---
 
