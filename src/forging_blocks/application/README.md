@@ -129,7 +129,3 @@ class CreateUserService(CreateUserUseCase):
 - **Add new inbound ports** for new use cases.
 - **Add new outbound ports** for new integrations (e.g., background jobs, analytics, etc.).
 - **Implement services** for each use case, orchestrating domain and infrastructure as needed.
-
----
-
-**For more examples and usage, see the project root [README](../../README.md) and the `/examples` directory.**

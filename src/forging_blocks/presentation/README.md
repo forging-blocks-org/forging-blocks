@@ -12,19 +12,15 @@ This block is for abstractions or patterns that help build presentation adapters
 
 ## Placement
 
-Place project-specific adapters in your application's presentation block or in the `/examples` directory.
-
-Use the examples in the [`/examples`](https://github.com/anomalyco/forging-blocks/tree/main/examples) directory as a starting point for your architecture.
+Place project-specific adapters in your application's presentation block.
 
 ---
 
 ## Why This Matters
 
 - **Clarity & Cleanliness:** Keeps your toolbox focused on reusable, generic presentation logic.
-- **Separation:** Project-specific code and framework adapters stay with your app or in examples.
+- **Separation:** Project-specific code and framework adapters stay with your app.
 
 ---
 
 **If this folder is empty, that's intentional.** Add code here only if it is *genuinely reusable* across many projects.
-
-For real-world adapters and usage with frameworks or libraries, see the `/examples` directory.
