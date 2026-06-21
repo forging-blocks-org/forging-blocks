@@ -1,36 +1,15 @@
 """Tests for the InMemoryEventStore implementation."""
 
-from typing import Any, Self, cast
+from typing import Any, cast
 from uuid import uuid7
 
 import pytest
 
-from forging_blocks.application.errors.concurrency_error import ConcurrencyError
-from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.message import MessageMetadata
+from forging_blocks.application.errors import ConcurrencyError
 from forging_blocks.infrastructure.event_stores.in_memory_event_store import (
     InMemoryEventStore,
 )
-
-
-class FakeEvent(Event[dict[str, object]]):
-    """A simple domain event for testing."""
-
-    def __init__(self, name: str, metadata: MessageMetadata | None = None) -> None:
-        super().__init__(metadata)
-        self._name = name
-
-    @property
-    def _payload(self) -> dict[str, object]:
-        return {"name": self._name}
-
-    @property
-    def value(self) -> dict[str, object]:
-        return self._payload
-
-    @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
-        return cls(name=str(data.get("name", "")), metadata=metadata)
+from tests.fixtures.fake_event_with_name import FakeEventWithName
 
 
 @pytest.mark.unit
@@ -41,7 +20,7 @@ class TestInMemoryEventStore:
         """Events appended to a stream can be retrieved in order."""
         store: InMemoryEventStore[dict[str, object]] = InMemoryEventStore()
         agg_id = uuid7()
-        events = [FakeEvent("evt1"), FakeEvent("evt2")]
+        events = [FakeEventWithName("evt1"), FakeEventWithName("evt2")]
 
         version = await store.append_events(agg_id, events, expected_version=0)
         assert version.is_ok
@@ -72,9 +51,11 @@ class TestInMemoryEventStore:
         """Appending with a wrong expected_version returns a ConcurrencyError."""
         store: InMemoryEventStore[dict[str, object]] = InMemoryEventStore()
         agg_id = uuid7()
-        await store.append_events(agg_id, [FakeEvent("first")], expected_version=0)
+        await store.append_events(agg_id, [FakeEventWithName("first")], expected_version=0)
 
-        result = await store.append_events(agg_id, [FakeEvent("conflict")], expected_version=0)
+        result = await store.append_events(
+            agg_id, [FakeEventWithName("conflict")], expected_version=0
+        )
         assert result.is_err
         assert isinstance(result.error, ConcurrencyError)
 
@@ -82,7 +63,7 @@ class TestInMemoryEventStore:
         """Events can be retrieved within a version range."""
         store: InMemoryEventStore[dict[str, object]] = InMemoryEventStore()
         agg_id = uuid7()
-        events = [FakeEvent(f"evt{i}") for i in range(5)]
+        events = [FakeEventWithName(f"evt{i}") for i in range(5)]
         await store.append_events(agg_id, events)
 
         result = await store.get_events(agg_id, from_version=1, to_version=3)
@@ -98,8 +79,8 @@ class TestInMemoryEventStore:
         agg_id = uuid7()
         assert (await store.get_current_version(agg_id)).value == 0
 
-        await store.append_events(agg_id, [FakeEvent("a"), FakeEvent("b")])
+        await store.append_events(agg_id, [FakeEventWithName("a"), FakeEventWithName("b")])
         assert (await store.get_current_version(agg_id)).value == 2
 
-        await store.append_events(agg_id, [FakeEvent("c")])
+        await store.append_events(agg_id, [FakeEventWithName("c")])
         assert (await store.get_current_version(agg_id)).value == 3
