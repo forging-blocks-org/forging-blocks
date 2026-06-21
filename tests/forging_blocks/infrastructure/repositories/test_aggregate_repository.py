@@ -2,36 +2,14 @@
 Tests for the AggregateRepository implementation.
 """
 
-from typing import Self
-
 import pytest
 
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
 from forging_blocks.domain.aggregate_root.aggregate_version import AggregateVersion
 from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.message import MessageMetadata
 from forging_blocks.infrastructure.in_memory_event_store import InMemoryEventStore
 from forging_blocks.infrastructure.repositories.aggregate_repository import AggregateRepository
-
-
-class FakeEvent(Event[dict[str, object]]):
-    """Fake event for testing."""
-
-    def __init__(self, value: str, metadata: MessageMetadata | None = None):
-        super().__init__(metadata)
-        self._value = value
-
-    @property
-    def _payload(self) -> dict[str, object]:
-        return {"value": self._value}
-
-    @property
-    def value(self) -> dict[str, object]:
-        return self._payload
-
-    @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
-        return cls(value=str(data.get("value", "")), metadata=metadata)
+from tests.fixtures.fake_event_with_value import FakeEventWithValue
 
 
 class FakeAggregate(AggregateRoot[str, dict[str, object]]):
@@ -70,7 +48,7 @@ class TestAggregateRepository:
     async def test_save_aggregate(self, repo: _FakeAggregateRepository) -> None:
         """Test saving an aggregate."""
         aggregate = FakeAggregate("1")
-        aggregate.apply(FakeEvent("initial"))
+        aggregate.apply(FakeEventWithValue("initial"))
 
         await repo.save(aggregate)
 
@@ -87,8 +65,8 @@ class TestAggregateRepository:
     ) -> None:
         """Test that saving an aggregate persists its events to the event store."""
         aggregate = FakeAggregate("1")
-        aggregate.apply(FakeEvent("event1"))
-        aggregate.apply(FakeEvent("event2"))
+        aggregate.apply(FakeEventWithValue("event1"))
+        aggregate.apply(FakeEventWithValue("event2"))
 
         await repo.save(aggregate)
         # Check events in event store
@@ -109,11 +87,11 @@ class TestAggregateRepository:
     ) -> None:
         """Test saving with expected version for concurrency control."""
         aggregate = FakeAggregate("1")
-        aggregate.apply(FakeEvent("event1"))
+        aggregate.apply(FakeEventWithValue("event1"))
         await repo.save(aggregate)
 
         # Apply another event to the same aggregate instance
-        aggregate.apply(FakeEvent("event2"))
+        aggregate.apply(FakeEventWithValue("event2"))
 
         # This should work since we're using the same aggregate instance
         await repo.save(aggregate)
@@ -125,7 +103,7 @@ class TestAggregateRepository:
     async def test_get_by_id_from_storage(self, repo: _FakeAggregateRepository) -> None:
         """Test getting an aggregate from in-memory storage."""
         aggregate = FakeAggregate("1")
-        aggregate.apply(FakeEvent("initial"))
+        aggregate.apply(FakeEventWithValue("initial"))
         await repo.save(aggregate)
 
         retrieved = await repo.get_by_id("1")
@@ -142,7 +120,7 @@ class TestAggregateRepository:
     async def test_delete_aggregate(self, repo: _FakeAggregateRepository) -> None:
         """Test deleting an aggregate."""
         aggregate = FakeAggregate("1")
-        aggregate.apply(FakeEvent("initial"))
+        aggregate.apply(FakeEventWithValue("initial"))
         await repo.save(aggregate)
 
         await repo.delete_by_id("1")
