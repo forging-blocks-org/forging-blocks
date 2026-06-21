@@ -22,6 +22,9 @@ Key points:
 - Focus on explicit outcomes, clear boundaries, and testability
 - Zero dependencies, lightweight
 
+!!! note "Architecture-agnostic — no DDD required"
+    ForgingBlocks does **not** require Domain-Driven Design (DDD). You can use only the **Foundation** block for utilities like `Result`, `ValueObject`, `Port`, `Specification`, and structured errors — without adopting entities, aggregates, or domain layers. The Domain, Application, and other blocks are optional. Pick what fits your project.
+
 ---
 
 ## Getting Started
