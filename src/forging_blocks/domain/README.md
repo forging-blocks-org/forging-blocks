@@ -1,8 +1,8 @@
-# Domain Blocks
+# Domain Block
 
-The **domain blocks** is the heart of your business logic.
+The **Domain block** is the heart of your business logic.
 It is completely independent of frameworks, databases, and other technical concerns.
-This blocks models your problem space using core DDD patterns: **Entities, Value Objects, Domain Events, Aggregates, Repositories, and Domain Services**.
+This block models your problem space using core DDD patterns: **Entities, Value Objects, Domain Events, Aggregates, Repositories, and Domain Services**.
 
 ---
 
@@ -11,8 +11,10 @@ This blocks models your problem space using core DDD patterns: **Entities, Value
 ```
 domain/
 ├── aggregate_root.py            # Base class for aggregate roots
+├── aggregate_version.py         # Version tracking for optimistic concurrency
 ├── entity.py                    # Base class for entities with identity
 ├── value_object.py              # Base class for value objects (immutables)
+├── errors/                      # Domain-specific errors
 └── README.md                    # This documentation
 ```
 
@@ -35,7 +37,7 @@ domain/
 ### 4. **Domain Commands, Events & Queries**
 - **Events:** Things that have happened (immutable, recordable).
 - **Commands:** Requests for actions (intent, not result).
-- **Queries:** Requests for queries (query, not result).
+- **Queries:** Requests for data (query, not result).
 - All are defined in the **Foundation** block as reusable message abstractions.
 
 ---
@@ -47,17 +49,19 @@ domain/
 
    ```python
    from forging_blocks.domain.entity import Entity
-   from buidling_blocks.domain.value_object import ValueObject
-   2. **Model Aggregates**
-      Use `AggregateRoot` for your aggregate boundaries.
+   from forging_blocks.domain.value_object import ValueObject
+   ```
 
-   3. **Raise Domain Events**
-      Create subclasses of `Event` and use them to communicate important business changes.
+2. **Model Aggregates**
+   Use `AggregateRoot` for your aggregate boundaries.
 
-   4. **Use Domain Commands and Queries**
-       Import from `forging_blocks.foundation.messages` for intent and data retrieval.
+3. **Raise Domain Events**
+   Create subclasses of `Event` and use them to communicate important business changes.
 
-   ---
+4. **Use Domain Commands and Queries**
+   Import from `forging_blocks.foundation.messages` for intent and data retrieval.
+
+---
 
 ## Testing Guidelines
 
@@ -67,20 +71,23 @@ domain/
 - One action (Act) per test.
 - Use mocks or fakes for outbound ports (repositories, etc.). Don't mock what you don't own.
 
-   ---
-## Extending the Domain Blocks
+---
 
-- **Add new entities or value objects** as your blocks grows.
+## Extending the Domain Block
+
+- **Add new entities or value objects** as your domain grows.
 - **Add outbound ports** for new persistence or integration needs.
 - **Add domain services** for complex business rules.
 - **Never** import infrastructure, application, or framework code here!
 
-   ---
+---
+
 ## Why This Matters
 
 - **Independence:** Domain logic stays pure and reusable.
 - **Testability:** Easy, fast, isolated tests.
 - **Maintainability:** Clear separation of business rules from technical detail.
 
-   ---
+---
+
 **For more examples and full documentation, see the project root [README](../../README.md) or the `/docs` directory.**
