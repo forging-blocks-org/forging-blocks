@@ -1,6 +1,6 @@
 """Tests for the InMemoryEventBus implementation."""
 
-from typing import Any, Self, cast
+from typing import Any, cast
 
 import pytest
 
@@ -11,50 +11,11 @@ from forging_blocks.application.ports.inbound.message_handler import (
 )
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.message import MessageMetadata
 from forging_blocks.infrastructure.event_buses.in_memory_event_bus import (
     InMemoryEventBus,
 )
-
-
-class FakeEvent(Event[dict[str, object]]):
-    """A simple event for testing."""
-
-    def __init__(self, name: str, metadata: MessageMetadata | None = None) -> None:
-        super().__init__(metadata)
-        self._name = name
-
-    @property
-    def _payload(self) -> dict[str, object]:
-        return {"name": self._name}
-
-    @property
-    def value(self) -> dict[str, object]:
-        return self._payload
-
-    @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
-        return cls(name=str(data.get("name", "")), metadata=metadata)
-
-
-class FakeCommand(Command[dict[str, object]]):
-    """A simple command for testing."""
-
-    def __init__(self, name: str, metadata: MessageMetadata | None = None) -> None:
-        super().__init__(metadata)
-        self._name = name
-
-    @property
-    def _payload(self) -> dict[str, object]:
-        return {"name": self._name}
-
-    @property
-    def value(self) -> dict[str, object]:
-        return self._payload
-
-    @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
-        return cls(name=str(data.get("name", "")), metadata=metadata)
+from tests.fixtures.fake_event_with_name import FakeEventWithName
+from tests.fixtures.simple_fake_command import SimpleFakeCommand
 
 
 @pytest.mark.unit
@@ -74,10 +35,10 @@ class TestInMemoryEventBus:
             async def handle(self, message: Event[dict[str, object]]) -> None:  # type: ignore[override]
                 received.append("B")
 
-        bus.register_handler(FakeEvent, HandlerA())
-        bus.register_handler(FakeEvent, HandlerB())
+        bus.register_handler(FakeEventWithName, HandlerA())
+        bus.register_handler(FakeEventWithName, HandlerB())
 
-        result = await bus.publish(FakeEvent("test"))
+        result = await bus.publish(FakeEventWithName("test"))
         assert result.is_ok
         assert received == ["A", "B"]
 
@@ -90,16 +51,16 @@ class TestInMemoryEventBus:
             async def handle(self, message: Command[dict[str, object]]) -> None:  # type: ignore[override]
                 handled.append(cast(Any, message)._name)
 
-        bus.register_handler(FakeCommand, Handler())
+        bus.register_handler(SimpleFakeCommand, Handler())
 
-        result = await bus.send(FakeCommand("do-something"))
+        result = await bus.send(SimpleFakeCommand("do-something"))
         assert result.is_ok
         assert handled == ["do-something"]
 
     async def test_send_no_handler_returns_error(self) -> None:
         """Sending a command with no registered handler returns an error."""
         bus: InMemoryEventBus[dict[str, object], dict[str, object]] = InMemoryEventBus()
-        result = await bus.send(FakeCommand("missing"))
+        result = await bus.send(SimpleFakeCommand("missing"))
         assert result.is_err
         assert isinstance(result.error, EventBusError)
 
@@ -111,8 +72,8 @@ class TestInMemoryEventBus:
             async def handle(self, message: Event[dict[str, object]]) -> None:  # type: ignore[override]
                 raise ValueError("handler failure")
 
-        bus.register_handler(FakeEvent, FailingHandler())
+        bus.register_handler(FakeEventWithName, FailingHandler())
 
-        result = await bus.publish(FakeEvent("boom"))
+        result = await bus.publish(FakeEventWithName("boom"))
         assert result.is_err
         assert isinstance(result.error, EventBusError)
