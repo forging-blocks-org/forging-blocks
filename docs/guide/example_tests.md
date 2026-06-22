@@ -17,6 +17,8 @@ Key takeaway: Tests should describe **what happened**, not how the toolkit repre
 
 ---
 
+## 1. Composing behavior with Result
+
 ```python
 from forging_blocks.foundation import Result, Ok, Err
 

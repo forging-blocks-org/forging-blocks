@@ -5,8 +5,10 @@ foundation messages influenced by Domain-Driven Design (DDD) and CQRS principles
 """
 
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from datetime import datetime, timezone
-from uuid import UUID, uuid7  # type: ignore[attr-defined]
+from typing import Self, cast
+from uuid import UUID, uuid7
 
 from forging_blocks.foundation.value_object import ValueObject
 
@@ -146,6 +148,26 @@ class MessageMetadata(ValueObject[dict[str, object]]):
         """
         return self.value
 
+    @classmethod
+    def from_dict(cls, data: dict[str, object]) -> MessageMetadata:
+        """Create metadata from a dictionary representation.
+
+        Args:
+            data: Dictionary containing the serialised metadata fields.
+
+        Returns:
+            A new MessageMetadata instance reconstituted from *data*.
+        """
+        return cls(
+            message_type=str(data["message_type"]),
+            message_id=UUID(str(data["message_id"])) if "message_id" in data else None,
+            created_at=datetime.fromisoformat(str(data["created_at"]))
+            if "created_at" in data
+            else None,
+            correlation_id=UUID(str(data["correlation_id"])) if "correlation_id" in data else None,
+            causation_id=UUID(str(data["causation_id"])) if "causation_id" in data else None,
+        )
+
 
 class Message[MessageRawType](ValueObject[MessageRawType], ABC):
     """Base class for all foundation messages.
@@ -171,7 +193,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
                 generated ID and current timestamp.
         """
         super().__init__()
-        effective_type = self.__class__.__name__
+        effective_type = type(self).__name__
         self._metadata = metadata or MessageMetadata(message_type=effective_type)
 
     def __eq__(self, other: object) -> bool:
@@ -237,12 +259,65 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
     def to_dict(self) -> dict[str, object]:
         """Convert the message to a dictionary representation.
 
-        Combines metadata, message type, and payload data.
+        Combines metadata, message type, payload, and domain data.
 
         Returns:
             Complete dictionary representation of the message.
         """
-        return {
+        result: dict[str, object] = {
             "metadata": self._metadata.to_dict(),
             "payload": self._payload,
         }
+        result["data"] = self.get_domain_data()
+        return result
+
+    def get_domain_data(self) -> dict[str, object]:
+        """Return the domain-level data carried by this message.
+
+        The default implementation delegates to ``_payload``. Subclasses
+        that use the decorator-based approach (``@event_dataclass`` etc.)
+        override this to return only the message fields.
+
+        Returns:
+            Dictionary of domain data fields.
+        """
+        return self._payload
+
+    @classmethod
+    def from_dict(cls, data: dict[str, object]) -> Self:
+        """Create a message instance from a dictionary representation.
+
+        Args:
+            data: Dictionary containing the serialised message.
+
+        Returns:
+            A new message instance reconstituted from *data*.
+        """
+        metadata = MessageMetadata.from_dict(cast(dict[str, object], data["metadata"]))
+        payload = cast(dict[str, object], data.get("payload", data.get("data", {})))
+        return cls._from_domain_data(payload, metadata)
+
+    @classmethod
+    def _from_domain_data(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+        """Reconstruct a message from domain data and metadata.
+
+        Subclasses override this to provide custom reconstruction logic.
+        By default, calls ``_from_payload_fields`` if available, otherwise raises
+        ``NotImplementedError``.
+
+        Args:
+            data: The domain data dictionary.
+            metadata: The message metadata.
+
+        Returns:
+            A new message instance.
+
+        Raises:
+            NotImplementedError: If the subclass has not overridden this method or
+                does not have a ``_from_payload_fields`` method.
+        """
+
+        method = getattr(cls, "_from_payload_fields", None)
+        if method is not None:
+            return cast(Callable[..., Self], method)(data, metadata)
+        raise NotImplementedError

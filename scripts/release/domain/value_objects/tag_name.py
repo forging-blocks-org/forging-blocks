@@ -1,4 +1,4 @@
-from typing import Hashable
+from typing import Hashable, Self
 
 from forging_blocks.domain import ValueObject
 from scripts.release.domain.errors import InvalidReleaseVersionError, InvalidTagNameError
@@ -35,7 +35,7 @@ class TagName(ValueObject[str]):
         self._value = value
 
     @classmethod
-    def for_version(cls, version: ReleaseVersion) -> "TagName":
+    def for_version(cls, version: ReleaseVersion) -> Self:
         return cls(f"{cls.PREFIX}{version.value}")
 
     @property

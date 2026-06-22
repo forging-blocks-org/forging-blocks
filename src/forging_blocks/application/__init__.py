@@ -1,6 +1,6 @@
 """ForgingBlocks for application-specific modules."""
 
-from .errors import UnitOfWorkError
+from .errors import ConcurrencyError, EventBusError, EventStoreError, UnitOfWorkError
 from .ports import (
     CommandHandler,
     CommandSender,
@@ -18,12 +18,15 @@ from .ports import (
 __all__ = [
     "CommandHandler",
     "CommandSender",
+    "ConcurrencyError",
+    "EventBusError",
     "EventHandler",
     "EventPublisher",
+    "EventStoreError",
     "MessageHandler",
     "MessageBus",
-    "QueryHandler",
     "QueryFetcher",
+    "QueryHandler",
     "Repository",
     "UnitOfWork",
     "UnitOfWorkError",

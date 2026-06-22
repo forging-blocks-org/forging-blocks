@@ -1,5 +1,13 @@
 """ForgingBlocks for domain-specific modules."""
 
+from forging_blocks.foundation.specification import (
+    AndSpecification,
+    ExpressionSpecification,
+    NotSpecification,
+    OrSpecification,
+    Specification,
+)
+
 from .aggregate_root import AggregateRoot, AggregateVersion
 from .entity import Entity
 from .errors import (
@@ -19,4 +27,9 @@ __all__ = [
     "AggregateRoot",
     "AggregateVersion",
     "ValueObject",
+    "Specification",
+    "ExpressionSpecification",
+    "AndSpecification",
+    "OrSpecification",
+    "NotSpecification",
 ]

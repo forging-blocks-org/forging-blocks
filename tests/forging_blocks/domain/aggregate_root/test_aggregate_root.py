@@ -1,4 +1,6 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+from typing import Self
+
 import pytest
 
 from forging_blocks.domain import (
@@ -7,12 +9,14 @@ from forging_blocks.domain import (
     EntityIdNoneError,
 )
 from forging_blocks.foundation import Event
+from forging_blocks.foundation.messages.message import MessageMetadata
 
 raw_event = dict[str, str]
 
 
 class DummyEvent(Event[raw_event]):
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, metadata: MessageMetadata | None = None) -> None:
+        super().__init__(metadata)
         self.name = name
 
     @property
@@ -22,6 +26,10 @@ class DummyEvent(Event[raw_event]):
     @property
     def _payload(self) -> raw_event:
         return {"name": self.name}
+
+    @classmethod
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+        return cls(name=str(data.get("name", "")), metadata=metadata)
 
 
 class OrderAggregate(AggregateRoot[int, raw_event]):

@@ -1,4 +1,4 @@
-from typing import Hashable
+from typing import Hashable, Self
 
 from forging_blocks.domain import ValueObject
 from scripts.release.domain.errors import InvalidReleaseBranchNameError, InvalidReleaseVersionError
@@ -35,7 +35,7 @@ class ReleaseBranchName(ValueObject[str]):
         self._value = value
 
     @classmethod
-    def from_version(cls, version: ReleaseVersion) -> "ReleaseBranchName":
+    def from_version(cls, version: ReleaseVersion) -> Self:
         return cls(f"{cls.PREFIX}{version.value}")
 
     @property

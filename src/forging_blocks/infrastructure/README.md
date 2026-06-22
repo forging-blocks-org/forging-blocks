@@ -32,5 +32,3 @@ that implement the outbound ports defined in the application layer.
   the toolbox easy to maintain.
 
 ---
-
-For real-world adapters and usage with frameworks or libraries, see the `/examples` directory.

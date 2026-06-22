@@ -1,5 +1,5 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-from typing import Any
+from typing import Any, Self
 
 import pytest
 
@@ -7,7 +7,9 @@ from forging_blocks.foundation.messages import Event, MessageMetadata
 
 
 class PayloadNotImplementEvent(Event):
-    pass
+    @classmethod
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+        return cls()
 
 
 class FakeEvent(Event):
@@ -46,6 +48,15 @@ class FakeEvent(Event):
             "customer_id": self._customer_id,
             "total": self._total,
         }
+
+    @classmethod
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+        return cls(
+            order_id=str(data.get("order_id", "")),
+            customer_id=str(data.get("customer_id", "")),
+            total=float(str(data.get("total", 0.0))),
+            metadata=metadata,
+        )
 
 
 @pytest.mark.unit

@@ -20,6 +20,8 @@ Key abstractions:
 - **Auto-freeze** — Automatic immutability after `__init__`
 - **Identified** — Protocol for objects carrying an identifier
 - **Messages** — Command, Event, Query (immutable, architecture-neutral)
+- **Message dataclass decorator** — Boilerplate-free message definitions with automatic serialization support
+- **Specification** — Composable predicates over candidate objects (and/or/not composition)
 - **Errors** — Structured error model (message + metadata)
 - **Meta utilities** — Runtime enforcement (runtime_final, runtime_sealed, runtime_abstract)
 
@@ -28,7 +30,7 @@ Foundation depends on nothing; all other blocks depend on Foundation.
 ---
 ## Purpose
 
-- Supply **primitive abstractions** (`Result`, `Port`, `Mapper`, `Identified`, `ValueObject`, `Message`, `Command`, `Event`, `Query`, plus error and meta utilities).
+- Supply **primitive abstractions** (`Result`, `Port`, `Mapper`, `Identified`, `ValueObject`, `Message`, `Command`, `Event`, `Query`, `Specification`, plus error and meta utilities).
 - Enable explicit, intention-revealing boundaries.
 - Support structured and predictable error handling.
 - Provide a stable base reused by all other blocks.
@@ -151,6 +153,9 @@ directly or extend:
   that can be iterated and counted like a collection.
 - `ResultAccessError` is raised when `.value` or `.error` is read from the
   wrong side of a `Result`.
+- `NotCallablePredicateError` indicates that a non-callable value was supplied
+  where a callable predicate was expected, such as when constructing an
+  `ExpressionSpecification`.
 
 These error types are architecture-neutral and reusable across domains.
 
@@ -513,6 +518,105 @@ Queries model *what someone wants to know*.
 !!! note "Influence: CQRS literature"
     The distinction between Commands, Events, and Queries is inspired by CQRS concepts described by multiple authors, including Greg Young and Vaughn Vernon.
     ForgingBlocks treats these as semantic roles, not architectural mandates.
+
+#### Message dataclass decorator
+
+The `@message_dataclass` decorator reduces boilerplate when defining message
+types. The decorated class becomes a frozen dataclass whose fields are
+automatically exposed via `get_payload_fields()` and used by
+`_from_payload_fields()` for deserialization.
+
+Three role-specific aliases are provided for clarity:
+
+- `@event_dataclass` for domain events.
+- `@command_dataclass` for commands.
+- `@query_dataclass` for queries.
+
+All aliases are the same decorator; the name only signals intent.
+
+```python
+from forging_blocks.foundation.messages.decorators import event_dataclass
+from forging_blocks.foundation.messages.event import Event
+
+
+@event_dataclass
+class OrderCreated(Event[dict[str, object]]):
+    order_id: str
+    customer_id: str
+    total: float
+
+
+event = OrderCreated(order_id="ORD-001", customer_id="CUST-42", total=99.95)
+event.to_dict()  # includes both "payload" and "data" keys
+```
+
+After construction, the instance is frozen — any attempt to assign to a field
+raises `dataclasses.FrozenInstanceError`. The decorator patches the abstract
+members (`_payload`, `value`) so decorated subclasses can be instantiated
+without manually implementing them.
+
+---
+
+## Specification
+
+The Foundation block provides the **Specification** pattern as a reusable,
+composable predicate abstraction.
+
+A `Specification` encapsulates a business rule that can be evaluated against a
+candidate object. Specifications are architecture-neutral and can be reused
+across the Domain and Application blocks for querying, validation, and filtering.
+
+### Specification
+
+`Specification` is the abstract base class.
+
+It defines a single contract — `is_satisfied_by(candidate)` — that returns
+whether a candidate object satisfies the rule.
+
+This is the minimal contract: composition is added by `ComposableSpecification`.
+
+### ComposableSpecification
+
+`ComposableSpecification` adds fluent logical composition to the core contract.
+
+Composition operators are defined once and inherited by every subclass, so
+there is no need to reimplement them:
+
+- `and_(other)` / `&` — logical conjunction, delegates to `AndSpecification`.
+- `or_(other)` / `|` — logical disjunction, delegates to `OrSpecification`.
+- `not_()` / `~` — logical negation, delegates to `NotSpecification`.
+
+Because the logical operator classes themselves inherit from
+`ComposableSpecification`, the result of a composition is itself composable.
+This allows chaining, such as `(a & b) | c`.
+
+### ExpressionSpecification
+
+`ExpressionSpecification` wraps a user-provided callable predicate.
+
+It inherits composition from `ComposableSpecification`, so an expression
+specification can be combined with others using the standard operators.
+
+Constructing an `ExpressionSpecification` with a non-callable value raises a
+`NotCallablePredicateError`.
+
+### Logical operators
+
+Three specifications implement the logical operators:
+
+- `AndSpecification` is satisfied when both specifications are satisfied.
+- `OrSpecification` is satisfied when at least one specification is satisfied.
+- `NotSpecification` is satisfied when the wrapped specification is not
+  satisfied.
+
+Each inherits composition from `ComposableSpecification`, so composed results
+remain composable.
+
+!!! note "Where the implementation lives"
+    The specification pattern is defined in the **Foundation** block because
+    composable predicates are generic enough to be reused outside the Domain
+    block. The Domain block re-exports the same API so that domain code can
+    import it from a natural location.
 
 ---
 

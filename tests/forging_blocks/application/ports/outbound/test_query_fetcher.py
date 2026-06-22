@@ -1,12 +1,12 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-from typing import Any
+from typing import Any, Self
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 from pytest import fixture
 
 from forging_blocks.application import MessageBus, QueryFetcher
-from forging_blocks.foundation.messages import Query
+from forging_blocks.foundation.messages import MessageMetadata, Query
 
 
 class FakeQuery(Query):
@@ -17,6 +17,10 @@ class FakeQuery(Query):
     @property
     def _payload(self) -> dict[str, Any]:
         return {"foo": "bar"}
+
+    @classmethod
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+        return cls()
 
 
 @pytest.mark.unit

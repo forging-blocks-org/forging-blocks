@@ -126,6 +126,8 @@ omit = [
     "*/application/ports/outbound/repository.py",
     "**/inbound.py",
     "**/outbound.py",
+    "**/specification_repository.py",
+    "**/serializable.py",
 ]
 
 [tool.coverage.report]

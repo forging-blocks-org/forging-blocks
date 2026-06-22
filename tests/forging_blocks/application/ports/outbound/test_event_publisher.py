@@ -1,11 +1,12 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+from typing import Self
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 from pytest import fixture
 
 from forging_blocks.application import EventPublisher, MessageBus
-from forging_blocks.foundation.messages import Event
+from forging_blocks.foundation.messages import Event, MessageMetadata
 
 
 class FakeEvent(Event):
@@ -16,6 +17,10 @@ class FakeEvent(Event):
     @property
     def _payload(self) -> dict[str, str]:
         return {"foo": "bar"}
+
+    @classmethod
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+        return cls()
 
 
 @pytest.mark.unit

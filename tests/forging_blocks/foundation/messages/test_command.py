@@ -5,7 +5,7 @@ Tests for Command class.
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Self
 from uuid import uuid4
 
 import pytest
@@ -14,7 +14,9 @@ from forging_blocks.foundation.messages import Command, Message, MessageMetadata
 
 
 class PayloadAndValueNotImplCommand(Command):
-    pass
+    @classmethod
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+        return cls()
 
 
 class FakeUserCommand(Command[dict[str, Any]]):
@@ -43,6 +45,14 @@ class FakeUserCommand(Command[dict[str, Any]]):
     @property
     def _payload(self) -> dict[str, Any]:
         return {"customer_id": self._customer_id, "amount": self._amount}
+
+    @classmethod
+    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+        return cls(
+            customer_id=str(data.get("customer_id", "")),
+            amount=float(str(data.get("amount", 0.0))),
+            metadata=metadata,
+        )
 
 
 @pytest.mark.unit
@@ -86,6 +96,10 @@ class TestCommand:
                 "causation_id": str(metadata.causation_id),
             },
             "payload": {
+                "customer_id": "customer_123",
+                "amount": 99.99,
+            },
+            "data": {
                 "customer_id": "customer_123",
                 "amount": 99.99,
             },
