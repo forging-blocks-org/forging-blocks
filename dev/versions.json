@@ -1,8 +1,14 @@
 [
   {
+    "version": "v0.4.1",
+    "title": "0.4.1",
+    "aliases": ["latest"],
+    "is_default": true
+  },
+  {
     "version": "dev",
     "title": "dev",
     "aliases": [],
-    "is_default": true
+    "is_default": false
   }
 ]
