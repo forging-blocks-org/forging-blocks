@@ -51,7 +51,7 @@ class TestIdentifiedProtocol:
     def test_aggregate_root_satisfies_identified(self) -> None:
         """AggregateRoot should structurally satisfy Identified protocol."""
 
-        class MyAggregate(AggregateRoot[str]):
+        class MyAggregate(AggregateRoot[str, object]):
             def _handle(self, event: object) -> None:
                 pass
 

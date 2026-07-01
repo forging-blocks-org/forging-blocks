@@ -11,7 +11,7 @@ from forging_blocks.foundation.messages.event import Event
 from .aggregate_version import AggregateVersion
 
 
-class AggregateRoot[TId: Hashable, EventPayloadType = object](Entity[TId], metaclass=FinalABCMeta):
+class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=FinalABCMeta):
     """Base class for Aggregate Roots in a Domain-Driven Design context.
 
     An Aggregate Root represents the entry point for manipulating
