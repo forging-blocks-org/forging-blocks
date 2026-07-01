@@ -405,6 +405,18 @@
          <lastmod>2026-07-01</lastmod>
     </url>
     <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/infrastructure/message_bus/message_bus_command_sender/</loc>
+         <lastmod>2026-07-01</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/infrastructure/message_bus/message_bus_event_publisher/</loc>
+         <lastmod>2026-07-01</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/infrastructure/message_bus/message_bus_query_fetcher/</loc>
+         <lastmod>2026-07-01</lastmod>
+    </url>
+    <url>
          <loc>https://forging-blocks-org.github.io/reference/autodoc/infrastructure/repositories/aggregate_repository/</loc>
          <lastmod>2026-07-01</lastmod>
     </url>
