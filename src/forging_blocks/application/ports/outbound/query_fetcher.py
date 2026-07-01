@@ -12,12 +12,13 @@ Non-Responsibilities:
     - Guarantee consistency between read and write models.
 """
 
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from forging_blocks.foundation.messages.query import Query
 from forging_blocks.foundation.ports import OutboundPort
 
 
+@runtime_checkable
 class QueryFetcherPort[QueryPayloadType, QueryFetcherResult](
     OutboundPort[Query[QueryPayloadType], QueryFetcherResult],
     Protocol,

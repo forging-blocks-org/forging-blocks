@@ -14,6 +14,9 @@ from .file_system.os_file_system import OSFileSystem
 from .http_client.urllib_client import URLLibClient
 from .logging.stdlib_logger import StdlibLogger
 from .message_bus.in_memory_message_bus import InMemoryMessageBus
+from .message_bus.message_bus_command_sender import MessageBusCommandSender
+from .message_bus.message_bus_event_publisher import MessageBusEventPublisher
+from .message_bus.message_bus_query_fetcher import MessageBusQueryFetcher
 from .repositories import (
     AggregateRepository,
     BaseReadRepository,
@@ -37,6 +40,9 @@ __all__ = [
     "InMemoryEventStore",
     "InMemoryMessageBus",
     "InMemoryReadRepository",
+    "MessageBusCommandSender",
+    "MessageBusEventPublisher",
+    "MessageBusQueryFetcher",
     "InMemoryUnitOfWork",
     "InMemoryWriteRepository",
     "NoHandlerError",

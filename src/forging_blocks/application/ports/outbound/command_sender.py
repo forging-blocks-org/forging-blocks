@@ -12,12 +12,13 @@ Non-Responsibilities:
     - Serialization or transport concerns.
 """
 
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.ports import OutboundPort
 
 
+@runtime_checkable
 class CommandSenderPort[CommandPayloadType](
     OutboundPort[Command[CommandPayloadType], None],
     Protocol,

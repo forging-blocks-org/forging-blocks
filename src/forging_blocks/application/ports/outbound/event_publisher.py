@@ -12,12 +12,13 @@ Non-Responsibilities:
     - Guarantee ordering or durability.
 """
 
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.ports import OutboundPort
 
 
+@runtime_checkable
 class EventPublisherPort[EventPayloadType](
     OutboundPort[Event[EventPayloadType], None],
     Protocol,
