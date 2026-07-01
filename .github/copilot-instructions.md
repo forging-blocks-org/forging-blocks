@@ -258,7 +258,7 @@ class User(Entity[UUID]):
 from forging_blocks.domain.aggregate_root import AggregateRoot
 from forging_blocks.foundation.messages.event import Event
 
-class Order(AggregateRoot[UUID, object]):
+class Order(AggregateRoot[UUID]):
     def __init__(self, order_id: UUID) -> None:
         super().__init__(order_id)
         self._items: list[str] = []
