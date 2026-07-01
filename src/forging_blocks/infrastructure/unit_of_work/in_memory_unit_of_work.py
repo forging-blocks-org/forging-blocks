@@ -4,6 +4,9 @@ Provides an in-memory transactional boundary that coordinates changes across
 repositories and publishes domain events on successful commit.
 """
 
+from types import TracebackType
+from typing import Self
+
 from forging_blocks.application.errors.unit_of_work_error import UnitOfWorkError
 from forging_blocks.application.ports.outbound.event_publisher import EventPublisherPort
 from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWorkPort
@@ -39,6 +42,25 @@ class InMemoryUnitOfWork[IdType, EventPayloadType](UnitOfWorkPort):
         self._modified_aggregates: dict[IdType, AggregateRoot[IdType, EventPayloadType]] = {}
         self._committed = False
         self._rolled_back = False
+
+    async def __aenter__(self) -> Self:
+        """Enter the Unit of Work context."""
+        return self
+
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
+        """Exit the Unit of Work context.
+
+        Commits if no exception occurred; otherwise rolls back.
+        """
+        if exc_type is None:
+            await self.commit()
+        else:
+            await self.rollback()
 
     @property
     def committed(self) -> bool:

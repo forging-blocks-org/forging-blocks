@@ -1,4 +1,6 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+from types import TracebackType
+from typing import Self
 from unittest.mock import AsyncMock
 
 import pytest
@@ -8,11 +10,28 @@ from forging_blocks.application import UnitOfWorkPort
 
 
 class FakeUnitOfWork(UnitOfWorkPort):
-    async def commit(self):
-        print("committed")
+    """A fake Unit Of Work that provides the context-manager behaviour
+    expected of a real implementation."""
 
-    async def rollback(self):
-        print("rolled back")
+    async def __aenter__(self) -> Self:
+        return self
+
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
+        if exc_type is None:
+            await self.commit()
+        else:
+            await self.rollback()
+
+    async def commit(self) -> None:
+        pass
+
+    async def rollback(self) -> None:
+        pass
 
 
 @pytest.mark.unit

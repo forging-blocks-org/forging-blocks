@@ -70,7 +70,7 @@ class WriteOnlyRepository[TWriteAggregateRoot, TWriteId](Protocol):
         Raises:
             RepositoryError: If deletion fails.
         """
-        pass
+        ...
 
     async def save(self, aggregate: TWriteAggregateRoot) -> None:
         """Persist an aggregate instance.
@@ -78,7 +78,7 @@ class WriteOnlyRepository[TWriteAggregateRoot, TWriteId](Protocol):
         Args:
             aggregate: The aggregate to save.
         """
-        pass
+        ...
 
 
 class RepositoryPort[TAggregateRoot, TId](

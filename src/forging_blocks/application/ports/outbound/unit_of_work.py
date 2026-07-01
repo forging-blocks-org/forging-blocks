@@ -24,17 +24,20 @@ class UnitOfWorkPort(ABC):
 
     A UnitOfWorkPort coordinates operations across multiple repositories and
     outbound ports. It ensures that state changes and domain events are
-    published atomically.
+    published atomically.  Subclasses provide the concrete context-manager
+    behaviour (``__aenter__`` / ``__aexit__``).
     """
 
+    @abstractmethod
     async def __aenter__(self) -> Self:
         """Enter the Unit of Work context.
 
         Returns:
             The active UnitOfWorkPort instance.
         """
-        return self
+        ...
 
+    @abstractmethod
     async def __aexit__(
         self,
         exc_type: type[BaseException] | None,
@@ -50,10 +53,7 @@ class UnitOfWorkPort(ABC):
             exc_value: Exception instance.
             traceback: Execution traceback.
         """
-        if exc_type is None:
-            await self.commit()
-        else:
-            await self.rollback()
+        ...
 
     @abstractmethod
     async def commit(self) -> None:

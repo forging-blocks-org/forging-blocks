@@ -1,44 +1,37 @@
 """Outbound port for asynchronously sending commands.
 
-This module defines a CommandSenderPort, an application-blocks abstraction for
-dispatching commands via an external message bus. It decouples command
-issuance from transport details and message broker implementations.
+Defines the ``CommandSenderPort`` protocol for dispatching commands via
+an external message bus.  Infrastructure implementations determine
+delivery semantics.
 
 Responsibilities:
-    - Forward commands to an injected MessageBusPort.
-    - Abstract message dispatch mechanism.
+    - Abstract command dispatch from transport details.
 
 Non-Responsibilities:
     - Delivery guarantees (at-least-once, ordering, retries).
     - Serialization or transport concerns.
 """
 
-from forging_blocks.application.ports.outbound.message_bus import MessageBusPort
+from typing import Protocol
+
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.ports import OutboundPort
 
 
-class CommandSenderPort[CommandPayloadType](OutboundPort[Command[CommandPayloadType], None]):
-    """Outbound port for asynchronously sending command messages.
+class CommandSenderPort[CommandPayloadType](
+    OutboundPort[Command[CommandPayloadType], None],
+    Protocol,
+):
+    """Protocol for dispatching command messages asynchronously.
 
-    The CommandSenderPort delegates message dispatching to a MessageBusPort. It is
-    typically used by use cases or handlers that need to trigger command-side
-    operations in other parts of the system.
+    Any object with an async ``send`` method that accepts a ``Command``
+    satisfies this protocol — no inheritance required.
     """
-
-    def __init__(self, message_bus: MessageBusPort[Command[CommandPayloadType], None]) -> None:
-        self._message_bus = message_bus
 
     async def send(self, command: Command[CommandPayloadType]) -> None:
         """Send a command asynchronously.
 
         Args:
             command: The command instance to dispatch.
-
-        Notes:
-            - This operation is fire-and-forget from the application's
-              perspective.
-            - Delivery semantics depend on the underlying MessageBusPort
-              implementation.
         """
-        await self._message_bus.dispatch(command)
+        ...
