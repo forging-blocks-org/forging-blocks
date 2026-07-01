@@ -1,4 +1,4 @@
-"""In-memory implementation of the EventBus port.
+"""In-memory implementation of the EventBusPort port.
 
 Dispatches events to multiple registered handlers (fan-out) and
 commands to a single registered handler.  Handlers are looked up
@@ -12,14 +12,14 @@ from forging_blocks.application.ports.inbound.message_handler import (
     CommandHandler,
     EventHandler,
 )
-from forging_blocks.application.ports.outbound.event_bus import EventBus
+from forging_blocks.application.ports.outbound.event_bus import EventBusPort
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.result import Err, Ok, Result
 
 
 class InMemoryEventBus[EventPayloadType, CommandPayloadType](
-    EventBus[EventPayloadType, CommandPayloadType]
+    EventBusPort[EventPayloadType, CommandPayloadType]
 ):
     """In-memory event bus with separate event/command dispatch.
 

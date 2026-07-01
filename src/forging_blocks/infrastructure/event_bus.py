@@ -1,7 +1,7 @@
 """
 Event Bus infrastructure.
 
-This module provides the EventBus port and its in-memory implementation.
+This module provides the EventBusPort port and its in-memory implementation.
 """
 
 from abc import ABC, abstractmethod
@@ -20,11 +20,11 @@ E = TypeVar("E", bound=Event[Any])
 C = TypeVar("C", bound=Command[Any])
 
 
-class EventBus(ABC):
+class EventBusPort(ABC):
     """
-    EventBus port.
+    EventBusPort port.
 
-    The EventBus is responsible for publishing events and sending commands
+    The EventBusPort is responsible for publishing events and sending commands
     to their respective handlers. It follows the publish-subscribe pattern
     for events and the command pattern for commands.
     """

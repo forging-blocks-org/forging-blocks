@@ -1,29 +1,33 @@
 """Module defining outbound ports for the forging blocks application."""
 
-from .command_sender import CommandSender
-from .event_bus import EventBus
-from .event_publisher import EventPublisher
-from .event_store import EventStore
-from .file_system import FileSystem
-from .logger import Logger
-from .message_bus import MessageBus
-from .notifier import Notifier
-from .query_fetcher import QueryFetcher
-from .repository import Repository
-from .specification_repository import SpecificationRepository
-from .unit_of_work import UnitOfWork
+from .cache import CachePort
+from .command_sender import CommandSenderPort
+from .event_bus import EventBusPort
+from .event_publisher import EventPublisherPort
+from .event_store import EventStorePort
+from .external_service import ExternalServicePort
+from .file_system import FileSystemPort
+from .logger import LoggerPort
+from .message_bus import MessageBusPort
+from .notifier import NotifierPort
+from .query_fetcher import QueryFetcherPort
+from .repository import RepositoryPort
+from .specification_repository import SpecificationRepositoryPort
+from .unit_of_work import UnitOfWorkPort
 
 __all__ = [
-    "CommandSender",
-    "EventBus",
-    "EventPublisher",
-    "EventStore",
-    "FileSystem",
-    "Logger",
-    "MessageBus",
-    "Notifier",
-    "QueryFetcher",
-    "Repository",
-    "SpecificationRepository",
-    "UnitOfWork",
+    "CachePort",
+    "CommandSenderPort",
+    "EventBusPort",
+    "EventPublisherPort",
+    "EventStorePort",
+    "ExternalServicePort",
+    "FileSystemPort",
+    "LoggerPort",
+    "MessageBusPort",
+    "NotifierPort",
+    "QueryFetcherPort",
+    "RepositoryPort",
+    "SpecificationRepositoryPort",
+    "UnitOfWorkPort",
 ]

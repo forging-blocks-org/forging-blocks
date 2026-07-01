@@ -5,14 +5,14 @@ repositories and publishes domain events on successful commit.
 """
 
 from forging_blocks.application.errors.unit_of_work_error import UnitOfWorkError
-from forging_blocks.application.ports.outbound.event_publisher import EventPublisher
-from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWork
+from forging_blocks.application.ports.outbound.event_publisher import EventPublisherPort
+from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWorkPort
 from forging_blocks.domain import AggregateRoot
 from forging_blocks.foundation.errors.core import ErrorMessage
 
 
-class InMemoryUnitOfWork[IdType, EventPayloadType](UnitOfWork):
-    """In-memory implementation of UnitOfWork for coordinating transactions.
+class InMemoryUnitOfWork[IdType, EventPayloadType](UnitOfWorkPort):
+    """In-memory implementation of UnitOfWorkPort for coordinating transactions.
 
     Tracks aggregates modified during the transaction and publishes their
     collected domain events upon successful commit. The actual persistence
@@ -28,11 +28,11 @@ class InMemoryUnitOfWork[IdType, EventPayloadType](UnitOfWork):
 
     __slots__ = ("_committed", "_event_publisher", "_modified_aggregates", "_rolled_back")
 
-    def __init__(self, event_publisher: EventPublisher[EventPayloadType] | None = None) -> None:
+    def __init__(self, event_publisher: EventPublisherPort[EventPayloadType] | None = None) -> None:
         """Initialize the in-memory unit of work.
 
         Args:
-            event_publisher: An optional EventPublisher for publishing
+            event_publisher: An optional EventPublisherPort for publishing
                 domain events collected from aggregates on commit.
         """
         self._event_publisher = event_publisher

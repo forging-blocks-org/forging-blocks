@@ -1,15 +1,15 @@
-"""Standard library logging implementation of the Logger port."""
+"""Standard library logging implementation of the LoggerPort port."""
 
 import logging
 
-from forging_blocks.application.ports.outbound.logger import Logger
+from forging_blocks.application.ports.outbound.logger import LoggerPort
 
 
-class StdlibLogger(Logger):
-    """Logger implementation backed by Python's standard ``logging`` module.
+class StdlibLogger(LoggerPort):
+    """LoggerPort implementation backed by Python's standard ``logging`` module.
 
     Args:
-        name: Logger name (default ``"forging_blocks"``).
+        name: LoggerPort name (default ``"forging_blocks"``).
     """
 
     __slots__ = ("_logger",)

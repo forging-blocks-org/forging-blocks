@@ -1,4 +1,4 @@
-"""In-memory implementation of the EventStore port.
+"""In-memory implementation of the EventStorePort port.
 
 Stores ``Event`` objects in a dictionary keyed by aggregate UUID.
 Supports optimistic concurrency via ``expected_version`` checks.
@@ -13,12 +13,12 @@ from uuid import UUID
 
 from forging_blocks.application.errors.concurrency_error import ConcurrencyError
 from forging_blocks.application.errors.event_store_error import EventStoreError
-from forging_blocks.application.ports.outbound.event_store import EventStore
+from forging_blocks.application.ports.outbound.event_store import EventStorePort
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.result import Err, Ok, Result
 
 
-class InMemoryEventStore[EventPayloadType](EventStore[EventPayloadType]):
+class InMemoryEventStore[EventPayloadType](EventStorePort[EventPayloadType]):
     """In-memory event store backed by dictionaries.
 
     Attributes:
