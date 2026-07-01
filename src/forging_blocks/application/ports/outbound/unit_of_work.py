@@ -1,6 +1,6 @@
 """Unit of Work abstraction for transactional consistency.
 
-A UnitOfWork defines a transactional boundary for application operations.
+A UnitOfWorkPort defines a transactional boundary for application operations.
 It coordinates the persistence of aggregate changes and the publication of
 domain events, ensuring atomicity across these actions.
 
@@ -19,10 +19,10 @@ from types import TracebackType
 from typing import Self
 
 
-class UnitOfWork(ABC):
+class UnitOfWorkPort(ABC):
     """Abstract base class for managing transactional consistency.
 
-    A UnitOfWork coordinates operations across multiple repositories and
+    A UnitOfWorkPort coordinates operations across multiple repositories and
     outbound ports. It ensures that state changes and domain events are
     published atomically.
     """
@@ -31,7 +31,7 @@ class UnitOfWork(ABC):
         """Enter the Unit of Work context.
 
         Returns:
-            The active UnitOfWork instance.
+            The active UnitOfWorkPort instance.
         """
         return self
 

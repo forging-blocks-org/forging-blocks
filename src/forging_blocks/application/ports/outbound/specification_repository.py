@@ -11,8 +11,8 @@ from forging_blocks.application.ports.outbound.repository import ReadOnlyReposit
 from forging_blocks.foundation.specification import Specification
 
 
-class SpecificationRepository[TEntity, TId](ReadOnlyRepository[TEntity, TId], Protocol):
-    """Repository that supports specification-based queries.
+class SpecificationRepositoryPort[TEntity, TId](ReadOnlyRepository[TEntity, TId], Protocol):
+    """RepositoryPort that supports specification-based queries.
 
     In addition to standard read-only operations, this interface
     allows querying by ``Specification`` predicates.

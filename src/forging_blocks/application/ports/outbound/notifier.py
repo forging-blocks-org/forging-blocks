@@ -1,6 +1,6 @@
 """Outbound port defining an asynchronous notification service.
 
-A Notifier provides an abstraction for sending notification messages using
+A NotifierPort provides an abstraction for sending notification messages using
 external delivery channels such as email, SMS, chat systems, or push
 notifications.
 
@@ -17,7 +17,7 @@ from typing import Protocol
 from forging_blocks.foundation.ports import OutboundPort
 
 
-class Notifier[NotificationType](
+class NotifierPort[NotificationType](
     OutboundPort[NotificationType, None],
     Protocol,
 ):

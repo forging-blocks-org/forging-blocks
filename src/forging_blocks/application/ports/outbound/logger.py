@@ -1,13 +1,13 @@
-"""Logger port for abstract logging.
+"""LoggerPort port for abstract logging.
 
-Defines the ``Logger`` protocol that application code depends on,
+Defines the ``LoggerPort`` protocol that application code depends on,
 decoupling logging from any specific logging library.
 """
 
 from typing import Protocol
 
 
-class Logger(Protocol):
+class LoggerPort(Protocol):
     """Structural protocol for logging.
 
     Any object with ``debug``, ``info``, ``warning``, and ``error``

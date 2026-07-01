@@ -81,7 +81,7 @@ class WriteOnlyRepository[TWriteAggregateRoot, TWriteId](Protocol):
         pass
 
 
-class Repository[TAggregateRoot, TId](
+class RepositoryPort[TAggregateRoot, TId](
     ReadOnlyRepository[TAggregateRoot, TId],
     WriteOnlyRepository[TAggregateRoot, TId],
     Protocol,

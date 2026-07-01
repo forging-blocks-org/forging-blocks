@@ -1,6 +1,6 @@
-"""Outbound port defining the MessageBus abstraction.
+"""Outbound port defining the MessageBusPort abstraction.
 
-A MessageBus provides a generic asynchronous dispatch mechanism for commands,
+A MessageBusPort provides a generic asynchronous dispatch mechanism for commands,
 queries, or events. It is the central connector between application ports and
 transport infrastructure (queues, brokers, in-memory routing, etc.).
 
@@ -19,13 +19,13 @@ from typing import Protocol
 from forging_blocks.foundation import OutboundPort
 
 
-class MessageBus[MessageType, MessageBusResultType](
+class MessageBusPort[MessageType, MessageBusResultType](
     OutboundPort[MessageType, MessageBusResultType],
     Protocol,
 ):
     """Outbound port representing a generic asynchronous message bus.
 
-    A MessageBus dispatches messages to infrastructure or internal handlers.
+    A MessageBusPort dispatches messages to infrastructure or internal handlers.
     Implementations vary from simple function routers to networked brokers.
     """
 

@@ -1,7 +1,7 @@
 """Outbound port for asynchronously fetching query results.
 
-QueryFetcher provides an application-blocks abstraction for retrieving data
-by dispatching query messages through a MessageBus. It supports CQRS-style
+QueryFetcherPort provides an application-blocks abstraction for retrieving data
+by dispatching query messages through a MessageBusPort. It supports CQRS-style
 architectures where queries are processed independently of commands.
 
 Responsibilities:
@@ -13,23 +13,23 @@ Non-Responsibilities:
     - Guarantee consistency between read and write models.
 """
 
-from forging_blocks.application.ports.outbound.message_bus import MessageBus
+from forging_blocks.application.ports.outbound.message_bus import MessageBusPort
 from forging_blocks.foundation.messages.query import Query
 from forging_blocks.foundation.ports import OutboundPort
 
 
-class QueryFetcher[QueryPayloadType, QueryFetcherResult](
+class QueryFetcherPort[QueryPayloadType, QueryFetcherResult](
     OutboundPort[Query[QueryPayloadType], QueryFetcherResult],
 ):
     """Outbound port for dispatching query messages.
 
-    The QueryFetcher abstracts query execution through a MessageBus. It does
+    The QueryFetcherPort abstracts query execution through a MessageBusPort. It does
     not apply any interpretation to the returned data; shaping is the query
     handler's responsibility.
     """
 
     def __init__(
-        self, message_bus: MessageBus[Query[QueryPayloadType], QueryFetcherResult]
+        self, message_bus: MessageBusPort[Query[QueryPayloadType], QueryFetcherResult]
     ) -> None:
         self._message_bus = message_bus
 

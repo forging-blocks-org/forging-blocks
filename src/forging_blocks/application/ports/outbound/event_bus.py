@@ -1,6 +1,6 @@
 """Event bus port for publishing events and sending commands.
 
-Defines the ``EventBus`` abstract interface for in-process message dispatch
+Defines the ``EventBusPort`` abstract interface for in-process message dispatch
 with separate policies for events (multi-handler fan-out) and commands
 (single-handler routing).
 """
@@ -14,7 +14,7 @@ from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.result import Result
 
 
-class EventBus[EventPayloadType, CommandPayloadType](ABC):
+class EventBusPort[EventPayloadType, CommandPayloadType](ABC):
     """Abstract event bus for publishing events and sending commands.
 
     Implementations handle:
