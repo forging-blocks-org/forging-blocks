@@ -6,29 +6,29 @@ from pathlib import Path
 
 import pytest
 
-from forging_blocks.application.ports.outbound.file_system import FileSystem
+from forging_blocks.application.ports.outbound.file_system import FileSystemPort
 from forging_blocks.infrastructure.file_system.os_file_system import OSFileSystem
 
 
 class TestFileSystemPort:
-    """Tests for the FileSystem protocol."""
+    """Tests for the FileSystemPort protocol."""
 
     def test_filesystem_is_protocol(self) -> None:
-        """Test that FileSystem is a protocol."""
+        """Test that FileSystemPort is a protocol."""
         from typing import Protocol
 
-        assert isinstance(FileSystem, type(Protocol))
+        assert isinstance(FileSystemPort, type(Protocol))
 
     def test_filesystem_methods(self) -> None:
-        """Test that FileSystem has required methods."""
+        """Test that FileSystemPort has required methods."""
         from typing import Protocol
 
-        assert issubclass(FileSystem, Protocol)
-        assert hasattr(FileSystem, "read")
-        assert hasattr(FileSystem, "write")
-        assert hasattr(FileSystem, "delete")
-        assert hasattr(FileSystem, "exists")
-        assert hasattr(FileSystem, "list_dir")
+        assert issubclass(FileSystemPort, Protocol)
+        assert hasattr(FileSystemPort, "read")
+        assert hasattr(FileSystemPort, "write")
+        assert hasattr(FileSystemPort, "delete")
+        assert hasattr(FileSystemPort, "exists")
+        assert hasattr(FileSystemPort, "list_dir")
 
 
 class TestOSFileSystem:

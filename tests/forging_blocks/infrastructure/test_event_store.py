@@ -1,23 +1,23 @@
 """
-Tests for the EventStore port and InMemoryEventStore implementation.
+Tests for the EventStorePort port and InMemoryEventStore implementation.
 """
 
 import pytest
 
-from forging_blocks.infrastructure.event_store import ConcurrencyError, EventStore
+from forging_blocks.infrastructure.event_store import ConcurrencyError, EventStorePort
 from forging_blocks.infrastructure.in_memory_event_store import InMemoryEventStore
 
 
 class TestEventStore:
-    """Tests for the EventStore port interface."""
+    """Tests for the EventStorePort port interface."""
 
     def test_event_store_is_abstract(self):
-        """EventStore should be an abstract base class."""
-        assert hasattr(EventStore, "__abstractmethods__")
-        assert "save_events" in EventStore.__abstractmethods__
-        assert "get_events" in EventStore.__abstractmethods__
-        assert "get_snapshot" in EventStore.__abstractmethods__
-        assert "save_snapshot" in EventStore.__abstractmethods__
+        """EventStorePort should be an abstract base class."""
+        assert hasattr(EventStorePort, "__abstractmethods__")
+        assert "save_events" in EventStorePort.__abstractmethods__
+        assert "get_events" in EventStorePort.__abstractmethods__
+        assert "get_snapshot" in EventStorePort.__abstractmethods__
+        assert "save_snapshot" in EventStorePort.__abstractmethods__
 
 
 class TestInMemoryEventStore:

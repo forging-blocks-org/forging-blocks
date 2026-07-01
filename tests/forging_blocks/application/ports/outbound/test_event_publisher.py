@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 from pytest import fixture
 
-from forging_blocks.application import EventPublisher, MessageBus
+from forging_blocks.application import EventPublisherPort, MessageBusPort
 from forging_blocks.foundation.messages import Event, MessageMetadata
 
 
@@ -27,20 +27,20 @@ class FakeEvent(Event):
 class TestEventPublisher:
     @fixture
     def message_bus(self) -> MagicMock:
-        bus = MagicMock(spec=MessageBus)
+        bus = MagicMock(spec=MessageBusPort)
         bus.dispatch = AsyncMock()
 
         return bus
 
     def test_init_when_called_then_set_message_bus(self, message_bus: MagicMock) -> None:
-        publisher = EventPublisher(message_bus)
+        publisher = EventPublisherPort(message_bus)
 
         assert publisher._message_bus == message_bus
 
     async def test_publish_when_called_then_call_message_bus_dispatch_with_given_event(
         self, message_bus: MagicMock
     ) -> None:
-        publisher = EventPublisher(message_bus)
+        publisher = EventPublisherPort(message_bus)
         event = FakeEvent()
 
         await publisher.publish(event)

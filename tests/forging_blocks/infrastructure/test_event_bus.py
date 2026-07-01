@@ -1,5 +1,5 @@
 """
-Tests for the EventBus port and InMemoryEventBus implementation.
+Tests for the EventBusPort port and InMemoryEventBus implementation.
 """
 
 from typing import Any, Self
@@ -9,7 +9,7 @@ import pytest
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.messages.message import MessageMetadata
-from forging_blocks.infrastructure.event_bus import EventBus, NoHandlerError
+from forging_blocks.infrastructure.event_bus import EventBusPort, NoHandlerError
 from forging_blocks.infrastructure.in_memory_event_bus import InMemoryEventBus
 from tests.fixtures.fake_event_with_value import FakeEventWithValue
 from tests.fixtures.simple_fake_command import SimpleFakeCommand
@@ -17,15 +17,15 @@ from tests.fixtures.simple_fake_command_with_value import SimpleFakeCommandWithV
 
 
 class TestEventBus:
-    """Tests for the EventBus port interface."""
+    """Tests for the EventBusPort port interface."""
 
     def test_event_bus_is_abstract(self):
-        """EventBus should be an abstract base class."""
-        assert hasattr(EventBus, "__abstractmethods__")
-        assert "publish" in EventBus.__abstractmethods__
-        assert "send" in EventBus.__abstractmethods__
-        assert "subscribe" in EventBus.__abstractmethods__
-        assert "register_command_handler" in EventBus.__abstractmethods__
+        """EventBusPort should be an abstract base class."""
+        assert hasattr(EventBusPort, "__abstractmethods__")
+        assert "publish" in EventBusPort.__abstractmethods__
+        assert "send" in EventBusPort.__abstractmethods__
+        assert "subscribe" in EventBusPort.__abstractmethods__
+        assert "register_command_handler" in EventBusPort.__abstractmethods__
 
 
 class TestInMemoryEventBus:

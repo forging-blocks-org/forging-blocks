@@ -4,10 +4,10 @@ from unittest.mock import AsyncMock
 import pytest
 from pytest import fixture
 
-from forging_blocks.application import UnitOfWork
+from forging_blocks.application import UnitOfWorkPort
 
 
-class FakeUnitOfWork(UnitOfWork):
+class FakeUnitOfWork(UnitOfWorkPort):
     async def commit(self):
         print("committed")
 

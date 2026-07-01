@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 from pytest import fixture
 
-from forging_blocks.application import MessageBus, QueryFetcher
+from forging_blocks.application import MessageBusPort, QueryFetcherPort
 from forging_blocks.foundation.messages import MessageMetadata, Query
 
 
@@ -27,7 +27,7 @@ class FakeQuery(Query):
 class TestQueryFetcher:
     @fixture
     def message_bus(self) -> MagicMock:
-        bus = MagicMock(spec=MessageBus)
+        bus = MagicMock(spec=MessageBusPort)
         bus.dispatch = AsyncMock()
 
         return bus
@@ -36,7 +36,7 @@ class TestQueryFetcher:
         self, message_bus: MagicMock
     ) -> None:
         message_bus.dispatch.return_value = {"fetched": "query"}
-        fetcher = QueryFetcher(message_bus)
+        fetcher = QueryFetcherPort(message_bus)
         query = FakeQuery()
 
         result = await fetcher.fetch(query)

@@ -22,14 +22,14 @@ class _LoggerProto(Protocol):
 
 
 class TestLoggerPort:
-    """Tests for the Logger protocol."""
+    """Tests for the LoggerPort protocol."""
 
     def test_logger_is_protocol(self) -> None:
-        """Test that Logger is a protocol."""
+        """Test that LoggerPort is a protocol."""
         assert isinstance(StdlibLogger(), _LoggerProto)
 
     def test_logger_methods(self) -> None:
-        """Test that Logger has required methods."""
+        """Test that LoggerPort has required methods."""
         logger: Any = StdlibLogger()
         assert callable(logger.debug)
         assert callable(logger.info)
