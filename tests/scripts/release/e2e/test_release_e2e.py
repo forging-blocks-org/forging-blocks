@@ -32,8 +32,27 @@ from scripts.release.infrastructure.versioning.poetry_versioning_service import 
     PoetryVersioningService,
 )
 
+# When running inside a git hook (e.g. pre-push via pre-commit), GIT_DIR and
+# related env vars point at the main repository.  These leak into test fixtures
+# that create ephemeral git repos in temp directories and break git operations.
+# We remove them from the subprocess environment so that git uses the cwd-based
+# repo discovery instead.
+SANITIZED_ENV = {
+    k: v
+    for k, v in os.environ.items()
+    if k
+    not in {
+        "GIT_DIR",
+        "GIT_WORK_TREE",
+        "GIT_INDEX_FILE",
+        "GIT_OBJECT_DIRECTORY",
+        "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+    }
+}
+
 
 def subprocess_run(*args, **kwargs):
+    kwargs.setdefault("env", SANITIZED_ENV)
     return subprocess.run(*args, **kwargs)
 
 
