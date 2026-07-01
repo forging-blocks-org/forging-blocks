@@ -7,8 +7,10 @@ decoupling file I/O from any specific implementation.
 from pathlib import Path
 from typing import Protocol
 
+from forging_blocks.foundation.ports import OutboundPort
 
-class FileSystemPort(Protocol):
+
+class FileSystemPort(OutboundPort[object, object], Protocol):
     """Structural protocol for file system operations.
 
     Any object with ``read``, ``write``, ``delete``, ``exists``,

@@ -1,5 +1,6 @@
 from abc import abstractmethod
 from dataclasses import dataclass
+from typing import Protocol
 
 from forging_blocks.foundation.ports import OutboundPort
 from scripts.release.domain.entities import ReleasePullRequest
@@ -13,7 +14,7 @@ class OpenPullRequestOutput:
     url: str | None
 
 
-class PullRequestService(OutboundPort[ReleasePullRequest, OpenPullRequestOutput]):
+class PullRequestService(OutboundPort[ReleasePullRequest, OpenPullRequestOutput], Protocol):
     """Service that manages pull request creation in remote repository."""
 
     @abstractmethod

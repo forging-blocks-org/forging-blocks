@@ -6,8 +6,10 @@ decoupling logging from any specific logging library.
 
 from typing import Protocol
 
+from forging_blocks.foundation.ports import OutboundPort
 
-class LoggerPort(Protocol):
+
+class LoggerPort(OutboundPort[object, object], Protocol):
     """Structural protocol for logging.
 
     Any object with ``debug``, ``info``, ``warning``, and ``error``

@@ -18,8 +18,12 @@ from __future__ import annotations
 
 from typing import Protocol, Sequence
 
+from forging_blocks.foundation.ports import OutboundPort
 
-class ReadOnlyRepository[TReadAggregateRoot, TId](Protocol):
+
+class ReadOnlyRepository[TReadAggregateRoot, TId](
+    OutboundPort[TId, TReadAggregateRoot | None], Protocol
+):
     """Read-only repository abstraction for query operations.
 
     This interface is optimized for query-side usage in CQRS architectures.
@@ -54,7 +58,9 @@ class ReadOnlyRepository[TReadAggregateRoot, TId](Protocol):
         ...
 
 
-class WriteOnlyRepository[TWriteAggregateRoot, TWriteId](Protocol):
+class WriteOnlyRepository[TWriteAggregateRoot, TWriteId](
+    OutboundPort[TWriteAggregateRoot, None], Protocol
+):
     """Write-only repository abstraction for command operations.
 
     This interface supports command-side operations where writes are applied
