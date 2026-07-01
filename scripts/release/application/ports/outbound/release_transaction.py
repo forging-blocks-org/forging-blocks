@@ -1,10 +1,10 @@
 from abc import abstractmethod
 
-from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWork
+from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWorkPort
 from scripts.release.application.workflow import ReleaseStep
 
 
-class ReleaseTransaction(UnitOfWork):
+class ReleaseTransaction(UnitOfWorkPort):
     """Coordinates commit / rollback of a release preparation.
 
     Guarantees:
