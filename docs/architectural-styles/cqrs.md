@@ -39,7 +39,7 @@ title: CQRS (Command Query Responsibility Segregation)
 graph LR
     Client -->|send| CommandHandler[Command Handler]
     Client -->|fetch| QueryHandler[Query Handler]
-    CommandHandler -->|save| WriteStore[Write Store<br/>Repository]
+    CommandHandler -->|save| WriteStore[Write Store<br/>RepositoryPort]
     QueryHandler -->|get_by_id/list_all| ReadStore[Read Store<br/>ReadOnlyRepository]
     WriteStore -.->|replicate| ReadStore
 ```
