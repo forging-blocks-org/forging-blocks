@@ -62,7 +62,7 @@ class URLLibClient(ExternalServicePort[str, str]):
 
         def _do_request() -> str:
             req = Request(url, data=data, headers=http_headers, method=method)
-            with urlopen(req) as response:
+            with urlopen(req) as response:  # nosec B310 — URL is caller-controlled; part of HTTP client contract
                 return response.read().decode("utf-8")
 
         return await asyncio.to_thread(_do_request)
