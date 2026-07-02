@@ -27,6 +27,14 @@ The Presentation block is the outermost ring. It should be thin — translate, d
 - **[Middleware Pipeline](presentation/middleware.md)** — Middleware protocol, Pipeline class
 
 ---
+## What it does not do
+
+- Contain business rules or domain logic
+- Implement persistence or I/O directly
+- Define transactional boundaries
+- Make decisions about system behavior
+
+---
 ## Glossary
 
 !!! note "Request Adapter"

@@ -27,6 +27,14 @@ Adapters are composable. A `UnitOfWork` wraps multiple repositories. A `MessageB
 - **[Technical Adapters](infrastructure/adapters.md)** — Logging, HTTP, File System, Caching, Serialization
 
 ---
+## What it does not do
+
+- Define business rules or domain logic
+- Orchestrate workflows
+- Make architectural decisions about port shape
+- Depend on Presentation or Domain
+
+---
 ## Glossary
 
 !!! note "Repository"

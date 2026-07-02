@@ -28,6 +28,14 @@ Keep use cases thin. They orchestrate; domain objects decide. When a use case gr
 - **[Application Errors](application/errors.md)** — Structured error types for application-level failures
 
 ---
+## What it does not do
+
+- Enforce domain invariants
+- Persist data directly
+- Handle transport or frameworks
+- Implement infrastructure concerns
+
+---
 ## Glossary
 
 !!! note "Use Case"

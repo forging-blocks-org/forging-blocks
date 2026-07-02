@@ -29,6 +29,14 @@ The Domain block is the innermost ring. It imports nothing from outer layers. Wh
 - **[Domain Errors](domain/errors.md)** — Invalid states and rule violations in domain terms
 
 ---
+## What it does not do
+
+- Orchestrate workflows or use cases
+- Perform I/O or persistence
+- Depend on frameworks or external systems
+- Handle transport or presentation concerns
+
+---
 ## Glossary
 
 !!! note "Entity"
