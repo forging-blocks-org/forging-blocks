@@ -4739,7 +4739,7 @@
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="ReadOnlyRepository (forging_blocks.application.ports.outbound.repository.ReadOnlyRepository)" href="../repository/#forging_blocks.application.ports.outbound.repository.ReadOnlyRepository">ReadOnlyRepository</a>[<span title="forging_blocks.application.ports.outbound.specification_repository.SpecificationRepositoryPort[TEntity]">TEntity</span>, <span title="forging_blocks.application.ports.outbound.specification_repository.SpecificationRepositoryPort[TId]">TId</span>]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="ReadOnlyRepositoryPort (forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort)" href="../repository/#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort">ReadOnlyRepositoryPort</a>[<span title="forging_blocks.application.ports.outbound.specification_repository.SpecificationRepositoryPort[TEntity]">TEntity</span>, <span title="forging_blocks.application.ports.outbound.specification_repository.SpecificationRepositoryPort[TId]">TId</span>]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
 
 
         <p>RepositoryPort that supports specification-based queries.</p>
@@ -4772,7 +4772,7 @@ allows querying by <code>Specification</code> predicates.</p>
 <span class="normal"><a href="#__codelineno-0-28">28</a></span>
 <span class="normal"><a href="#__codelineno-0-29">29</a></span>
 <span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="k">class</span><span class="w"> </span><span class="nc">SpecificationRepositoryPort</span><span class="p">[</span><span class="n">TEntity</span><span class="p">,</span> <span class="n">TId</span><span class="p">](</span><span class="n">ReadOnlyRepository</span><span class="p">[</span><span class="n">TEntity</span><span class="p">,</span> <span class="n">TId</span><span class="p">],</span> <span class="n">Protocol</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="k">class</span><span class="w"> </span><span class="nc">SpecificationRepositoryPort</span><span class="p">[</span><span class="n">TEntity</span><span class="p">,</span> <span class="n">TId</span><span class="p">](</span><span class="n">ReadOnlyRepositoryPort</span><span class="p">[</span><span class="n">TEntity</span><span class="p">,</span> <span class="n">TId</span><span class="p">],</span> <span class="n">Protocol</span><span class="p">):</span>
 </span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;RepositoryPort that supports specification-based queries.</span>
 </span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>
 </span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">    In addition to standard read-only operations, this interface</span>

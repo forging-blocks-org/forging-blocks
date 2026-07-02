@@ -4924,7 +4924,7 @@
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="ReadOnlyRepository (forging_blocks.application.ports.outbound.repository.ReadOnlyRepository)" href="../../../application/ports/outbound/repository/#forging_blocks.application.ports.outbound.repository.ReadOnlyRepository">ReadOnlyRepository</a>[<span title="forging_blocks.infrastructure.repositories.base_repository.BaseReadRepository[TEntity]">TEntity</span>, <span title="forging_blocks.infrastructure.repositories.base_repository.BaseReadRepository[TId]">TId</span>]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="ReadOnlyRepositoryPort (forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort)" href="../../../application/ports/outbound/repository/#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort">ReadOnlyRepositoryPort</a>[<span title="forging_blocks.infrastructure.repositories.base_repository.BaseReadRepository[TEntity]">TEntity</span>, <span title="forging_blocks.infrastructure.repositories.base_repository.BaseReadRepository[TId]">TId</span>]</code></p>
 
 
         <p>Base class for read-only repositories with common functionality.</p>
@@ -5006,7 +5006,7 @@
 <span class="normal"><a href="#__codelineno-0-86">86</a></span>
 <span class="normal"><a href="#__codelineno-0-87">87</a></span>
 <span class="normal"><a href="#__codelineno-0-88">88</a></span>
-<span class="normal"><a href="#__codelineno-0-89">89</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseReadRepository</span><span class="p">[</span><span class="n">TEntity</span><span class="p">,</span> <span class="n">TId</span><span class="p">](</span><span class="n">ReadOnlyRepository</span><span class="p">[</span><span class="n">TEntity</span><span class="p">,</span> <span class="n">TId</span><span class="p">]):</span>
+<span class="normal"><a href="#__codelineno-0-89">89</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseReadRepository</span><span class="p">[</span><span class="n">TEntity</span><span class="p">,</span> <span class="n">TId</span><span class="p">](</span><span class="n">ReadOnlyRepositoryPort</span><span class="p">[</span><span class="n">TEntity</span><span class="p">,</span> <span class="n">TId</span><span class="p">]):</span>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for read-only repositories with common functionality.</span>
 </span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">    Provides in-memory storage and basic query operations.</span>
@@ -5638,7 +5638,7 @@ If None, a new empty dictionary is used.</p>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="WriteOnlyRepository (forging_blocks.application.ports.outbound.repository.WriteOnlyRepository)" href="../../../application/ports/outbound/repository/#forging_blocks.application.ports.outbound.repository.WriteOnlyRepository">WriteOnlyRepository</a>[<span title="forging_blocks.infrastructure.repositories.base_repository.BaseWriteRepository[TEntity]">TEntity</span>, <span title="forging_blocks.infrastructure.repositories.base_repository.BaseWriteRepository[TId]">TId</span>]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="WriteOnlyRepositoryPort (forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort)" href="../../../application/ports/outbound/repository/#forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort">WriteOnlyRepositoryPort</a>[<span title="forging_blocks.infrastructure.repositories.base_repository.BaseWriteRepository[TEntity]">TEntity</span>, <span title="forging_blocks.infrastructure.repositories.base_repository.BaseWriteRepository[TId]">TId</span>]</code></p>
 
 
         <p>Base class for write-only repositories with common functionality.</p>
@@ -5724,7 +5724,7 @@ If None, a new empty dictionary is used.</p>
 <span class="normal"><a href="#__codelineno-0-160">160</a></span>
 <span class="normal"><a href="#__codelineno-0-161">161</a></span>
 <span class="normal"><a href="#__codelineno-0-162">162</a></span>
-<span class="normal"><a href="#__codelineno-0-163">163</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseWriteRepository</span><span class="p">[</span><span class="n">TEntity</span><span class="p">:</span> <span class="n">Identified</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">TId</span><span class="p">](</span><span class="n">WriteOnlyRepository</span><span class="p">[</span><span class="n">TEntity</span><span class="p">,</span> <span class="n">TId</span><span class="p">]):</span>
+<span class="normal"><a href="#__codelineno-0-163">163</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseWriteRepository</span><span class="p">[</span><span class="n">TEntity</span><span class="p">:</span> <span class="n">Identified</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">TId</span><span class="p">](</span><span class="n">WriteOnlyRepositoryPort</span><span class="p">[</span><span class="n">TEntity</span><span class="p">,</span> <span class="n">TId</span><span class="p">]):</span>
 </span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for write-only repositories with common functionality.</span>
 </span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a>
 </span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a><span class="sd">    Provides in-memory storage and basic write operations with ID validation.</span>
