@@ -12,13 +12,13 @@
         <meta name="author" content="ForgingBlocks Org">
       
       
-        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/file_system/">
+        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/cache_port/">
       
       
-        <link rel="prev" href="../event_store/">
+        <link rel="prev" href="../../inbound/use_case/">
       
       
-        <link rel="next" href="../logger/">
+        <link rel="next" href="../command_sender_port/">
       
       
       <link rel="icon" href="../../../../../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>File System - ForgingBlocks</title>
+        <title>Cache Port - ForgingBlocks</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#file-system" class="md-skip">
+        <a href="#cache-port" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              File System
+              Cache Port
             
           </span>
         </div>
@@ -1205,98 +1205,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../command_sender/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Command Sender
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../event_bus/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event Bus
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../event_publisher/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event Publisher
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../event_store/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event Store
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -1314,7 +1222,7 @@
   
   
   <span class="md-ellipsis">
-    File System
+    Cache Port
     
   </span>
   
@@ -1327,7 +1235,7 @@
   
   
   <span class="md-ellipsis">
-    File System
+    Cache Port
     
   </span>
   
@@ -1350,45 +1258,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port" class="md-nav__link">
     <span class="md-ellipsis">
-      file_system
+      cache_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="file_system">
+    <nav class="md-nav" aria-label="cache_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort" class="md-nav__link">
     <span class="md-ellipsis">
-      FileSystem
+      CachePort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="FileSystem">
+    <nav class="md-nav" aria-label="CachePort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.read" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.get" class="md-nav__link">
     <span class="md-ellipsis">
-      read
+      get
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.write" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.set" class="md-nav__link">
     <span class="md-ellipsis">
-      write
+      set
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.delete" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.delete" class="md-nav__link">
     <span class="md-ellipsis">
       delete
     </span>
@@ -1397,7 +1305,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.exists" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.exists" class="md-nav__link">
     <span class="md-ellipsis">
       exists
     </span>
@@ -1406,9 +1314,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.list_dir" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.clear" class="md-nav__link">
     <span class="md-ellipsis">
-      list_dir
+      clear
     </span>
   </a>
   
@@ -1440,12 +1348,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../logger/" class="md-nav__link">
+      <a href="../command_sender_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Logger
+    Command Sender Port
     
   </span>
   
@@ -1463,12 +1371,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../message_bus/" class="md-nav__link">
+      <a href="../event_bus_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Message Bus
+    Event Bus Port
     
   </span>
   
@@ -1486,12 +1394,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../notifier/" class="md-nav__link">
+      <a href="../event_publisher_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Notifier
+    Event Publisher Port
     
   </span>
   
@@ -1509,12 +1417,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../query_fetcher/" class="md-nav__link">
+      <a href="../event_store_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Query Fetcher
+    Event Store Port
     
   </span>
   
@@ -1532,12 +1440,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../repository/" class="md-nav__link">
+      <a href="../external_service_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Repository
+    External Service Port
     
   </span>
   
@@ -1555,12 +1463,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../specification_repository/" class="md-nav__link">
+      <a href="../file_system_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Specification Repository
+    File System Port
     
   </span>
   
@@ -1578,12 +1486,150 @@
   
   
     <li class="md-nav__item">
-      <a href="../unit_of_work/" class="md-nav__link">
+      <a href="../logger_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Unit Of Work
+    Logger Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message_bus_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notifier_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Notifier Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../query_fetcher_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Query Fetcher Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../specification_repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Specification Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unit_of_work_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Unit Of Work Port
     
   </span>
   
@@ -3254,7 +3300,7 @@
   
   
   <span class="md-ellipsis">
-    Errors
+    Caching
     
   </span>
   
@@ -3264,6 +3310,80 @@
         
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Caching
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/caching/in_memory_cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    In Memory Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_4_6" id="__nav_3_8_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Errors
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_6">
             <span class="md-nav__icon md-icon"></span>
             Errors
           </label>
@@ -3320,10 +3440,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_7" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_6" id="__nav_3_8_4_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_7" id="__nav_3_8_4_7_label" tabindex="0">
             
   
   
@@ -3336,8 +3456,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_6">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_7">
             <span class="md-nav__icon md-icon"></span>
             Event Buses
           </label>
@@ -3394,10 +3514,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_8" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_7" id="__nav_3_8_4_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_8" id="__nav_3_8_4_8_label" tabindex="0">
             
   
   
@@ -3410,8 +3530,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_7">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_8">
             <span class="md-nav__icon md-icon"></span>
             Event Stores
           </label>
@@ -3468,10 +3588,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_9" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_8" id="__nav_3_8_4_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_9" id="__nav_3_8_4_9_label" tabindex="0">
             
   
   
@@ -3484,8 +3604,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_8">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_9">
             <span class="md-nav__icon md-icon"></span>
             File System
           </label>
@@ -3542,10 +3662,84 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_10" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_9" id="__nav_3_8_4_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_10" id="__nav_3_8_4_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Http Client
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            Http Client
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/http_client/urllib_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Urllib Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_4_11" id="__nav_3_8_4_11_label" tabindex="0">
             
   
   
@@ -3558,8 +3752,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_9">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_11">
             <span class="md-nav__icon md-icon"></span>
             Logging
           </label>
@@ -3616,10 +3810,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_12" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_10" id="__nav_3_8_4_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_12" id="__nav_3_8_4_12_label" tabindex="0">
             
   
   
@@ -3632,8 +3826,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_10">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_12">
             <span class="md-nav__icon md-icon"></span>
             Message Bus
           </label>
@@ -3652,6 +3846,75 @@
   
   <span class="md-ellipsis">
     In Memory Message Bus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/message_bus/message_bus_command_sender/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Command Sender
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/message_bus/message_bus_event_publisher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Event Publisher
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/message_bus/message_bus_query_fetcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Query Fetcher
     
   </span>
   
@@ -3690,10 +3953,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_13" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_11" id="__nav_3_8_4_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_13" id="__nav_3_8_4_13_label" tabindex="0">
             
   
   
@@ -3706,8 +3969,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_11">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_13">
             <span class="md-nav__icon md-icon"></span>
             Repositories
           </label>
@@ -3833,10 +4096,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_12" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_14" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_12" id="__nav_3_8_4_12_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_14" id="__nav_3_8_4_14_label" tabindex="0">
             
   
   
@@ -3849,8 +4112,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_12_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_12">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_14">
             <span class="md-nav__icon md-icon"></span>
             Serialization
           </label>
@@ -3907,10 +4170,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_13" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_15" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_13" id="__nav_3_8_4_13_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_15" id="__nav_3_8_4_15_label" tabindex="0">
             
   
   
@@ -3923,8 +4186,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_13_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_13">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_15">
             <span class="md-nav__icon md-icon"></span>
             Unit Of Work
           </label>
@@ -4363,45 +4626,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port" class="md-nav__link">
     <span class="md-ellipsis">
-      file_system
+      cache_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="file_system">
+    <nav class="md-nav" aria-label="cache_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort" class="md-nav__link">
     <span class="md-ellipsis">
-      FileSystem
+      CachePort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="FileSystem">
+    <nav class="md-nav" aria-label="CachePort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.read" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.get" class="md-nav__link">
     <span class="md-ellipsis">
-      read
+      get
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.write" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.set" class="md-nav__link">
     <span class="md-ellipsis">
-      write
+      set
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.delete" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.delete" class="md-nav__link">
     <span class="md-ellipsis">
       delete
     </span>
@@ -4410,7 +4673,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.exists" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.exists" class="md-nav__link">
     <span class="md-ellipsis">
       exists
     </span>
@@ -4419,9 +4682,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.list_dir" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.clear" class="md-nav__link">
     <span class="md-ellipsis">
-      list_dir
+      clear
     </span>
   </a>
   
@@ -4453,7 +4716,7 @@
 
 
   
-    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/file_system.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/cache_port.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -4461,25 +4724,43 @@
   
 
 
-<h1 id="file-system">File System<a class="headerlink" href="#file-system" title="Permanent link">&para;</a></h1>
+<h1 id="cache-port">Cache Port<a class="headerlink" href="#cache-port" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="forging_blocks.application.ports.outbound.file_system" class="doc doc-heading">
-            <code>file_system</code>
+<h2 id="forging_blocks.application.ports.outbound.cache_port" class="doc doc-heading">
+            <code>cache_port</code>
 
 
-<a href="#forging_blocks.application.ports.outbound.file_system" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#forging_blocks.application.ports.outbound.cache_port" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-        <p>File system port for abstract file operations.</p>
-<p>Defines the <code>FileSystem</code> protocol that application code depends on,<br />
-decoupling file I/O from any specific implementation.</p>
+        <p>Cache port for abstract caching operations.</p>
+<p>Defines the <code>CachePort</code> protocol that application code depends on,<br />
+decoupling caching from any specific implementation (in-memory, Redis, etc.).</p>
 
+
+<details class="responsibilities" open>
+  <summary>Responsibilities</summary>
+  <ul>
+<li>Store and retrieve cached values by key.</li>
+<li>Check cache existence and clear entries.</li>
+<li>Support optional TTL (time-to-live) for entries.</li>
+</ul>
+</details>
+
+<details class="non-responsibilities" open>
+  <summary>Non-Responsibilities</summary>
+  <ul>
+<li>Eviction policies (LRU, LFU) — handled by infrastructure.</li>
+<li>Distributed locking or consistency guarantees.</li>
+<li>Serialization of cache values.</li>
+</ul>
+</details>
 
 
 
@@ -4503,21 +4784,70 @@ decoupling file I/O from any specific implementation.</p>
 
 
 
-<h3 id="forging_blocks.application.ports.outbound.file_system.FileSystem" class="doc doc-heading">
-            <code>FileSystem</code>
+<h3 id="forging_blocks.application.ports.outbound.cache_port.CachePort" class="doc doc-heading">
+            <code>CachePort</code>
 
 
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystem" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#forging_blocks.application.ports.outbound.cache_port.CachePort" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="typing.Protocol">Protocol</span></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="OutboundPort (forging_blocks.foundation.ports.OutboundPort)" href="../../../../foundation/ports/#forging_blocks.foundation.ports.OutboundPort">OutboundPort</a>[<span title="forging_blocks.application.ports.outbound.cache_port.CachePort[KeyType]">KeyType</span>, <span title="forging_blocks.application.ports.outbound.cache_port.CachePort[ValueType]">ValueType</span>]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
 
 
-        <p>Structural protocol for file system operations.</p>
-<p>Any object with <code>read</code>, <code>write</code>, <code>delete</code>, <code>exists</code>,<br />
-and <code>list_dir</code> async methods satisfies this protocol.</p>
+        <p>Protocol for caching operations.</p>
+<p>Any object with the async <code>get</code>, <code>set</code>, <code>delete</code>, <code>exists</code>,<br />
+and <code>clear</code> methods satisfies this protocol.</p>
+
+
+<p>
+      <span class="doc-section-title">
+        Class Type Parameters:
+      </span>
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Bound or Constraints</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>KeyType</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The type of cache keys (typically str).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>ValueType</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The type of cached values.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -4527,19 +4857,8 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 
 
               <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/cache_port.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-22">22</a></span>
 <span class="normal"><a href="#__codelineno-0-23">23</a></span>
 <span class="normal"><a href="#__codelineno-0-24">24</a></span>
 <span class="normal"><a href="#__codelineno-0-25">25</a></span>
@@ -4592,71 +4911,76 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 <span class="normal"><a href="#__codelineno-0-72">72</a></span>
 <span class="normal"><a href="#__codelineno-0-73">73</a></span>
 <span class="normal"><a href="#__codelineno-0-74">74</a></span>
-<span class="normal"><a href="#__codelineno-0-75">75</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="k">class</span><span class="w"> </span><span class="nc">FileSystem</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Structural protocol for file system operations.</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="sd">    Any object with ``read``, ``write``, ``delete``, ``exists``,</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="sd">    and ``list_dir`` async methods satisfies this protocol.</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Read the contents of a file.</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">            path: Path to the file.</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">            The file contents as bytes.</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">        Raises:</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">            FileNotFoundError: If the file does not exist.</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>        <span class="o">...</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Write data to a file, creating parent directories as needed.</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">            path: Path to the file.</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">            data: The bytes to write.</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>        <span class="o">...</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a file.</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">            path: Path to the file.</span>
+<span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span>
+<span class="normal"><a href="#__codelineno-0-77">77</a></span>
+<span class="normal"><a href="#__codelineno-0-78">78</a></span>
+<span class="normal"><a href="#__codelineno-0-79">79</a></span>
+<span class="normal"><a href="#__codelineno-0-80">80</a></span>
+<span class="normal"><a href="#__codelineno-0-81">81</a></span>
+<span class="normal"><a href="#__codelineno-0-82">82</a></span>
+<span class="normal"><a href="#__codelineno-0-83">83</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">class</span><span class="w"> </span><span class="nc">CachePort</span><span class="p">[</span><span class="n">KeyType</span><span class="p">,</span> <span class="n">ValueType</span><span class="p">](</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="n">OutboundPort</span><span class="p">[</span><span class="n">KeyType</span><span class="p">,</span> <span class="n">ValueType</span><span class="p">],</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="n">Protocol</span><span class="p">,</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="p">):</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Protocol for caching operations.</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    Any object with the async ``get``, ``set``, ``delete``, ``exists``,</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    and ``clear`` methods satisfies this protocol.</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    Type Parameters:</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">        KeyType: The type of cache keys (typically str).</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        ValueType: The type of cached values.</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve a value from the cache.</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">            key: The cache key.</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">            The cached value, or ``None`` if not found or expired.</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>        <span class="o">...</span>
 </span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        Raises:</span>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">            FileNotFoundError: If the file does not exist.</span>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="o">...</span>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check whether a file or directory exists.</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">,</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="n">value</span><span class="p">:</span> <span class="n">ValueType</span><span class="p">,</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="n">ttl</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Store a value in the cache.</span>
 </span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>
 </span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">            path: Path to check.</span>
-</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">            ``True`` if the path exists, ``False`` otherwise.</span>
-</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="o">...</span>
-</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>
-</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
-</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;List the contents of a directory.</span>
-</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">            path: Path to the directory.</span>
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">            A list of ``Path`` entries in the directory.</span>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">        Raises:</span>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">            NotADirectoryError: If *path* is not a directory.</span>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>        <span class="o">...</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">            key: The cache key.</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">            value: The value to cache.</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">            ttl: Optional time-to-live in seconds. ``None`` means no expiration.</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="o">...</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a value from the cache.</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">            key: The cache key. No-op if the key does not exist.</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>        <span class="o">...</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check whether a key exists in the cache and has not expired.</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">            key: The cache key.</span>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="sd">            ``True`` if the key exists and is not expired, ``False`` otherwise.</span>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>        <span class="o">...</span>
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a>
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all entries from the cache.&quot;&quot;&quot;</span>
+</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a>        <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -4676,19 +5000,19 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.outbound.file_system.FileSystem.read" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">read</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span></code>
+<h4 id="forging_blocks.application.ports.outbound.cache_port.CachePort.get" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueType</span> <span class="o">|</span> <span class="kc">None</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.read" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.get" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Read the contents of a file.</p>
+        <p>Retrieve a value from the cache.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4704,14 +5028,14 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>path</code>
+                <code>key</code>
             </td>
             <td>
-                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
+                  <code><span title="forging_blocks.application.ports.outbound.cache_port.CachePort[KeyType]">KeyType</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Path to the file.</p>
+                <p>The cache key.</p>
               </div>
             </td>
             <td>
@@ -4733,34 +5057,11 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="bytes">bytes</span></code>
+                  <code><span title="forging_blocks.application.ports.outbound.cache_port.CachePort[ValueType]">ValueType</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The file contents as bytes.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="FileNotFoundError">FileNotFoundError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>If the file does not exist.</p>
+                <p>The cached value, or <code>None</code> if not found or expired.</p>
               </div>
             </td>
           </tr>
@@ -4769,219 +5070,26 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 
 
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Read the contents of a file.</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">        path: Path to the file.</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">        The file contents as bytes.</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    Raises:</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">        FileNotFoundError: If the file does not exist.</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="forging_blocks.application.ports.outbound.file_system.FileSystem.write" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">write</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.write" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Write data to a file, creating parent directories as needed.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>path</code>
-            </td>
-            <td>
-                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Path to the file.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>data</code>
-            </td>
-            <td>
-                  <code><span title="bytes">bytes</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The bytes to write.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/cache_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-36">36</a></span>
 <span class="normal"><a href="#__codelineno-0-37">37</a></span>
 <span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Write data to a file, creating parent directories as needed.</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">        path: Path to the file.</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        data: The bytes to write.</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="forging_blocks.application.ports.outbound.file_system.FileSystem.delete" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">delete</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.delete" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Delete a file.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>path</code>
-            </td>
-            <td>
-                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Path to the file.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="FileNotFoundError">FileNotFoundError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>If the file does not exist.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
 <span class="normal"><a href="#__codelineno-0-42">42</a></span>
 <span class="normal"><a href="#__codelineno-0-43">43</a></span>
 <span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
-<span class="normal"><a href="#__codelineno-0-50">50</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete a file.</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        path: Path to the file.</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">    Raises:</span>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">        FileNotFoundError: If the file does not exist.</span>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve a value from the cache.</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        key: The cache key.</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        The cached value, or ``None`` if not found or expired.</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -4991,19 +5099,19 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.outbound.file_system.FileSystem.exists" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span></code>
+<h4 id="forging_blocks.application.ports.outbound.cache_port.CachePort.set" class="doc doc-heading">
+            <code class="highlight language-python"><span class="nb">set</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">ValueType</span><span class="p">,</span> <span class="n">ttl</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.exists" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.set" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Check whether a file or directory exists.</p>
+        <p>Store a value in the cache.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -5019,14 +5127,200 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>path</code>
+                <code>key</code>
             </td>
             <td>
-                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
+                  <code><span title="forging_blocks.application.ports.outbound.cache_port.CachePort[KeyType]">KeyType</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Path to check.</p>
+                <p>The cache key.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>value</code>
+            </td>
+            <td>
+                  <code><span title="forging_blocks.application.ports.outbound.cache_port.CachePort[ValueType]">ValueType</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The value to cache.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>ttl</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional time-to-live in seconds. <code>None</code> means no expiration.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/cache_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">,</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="n">value</span><span class="p">:</span> <span class="n">ValueType</span><span class="p">,</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="n">ttl</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Store a value in the cache.</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">        key: The cache key.</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">        value: The value to cache.</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">        ttl: Optional time-to-live in seconds. ``None`` means no expiration.</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>    <span class="o">...</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.application.ports.outbound.cache_port.CachePort.delete" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">delete</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.delete" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Remove a value from the cache.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>key</code>
+            </td>
+            <td>
+                  <code><span title="forging_blocks.application.ports.outbound.cache_port.CachePort[KeyType]">KeyType</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The cache key. No-op if the key does not exist.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/cache_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove a value from the cache.</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">        key: The cache key. No-op if the key does not exist.</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>    <span class="o">...</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.application.ports.outbound.cache_port.CachePort.exists" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">exists</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.exists" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Check whether a key exists in the cache and has not expired.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>key</code>
+            </td>
+            <td>
+                  <code><span title="forging_blocks.application.ports.outbound.cache_port.CachePort[KeyType]">KeyType</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The cache key.</p>
               </div>
             </td>
             <td>
@@ -5052,7 +5346,7 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p><code>True</code> if the path exists, <code>False</code> otherwise.</p>
+                <p><code>True</code> if the key exists and is not expired, <code>False</code> otherwise.</p>
               </div>
             </td>
           </tr>
@@ -5061,26 +5355,26 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 
 
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-52">52</a></span>
-<span class="normal"><a href="#__codelineno-0-53">53</a></span>
-<span class="normal"><a href="#__codelineno-0-54">54</a></span>
-<span class="normal"><a href="#__codelineno-0-55">55</a></span>
-<span class="normal"><a href="#__codelineno-0-56">56</a></span>
-<span class="normal"><a href="#__codelineno-0-57">57</a></span>
-<span class="normal"><a href="#__codelineno-0-58">58</a></span>
-<span class="normal"><a href="#__codelineno-0-59">59</a></span>
-<span class="normal"><a href="#__codelineno-0-60">60</a></span>
-<span class="normal"><a href="#__codelineno-0-61">61</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether a file or directory exists.</span>
-</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">        path: Path to check.</span>
-</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">        ``True`` if the path exists, ``False`` otherwise.</span>
-</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>    <span class="o">...</span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/cache_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#__codelineno-0-72">72</a></span>
+<span class="normal"><a href="#__codelineno-0-73">73</a></span>
+<span class="normal"><a href="#__codelineno-0-74">74</a></span>
+<span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span>
+<span class="normal"><a href="#__codelineno-0-77">77</a></span>
+<span class="normal"><a href="#__codelineno-0-78">78</a></span>
+<span class="normal"><a href="#__codelineno-0-79">79</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">KeyType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether a key exists in the cache and has not expired.</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">        key: The cache key.</span>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="sd">        ``True`` if the key exists and is not expired, ``False`` otherwise.</span>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -5090,125 +5384,28 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.outbound.file_system.FileSystem.list_dir" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">list_dir</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span></code>
+<h4 id="forging_blocks.application.ports.outbound.cache_port.CachePort.clear" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">clear</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystem.list_dir" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.outbound.cache_port.CachePort.clear" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>List the contents of a directory.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>path</code>
-            </td>
-            <td>
-                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Path to the directory.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="list">list</span>[<span title="pathlib.Path">Path</span>]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A list of <code>Path</code> entries in the directory.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="NotADirectoryError">NotADirectoryError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>If <em>path</em> is not a directory.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+        <p>Remove all entries from the cache.</p>
 
 
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-63">63</a></span>
-<span class="normal"><a href="#__codelineno-0-64">64</a></span>
-<span class="normal"><a href="#__codelineno-0-65">65</a></span>
-<span class="normal"><a href="#__codelineno-0-66">66</a></span>
-<span class="normal"><a href="#__codelineno-0-67">67</a></span>
-<span class="normal"><a href="#__codelineno-0-68">68</a></span>
-<span class="normal"><a href="#__codelineno-0-69">69</a></span>
-<span class="normal"><a href="#__codelineno-0-70">70</a></span>
-<span class="normal"><a href="#__codelineno-0-71">71</a></span>
-<span class="normal"><a href="#__codelineno-0-72">72</a></span>
-<span class="normal"><a href="#__codelineno-0-73">73</a></span>
-<span class="normal"><a href="#__codelineno-0-74">74</a></span>
-<span class="normal"><a href="#__codelineno-0-75">75</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
-</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;List the contents of a directory.</span>
-</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">        path: Path to the directory.</span>
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">        A list of ``Path`` entries in the directory.</span>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">    Raises:</span>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">        NotADirectoryError: If *path* is not a directory.</span>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="o">...</span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/cache_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-81">81</a></span>
+<span class="normal"><a href="#__codelineno-0-82">82</a></span>
+<span class="normal"><a href="#__codelineno-0-83">83</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove all entries from the cache.&quot;&quot;&quot;</span>
+</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>

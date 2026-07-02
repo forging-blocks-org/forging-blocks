@@ -12,13 +12,13 @@
         <meta name="author" content="ForgingBlocks Org">
       
       
-        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/query_fetcher/">
+        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/event_publisher_port/">
       
       
-        <link rel="prev" href="../notifier/">
+        <link rel="prev" href="../event_bus_port/">
       
       
-        <link rel="next" href="../repository/">
+        <link rel="next" href="../event_store_port/">
       
       
       <link rel="icon" href="../../../../../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Query Fetcher - ForgingBlocks</title>
+        <title>Event Publisher Port - ForgingBlocks</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#query-fetcher" class="md-skip">
+        <a href="#event-publisher-port" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Query Fetcher
+              Event Publisher Port
             
           </span>
         </div>
@@ -1208,12 +1208,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../command_sender/" class="md-nav__link">
+      <a href="../cache_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Command Sender
+    Cache Port
     
   </span>
   
@@ -1231,12 +1231,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../event_bus/" class="md-nav__link">
+      <a href="../command_sender_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Bus
+    Command Sender Port
     
   </span>
   
@@ -1254,127 +1254,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../event_publisher/" class="md-nav__link">
+      <a href="../event_bus_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Publisher
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../event_store/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event Store
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../file_system/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    File System
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../logger/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Logger
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../message_bus/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Message Bus
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../notifier/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Notifier
+    Event Bus Port
     
   </span>
   
@@ -1406,7 +1291,7 @@
   
   
   <span class="md-ellipsis">
-    Query Fetcher
+    Event Publisher Port
     
   </span>
   
@@ -1419,7 +1304,7 @@
   
   
   <span class="md-ellipsis">
-    Query Fetcher
+    Event Publisher Port
     
   </span>
   
@@ -1442,29 +1327,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.query_fetcher" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_publisher_port" class="md-nav__link">
     <span class="md-ellipsis">
-      query_fetcher
+      event_publisher_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="query_fetcher">
+    <nav class="md-nav" aria-label="event_publisher_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_publisher_port.EventPublisherPort" class="md-nav__link">
     <span class="md-ellipsis">
-      QueryFetcher
+      EventPublisherPort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="QueryFetcher">
+    <nav class="md-nav" aria-label="EventPublisherPort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher.fetch" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_publisher_port.EventPublisherPort.publish" class="md-nav__link">
     <span class="md-ellipsis">
-      fetch
+      publish
     </span>
   </a>
   
@@ -1496,12 +1381,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../repository/" class="md-nav__link">
+      <a href="../event_store_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Repository
+    Event Store Port
     
   </span>
   
@@ -1519,12 +1404,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../specification_repository/" class="md-nav__link">
+      <a href="../external_service_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Specification Repository
+    External Service Port
     
   </span>
   
@@ -1542,12 +1427,173 @@
   
   
     <li class="md-nav__item">
-      <a href="../unit_of_work/" class="md-nav__link">
+      <a href="../file_system_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Unit Of Work
+    File System Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logger_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Logger Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message_bus_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notifier_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Notifier Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../query_fetcher_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Query Fetcher Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../specification_repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Specification Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unit_of_work_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Unit Of Work Port
     
   </span>
   
@@ -3218,7 +3264,7 @@
   
   
   <span class="md-ellipsis">
-    Errors
+    Caching
     
   </span>
   
@@ -3228,6 +3274,80 @@
         
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Caching
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/caching/in_memory_cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    In Memory Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_4_6" id="__nav_3_8_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Errors
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_6">
             <span class="md-nav__icon md-icon"></span>
             Errors
           </label>
@@ -3284,10 +3404,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_7" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_6" id="__nav_3_8_4_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_7" id="__nav_3_8_4_7_label" tabindex="0">
             
   
   
@@ -3300,8 +3420,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_6">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_7">
             <span class="md-nav__icon md-icon"></span>
             Event Buses
           </label>
@@ -3358,10 +3478,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_8" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_7" id="__nav_3_8_4_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_8" id="__nav_3_8_4_8_label" tabindex="0">
             
   
   
@@ -3374,8 +3494,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_7">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_8">
             <span class="md-nav__icon md-icon"></span>
             Event Stores
           </label>
@@ -3432,10 +3552,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_9" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_8" id="__nav_3_8_4_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_9" id="__nav_3_8_4_9_label" tabindex="0">
             
   
   
@@ -3448,8 +3568,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_8">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_9">
             <span class="md-nav__icon md-icon"></span>
             File System
           </label>
@@ -3506,10 +3626,84 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_10" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_9" id="__nav_3_8_4_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_10" id="__nav_3_8_4_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Http Client
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            Http Client
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/http_client/urllib_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Urllib Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_4_11" id="__nav_3_8_4_11_label" tabindex="0">
             
   
   
@@ -3522,8 +3716,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_9">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_11">
             <span class="md-nav__icon md-icon"></span>
             Logging
           </label>
@@ -3580,10 +3774,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_12" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_10" id="__nav_3_8_4_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_12" id="__nav_3_8_4_12_label" tabindex="0">
             
   
   
@@ -3596,8 +3790,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_10">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_12">
             <span class="md-nav__icon md-icon"></span>
             Message Bus
           </label>
@@ -3616,6 +3810,75 @@
   
   <span class="md-ellipsis">
     In Memory Message Bus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/message_bus/message_bus_command_sender/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Command Sender
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/message_bus/message_bus_event_publisher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Event Publisher
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/message_bus/message_bus_query_fetcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Query Fetcher
     
   </span>
   
@@ -3654,10 +3917,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_13" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_11" id="__nav_3_8_4_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_13" id="__nav_3_8_4_13_label" tabindex="0">
             
   
   
@@ -3670,8 +3933,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_11">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_13">
             <span class="md-nav__icon md-icon"></span>
             Repositories
           </label>
@@ -3797,10 +4060,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_12" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_14" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_12" id="__nav_3_8_4_12_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_14" id="__nav_3_8_4_14_label" tabindex="0">
             
   
   
@@ -3813,8 +4076,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_12_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_12">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_14">
             <span class="md-nav__icon md-icon"></span>
             Serialization
           </label>
@@ -3871,10 +4134,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_13" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_15" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_13" id="__nav_3_8_4_13_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_15" id="__nav_3_8_4_15_label" tabindex="0">
             
   
   
@@ -3887,8 +4150,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_13_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_13">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_15">
             <span class="md-nav__icon md-icon"></span>
             Unit Of Work
           </label>
@@ -4327,29 +4590,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.query_fetcher" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_publisher_port" class="md-nav__link">
     <span class="md-ellipsis">
-      query_fetcher
+      event_publisher_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="query_fetcher">
+    <nav class="md-nav" aria-label="event_publisher_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_publisher_port.EventPublisherPort" class="md-nav__link">
     <span class="md-ellipsis">
-      QueryFetcher
+      EventPublisherPort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="QueryFetcher">
+    <nav class="md-nav" aria-label="EventPublisherPort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher.fetch" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_publisher_port.EventPublisherPort.publish" class="md-nav__link">
     <span class="md-ellipsis">
-      fetch
+      publish
     </span>
   </a>
   
@@ -4381,7 +4644,7 @@
 
 
   
-    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/query_fetcher.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/event_publisher_port.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -4389,40 +4652,39 @@
   
 
 
-<h1 id="query-fetcher">Query Fetcher<a class="headerlink" href="#query-fetcher" title="Permanent link">&para;</a></h1>
+<h1 id="event-publisher-port">Event Publisher Port<a class="headerlink" href="#event-publisher-port" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="forging_blocks.application.ports.outbound.query_fetcher" class="doc doc-heading">
-            <code>query_fetcher</code>
+<h2 id="forging_blocks.application.ports.outbound.event_publisher_port" class="doc doc-heading">
+            <code>event_publisher_port</code>
 
 
-<a href="#forging_blocks.application.ports.outbound.query_fetcher" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#forging_blocks.application.ports.outbound.event_publisher_port" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-        <p>Outbound port for asynchronously fetching query results.</p>
-<p>QueryFetcher provides an application-blocks abstraction for retrieving data<br />
-by dispatching query messages through a MessageBus. It supports CQRS-style<br />
-architectures where queries are processed independently of commands.</p>
+        <p>Outbound port for asynchronously publishing domain events.</p>
+<p>Defines the <code>EventPublisherPort</code> protocol for publishing domain events<br />
+to an external message bus or event broker.  Infrastructure implementations<br />
+determine durability, ordering, and delivery guarantees.</p>
 
 
 <details class="responsibilities" open>
   <summary>Responsibilities</summary>
   <ul>
-<li>Forward queries to the message bus.</li>
-<li>Return the result of the query execution.</li>
+<li>Publish domain events after domain changes occur.</li>
 </ul>
 </details>
 
 <details class="non-responsibilities" open>
   <summary>Non-Responsibilities</summary>
   <ul>
-<li>Define caching or projection logic.</li>
-<li>Guarantee consistency between read and write models.</li>
+<li>Persist events.</li>
+<li>Guarantee ordering or durability.</li>
 </ul>
 </details>
 
@@ -4448,22 +4710,21 @@ architectures where queries are processed independently of commands.</p>
 
 
 
-<h3 id="forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher" class="doc doc-heading">
-            <code>QueryFetcher</code>
+<h3 id="forging_blocks.application.ports.outbound.event_publisher_port.EventPublisherPort" class="doc doc-heading">
+            <code>EventPublisherPort</code>
 
 
-<a href="#forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#forging_blocks.application.ports.outbound.event_publisher_port.EventPublisherPort" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="OutboundPort (forging_blocks.foundation.ports.OutboundPort)" href="../../../../foundation/ports/#forging_blocks.foundation.ports.OutboundPort">OutboundPort</a>[<a class="autorefs autorefs-internal" title="Query (forging_blocks.foundation.messages.query.Query)" href="../../../../foundation/messages/query/#forging_blocks.foundation.messages.query.Query">Query</a>[<span title="forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher[QueryPayloadType]">QueryPayloadType</span>], <span title="forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher[QueryFetcherResult]">QueryFetcherResult</span>]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="OutboundPort (forging_blocks.foundation.ports.OutboundPort)" href="../../../../foundation/ports/#forging_blocks.foundation.ports.OutboundPort">OutboundPort</a>[<a class="autorefs autorefs-internal" title="Event (forging_blocks.foundation.messages.event.Event)" href="../../../../foundation/messages/event/#forging_blocks.foundation.messages.event.Event">Event</a>[<span title="forging_blocks.application.ports.outbound.event_publisher_port.EventPublisherPort[EventPayloadType]">EventPayloadType</span>], None]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
 
 
-        <p>Outbound port for dispatching query messages.</p>
-<p>The QueryFetcher abstracts query execution through a MessageBus. It does<br />
-not apply any interpretation to the returned data; shaping is the query<br />
-handler's responsibility.</p>
+        <p>Protocol for publishing domain events asynchronously.</p>
+<p>Any object with an async <code>publish</code> method that accepts an <code>Event</code><br />
+satisfies this protocol — no inheritance required.</p>
 
 
 
@@ -4473,7 +4734,7 @@ handler's responsibility.</p>
 
 
               <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/query_fetcher.py</code></summary>
+                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/event_publisher_port.py</code></summary>
                 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-21">21</a></span>
 <span class="normal"><a href="#__codelineno-0-22">22</a></span>
 <span class="normal"><a href="#__codelineno-0-23">23</a></span>
@@ -4490,47 +4751,23 @@ handler's responsibility.</p>
 <span class="normal"><a href="#__codelineno-0-34">34</a></span>
 <span class="normal"><a href="#__codelineno-0-35">35</a></span>
 <span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span>
-<span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="k">class</span><span class="w"> </span><span class="nc">QueryFetcher</span><span class="p">[</span><span class="n">QueryPayloadType</span><span class="p">,</span> <span class="n">QueryFetcherResult</span><span class="p">](</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="n">OutboundPort</span><span class="p">[</span><span class="n">Query</span><span class="p">[</span><span class="n">QueryPayloadType</span><span class="p">],</span> <span class="n">QueryFetcherResult</span><span class="p">],</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="p">):</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Outbound port for dispatching query messages.</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">    The QueryFetcher abstracts query execution through a MessageBus. It does</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    not apply any interpretation to the returned data; shaping is the query</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    handler&#39;s responsibility.</span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventPublisherPort</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">](</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="n">OutboundPort</span><span class="p">[</span><span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="n">Protocol</span><span class="p">,</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="p">):</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Protocol for publishing domain events asynchronously.</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    Any object with an async ``publish`` method that accepts an ``Event``</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    satisfies this protocol — no inheritance required.</span>
 </span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">message_bus</span><span class="p">:</span> <span class="n">MessageBus</span><span class="p">[</span><span class="n">Query</span><span class="p">[</span><span class="n">QueryPayloadType</span><span class="p">],</span> <span class="n">QueryFetcherResult</span><span class="p">]</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_message_bus</span> <span class="o">=</span> <span class="n">message_bus</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">Query</span><span class="p">[</span><span class="n">QueryPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">QueryFetcherResult</span><span class="p">:</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetch the result of a query.</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">            query: The query instance.</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">            Any result returned by the underlying query handler.</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        Notes:</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">            - Asynchronous execution.</span>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">            - Data shape is determined by the handler responsible for the query.</span>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_bus</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Publish a domain event.</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">            event: The domain event to publish.</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>        <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -4550,19 +4787,19 @@ handler's responsibility.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher.fetch" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">fetch</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="n">Query</span><span class="p">[</span><span class="n">QueryPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">QueryFetcherResult</span></code>
+<h4 id="forging_blocks.application.ports.outbound.event_publisher_port.EventPublisherPort.publish" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">publish</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher.fetch" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.outbound.event_publisher_port.EventPublisherPort.publish" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Fetch the result of a query.</p>
+        <p>Publish a domain event.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4578,14 +4815,14 @@ handler's responsibility.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>query</code>
+                <code>event</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="Query (forging_blocks.foundation.messages.query.Query)" href="../../../../foundation/messages/query/#forging_blocks.foundation.messages.query.Query">Query</a>[<span title="forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher[QueryPayloadType]">QueryPayloadType</span>]</code>
+                  <code><a class="autorefs autorefs-internal" title="Event (forging_blocks.foundation.messages.event.Event)" href="../../../../foundation/messages/event/#forging_blocks.foundation.messages.event.Event">Event</a>[<span title="forging_blocks.application.ports.outbound.event_publisher_port.EventPublisherPort[EventPayloadType]">EventPayloadType</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The query instance.</p>
+                <p>The domain event to publish.</p>
               </div>
             </td>
             <td>
@@ -4596,66 +4833,21 @@ handler's responsibility.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="forging_blocks.application.ports.outbound.query_fetcher.QueryFetcher[QueryFetcherResult]">QueryFetcherResult</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Any result returned by the underlying query handler.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="notes" open>
-  <summary>Notes</summary>
-  <ul>
-<li>Asynchronous execution.</li>
-<li>Data shape is determined by the handler responsible for the query.</li>
-</ul>
-</details>
-
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/query_fetcher.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span>
-<span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">Query</span><span class="p">[</span><span class="n">QueryPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">QueryFetcherResult</span><span class="p">:</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetch the result of a query.</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        query: The query instance.</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        Any result returned by the underlying query handler.</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    Notes:</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">        - Asynchronous execution.</span>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        - Data shape is determined by the handler responsible for the query.</span>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_bus</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/event_publisher_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Publish a domain event.</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">        event: The domain event to publish.</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>

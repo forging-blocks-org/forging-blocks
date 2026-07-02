@@ -18,7 +18,7 @@
         <link rel="prev" href="../message_handler/">
       
       
-        <link rel="next" href="../../outbound/command_sender/">
+        <link rel="next" href="../../outbound/cache_port/">
       
       
       <link rel="icon" href="../../../../../../assets/favicon.ico">
@@ -1289,12 +1289,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/command_sender/" class="md-nav__link">
+      <a href="../../outbound/cache_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Command Sender
+    Cache Port
     
   </span>
   
@@ -1312,12 +1312,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/event_bus/" class="md-nav__link">
+      <a href="../../outbound/command_sender_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Bus
+    Command Sender Port
     
   </span>
   
@@ -1335,12 +1335,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/event_publisher/" class="md-nav__link">
+      <a href="../../outbound/event_bus_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Publisher
+    Event Bus Port
     
   </span>
   
@@ -1358,12 +1358,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/event_store/" class="md-nav__link">
+      <a href="../../outbound/event_publisher_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Store
+    Event Publisher Port
     
   </span>
   
@@ -1381,12 +1381,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/file_system/" class="md-nav__link">
+      <a href="../../outbound/event_store_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    File System
+    Event Store Port
     
   </span>
   
@@ -1404,12 +1404,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/logger/" class="md-nav__link">
+      <a href="../../outbound/external_service_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Logger
+    External Service Port
     
   </span>
   
@@ -1427,12 +1427,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/message_bus/" class="md-nav__link">
+      <a href="../../outbound/file_system_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Message Bus
+    File System Port
     
   </span>
   
@@ -1450,12 +1450,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/notifier/" class="md-nav__link">
+      <a href="../../outbound/logger_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Notifier
+    Logger Port
     
   </span>
   
@@ -1473,12 +1473,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/query_fetcher/" class="md-nav__link">
+      <a href="../../outbound/message_bus_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Query Fetcher
+    Message Bus Port
     
   </span>
   
@@ -1496,12 +1496,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/repository/" class="md-nav__link">
+      <a href="../../outbound/notifier_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Repository
+    Notifier Port
     
   </span>
   
@@ -1519,12 +1519,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/specification_repository/" class="md-nav__link">
+      <a href="../../outbound/query_fetcher_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Specification Repository
+    Query Fetcher Port
     
   </span>
   
@@ -1542,12 +1542,58 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/unit_of_work/" class="md-nav__link">
+      <a href="../../outbound/repository_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Unit Of Work
+    Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outbound/specification_repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Specification Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../outbound/unit_of_work_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Unit Of Work Port
     
   </span>
   
@@ -3218,7 +3264,7 @@
   
   
   <span class="md-ellipsis">
-    Errors
+    Caching
     
   </span>
   
@@ -3228,6 +3274,80 @@
         
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            Caching
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/caching/in_memory_cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    In Memory Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_4_6" id="__nav_3_8_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Errors
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_6">
             <span class="md-nav__icon md-icon"></span>
             Errors
           </label>
@@ -3284,10 +3404,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_7" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_6" id="__nav_3_8_4_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_7" id="__nav_3_8_4_7_label" tabindex="0">
             
   
   
@@ -3300,8 +3420,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_6">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_7">
             <span class="md-nav__icon md-icon"></span>
             Event Buses
           </label>
@@ -3358,10 +3478,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_8" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_7" id="__nav_3_8_4_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_8" id="__nav_3_8_4_8_label" tabindex="0">
             
   
   
@@ -3374,8 +3494,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_7">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_8">
             <span class="md-nav__icon md-icon"></span>
             Event Stores
           </label>
@@ -3432,10 +3552,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_9" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_8" id="__nav_3_8_4_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_9" id="__nav_3_8_4_9_label" tabindex="0">
             
   
   
@@ -3448,8 +3568,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_8">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_9">
             <span class="md-nav__icon md-icon"></span>
             File System
           </label>
@@ -3506,10 +3626,84 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_10" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_9" id="__nav_3_8_4_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_10" id="__nav_3_8_4_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Http Client
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            Http Client
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/http_client/urllib_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Urllib Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_4_11" id="__nav_3_8_4_11_label" tabindex="0">
             
   
   
@@ -3522,8 +3716,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_9">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_11">
             <span class="md-nav__icon md-icon"></span>
             Logging
           </label>
@@ -3580,10 +3774,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_12" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_10" id="__nav_3_8_4_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_12" id="__nav_3_8_4_12_label" tabindex="0">
             
   
   
@@ -3596,8 +3790,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_10">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_12">
             <span class="md-nav__icon md-icon"></span>
             Message Bus
           </label>
@@ -3616,6 +3810,75 @@
   
   <span class="md-ellipsis">
     In Memory Message Bus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/message_bus/message_bus_command_sender/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Command Sender
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/message_bus/message_bus_event_publisher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Event Publisher
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../infrastructure/message_bus/message_bus_query_fetcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Query Fetcher
     
   </span>
   
@@ -3654,10 +3917,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_13" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_11" id="__nav_3_8_4_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_13" id="__nav_3_8_4_13_label" tabindex="0">
             
   
   
@@ -3670,8 +3933,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_11">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_13">
             <span class="md-nav__icon md-icon"></span>
             Repositories
           </label>
@@ -3797,10 +4060,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_12" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_14" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_12" id="__nav_3_8_4_12_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_14" id="__nav_3_8_4_14_label" tabindex="0">
             
   
   
@@ -3813,8 +4076,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_12_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_12">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_14">
             <span class="md-nav__icon md-icon"></span>
             Serialization
           </label>
@@ -3871,10 +4134,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_13" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_15" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_4_13" id="__nav_3_8_4_13_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_4_15" id="__nav_3_8_4_15_label" tabindex="0">
             
   
   
@@ -3887,8 +4150,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_13_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_13">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_15">
             <span class="md-nav__icon md-icon"></span>
             Unit Of Work
           </label>
