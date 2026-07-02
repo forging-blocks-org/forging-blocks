@@ -12,7 +12,7 @@ Components:
 - **Presentation** — Input/output boundaries
 - **Testing** — Testing reference and guidelines
 
-Dependencies flow inward: Domain → Application → Infrastructure/Presentation, all depending on Foundation.
+Dependencies point inward: Infrastructure/Presentation → Application → Domain, all depending on Foundation.
 
 ---
 ```mermaid

@@ -7,11 +7,4 @@ A `Specification` encapsulates a rule evaluated with `is_satisfied_by(candidate)
 Specifications are well-suited for querying, validation, and filtering within domain logic.
 
 !!! note "Where the implementation lives"
-    The specification pattern is defined in the **Foundation** block because composable predicates are reusable outside the Domain block. The Domain block re-exports it.
-
-## Domain Errors
-
-Domain Errors represent invalid states or rule violations within the problem space. They express domain meaning, indicate invariant violations, and are not technical failures.
-
-!!! note "On error semantics"
-    Domain Errors describe *why* something is invalid in domain terms. They should not encode transport, persistence, or framework concerns.
+    The specification pattern is defined in the [Foundation](../foundation.md) block because composable predicates are reusable outside the Domain block. The Domain block re-exports it.

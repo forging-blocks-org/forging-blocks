@@ -79,9 +79,10 @@ nav:
           - Value Objects: reference/domain/value-objects.md
           - Aggregate Roots: reference/domain/aggregates.md
           - Specifications: reference/domain/specifications.md
+          - Errors: reference/domain/errors.md
       - Application:
           - Overview: reference/application.md
-          - Use Cases: reference/application/use-cases.md
+          - Use Cases & Handlers: reference/application/use-cases.md
           - Ports: reference/application/ports.md
           - Errors: reference/application/errors.md
       - Infrastructure:

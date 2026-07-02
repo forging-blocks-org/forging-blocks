@@ -4,7 +4,12 @@ Ports define the boundaries of the Application block — how it can be interacte
 
 ## Inbound Ports
 
-Inbound ports describe *what can be requested* from the application without exposing internal implementation details. They include `UseCase` and `MessageHandler`.
+Inbound ports describe *what can be requested* from the application without exposing internal implementation details. They are invoked by the [Presentation](../presentation.md) block.
+
+- **Use Case** — A cohesive unit of behavior. Receives input, coordinates domain objects and outbound ports, returns a `Result`.
+- **Message Handler** — Reacts to a single message type (command, event, or query). Type aliases provide `CommandHandler`, `EventHandler`, and `QueryHandler`.
+
+Both share the same contract: receive a typed input, return a typed output (or `None` for fire-and-forget handlers).
 
 ## Outbound Ports
 

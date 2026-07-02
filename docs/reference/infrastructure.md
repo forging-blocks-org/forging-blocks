@@ -20,7 +20,7 @@ Start with in-memory implementations for fast feedback during development. They 
 Adapters are composable. A `UnitOfWork` wraps multiple repositories. A `MessageBus` dispatches to multiple handlers. Wire them together at startup — a composition root — and pass the resulting graph into the Application layer.
 
 ---
-## Core implementations
+## Core abstractions
 
 - **[Persistence](infrastructure/persistence.md)** — Repositories, Unit of Work
 - **[Messaging & Events](infrastructure/messaging.md)** — Message Buses, Event Stores, Event Buses
