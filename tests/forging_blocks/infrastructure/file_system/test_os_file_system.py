@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from forging_blocks.application.ports.outbound.file_system import FileSystemPort
+from forging_blocks.application.ports.outbound.file_system_port import FileSystemPort
 from forging_blocks.infrastructure.file_system.os_file_system import OSFileSystem
 
 

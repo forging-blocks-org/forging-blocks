@@ -8,8 +8,8 @@ from types import TracebackType
 from typing import Self
 
 from forging_blocks.application.errors.unit_of_work_error import UnitOfWorkError
-from forging_blocks.application.ports.outbound.event_publisher import EventPublisherPort
-from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWorkPort
+from forging_blocks.application.ports.outbound.event_publisher_port import EventPublisherPort
+from forging_blocks.application.ports.outbound.unit_of_work_port import UnitOfWorkPort
 from forging_blocks.domain import AggregateRoot
 from forging_blocks.foundation.errors.core import ErrorMessage
 

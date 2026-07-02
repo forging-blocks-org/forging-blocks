@@ -2,7 +2,7 @@
 
 import time
 
-from forging_blocks.application.ports.outbound.cache import CachePort
+from forging_blocks.application.ports.outbound.cache_port import CachePort
 
 
 class InMemoryCache[KeyType, ValueType](CachePort[KeyType, ValueType]):

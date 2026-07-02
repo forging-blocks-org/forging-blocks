@@ -2,7 +2,7 @@ from abc import abstractmethod
 from types import TracebackType
 from typing import Self
 
-from forging_blocks.application.ports.outbound.unit_of_work import UnitOfWorkPort
+from forging_blocks.application.ports.outbound.unit_of_work_port import UnitOfWorkPort
 from scripts.release.application.workflow import ReleaseStep
 
 

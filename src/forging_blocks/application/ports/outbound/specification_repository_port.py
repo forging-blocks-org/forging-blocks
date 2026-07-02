@@ -7,7 +7,7 @@ Extends ``ReadOnlyRepository`` with query methods that accept
 from collections.abc import Sequence
 from typing import Protocol
 
-from forging_blocks.application.ports.outbound.repository import ReadOnlyRepositoryPort
+from forging_blocks.application.ports.outbound.repository_port import ReadOnlyRepositoryPort
 from forging_blocks.foundation.specification import Specification
 
 

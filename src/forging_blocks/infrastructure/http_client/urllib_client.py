@@ -12,7 +12,7 @@ wrapper that handles serialization.
 import asyncio
 from urllib.request import Request, urlopen
 
-from forging_blocks.application.ports.outbound.external_service import (
+from forging_blocks.application.ports.outbound.external_service_port import (
     ExternalServicePort,
 )
 

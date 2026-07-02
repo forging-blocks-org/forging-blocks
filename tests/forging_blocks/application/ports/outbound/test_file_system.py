@@ -8,7 +8,7 @@ from typing import Protocol
 
 import pytest
 
-from forging_blocks.application.ports.outbound.file_system import FileSystemPort
+from forging_blocks.application.ports.outbound.file_system_port import FileSystemPort
 
 
 @pytest.mark.unit

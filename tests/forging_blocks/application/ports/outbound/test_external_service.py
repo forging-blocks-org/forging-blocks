@@ -7,7 +7,7 @@ from typing import Protocol
 
 import pytest
 
-from forging_blocks.application.ports.outbound.external_service import ExternalServicePort
+from forging_blocks.application.ports.outbound.external_service_port import ExternalServicePort
 
 
 @pytest.mark.unit

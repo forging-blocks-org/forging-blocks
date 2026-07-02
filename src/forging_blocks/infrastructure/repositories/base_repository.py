@@ -6,7 +6,7 @@ Provides shared infrastructure for repository implementations.
 from collections.abc import Mapping, MutableMapping, Sequence
 from typing import Any
 
-from forging_blocks.application.ports.outbound.repository import (
+from forging_blocks.application.ports.outbound.repository_port import (
     ReadOnlyRepositoryPort,
     WriteOnlyRepositoryPort,
 )

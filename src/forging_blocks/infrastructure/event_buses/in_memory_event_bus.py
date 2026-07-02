@@ -12,7 +12,7 @@ from forging_blocks.application.ports.inbound.message_handler import (
     CommandHandler,
     EventHandler,
 )
-from forging_blocks.application.ports.outbound.event_bus import EventBusPort
+from forging_blocks.application.ports.outbound.event_bus_port import EventBusPort
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.result import Err, Ok, Result

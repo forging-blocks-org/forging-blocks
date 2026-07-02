@@ -7,7 +7,7 @@ from typing import Protocol
 
 import pytest
 
-from forging_blocks.application.ports.outbound.cache import CachePort
+from forging_blocks.application.ports.outbound.cache_port import CachePort
 
 
 @pytest.mark.unit

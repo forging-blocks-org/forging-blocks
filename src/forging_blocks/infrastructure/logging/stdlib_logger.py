@@ -2,7 +2,7 @@
 
 import logging
 
-from forging_blocks.application.ports.outbound.logger import LoggerPort
+from forging_blocks.application.ports.outbound.logger_port import LoggerPort
 
 
 class StdlibLogger(LoggerPort):

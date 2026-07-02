@@ -7,7 +7,7 @@ and ``os`` calls, avoiding external dependencies like ``aiofiles``.
 import asyncio
 from pathlib import Path
 
-from forging_blocks.application.ports.outbound.file_system import FileSystemPort
+from forging_blocks.application.ports.outbound.file_system_port import FileSystemPort
 
 
 class OSFileSystem(FileSystemPort):

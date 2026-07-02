@@ -8,7 +8,7 @@ import asyncio
 from collections.abc import Callable
 from typing import cast
 
-from forging_blocks.application.ports.outbound.message_bus import MessageBusPort
+from forging_blocks.application.ports.outbound.message_bus_port import MessageBusPort
 from forging_blocks.foundation.messages.message import Message
 
 

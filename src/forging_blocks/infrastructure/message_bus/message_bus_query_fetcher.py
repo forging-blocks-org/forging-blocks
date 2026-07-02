@@ -3,8 +3,8 @@
 Delegates query dispatch to an injected ``MessageBusPort``.
 """
 
-from forging_blocks.application.ports.outbound.message_bus import MessageBusPort
-from forging_blocks.application.ports.outbound.query_fetcher import QueryFetcherPort
+from forging_blocks.application.ports.outbound.message_bus_port import MessageBusPort
+from forging_blocks.application.ports.outbound.query_fetcher_port import QueryFetcherPort
 from forging_blocks.foundation.messages.query import Query
 
 

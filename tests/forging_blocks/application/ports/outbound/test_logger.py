@@ -7,7 +7,7 @@ from typing import Protocol, runtime_checkable
 
 import pytest
 
-from forging_blocks.application.ports.outbound.logger import LoggerPort
+from forging_blocks.application.ports.outbound.logger_port import LoggerPort
 
 
 @runtime_checkable
