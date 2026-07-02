@@ -71,12 +71,7 @@ else
   else
     poetry run mike deploy --push --update-aliases $MIKE_OPTS "v$VERSION" latest "$VERSION"
   fi
-  echo "==> Setting default version to latest..."
-  if [[ -n "$DRY_RUN" ]]; then
-    poetry run mike set-default $MIKE_OPTS latest
-  else
-    poetry run mike set-default --push $MIKE_OPTS latest
-  fi
+  echo "==> NOTE: Default version remains unchanged (use 'dev' deploy to set default)."
 fi
 
 echo "==> Done. View deployed versions with: poetry run mike list"
