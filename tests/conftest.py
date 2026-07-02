@@ -11,7 +11,7 @@ from tests.fixtures.git_cliff_scenarios import (
     scenario_repo_with_multiple_tags,
     scenario_repo_with_single_tag,
 )
-from tests.fixtures.git_test_repository import GitTestRepository
+from tests.fixtures.git_test_repository import SANITIZED_ENV, GitTestRepository
 
 __all__ = [
     "Scenario",
@@ -62,15 +62,17 @@ def git_repo_with_remote(
     when helpers call ``git add .``, keeping tests deterministic and fast.
     """
     remote_path = tmp_path_factory.mktemp("remote")
-    subprocess.run(["git", "init", "--bare", str(remote_path)], check=True)
+    subprocess.run(["git", "init", "--bare", str(remote_path)], check=True, env=SANITIZED_ENV)
     subprocess.run(
         ["git", "remote", "add", "origin", str(remote_path)],
         cwd=git_repo.path,
         check=True,
+        env=SANITIZED_ENV,
     )
     subprocess.run(
         ["git", "push", "-u", "origin", "main"],
         cwd=git_repo.path,
         check=True,
+        env=SANITIZED_ENV,
     )
     return git_repo

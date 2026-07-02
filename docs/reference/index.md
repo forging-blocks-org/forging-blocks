@@ -7,7 +7,7 @@ The **Reference** section defines the **meaning and responsibility** of each For
 Components:
 - **Foundation** — Core abstractions (Result, Port, Identified, Messages, Specification)
 - **Domain** — Domain modeling (Entity, ValueObject, AggregateRoot, Specification)
-- **Application** — Application layer patterns (UseCase, CommandHandler, Repository, EventStore)
+- **Application** — Application layer patterns (UseCase, CommandHandler, RepositoryPort, EventStorePort)
 - **Infrastructure** — Technical adapters and implementations (Repositories, Serializable)
 - **Presentation** — Input/output boundaries
 - **Testing** — Testing reference and guidelines
@@ -30,7 +30,7 @@ flowchart LR
 ## Reference Sections
 - **[Foundation](foundation.md)** - Core abstractions and utilities (Result, Port, Identified, Messages, Specification, etc.)
 - **[Domain](domain.md)** - Domain modeling abstractions (Entity, ValueObject, AggregateRoot, Specification)
-- **[Application](application.md)** - Application layer patterns (UseCase, CommandHandler, Repository, EventStore, SpecificationRepository)
+- **[Application](application.md)** - Application layer patterns (UseCase, CommandHandler, RepositoryPort, EventStorePort, SpecificationRepositoryPort)
 - **[Infrastructure](infrastructure.md)** - Infrastructure adapters and implementations (Repositories, Serializable)
 - **[Presentation](presentation.md)** - Input/output boundaries and presentation layer
 - **[Testing](testing.md)** - Comprehensive testing reference and guidelines

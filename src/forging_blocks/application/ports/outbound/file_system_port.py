@@ -1,14 +1,16 @@
 """File system port for abstract file operations.
 
-Defines the ``FileSystem`` protocol that application code depends on,
+Defines the ``FileSystemPort`` protocol that application code depends on,
 decoupling file I/O from any specific implementation.
 """
 
 from pathlib import Path
 from typing import Protocol
 
+from forging_blocks.foundation.ports import OutboundPort
 
-class FileSystem(Protocol):
+
+class FileSystemPort(OutboundPort[object, object], Protocol):
     """Structural protocol for file system operations.
 
     Any object with ``read``, ``write``, ``delete``, ``exists``,

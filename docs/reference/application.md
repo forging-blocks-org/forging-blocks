@@ -17,15 +17,15 @@ Core abstractions:
   - **Use Case** — Cohesive unit of application behavior (orchestrates domain + outbound)
   - **Message Handler** — Reacts to a single message (Command, Event, Query)
 - **Outbound Ports** — Capabilities the application depends on
-  - **Repository** — Persistence abstraction (ReadOnly, WriteOnly, ReadWrite)
-  - **Specification Repository** — Read repository with specification-based queries
+  - **RepositoryPort** — Persistence abstraction (ReadOnly, WriteOnly, ReadWrite)
+  - **Specification RepositoryPort** — Read repository with specification-based queries
   - **Unit of Work** — Transactional boundary
   - **Message Bus** — Dispatches messages
   - **Command Sender** — Fire-and-forget commands
   - **Event Publisher** — Publishes domain events
   - **Event Store** — Appends and retrieves domain events for event sourcing
   - **Query Fetcher** — Retrieves data asynchronously
-- **Errors** — Application-level error types (UnitOfWork, EventStore, EventBus, Concurrency)
+- **Errors** — Application-level error types (UnitOfWorkPort, EventStorePort, EventBusPort, Concurrency)
 
 Depends on **Domain** and **Foundation**; must not depend on Presentation or Infrastructure implementations.
 
@@ -142,15 +142,15 @@ They allow the Application block to request external actions without knowing how
 
 ---
 
-### Repository Ports
+### RepositoryPort Ports
 
-Repository ports abstract persistence concerns.
+RepositoryPort ports abstract persistence concerns.
 
 Available variants:
 
 - **ReadOnlyRepository** — query-side access
 - **WriteOnlyRepository** — command-side persistence
-- **Repository** — combined read/write access
+- **RepositoryPort** — combined read/write access
 
 Repositories:
 
@@ -166,9 +166,9 @@ Repositories:
 
 ---
 
-### Specification Repository
+### Specification RepositoryPort
 
-A **Specification Repository** extends `ReadOnlyRepository` with query methods
+A **Specification RepositoryPort** extends `ReadOnlyRepository` with query methods
 that accept `Specification` predicates.
 
 It allows the application to query persisted objects by composable business
@@ -365,11 +365,11 @@ Its purpose is orchestration, not computation.
 !!! note "Outbound Port"
     An abstraction that represents a capability the application depends on, such as persistence, messaging, or notification, without specifying how that capability is implemented.
 
-!!! note "Repository"
+!!! note "RepositoryPort"
     An outbound port that abstracts access to persisted domain objects.
     Repositories provide retrieval and storage operations without embedding domain rules or storage details.
 
-!!! note "Specification Repository"
+!!! note "Specification RepositoryPort"
     An outbound port that extends a read-only repository with query methods
     accepting ``Specification`` predicates for in-memory filtering.
 

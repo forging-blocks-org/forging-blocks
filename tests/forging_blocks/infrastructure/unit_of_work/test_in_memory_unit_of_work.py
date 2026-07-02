@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock
 import pytest
 from pytest import fixture
 
-from forging_blocks.application import EventPublisher, UnitOfWorkError
+from forging_blocks.application import EventPublisherPort, UnitOfWorkError
 from forging_blocks.domain.aggregate_root import AggregateRoot
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.messages.message import MessageMetadata
@@ -49,7 +49,7 @@ class FakeAggregate(AggregateRoot[str, str]):
 class TestInMemoryUnitOfWork:
     @fixture
     def event_publisher(self) -> AsyncMock:
-        publisher = AsyncMock(spec=EventPublisher)
+        publisher = AsyncMock(spec=EventPublisherPort)
         return publisher
 
     @fixture

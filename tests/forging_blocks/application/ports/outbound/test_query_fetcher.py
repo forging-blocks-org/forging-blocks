@@ -3,9 +3,8 @@ from typing import Any, Self
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
-from pytest import fixture
 
-from forging_blocks.application import MessageBus, QueryFetcher
+from forging_blocks.application import QueryFetcherPort
 from forging_blocks.foundation.messages import MessageMetadata, Query
 
 
@@ -24,23 +23,20 @@ class FakeQuery(Query):
 
 
 @pytest.mark.unit
-class TestQueryFetcher:
-    @fixture
-    def message_bus(self) -> MagicMock:
-        bus = MagicMock(spec=MessageBus)
-        bus.dispatch = AsyncMock()
+class TestQueryFetcherPortContract:
+    """Contract tests verifying the QueryFetcherPort protocol.
 
-        return bus
+    Any object with an async ``fetch`` method accepting a ``Query``
+    and returning a result must satisfy this port.
+    """
 
-    async def test_fetch_when_called_then_call_message_bus_fetch_with_given_query(
-        self, message_bus: MagicMock
-    ) -> None:
-        message_bus.dispatch.return_value = {"fetched": "query"}
-        fetcher = QueryFetcher(message_bus)
+    async def test_fetch_when_called_with_query_then_returns_result(self) -> None:
+        mock_fetcher = MagicMock(spec=QueryFetcherPort)
+        expected_result = {"fetched": "query"}
+        mock_fetcher.fetch = AsyncMock(return_value=expected_result)
         query = FakeQuery()
 
-        result = await fetcher.fetch(query)
+        result = await mock_fetcher.fetch(query)
 
-        expected_result = {"fetched": "query"}
         assert result == expected_result
-        message_bus.dispatch.assert_awaited_with(query)
+        mock_fetcher.fetch.assert_awaited_with(query)

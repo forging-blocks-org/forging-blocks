@@ -1,7 +1,7 @@
 """
 Event Store infrastructure.
 
-This module provides the EventStore port and its in-memory implementation.
+This module provides the EventStorePort port and its in-memory implementation.
 """
 
 from abc import ABC, abstractmethod
@@ -11,11 +11,11 @@ from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.errors.error import Error
 
 
-class EventStore(ABC):
+class EventStorePort(ABC):
     """
-    EventStore port.
+    EventStorePort port.
 
-    The EventStore is responsible for persisting and retrieving events
+    The EventStorePort is responsible for persisting and retrieving events
     for aggregate roots. It follows the Event Sourcing pattern.
     """
 

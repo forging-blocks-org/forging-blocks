@@ -16,10 +16,12 @@ Non-Responsibilities:
 
 from __future__ import annotations
 
-from typing import Protocol, Sequence
+from typing import Any, Protocol, Sequence
+
+from forging_blocks.foundation.ports import Port
 
 
-class ReadOnlyRepository[TReadAggregateRoot, TId](Protocol):
+class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](Port[Any, Any], Protocol):
     """Read-only repository abstraction for query operations.
 
     This interface is optimized for query-side usage in CQRS architectures.
@@ -54,7 +56,7 @@ class ReadOnlyRepository[TReadAggregateRoot, TId](Protocol):
         ...
 
 
-class WriteOnlyRepository[TWriteAggregateRoot, TWriteId](Protocol):
+class WriteOnlyRepositoryPort[TWriteAggregateRoot, TWriteId](Port[Any, Any], Protocol):
     """Write-only repository abstraction for command operations.
 
     This interface supports command-side operations where writes are applied
@@ -70,7 +72,7 @@ class WriteOnlyRepository[TWriteAggregateRoot, TWriteId](Protocol):
         Raises:
             RepositoryError: If deletion fails.
         """
-        pass
+        ...
 
     async def save(self, aggregate: TWriteAggregateRoot) -> None:
         """Persist an aggregate instance.
@@ -78,12 +80,12 @@ class WriteOnlyRepository[TWriteAggregateRoot, TWriteId](Protocol):
         Args:
             aggregate: The aggregate to save.
         """
-        pass
+        ...
 
 
-class Repository[TAggregateRoot, TId](
-    ReadOnlyRepository[TAggregateRoot, TId],
-    WriteOnlyRepository[TAggregateRoot, TId],
+class RepositoryPort[TAggregateRoot, TId](
+    ReadOnlyRepositoryPort[TAggregateRoot, TId],
+    WriteOnlyRepositoryPort[TAggregateRoot, TId],
     Protocol,
 ):
     """Full CRUD repository abstraction.

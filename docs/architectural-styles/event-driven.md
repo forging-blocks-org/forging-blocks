@@ -17,7 +17,7 @@ Event-Driven Architecture focuses on **reacting to events** and **propagating fa
 Mapping:
 - **Domain Events** — Facts that occurred (`Event`, past tense, immutable)
 - **Event Handlers** — React to events (`EventHandler`, `MessageHandler[EventType, None]`)
-- **Message Bus** — Routes events between components (`MessageBus` outbound port)
+- **Message Bus** — Routes events between components (`MessageBusPort` outbound port)
 - **Loose coupling** — Components don't call each other directly
 
 Fits when: loose coupling required; asynchronous processing desirable; frequent external system integration.
@@ -38,9 +38,9 @@ The diagram below shows a **canonical event-driven flow** from the literature.
 title: Event-Driven Architecture
 ---
 graph LR
-    Producer[Producer<br/>Use Case] -->|publish| EventBus[Event Bus<br/>Message Bus]
-    EventBus -->|dispatch| ConsumerA[Consumer A<br/>Event Handler]
-    EventBus -->|dispatch| ConsumerB[Consumer B<br/>Event Handler]
+    Producer[Producer<br/>Use Case] -->|publish| EventBusPort[Event Bus<br/>Message Bus]
+    EventBusPort -->|dispatch| ConsumerA[Consumer A<br/>Event Handler]
+    EventBusPort -->|dispatch| ConsumerB[Consumer B<br/>Event Handler]
 ```
 
 ---

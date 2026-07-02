@@ -1,5 +1,5 @@
 """
-In-memory implementation of the EventStore port.
+In-memory implementation of the EventStorePort port.
 
 This implementation stores events in memory and is suitable for testing
 and development purposes.
@@ -8,12 +8,12 @@ and development purposes.
 from collections import defaultdict
 from typing import Any, Dict, List, Optional
 
-from forging_blocks.infrastructure.event_store import ConcurrencyError, EventStore
+from forging_blocks.infrastructure.event_store import ConcurrencyError, EventStorePort
 
 
-class InMemoryEventStore(EventStore):
+class InMemoryEventStore(EventStorePort):
     """
-    In-memory implementation of the EventStore port.
+    In-memory implementation of the EventStorePort port.
 
     Stores events in a dictionary keyed by aggregate ID.
     """

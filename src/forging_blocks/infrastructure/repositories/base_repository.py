@@ -6,9 +6,9 @@ Provides shared infrastructure for repository implementations.
 from collections.abc import Mapping, MutableMapping, Sequence
 from typing import Any
 
-from forging_blocks.application.ports.outbound.repository import (
-    ReadOnlyRepository,
-    WriteOnlyRepository,
+from forging_blocks.application.ports.outbound.repository_port import (
+    ReadOnlyRepositoryPort,
+    WriteOnlyRepositoryPort,
 )
 from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.identified import Identified
@@ -19,7 +19,7 @@ from forging_blocks.infrastructure.errors.repository_errors import (
 )
 
 
-class BaseReadRepository[TEntity, TId](ReadOnlyRepository[TEntity, TId]):
+class BaseReadRepository[TEntity, TId](ReadOnlyRepositoryPort[TEntity, TId]):
     """Base class for read-only repositories with common functionality.
 
     Provides in-memory storage and basic query operations.
@@ -89,7 +89,7 @@ class BaseReadRepository[TEntity, TId](ReadOnlyRepository[TEntity, TId]):
         return any(spec.is_satisfied_by(v) for v in self._storage.values())
 
 
-class BaseWriteRepository[TEntity: Identified[Any], TId](WriteOnlyRepository[TEntity, TId]):
+class BaseWriteRepository[TEntity: Identified[Any], TId](WriteOnlyRepositoryPort[TEntity, TId]):
     """Base class for write-only repositories with common functionality.
 
     Provides in-memory storage and basic write operations with ID validation.

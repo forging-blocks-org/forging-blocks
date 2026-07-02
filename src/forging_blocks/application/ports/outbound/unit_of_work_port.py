@@ -1,6 +1,6 @@
 """Unit of Work abstraction for transactional consistency.
 
-A UnitOfWork defines a transactional boundary for application operations.
+A UnitOfWorkPort defines a transactional boundary for application operations.
 It coordinates the persistence of aggregate changes and the publication of
 domain events, ensuring atomicity across these actions.
 
@@ -19,22 +19,25 @@ from types import TracebackType
 from typing import Self
 
 
-class UnitOfWork(ABC):
+class UnitOfWorkPort(ABC):
     """Abstract base class for managing transactional consistency.
 
-    A UnitOfWork coordinates operations across multiple repositories and
+    A UnitOfWorkPort coordinates operations across multiple repositories and
     outbound ports. It ensures that state changes and domain events are
-    published atomically.
+    published atomically.  Subclasses provide the concrete context-manager
+    behaviour (``__aenter__`` / ``__aexit__``).
     """
 
+    @abstractmethod
     async def __aenter__(self) -> Self:
         """Enter the Unit of Work context.
 
         Returns:
-            The active UnitOfWork instance.
+            The active UnitOfWorkPort instance.
         """
-        return self
+        ...
 
+    @abstractmethod
     async def __aexit__(
         self,
         exc_type: type[BaseException] | None,
@@ -50,10 +53,7 @@ class UnitOfWork(ABC):
             exc_value: Exception instance.
             traceback: Execution traceback.
         """
-        if exc_type is None:
-            await self.commit()
-        else:
-            await self.rollback()
+        ...
 
     @abstractmethod
     async def commit(self) -> None:

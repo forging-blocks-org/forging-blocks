@@ -2,6 +2,7 @@
 
 from abc import abstractmethod
 from dataclasses import dataclass
+from typing import Protocol
 
 from forging_blocks.foundation.ports import OutboundPort
 
@@ -21,7 +22,7 @@ class ChangelogResponse:
     entries: list[str]  # List of changelog entries
 
 
-class ChangelogGenerator(OutboundPort[ChangelogRequest, ChangelogResponse]):
+class ChangelogGenerator(OutboundPort[ChangelogRequest, ChangelogResponse], Protocol):
     """Port for generating changelogs between versions."""
 
     @abstractmethod

@@ -8,12 +8,12 @@ import asyncio
 from collections.abc import Callable
 from typing import cast
 
-from forging_blocks.application.ports.outbound.message_bus import MessageBus
+from forging_blocks.application.ports.outbound.message_bus_port import MessageBusPort
 from forging_blocks.foundation.messages.message import Message
 
 
 class InMemoryMessageBus[MessageType: Message[object], MessageBusResultType](
-    MessageBus[MessageType, MessageBusResultType],
+    MessageBusPort[MessageType, MessageBusResultType],
 ):
     """In-memory message bus that routes messages to registered handlers.
 

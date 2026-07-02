@@ -1,4 +1,4 @@
-"""Repository error classes for the infrastructure layer.
+"""RepositoryPort error classes for the infrastructure layer.
 
 Provides structured error types for repository operations such as
 save failures, deletion of non-existent aggregates, and retrieval errors.

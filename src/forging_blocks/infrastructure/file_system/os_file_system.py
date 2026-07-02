@@ -1,4 +1,4 @@
-"""Operating-system file system implementation of the FileSystem port.
+"""Operating-system file system implementation of the FileSystemPort port.
 
 Uses Python 3.14+ ``asyncio.to_thread()`` to wrap blocking ``pathlib``
 and ``os`` calls, avoiding external dependencies like ``aiofiles``.
@@ -7,10 +7,10 @@ and ``os`` calls, avoiding external dependencies like ``aiofiles``.
 import asyncio
 from pathlib import Path
 
-from forging_blocks.application.ports.outbound.file_system import FileSystem
+from forging_blocks.application.ports.outbound.file_system_port import FileSystemPort
 
 
-class OSFileSystem(FileSystem):
+class OSFileSystem(FileSystemPort):
     """File system implementation backed by ``pathlib`` + ``asyncio.to_thread``."""
 
     async def read(self, path: Path | str) -> bytes:

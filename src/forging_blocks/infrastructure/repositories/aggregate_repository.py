@@ -1,4 +1,4 @@
-"""Aggregate Repository implementation.
+"""Aggregate RepositoryPort implementation.
 
 Provides a repository specifically designed for AggregateRoot persistence
 with event sourcing support.
@@ -7,14 +7,14 @@ with event sourcing support.
 from typing import Any
 
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
-from forging_blocks.infrastructure.event_store import EventStore
+from forging_blocks.infrastructure.event_store import EventStorePort
 from forging_blocks.infrastructure.repositories.base_repository import BaseRepository
 
 
 class AggregateRepository[TAggregateRoot: AggregateRoot[Any, Any], TId: Any](
     BaseRepository[TAggregateRoot, TId]
 ):
-    """Repository for AggregateRoot persistence with event sourcing.
+    """RepositoryPort for AggregateRoot persistence with event sourcing.
 
     Extends BaseRepository with event store integration for
     event-sourced aggregates.
@@ -22,7 +22,7 @@ class AggregateRepository[TAggregateRoot: AggregateRoot[Any, Any], TId: Any](
 
     def __init__(
         self,
-        event_store: EventStore,
+        event_store: EventStorePort,
         storage: dict[TId, TAggregateRoot] | None = None,
     ) -> None:
         """Initialize the aggregate repository.

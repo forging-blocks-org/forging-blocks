@@ -1,9 +1,10 @@
 from typing import Protocol
 
+from forging_blocks.foundation.ports import InboundPort
 from scripts.release.domain.commands import OpenPullRequestCommand
 
 
-class OpenPullRequestCommandHandler(Protocol):
+class OpenPullRequestCommandHandler(InboundPort[OpenPullRequestCommand, None], Protocol):
     async def handle(self, message: OpenPullRequestCommand) -> None:
         """Handle the OpenPullRequestCommand message.
         This method is called when a release has been prepared
@@ -13,4 +14,4 @@ class OpenPullRequestCommandHandler(Protocol):
 
         :return: None
         """
-        pass
+        ...

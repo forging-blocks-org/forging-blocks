@@ -17,7 +17,7 @@ Hexagonal Architecture (Ports and Adapters) emphasizes separation between core b
 Mapping:
 - **Core** — Domain (business rules) + Application (Use Cases, Handlers)
 - **Inbound Ports** — Define how behavior is triggered (UseCase, MessageHandler)
-- **Outbound Ports** — Define required external capabilities (Repository, MessageBus, UnitOfWork)
+- **Outbound Ports** — Define required external capabilities (RepositoryPort, MessageBusPort, UnitOfWorkPort)
 - **Adapters** — Implement ports (Infrastructure: SQL repos, message brokers, HTTP clients)
 - **Dependencies point toward the core**
 

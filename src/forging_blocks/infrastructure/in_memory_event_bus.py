@@ -1,5 +1,5 @@
 """
-In-memory implementation of the EventBus port.
+In-memory implementation of the EventBusPort port.
 
 This implementation stores handlers in memory and is suitable for testing
 and development purposes.
@@ -11,15 +11,15 @@ from typing import Any, Callable, List, Type
 
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
-from forging_blocks.infrastructure.event_bus import EventBus, NoHandlerError
+from forging_blocks.infrastructure.event_bus import EventBusPort, NoHandlerError
 
 EventHandler = Callable[[Event[Any]], Awaitable[None]]
 CommandHandler = Callable[[Command[Any]], Awaitable[None]]
 
 
-class InMemoryEventBus(EventBus):
+class InMemoryEventBus(EventBusPort):
     """
-    In-memory implementation of the EventBus port.
+    In-memory implementation of the EventBusPort port.
 
     Stores event handlers and command handlers in dictionaries.
     """
