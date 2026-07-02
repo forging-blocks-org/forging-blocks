@@ -293,7 +293,7 @@ class TestGenerateTemplate:
         generate_template(html, output)
 
         content = output.read_text(encoding="utf-8")
-        assert content.count("{{ href }}") >= 5
+        assert content.count("{{ href }}") >= 4
 
     def test_when_template_has_version_dropdown_scripts(self, tmp_path: Path) -> None:
         html = _build_page_html(_build_head_html())

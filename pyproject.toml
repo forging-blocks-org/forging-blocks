@@ -1,6 +1,6 @@
 [project]
 name = "forging-blocks"
-version = "0.4.3"
+version = "0.4.4"
 description = "Composable toolkit for clean, testable, and maintainable Python applications"
 authors = [
   { name = "ForgingBlocks Org", email = "forging-blocks-org@proton.me" }
@@ -179,9 +179,9 @@ test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "p
 "docs:build" = { shell = "python scripts/generate_autodoc_pages.py && poetry run mkdocs build --strict && git show HEAD:mkdocs.yml > mkdocs.yml" }
 
 "docs:serve" = { shell = "python scripts/generate_autodoc_pages.py && poetry run mike serve" }
-"docs:deploy:dev" = { shell = "poetry run poe docs:generate && poetry run mike deploy --push --update-aliases dev latest && poetry run mike set-default --push dev" }
+"docs:deploy:dev" = { shell = "poetry run poe docs:generate && poetry run mike deploy --push dev && poetry run mike set-default --push dev" }
 
-"docs:deploy:release" = { shell = "poetry run poe docs:generate && poetry run mike deploy --push --update-aliases v$(poetry version -s) latest && poetry run mike set-default --push latest" }
+"docs:deploy:release" = { shell = "poetry run poe docs:generate && poetry run mike deploy --push --update-aliases v$(poetry version -s) latest" }
 
 "docs:versions" = { cmd = "poetry run mike list" }
 
