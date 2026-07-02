@@ -3,11 +3,12 @@
 Delegates event publishing to an injected ``MessageBusPort``.
 """
 
+from forging_blocks.application.ports.outbound.event_publisher import EventPublisherPort
 from forging_blocks.application.ports.outbound.message_bus import MessageBusPort
 from forging_blocks.foundation.messages.event import Event
 
 
-class MessageBusEventPublisher[EventPayloadType]:
+class MessageBusEventPublisher[EventPayloadType](EventPublisherPort[EventPayloadType]):
     """Infrastructure adapter that publishes events via a ``MessageBusPort``.
 
     Implements ``EventPublisherPort`` by delegating ``publish`` to

@@ -3,11 +3,12 @@
 Delegates command dispatch to an injected ``MessageBusPort``.
 """
 
+from forging_blocks.application.ports.outbound.command_sender import CommandSenderPort
 from forging_blocks.application.ports.outbound.message_bus import MessageBusPort
 from forging_blocks.foundation.messages.command import Command
 
 
-class MessageBusCommandSender[CommandPayloadType]:
+class MessageBusCommandSender[CommandPayloadType](CommandSenderPort[CommandPayloadType]):
     """Infrastructure adapter that sends commands via a ``MessageBusPort``.
 
     Implements ``CommandSenderPort`` by delegating ``send`` to

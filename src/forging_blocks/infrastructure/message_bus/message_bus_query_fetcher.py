@@ -4,10 +4,13 @@ Delegates query dispatch to an injected ``MessageBusPort``.
 """
 
 from forging_blocks.application.ports.outbound.message_bus import MessageBusPort
+from forging_blocks.application.ports.outbound.query_fetcher import QueryFetcherPort
 from forging_blocks.foundation.messages.query import Query
 
 
-class MessageBusQueryFetcher[QueryPayloadType, QueryFetcherResult]:
+class MessageBusQueryFetcher[QueryPayloadType, QueryFetcherResult](
+    QueryFetcherPort[QueryPayloadType, QueryFetcherResult]
+):
     """Infrastructure adapter that fetches query results via a ``MessageBusPort``.
 
     Implements ``QueryFetcherPort`` by delegating ``fetch`` to
