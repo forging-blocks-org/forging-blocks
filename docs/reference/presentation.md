@@ -9,6 +9,10 @@ It translates external inputs (HTTP, CLI, events) into calls to the Application 
 The **Presentation** block handles **all incoming interactions** — it translates external inputs (HTTP, CLI, events) into calls to the Application block. It is the **entry point** for users and external systems.
 
 Typical elements:
+- **RequestAdapter / ResponseAdapter** — Translate transport requests/responses into application input/output
+- **PresentationAdapter** — Orchestrator that wires adapters to a use case with error handling
+- **Middleware Pipeline** — Composable chain for cross-cutting concerns (logging, auth, metrics)
+- **ErrorPresenter** — Converts application errors into user-facing view models
 - **HTTP / REST / GraphQL Handlers** — Thin request handlers delegating to Application
 - **CLI Commands** — Command-line entry points
 - **Message Listeners** — Queue or event consumer adapters
