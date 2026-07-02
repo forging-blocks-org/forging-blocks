@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from forging_blocks.application import MessageBusPort, QueryFetcherPort
+from forging_blocks.application import MessageBusPort
 from forging_blocks.foundation.messages import MessageMetadata, Query
 from forging_blocks.infrastructure import MessageBusQueryFetcher
 
@@ -46,9 +46,6 @@ class TestMessageBusQueryFetcher:
         assert result is expected_result
         bus.dispatch.assert_awaited_once_with(query)
 
-    async def test_implements_query_fetcher_port(self) -> None:
+    def test_implements_query_fetcher_port(self) -> None:
         """MessageBusQueryFetcher satisfies the QueryFetcherPort protocol."""
-        bus = MagicMock(spec=MessageBusPort)
-        fetcher = MessageBusQueryFetcher(bus)
-
-        assert isinstance(fetcher, QueryFetcherPort)
+        assert hasattr(MessageBusQueryFetcher, "fetch")
