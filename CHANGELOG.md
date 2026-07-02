@@ -1,3 +1,193 @@
+## [0.4.4] - 2026-07-02
+
+### Features
+
+- **domain**: Add EntityIdModificationError for immutable identity protection
+- **domain**: Add EntityIdDeletionError to prevent identity deletion
+- **domain**: Export EntityIdDeletionError and EntityIdModificationError
+- **domain**: Re-export new entity error types from domain package
+- **foundation**: Remove dead SupportsAutoFreeze protocol module
+- **domain**: Add specification pattern with operator overloading
+- **infrastructure**: Add generic repository base classes and aggregate repository
+- **infrastructure**: Add event store and event bus ports with in-memory implementations
+- **application**: Add service context, application service with middleware, and query service
+- **infrastructure**: Add logger and file system ports with implementations
+- **foundation**: Add specification pattern with composable operators
+- **foundation**: Add message dataclass decorator and Serializable protocol
+- **ports**: Add CachePort protocol for caching strategies
+- **ports**: Add ExternalServicePort protocol for HTTP clients
+- **infra**: Add InMemoryCache and URLLibClient adapters
+- **infra**: Add MessageBusCommandSender, MessageBusEventPublisher, MessageBusQueryFetcher adapters
+
+### Bug Fixes
+
+- **scripts**: Correct redirect template asset prefixing and type hints
+- **scripts**: Resolve ruff line length error in redirect template script
+- **scripts**: Ensure favicon is extracted and prefixed in redirect template
+- **build**: Restore mkdocs.yml after docs:build to keep working tree clean for pre-commit
+- Make script tag regex handle edge cases in closing tags
+- **domain**: Raise NotImplementedError in freeze_instance to satisfy linter and protocol
+- **foundation/value-object**: Fix asymmetric instance check in equality comparison
+- **foundation/value-object**: Fix pyright type errors in equality comparison
+- **release**: Change _payload return type to dict[str, object]
+- **release**: Add explicit ErrorMetadata type annotation
+- **infrastructure**: Make InMemoryMessageBus.register generic with cast
+- **release**: Change handler type from CommandHandler to MessageHandler
+- **release**: Match ReleaseCommandBus interface with MessageHandler
+- **release**: Remove type ignore comment from register call
+- **foundation**: Satisfy pyright on decorator monkey-patching and frozen test
+- Replace assert with explicit check; fix griffe docstring warning
+- **tests**: Sanitize GIT_DIR env vars in test fixtures to prevent hook failures
+- Set doc default to dev and fetch global versions.json instead of stale per-version copy
+
+### Refactor
+
+- **domain**: Auto freeze id of Entity subclasses
+- **domain**: Use auto_freeze for selective _id freezing in Entity base class
+- **foundation**: Simplify auto_freeze decorator to require only freeze_instance protocol
+- **foundation**: Remove unfreeze_instance and should_use_internal_freezing from SupportsAutoFreeze protocol
+- **foundation**: Remove unfreeze_instance and should_use_internal_freezing from ValueObject
+- **foundation**: Skip auto_freeze for abstract classes to allow super().__init__ chaining
+- **foundation**: Restore @auto_freeze on ValueObject base class for automatic immutability
+- **foundation**: Make auto_freeze self-contained without protocol requirements
+- **foundation**: Simplify ValueObject to use auto_freeze without protocol methods
+- **domain**: Simplify Entity to use auto_freeze without protocol methods
+- **foundation**: Remove SupportsAutoFreeze from autofreeze exports
+- **domain**: Remove stale comments in Entity.__setattr__
+- **foundation**: Remove stale comments in _AutoFreezeDecorator
+- **message-bus**: Replace inspect.iscoroutine with asyncio.iscoroutine
+- **application**: Relocate errors, move SpecificationRepository, drop service scaffolding
+- **domain**: Remove duplicate specification in favor of foundation
+- Replace string-quoted self-returning type hints with typing.Self
+- **ports**: Rename all outbound port classes to use Port suffix
+- **ports**: Update __init__.py exports with Port suffix names
+- **scripts**: Update release scripts for Port suffix rename
+- **domain**: Remove default EventPayloadType from AggregateRoot, require explicit type parameter
+- **ports**: Remove behavior from ports, convert to pure protocols
+- **ports**: Add @runtime_checkable to base Port protocol
+- **ports**: Ensure all ports inherit InboundPort/OutboundPort
+- Rename ReadOnlyRepository and WriteOnlyRepository with Port suffix
+- Update BaseRepository classes to use renamed port interfaces
+- Make message bus adapters explicitly extend protocol ports
+- Rename outbound port files to match class names with _port suffix
+
+### Documentation
+
+- **README**: Remove emoji
+- Replace emoji to plain text
+- **contributing**: Document pre-commit and pre-push hooks
+- **foundation**: Update auto-freeze documentation for simplified SupportsAutoFreeze protocol
+- **foundation**: Update auto-freeze docs for self-contained decorator
+- Replace :class: with backticks in result_access_error.py
+- Replace :class: and :meth: with backticks in result/ok.py
+- Replace :class: with backticks in result/err.py
+- Replace :class: with backticks in error.py
+- Replace :class: with backticks in error.py
+- Replace :class: and :meth: with backticks in multiple files
+- **contributing**: Move quick summary to top and rename from 'In short'
+- **index**: Add quick summary section
+- **reference**: Add quick summary to reference index
+- **reference**: Add quick summary to foundation
+- **reference**: Add quick summary to domain
+- **reference**: Add quick summary to application
+- **reference**: Add quick summary to infrastructure
+- **reference**: Add quick summary to presentation
+- **reference**: Add quick summary to testing reference
+- **guide**: Add quick summary and remove old 'In short' section
+- **guide**: Add quick summary to getting started
+- **guide**: Add quick summary to principles
+- **guide**: Add quick summary to examples
+- **guide**: Add quick summary to example tests
+- **guide**: Add quick summary to architecture overview
+- **guide**: Add quick summary to recommended blocks structure
+- **guide**: Add quick summary to testing guide
+- **arch-styles**: Add quick summary to architectural styles index
+- **arch-styles**: Add quick summary and fix structure for clean architecture
+- **arch-styles**: Add quick summary and fix structure for hexagonal architecture
+- **arch-styles**: Add quick summary and fix structure for layered architecture
+- **arch-styles**: Add quick summary and fix structure for CQRS
+- **arch-styles**: Add quick summary and fix structure for event-driven
+- **contributing**: Add quick summary and remove duplicate 'In short' section
+- **contributing**: Add quick summary and separators to contributing index
+- **reference**: Add quick summary to clean architecture reference
+- Replace emoji tags with plain text in release guide, readme, and scripts readme
+- **index**: Remove InputPort/OutputPort from Core Concepts table
+- **guide**: Remove InputPort/OutputPort from Foundation block list
+- **reference**: Remove InputPort/OutputPort aliases from Port documentation
+- **reference**: Sync block documentation with current codebase
+- Rm md file that was in a wrong path
+- **reference**: Clarify Specification lives in Foundation block, not Domain
+- Add architecture-agnostic disclaimer; DDD not required
+- **domain**: Fix README - unclosed code fence, typos, outdated structure
+- **presentation**: Fix README - typos, duplicate headers, unclear placement
+- Remove /examples references (examples in separate repo)
+- **guide**: Fix examples.md - add missing section header, remove unused Protocol import, add Self import; fix example_tests.md numbering
+- **guide**: Update Example 2 to use Entity with auto_freeze explanation and cross-references
+- **guide**: Fix relative paths in examples.md cross-references
+- Sync port names with Port suffix rename
+
+### Testing
+
+- Cover script tag regex edge cases and fix CodeQL warning
+- **foundation**: Update auto_freeze tests for simplified SupportsAutoFreeze protocol
+- **foundation**: Remove tests for removed unfreeze_instance and should_use_internal_freezing methods
+- **domain**: Update entity tests for EntityIdDeletionError and removed unfreeze_instance
+- **foundation**: Update auto_freeze tests for self-contained implementation
+- Evaluating issue related to issue-229
+- **foundation**: Remove pyright suppressions and fix type errors
+- **infrastructure**: Remove pyright suppressions and fix type errors
+- **infrastructure**: Fix private usage with getattr for pyright compliance
+- Add event store and event bus tests
+- Add SimpleFakeCommandWithValue fixture for event bus tests
+- **fixtures**: Remove unused typing.Any imports
+- **infra**: Fix InMemoryEventBus tests to use shared fixtures
+- **infra**: Fix InMemoryEventStore tests to import FakeEventWithName fixture
+- **infra**: Replace inline fakes with fixtures in EventBus tests
+- **infra**: Replace inline FakeEvent with fixture in AggregateRepository tests
+- Update existing tests for Port suffix rename
+- **ports**: Add contract tests for CachePort, ExternalServicePort, FileSystemPort, LoggerPort
+- Replace isinstance Protocol checks with hasattr assertions
+
+### Miscellaneous Tasks
+
+- **workflows**: Replace emoji to plain text
+- **pre-commit-config**: Replace emoji to plain text
+- Replace emoji to plain text
+- **scripts**: Redirect template adjusts
+- **scripts**: Redirect template adjusts
+- **workflows**: Pr preview docs
+- **tests**: Remove unused import in redirect template tests
+- **git**: Move CI simulation to pre-push hook stage
+- **tests**: Cleanup redirect template tests
+- Pre-push
+- **git**: Restrict mkdocs.yml check to only run when the file is changed
+- **scripts**: Adjust regex
+- **workflows**: Update setup-python action
+- Strip v prefix
+- **poetry**: Update pyright
+- **domain**: Remove unnecessary future import from aggregate_root
+- **domain**: Remove unnecessary future import from entity
+- **domain**: Remove future import and use Self return type in draft_entity_is_not_hashable_error
+- **domain**: Remove unnecessary future import from entity_id_deletion_error
+- **domain**: Remove unnecessary future import from entity_id_modification_error
+- **foundation**: Remove unnecessary future import from auto_freeze
+- **foundation**: Remove unnecessary future import from cant_modify_immutable_attribute_error
+- **foundation**: Remove unnecessary future import from message
+- **foundation**: Remove unnecessary future import from final_abc_meta
+- **infrastructure**: Remove unnecessary future import from repository_errors
+- **infrastructure**: Remove unnecessary future import from in_memory_unit_of_work
+- **foundation**: Remove InputPort/OutputPort from exports
+- **foundation**: Remove InputPort/OutputPort class definitions
+- **scripts**: Replace OutputPort with OutboundPort in PullRequestService
+- **scripts**: Replace OutputPort with OutboundPort in VersionControl
+- **scripts**: Replace OutputPort with OutboundPort in VersioningService
+- Ignore B009 in tests for getattr pattern; fix test private usage
+- Update package exports for new modules
+- **github**: Add Copilot review instructions
+- **infrastructure**: Suppress bandit B310 false positive in URLLibClient urlopen call
+- **github**: Add Copilot review instructions
+- Remove autodocs from gitignore
+
 ## [0.4.3] - 2026-06-14
 
 ### Features
