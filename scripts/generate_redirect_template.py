@@ -232,7 +232,7 @@ def generate_template(source_html: str, output_path: Path) -> None:
         var linkEl = document.getElementById("redirect-link");
         if (linkEl) linkEl.href = serverDefault;
 
-        var versionsUrl = "{{{{ href }}}}versions.json";
+        var versionsUrl = "versions.json";
         var timer = null;
 
         function doRedirect(target) {{
