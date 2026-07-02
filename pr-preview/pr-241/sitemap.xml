@@ -141,59 +141,59 @@
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/cache/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/cache_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/command_sender/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/command_sender_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/event_bus/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/event_bus_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/event_publisher/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/event_publisher_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/event_store/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/event_store_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/external_service/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/external_service_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/file_system/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/file_system_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/logger/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/logger_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/message_bus/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/message_bus_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/notifier/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/notifier_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/query_fetcher/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/query_fetcher_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/repository/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/repository_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/specification_repository/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/specification_repository_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/unit_of_work/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/unit_of_work_port/</loc>
          <lastmod>2026-07-02</lastmod>
     </url>
     <url>

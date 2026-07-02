@@ -12,13 +12,13 @@
         <meta name="author" content="ForgingBlocks Org">
       
       
-        <link rel="canonical" href="https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/file_system/">
+        <link rel="canonical" href="https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/event_store_port/">
       
       
-        <link rel="prev" href="../external_service/">
+        <link rel="prev" href="../event_publisher_port/">
       
       
-        <link rel="next" href="../logger/">
+        <link rel="next" href="../external_service_port/">
       
       
       <link rel="icon" href="../../../../../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>File System - ForgingBlocks</title>
+        <title>Event Store Port - ForgingBlocks</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#file-system" class="md-skip">
+        <a href="#event-store-port" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              File System
+              Event Store Port
             
           </span>
         </div>
@@ -1208,12 +1208,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../cache/" class="md-nav__link">
+      <a href="../cache_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Cache
+    Cache Port
     
   </span>
   
@@ -1231,12 +1231,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../command_sender/" class="md-nav__link">
+      <a href="../command_sender_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Command Sender
+    Command Sender Port
     
   </span>
   
@@ -1254,12 +1254,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../event_bus/" class="md-nav__link">
+      <a href="../event_bus_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Bus
+    Event Bus Port
     
   </span>
   
@@ -1277,58 +1277,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../event_publisher/" class="md-nav__link">
+      <a href="../event_publisher_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Publisher
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../event_store/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event Store
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../external_service/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    External Service
+    Event Publisher Port
     
   </span>
   
@@ -1360,7 +1314,7 @@
   
   
   <span class="md-ellipsis">
-    File System
+    Event Store Port
     
   </span>
   
@@ -1373,7 +1327,7 @@
   
   
   <span class="md-ellipsis">
-    File System
+    Event Store Port
     
   </span>
   
@@ -1396,65 +1350,47 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_store_port" class="md-nav__link">
     <span class="md-ellipsis">
-      file_system
+      event_store_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="file_system">
+    <nav class="md-nav" aria-label="event_store_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort" class="md-nav__link">
     <span class="md-ellipsis">
-      FileSystemPort
+      EventStorePort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="FileSystemPort">
+    <nav class="md-nav" aria-label="EventStorePort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.read" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort.append_events" class="md-nav__link">
     <span class="md-ellipsis">
-      read
+      append_events
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.write" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort.get_events" class="md-nav__link">
     <span class="md-ellipsis">
-      write
+      get_events
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.delete" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort.get_current_version" class="md-nav__link">
     <span class="md-ellipsis">
-      delete
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.exists" class="md-nav__link">
-    <span class="md-ellipsis">
-      exists
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.list_dir" class="md-nav__link">
-    <span class="md-ellipsis">
-      list_dir
+      get_current_version
     </span>
   </a>
   
@@ -1486,12 +1422,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../logger/" class="md-nav__link">
+      <a href="../external_service_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Logger
+    External Service Port
     
   </span>
   
@@ -1509,12 +1445,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../message_bus/" class="md-nav__link">
+      <a href="../file_system_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Message Bus
+    File System Port
     
   </span>
   
@@ -1532,12 +1468,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../notifier/" class="md-nav__link">
+      <a href="../logger_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Notifier
+    Logger Port
     
   </span>
   
@@ -1555,12 +1491,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../query_fetcher/" class="md-nav__link">
+      <a href="../message_bus_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Query Fetcher
+    Message Bus Port
     
   </span>
   
@@ -1578,12 +1514,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../repository/" class="md-nav__link">
+      <a href="../notifier_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Repository
+    Notifier Port
     
   </span>
   
@@ -1601,12 +1537,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../specification_repository/" class="md-nav__link">
+      <a href="../query_fetcher_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Specification Repository
+    Query Fetcher Port
     
   </span>
   
@@ -1624,12 +1560,58 @@
   
   
     <li class="md-nav__item">
-      <a href="../unit_of_work/" class="md-nav__link">
+      <a href="../repository_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Unit Of Work
+    Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../specification_repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Specification Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unit_of_work_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Unit Of Work Port
     
   </span>
   
@@ -4626,65 +4608,47 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_store_port" class="md-nav__link">
     <span class="md-ellipsis">
-      file_system
+      event_store_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="file_system">
+    <nav class="md-nav" aria-label="event_store_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort" class="md-nav__link">
     <span class="md-ellipsis">
-      FileSystemPort
+      EventStorePort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="FileSystemPort">
+    <nav class="md-nav" aria-label="EventStorePort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.read" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort.append_events" class="md-nav__link">
     <span class="md-ellipsis">
-      read
+      append_events
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.write" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort.get_events" class="md-nav__link">
     <span class="md-ellipsis">
-      write
+      get_events
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.delete" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort.get_current_version" class="md-nav__link">
     <span class="md-ellipsis">
-      delete
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.exists" class="md-nav__link">
-    <span class="md-ellipsis">
-      exists
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.list_dir" class="md-nav__link">
-    <span class="md-ellipsis">
-      list_dir
+      get_current_version
     </span>
   </a>
   
@@ -4716,7 +4680,7 @@
 
 
   
-    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/file_system.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/event_store_port.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -4724,24 +4688,25 @@
   
 
 
-<h1 id="file-system">File System<a class="headerlink" href="#file-system" title="Permanent link">&para;</a></h1>
+<h1 id="event-store-port">Event Store Port<a class="headerlink" href="#event-store-port" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="forging_blocks.application.ports.outbound.file_system" class="doc doc-heading">
-            <code>file_system</code>
+<h2 id="forging_blocks.application.ports.outbound.event_store_port" class="doc doc-heading">
+            <code>event_store_port</code>
 
 
-<a href="#forging_blocks.application.ports.outbound.file_system" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#forging_blocks.application.ports.outbound.event_store_port" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-        <p>File system port for abstract file operations.</p>
-<p>Defines the <code>FileSystemPort</code> protocol that application code depends on,<br />
-decoupling file I/O from any specific implementation.</p>
+        <p>Event store port for event-sourced aggregates.</p>
+<p>Defines the <code>EventStorePort</code> protocol for appending and retrieving<br />
+domain events. The interface is agnostic of storage backend — in-memory,<br />
+relational, or event-native implementations are all supported.</p>
 
 
 
@@ -4766,11 +4731,11 @@ decoupling file I/O from any specific implementation.</p>
 
 
 
-<h3 id="forging_blocks.application.ports.outbound.file_system.FileSystemPort" class="doc doc-heading">
-            <code>FileSystemPort</code>
+<h3 id="forging_blocks.application.ports.outbound.event_store_port.EventStorePort" class="doc doc-heading">
+            <code>EventStorePort</code>
 
 
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
@@ -4778,10 +4743,18 @@ decoupling file I/O from any specific implementation.</p>
               Bases: <code><a class="autorefs autorefs-internal" title="OutboundPort (forging_blocks.foundation.ports.OutboundPort)" href="../../../../foundation/ports/#forging_blocks.foundation.ports.OutboundPort">OutboundPort</a>[<span title="object">object</span>, <span title="object">object</span>]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
 
 
-        <p>Structural protocol for file system operations.</p>
-<p>Any object with <code>read</code>, <code>write</code>, <code>delete</code>, <code>exists</code>,<br />
-and <code>list_dir</code> async methods satisfies this protocol.</p>
+        <p>Protocol for event stores that persist and retrieve domain events.</p>
 
+
+<details class="implementations-must-handle" open>
+  <summary>Implementations must handle</summary>
+  <ul>
+<li>Appending new events to an event stream.</li>
+<li>Retrieving events within an optional version range.</li>
+<li>Tracking the current version of each event stream.</li>
+<li>Optimistic concurrency via <code>expected_version</code>.</li>
+</ul>
+</details>
 
 
 
@@ -4790,13 +4763,8 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 
 
               <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/event_store_port.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-18">18</a></span>
 <span class="normal"><a href="#__codelineno-0-19">19</a></span>
 <span class="normal"><a href="#__codelineno-0-20">20</a></span>
 <span class="normal"><a href="#__codelineno-0-21">21</a></span>
@@ -4855,71 +4823,76 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 <span class="normal"><a href="#__codelineno-0-74">74</a></span>
 <span class="normal"><a href="#__codelineno-0-75">75</a></span>
 <span class="normal"><a href="#__codelineno-0-76">76</a></span>
-<span class="normal"><a href="#__codelineno-0-77">77</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="k">class</span><span class="w"> </span><span class="nc">FileSystemPort</span><span class="p">(</span><span class="n">OutboundPort</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">],</span> <span class="n">Protocol</span><span class="p">):</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Structural protocol for file system operations.</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">    Any object with ``read``, ``write``, ``delete``, ``exists``,</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">    and ``list_dir`` async methods satisfies this protocol.</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Read the contents of a file.</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">            path: Path to the file.</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">            The file contents as bytes.</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">        Raises:</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">            FileNotFoundError: If the file does not exist.</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>        <span class="o">...</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Write data to a file, creating parent directories as needed.</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">            path: Path to the file.</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">            data: The bytes to write.</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="o">...</span>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a file.</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">            path: Path to the file.</span>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">        Raises:</span>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">            FileNotFoundError: If the file does not exist.</span>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="o">...</span>
-</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>
-</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check whether a file or directory exists.</span>
-</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>
-</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">            path: Path to check.</span>
-</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>
-</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">            ``True`` if the path exists, ``False`` otherwise.</span>
-</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="o">...</span>
-</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>
-</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;List the contents of a directory.</span>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">            path: Path to the directory.</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">            A list of ``Path`` entries in the directory.</span>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">        Raises:</span>
-</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="sd">            NotADirectoryError: If *path* is not a directory.</span>
-</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>        <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-77">77</a></span>
+<span class="normal"><a href="#__codelineno-0-78">78</a></span>
+<span class="normal"><a href="#__codelineno-0-79">79</a></span>
+<span class="normal"><a href="#__codelineno-0-80">80</a></span>
+<span class="normal"><a href="#__codelineno-0-81">81</a></span>
+<span class="normal"><a href="#__codelineno-0-82">82</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventStorePort</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">](</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>    <span class="n">OutboundPort</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">],</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="n">Protocol</span><span class="p">,</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="p">):</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Protocol for event stores that persist and retrieve domain events.</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">    Implementations must handle:</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">      - Appending new events to an event stream.</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">      - Retrieving events within an optional version range.</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">      - Tracking the current version of each event stream.</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">      - Optimistic concurrency via ``expected_version``.</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">append_events</span><span class="p">(</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>        <span class="n">aggregate_id</span><span class="p">:</span> <span class="n">UUID</span><span class="p">,</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>        <span class="n">events</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">]],</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>        <span class="n">expected_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">EventStoreError</span><span class="p">]:</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Append events to an aggregate&#39;s event stream.</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">            aggregate_id: The aggregate identifier.</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">            events: The domain events to append.</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">            expected_version: Expected current version for optimistic</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">                concurrency. ``None`` means skip the check.</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">            A ``Result`` containing the new stream version on success or an</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">            ``EventStoreError`` on failure.</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="o">...</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_events</span><span class="p">(</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>        <span class="n">aggregate_id</span><span class="p">:</span> <span class="n">UUID</span><span class="p">,</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>        <span class="n">from_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a>        <span class="n">to_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">]],</span> <span class="n">EventStoreError</span><span class="p">]:</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve events from an aggregate&#39;s event stream.</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">            aggregate_id: The aggregate identifier.</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">            from_version: Start version (inclusive). ``None`` means from</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">                the beginning.</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">            to_version: End version (inclusive). ``None`` means until</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">                the end.</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">            A ``Result`` containing the events on success or an</span>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">            ``EventStoreError`` on failure.</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>        <span class="o">...</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_current_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aggregate_id</span><span class="p">:</span> <span class="n">UUID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">EventStoreError</span><span class="p">]:</span>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve the current version of an aggregate&#39;s event stream.</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">            aggregate_id: The aggregate identifier.</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">            A ``Result`` containing the latest version number (0 for empty</span>
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">            streams) on success, or an ``EventStoreError`` on failure.</span>
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>        <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -4939,19 +4912,19 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.outbound.file_system.FileSystemPort.read" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">read</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span></code>
+<h4 id="forging_blocks.application.ports.outbound.event_store_port.EventStorePort.append_events" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">append_events</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">:</span> <span class="n">UUID</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">]],</span> <span class="n">expected_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">EventStoreError</span><span class="p">]</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.read" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort.append_events" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Read the contents of a file.</p>
+        <p>Append events to an aggregate's event stream.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4967,18 +4940,51 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>path</code>
+                <code>aggregate_id</code>
             </td>
             <td>
-                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
+                  <code><span title="uuid.UUID">UUID</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Path to the file.</p>
+                <p>The aggregate identifier.</p>
               </div>
             </td>
             <td>
                 <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>events</code>
+            </td>
+            <td>
+                  <code><span title="collections.abc.Sequence">Sequence</span>[<a class="autorefs autorefs-internal" title="Event (forging_blocks.foundation.messages.event.Event)" href="../../../../foundation/messages/event/#forging_blocks.foundation.messages.event.Event">Event</a>[<span title="forging_blocks.application.ports.outbound.event_store_port.EventStorePort[EventPayloadType]">EventPayloadType</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The domain events to append.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>expected_version</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Expected current version for optimistic<br />
+concurrency. <code>None</code> means skip the check.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
             </td>
           </tr>
       </tbody>
@@ -4996,34 +5002,21 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="bytes">bytes</span></code>
+                  <code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../../../../foundation/result/result/#forging_blocks.foundation.result.result.Result">Result</a>[<span title="int">int</span>, <a class="autorefs autorefs-internal" title="EventStoreError (forging_blocks.application.errors.event_store_error.EventStoreError)" href="../../../errors/event_store_error/#forging_blocks.application.errors.event_store_error.EventStoreError">EventStoreError</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The file contents as bytes.</p>
+                <p>A <code>Result</code> containing the new stream version on success or an</p>
               </div>
             </td>
           </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="FileNotFoundError">FileNotFoundError</span></code>
+                  <code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../../../../foundation/result/result/#forging_blocks.foundation.result.result.Result">Result</a>[<span title="int">int</span>, <a class="autorefs autorefs-internal" title="EventStoreError (forging_blocks.application.errors.event_store_error.EventStoreError)" href="../../../errors/event_store_error/#forging_blocks.application.errors.event_store_error.EventStoreError">EventStoreError</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>If the file does not exist.</p>
+                <p><code>EventStoreError</code> on failure.</p>
               </div>
             </td>
           </tr>
@@ -5032,219 +5025,44 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 
 
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Read the contents of a file.</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">        path: Path to the file.</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">        The file contents as bytes.</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    Raises:</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">        FileNotFoundError: If the file does not exist.</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="forging_blocks.application.ports.outbound.file_system.FileSystemPort.write" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">write</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.write" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Write data to a file, creating parent directories as needed.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>path</code>
-            </td>
-            <td>
-                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Path to the file.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>data</code>
-            </td>
-            <td>
-                  <code><span title="bytes">bytes</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The bytes to write.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-34">34</a></span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/event_store_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
 <span class="normal"><a href="#__codelineno-0-35">35</a></span>
 <span class="normal"><a href="#__codelineno-0-36">36</a></span>
 <span class="normal"><a href="#__codelineno-0-37">37</a></span>
 <span class="normal"><a href="#__codelineno-0-38">38</a></span>
 <span class="normal"><a href="#__codelineno-0-39">39</a></span>
 <span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Write data to a file, creating parent directories as needed.</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        path: Path to the file.</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        data: The bytes to write.</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="forging_blocks.application.ports.outbound.file_system.FileSystemPort.delete" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">delete</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.delete" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Delete a file.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>path</code>
-            </td>
-            <td>
-                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Path to the file.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="FileNotFoundError">FileNotFoundError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>If the file does not exist.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
 <span class="normal"><a href="#__codelineno-0-44">44</a></span>
 <span class="normal"><a href="#__codelineno-0-45">45</a></span>
 <span class="normal"><a href="#__codelineno-0-46">46</a></span>
 <span class="normal"><a href="#__codelineno-0-47">47</a></span>
 <span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
-<span class="normal"><a href="#__codelineno-0-50">50</a></span>
-<span class="normal"><a href="#__codelineno-0-51">51</a></span>
-<span class="normal"><a href="#__codelineno-0-52">52</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete a file.</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        path: Path to the file.</span>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">    Raises:</span>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">        FileNotFoundError: If the file does not exist.</span>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">append_events</span><span class="p">(</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="n">aggregate_id</span><span class="p">:</span> <span class="n">UUID</span><span class="p">,</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="n">events</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">]],</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="n">expected_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">EventStoreError</span><span class="p">]:</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Append events to an aggregate&#39;s event stream.</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        aggregate_id: The aggregate identifier.</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        events: The domain events to append.</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        expected_version: Expected current version for optimistic</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">            concurrency. ``None`` means skip the check.</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">        A ``Result`` containing the new stream version on success or an</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        ``EventStoreError`` on failure.</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -5254,19 +5072,19 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.outbound.file_system.FileSystemPort.exists" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span></code>
+<h4 id="forging_blocks.application.ports.outbound.event_store_port.EventStorePort.get_events" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_events</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">:</span> <span class="n">UUID</span><span class="p">,</span> <span class="n">from_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">to_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">]],</span> <span class="n">EventStoreError</span><span class="p">]</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.exists" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort.get_events" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Check whether a file or directory exists.</p>
+        <p>Retrieve events from an aggregate's event stream.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -5282,18 +5100,52 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>path</code>
+                <code>aggregate_id</code>
             </td>
             <td>
-                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
+                  <code><span title="uuid.UUID">UUID</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Path to check.</p>
+                <p>The aggregate identifier.</p>
               </div>
             </td>
             <td>
                 <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>from_version</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Start version (inclusive). <code>None</code> means from<br />
+the beginning.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>to_version</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>End version (inclusive). <code>None</code> means until<br />
+the end.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
             </td>
           </tr>
       </tbody>
@@ -5311,11 +5163,21 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="bool">bool</span></code>
+                  <code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../../../../foundation/result/result/#forging_blocks.foundation.result.result.Result">Result</a>[<span title="collections.abc.Sequence">Sequence</span>[<a class="autorefs autorefs-internal" title="Event (forging_blocks.foundation.messages.event.Event)" href="../../../../foundation/messages/event/#forging_blocks.foundation.messages.event.Event">Event</a>[<span title="forging_blocks.application.ports.outbound.event_store_port.EventStorePort[EventPayloadType]">EventPayloadType</span>]], <a class="autorefs autorefs-internal" title="EventStoreError (forging_blocks.application.errors.event_store_error.EventStoreError)" href="../../../errors/event_store_error/#forging_blocks.application.errors.event_store_error.EventStoreError">EventStoreError</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p><code>True</code> if the path exists, <code>False</code> otherwise.</p>
+                <p>A <code>Result</code> containing the events on success or an</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../../../../foundation/result/result/#forging_blocks.foundation.result.result.Result">Result</a>[<span title="collections.abc.Sequence">Sequence</span>[<a class="autorefs autorefs-internal" title="Event (forging_blocks.foundation.messages.event.Event)" href="../../../../foundation/messages/event/#forging_blocks.foundation.messages.event.Event">Event</a>[<span title="forging_blocks.application.ports.outbound.event_store_port.EventStorePort[EventPayloadType]">EventPayloadType</span>]], <a class="autorefs autorefs-internal" title="EventStoreError (forging_blocks.application.errors.event_store_error.EventStoreError)" href="../../../errors/event_store_error/#forging_blocks.application.errors.event_store_error.EventStoreError">EventStoreError</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p><code>EventStoreError</code> on failure.</p>
               </div>
             </td>
           </tr>
@@ -5324,8 +5186,11 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 
 
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-54">54</a></span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/event_store_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
 <span class="normal"><a href="#__codelineno-0-55">55</a></span>
 <span class="normal"><a href="#__codelineno-0-56">56</a></span>
 <span class="normal"><a href="#__codelineno-0-57">57</a></span>
@@ -5334,16 +5199,33 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 <span class="normal"><a href="#__codelineno-0-60">60</a></span>
 <span class="normal"><a href="#__codelineno-0-61">61</a></span>
 <span class="normal"><a href="#__codelineno-0-62">62</a></span>
-<span class="normal"><a href="#__codelineno-0-63">63</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether a file or directory exists.</span>
-</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>
-</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">        path: Path to check.</span>
-</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>
-</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">        ``True`` if the path exists, ``False`` otherwise.</span>
-</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#__codelineno-0-70">70</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_events</span><span class="p">(</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="n">aggregate_id</span><span class="p">:</span> <span class="n">UUID</span><span class="p">,</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>    <span class="n">from_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a>    <span class="n">to_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">]],</span> <span class="n">EventStoreError</span><span class="p">]:</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve events from an aggregate&#39;s event stream.</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">        aggregate_id: The aggregate identifier.</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">        from_version: Start version (inclusive). ``None`` means from</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">            the beginning.</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">        to_version: End version (inclusive). ``None`` means until</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">            the end.</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">        A ``Result`` containing the events on success or an</span>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">        ``EventStoreError`` on failure.</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -5353,19 +5235,19 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.outbound.file_system.FileSystemPort.list_dir" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">list_dir</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span></code>
+<h4 id="forging_blocks.application.ports.outbound.event_store_port.EventStorePort.get_current_version" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_current_version</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">:</span> <span class="n">UUID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">EventStoreError</span><span class="p">]</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.outbound.file_system.FileSystemPort.list_dir" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.outbound.event_store_port.EventStorePort.get_current_version" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>List the contents of a directory.</p>
+        <p>Retrieve the current version of an aggregate's event stream.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -5381,14 +5263,14 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>path</code>
+                <code>aggregate_id</code>
             </td>
             <td>
-                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
+                  <code><span title="uuid.UUID">UUID</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Path to the directory.</p>
+                <p>The aggregate identifier.</p>
               </div>
             </td>
             <td>
@@ -5410,34 +5292,21 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="list">list</span>[<span title="pathlib.Path">Path</span>]</code>
+                  <code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../../../../foundation/result/result/#forging_blocks.foundation.result.result.Result">Result</a>[<span title="int">int</span>, <a class="autorefs autorefs-internal" title="EventStoreError (forging_blocks.application.errors.event_store_error.EventStoreError)" href="../../../errors/event_store_error/#forging_blocks.application.errors.event_store_error.EventStoreError">EventStoreError</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A list of <code>Path</code> entries in the directory.</p>
+                <p>A <code>Result</code> containing the latest version number (0 for empty</p>
               </div>
             </td>
           </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="NotADirectoryError">NotADirectoryError</span></code>
+                  <code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../../../../foundation/result/result/#forging_blocks.foundation.result.result.Result">Result</a>[<span title="int">int</span>, <a class="autorefs autorefs-internal" title="EventStoreError (forging_blocks.application.errors.event_store_error.EventStoreError)" href="../../../errors/event_store_error/#forging_blocks.application.errors.event_store_error.EventStoreError">EventStoreError</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>If <em>path</em> is not a directory.</p>
+                <p>streams) on success, or an <code>EventStoreError</code> on failure.</p>
               </div>
             </td>
           </tr>
@@ -5446,32 +5315,28 @@ and <code>list_dir</code> async methods satisfies this protocol.</p>
 
 
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/file_system.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-65">65</a></span>
-<span class="normal"><a href="#__codelineno-0-66">66</a></span>
-<span class="normal"><a href="#__codelineno-0-67">67</a></span>
-<span class="normal"><a href="#__codelineno-0-68">68</a></span>
-<span class="normal"><a href="#__codelineno-0-69">69</a></span>
-<span class="normal"><a href="#__codelineno-0-70">70</a></span>
-<span class="normal"><a href="#__codelineno-0-71">71</a></span>
-<span class="normal"><a href="#__codelineno-0-72">72</a></span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/event_store_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-72">72</a></span>
 <span class="normal"><a href="#__codelineno-0-73">73</a></span>
 <span class="normal"><a href="#__codelineno-0-74">74</a></span>
 <span class="normal"><a href="#__codelineno-0-75">75</a></span>
 <span class="normal"><a href="#__codelineno-0-76">76</a></span>
-<span class="normal"><a href="#__codelineno-0-77">77</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;List the contents of a directory.</span>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">        path: Path to the directory.</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">        A list of ``Path`` entries in the directory.</span>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">    Raises:</span>
-</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="sd">        NotADirectoryError: If *path* is not a directory.</span>
-</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>    <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-77">77</a></span>
+<span class="normal"><a href="#__codelineno-0-78">78</a></span>
+<span class="normal"><a href="#__codelineno-0-79">79</a></span>
+<span class="normal"><a href="#__codelineno-0-80">80</a></span>
+<span class="normal"><a href="#__codelineno-0-81">81</a></span>
+<span class="normal"><a href="#__codelineno-0-82">82</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_current_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aggregate_id</span><span class="p">:</span> <span class="n">UUID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">EventStoreError</span><span class="p">]:</span>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve the current version of an aggregate&#39;s event stream.</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">        aggregate_id: The aggregate identifier.</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">        A ``Result`` containing the latest version number (0 for empty</span>
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">        streams) on success, or an ``EventStoreError`` on failure.</span>
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>

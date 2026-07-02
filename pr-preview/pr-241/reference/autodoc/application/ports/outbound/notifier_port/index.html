@@ -12,13 +12,13 @@
         <meta name="author" content="ForgingBlocks Org">
       
       
-        <link rel="canonical" href="https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/message_bus/">
+        <link rel="canonical" href="https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/notifier_port/">
       
       
-        <link rel="prev" href="../logger/">
+        <link rel="prev" href="../message_bus_port/">
       
       
-        <link rel="next" href="../notifier/">
+        <link rel="next" href="../query_fetcher_port/">
       
       
       <link rel="icon" href="../../../../../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Message Bus - ForgingBlocks</title>
+        <title>Notifier Port - ForgingBlocks</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#message-bus" class="md-skip">
+        <a href="#notifier-port" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Message Bus
+              Notifier Port
             
           </span>
         </div>
@@ -1208,12 +1208,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../cache/" class="md-nav__link">
+      <a href="../cache_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Cache
+    Cache Port
     
   </span>
   
@@ -1231,12 +1231,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../command_sender/" class="md-nav__link">
+      <a href="../command_sender_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Command Sender
+    Command Sender Port
     
   </span>
   
@@ -1254,12 +1254,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../event_bus/" class="md-nav__link">
+      <a href="../event_bus_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Bus
+    Event Bus Port
     
   </span>
   
@@ -1277,12 +1277,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../event_publisher/" class="md-nav__link">
+      <a href="../event_publisher_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Publisher
+    Event Publisher Port
     
   </span>
   
@@ -1300,12 +1300,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../event_store/" class="md-nav__link">
+      <a href="../event_store_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Store
+    Event Store Port
     
   </span>
   
@@ -1323,12 +1323,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../external_service/" class="md-nav__link">
+      <a href="../external_service_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    External Service
+    External Service Port
     
   </span>
   
@@ -1346,12 +1346,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../file_system/" class="md-nav__link">
+      <a href="../file_system_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    File System
+    File System Port
     
   </span>
   
@@ -1369,12 +1369,35 @@
   
   
     <li class="md-nav__item">
-      <a href="../logger/" class="md-nav__link">
+      <a href="../logger_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Logger
+    Logger Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message_bus_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Port
     
   </span>
   
@@ -1406,7 +1429,7 @@
   
   
   <span class="md-ellipsis">
-    Message Bus
+    Notifier Port
     
   </span>
   
@@ -1419,7 +1442,7 @@
   
   
   <span class="md-ellipsis">
-    Message Bus
+    Notifier Port
     
   </span>
   
@@ -1442,29 +1465,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.message_bus" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.notifier_port" class="md-nav__link">
     <span class="md-ellipsis">
-      message_bus
+      notifier_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="message_bus">
+    <nav class="md-nav" aria-label="notifier_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.message_bus.MessageBusPort" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.notifier_port.NotifierPort" class="md-nav__link">
     <span class="md-ellipsis">
-      MessageBusPort
+      NotifierPort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="MessageBusPort">
+    <nav class="md-nav" aria-label="NotifierPort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.message_bus.MessageBusPort.dispatch" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.notifier_port.NotifierPort.notify" class="md-nav__link">
     <span class="md-ellipsis">
-      dispatch
+      notify
     </span>
   </a>
   
@@ -1496,12 +1519,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../notifier/" class="md-nav__link">
+      <a href="../query_fetcher_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Notifier
+    Query Fetcher Port
     
   </span>
   
@@ -1519,12 +1542,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../query_fetcher/" class="md-nav__link">
+      <a href="../repository_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Query Fetcher
+    Repository Port
     
   </span>
   
@@ -1542,12 +1565,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../repository/" class="md-nav__link">
+      <a href="../specification_repository_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Repository
+    Specification Repository Port
     
   </span>
   
@@ -1565,35 +1588,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../specification_repository/" class="md-nav__link">
+      <a href="../unit_of_work_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Specification Repository
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../unit_of_work/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Unit Of Work
+    Unit Of Work Port
     
   </span>
   
@@ -4590,29 +4590,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.message_bus" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.notifier_port" class="md-nav__link">
     <span class="md-ellipsis">
-      message_bus
+      notifier_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="message_bus">
+    <nav class="md-nav" aria-label="notifier_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.message_bus.MessageBusPort" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.notifier_port.NotifierPort" class="md-nav__link">
     <span class="md-ellipsis">
-      MessageBusPort
+      NotifierPort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="MessageBusPort">
+    <nav class="md-nav" aria-label="NotifierPort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.message_bus.MessageBusPort.dispatch" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.notifier_port.NotifierPort.notify" class="md-nav__link">
     <span class="md-ellipsis">
-      dispatch
+      notify
     </span>
   </a>
   
@@ -4644,7 +4644,7 @@
 
 
   
-    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/message_bus.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/notifier_port.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -4652,41 +4652,39 @@
   
 
 
-<h1 id="message-bus">Message Bus<a class="headerlink" href="#message-bus" title="Permanent link">&para;</a></h1>
+<h1 id="notifier-port">Notifier Port<a class="headerlink" href="#notifier-port" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="forging_blocks.application.ports.outbound.message_bus" class="doc doc-heading">
-            <code>message_bus</code>
+<h2 id="forging_blocks.application.ports.outbound.notifier_port" class="doc doc-heading">
+            <code>notifier_port</code>
 
 
-<a href="#forging_blocks.application.ports.outbound.message_bus" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#forging_blocks.application.ports.outbound.notifier_port" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-        <p>Outbound port defining the MessageBusPort abstraction.</p>
-<p>A MessageBusPort provides a generic asynchronous dispatch mechanism for commands,<br />
-queries, or events. It is the central connector between application ports and<br />
-transport infrastructure (queues, brokers, in-memory routing, etc.).</p>
+        <p>Outbound port defining an asynchronous notification service.</p>
+<p>A NotifierPort provides an abstraction for sending notification messages using<br />
+external delivery channels such as email, SMS, chat systems, or push<br />
+notifications.</p>
 
 
 <details class="responsibilities" open>
   <summary>Responsibilities</summary>
   <ul>
-<li>Route messages of various types to their respective handlers or transports.</li>
-<li>Provide an asynchronous dispatch API.</li>
+<li>Send notification messages asynchronously.</li>
 </ul>
 </details>
 
 <details class="non-responsibilities" open>
   <summary>Non-Responsibilities</summary>
   <ul>
-<li>Business logic.</li>
-<li>Handler invocation policies unless explicitly implemented.</li>
-<li>Delivery guarantees (up to infrastructure).</li>
+<li>Guarantee delivery.</li>
+<li>Implement retries or throttling unless defined by infrastructure.</li>
 </ul>
 </details>
 
@@ -4712,21 +4710,22 @@ transport infrastructure (queues, brokers, in-memory routing, etc.).</p>
 
 
 
-<h3 id="forging_blocks.application.ports.outbound.message_bus.MessageBusPort" class="doc doc-heading">
-            <code>MessageBusPort</code>
+<h3 id="forging_blocks.application.ports.outbound.notifier_port.NotifierPort" class="doc doc-heading">
+            <code>NotifierPort</code>
 
 
-<a href="#forging_blocks.application.ports.outbound.message_bus.MessageBusPort" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#forging_blocks.application.ports.outbound.notifier_port.NotifierPort" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="OutboundPort (forging_blocks.foundation.OutboundPort)" href="../../../../foundation/ports/#forging_blocks.foundation.ports.OutboundPort">OutboundPort</a>[<span title="forging_blocks.application.ports.outbound.message_bus.MessageBusPort[MessageType]">MessageType</span>, <span title="forging_blocks.application.ports.outbound.message_bus.MessageBusPort[MessageBusResultType]">MessageBusResultType</span>]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="OutboundPort (forging_blocks.foundation.ports.OutboundPort)" href="../../../../foundation/ports/#forging_blocks.foundation.ports.OutboundPort">OutboundPort</a>[<span title="forging_blocks.application.ports.outbound.notifier_port.NotifierPort[NotificationType]">NotificationType</span>, None]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
 
 
-        <p>Outbound port representing a generic asynchronous message bus.</p>
-<p>A MessageBusPort dispatches messages to infrastructure or internal handlers.<br />
-Implementations vary from simple function routers to networked brokers.</p>
+        <p>Outbound port for sending asynchronous notifications.</p>
+<p>Implementers integrate with concrete notification systems. The<br />
+application blocks must not depend on infrastructure details beyond this<br />
+abstraction.</p>
 
 
 
@@ -4736,8 +4735,10 @@ Implementations vary from simple function routers to networked brokers.</p>
 
 
               <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/message_bus.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-22">22</a></span>
+                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/notifier_port.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
 <span class="normal"><a href="#__codelineno-0-23">23</a></span>
 <span class="normal"><a href="#__codelineno-0-24">24</a></span>
 <span class="normal"><a href="#__codelineno-0-25">25</a></span>
@@ -4756,40 +4757,28 @@ Implementations vary from simple function routers to networked brokers.</p>
 <span class="normal"><a href="#__codelineno-0-38">38</a></span>
 <span class="normal"><a href="#__codelineno-0-39">39</a></span>
 <span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span>
-<span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">class</span><span class="w"> </span><span class="nc">MessageBusPort</span><span class="p">[</span><span class="n">MessageType</span><span class="p">,</span> <span class="n">MessageBusResultType</span><span class="p">](</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="n">OutboundPort</span><span class="p">[</span><span class="n">MessageType</span><span class="p">,</span> <span class="n">MessageBusResultType</span><span class="p">],</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="n">Protocol</span><span class="p">,</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="p">):</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Outbound port representing a generic asynchronous message bus.</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    A MessageBusPort dispatches messages to infrastructure or internal handlers.</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    Implementations vary from simple function routers to networked brokers.</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">MessageType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageBusResultType</span><span class="p">:</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Dispatch a message to the configured handler or transport.</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">            message: The message instance to dispatch.</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">            A typed result depending on the nature of the message.</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        Notes:</span>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">            Infrastructure determines:</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">                - routing strategy,</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">                - reliability,</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">                - ordering,</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">                - concurrency model.</span>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="k">class</span><span class="w"> </span><span class="nc">NotifierPort</span><span class="p">[</span><span class="n">NotificationType</span><span class="p">](</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="n">OutboundPort</span><span class="p">[</span><span class="n">NotificationType</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="n">Protocol</span><span class="p">,</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="p">):</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Outbound port for sending asynchronous notifications.</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">    Implementers integrate with concrete notification systems. The</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    application blocks must not depend on infrastructure details beyond this</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    abstraction.</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">NotificationType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Send a notification.</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">            message: The message to deliver.</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        Notes:</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">            - Fire-and-forget behavior unless documented otherwise.</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">            - Delivery semantics are infrastructure-defined.</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -4809,19 +4798,19 @@ Implementations vary from simple function routers to networked brokers.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.outbound.message_bus.MessageBusPort.dispatch" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">dispatch</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">MessageType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageBusResultType</span></code>
+<h4 id="forging_blocks.application.ports.outbound.notifier_port.NotifierPort.notify" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">notify</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">NotificationType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.outbound.message_bus.MessageBusPort.dispatch" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.outbound.notifier_port.NotifierPort.notify" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Dispatch a message to the configured handler or transport.</p>
+        <p>Send a notification.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4840,11 +4829,11 @@ Implementations vary from simple function routers to networked brokers.</p>
                 <code>message</code>
             </td>
             <td>
-                  <code><span title="forging_blocks.application.ports.outbound.message_bus.MessageBusPort[MessageType]">MessageType</span></code>
+                  <code><span title="forging_blocks.application.ports.outbound.notifier_port.NotifierPort[NotificationType]">NotificationType</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The message instance to dispatch.</p>
+                <p>The message to deliver.</p>
               </div>
             </td>
             <td>
@@ -4855,41 +4844,18 @@ Implementations vary from simple function routers to networked brokers.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="forging_blocks.application.ports.outbound.message_bus.MessageBusPort[MessageBusResultType]">MessageBusResultType</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A typed result depending on the nature of the message.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
 <details class="notes" open>
   <summary>Notes</summary>
-  <p>Infrastructure determines:<br />
-    - routing strategy,<br />
-    - reliability,<br />
-    - ordering,<br />
-    - concurrency model.</p>
+  <ul>
+<li>Fire-and-forget behavior unless documented otherwise.</li>
+<li>Delivery semantics are infrastructure-defined.</li>
+</ul>
 </details>
 
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/message_bus.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-32">32</a></span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/notifier_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
 <span class="normal"><a href="#__codelineno-0-33">33</a></span>
 <span class="normal"><a href="#__codelineno-0-34">34</a></span>
 <span class="normal"><a href="#__codelineno-0-35">35</a></span>
@@ -4898,30 +4864,17 @@ Implementations vary from simple function routers to networked brokers.</p>
 <span class="normal"><a href="#__codelineno-0-38">38</a></span>
 <span class="normal"><a href="#__codelineno-0-39">39</a></span>
 <span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span>
-<span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">MessageType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageBusResultType</span><span class="p">:</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Dispatch a message to the configured handler or transport.</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">        message: The message instance to dispatch.</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        A typed result depending on the nature of the message.</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">    Notes:</span>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        Infrastructure determines:</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">            - routing strategy,</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">            - reliability,</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">            - ordering,</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">            - concurrency model.</span>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">NotificationType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Send a notification.</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">        message: The message to deliver.</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    Notes:</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        - Fire-and-forget behavior unless documented otherwise.</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        - Delivery semantics are infrastructure-defined.</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>

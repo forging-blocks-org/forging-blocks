@@ -12,13 +12,13 @@
         <meta name="author" content="ForgingBlocks Org">
       
       
-        <link rel="canonical" href="https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/repository/">
+        <link rel="canonical" href="https://forging-blocks-org.github.io/reference/autodoc/application/ports/outbound/event_bus_port/">
       
       
-        <link rel="prev" href="../query_fetcher/">
+        <link rel="prev" href="../command_sender_port/">
       
       
-        <link rel="next" href="../specification_repository/">
+        <link rel="next" href="../event_publisher_port/">
       
       
       <link rel="icon" href="../../../../../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Repository - ForgingBlocks</title>
+        <title>Event Bus Port - ForgingBlocks</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#repository" class="md-skip">
+        <a href="#event-bus-port" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Repository
+              Event Bus Port
             
           </span>
         </div>
@@ -1208,12 +1208,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../cache/" class="md-nav__link">
+      <a href="../cache_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Cache
+    Cache Port
     
   </span>
   
@@ -1231,219 +1231,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../command_sender/" class="md-nav__link">
+      <a href="../command_sender_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Command Sender
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../event_bus/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event Bus
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../event_publisher/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event Publisher
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../event_store/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event Store
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../external_service/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    External Service
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../file_system/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    File System
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../logger/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Logger
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../message_bus/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Message Bus
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../notifier/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Notifier
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../query_fetcher/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Query Fetcher
+    Command Sender Port
     
   </span>
   
@@ -1475,7 +1268,7 @@
   
   
   <span class="md-ellipsis">
-    Repository
+    Event Bus Port
     
   </span>
   
@@ -1488,7 +1281,7 @@
   
   
   <span class="md-ellipsis">
-    Repository
+    Event Bus Port
     
   </span>
   
@@ -1511,38 +1304,47 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_bus_port" class="md-nav__link">
     <span class="md-ellipsis">
-      repository
+      event_bus_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="repository">
+    <nav class="md-nav" aria-label="event_bus_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort" class="md-nav__link">
     <span class="md-ellipsis">
-      ReadOnlyRepositoryPort
+      EventBusPort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="ReadOnlyRepositoryPort">
+    <nav class="md-nav" aria-label="EventBusPort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort.get_by_id" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.publish" class="md-nav__link">
     <span class="md-ellipsis">
-      get_by_id
+      publish
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort.list_all" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.send" class="md-nav__link">
     <span class="md-ellipsis">
-      list_all
+      send
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.register_handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      register_handler
     </span>
   </a>
   
@@ -1550,48 +1352,6 @@
         
       </ul>
     </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort" class="md-nav__link">
-    <span class="md-ellipsis">
-      WriteOnlyRepositoryPort
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="WriteOnlyRepositoryPort">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort.delete_by_id" class="md-nav__link">
-    <span class="md-ellipsis">
-      delete_by_id
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort.save" class="md-nav__link">
-    <span class="md-ellipsis">
-      save
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.RepositoryPort" class="md-nav__link">
-    <span class="md-ellipsis">
-      RepositoryPort
-    </span>
-  </a>
   
 </li>
         
@@ -1616,12 +1376,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../specification_repository/" class="md-nav__link">
+      <a href="../event_publisher_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Specification Repository
+    Event Publisher Port
     
   </span>
   
@@ -1639,12 +1399,219 @@
   
   
     <li class="md-nav__item">
-      <a href="../unit_of_work/" class="md-nav__link">
+      <a href="../event_store_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Unit Of Work
+    Event Store Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external_service_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    External Service Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_system_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    File System Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logger_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Logger Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message_bus_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notifier_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Notifier Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../query_fetcher_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Query Fetcher Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../specification_repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Specification Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unit_of_work_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Unit Of Work Port
     
   </span>
   
@@ -4641,38 +4608,47 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_bus_port" class="md-nav__link">
     <span class="md-ellipsis">
-      repository
+      event_bus_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="repository">
+    <nav class="md-nav" aria-label="event_bus_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort" class="md-nav__link">
     <span class="md-ellipsis">
-      ReadOnlyRepositoryPort
+      EventBusPort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="ReadOnlyRepositoryPort">
+    <nav class="md-nav" aria-label="EventBusPort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort.get_by_id" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.publish" class="md-nav__link">
     <span class="md-ellipsis">
-      get_by_id
+      publish
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort.list_all" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.send" class="md-nav__link">
     <span class="md-ellipsis">
-      list_all
+      send
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.register_handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      register_handler
     </span>
   </a>
   
@@ -4680,48 +4656,6 @@
         
       </ul>
     </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort" class="md-nav__link">
-    <span class="md-ellipsis">
-      WriteOnlyRepositoryPort
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="WriteOnlyRepositoryPort">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort.delete_by_id" class="md-nav__link">
-    <span class="md-ellipsis">
-      delete_by_id
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort.save" class="md-nav__link">
-    <span class="md-ellipsis">
-      save
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.outbound.repository.RepositoryPort" class="md-nav__link">
-    <span class="md-ellipsis">
-      RepositoryPort
-    </span>
-  </a>
   
 </li>
         
@@ -4746,7 +4680,7 @@
 
 
   
-    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/repository.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/outbound/event_bus_port.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -4754,43 +4688,26 @@
   
 
 
-<h1 id="repository">Repository<a class="headerlink" href="#repository" title="Permanent link">&para;</a></h1>
+<h1 id="event-bus-port">Event Bus Port<a class="headerlink" href="#event-bus-port" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="forging_blocks.application.ports.outbound.repository" class="doc doc-heading">
-            <code>repository</code>
+<h2 id="forging_blocks.application.ports.outbound.event_bus_port" class="doc doc-heading">
+            <code>event_bus_port</code>
 
 
-<a href="#forging_blocks.application.ports.outbound.repository" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#forging_blocks.application.ports.outbound.event_bus_port" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-        <p>Generic repository interfaces for Domain-Driven Design.</p>
-<p>This module defines repository interfaces used to persist and retrieve<br />
-aggregate roots. Repositories abstract infrastructure concerns and offer<br />
-type-safe contracts for both command-side and query-side data access in<br />
-CQRS or traditional architectures.</p>
+        <p>Event bus port for publishing events and sending commands.</p>
+<p>Defines the <code>EventBusPort</code> abstract interface for in-process message dispatch<br />
+with separate policies for events (multi-handler fan-out) and commands<br />
+(single-handler routing).</p>
 
-
-<details class="responsibilities" open>
-  <summary>Responsibilities</summary>
-  <ul>
-<li>Persist and retrieve aggregates.</li>
-<li>Abstract away storage mechanisms.</li>
-</ul>
-</details>
-
-<details class="non-responsibilities" open>
-  <summary>Non-Responsibilities</summary>
-  <ul>
-<li>Implement business invariants (aggregate enforces them).</li>
-<li>Expose ORM models or database APIs directly.</li>
-</ul>
-</details>
 
 
 
@@ -4814,22 +4731,29 @@ CQRS or traditional architectures.</p>
 
 
 
-<h3 id="forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort" class="doc doc-heading">
-            <code>ReadOnlyRepositoryPort</code>
+<h3 id="forging_blocks.application.ports.outbound.event_bus_port.EventBusPort" class="doc doc-heading">
+            <code>EventBusPort</code>
 
 
-<a href="#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="Port (forging_blocks.foundation.ports.Port)" href="../../../../foundation/ports/#forging_blocks.foundation.ports.Port">Port</a>[<span title="typing.Any">Any</span>, <span title="typing.Any">Any</span>]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
+              Bases: <code><span title="abc.ABC">ABC</span></code></p>
 
 
-        <p>Read-only repository abstraction for query operations.</p>
-<p>This interface is optimized for query-side usage in CQRS architectures.<br />
-It provides type-safe retrieval of aggregates or read models.</p>
+        <p>Abstract event bus for publishing events and sending commands.</p>
 
+
+<details class="implementations-handle" open>
+  <summary>Implementations handle</summary>
+  <ul>
+<li>Publishing events to one or more registered handlers.</li>
+<li>Sending commands to a single registered handler.</li>
+<li>Registering handlers for specific message types.</li>
+</ul>
+</details>
 
 
 
@@ -4838,8 +4762,15 @@ It provides type-safe retrieval of aggregates or read models.</p>
 
 
               <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/repository.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-24">24</a></span>
+                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/event_bus_port.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
 <span class="normal"><a href="#__codelineno-0-25">25</a></span>
 <span class="normal"><a href="#__codelineno-0-26">26</a></span>
 <span class="normal"><a href="#__codelineno-0-27">27</a></span>
@@ -4871,39 +4802,50 @@ It provides type-safe retrieval of aggregates or read models.</p>
 <span class="normal"><a href="#__codelineno-0-53">53</a></span>
 <span class="normal"><a href="#__codelineno-0-54">54</a></span>
 <span class="normal"><a href="#__codelineno-0-55">55</a></span>
-<span class="normal"><a href="#__codelineno-0-56">56</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="k">class</span><span class="w"> </span><span class="nc">ReadOnlyRepositoryPort</span><span class="p">[</span><span class="n">TReadAggregateRoot</span><span class="p">,</span> <span class="n">TId</span><span class="p">](</span><span class="n">Port</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Protocol</span><span class="p">):</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Read-only repository abstraction for query operations.</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    This interface is optimized for query-side usage in CQRS architectures.</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    It provides type-safe retrieval of aggregates or read models.</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">TId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TReadAggregateRoot</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve an aggregate or read model by ID.</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">            id: Unique identifier of the resource.</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">            The retrieved instance or None if not found.</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        Notes:</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">            Implementations may read from:</span>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">                - read replicas,</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">                - projections,</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">                - cached read models.</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>        <span class="o">...</span>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">TReadAggregateRoot</span><span class="p">]:</span>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all resources.</span>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">            A sequence of aggregate or read model instances.</span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventBusPort</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">,</span> <span class="n">CommandPayloadType</span><span class="p">](</span><span class="n">ABC</span><span class="p">):</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract event bus for publishing events and sending commands.</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    Implementations handle:</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">      - Publishing events to one or more registered handlers.</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">      - Sending commands to a single registered handler.</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">      - Registering handlers for specific message types.</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]:</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Publish a domain event to all registered handlers.</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">            event: The domain event to publish.</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">            A ``Result`` indicating success or an ``EventBusError``.</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>        <span class="o">...</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Command</span><span class="p">[</span><span class="n">CommandPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]:</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Send a command to its registered handler.</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">            command: The command to dispatch.</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">            A ``Result`` indicating success or an ``EventBusError``.</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="o">...</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">register_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a handler for the given message type.</span>
 </span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>
-</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">        Notes:</span>
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>        <span class="o">...</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">            message_type: The message class to handle.</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">            handler: A handler instance (``EventHandler`` or ``CommandHandler``).</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>        <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -4923,19 +4865,20 @@ It provides type-safe retrieval of aggregates or read models.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort.get_by_id" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="n">TId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TReadAggregateRoot</span> <span class="o">|</span> <span class="kc">None</span></code>
+<h4 id="forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.publish" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">publish</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]</span></code>
 
   <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort.get_by_id" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.publish" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Retrieve an aggregate or read model by ID.</p>
+        <p>Publish a domain event to all registered handlers.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -4951,14 +4894,14 @@ It provides type-safe retrieval of aggregates or read models.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>id</code>
+                <code>event</code>
             </td>
             <td>
-                  <code><span title="forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort[TId]">TId</span></code>
+                  <code><a class="autorefs autorefs-internal" title="Event (forging_blocks.foundation.messages.event.Event)" href="../../../../foundation/messages/event/#forging_blocks.foundation.messages.event.Event">Event</a>[<span title="forging_blocks.application.ports.outbound.event_bus_port.EventBusPort[EventPayloadType]">EventPayloadType</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Unique identifier of the resource.</p>
+                <p>The domain event to publish.</p>
               </div>
             </td>
             <td>
@@ -4980,11 +4923,11 @@ It provides type-safe retrieval of aggregates or read models.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort[TReadAggregateRoot]">TReadAggregateRoot</span> | None</code>
+                  <code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../../../../foundation/result/result/#forging_blocks.foundation.result.result.Result">Result</a>[None, <a class="autorefs autorefs-internal" title="EventBusError (forging_blocks.application.errors.event_bus_error.EventBusError)" href="../../../errors/event_bus_error/#forging_blocks.application.errors.event_bus_error.EventBusError">EventBusError</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The retrieved instance or None if not found.</p>
+                <p>A <code>Result</code> indicating success or an <code>EventBusError</code>.</p>
               </div>
             </td>
           </tr>
@@ -4992,24 +4935,111 @@ It provides type-safe retrieval of aggregates or read models.</p>
     </table>
 
 
-<details class="notes" open>
-  <summary>Notes</summary>
-  <p>Implementations may read from:<br />
-    - read replicas,<br />
-    - projections,<br />
-    - cached read models.</p>
-</details>
-
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/repository.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-31">31</a></span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/event_bus_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
 <span class="normal"><a href="#__codelineno-0-32">32</a></span>
 <span class="normal"><a href="#__codelineno-0-33">33</a></span>
 <span class="normal"><a href="#__codelineno-0-34">34</a></span>
 <span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="nd">@abstractmethod</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]:</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Publish a domain event to all registered handlers.</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">        event: The domain event to publish.</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        A ``Result`` indicating success or an ``EventBusError``.</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="o">...</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.send" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">send</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="n">Command</span><span class="p">[</span><span class="n">CommandPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.send" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Send a command to its registered handler.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>command</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="Command (forging_blocks.foundation.messages.command.Command)" href="../../../../foundation/messages/command/#forging_blocks.foundation.messages.command.Command">Command</a>[<span title="forging_blocks.application.ports.outbound.event_bus_port.EventBusPort[CommandPayloadType]">CommandPayloadType</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The command to dispatch.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../../../../foundation/result/result/#forging_blocks.foundation.result.result.Result">Result</a>[None, <a class="autorefs autorefs-internal" title="EventBusError (forging_blocks.application.errors.event_bus_error.EventBusError)" href="../../../errors/event_bus_error/#forging_blocks.application.errors.event_bus_error.EventBusError">EventBusError</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A <code>Result</code> indicating success or an <code>EventBusError</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/event_bus_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-38">38</a></span>
 <span class="normal"><a href="#__codelineno-0-39">39</a></span>
 <span class="normal"><a href="#__codelineno-0-40">40</a></span>
 <span class="normal"><a href="#__codelineno-0-41">41</a></span>
@@ -5017,22 +5047,19 @@ It provides type-safe retrieval of aggregates or read models.</p>
 <span class="normal"><a href="#__codelineno-0-43">43</a></span>
 <span class="normal"><a href="#__codelineno-0-44">44</a></span>
 <span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">TId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TReadAggregateRoot</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve an aggregate or read model by ID.</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">        id: Unique identifier of the resource.</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        The retrieved instance or None if not found.</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">    Notes:</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        Implementations may read from:</span>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">            - read replicas,</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">            - projections,</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">            - cached read models.</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="nd">@abstractmethod</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Command</span><span class="p">[</span><span class="n">CommandPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]:</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Send a command to its registered handler.</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        command: The command to dispatch.</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">        A ``Result`` indicating success or an ``EventBusError``.</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -5042,416 +5069,92 @@ It provides type-safe retrieval of aggregates or read models.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort.list_all" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">list_all</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">TReadAggregateRoot</span><span class="p">]</span></code>
+<h4 id="forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.register_handler" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">register_handler</span><span class="p">(</span><span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort.list_all" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.outbound.event_bus_port.EventBusPort.register_handler" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Retrieve all resources.</p>
+        <p>Register a handler for the given message type.</p>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+<p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
         <tr>
+          <th>Name</th>
           <th>Type</th>
           <th>Description</th>
+          <th>Default</th>
         </tr>
       </thead>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Sequence">Sequence</span>[<span title="forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort[TReadAggregateRoot]">TReadAggregateRoot</span>]</code>
+                <code>message_type</code>
+            </td>
+            <td>
+                  <code><span title="type">type</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A sequence of aggregate or read model instances.</p>
+                <p>The message class to handle.</p>
               </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>handler</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A handler instance (<code>EventHandler</code> or <code>CommandHandler</code>).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
             </td>
           </tr>
       </tbody>
     </table>
-        <p>Notes:</p>
 
 
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/repository.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
-<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/event_bus_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-50">50</a></span>
 <span class="normal"><a href="#__codelineno-0-51">51</a></span>
 <span class="normal"><a href="#__codelineno-0-52">52</a></span>
 <span class="normal"><a href="#__codelineno-0-53">53</a></span>
 <span class="normal"><a href="#__codelineno-0-54">54</a></span>
 <span class="normal"><a href="#__codelineno-0-55">55</a></span>
-<span class="normal"><a href="#__codelineno-0-56">56</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">TReadAggregateRoot</span><span class="p">]:</span>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve all resources.</span>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">        A sequence of aggregate or read model instances.</span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="nd">@abstractmethod</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="k">def</span><span class="w"> </span><span class="nf">register_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Register a handler for the given message type.</span>
 </span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>
-</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">    Notes:</span>
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>    <span class="o">...</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">        message_type: The message class to handle.</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">        handler: A handler instance (``EventHandler`` or ``CommandHandler``).</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div>
-
-
-
-  </div>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h3 id="forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort" class="doc doc-heading">
-            <code>WriteOnlyRepositoryPort</code>
-
-
-<a href="#forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="Port (forging_blocks.foundation.ports.Port)" href="../../../../foundation/ports/#forging_blocks.foundation.ports.Port">Port</a>[<span title="typing.Any">Any</span>, <span title="typing.Any">Any</span>]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
-
-
-        <p>Write-only repository abstraction for command operations.</p>
-<p>This interface supports command-side operations where writes are applied<br />
-independently from read-side storage.</p>
-
-
-
-
-
-
-
-
-              <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/repository.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-59">59</a></span>
-<span class="normal"><a href="#__codelineno-0-60">60</a></span>
-<span class="normal"><a href="#__codelineno-0-61">61</a></span>
-<span class="normal"><a href="#__codelineno-0-62">62</a></span>
-<span class="normal"><a href="#__codelineno-0-63">63</a></span>
-<span class="normal"><a href="#__codelineno-0-64">64</a></span>
-<span class="normal"><a href="#__codelineno-0-65">65</a></span>
-<span class="normal"><a href="#__codelineno-0-66">66</a></span>
-<span class="normal"><a href="#__codelineno-0-67">67</a></span>
-<span class="normal"><a href="#__codelineno-0-68">68</a></span>
-<span class="normal"><a href="#__codelineno-0-69">69</a></span>
-<span class="normal"><a href="#__codelineno-0-70">70</a></span>
-<span class="normal"><a href="#__codelineno-0-71">71</a></span>
-<span class="normal"><a href="#__codelineno-0-72">72</a></span>
-<span class="normal"><a href="#__codelineno-0-73">73</a></span>
-<span class="normal"><a href="#__codelineno-0-74">74</a></span>
-<span class="normal"><a href="#__codelineno-0-75">75</a></span>
-<span class="normal"><a href="#__codelineno-0-76">76</a></span>
-<span class="normal"><a href="#__codelineno-0-77">77</a></span>
-<span class="normal"><a href="#__codelineno-0-78">78</a></span>
-<span class="normal"><a href="#__codelineno-0-79">79</a></span>
-<span class="normal"><a href="#__codelineno-0-80">80</a></span>
-<span class="normal"><a href="#__codelineno-0-81">81</a></span>
-<span class="normal"><a href="#__codelineno-0-82">82</a></span>
-<span class="normal"><a href="#__codelineno-0-83">83</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="k">class</span><span class="w"> </span><span class="nc">WriteOnlyRepositoryPort</span><span class="p">[</span><span class="n">TWriteAggregateRoot</span><span class="p">,</span> <span class="n">TWriteId</span><span class="p">](</span><span class="n">Port</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Protocol</span><span class="p">):</span>
-</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Write-only repository abstraction for command operations.</span>
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>
-</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">    This interface supports command-side operations where writes are applied</span>
-</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">    independently from read-side storage.</span>
-</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">TWriteId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete an aggregate by ID.</span>
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">            id: Unique identifier of the aggregate.</span>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">        Raises:</span>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">            RepositoryError: If deletion fails.</span>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>        <span class="o">...</span>
-</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>
-</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aggregate</span><span class="p">:</span> <span class="n">TWriteAggregateRoot</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Persist an aggregate instance.</span>
-</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>
-</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">            aggregate: The aggregate to save.</span>
-</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a>        <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-              </details>
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort.delete_by_id" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">delete_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="n">TWriteId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort.delete_by_id" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Delete an aggregate by ID.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>id</code>
-            </td>
-            <td>
-                  <code><span title="forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort[TWriteId]">TWriteId</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Unique identifier of the aggregate.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="RepositoryError">RepositoryError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>If deletion fails.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/repository.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-66">66</a></span>
-<span class="normal"><a href="#__codelineno-0-67">67</a></span>
-<span class="normal"><a href="#__codelineno-0-68">68</a></span>
-<span class="normal"><a href="#__codelineno-0-69">69</a></span>
-<span class="normal"><a href="#__codelineno-0-70">70</a></span>
-<span class="normal"><a href="#__codelineno-0-71">71</a></span>
-<span class="normal"><a href="#__codelineno-0-72">72</a></span>
-<span class="normal"><a href="#__codelineno-0-73">73</a></span>
-<span class="normal"><a href="#__codelineno-0-74">74</a></span>
-<span class="normal"><a href="#__codelineno-0-75">75</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">TWriteId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete an aggregate by ID.</span>
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">        id: Unique identifier of the aggregate.</span>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">    Raises:</span>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">        RepositoryError: If deletion fails.</span>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort.save" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">save</span><span class="p">(</span><span class="n">aggregate</span><span class="p">:</span> <span class="n">TWriteAggregateRoot</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort.save" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Persist an aggregate instance.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>aggregate</code>
-            </td>
-            <td>
-                  <code><span title="forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort[TWriteAggregateRoot]">TWriteAggregateRoot</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The aggregate to save.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/outbound/repository.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-77">77</a></span>
-<span class="normal"><a href="#__codelineno-0-78">78</a></span>
-<span class="normal"><a href="#__codelineno-0-79">79</a></span>
-<span class="normal"><a href="#__codelineno-0-80">80</a></span>
-<span class="normal"><a href="#__codelineno-0-81">81</a></span>
-<span class="normal"><a href="#__codelineno-0-82">82</a></span>
-<span class="normal"><a href="#__codelineno-0-83">83</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aggregate</span><span class="p">:</span> <span class="n">TWriteAggregateRoot</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Persist an aggregate instance.</span>
-</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>
-</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">        aggregate: The aggregate to save.</span>
-</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a>    <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-  </div>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h3 id="forging_blocks.application.ports.outbound.repository.RepositoryPort" class="doc doc-heading">
-            <code>RepositoryPort</code>
-
-
-<a href="#forging_blocks.application.ports.outbound.repository.RepositoryPort" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="ReadOnlyRepositoryPort (forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort)" href="#forging_blocks.application.ports.outbound.repository.ReadOnlyRepositoryPort">ReadOnlyRepositoryPort</a>[<span title="forging_blocks.application.ports.outbound.repository.RepositoryPort[TAggregateRoot]">TAggregateRoot</span>, <span title="forging_blocks.application.ports.outbound.repository.RepositoryPort[TId]">TId</span>]</code>, <code><a class="autorefs autorefs-internal" title="WriteOnlyRepositoryPort (forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort)" href="#forging_blocks.application.ports.outbound.repository.WriteOnlyRepositoryPort">WriteOnlyRepositoryPort</a>[<span title="forging_blocks.application.ports.outbound.repository.RepositoryPort[TAggregateRoot]">TAggregateRoot</span>, <span title="forging_blocks.application.ports.outbound.repository.RepositoryPort[TId]">TId</span>]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
-
-
-        <p>Full CRUD repository abstraction.</p>
-<p>Combines read and write capabilities into a single repository interface.<br />
-Suitable for non-CQRS applications or simplified contexts.</p>
-
-
-
-
-
-
-
-
-              <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/application/ports/outbound/repository.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-86">86</a></span>
-<span class="normal"><a href="#__codelineno-0-87">87</a></span>
-<span class="normal"><a href="#__codelineno-0-88">88</a></span>
-<span class="normal"><a href="#__codelineno-0-89">89</a></span>
-<span class="normal"><a href="#__codelineno-0-90">90</a></span>
-<span class="normal"><a href="#__codelineno-0-91">91</a></span>
-<span class="normal"><a href="#__codelineno-0-92">92</a></span>
-<span class="normal"><a href="#__codelineno-0-93">93</a></span>
-<span class="normal"><a href="#__codelineno-0-94">94</a></span>
-<span class="normal"><a href="#__codelineno-0-95">95</a></span>
-<span class="normal"><a href="#__codelineno-0-96">96</a></span>
-<span class="normal"><a href="#__codelineno-0-97">97</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="k">class</span><span class="w"> </span><span class="nc">RepositoryPort</span><span class="p">[</span><span class="n">TAggregateRoot</span><span class="p">,</span> <span class="n">TId</span><span class="p">](</span>
-</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a>    <span class="n">ReadOnlyRepositoryPort</span><span class="p">[</span><span class="n">TAggregateRoot</span><span class="p">,</span> <span class="n">TId</span><span class="p">],</span>
-</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>    <span class="n">WriteOnlyRepositoryPort</span><span class="p">[</span><span class="n">TAggregateRoot</span><span class="p">,</span> <span class="n">TId</span><span class="p">],</span>
-</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a>    <span class="n">Protocol</span><span class="p">,</span>
-</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a><span class="p">):</span>
-</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Full CRUD repository abstraction.</span>
-</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a>
-</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="sd">    Combines read and write capabilities into a single repository interface.</span>
-</span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a><span class="sd">    Suitable for non-CQRS applications or simplified contexts.</span>
-</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>
-</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a>    <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-              </details>
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
 
 
 
