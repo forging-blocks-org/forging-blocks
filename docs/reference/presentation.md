@@ -23,7 +23,7 @@ The Presentation block is the outermost ring. It should be thin — translate, d
 ## Core abstractions
 
 - **[Adapters](presentation/adapters.md)** — RequestAdapter, ResponseAdapter, PresentationAdapter
-- **[Error Handling](presentation/error-handling.md)** — ErrorPresenter, ErrorStatusCodeMapper, ErrorViewModel
+- **[Error Handling](presentation/error-handling.md)** — ErrorPresenter, ErrorStatusCodeMapper, ErrorViewModel, PresenterPort
 - **[Middleware Pipeline](presentation/middleware.md)** — Middleware protocol, Pipeline class
 
 ---

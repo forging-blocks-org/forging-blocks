@@ -23,4 +23,7 @@
 
 ## Presenter Port
 
-`PresenterPort[ResponseType]` is an orthogonal rendering contract. Extends `InboundPort`. Has `present(response)` for success and `present_error(error)` for failures. An adapter may call both a `Pipeline` for processing and a `PresenterPort` for rendering.
+`PresenterPort[ResponseType]` is an orthogonal rendering contract. Extends `InboundPort`. Has `present(response)` for success and `present_error(error)` for failures. An adapter may call both a [Pipeline](middleware.md) for processing and a `PresenterPort` for rendering.
+
+!!! note "Related"
+    See [Adapters](adapters.md) for how `PresentationAdapter` wires the error pipeline together. See [Application Ports](../application/ports.md) for the `InboundPort` hierarchy.
