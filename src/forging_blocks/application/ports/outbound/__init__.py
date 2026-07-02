@@ -11,7 +11,7 @@ from .logger import LoggerPort
 from .message_bus import MessageBusPort
 from .notifier import NotifierPort
 from .query_fetcher import QueryFetcherPort
-from .repository import RepositoryPort
+from .repository import ReadOnlyRepositoryPort, RepositoryPort, WriteOnlyRepositoryPort
 from .specification_repository import SpecificationRepositoryPort
 from .unit_of_work import UnitOfWorkPort
 
@@ -27,7 +27,9 @@ __all__ = [
     "MessageBusPort",
     "NotifierPort",
     "QueryFetcherPort",
+    "ReadOnlyRepositoryPort",
     "RepositoryPort",
+    "WriteOnlyRepositoryPort",
     "SpecificationRepositoryPort",
     "UnitOfWorkPort",
 ]

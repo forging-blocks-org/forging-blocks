@@ -7,11 +7,11 @@ Extends ``ReadOnlyRepository`` with query methods that accept
 from collections.abc import Sequence
 from typing import Protocol
 
-from forging_blocks.application.ports.outbound.repository import ReadOnlyRepository
+from forging_blocks.application.ports.outbound.repository import ReadOnlyRepositoryPort
 from forging_blocks.foundation.specification import Specification
 
 
-class SpecificationRepositoryPort[TEntity, TId](ReadOnlyRepository[TEntity, TId], Protocol):
+class SpecificationRepositoryPort[TEntity, TId](ReadOnlyRepositoryPort[TEntity, TId], Protocol):
     """RepositoryPort that supports specification-based queries.
 
     In addition to standard read-only operations, this interface
