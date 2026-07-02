@@ -1,212 +1,43 @@
 # Domain
-## Reference
+## The problem space
 
-The **Domain** block represents the **problem space** your system is concerned with.
+The **Domain** block models the concepts, rules, and constraints of your problem space — independent of frameworks, databases, or delivery mechanisms.
 
-It contains the concepts, rules, and constraints that give meaning to your software,
-independent of frameworks, databases, delivery mechanisms, or deployment concerns.
-
----
-## Quick summary
-
-The **Domain** block represents the **problem space** your system is concerned with. It expresses concepts, rules, and constraints independently of frameworks, databases, or delivery mechanisms.
-
-Core abstractions:
-- **Entity** — Identity matters over time (identity-based equality, version tracking)
-- **Value Object** — Immutable, defined by its values (no identity, prevents primitive obsession)
-- **Aggregate Root** — Consistency boundary that protects invariants and controls mutation
-- **Domain Errors** — Explicit representations of invalid domain states in domain terms
-
-The Domain block depends only on **Foundation** and must not depend on Application, Infrastructure, or Presentation.
-
-These are optional tools for clarity and correctness — not mandatory patterns.
+It depends only on **Foundation**. It must not depend on Application, Infrastructure, or Presentation.
 
 ---
+## How it works
 
-The Domain block exists to:
+Domain code expresses *meaning* through typed abstractions rather than primitives. An `Entity` carries identity through its lifecycle. A `ValueObject` captures a concept by its values alone — immutable and hashable. An `AggregateRoot` wraps related entities inside a consistency boundary, protecting invariants. A `Specification` composes rules into testable predicates.
 
-- Express problem-space concepts explicitly
-- Encode rules and constraints close to the data they govern
-- Make invalid states explicit
-- Remain stable as external concerns change
-
-The Domain block depends only on **Foundation** and must not depend on Application, Infrastructure, or Presentation.
+These abstractions are optional tools. You reach for them when plain types stop communicating intent.
 
 ---
+## How to use
 
-!!! note "On architectural neutrality"
-    ForgingBlocks does not require you to follow a specific architectural style.
-    The Domain block can be used in layered, hexagonal, clean, or ad-hoc architectures.
-    The abstractions provided here are optional tools, not mandatory patterns.
+Start small. Model a concept as a `ValueObject` when you find the same validation logic scattered across functions. Promote it to an `Entity` when identity matters — when two instances with the same values must be distinguishable. Introduce an `AggregateRoot` when a group of objects must stay consistent together.
 
----
-
-## Core domain abstractions
-
-The Domain block provides **core abstractions** that help model meaning without relying on language primitives alone.
-
-These abstractions exist to make intent explicit, behavior testable, and rules discoverable.
+The Domain block is the innermost ring. It imports nothing from outer layers. When you change a database or a framework, domain code should not need to change.
 
 ---
+## Core abstractions
 
-## Entities
-
-An **Entity** represents a concept whose **identity** matters over time.
-
-Characteristics:
-
-- Identity-based equality
-- Explicit lifecycle
-- Mutable state governed by rules
-
-Entities are appropriate when it is important to distinguish *which* instance is being referred to, even if its attributes change.
+- **[Entity](domain/entities.md)** — Identity matters over time; identity-based equality
+- **[Value Object](domain/value-objects.md)** — Immutable, defined by its values; prevents primitive obsession
+- **[Aggregate Root](domain/aggregates.md)** — Consistency boundary; controls mutation and invariants
+- **[Specification](domain/specifications.md)** — Composable predicates for business rules, querying, and validation
 
 ---
-
-!!! note "Influence: Eric Evans"
-    The focus on identity as a defining characteristic is inspired by *Domain-Driven Design* by Eric Evans.
-    ForgingBlocks adopts this idea without requiring a full DDD tactical model.
-
----
-
-## Value Objects
-
-A **Value Object** represents an immutable concept defined entirely by its values.
-
-Characteristics:
-
-- Immutable
-- Equality by value
-- Hashable
-- No independent identity
-
-Value Objects are well-suited for modeling concepts such as identifiers, measurements, or descriptive values where identity is not meaningful.
-
----
-
-!!! note "Avoiding Primitive Obsession"
-    Value Objects help prevent domain rules from being scattered across the codebase.
-    By wrapping meaning in explicit types, constraints become visible, reusable, and testable.
-
-!!! note "Where the implementation lives"
-    The `ValueObject` base class is defined in the **Foundation** block, because
-    value-based equality and immutability are generic enough to be reused
-    outside the Domain block as well.
-    The Domain block simply re-exports the same class so that domain code can
-    import it from a natural location.
-
----
-
-## Aggregate Roots
-
-An **Aggregate Root** defines a **consistency boundary**.
-
-It acts as the authoritative entry point for modifying related state and enforcing rules that span multiple objects.
-
-Typical responsibilities include:
-
-- Protecting invariants
-- Coordinating state changes
-- Recording domain-relevant occurrences
-- Exposing an abstract `apply(event)` method for event sourcing
-
-Aggregate Roots track their version through an `AggregateVersion` value object, which supports optimistic concurrency control.
-
----
-
-!!! note "Influence: Vaughn Vernon"
-    The emphasis on consistency boundaries and controlled mutation is inspired by the work of Vaughn Vernon.
-    ForgingBlocks provides aggregates when boundaries matter, without requiring their use everywhere.
-
----
-
-
-## Domain Errors
-
-The Domain block defines **Domain Errors** to represent invalid states or rule violations within the problem space.
-
-Domain Errors:
-
-- Express domain meaning
-- Indicate invariant violations
-- Are not technical failures
-
-They make incorrect states explicit and testable.
-
----
-
-!!! note "On error semantics"
-    Domain Errors describe *why* something is invalid in domain terms.
-    They should not encode transport, persistence, or framework concerns.
-
----
-
-## Specification
-
-The **Specification** pattern lives in the **Foundation** block for expressing
-composable business rules as predicates over candidate objects.
-
-A `Specification` encapsulates a rule that can be evaluated with
-`is_satisfied_by(candidate)`, and compositions (`&`, `|`, `~`) allow rules to
-be combined into richer predicates.
-
-Specifications are well-suited for querying, validation, and filtering within
-domain logic.
-
-!!! note "Where the implementation lives"
-    The specification pattern is defined in the **Foundation** block because
-    composable predicates are generic enough to be reused outside the Domain
-    block. The Domain block re-exports the Foundation API so that domain code
-    can import it from a natural location.
-
----
-
-## What the Domain block does not do
-
-The Domain block does **not**:
-
-- Orchestrate workflows or use cases
-- Perform I/O or persistence
-- Depend on frameworks or external systems
-- Handle transport or presentation concerns
-
-Those responsibilities belong to outer blocks.
-
----
-
-!!! note "Influence: Robert C. Martin"
-    The separation between domain policy and external details reflects principles described by Robert C. Martin.
-    The Domain block is intended to be the most stable part of the system.
-
----
-
-## Summary
-
-The Domain block provides **clear, explicit abstractions** for modeling meaning in the problem space.
-
-You may use all of these abstractions, some of them, or none at all.
-Their purpose is to support clarity and correctness—not to enforce a methodology.
-
----
-
 ## Glossary
 
 !!! note "Entity"
-    A domain concept with a stable identity that persists over time, even as its attributes change.
+    A concept with a stable identity that persists over time, even as attributes change.
 
 !!! note "Value Object"
-    An immutable domain concept defined entirely by its values, without independent identity.
+    An immutable concept defined entirely by its values, without independent identity.
 
 !!! note "Aggregate Root"
-    A domain concept that defines a consistency boundary and controls access to related state.
-
-!!! note "Aggregate Version"
-    An immutable value object used by Aggregate Roots for optimistic concurrency control, tracking version increments on state changes.
-
-!!! note "Domain Error"
-    An explicit representation of an invalid domain state or rule violation, expressed in domain terms rather than technical terms.
+    A consistency boundary that controls access to related state and protects invariants.
 
 !!! note "Specification"
-    A composable predicate over a candidate object, used to express business
-    rules for querying, validation, and filtering. Defined in the Foundation
-    block and re-exported by the Domain block.
+    A composable predicate over a candidate object for business rules, querying, and validation.
