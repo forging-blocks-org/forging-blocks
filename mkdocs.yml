@@ -72,7 +72,18 @@ nav:
 
   - Reference:
       - Overview: reference/index.md
-      - Foundation: reference/foundation.md
+      - Foundation:
+          - Overview: reference/foundation.md
+          - Result: reference/foundation/result.md
+          - Ports: reference/foundation/ports.md
+          - Errors: reference/foundation/errors.md
+          - Messages: reference/foundation/messages.md
+          - Value Objects: reference/foundation/value-objects.md
+          - Auto-Freeze: reference/foundation/auto-freeze.md
+          - Specifications: reference/foundation/specifications.md
+          - Mappers: reference/foundation/mappers.md
+          - Identified: reference/foundation/identified.md
+          - Meta Utilities: reference/foundation/meta.md
       - Domain:
           - Overview: reference/domain.md
           - Entities: reference/domain/entities.md
