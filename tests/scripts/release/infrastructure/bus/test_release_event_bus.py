@@ -1,5 +1,5 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-from unittest.mock import AsyncMock
+from typing import Any
 
 import pytest
 from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
@@ -9,61 +9,99 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
 from forging_blocks.foundation.messages.command import Command
 
 
-class AsyncHandlerMock:
+class FakeHandler:
+    """State-based handler fake — records handled commands."""
+
     def __init__(self) -> None:
-        self.handle = AsyncMock()
+        self.handled: list[Command] = []
+
+    async def handle(self, message: Command) -> None:
+        self.handled.append(message)
+
+
+class FakeCommand(Command):
+    """Minimal concrete Command for registration and routing tests."""
+
+    def __init__(self, val: str = "test") -> None:
+        super().__init__()
+        self._value = val
+
+    @property
+    def value(self) -> str:
+        return self._value
+
+    def _payload(self) -> dict[str, Any]:
+        return {"value": self._value}
 
 
 @pytest.mark.unit
 class TestInMemoryReleaseCommandBus:
-    def test_init_when_called_then_instance_created(self) -> None:
-        bus = InMemoryReleaseCommandBus()
+    @pytest.fixture
+    def bus(self) -> InMemoryReleaseCommandBus:
+        return InMemoryReleaseCommandBus()
 
+    @pytest.fixture
+    def handler(self) -> FakeHandler:
+        return FakeHandler()
+
+    @pytest.fixture
+    def command(self) -> FakeCommand:
+        return FakeCommand()
+
+    def test_init_when_called_then_instance_created(self, bus: InMemoryReleaseCommandBus) -> None:
         assert isinstance(bus, InMemoryReleaseCommandBus)
 
     @pytest.mark.asyncio
-    async def test_register_when_called_then_handler_is_registered(self) -> None:
-        bus = InMemoryReleaseCommandBus()
-        handler = AsyncHandlerMock()
-        command_type = type(AsyncMock(spec=Command))
+    async def test_register_when_called_then_handler_is_registered(
+        self, bus: InMemoryReleaseCommandBus, handler: FakeHandler
+    ) -> None:
+        await bus.register(FakeCommand, handler)
 
-        await bus.register(command_type, handler)
-
-        assert bus._subscribers[command_type] == handler
+        assert bus._subscribers[FakeCommand] is handler
 
     @pytest.mark.asyncio
-    async def test_send_when_no_subscribers_then_key_error(self) -> None:
-        bus = InMemoryReleaseCommandBus()
-        command = AsyncMock(spec=Command)
-
+    async def test_send_when_no_subscribers_then_key_error(
+        self,
+        bus: InMemoryReleaseCommandBus,
+        command: FakeCommand,
+    ) -> None:
         with pytest.raises(KeyError):
             await bus.send(command)
 
     @pytest.mark.asyncio
     async def test_send_when_handler_registered_then_handler_handle_called(
         self,
+        bus: InMemoryReleaseCommandBus,
+        handler: FakeHandler,
+        command: FakeCommand,
     ) -> None:
-        bus = InMemoryReleaseCommandBus()
-        handler = AsyncHandlerMock()
-        command = AsyncMock(spec=Command)
-        command_type = type(command)
-
-        await bus.register(command_type, handler)
+        await bus.register(FakeCommand, handler)
 
         await bus.send(command)
 
-        handler.handle.assert_awaited_once_with(command)
+        assert len(handler.handled) == 1
+        assert handler.handled[0] is command
 
     @pytest.mark.asyncio
     async def test_send_when_handler_registered_for_different_type_then_key_error(
         self,
+        bus: InMemoryReleaseCommandBus,
+        handler: FakeHandler,
+        command: FakeCommand,
     ) -> None:
-        bus = InMemoryReleaseCommandBus()
-        handler = AsyncHandlerMock()
-        registered_command = AsyncMock(spec=Command)
-        different_command = AsyncMock(spec=Command)
+        await bus.register(FakeCommand, handler)
 
-        await bus.register(type(registered_command), handler)
+        class OtherCommand(Command):
+            def __init__(self, val: str = "other") -> None:
+                super().__init__()
+                self._value = val
+
+            @property
+            def value(self) -> str:
+                return self._value
+
+            def _payload(self) -> dict[str, Any]:
+                return {"value": self._value}
 
         with pytest.raises(KeyError):
-            await bus.send(different_command)
+            await bus.send(OtherCommand())

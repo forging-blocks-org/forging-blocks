@@ -1,8 +1,6 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 """Tests for the in-memory release command bus."""
 
-from unittest.mock import AsyncMock
-
 import pytest
 from scripts.release.domain.commands import OpenPullRequestCommand
 from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
@@ -10,43 +8,54 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
 )
 
 
+class FakeHandler:
+    """State-based handler fake — records calls for assertion."""
+
+    def __init__(self) -> None:
+        self.handled_commands: list[OpenPullRequestCommand] = []
+
+    async def handle(self, message: OpenPullRequestCommand) -> None:
+        self.handled_commands.append(message)
+
+
 @pytest.mark.unit
 class TestInMemoryReleaseCommandBus:
     """Test the InMemoryReleaseCommandBus."""
 
     @pytest.fixture
-    def command_bus(self):
-        """Create a command bus instance."""
+    def command_bus(self) -> InMemoryReleaseCommandBus:
         return InMemoryReleaseCommandBus()
 
     @pytest.fixture
-    def mock_handler(self):
-        """Create a mock handler."""
-        return AsyncMock()
+    def handler(self) -> FakeHandler:
+        return FakeHandler()
 
     @pytest.fixture
-    def test_command(self):
-        """Create a test command."""
+    def test_command(self) -> OpenPullRequestCommand:
         return OpenPullRequestCommand(version="v0.3.11", branch="release/v0.3.11", dry_run=False)
 
-    async def test_dispatch_calls_send(self, command_bus, test_command, mock_handler):
-        """Test that dispatch delegates to send method."""
-        # Register a handler
-        await command_bus.register(OpenPullRequestCommand, mock_handler)
+    async def test_dispatch_calls_send(
+        self,
+        command_bus: InMemoryReleaseCommandBus,
+        test_command: OpenPullRequestCommand,
+        handler: FakeHandler,
+    ) -> None:
+        await command_bus.register(OpenPullRequestCommand, handler)
 
-        # Dispatch the command
         await command_bus.dispatch(test_command)
 
-        # Verify handler's handle method was called
-        mock_handler.handle.assert_called_once_with(test_command)
+        assert len(handler.handled_commands) == 1
+        assert handler.handled_commands[0] is test_command
 
-    async def test_register_and_send(self, command_bus, test_command, mock_handler):
-        """Test registering a handler and sending a command."""
-        # Register handler
-        await command_bus.register(OpenPullRequestCommand, mock_handler)
+    async def test_register_and_send(
+        self,
+        command_bus: InMemoryReleaseCommandBus,
+        test_command: OpenPullRequestCommand,
+        handler: FakeHandler,
+    ) -> None:
+        await command_bus.register(OpenPullRequestCommand, handler)
 
-        # Send command
         await command_bus.send(test_command)
 
-        # Verify handler's handle method was called
-        mock_handler.handle.assert_called_once_with(test_command)
+        assert len(handler.handled_commands) == 1
+        assert handler.handled_commands[0] is test_command
