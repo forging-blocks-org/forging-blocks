@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from unittest.mock import MagicMock, create_autospec
 
 import pytest
 from scripts.release.application.ports.outbound import ChangelogRequest
 from scripts.release.infrastructure.changelog.git_cliff_changelog_generator import (
     GitCliffChangelogGenerator,
 )
-from scripts.release.infrastructure.commons.process import CommandRunner, SubprocessCommandRunner
+from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
+from tests.fixtures.fake_command_runner import FakeCommandRunner
 from tests.fixtures.git_cliff_scenarios import Scenario
 from tests.fixtures.git_test_repository import GitTestRepository
 
@@ -30,8 +30,8 @@ def _read_changelog(scenario: Scenario) -> str:
 @pytest.mark.integration
 class TestGitCliffChangelogGeneratorUnit:
     @pytest.fixture
-    def runner_mock(self) -> MagicMock:
-        return create_autospec(CommandRunner, instance=True)
+    def runner(self) -> FakeCommandRunner:
+        return FakeCommandRunner()
 
     @pytest.fixture
     def changelog_path(self, tmp_path: Path) -> Path:
@@ -40,27 +40,27 @@ class TestGitCliffChangelogGeneratorUnit:
     @pytest.fixture
     def generator(
         self,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> GitCliffChangelogGenerator:
-        return GitCliffChangelogGenerator(runner=runner_mock, changelog_path=changelog_path)
+        return GitCliffChangelogGenerator(runner=runner, changelog_path=changelog_path)
 
     async def test_generate_uses_requested_tag_as_range_when_it_exists(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text("## v0.9.0\n- old entry\n", encoding="utf-8")
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## v1.0.0\n- new entry\n",
         ]
 
         await generator.generate(ChangelogRequest(from_version="1.0.0"))
 
-        git_cliff_call = runner_mock.run.call_args_list[1]
-        cmd = git_cliff_call[0][0]
+        git_cliff_call = runner.calls[1]
+        cmd = git_cliff_call[0]
         assert "--output" in cmd
         assert "-" in cmd
         assert "--tag" in cmd
@@ -70,48 +70,48 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_generate_uses_full_history_when_requested_tag_missing(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text("## v0.9.0\n- old entry\n", encoding="utf-8")
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             RuntimeError("not found"),
             "## v1.1.0\n- new entry\n",
         ]
 
         await generator.generate(ChangelogRequest(from_version="1.1.0"))
 
-        git_cliff_call = runner_mock.run.call_args_list[1]
-        cmd = git_cliff_call[0][0]
+        git_cliff_call = runner.calls[1]
+        cmd = git_cliff_call[0]
         assert "--unreleased" in cmd
         assert "v1.1.0" in cmd
 
     async def test_generate_produces_full_history_when_no_tags_exist(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text("## v0.1.0\n- old entry\n", encoding="utf-8")
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             RuntimeError("not found"),
             "## v0.1.0\n- full history\n",
         ]
 
         await generator.generate(ChangelogRequest(from_version="0.1.0"))
 
-        git_cliff_call = runner_mock.run.call_args_list[1]
-        cmd = git_cliff_call[0][0]
+        git_cliff_call = runner.calls[1]
+        cmd = git_cliff_call[0]
         assert "--unreleased" in cmd
 
     async def test_generate_returns_parsed_entries(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text("", encoding="utf-8")
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## v1.0.0\n- feat: something\n",
         ]
@@ -123,11 +123,11 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_generate_returns_empty_entries_for_blank_cliff_output(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text("", encoding="utf-8")
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "\n\n",
         ]
@@ -139,11 +139,11 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_generate_prepends_new_entries_to_existing_changelog(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text("## v0.9.0\n- old entry\n", encoding="utf-8")
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## v1.0.0\n- feat: something\n",
         ]
@@ -160,10 +160,10 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_generate_creates_file_when_no_existing_changelog(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## v1.0.0\n- feat: new\n",
         ]
@@ -178,10 +178,10 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_generate_ensures_changelog_ends_with_newline(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## v1.0.0\n- feat: no trailing newline",
         ]
@@ -193,14 +193,14 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_generate_removes_unreleased_section_when_versioned_entries_prepended(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text(
             "## [Unreleased]\n\n### Features\n- feature1\n\n## [0.3.22]\n- old entry\n",
             encoding="utf-8",
         )
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## [0.4.0] - 2026-05-28\n\n### Features\n- new feature\n",
         ]
@@ -215,9 +215,9 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_generate_raises_changelog_generation_error_when_git_cliff_not_installed(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
     ) -> None:
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             FileNotFoundError("git-cliff not found"),
         ]
@@ -228,9 +228,9 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_generate_raises_changelog_generation_error_when_git_cliff_fails(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
     ) -> None:
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             RuntimeError("exit code 1"),
         ]
@@ -241,7 +241,7 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_merge_preserves_blank_line_between_existing_and_new_entries(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text(
@@ -251,7 +251,7 @@ class TestGitCliffChangelogGeneratorUnit:
             "## [0.3.0] - 2026-03-24\n",
             encoding="utf-8",
         )
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## [0.4.0] - 2026-05-28\n\n### Features\n\n- **auth**: new feature\n\n",
         ]
@@ -268,7 +268,7 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_inserted_group_has_blank_line_after_header(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text(
@@ -278,7 +278,7 @@ class TestGitCliffChangelogGeneratorUnit:
             "## [0.3.0] - 2026-03-24\n",
             encoding="utf-8",
         )
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## [0.4.0] - 2026-05-28\n\n### Features\n\n- **auth**: new feature\n\n",
         ]
@@ -293,7 +293,7 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_inserted_group_has_blank_line_before_next_section(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text(
@@ -303,7 +303,7 @@ class TestGitCliffChangelogGeneratorUnit:
             "## [0.3.0] - 2026-03-24\n",
             encoding="utf-8",
         )
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## [0.4.0] - 2026-05-28\n\n### Features\n\n- **auth**: new feature\n\n",
         ]
@@ -318,7 +318,7 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_unreleased_group_not_in_versioned_inserted_correctly(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text(
@@ -331,7 +331,7 @@ class TestGitCliffChangelogGeneratorUnit:
             "## [0.3.0] - 2026-03-24\n",
             encoding="utf-8",
         )
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## [0.4.0] - 2026-05-28\n\n"
             "### Features\n\n"
@@ -351,7 +351,7 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_unreleased_group_inserted_after_existing_groups(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text(
@@ -361,7 +361,7 @@ class TestGitCliffChangelogGeneratorUnit:
             "## [0.3.0] - 2026-03-24\n",
             encoding="utf-8",
         )
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## [0.4.0] - 2026-05-28\n\n"
             "### Features\n\n"
@@ -381,7 +381,7 @@ class TestGitCliffChangelogGeneratorUnit:
     async def test_multiple_unreleased_groups_not_in_versioned_all_inserted(
         self,
         generator: GitCliffChangelogGenerator,
-        runner_mock: MagicMock,
+        runner: FakeCommandRunner,
         changelog_path: Path,
     ) -> None:
         changelog_path.write_text(
@@ -395,7 +395,7 @@ class TestGitCliffChangelogGeneratorUnit:
             "## [0.3.0] - 2026-03-24\n",
             encoding="utf-8",
         )
-        runner_mock.run.side_effect = [
+        runner.configured_outputs = [
             "abc123",
             "## [0.4.0] - 2026-05-28\n\n### Features\n\n- **auth**: new feature\n\n",
         ]
