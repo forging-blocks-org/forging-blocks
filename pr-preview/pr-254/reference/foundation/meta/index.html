@@ -1020,9 +1020,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#utilities" class="md-nav__link">
+  <a href="#metaclasses" class="md-nav__link">
     <span class="md-ellipsis">
-      Utilities
+      Metaclasses
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decorators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decorators
     </span>
   </a>
   
@@ -5691,9 +5700,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#utilities" class="md-nav__link">
+  <a href="#metaclasses" class="md-nav__link">
     <span class="md-ellipsis">
-      Utilities
+      Metaclasses
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decorators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decorators
     </span>
   </a>
   
@@ -5733,16 +5751,18 @@
 
 
 <h1 id="meta-utilities">Meta Utilities<a class="headerlink" href="#meta-utilities" title="Permanent link">&para;</a></h1>
-<p>Foundation provides <strong>runtime enforcement</strong> decorators. Unlike <code>typing.final</code> or <code>ABC</code>, which are static-analysis hints, these decorators enforce constraints at runtime.</p>
-<h2 id="utilities">Utilities<a class="headerlink" href="#utilities" title="Permanent link">&para;</a></h2>
+<p>Foundation provides <strong>runtime enforcement</strong> through metaclasses and decorators. Unlike <code>typing.final</code> or <code>ABC</code>, which are static-analysis hints, these enforce constraints at runtime.</p>
+<h2 id="metaclasses">Metaclasses<a class="headerlink" href="#metaclasses" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>@runtime_final</strong> — Prevents subclassing. Raises <code>TypeError</code> if a subclass attempts to inherit.</li>
-<li><strong>@runtime_sealed</strong> — Prevents instantiation. Raises <code>TypeError</code> if the class is constructed directly.</li>
-<li><strong>@runtime_abstract</strong> — Requires subclassing. Raises <code>TypeError</code> if the class itself is instantiated (stronger than <code>ABC</code>).</li>
+<li><strong>FinalMeta</strong> — Prevents subclassing at runtime. Inheriting from a class with this metaclass raises <code>TypeError</code>.</li>
+<li><strong>FinalABCMeta</strong> — Combines <code>FinalMeta</code> with <code>ABCMeta</code>. Prevents subclassing and requires abstract method implementation.</li>
 </ul>
-<p>All three are class decorators that modify <code>__init_subclass__</code> and <code>__init__</code> to enforce the constraint at the moment of misuse rather than at type-checking time.</p>
+<h2 id="decorators">Decorators<a class="headerlink" href="#decorators" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>@runtime_final</strong> — Prevents a method from being overridden in subclasses. Raises <code>TypeError</code> if a child class attempts to override it.</li>
+</ul>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Use when you need guarantees, not suggestions — for framework-level base classes, sealed hierarchies, or security-sensitive boundaries.</p>
+<p>Use <code>FinalMeta</code> or <code>FinalABCMeta</code> when a class must never be subclassed — framework-level base classes, sealed hierarchies, security boundaries. Use <code>@runtime_final</code> on methods that subclasses should call but never override.</p>
 
 
 

@@ -5807,7 +5807,7 @@
 <h1 id="infrastructure">Infrastructure<a class="headerlink" href="#infrastructure" title="Permanent link">&para;</a></h1>
 <h2 id="technical-adapters">Technical adapters<a class="headerlink" href="#technical-adapters" title="Permanent link">&para;</a></h2>
 <p>The <strong>Infrastructure</strong> block provides concrete implementations of outbound ports. It contains all technical details — I/O, serialization, networking, persistence.</p>
-<p>Depends on <strong>Application</strong> (for port definitions) and <strong>Foundation</strong>. Does not depend on Domain or Presentation.</p>
+<p>Depends on <strong>Application</strong> (for port definitions), <strong>Domain</strong> (for aggregate types), and <strong>Foundation</strong>. Does not depend on Presentation.</p>
 <hr />
 <h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
 <p>Infrastructure adapters implement the contracts defined by Application outbound ports.</p>
@@ -5839,7 +5839,7 @@
 <li>Define business rules or domain logic</li>
 <li>Orchestrate workflows</li>
 <li>Make architectural decisions about port shape</li>
-<li>Depend on Presentation or Domain</li>
+<li>Depend on Presentation</li>
 </ul>
 <hr />
 <h2 id="glossary">Glossary<a class="headerlink" href="#glossary" title="Permanent link">&para;</a></h2>

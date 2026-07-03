@@ -5814,6 +5814,7 @@
 <h2 id="caching">Caching<a class="headerlink" href="#caching" title="Permanent link">&para;</a></h2>
 <p>A dictionary-backed key-value cache implementing <code>CachePort</code>. Supports <code>get</code>, <code>set</code>, <code>delete</code>, and <code>clear</code>.</p>
 <h2 id="serialization">Serialization<a class="headerlink" href="#serialization" title="Permanent link">&para;</a></h2>
+<p>The <code>Serializable</code> protocol enables dictionary round-tripping via <code>to_dict()</code> and <code>from_dict()</code>. Any class with matching method signatures satisfies it automatically — no inheritance needed.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
 <p>These adapters implement the corresponding outbound ports from Application. Use the in-memory versions for tests; swap to real implementations (database, HTTP, filesystem) in production. <code>Serializable</code> is structural — any class with <code>to_dict()</code>/<code>from_dict()</code> satisfies it automatically.</p>
 

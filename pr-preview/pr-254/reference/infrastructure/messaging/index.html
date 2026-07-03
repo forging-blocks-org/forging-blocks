@@ -5779,9 +5779,9 @@
 <h2 id="event-store">Event Store<a class="headerlink" href="#event-store" title="Permanent link">&para;</a></h2>
 <p>Append-only event log storing domain events chronologically. Supports <code>append</code> with optimistic concurrency (expected version check) and <code>get_events</code> for aggregate rebuilding.</p>
 <h2 id="event-bus">Event Bus<a class="headerlink" href="#event-bus" title="Permanent link">&para;</a></h2>
+<p>Publish/subscribe mechanism delivering domain events to registered handlers. Synchronous delivery to all subscribers.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
 <p>Use the in-memory message bus for tests and development. Register handlers at startup, dispatch messages at runtime. Use <code>CommandSender</code>, <code>EventPublisher</code>, and <code>QueryFetcher</code> as thin wrappers that satisfy the corresponding port protocols.</p>
-<p>Publish/subscribe mechanism delivering domain events to registered handlers. Synchronous delivery to all subscribers.</p>
 
 
 

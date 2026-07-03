@@ -5744,7 +5744,7 @@
 </ul>
 <p>The <code>AggregateRoot</code> base class provides identity-based equality (via <a href="../entities/">Entity</a>), domain event collection, and an abstract <code>apply(event)</code> method for event sourcing.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Inherit from <code>AggregateRoot</code> when you need a consistency boundary with version tracking (<code>AggregateVersion</code>) and automatic domain event collection. The base class provides identity equality (via <code>Entity</code>) and an <code>apply(event)</code> hook for event sourcing.</p>
+<p>Inherit from <code>AggregateRoot</code> when you need a consistency boundary with version tracking (<code>AggregateVersion</code>) and automatic domain event collection. The base class provides identity equality (via <code>Entity</code>). Override <code>_handle(event)</code> — not <code>apply()</code> — to define state transitions: <code>apply()</code> is <code>@runtime_final</code> and delegates to <code>_handle</code> after version and event bookkeeping.</p>
 <div class="admonition note">
 <p class="admonition-title">Influence: Vaughn Vernon</p>
 <p>The emphasis on consistency boundaries and controlled mutation is inspired by Vaughn Vernon. ForgingBlocks provides aggregates when boundaries matter, without requiring their use everywhere.</p>
