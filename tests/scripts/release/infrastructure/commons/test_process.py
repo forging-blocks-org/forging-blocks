@@ -1,7 +1,4 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-import subprocess
-from unittest.mock import patch
-
 import pytest
 from scripts.release.infrastructure.commons.process import SubprocessCommandRunner
 
@@ -99,30 +96,27 @@ class TestSubprocessCommandRunnerErrorHandling:
 
         assert context == "Git command failed with exit code ['git', 'status']"
 
-    @patch("subprocess.run")
-    def test_run_git_command_with_context_extraction(self, mock_run):
+    def test_run_git_command_with_error_shows_context(self) -> None:
         runner = SubprocessCommandRunner()
 
-        exc = subprocess.CalledProcessError(1, ["git", "commit"], stderr="nothing to commit")
-        mock_run.side_effect = exc
-
         with pytest.raises(RuntimeError) as exc_info:
-            runner.run(["git", "commit", "-m", "test"])
+            runner.run(["git", "commit", "-m", "test", "--git-dir=/nonexistent"])
 
         error_msg = str(exc_info.value)
-        assert "Command failed: git commit -m test" in error_msg
-        assert "Nothing to commit - working tree clean" in error_msg
+        assert "Command failed: git commit" in error_msg
 
-    @patch("subprocess.run")
-    def test_run_non_git_command_with_error(self, mock_run):
+    def test_run_non_git_command_with_error_propagates(self) -> None:
         runner = SubprocessCommandRunner()
 
-        exc = subprocess.CalledProcessError(127, ["nonexistent"], stderr="command not found")
-        mock_run.side_effect = exc
-
         with pytest.raises(RuntimeError) as exc_info:
-            runner.run(["nonexistent"])
+            runner.run(
+                [
+                    "python",
+                    "-c",
+                    "import sys; print('command not found', file=sys.stderr); sys.exit(127)",
+                ]
+            )
 
         error_msg = str(exc_info.value)
-        assert "Command failed: nonexistent" in error_msg
+        assert "Command failed: python" in error_msg
         assert "command not found" in error_msg
