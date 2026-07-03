@@ -12,5 +12,9 @@ Apply to any class:
 
 After `__init__` returns, any attempt to assign a frozen attribute raises `CantModifyImmutableAttributeError`. The decorator handles `__init__` nesting (inheritance chains) and skips abstract classes.
 
+## When to use
+
+`auto_freeze` is an alternative to inheriting from `ValueObject`. If your class already has its own base class and you only need immutability — without value-based equality or hashing — prefer `@auto_freeze`. If you also need equality-by-value, use the [ValueObject](value-objects.md) base class instead. Both are optional; you can use neither.
+
 !!! note "Design"
     `auto_freeze` injects a `__setattr__` override and a freeze flag. It detects existing custom `__setattr__` implementations and avoids double-wrapping.

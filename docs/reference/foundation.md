@@ -26,8 +26,8 @@ The Foundation block is pure Python — standard library only. It introduces no 
 - **[Ports](foundation/ports.md)** — Boundaries between components (InboundPort, OutboundPort)
 - **[Errors](foundation/errors.md)** — Structured error model (message + metadata, validation, rule violation, combined)
 - **[Messages](foundation/messages.md)** — Command, Event, Query (immutable, architecture-neutral)
-- **[Value Objects](foundation/value-objects.md)** — Immutable, value-based equality
-- **[Auto-Freeze](foundation/auto-freeze.md)** — Automatic immutability after `__init__`
+- **[Value Objects](foundation/value-objects.md)** — Immutable, value-based equality, hashing
+- **[Auto-Freeze](foundation/auto-freeze.md)** — Lightweight immutability without inheriting from ValueObject
 - **[Specifications](foundation/specifications.md)** — Composable predicates (and/or/not)
 - **[Mappers](foundation/mappers.md)** — Explicit transformations between types
 - **[Identified](foundation/identified.md)** — Protocol for objects carrying an identifier
