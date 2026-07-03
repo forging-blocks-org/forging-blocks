@@ -8,14 +8,26 @@ Foundation depends on nothing. All other blocks depend on Foundation.
 ---
 ## How it works
 
-Foundation is the bottom layer. Every other block imports from it. `Result` replaces exceptions for predictable control flow. `Port` defines boundaries as protocols. `Error` gives structure to failure. `ValueObject` adds immutability and value equality. `Specification` composes business rules.
+Foundation is the bottom layer. Every other block imports from it.
 
-These are not patterns you must use everywhere — they are tools you reach for when plain Python types stop communicating intent clearly enough.
+Each abstraction serves one focused purpose:
+
+- `Result` replaces exceptions for predictable control flow.
+- `Port` defines boundaries as protocols — what is expected, not how.
+- `Error` gives structure to failure with messages and metadata.
+- `ValueObject` adds immutability, value equality, and hashing.
+- `Specification` composes business rules into testable predicates.
+
+These are not patterns you must use everywhere. They are tools you reach for when plain Python types stop communicating intent clearly enough.
 
 ---
 ## How to use
 
-Start with `Result` — it is the most impactful abstraction. Replace functions that return `None` on failure or raise exceptions for flow control. Then adopt `Port` for any dependency you might swap later (repositories, event buses, loggers). Use `ValueObject` when you find the same validation scattered across functions.
+Start with the abstractions that give the most immediate value:
+
+1. **`Result`** — Replace functions that return `None` on failure or raise exceptions for control flow. Return `Ok(value)` or `Err(error)` instead.
+2. **`Port`** — Define a protocol for any dependency you might swap later: repositories, event buses, loggers.
+3. **`ValueObject`** — Wrap primitive values when validation logic is scattered across functions.
 
 The Foundation block is pure Python — standard library only. It introduces no framework dependencies.
 

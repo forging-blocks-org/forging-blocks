@@ -2,7 +2,9 @@
 
 ## Error Presenter
 
-`ErrorPresenter` converts errors into `ErrorViewModel` instances. Handles framework `Error` objects, `Result.Err` values, plain exceptions, and unknown types. Aggregate errors (`CombinedErrors`, `FieldErrors`) are recursively decomposed into individual messages.
+`ErrorPresenter` converts errors into `ErrorViewModel` instances.
+
+It handles framework `Error` objects, `Result.Err` values, plain exceptions, and unknown types. Aggregate errors like `CombinedErrors` and `FieldErrors` are recursively decomposed into individual messages.
 
 ## Error Status Code Mapper
 

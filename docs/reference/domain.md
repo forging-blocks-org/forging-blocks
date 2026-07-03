@@ -8,14 +8,23 @@ It depends only on **Foundation**. It must not depend on Application, Infrastruc
 ---
 ## How it works
 
-Domain code expresses *meaning* through typed abstractions rather than primitives. An `Entity` carries identity through its lifecycle. A `ValueObject` captures a concept by its values alone — immutable and hashable. An `AggregateRoot` wraps related entities inside a consistency boundary, protecting invariants. A `Specification` composes rules into testable predicates.
+Domain code expresses *meaning* through typed abstractions rather than primitives.
+
+- `Entity` — Carries identity through its lifecycle. Two entities with identical values are still distinct.
+- `ValueObject` — Captures a concept by its values alone. Immutable and hashable.
+- `AggregateRoot` — Wraps related entities inside a consistency boundary, protecting invariants.
+- `Specification` — Composes rules into testable, reusable predicates.
 
 These abstractions are optional tools. You reach for them when plain types stop communicating intent.
 
 ---
 ## How to use
 
-Start small. Model a concept as a `ValueObject` when you find the same validation logic scattered across functions. Promote it to an `Entity` when identity matters — when two instances with the same values must be distinguishable. Introduce an `AggregateRoot` when a group of objects must stay consistent together.
+Start small and promote as complexity grows:
+
+1. **`ValueObject`** — When the same validation logic is scattered across functions, wrap it into a typed value.
+2. **`Entity`** — When two instances with the same values must be distinguishable, give it an identity.
+3. **`AggregateRoot`** — When a group of objects must stay consistent together, define a boundary around them.
 
 The Domain block is the innermost ring. It imports nothing from outer layers. When you change a database or a framework, domain code should not need to change.
 

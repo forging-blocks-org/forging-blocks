@@ -6,9 +6,9 @@ All messages are frozen dataclasses with automatic serialization support (`to_di
 
 ## Types
 
-- **Command** — Represents an intent to do something. Handled by a `CommandHandler`. Does not return a value.
-- **Event** — Records something that happened. Handled by an `EventHandler`. Does not return a value.
-- **Query** — Asks for data. Handled by a `QueryHandler`. Returns a typed result.
+- **Command** — An intent to do something. Handled by a `CommandHandler`. No return value.
+- **Event** — Something that happened. Handled by an `EventHandler`. No return value.
+- **Query** — A request for data. Handled by a `QueryHandler`. Returns a typed result.
 
 ## Message dataclass decorator
 

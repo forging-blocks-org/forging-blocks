@@ -8,14 +8,27 @@ It depends on **Domain** and **Foundation**. It must not depend on Presentation 
 ---
 ## How it works
 
-The Application block sits between the outside world and the Domain as a behavioral boundary. A `UseCase` receives a request through an inbound port, coordinates domain objects, invokes outbound ports for persistence or side effects, and returns a `Result`. A `MessageHandler` reacts to a single message type — commands, events, or queries — with the same inbound/outbound pattern.
+The Application block sits between the outside world and the Domain as a behavioral boundary.
+
+**UseCase flow:**
+1. Receives a request through an inbound port.
+2. Coordinates domain objects.
+3. Invokes outbound ports for persistence or side effects.
+4. Returns a `Result[OutputType, Error]`.
+
+A `MessageHandler` follows the same pattern but reacts to a single message type — commands, events, or queries.
 
 Ports define *what* the application needs, never *how*. Outbound ports like `RepositoryPort` or `EventBusPort` are contracts. Infrastructure implements them. The Application block composes them without knowing their implementation.
 
 ---
 ## How to use
 
-Define an inbound port for each system capability. Implement it as a `UseCase` class. Inject outbound ports through the constructor — repositories, event buses, loggers. Return `Result[OutputType, Error]` so callers handle both paths explicitly.
+Wire up a use case step by step:
+
+1. Define an inbound port for each system capability.
+2. Implement it as a `UseCase` class.
+3. Inject outbound ports through the constructor — repositories, event buses, loggers.
+4. Return `Result[OutputType, Error]` so callers handle both paths explicitly.
 
 Keep use cases thin. They orchestrate; domain objects decide. When a use case grows, extract domain logic into value objects or entities. When it needs new I/O, add an outbound port and implement it in Infrastructure.
 

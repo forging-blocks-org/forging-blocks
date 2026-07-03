@@ -8,16 +8,30 @@ Depends on **Application** (for inbound ports). Does not depend on Domain or Inf
 ---
 ## How it works
 
-A `RequestAdapter` deserializes the raw transport request into typed use-case input. A `PresentationAdapter` orchestrates the lifecycle: adapt → execute → respond. On success, the `ResponseAdapter` renders the output. On failure — whether a `Result.Err` or a raised exception — the `ErrorPresenter` converts the error into an `ErrorViewModel`, the `ErrorStatusCodeMapper` assigns a status code, and the `ResponseAdapter` renders the error response.
+The `PresentationAdapter` orchestrates the full lifecycle:
+
+- **Adapt** — `RequestAdapter` deserializes the raw request into typed use-case input.
+- **Execute** — The use case runs and returns a value or a `Result`.
+- **Respond** — On success, `ResponseAdapter` renders the output.
+
+On failure, the error pipeline kicks in:
+
+- `ErrorPresenter` converts the error into an `ErrorViewModel`.
+- `ErrorStatusCodeMapper` assigns a status code.
+- `ResponseAdapter` renders the error response.
+
+This handles both `Result.Err` and raised exceptions, so callers can choose their error style.
 
 Middleware wraps the handler in a right-to-left chain. The `Pipeline` pre-builds the chain at construction. Each `Middleware` receives `(request, next_handler)` and may transform, observe, or short-circuit.
 
 ---
 ## How to use
 
-Define a `RequestAdapter` and `ResponseAdapter` for your transport (FastAPI, CLI, message queue). Wire them into a `PresentationAdapter` with your use case and an `ErrorPresenter`. For cross-cutting concerns like logging or auth, compose a `Middleware` chain through a `Pipeline`.
+1. Define a `RequestAdapter` and `ResponseAdapter` for your transport — FastAPI, CLI, message queue.
+2. Wire them into a `PresentationAdapter` with your use case and an `ErrorPresenter`.
+3. For cross-cutting concerns like logging or auth, compose a `Middleware` chain through a `Pipeline`.
 
-The Presentation block is the outermost ring. It should be thin — translate, delegate, render. Business logic lives in Domain. Coordination lives in Application.
+The Presentation block is the outermost ring. Keep it thin — translate, delegate, render. Business logic lives in Domain. Coordination lives in Application.
 
 ---
 ## Core abstractions

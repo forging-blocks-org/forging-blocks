@@ -8,16 +8,25 @@ Depends on **Application** (for port definitions) and **Foundation**. Does not d
 ---
 ## How it works
 
-Infrastructure adapters implement the contracts defined by Application outbound ports. An `InMemoryWriteRepository` satisfies `RepositoryPort` with a dictionary. An `InMemoryEventBus` satisfies `EventBusPort` with in-process publish/subscribe. Each adapter encapsulates a technology choice behind a port interface.
+Infrastructure adapters implement the contracts defined by Application outbound ports.
 
-The Application block only sees the port. You swap the adapter without touching application or domain code. A test can inject an in-memory store; production injects a PostgreSQL adapter — same port, different implementation.
+- An `InMemoryWriteRepository` satisfies `RepositoryPort` with a dictionary.
+- An `InMemoryEventBus` satisfies `EventBusPort` with in-process publish/subscribe.
+- Each adapter encapsulates a technology choice behind a port interface.
+
+The Application block only sees the port. You swap the adapter without touching application or domain code. A test injects an in-memory store. Production injects a PostgreSQL adapter. Same port, different implementation.
 
 ---
 ## How to use
 
 Start with in-memory implementations for fast feedback during development. They require no external services and run in tests. Graduate to real adapters when you need persistence, messaging, or external integration.
 
-Adapters are composable. A `UnitOfWork` wraps multiple repositories. A `MessageBus` dispatches to multiple handlers. Wire them together at startup — a composition root — and pass the resulting graph into the Application layer.
+Adapters are composable:
+
+- A `UnitOfWork` wraps multiple repositories.
+- A `MessageBus` dispatches to multiple handlers.
+
+Wire them together at startup — a composition root — and pass the resulting graph into the Application layer.
 
 ---
 ## Core abstractions

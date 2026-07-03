@@ -32,4 +32,9 @@ Handles both happy and error paths. Produces the final transport response.
 3b. Err/Exception → ErrorPresenter → ErrorStatusCodeMapper → ResponseAdapter.adapt_error()
 ```
 
-Key design: handles both `Result.Err` and raised exceptions. When `ErrorPresenter` is `None`, exceptions propagate unchanged. See [Error Handling](error-handling.md) for how errors are converted and rendered.
+Key design:
+
+- Handles both `Result.Err` and raised exceptions. Callers choose their style.
+- When `ErrorPresenter` is `None`, exceptions propagate unchanged.
+
+See [Error Handling](error-handling.md) for how errors are converted and rendered.

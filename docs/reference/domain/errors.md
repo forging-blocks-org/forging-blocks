@@ -1,6 +1,8 @@
 # Domain Errors
 
-Domain Errors represent invalid states or rule violations within the problem space. They express domain meaning, indicate invariant violations, and are not technical failures. They extend the [Foundation](../foundation.md) `Error` base class.
+Domain Errors represent invalid states or rule violations within the problem space.
+
+They express domain meaning, indicate invariant violations, and are not technical failures. They extend the [Foundation](../foundation.md) `Error` base class.
 
 ## Concrete error types
 
