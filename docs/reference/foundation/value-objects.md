@@ -11,7 +11,7 @@ A **ValueObject** is an immutable object with value-based equality and hashing.
 
 ## When to use
 
-Use `ValueObject` when the meaning of a concept is fully captured by its values — measurements, identifiers, monetary amounts, ranges. When two instances with the same values should be considered equal.
+Use `ValueObject` when you need immutability, value-based `__eq__`/`__hash__`, and optional `__dict__` serialization in one base class. Useful for any type where identity is irrelevant and field values define equality.
 
 !!! note "ValueObject vs auto-freeze"
     `ValueObject` gives you immutability, value equality, and hashing.

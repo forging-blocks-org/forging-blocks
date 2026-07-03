@@ -17,7 +17,7 @@ An Entity transitions through three states: draft (no ID), identified (ID assign
 
 ## When to use
 
-Choose an Entity when two instances with identical attribute values must be distinguishable. If all values being equal means they are interchangeable, use a [Value Object](value-objects.md) instead.
+Inherit from `Entity` when you need identity-based equality (`__eq__` / `__hash__` by ID) and the built-in lifecycle: draft → identified. The base class enforces that an ID, once set, cannot be changed or removed.
 
 !!! note "Influence: Eric Evans"
     The focus on identity as a defining characteristic is inspired by *Domain-Driven Design* by Eric Evans. ForgingBlocks adopts this idea without requiring a full DDD tactical model.
