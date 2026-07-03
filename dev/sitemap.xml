@@ -113,6 +113,18 @@
          <lastmod>2026-07-03</lastmod>
     </url>
     <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/application/errors/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/application/ports/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/application/use-cases/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/</loc>
          <lastmod>2026-07-03</lastmod>
     </url>
@@ -449,6 +461,10 @@
          <lastmod>2026-07-03</lastmod>
     </url>
     <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/error_status_code_mapper/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/error_view_model/</loc>
          <lastmod>2026-07-03</lastmod>
     </url>
@@ -465,7 +481,103 @@
          <lastmod>2026-07-03</lastmod>
     </url>
     <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/presentation_adapter/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/presenter_contract/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/request_adapter/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/response_adapter/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/domain/aggregates/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/domain/entities/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/domain/errors/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/domain/specifications/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/domain/value-objects/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/auto-freeze/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/errors/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/identified/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/mappers/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/messages/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/meta/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/ports/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/result/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/specifications/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/value-objects/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/infrastructure/adapters/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/infrastructure/messaging/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/infrastructure/persistence/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/presentation/adapters/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/presentation/error-handling/</loc>
+         <lastmod>2026-07-03</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/presentation/middleware/</loc>
          <lastmod>2026-07-03</lastmod>
     </url>
 </urlset>
