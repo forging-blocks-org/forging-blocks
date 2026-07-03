@@ -13,6 +13,9 @@ An OS-level filesystem adapter implementing `FileSystemPort`. Supports `read`, `
 A dictionary-backed key-value cache implementing `CachePort`. Supports `get`, `set`, `delete`, and `clear`.
 
 ## Serialization
+
+The `Serializable` protocol enables dictionary round-tripping via `to_dict()` and `from_dict()`. Any class with matching method signatures satisfies it automatically — no inheritance needed.
+
 ## When to use
 
 These adapters implement the corresponding outbound ports from Application. Use the in-memory versions for tests; swap to real implementations (database, HTTP, filesystem) in production. `Serializable` is structural — any class with `to_dict()`/`from_dict()` satisfies it automatically.

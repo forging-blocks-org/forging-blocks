@@ -14,7 +14,7 @@ The `AggregateRoot` base class provides identity-based equality (via [Entity](en
 
 ## When to use
 
-Inherit from `AggregateRoot` when you need a consistency boundary with version tracking (`AggregateVersion`) and automatic domain event collection. The base class provides identity equality (via `Entity`) and an `apply(event)` hook for event sourcing.
+Inherit from `AggregateRoot` when you need a consistency boundary with version tracking (`AggregateVersion`) and automatic domain event collection. The base class provides identity equality (via `Entity`). Override `_handle(event)` — not `apply()` — to define state transitions: `apply()` is `@runtime_final` and delegates to `_handle` after version and event bookkeeping.
 
 !!! note "Influence: Vaughn Vernon"
     The emphasis on consistency boundaries and controlled mutation is inspired by Vaughn Vernon. ForgingBlocks provides aggregates when boundaries matter, without requiring their use everywhere.

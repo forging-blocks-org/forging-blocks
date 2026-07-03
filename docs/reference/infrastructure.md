@@ -3,7 +3,7 @@
 
 The **Infrastructure** block provides concrete implementations of outbound ports. It contains all technical details — I/O, serialization, networking, persistence.
 
-Depends on **Application** (for port definitions) and **Foundation**. Does not depend on Domain or Presentation.
+Depends on **Application** (for port definitions), **Domain** (for aggregate types), and **Foundation**. Does not depend on Presentation.
 
 ---
 ## How it works
@@ -41,7 +41,7 @@ Wire them together at startup — a composition root — and pass the resulting 
 - Define business rules or domain logic
 - Orchestrate workflows
 - Make architectural decisions about port shape
-- Depend on Presentation or Domain
+- Depend on Presentation
 
 ---
 ## Glossary
