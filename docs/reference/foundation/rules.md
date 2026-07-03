@@ -26,4 +26,4 @@ class ValidationRule(ABC):
 Subclass `ValidationRule` for any synchronous validation check. Return `RuleViolationError` instances carrying `ErrorMessage` and `ErrorMetadata` with a field name and error code. Compose multiple rules with `CompositeValidationRule` to validate several constraints at once.
 
 !!! note "Related"
-    See [Domain Validators](../../domain/validators.md) for concrete rule implementations like `RequiredValidator`, `EmailValidator`, `LengthValidator`, and `RangeValidator`.
+    See [Domain Validators](../domain/validators.md) for concrete rule implementations like `RequiredValidator`, `EmailValidator`, `LengthValidator`, and `RangeValidator`.
