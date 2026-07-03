@@ -114,7 +114,7 @@ def update_nav(mkdocs: str, section: str) -> str:
         return re.sub(pattern, section + "\n", mkdocs)
 
     # Insert after Reference section
-    ref_pattern = r"(^  - Reference:\n(?:^      - .*\n)*)"
+    ref_pattern = r"(^  - Reference:\n(?:^      - .*\n|^          - .*\n)*)"
     match = re.search(ref_pattern, mkdocs, re.MULTILINE)
     if match:
         insert_pos = match.end()

@@ -16,16 +16,24 @@ from the primary/adapter side. It includes:
 
 from .error_message_model import ErrorMessageModel
 from .error_presenter import ErrorPresenter
+from .error_status_code_mapper import ErrorStatusCodeMapper
 from .error_view_model import ErrorViewModel
 from .middleware import Middleware
 from .pipeline import Pipeline
+from .presentation_adapter import PresentationAdapter
 from .presenter_contract import PresenterPort
+from .request_adapter import RequestAdapter
+from .response_adapter import ResponseAdapter
 
 __all__ = [
     "ErrorMessageModel",
     "ErrorPresenter",
+    "ErrorStatusCodeMapper",
     "ErrorViewModel",
     "Middleware",
     "Pipeline",
+    "PresentationAdapter",
     "PresenterPort",
+    "RequestAdapter",
+    "ResponseAdapter",
 ]

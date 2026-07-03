@@ -1,400 +1,70 @@
 # Application
-## Reference
+## What the system does
 
-The **Application** block defines **what the system does**.
+The **Application** block defines system behavior by coordinating domain concepts, handling incoming requests, and invoking outbound capabilities.
 
-It expresses system behavior by coordinating domain concepts, handling incoming requests, and invoking outbound capabilities.
-It does **not** contain business rules themselves, nor technical details.
-
----
-
-## Quick summary
-
-The **Application** block defines **what the system does** — it coordinates domain concepts, handles incoming requests, and invokes outbound capabilities. It sits between the outside world and the Domain as a **behavioral boundary**.
-
-Core abstractions:
-- **Inbound Ports** — How the system can be interacted with
-  - **Use Case** — Cohesive unit of application behavior (orchestrates domain + outbound)
-  - **Message Handler** — Reacts to a single message (Command, Event, Query)
-- **Outbound Ports** — Capabilities the application depends on
-  - **RepositoryPort** — Persistence abstraction (ReadOnly, WriteOnly, ReadWrite)
-  - **Specification RepositoryPort** — Read repository with specification-based queries
-  - **Unit of Work** — Transactional boundary
-  - **Message Bus** — Dispatches messages
-  - **Command Sender** — Fire-and-forget commands
-  - **Event Publisher** — Publishes domain events
-  - **Event Store** — Appends and retrieves domain events for event sourcing
-  - **Query Fetcher** — Retrieves data asynchronously
-- **Errors** — Application-level error types (UnitOfWorkPort, EventStorePort, EventBusPort, Concurrency)
-
-Depends on **Domain** and **Foundation**; must not depend on Presentation or Infrastructure implementations.
+It depends on **Domain** and **Foundation**. It must not depend on Presentation or Infrastructure implementations.
 
 ---
+## How it works
 
-The Application block exists to:
+The Application block sits between the outside world and the Domain as a behavioral boundary.
 
-- Represent system behaviors (use cases)
-- Coordinate domain operations
-- Define inbound and outbound ports
-- Delegate technical concerns to Infrastructure
+**UseCase flow:**
+1. Receives a request through an inbound port.
+2. Coordinates domain objects.
+3. Invokes outbound ports for persistence or side effects.
+4. Returns a `Result[OutputType, Error]`.
 
-The Application block depends on **Domain** and **Foundation**.
-It must not depend on Presentation or Infrastructure implementations.
+A `MessageHandler` follows the same pattern but reacts to a single message type — commands, events, or queries.
 
----
-
-!!! note "On architectural neutrality"
-    The Application block does not assume a specific architecture.
-    It can be used in layered, hexagonal, clean, CQRS, or message-driven systems.
-    The abstractions provided here define boundaries, not control flow.
+Ports define *what* the application needs, never *how*. Outbound ports like `RepositoryPort` or `EventBusPort` are contracts. Infrastructure implements them. The Application block composes them without knowing their implementation.
 
 ---
+## How to use
 
-## Responsibilities
+Wire up a use case step by step:
 
-The Application block is responsible for:
+1. Define an inbound port for each system capability.
+2. Implement it as a `UseCase` class.
+3. Inject outbound ports through the constructor — repositories, event buses, loggers.
+4. Return `Result[OutputType, Error]` so callers handle both paths explicitly.
 
-- Receiving intent from the outside (inbound ports)
-- Validating and coordinating operations
-- Invoking domain behavior
-- Interacting with outbound capabilities
-- Defining transactional boundaries
-
-It is **not** responsible for:
-
-- Enforcing domain invariants
-- Persisting data directly
-- Handling transport or frameworks
-- Implementing infrastructure concerns
+Keep use cases thin. They orchestrate; domain objects decide. When a use case grows, extract domain logic into value objects or entities. When it needs new I/O, add an outbound port and implement it in Infrastructure.
 
 ---
+## Core abstractions
 
-## Inbound Ports
-
-Inbound ports define **how the system can be interacted with**.
-
-They describe *what can be requested* from the application,
-without exposing internal implementation details.
-
----
-
-### Use Case
-
-A **Use Case** represents a cohesive unit of application behavior.
-
-Characteristics:
-
-- Expresses a system capability
-- Coordinates domain operations
-- Returns an explicit result
-- Does not depend on infrastructure
-
-Use Cases describe *what the system does*, not *how it is triggered*.
+- **[Use Cases](application/use-cases.md)** — Cohesive units of application behavior; coordinate domain + outbound
+- **[Message Handlers](application/use-cases.md)** — React to commands, events, and queries
+- **[Inbound & Outbound Ports](application/ports.md)** — How the system is interacted with and what it depends on
+- **[Application Errors](application/errors.md)** — Structured error types for application-level failures
 
 ---
+## What it does not do
 
-!!! note "Use cases as coordination"
-    A Use Case does not contain business rules.
-    It orchestrates domain behavior and outbound interactions,
-    keeping policy separate from details.
-
----
-
-### Message Handler
-
-A **Message Handler** represents an inbound boundary for handling messages
-such as commands, events, or queries.
-
-Characteristics:
-
-- Reacts to a single message type
-- Coordinates application behavior
-- Delegates domain logic
-- May invoke other outbound ports
-
-Message Handlers allow the application to participate in message-driven or asynchronous workflows.
+- Enforce domain invariants
+- Persist data directly
+- Handle transport or frameworks
+- Implement infrastructure concerns
 
 ---
-
-!!! note "Message handling vs use cases"
-    Use Cases and Message Handlers serve similar coordination roles.
-    The distinction is about *how intent arrives*, not about behavior.
-
----
-
-#### Specialized Handlers
-
-`MessageHandler` is parameterized into three specializations for common patterns:
-
-- **CommandHandler** — handles commands and returns no result (`MessageHandler[CommandType, None]`).
-- **EventHandler** — handles domain events and returns no result (`MessageHandler[EventType, None]`).
-- **QueryHandler** — handles queries and returns a typed result (`MessageHandler[QueryType, QueryResultType]`).
-
-These are type aliases of `MessageHandler` and do not introduce new behavior.
-
----
-
-## Outbound Ports
-
-Outbound ports define **capabilities the application depends on**.
-
-They allow the Application block to request external actions without knowing how those actions are implemented.
-
----
-
-### RepositoryPort Ports
-
-RepositoryPort ports abstract persistence concerns.
-
-Available variants:
-
-- **ReadOnlyRepository** — query-side access
-- **WriteOnlyRepository** — command-side persistence
-- **RepositoryPort** — combined read/write access
-
-Repositories:
-
-- Persist and retrieve aggregates
-- Abstract storage mechanisms
-- Do not enforce business rules
-
----
-
-!!! note "CQRS compatibility"
-    Separate read and write repositories support CQRS-style designs,
-    but using a combined repository is equally valid in simpler systems.
-
----
-
-### Specification RepositoryPort
-
-A **Specification RepositoryPort** extends `ReadOnlyRepository` with query methods
-that accept `Specification` predicates.
-
-It allows the application to query persisted objects by composable business
-rules rather than by raw identifiers alone:
-
-- `find_matching(spec)` returns all entities that satisfy a specification.
-- `count_matching(spec)` returns the count of satisfying entities.
-- `exists_matching(spec)` returns whether at least one entity satisfies a
-  specification.
-
-The specifications themselves are defined in the **Foundation** block, keeping
-the query contract decoupled from any persistence mechanism.
-
----
-
-### Unit of Work
-
-A **Unit of Work** defines a transactional boundary for application operations.
-
-Responsibilities include:
-
-- Managing a transactional context
-- Coordinating multiple repositories
-- Committing or rolling back changes
-- Publishing domain events upon success
-
-The Unit of Work ensures **consistency across operations**, without embedding domain logic.
-
----
-
-!!! note "Transactional consistency"
-    The Unit of Work coordinates persistence and side effects.
-    It does not execute business logic or manipulate aggregates directly.
-
----
-
-### Message Bus
-
-A **Message Bus** provides a generic mechanism for dispatching messages.
-
-It acts as a connector between the Application block and message-based infrastructure such as in-memory routers, queues, brokers, or external services.
-
-The Message Bus defines *dispatch*, not delivery semantics.
-
----
-
-### Command Sender
-
-A **Command Sender** allows the application to send commands asynchronously.
-
-Characteristics:
-
-- Fire-and-forget semantics
-- Delegates transport to a Message Bus
-- Decouples command issuance from handling
-
-Used when the application needs to trigger command-side behavior elsewhere.
-
----
-
-### Event Publisher
-
-An **Event Publisher** allows the application to publish domain events.
-
-Characteristics:
-
-- Publishes facts that occurred
-- Delegates delivery to a Message Bus
-- Does not guarantee ordering or durability
-
-Event publishing enables integration and eventual consistency.
-
----
-
-### Event Store
-
-An **Event Store** appends and retrieves domain events for event-sourced
-aggregates.
-
-It is agnostic of storage backend — in-memory, relational, or event-native
-implementations are all supported.
-
-Responsibilities include:
-
-- Appending new events to an aggregate's event stream.
-- Retrieving events within an optional version range.
-- Tracking the current version of each event stream.
-- Enforcing optimistic concurrency via an `expected_version` check.
-
-Operations return a `Result` that carries either the success value or an
-`EventStoreError`, making concurrency and storage failures explicit rather
-than exceptional.
-
----
-
-### Query Fetcher
-
-A **Query Fetcher** allows the application to retrieve data by dispatching queries through a Message Bus.
-
-Characteristics:
-
-- Asynchronous execution
-- Result shape defined by the query handler
-- No consistency guarantees between read and write models
-
----
-
-!!! note "Outbound ports and Infrastructure"
-    Outbound ports define *what the application needs*.
-    Infrastructure provides *how those needs are fulfilled*.
-
----
-
-## Errors
-
-The Application block defines its own **error types** for operations that can
-fail at the application boundary.
-
-These errors extend the Foundation `Error` base class and are commonly carried
-inside a `Result`:
-
-- `UnitOfWorkError` represents a failure within a Unit of Work, such as a
-  commit or rollback problem.
-- `EventStoreError` is the base error for event store operations.
-- `ConcurrencyError` is raised when an optimistic concurrency check fails,
-  carrying the aggregate id, expected version, and actual version.
-- `EventBusError` represents a failure in event bus dispatch, such as a missing
-  handler.
-
-Like Foundation errors, these are structured objects (message + metadata) that
-can be both returned inside `Err` and raised as exceptions.
-
----
-
-## What the Application block does not do
-
-The Application block does **not**:
-
-- Define domain rules
-- Manipulate infrastructure directly
-- Expose transport-specific APIs
-- Depend on frameworks or databases
-
-Those responsibilities belong to Domain, Infrastructure, or Presentation.
-
----
-
-## Relationship to other blocks
-
-- **Presentation** invokes inbound ports.
-- **Application** coordinates behavior.
-- **Domain** enforces business rules and invariants.
-- **Infrastructure** implements outbound ports.
-
-The Application block remains stable even as delivery mechanisms and infrastructure change.
-
----
-
-## Summary
-
-The Application block defines **behavioral boundaries**.
-
-It coordinates domain logic through clear inbound and outbound ports, keeping business rules isolated and technical details replaceable.
-
-Its purpose is orchestration, not computation.
-
----
-
 ## Glossary
 
-!!! note "Application Block"
-    The part of the system responsible for coordinating behavior.
-    It defines what the system does by orchestrating domain logic and invoking external capabilities through ports.
-
-!!! note "Inbound Port"
-    An abstraction that defines how external actors can interact with the application, without exposing internal details.
-
 !!! note "Use Case"
-    An inbound port that represents a cohesive unit of application behavior.
-    A use case coordinates domain operations and outbound interactions, but does not contain business rules itself.
+    An inbound port representing a cohesive unit of application behavior. Orchestrates domain operations and outbound interactions.
 
 !!! note "Message Handler"
-    An inbound port that reacts to a single incoming message (such as a command, event, or query) and coordinates application behavior.
+    An inbound port that reacts to a single message (command, event, or query).
 
-!!! note "Command Handler"
-    A specialized MessageHandler that handles commands. It is a type alias for ``MessageHandler[CommandType, None]``.
-
-!!! note "EventHandler"
-    A specialized MessageHandler that handles domain events. It is a type alias for ``MessageHandler[EventType, None]``.
-
-!!! note "Query Handler"
-    A specialized MessageHandler that handles queries and returns a typed result. It is a type alias for ``MessageHandler[QueryType, QueryResultType]``.
+!!! note "Inbound Port"
+    An abstraction defining how external actors interact with the application.
 
 !!! note "Outbound Port"
-    An abstraction that represents a capability the application depends on, such as persistence, messaging, or notification, without specifying how that capability is implemented.
+    An abstraction representing a capability the application depends on (persistence, messaging, etc.).
 
-!!! note "RepositoryPort"
-    An outbound port that abstracts access to persisted domain objects.
-    Repositories provide retrieval and storage operations without embedding domain rules or storage details.
-
-!!! note "Specification RepositoryPort"
-    An outbound port that extends a read-only repository with query methods
-    accepting ``Specification`` predicates for in-memory filtering.
+!!! note "Repository Port"
+    An outbound port abstracting access to persisted domain objects.
 
 !!! note "Unit of Work"
-    An outbound port that defines a transactional boundary.
-    It coordinates multiple persistence operations and ensures consistency across application-level changes.
-
-!!! note "Message Bus"
-    An outbound port that dispatches messages to handlers.
-    It defines routing and dispatch semantics without prescribing transport, delivery, or infrastructure mechanisms.
-
-!!! note "Command Sender"
-    An outbound port used to send commands asynchronously, decoupling command issuance from command handling.
-
-!!! note "Event Publisher"
-    An outbound port used to publish domain events, allowing the system to communicate facts that occurred without coupling to consumers or delivery mechanisms.
-
-!!! note "Event Store"
-    An outbound port that appends and retrieves domain events for event-sourced
-    aggregates, supporting optimistic concurrency via an expected version check.
-
-!!! note "Query Fetcher"
-    An outbound port used to retrieve data by issuing queries and receiving responses, typically without mutating state.
-
-!!! note "Application Errors"
-    Structured error types (``UnitOfWorkError``, ``EventStoreError``,
-    ``ConcurrencyError``, ``EventBusError``) that represent application-level
-    failures, extending the Foundation ``Error`` base class.
+    An outbound port defining a transactional boundary across multiple persistence operations.

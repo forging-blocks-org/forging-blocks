@@ -2,10 +2,12 @@
 
 from dataclasses import dataclass, field
 
+from forging_blocks.foundation.autofreeze import auto_freeze
 from forging_blocks.presentation.error_message_model import ErrorMessageModel
 
 
-@dataclass(frozen=True)
+@auto_freeze
+@dataclass
 class ErrorViewModel:
     """Holds one or more ``ErrorMessageModel`` entries produced by an
     ``ErrorPresenter``.
