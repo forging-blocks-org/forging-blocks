@@ -14,8 +14,8 @@ A dictionary-backed key-value cache implementing `CachePort`. Supports `get`, `s
 
 ## Serialization
 
-The `Serializable` protocol enables dictionary round-tripping via `to_dict()` and `from_dict()`. Any class with matching method signatures satisfies it automatically — no inheritance needed.
+`Serializable` is structural — any class with `to_dict()` / `from_dict()` methods satisfies the contract, enabling generic serialization infrastructure.
 
 ## When to use
 
-These adapters implement the corresponding outbound ports from Application. Use the in-memory versions for tests; swap to real implementations (database, HTTP, filesystem) in production. `Serializable` is structural — any class with `to_dict()`/`from_dict()` satisfies it automatically.
+These adapters implement the corresponding outbound ports from Application. Use the in-memory versions for tests; swap to real implementations (database, HTTP, filesystem) in production.
