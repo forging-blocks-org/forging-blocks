@@ -1,68 +1,59 @@
 # Infrastructure
-## Technical adapters to external systems
+## Technical adapters
 
-The **Infrastructure** block provides concrete implementations of ports defined in the Application block.
-It contains all technical details.
----
-## Quick summary
+The **Infrastructure** block provides concrete implementations of outbound ports. It contains all technical details — I/O, serialization, networking, persistence.
 
-The **Infrastructure** block provides **concrete implementations** of the outbound ports defined in the Application block. It handles all **technical details** — databases, APIs, message brokers, filesystems, serialization, networking — so the Application and Domain remain pure and testable.
-
-Typical implementations:
-- **Repositories** — SQL, NoSQL, in-memory, key-value stores
-- **Message Brokers** — RabbitMQ, Redis, Kafka, in-memory
-- **External API Clients** — HTTP, gRPC, third-party integrations
-- **Unit of Work** — Transaction management
-- **Serialization** — `Serializable` protocol for dictionary round-tripping
-
-Characteristics:
-- May use frameworks and libraries
-- Swappable implementations
-- Contains I/O, serialization, networking, persistence
-
-Depends on **Application** (for port definitions) and **Foundation**; does not depend on Domain or Presentation.
+Depends on **Application** (for port definitions), **Domain** (for aggregate types), and **Foundation**. Does not depend on Presentation.
 
 ---
-## Purpose
+## How it works
 
-- Fulfill outbound ports using real technology.
-- Integrate with databases, APIs, queues, filesystems, etc.
-- Keep technical concerns separate from behavior and rules.
+Infrastructure adapters implement the contracts defined by Application outbound ports.
 
----
+- An `InMemoryWriteRepository` satisfies `RepositoryPort` with a dictionary.
+- An `InMemoryEventBus` satisfies `EventBusPort` with in-process publish/subscribe.
+- Each adapter encapsulates a technology choice behind a port interface.
 
-```mermaid
-flowchart TD
-    A[Application<br/>Ports] --> I[Infrastructure<br/>Adapters]
-    I --> EXT[(External Systems)]
-```
+The Application block only sees the port. You swap the adapter without touching application or domain code. A test injects an in-memory store. Production injects a PostgreSQL adapter. Same port, different implementation.
 
 ---
+## How to use
 
-## Typical Elements
+Start with in-memory implementations for fast feedback during development. They require no external services and run in tests. Graduate to real adapters when you need persistence, messaging, or external integration.
 
-### **Repositories**
-SQL, NoSQL, in‑memory, key‑value stores.
+Adapters are composable:
 
-### **Message Brokers & Event Systems**
-Adapters for RabbitMQ, Redis, Kafka, etc.
+- A `UnitOfWork` wraps multiple repositories.
+- A `MessageBus` dispatches to multiple handlers.
 
-### **External API Clients**
-HTTP, gRPC, or other remote integrations.
-
-### **Serialization**
-The `Serializable` protocol defines a structural contract for objects that can
-be converted to and from plain dictionaries via `to_dict()` and `from_dict()`.
-
-It is structural — any class that defines both methods with matching signatures
-satisfies the protocol automatically, without explicit registration or
-inheritance. This enables generic serialization infrastructure (JSON adapters,
-database mappers, event stores) to work with any compliant type.
+Wire them together at startup — a composition root — and pass the resulting graph into the Application layer.
 
 ---
+## Core abstractions
 
-## Characteristics
+- **[Persistence](infrastructure/persistence.md)** — Repositories, Unit of Work
+- **[Messaging & Events](infrastructure/messaging.md)** — Message Buses, Event Stores, Event Buses
+- **[Technical Adapters](infrastructure/adapters.md)** — Logging, HTTP, File System, Caching, Serialization
 
-- May use frameworks and libraries.
-- Swappable implementations.
-- Contains I/O, serialization, networking, persistence.
+---
+## What it does not do
+
+- Define business rules or domain logic
+- Orchestrate workflows
+- Make architectural decisions about port shape
+- Depend on Presentation
+
+---
+## Glossary
+
+!!! note "Repository"
+    Persists and retrieves domain aggregates. Implements `RepositoryPort`.
+
+!!! note "Unit of Work"
+    Coordinates multiple repository operations within a transactional boundary.
+
+!!! note "Message Bus"
+    Dispatches commands, queries, and events to registered handlers.
+
+!!! note "Event Store"
+    Append-only event storage with optimistic concurrency for event sourcing.

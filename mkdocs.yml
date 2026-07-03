@@ -72,11 +72,40 @@ nav:
 
   - Reference:
       - Overview: reference/index.md
-      - Foundation: reference/foundation.md
-      - Domain: reference/domain.md
-      - Application: reference/application.md
-      - Infrastructure: reference/infrastructure.md
-      - Presentation: reference/presentation.md
+      - Foundation:
+          - Overview: reference/foundation.md
+          - Result: reference/foundation/result.md
+          - Ports: reference/foundation/ports.md
+          - Errors: reference/foundation/errors.md
+          - Messages: reference/foundation/messages.md
+          - Value Objects: reference/foundation/value-objects.md
+          - Auto-Freeze: reference/foundation/auto-freeze.md
+          - Specifications: reference/foundation/specifications.md
+          - Mappers: reference/foundation/mappers.md
+          - Identified: reference/foundation/identified.md
+          - Meta Utilities: reference/foundation/meta.md
+      - Domain:
+          - Overview: reference/domain.md
+          - Entities: reference/domain/entities.md
+          - Value Objects: reference/domain/value-objects.md
+          - Aggregate Roots: reference/domain/aggregates.md
+          - Specifications: reference/domain/specifications.md
+          - Errors: reference/domain/errors.md
+      - Application:
+          - Overview: reference/application.md
+          - Use Cases & Handlers: reference/application/use-cases.md
+          - Ports: reference/application/ports.md
+          - Errors: reference/application/errors.md
+      - Infrastructure:
+          - Overview: reference/infrastructure.md
+          - Persistence: reference/infrastructure/persistence.md
+          - Messaging: reference/infrastructure/messaging.md
+          - Adapters: reference/infrastructure/adapters.md
+      - Presentation:
+          - Overview: reference/presentation.md
+          - Adapters: reference/presentation/adapters.md
+          - Error Handling: reference/presentation/error-handling.md
+          - Middleware: reference/presentation/middleware.md
       - Testing: reference/testing.md
   - Architectural Styles:
       - Overview: architectural-styles/index.md
