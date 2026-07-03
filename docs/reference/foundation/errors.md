@@ -26,5 +26,9 @@ Foundation provides a **structured error model** — every failure carries a mes
 
 All errors extend the `Error` base class and carry structured messages.
 
+## When to use
+
+Subclass `Error` for your own error types. Use `ValidationError` for input failures, `RuleViolationError` for business rule violations. Use `FieldErrors` and `CombinedErrors` to group multiple failures. Every error carries an `ErrorMessage` and `ErrorMetadata` for structured handling.
+
 !!! note "Related"
     See [Domain Errors](../domain/errors.md) and [Application Errors](../application/errors.md) for block-specific error types.

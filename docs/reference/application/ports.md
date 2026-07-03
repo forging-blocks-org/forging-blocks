@@ -11,6 +11,10 @@ Inbound ports describe *what can be requested* from the application without expo
 
 Both share the same contract: receive a typed input, return a typed output (or `None` for fire-and-forget handlers).
 
+## When to use
+
+Define an inbound port (extending `InboundPort`) for every system capability the outside world can invoke. Define an outbound port (extending `OutboundPort`) for every dependency the application needs. Ports are Protocols — any implementation that matches the shape satisfies the contract.
+
 ## Outbound Ports
 
 Outbound ports describe *what the application needs* from the outside world:

@@ -11,6 +11,10 @@ Responsibilities:
 
 Framework-aware. Stateless — produces a value, no side effects.
 
+## When to use (RequestAdapter)
+
+Implement `RequestAdapter` for each transport your system supports — HTTP requests, CLI arguments, message queue payloads. The protocol is generic; your implementation handles the specific deserialization.
+
 ## Response Adapter
 
 `ResponseAdapter[UseCaseOutput, RawResponse]` translates application output into transport responses.

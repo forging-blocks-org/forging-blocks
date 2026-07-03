@@ -13,4 +13,8 @@ Repositories bridge domain aggregates and persistence.
 
 Manages a transactional boundary around repository operations. Tracks new and dirty aggregates, flushes events on commit, provides `commit`/`rollback` semantics.
 
+## When to use
+
+Use the in-memory implementations for tests and development — no external dependencies. `BaseRepository` gives you `get`/`add`/`remove` for free; extend it for domain-specific queries. Use `AggregateRepository` when you need `UnitOfWorkPort` integration and event publishing.
+
 Multiple repository operations within a single use case are treated as one atomic unit.

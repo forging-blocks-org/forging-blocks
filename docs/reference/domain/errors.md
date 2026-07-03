@@ -11,6 +11,10 @@ They express domain meaning, indicate invariant violations, and are not technica
 - **EntityIdDeletionError** — Raised when attempting to delete an entity's identifier
 - **DraftEntityIsNotHashableError** — Raised because draft (unsaved) entities are not hashable
 
+## When to use
+
+Raise these errors from domain code when an entity's identity contract is violated. They extend the [Foundation](../foundation.md) `Error` base class, so they carry structured messages and metadata consistent with the rest of the system.
+
 All entity errors protect the identity lifecycle — IDs are assigned once, never deleted, and never modified.
 
 !!! note "On error semantics"

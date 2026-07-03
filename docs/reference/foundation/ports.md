@@ -14,5 +14,9 @@ Ports define **boundaries** between components — what is expected, not how it 
 
 `OutboundPort` extends `Port`. Marks what a component needs: repositories, event buses, loggers, caches. Infrastructure implements these.
 
+## When to use
+
+Extend `InboundPort` for protocols that define how a component is called. Extend `OutboundPort` for protocols that define what a component depends on. These are markers — they carry no methods. They communicate architectural role to readers and tooling.
+
 !!! note "Related"
     See [Application Ports](../application/ports.md) for concrete inbound and outbound port definitions.

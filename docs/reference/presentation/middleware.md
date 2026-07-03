@@ -19,4 +19,8 @@ Inbound:   A → B → C → handler
 Outbound:  A ← B ← C ← handler
 ```
 
+## When to use
+
+Implement `Middleware` for any cross-cutting concern: logging, authentication, metrics, rate limiting. Compose them in a `Pipeline` and pass it to the `PresentationAdapter`. Order matters — the first middleware wraps the outermost layer.
+
 The chain is pre-built at construction. `execute()` is a single delegation.

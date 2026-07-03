@@ -13,4 +13,8 @@ Append-only event log storing domain events chronologically. Supports `append` w
 
 ## Event Bus
 
+## When to use
+
+Use the in-memory message bus for tests and development. Register handlers at startup, dispatch messages at runtime. Use `CommandSender`, `EventPublisher`, and `QueryFetcher` as thin wrappers that satisfy the corresponding port protocols.
+
 Publish/subscribe mechanism delivering domain events to registered handlers. Synchronous delivery to all subscribers.
