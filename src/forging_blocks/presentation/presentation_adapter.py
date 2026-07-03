@@ -97,7 +97,10 @@ class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
             result = cast("Result[UseCaseOutput, object]", use_case_output)
             if result.is_err:
                 if self._error_presenter is None:
-                    raise RuntimeError(str(result.error))
+                    error_value = result.error
+                    if isinstance(error_value, BaseException):
+                        raise error_value
+                    raise RuntimeError(str(error_value))
                 view_model = self._error_presenter.to_view_model(result.error)
                 mapped = self._status_mapper.map(view_model)
                 return self._response_adapter.adapt_error(mapped)

@@ -267,5 +267,5 @@ class TestPresentationAdapter:
     ) -> None:
         adapter = self._make_adapter(ResultErrorUseCase())
 
-        with pytest.raises(RuntimeError):
+        with pytest.raises(Error):
             await adapter.handle(DictRequest({"name": "test"}))
