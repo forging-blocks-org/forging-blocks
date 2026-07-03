@@ -1,6 +1,6 @@
 """Orchestrator that wires transport adapters to a use case with error handling.
 
-``PresentationAdapter`` handles both ``Result.Err`` and raised
+``PresentationAdapter`` handles both returned ``Err`` and raised
 ``Exception`` / ``Error``, so callers may choose their error-signalling
 style without changing the adapter.
 """
