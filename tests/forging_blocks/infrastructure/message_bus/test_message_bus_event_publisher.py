@@ -1,12 +1,11 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 from typing import Self
-from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from forging_blocks.application import MessageBusPort
 from forging_blocks.foundation.messages import Event, MessageMetadata
 from forging_blocks.infrastructure import MessageBusEventPublisher
+from tests.fixtures.fake_message_bus import FakeMessageBus
 
 
 class FakeEvent(Event):
@@ -27,22 +26,30 @@ class FakeEvent(Event):
 class TestMessageBusEventPublisher:
     """Integration tests for the MessageBusEventPublisher adapter."""
 
-    def test_init_when_called_then_stores_message_bus(self) -> None:
-        bus = MagicMock(spec=MessageBusPort)
+    @pytest.fixture
+    def fake_bus(self) -> FakeMessageBus:
+        return FakeMessageBus()
 
-        publisher = MessageBusEventPublisher(bus)
+    @pytest.fixture
+    def publisher(self, fake_bus: FakeMessageBus) -> MessageBusEventPublisher:
+        return MessageBusEventPublisher(fake_bus)
 
-        assert publisher._message_bus is bus
+    @pytest.fixture
+    def event(self) -> FakeEvent:
+        return FakeEvent()
 
-    async def test_publish_when_called_then_delegates_to_message_bus_dispatch(self) -> None:
-        bus = MagicMock(spec=MessageBusPort)
-        bus.dispatch = AsyncMock()
-        publisher = MessageBusEventPublisher(bus)
-        event = FakeEvent()
+    def test_init_when_called_then_stores_message_bus(self, fake_bus: FakeMessageBus) -> None:
+        publisher = MessageBusEventPublisher(fake_bus)
 
+        assert publisher._message_bus is fake_bus
+
+    async def test_publish_when_called_then_delegates_to_message_bus_dispatch(
+        self, publisher: MessageBusEventPublisher, event: FakeEvent, fake_bus: FakeMessageBus
+    ) -> None:
         await publisher.publish(event)
 
-        bus.dispatch.assert_awaited_once_with(event)
+        assert len(fake_bus.dispatched_messages) == 1
+        assert fake_bus.dispatched_messages[0] is event
 
     def test_implements_event_publisher_port(self) -> None:
         """MessageBusEventPublisher satisfies the EventPublisherPort protocol."""
