@@ -6340,7 +6340,7 @@
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AuthorizationContext</span><span class="p">,</span> <span class="n">permission</span><span class="p">:</span> <span class="n">Permission</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        <span class="o">...</span>
 </span></code></pre></div>
-<p>Implementations may be synchronous or asynchronous — callers always <code>await</code> the result.</p>
+<p>Implementations may internally use synchronous logic, but must expose an <code>async def check(...)</code> method — callers always <code>await</code> the result.</p>
 <h2 id="rolebasedpermissionchecker">RoleBasedPermissionChecker<a class="headerlink" href="#rolebasedpermissionchecker" title="Permanent link">&para;</a></h2>
 <p>Grants permissions based on a static mapping of roles to allowed permissions. Looks up the user's roles in the <code>AuthorizationContext</code> and checks whether any assigned role includes the requested permission.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">checker</span> <span class="o">=</span> <span class="n">RoleBasedPermissionChecker</span><span class="p">({</span>
