@@ -12,7 +12,7 @@ class PermissionChecker(Protocol):
         ...
 ```
 
-Implementations may be synchronous or asynchronous — callers always `await` the result.
+Implementations may internally use synchronous logic, but must expose an `async def check(...)` method — callers always `await` the result.
 
 ## RoleBasedPermissionChecker
 
