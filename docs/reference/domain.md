@@ -36,6 +36,8 @@ The Domain block is the innermost ring. It imports nothing from outer layers. Wh
 - **[Aggregate Root](domain/aggregates.md)** — Consistency boundary; controls mutation and invariants
 - **[Specification](domain/specifications.md)** — Composable predicates for business rules, querying, and validation
 - **[Domain Errors](domain/errors.md)** — Invalid states and rule violations in domain terms
+- **[Validators](domain/validators.md)** — Concrete validation rules (RequiredValidator, EmailValidator, LengthValidator, RangeValidator)
+- **[Permissions](domain/permissions.md)** — Composable permission checkers (RoleBased, ResourceBased, Composite)
 
 ---
 ## What it does not do

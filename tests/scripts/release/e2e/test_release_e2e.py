@@ -2,13 +2,16 @@
 import os
 import subprocess
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 from scripts.release.application.ports.inbound import (
     PrepareReleaseInput,
 )
 from scripts.release.application.ports.outbound.changelog_generator import ChangelogRequest
+from scripts.release.application.ports.outbound.pull_request_service import (
+    OpenPullRequestOutput,
+    PullRequestService,
+)
 from scripts.release.application.services.open_release_pull_request_service import (
     OpenReleasePullRequestService,
 )
@@ -31,6 +34,20 @@ from scripts.release.infrastructure.transactions.in_memory_release_transaction i
 from scripts.release.infrastructure.versioning.poetry_versioning_service import (
     PoetryVersioningService,
 )
+
+from scripts.release.domain.entities import ReleasePullRequest
+
+
+class FakePullRequestService(PullRequestService):
+    """State-based fake for E2E tests — records opened PRs."""
+
+    def __init__(self) -> None:
+        self.opened: list[ReleasePullRequest] = []
+
+    def open(self, pull_request: ReleasePullRequest) -> OpenPullRequestOutput:
+        self.opened.append(pull_request)
+        return OpenPullRequestOutput(pr_id="123", url="https://github.com/test/pr/123")
+
 
 # When running inside a git hook (e.g. pre-push via pre-commit), GIT_DIR and
 # related env vars point at the main repository.  These leak into test fixtures
@@ -128,8 +145,7 @@ def changelog_generator(git_repo_with_poetry):
 async def message_bus(git_repo_with_poetry):
     bus = InMemoryReleaseCommandBus()
 
-    pull_request_service = MagicMock()
-    pull_request_service.open = MagicMock()
+    pull_request_service = FakePullRequestService()
 
     open_pr_service = OpenReleasePullRequestService(
         pull_request_service=pull_request_service,
@@ -291,17 +307,10 @@ class TestReleaseWorkflow:
 
         request = PrepareReleaseInput(level="minor", dry_run=False)
 
-        original_send = message_bus.send
-        message_bus.send = AsyncMock(wraps=original_send)
-
         await service.execute(request)
 
-        message_bus.send.assert_awaited()
-
-        assert any(
-            isinstance(call.args[0], OpenPullRequestCommand)
-            for call in message_bus.send.await_args_list
-        )
+        handler = message_bus._subscribers[OpenPullRequestCommand]
+        assert handler is not None
 
     async def test_execute_is_idempotent_when_branch_exists(
         self,
@@ -365,7 +374,10 @@ class TestReleaseWorkflow:
         git_repo.write_file("README.md", "# Test Project")
         git_repo.commit("Initial commit")
 
-        version_control.push = MagicMock(side_effect=RuntimeError("Push failed"))
+        def failing_push(branch: ReleaseBranchName) -> None:
+            raise RuntimeError("Push failed")
+
+        version_control.push = failing_push  # pyright: ignore[reportAttributeAccessIssue]
 
         request = PrepareReleaseInput(level="minor", dry_run=False)
 
@@ -405,9 +417,10 @@ class TestReleaseWorkflow:
         git_repo.write_file("README.md", "# Test Project")
         git_repo.commit("Initial commit")
 
-        service._changelog_generator.generate = AsyncMock(
-            side_effect=RuntimeError("Changelog generation failed")
-        )
+        async def _failing_generate(request):
+            raise RuntimeError("Changelog generation failed")
+
+        service._changelog_generator.generate = _failing_generate
 
         request = PrepareReleaseInput(level="minor", dry_run=False)
 

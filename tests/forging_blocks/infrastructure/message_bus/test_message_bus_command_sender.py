@@ -1,12 +1,11 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 from typing import Any, Self
-from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from forging_blocks.application import MessageBusPort
 from forging_blocks.foundation.messages import Command, MessageMetadata
 from forging_blocks.infrastructure import MessageBusCommandSender
+from tests.fixtures.fake_message_bus import FakeMessageBus
 
 
 class FakeCommand(Command[str]):
@@ -26,22 +25,30 @@ class FakeCommand(Command[str]):
 class TestMessageBusCommandSender:
     """Integration tests for the MessageBusCommandSender adapter."""
 
-    def test_init_when_called_then_stores_message_bus(self) -> None:
-        bus = MagicMock(spec=MessageBusPort)
+    @pytest.fixture
+    def fake_bus(self) -> FakeMessageBus:
+        return FakeMessageBus()
 
-        sender = MessageBusCommandSender(bus)
+    @pytest.fixture
+    def sender(self, fake_bus: FakeMessageBus) -> MessageBusCommandSender:
+        return MessageBusCommandSender(fake_bus)
 
-        assert sender._message_bus is bus
+    @pytest.fixture
+    def command(self) -> FakeCommand:
+        return FakeCommand()
 
-    async def test_send_when_called_then_delegates_to_message_bus_dispatch(self) -> None:
-        bus = MagicMock(spec=MessageBusPort)
-        bus.dispatch = AsyncMock()
-        sender = MessageBusCommandSender(bus)
-        command = FakeCommand()
+    def test_init_when_called_then_stores_message_bus(self, fake_bus: FakeMessageBus) -> None:
+        sender = MessageBusCommandSender(fake_bus)
 
+        assert sender._message_bus is fake_bus
+
+    async def test_send_when_called_then_delegates_to_message_bus_dispatch(
+        self, sender: MessageBusCommandSender, command: FakeCommand, fake_bus: FakeMessageBus
+    ) -> None:
         await sender.send(command)
 
-        bus.dispatch.assert_awaited_once_with(command)
+        assert len(fake_bus.dispatched_messages) == 1
+        assert fake_bus.dispatched_messages[0] is command
 
     def test_implements_command_sender_port(self) -> None:
         """MessageBusCommandSender satisfies the CommandSenderPort protocol."""
