@@ -15,12 +15,15 @@ on:
         type: boolean
         default: false
 
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false  # Never cancel a running gh-pages deploy
+
 permissions:
   contents: write
 
 jobs:
   deploy-docs:
-    concurrency: docs-deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
