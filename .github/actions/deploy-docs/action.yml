@@ -8,14 +8,6 @@ inputs:
   version:
     description: "Documentation version to deploy (e.g., 'dev', '0.4.0')"
     required: true
-  author-name:
-    description: "Git author name for documentation commits"
-    required: false
-    default: "forging-blocks"
-  author-email:
-    description: "Git author email for documentation commits"
-    required: false
-    default: "forging-blocks-org@proton.me"
   dry-run:
     description: "Build and commit locally, do not push to gh-pages"
     required: false
@@ -50,14 +42,7 @@ runs:
         fi
 
     - name: Configure git
-      shell: bash
-      env:
-        GIT_AUTHOR_NAME: ${{ inputs.author-name }}
-        GIT_AUTHOR_EMAIL: ${{ inputs.author-email }}
-      run: |
-        git config --global user.name "$GIT_AUTHOR_NAME"
-        git config --global user.email "$GIT_AUTHOR_EMAIL"
-        echo "Git configured: $GIT_AUTHOR_NAME <$GIT_AUTHOR_EMAIL>"
+      uses: ./.github/actions/configure-git
 
     - name: Setup Poetry
       if: inputs.skip-dependencies == 'false'

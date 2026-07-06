@@ -58,7 +58,9 @@ jobs:
         run: bash scripts/pipeline/create_github_release.sh
 
   deploy-docs:
-    concurrency: docs-deploy
+    concurrency:
+      group: gh-pages
+      cancel-in-progress: false
     needs: release
     runs-on: ubuntu-latest
     permissions:
@@ -80,5 +82,3 @@ jobs:
         uses: ./.github/actions/deploy-docs
         with:
           version: ${{ needs.release.outputs.version }}
-          author-name: "github-actions[bot]"
-          author-email: "github-actions[bot]@users.noreply.github.com"
