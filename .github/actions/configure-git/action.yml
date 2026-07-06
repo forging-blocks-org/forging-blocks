@@ -1,27 +1,17 @@
 name: Configure Git
 description: >-
-  Set global git user configuration for automated commits. Used by deployment
-  and CI workflows to ensure consistent bot identity across commits.
+  Set global git user and committer configuration for automated commits.
 
-inputs:
-  author-name:
-    description: "Git author name for commits"
-    required: false
-    default: "forging-blocks-org"
-  author-email:
-    description: "Git author email for commits"
-    required: false
-    default: "forging-blocks-org@proton.me"
 runs:
   using: composite
   steps:
     - name: Configure git user
       shell: bash
       env:
-        GIT_AUTHOR_NAME: ${{ inputs.author-name }}
-        GIT_AUTHOR_EMAIL: ${{ inputs.author-email }}
-        GIT_COMMITTER_NAME: ${{ inputs.author-name }}
-        GIT_COMMITTER_EMAIL: ${{ inputs.author-email }}
+        GIT_AUTHOR_NAME: "forging-blocks"
+        GIT_AUTHOR_EMAIL: "forging-blocks-org@proton.me"
+        GIT_COMMITTER_NAME: "forging-blocks"
+        GIT_COMMITTER_EMAIL: "forging-blocks-org@proton.me"
       run: |
         git config --global user.name "$GIT_AUTHOR_NAME"
         git config --global user.email "$GIT_AUTHOR_EMAIL"

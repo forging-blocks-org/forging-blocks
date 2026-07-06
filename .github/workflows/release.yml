@@ -82,5 +82,3 @@ jobs:
         uses: ./.github/actions/deploy-docs
         with:
           version: ${{ needs.release.outputs.version }}
-          author-name: "github-actions[bot]"
-          author-email: "github-actions[bot]@users.noreply.github.com"
