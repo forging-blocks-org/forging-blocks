@@ -1,17 +1,16 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 from typing import Any, Self
-from unittest.mock import AsyncMock
 
 import pytest
-from pytest import fixture
 
-from forging_blocks.application import EventPublisherPort, UnitOfWorkError
+from forging_blocks.application import UnitOfWorkError
 from forging_blocks.domain.aggregate_root import AggregateRoot
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.messages.message import MessageMetadata
 from forging_blocks.infrastructure.unit_of_work.in_memory_unit_of_work import (
     InMemoryUnitOfWork,
 )
+from tests.fixtures.fake_event_publisher import FakeEventPublisher
 
 
 class FakeEvent(Event[str]):
@@ -47,17 +46,20 @@ class FakeAggregate(AggregateRoot[str, str]):
 
 @pytest.mark.unit
 class TestInMemoryUnitOfWork:
-    @fixture
-    def event_publisher(self) -> AsyncMock:
-        publisher = AsyncMock(spec=EventPublisherPort)
-        return publisher
+    @pytest.fixture
+    def event_publisher(self) -> FakeEventPublisher:
+        return FakeEventPublisher()
 
-    @fixture
+    @pytest.fixture
+    def failing_publisher(self) -> FakeEventPublisher:
+        return FakeEventPublisher(should_raise=RuntimeError("Publish failed"))
+
+    @pytest.fixture
     def aggregate(self) -> FakeAggregate:
         return FakeAggregate("agg-1")
 
     async def test_commit_when_modified_aggregate_has_events_then_publishes_them(
-        self, event_publisher: AsyncMock, aggregate: FakeAggregate
+        self, event_publisher: FakeEventPublisher, aggregate: FakeAggregate
     ) -> None:
         uow = InMemoryUnitOfWork(event_publisher)
         event = FakeEvent("something happened")
@@ -66,16 +68,16 @@ class TestInMemoryUnitOfWork:
         uow.register_modified(aggregate)
         await uow.commit()
 
-        event_publisher.publish.assert_called_once()
+        assert len(event_publisher.published_events) == 1
 
     async def test_commit_when_no_modified_aggregates_then_does_not_publish(
-        self, event_publisher: AsyncMock
+        self, event_publisher: FakeEventPublisher
     ) -> None:
         uow = InMemoryUnitOfWork(event_publisher)
 
         await uow.commit()
 
-        event_publisher.publish.assert_not_called()
+        assert len(event_publisher.published_events) == 0
 
     async def test_commit_when_no_event_publisher_then_completes_without_error(
         self, aggregate: FakeAggregate
@@ -92,12 +94,11 @@ class TestInMemoryUnitOfWork:
         assert len(uow._modified_aggregates) == 0
 
     async def test_commit_when_event_publisher_raises_then_wraps_error(
-        self, event_publisher: AsyncMock, aggregate: FakeAggregate
+        self, failing_publisher: FakeEventPublisher, aggregate: FakeAggregate
     ) -> None:
-        uow = InMemoryUnitOfWork(event_publisher)
+        uow = InMemoryUnitOfWork(failing_publisher)
         event = FakeEvent("data")
         aggregate.record_event(event)
-        event_publisher.publish.side_effect = RuntimeError("Publish failed")
 
         uow.register_modified(aggregate)
 

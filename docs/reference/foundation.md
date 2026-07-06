@@ -44,6 +44,8 @@ The Foundation block is pure Python — standard library only. It introduces no 
 - **[Mappers](foundation/mappers.md)** — Explicit transformations between types
 - **[Identified](foundation/identified.md)** — Protocol for objects carrying an identifier
 - **[Meta Utilities](foundation/meta.md)** — Runtime enforcement (final, sealed, abstract)
+- **[Context](foundation/context.md)** — Immutable context objects (ServiceContext, AuthorizationContext, TransactionContext)
+- **[Rules](foundation/rules.md)** — Composable validation rules (ValidationRule)
 
 ---
 ## What it does not do

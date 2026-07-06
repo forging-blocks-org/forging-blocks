@@ -13,6 +13,7 @@ from .notifier_port import NotifierPort
 from .query_fetcher_port import QueryFetcherPort
 from .repository_port import ReadOnlyRepositoryPort, RepositoryPort, WriteOnlyRepositoryPort
 from .specification_repository_port import SpecificationRepositoryPort
+from .transaction_manager_port import TransactionManagerPort
 from .unit_of_work_port import UnitOfWorkPort
 
 __all__ = [
@@ -31,5 +32,6 @@ __all__ = [
     "RepositoryPort",
     "WriteOnlyRepositoryPort",
     "SpecificationRepositoryPort",
+    "TransactionManagerPort",
     "UnitOfWorkPort",
 ]
