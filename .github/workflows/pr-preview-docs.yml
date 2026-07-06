@@ -7,13 +7,16 @@ on:
       - reopened
       - synchronize
       - closed
-    paths:
-      - "docs/**"
-      - "mkdocs.yml"
-      - "pyproject.toml"
-      - ".github/workflows/pr-preview-with-rossjrw.yml"
+    # No paths filter: always trigger so preview cleanup runs even if docs
+    # changes were reverted before close. Docs-change detection is done at
+    # step level via git diff (see "Detect docs changes" below).
 
-concurrency: preview-${{ github.ref }}
+# Closed PRs serialize with deploy-docs.yml/release.yml (gh-pages group) to prevent
+# race conditions. Open/sync'd PRs use per-PR group so different PR previews deploy
+# concurrently.
+concurrency:
+  group: ${{ github.event.action == 'closed' && 'gh-pages' || format('preview-{0}', github.ref) }}
+  cancel-in-progress: false  # Never cancel a running gh-pages deploy
 
 permissions:
   contents: write
@@ -28,30 +31,66 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Detect docs changes
+        id: docs-changed
+        env:
+          ACTION: ${{ github.event.action }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+
+          if [ "$ACTION" = "closed" ]; then
+            # Always run deploy step on close to ensure preview cleanup, even
+            # if docs changes were reverted (paths filter would miss this).
+            build="false"
+            do_deploy="true"
+          else
+            # Fetch base ref explicitly — actions/checkout may not have it
+            # as a local tracking ref even with fetch-depth: 0.
+            git fetch origin "$BASE_REF"
+
+            if git diff --name-only \
+                "origin/${BASE_REF}...HEAD" \
+                | grep -qE '^(docs/|mkdocs\.yml|pyproject\.toml|\.github/workflows/pr-preview-docs\.yml)'; then
+              build="true"
+              do_deploy="true"
+            else
+              build="false"
+              do_deploy="false"
+            fi
+          fi
+
+          echo "build=$build" >> "$GITHUB_OUTPUT"
+          echo "do-deploy=$do_deploy" >> "$GITHUB_OUTPUT"
+          echo "build=$build, do-deploy=$do_deploy"
+
       - name: Set up Python
+        if: steps.docs-changed.outputs.build == 'true'
         uses: actions/setup-python@v6
         with:
           python-version: "3.14"
 
       - name: Setup Poetry
+        if: steps.docs-changed.outputs.build == 'true'
         uses: ./.github/actions/setup-poetry
 
       - name: Install documentation dependencies
-        if: github.event.action != 'closed'
+        if: steps.docs-changed.outputs.build == 'true'
         run: |
           poetry install --no-interaction --with docs
 
       - name: Generate documentation pages
-        if: github.event.action != 'closed'
+        if: steps.docs-changed.outputs.build == 'true'
         run: |
           poetry run python scripts/generate_autodoc_pages.py
 
       - name: Build documentation site
-        if: github.event.action != 'closed'
+        if: steps.docs-changed.outputs.build == 'true'
         run: |
           poetry run mkdocs build --strict
 
       - name: Deploy PR preview
+        if: steps.docs-changed.outputs.do-deploy == 'true' && github.event.action != 'closed'
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./site/
@@ -60,4 +99,15 @@ jobs:
           action: auto
           comment: true
           qr-code: true
-          wait-for-pages-deployment: true
+          wait-for-pages-deployment: false
+
+      - name: Remove PR preview
+        if: steps.docs-changed.outputs.do-deploy == 'true' && github.event.action == 'closed'
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./site/
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: remove
+          comment: false
+          wait-for-pages-deployment: false
