@@ -1,0 +1,52 @@
+name: Deploy GitHub Pages
+
+# This workflow replaces the automatic "pages build and deployment" workflow
+# that GitHub triggers when Pages is configured for "Deploy from a branch".
+#
+# The automatic workflow splits build (artifact upload) and deploy into
+# separate jobs. If the deploy job fails and only that job is re-run, the
+# artifact from the build job will have expired, causing a cascading failure.
+#
+# This workflow fixes that by combining checkout, artifact upload, and
+# deployment into a SINGLE job, so every (re-)run always produces a fresh
+# artifact before deploying.
+#
+# Prerequisites:
+#   The repository's GitHub Pages source must be set to "GitHub Actions"
+#   (Settings → Pages → Source → GitHub Actions).
+
+on:
+  push:
+    branches: [gh-pages]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment at a time; never cancel an in-progress deployment.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
