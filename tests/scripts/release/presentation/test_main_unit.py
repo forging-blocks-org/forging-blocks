@@ -45,7 +45,6 @@ class TestMain:
             cls.return_value = mock_presenter
             yield cls
 
-    @pytest.mark.asyncio
     async def test_main_creates_container_and_initializes_it(
         self,
         mock_container_class: Mock,
@@ -59,7 +58,6 @@ class TestMain:
         mock_container_class.assert_called_once()
         mock_container.initialize.assert_called_once()
 
-    @pytest.mark.asyncio
     async def test_main_creates_parser_and_presenter(
         self,
         mock_container_class: Mock,
@@ -74,7 +72,6 @@ class TestMain:
         mock_parser_class.assert_called_once()
         mock_presenter_class.assert_called_once_with(mock_parser, mock_container)
 
-    @pytest.mark.asyncio
     async def test_main_calls_presenter_present_with_argv(
         self,
         mock_container_class: Mock,
@@ -89,7 +86,6 @@ class TestMain:
 
         mock_presenter.present.assert_called_once_with(argv)
 
-    @pytest.mark.asyncio
     async def test_main_with_none_argv_passes_none_to_presenter(
         self,
         mock_container_class: Mock,
@@ -102,7 +98,6 @@ class TestMain:
 
         mock_presenter.present.assert_called_once_with(None)
 
-    @pytest.mark.asyncio
     async def test_main_with_no_arguments_uses_default_none_argv(
         self,
         mock_container_class: Mock,
@@ -125,7 +120,6 @@ class TestMain:
             ["minor", "--some-flag"],
         ],
     )
-    @pytest.mark.asyncio
     async def test_main_execution_flow_with_different_argv_values(
         self,
         argv: list[str],
@@ -145,7 +139,6 @@ class TestMain:
         mock_presenter_class.assert_called_once_with(mock_parser, mock_container)
         mock_presenter.present.assert_called_once_with(argv)
 
-    @pytest.mark.asyncio
     async def test_main_awaits_container_initialization(
         self,
         mock_container_class: Mock,
@@ -179,7 +172,6 @@ class TestMain:
         assert presenter_created
         mock_container.initialize.assert_called_once()
 
-    @pytest.mark.asyncio
     async def test_main_awaits_presenter_present(
         self,
         mock_container_class: Mock,

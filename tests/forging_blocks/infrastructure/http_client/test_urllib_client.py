@@ -81,7 +81,6 @@ class TestURLLibClientUnit:
 
 
 @pytest.mark.integration
-@pytest.mark.asyncio
 class TestURLLibClientIntegration:
     """Integration tests against a local echo server."""
 

@@ -39,7 +39,6 @@ class TestOSFileSystem:
         """Create an OSFileSystem instance."""
         return OSFileSystem()
 
-    @pytest.mark.asyncio
     async def test_write_and_read(self, fs: OSFileSystem, tmp_path: Path) -> None:
         """Test writing and reading a file."""
         file_path = tmp_path / "test.txt"
@@ -50,7 +49,6 @@ class TestOSFileSystem:
 
         assert result == data
 
-    @pytest.mark.asyncio
     async def test_write_creates_parent_dirs(self, fs: OSFileSystem, tmp_path: Path) -> None:
         """Test that write creates parent directories."""
         file_path = tmp_path / "a" / "b" / "c" / "file.txt"
@@ -62,7 +60,6 @@ class TestOSFileSystem:
         result: bytes = await fs.read(file_path)
         assert result == data
 
-    @pytest.mark.asyncio
     async def test_delete(self, fs: OSFileSystem, tmp_path: Path) -> None:
         """Test deleting a file."""
         file_path = tmp_path / "delete_me.txt"
@@ -74,7 +71,6 @@ class TestOSFileSystem:
 
         assert not await fs.exists(file_path)
 
-    @pytest.mark.asyncio
     async def test_delete_nonexistent_raises(self, fs: OSFileSystem, tmp_path: Path) -> None:
         """Test deleting a non-existent file raises FileNotFoundError."""
         file_path = tmp_path / "ghost.txt"
@@ -82,7 +78,6 @@ class TestOSFileSystem:
         with pytest.raises(FileNotFoundError):
             await fs.delete(file_path)
 
-    @pytest.mark.asyncio
     async def test_exists(self, fs: OSFileSystem, tmp_path: Path) -> None:
         """Test checking if a path exists."""
         file_path = tmp_path / "exists.txt"
@@ -93,12 +88,10 @@ class TestOSFileSystem:
 
         assert await fs.exists(file_path)
 
-    @pytest.mark.asyncio
     async def test_exists_directory(self, fs: OSFileSystem, tmp_path: Path) -> None:
         """Test checking if a directory exists."""
         assert await fs.exists(tmp_path)
 
-    @pytest.mark.asyncio
     async def test_list_dir(self, fs: OSFileSystem, tmp_path: Path) -> None:
         """Test listing directory contents."""
         (tmp_path / "file1.txt").write_text("1")
@@ -111,7 +104,6 @@ class TestOSFileSystem:
         names: set[str] = {e.name for e in entries}
         assert names == {"file1.txt", "file2.txt", "subdir"}
 
-    @pytest.mark.asyncio
     async def test_list_dir_nonexistent_raises(self, fs: OSFileSystem, tmp_path: Path) -> None:
         """Test listing a non-existent directory raises FileNotFoundError."""
         with pytest.raises(FileNotFoundError):
@@ -125,7 +117,6 @@ class TestOSFileSystem:
         with pytest.raises(NotADirectoryError):
             await fs.list_dir(file_path)
 
-    @pytest.mark.asyncio
     async def test_read_nonexistent_raises(self, fs: OSFileSystem, tmp_path: Path) -> None:
         """Test reading a non-existent file raises FileNotFoundError."""
         file_path = tmp_path / "ghost.txt"
