@@ -1,3 +1,4 @@
+# pyright: reportAttributeAccessIssue=false, reportUnknownMemberType=false, reportArgumentType=false
 """Aggregate RepositoryPort implementation.
 
 Provides a repository specifically designed for AggregateRoot persistence
@@ -7,7 +8,7 @@ with event sourcing support.
 from typing import Any
 
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
-from forging_blocks.infrastructure.event_store import EventStorePort
+from forging_blocks.infrastructure.event_stores.event_store_base import EventStoreBase
 from forging_blocks.infrastructure.repositories.base_repository import BaseRepository
 
 
@@ -22,7 +23,7 @@ class AggregateRepository[TAggregateRoot: AggregateRoot[Any, Any], TId: Any](
 
     def __init__(
         self,
-        event_store: EventStorePort,
+        event_store: EventStoreBase,
         storage: dict[TId, TAggregateRoot] | None = None,
     ) -> None:
         """Initialize the aggregate repository.

@@ -1,4 +1,4 @@
-"""In-memory implementation of the EventBusPort port.
+"""In-memory implementation of the EventBusBase.
 
 Dispatches events to multiple registered handlers (fan-out) and
 commands to a single registered handler.  Handlers are looked up
@@ -12,15 +12,13 @@ from forging_blocks.application.ports.inbound.message_handler import (
     CommandHandler,
     EventHandler,
 )
-from forging_blocks.application.ports.outbound.event_bus_port import EventBusPort
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.result import Err, Ok, Result
+from forging_blocks.infrastructure.event_buses.event_bus_base import EventBusBase
 
 
-class InMemoryEventBus[EventPayloadType, CommandPayloadType](
-    EventBusPort[EventPayloadType, CommandPayloadType]
-):
+class InMemoryEventBusBase(EventBusBase):
     """In-memory event bus with separate event/command dispatch.
 
     Attributes:
@@ -55,7 +53,9 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType](
             return
         self._command_handlers[message_type] = cast(CommandHandler[object], handler)
 
-    async def publish(self, event: Event[EventPayloadType]) -> Result[None, EventBusError]:
+    async def publish[EventPayloadType](
+        self, event: Event[EventPayloadType]
+    ) -> Result[None, EventBusError]:
         """Publish an event to all registered handlers.
 
         Args:
@@ -66,14 +66,16 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType](
             handler raises.
         """
         handlers = self._event_handlers.get(type(event), [])
-        for handler in cast(list[EventHandler[EventPayloadType]], handlers):
+        for handler in cast("list[EventHandler[EventPayloadType]]", handlers):
             try:
                 await handler.handle(event)
             except Exception as exc:
                 return Err(EventBusError(str(exc)))
         return Ok(None)
 
-    async def send(self, command: Command[CommandPayloadType]) -> Result[None, EventBusError]:
+    async def send[CommandPayloadType](
+        self, command: Command[CommandPayloadType]
+    ) -> Result[None, EventBusError]:
         """Send a command to its registered handler.
 
         Args:
@@ -86,7 +88,7 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType](
         handler = self._command_handlers.get(type(command))
         if handler is None:
             return Err(EventBusError(f"No handler registered for {type(command).__name__}"))
-        typed_handler = cast(CommandHandler[CommandPayloadType], handler)
+        typed_handler = cast("CommandHandler[CommandPayloadType]", handler)
         try:
             await typed_handler.handle(command)
         except Exception as exc:
