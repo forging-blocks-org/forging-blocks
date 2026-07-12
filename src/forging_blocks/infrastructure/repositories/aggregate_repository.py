@@ -23,7 +23,7 @@ class AggregateRepository[TAggregateRoot: AggregateRoot[Any, Any], TId: Any](
 
     def __init__(
         self,
-        event_store: EventStoreBase,
+        event_store: EventStoreBase[object],
         storage: dict[TId, TAggregateRoot] | None = None,
     ) -> None:
         """Initialize the aggregate repository.

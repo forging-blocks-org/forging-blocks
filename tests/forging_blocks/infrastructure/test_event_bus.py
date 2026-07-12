@@ -31,13 +31,13 @@ class TestInMemoryEventBusBase:
     """Tests for the InMemoryEventBusBase implementation."""
 
     @pytest.fixture
-    def event_bus(self) -> InMemoryEventBusBase:
+    def event_bus(self) -> InMemoryEventBusBase[TestPayload, TestPayload]:
         """Create a fresh InMemoryEventBusBase for each test."""
-        return InMemoryEventBusBase()
+        return InMemoryEventBusBase[TestPayload, TestPayload]()
 
     async def test_publish_event(
         self,
-        event_bus: InMemoryEventBusBase,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
     ) -> None:
         """Test publishing an event to subscribers."""
         received: list[str] = []
@@ -54,7 +54,7 @@ class TestInMemoryEventBusBase:
 
     async def test_publish_to_multiple_subscribers(
         self,
-        event_bus: InMemoryEventBusBase,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
     ) -> None:
         """Test publishing an event to multiple subscribers."""
         received: list[str] = []
@@ -76,7 +76,7 @@ class TestInMemoryEventBusBase:
 
     async def test_publish_no_handlers(
         self,
-        event_bus: InMemoryEventBusBase,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
     ) -> None:
         """Test publishing an event with no subscribers."""
         result = await event_bus.publish(FakeEventWithValue("test-value"))
@@ -84,7 +84,7 @@ class TestInMemoryEventBusBase:
 
     async def test_send_command(
         self,
-        event_bus: InMemoryEventBusBase,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
     ) -> None:
         """Test sending a command to its handler."""
         handled: list[str] = []
@@ -100,7 +100,7 @@ class TestInMemoryEventBusBase:
 
     async def test_send_command_no_handler(
         self,
-        event_bus: InMemoryEventBusBase,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
     ) -> None:
         """Test sending a command with no handler returns error."""
         result = await event_bus.send(SimpleFakeCommand("test-value"))
@@ -109,7 +109,7 @@ class TestInMemoryEventBusBase:
 
     async def test_send_command_replaces_handler(
         self,
-        event_bus: InMemoryEventBusBase,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
     ) -> None:
         """Test that registering a handler twice replaces the previous one."""
         received_1: list[Command[TestPayload]] = []
@@ -134,7 +134,7 @@ class TestInMemoryEventBusBase:
 
     async def test_different_event_types(
         self,
-        event_bus: InMemoryEventBusBase,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
     ) -> None:
         """Test that different event types have separate handlers."""
         received_a: list[str] = []
@@ -185,7 +185,7 @@ class TestInMemoryEventBusBase:
 
     async def test_handler_error(
         self,
-        event_bus: InMemoryEventBusBase,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
     ) -> None:
         """Test that handler errors are captured as EventBusError."""
 

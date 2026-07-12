@@ -13,7 +13,7 @@ from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.result import Result
 
 
-class EventBusBase(ABC):
+class EventBusBase[EventPayloadType, CommandPayloadType](ABC):
     """Base class for event buses.
 
     Implementations handle:
@@ -23,9 +23,7 @@ class EventBusBase(ABC):
     """
 
     @abstractmethod
-    async def publish[EventPayloadType](
-        self, event: Event[EventPayloadType]
-    ) -> Result[None, EventBusError]:
+    async def publish(self, event: Event[EventPayloadType]) -> Result[None, EventBusError]:
         """Publish a domain event to all registered handlers.
 
         Args:
@@ -37,9 +35,7 @@ class EventBusBase(ABC):
         ...
 
     @abstractmethod
-    async def send[CommandPayloadType](
-        self, command: Command[CommandPayloadType]
-    ) -> Result[None, EventBusError]:
+    async def send(self, command: Command[CommandPayloadType]) -> Result[None, EventBusError]:
         """Send a command to its registered handler.
 
         Args:

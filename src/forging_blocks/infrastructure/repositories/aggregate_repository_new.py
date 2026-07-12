@@ -18,11 +18,11 @@ class AggregateRepository[TAggregateRoot: AggregateRoot[object, UUID], TId: UUID
     Extends BaseRepository with event store integration for event-sourced aggregates.
     """
 
-    _event_store: EventStoreBase
+    _event_store: EventStoreBase[object]
 
     def __init__(
         self,
-        event_store: EventStoreBase,
+        event_store: EventStoreBase[object],
         storage: dict[TId, TAggregateRoot] | None = None,
     ) -> None:
         super().__init__(storage)

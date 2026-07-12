@@ -13,7 +13,7 @@ from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.result import Result
 
 
-class EventStoreBase(ABC):
+class EventStoreBase[EventPayloadType](ABC):
     """Base class for event stores.
 
     Implementations must handle:
@@ -24,7 +24,7 @@ class EventStoreBase(ABC):
     """
 
     @abstractmethod
-    async def append_events[EventPayloadType](
+    async def append_events(
         self,
         aggregate_id: UUID,
         events: Sequence[Event[EventPayloadType]],
@@ -50,7 +50,7 @@ class EventStoreBase(ABC):
         aggregate_id: UUID,
         from_version: int | None = None,
         to_version: int | None = None,
-    ) -> Result[Sequence[Event[object]], EventStoreError]:
+    ) -> Result[Sequence[Event[EventPayloadType]], EventStoreError]:
         """Retrieve events from an aggregate's event stream.
 
         Args:

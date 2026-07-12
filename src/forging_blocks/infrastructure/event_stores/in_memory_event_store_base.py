@@ -20,7 +20,7 @@ from forging_blocks.infrastructure.event_stores.event_store_base import (
 )
 
 
-class InMemoryEventStoreBase(EventStoreBase):
+class InMemoryEventStoreBase[EventPayloadType](EventStoreBase[EventPayloadType]):
     """In-memory event store backed by dictionaries.
 
     Attributes:
@@ -31,10 +31,10 @@ class InMemoryEventStoreBase(EventStoreBase):
     __slots__ = ("_streams", "_versions")
 
     def __init__(self) -> None:
-        self._streams: dict[UUID, list[Event[object]]] = {}
+        self._streams: dict[UUID, list[Event[EventPayloadType]]] = {}
         self._versions: dict[UUID, int] = {}
 
-    async def append_events[EventPayloadType](
+    async def append_events(
         self,
         aggregate_id: UUID,
         events: Sequence[Event[EventPayloadType]],
@@ -68,7 +68,7 @@ class InMemoryEventStoreBase(EventStoreBase):
         aggregate_id: UUID,
         from_version: int | None = None,
         to_version: int | None = None,
-    ) -> Result[Sequence[Event[object]], EventStoreError]:
+    ) -> Result[Sequence[Event[EventPayloadType]], EventStoreError]:
         """Retrieve events within an optional version range.
 
         Args:
