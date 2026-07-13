@@ -4,6 +4,7 @@ Provides a repository specifically designed for AggregateRoot persistence
 with event sourcing support.
 """
 
+from typing import Any
 from uuid import UUID
 
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
@@ -13,7 +14,7 @@ from forging_blocks.infrastructure.repositories.base_repository import BaseRepos
 
 class AggregateRepository[
     EventPayloadType,
-    TAggregateRoot: AggregateRoot[UUID, EventPayloadType],
+    TAggregateRoot: AggregateRoot[UUID, Any],
     TId: UUID,
 ](BaseRepository[TAggregateRoot, TId]):
     """RepositoryPort for AggregateRoot persistence with event sourcing.
