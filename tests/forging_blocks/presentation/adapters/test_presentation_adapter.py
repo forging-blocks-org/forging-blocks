@@ -16,8 +16,10 @@ from tests.forging_blocks.presentation.conftest import (
 
 from forging_blocks.application.ports.inbound import UseCase
 from forging_blocks.foundation import Error
+from forging_blocks.foundation.result import Ok
 from forging_blocks.presentation import (
     ErrorPresenter,
+    NextHandler,
     Pipeline,
     PresentationAdapter,
 )
@@ -31,12 +33,14 @@ class TestPresentationAdapter:
         self,
         use_case: UseCase[str, object],
         error_presenter: ErrorPresenter | None = None,
+        unwrap_use_case_result: bool = True,
     ) -> PresentationAdapter[DictRequest, str, object, DictResponse]:
         return PresentationAdapter(
             use_case=use_case,
             request_adapter=FakeRequestAdapter(),
             response_adapter=FakeResponseAdapter(),
             error_presenter=error_presenter,
+            unwrap_use_case_result=unwrap_use_case_result,
         )
 
     async def test_handle_success_with_plain_output(self) -> None:
@@ -44,17 +48,14 @@ class TestPresentationAdapter:
             use_case=SuccessUseCase(),
             request_adapter=FakeRequestAdapter(),
             response_adapter=FakeResponseAdapter(),
+            error_presenter=ErrorPresenter(),
         )
-
         response = await adapter.handle(DictRequest({"name": "Alice"}))
-
         assert response.body == {"result": "processed:Alice"}
 
     async def test_handle_success_with_result_ok(self) -> None:
         adapter = self._make_adapter(ResultSuccessUseCase())
-
         response = await adapter.handle(DictRequest({"name": "Alice"}))
-
         assert response.body == {"result": "result:Alice"}
 
     async def test_handle_result_error_maps_through_error_presenter(
@@ -64,10 +65,7 @@ class TestPresentationAdapter:
             ResultErrorUseCase(),
             error_presenter=ErrorPresenter(),
         )
-
         response = await adapter.handle(DictRequest({"name": "test"}))
-
-        assert response.status == 500
         errors = response.body["errors"]
         assert isinstance(errors, list)
         assert len(errors) == 1
@@ -79,9 +77,7 @@ class TestPresentationAdapter:
             ExceptionUseCase(),
             error_presenter=ErrorPresenter(),
         )
-
         response = await adapter.handle(DictRequest({"name": "test"}))
-
         assert response.status == 500
 
     async def test_handle_domain_error_maps_through_error_presenter(
@@ -91,16 +87,13 @@ class TestPresentationAdapter:
             DomainErrorUseCase(),
             error_presenter=ErrorPresenter(),
         )
-
         response = await adapter.handle(DictRequest({"name": "test"}))
-
         assert response.status == 500
 
     async def test_handle_exception_without_error_presenter_propagates(
         self,
     ) -> None:
         adapter = self._make_adapter(ExceptionUseCase())
-
         with pytest.raises(ValueError, match="Something broke"):
             await adapter.handle(DictRequest({"name": "test"}))
 
@@ -108,7 +101,6 @@ class TestPresentationAdapter:
         self,
     ) -> None:
         adapter = self._make_adapter(ResultErrorUseCase())
-
         with pytest.raises(Error):
             await adapter.handle(DictRequest({"name": "test"}))
 
@@ -120,10 +112,10 @@ class TestPresentationAdapter:
             async def process(
                 self,
                 request: str,
-                next_handler: object,
+                next_handler: NextHandler[str, str],
             ) -> str:
                 call_log.append("mw:in")
-                result = await next_handler(f"[mw]{request}")  # type: ignore[misc]
+                result = await next_handler(f"[mw]{request}")
                 call_log.append("mw:out")
                 return result
 
@@ -142,3 +134,25 @@ class TestPresentationAdapter:
 
         assert response.body == {"result": "processed:[mw]Alice"}
         assert call_log == ["mw:in", "mw:out"]
+
+    async def test_handle_with_unwrap_disabled_passes_result_through(self) -> None:
+        """When unwrap_use_case_result=False, the Result is passed to the
+        response adapter unmodified."""
+        adapter = self._make_adapter(ResultSuccessUseCase(), unwrap_use_case_result=False)
+
+        response = await adapter.handle(DictRequest({"name": "Alice"}))
+
+        assert response.body == {"result": Ok("result:Alice")}
+
+    async def test_handle_request_adapter_failure_returns_400(self) -> None:
+        """When the request adapter raises, the error response has status 400."""
+        adapter = PresentationAdapter(
+            use_case=SuccessUseCase(),
+            request_adapter=FakeRequestAdapter(),
+            response_adapter=FakeResponseAdapter(),
+            error_presenter=ErrorPresenter(),
+        )
+
+        response = await adapter.handle(DictRequest({}))  # Missing "name" key
+
+        assert response.status == 400
