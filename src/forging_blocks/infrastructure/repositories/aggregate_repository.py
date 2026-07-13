@@ -94,11 +94,15 @@ class AggregateRepository[
 
         Returns:
             The retrieved aggregate or None if not found.
+
+        Raises:
+            EventStoreError: If the event store read fails. Callers can
+                distinguish infrastructure failures from "not found" (None).
         """
         aggregate = await super().get_by_id(id)
         if aggregate is not None:
             return aggregate
-        result = await self._event_store.get_events(id)  # type: ignore[arg-type]
-        if not result.is_ok or not result.value:
+        result = await self._event_store.get_events(cast(UUID, id))
+        if result.is_ok:
             return None
-        return None
+        raise result.error
