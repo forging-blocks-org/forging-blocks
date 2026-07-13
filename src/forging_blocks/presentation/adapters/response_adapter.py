@@ -2,7 +2,7 @@
 
 from typing import Protocol
 
-from forging_blocks.presentation.error_view_model import ErrorViewModel
+from forging_blocks.presentation.errors.error_view_model import ErrorViewModel
 
 
 class ResponseAdapter[UseCaseOutput, RawResponse](Protocol):

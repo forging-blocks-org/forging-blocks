@@ -3,17 +3,21 @@
 ``PresentationAdapter`` handles both returned ``Err`` and raised
 ``Exception`` / ``Error``, so callers may choose their error-signalling
 style without changing the adapter.
+
+An optional ``Pipeline`` wraps the use case in cross-cutting middleware
+(logging, timing, etc.) that executes before and after the handler.
 """
 
 from typing import TYPE_CHECKING, cast
 
 from forging_blocks.foundation.result import Result
-from forging_blocks.presentation.error_presenter import ErrorPresenter
-from forging_blocks.presentation.error_status_code_mapper import (
+from forging_blocks.presentation.adapters.request_adapter import RequestAdapter
+from forging_blocks.presentation.adapters.response_adapter import ResponseAdapter
+from forging_blocks.presentation.errors.error_presenter import ErrorPresenter
+from forging_blocks.presentation.errors.error_status_code_mapper import (
     ErrorStatusCodeMapper,
 )
-from forging_blocks.presentation.request_adapter import RequestAdapter
-from forging_blocks.presentation.response_adapter import ResponseAdapter
+from forging_blocks.presentation.middleware.pipeline import Pipeline
 
 if TYPE_CHECKING:
     from forging_blocks.application.ports.inbound import UseCase
@@ -35,6 +39,7 @@ class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
 
     __slots__ = (
         "_error_presenter",
+        "_pipeline",
         "_request_adapter",
         "_response_adapter",
         "_status_mapper",
@@ -47,6 +52,7 @@ class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
         request_adapter: RequestAdapter[RawRequest, UseCaseInput],
         response_adapter: ResponseAdapter[UseCaseOutput, RawResponse],
         error_presenter: ErrorPresenter | None = None,
+        pipeline: Pipeline[UseCaseInput, UseCaseOutput] | None = None,
     ) -> None:
         """Wire the adapter with its collaborators.
 
@@ -58,11 +64,17 @@ class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
                 transport responses (success and error).
             error_presenter: Optional error formatter. When omitted,
                 exceptions propagate unchanged.
+            pipeline: Optional pre-built middleware pipeline that
+                wraps *use_case*. When provided, ``pipeline.execute``
+                is called instead of ``use_case.execute`` directly.
+                The pipeline's terminal handler should be the use
+                case's ``execute`` method.
         """
         self._use_case = use_case
         self._request_adapter = request_adapter
         self._response_adapter = response_adapter
         self._error_presenter = error_presenter
+        self._pipeline = pipeline
         self._status_mapper = ErrorStatusCodeMapper()
 
     async def handle(self, raw_request: RawRequest) -> RawResponse:
@@ -85,7 +97,10 @@ class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
         """
         try:
             use_case_input = self._request_adapter.adapt(raw_request)
-            use_case_output = await self._use_case.execute(use_case_input)
+            if self._pipeline is not None:
+                use_case_output = await self._pipeline.execute(use_case_input)
+            else:
+                use_case_output = await self._use_case.execute(use_case_input)
         except Exception as exc:
             if self._error_presenter is None:
                 raise

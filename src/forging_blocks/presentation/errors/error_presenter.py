@@ -8,8 +8,8 @@ from collections.abc import Mapping
 from dataclasses import replace
 from typing import TYPE_CHECKING, cast
 
-from forging_blocks.presentation.error_message_model import ErrorMessageModel
-from forging_blocks.presentation.error_view_model import ErrorViewModel
+from forging_blocks.presentation.errors.error_message_model import ErrorMessageModel
+from forging_blocks.presentation.errors.error_view_model import ErrorViewModel
 
 if TYPE_CHECKING:
     from forging_blocks.foundation.errors import CombinedErrors, Error, FieldErrors

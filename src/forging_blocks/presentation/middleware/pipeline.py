@@ -9,7 +9,7 @@ the way in and last on the way out.
 
 from collections.abc import Awaitable, Callable, Sequence
 
-from forging_blocks.presentation.middleware import Middleware
+from forging_blocks.presentation.middleware.middleware import Middleware
 
 
 class Pipeline[RequestType, ResponseType]:

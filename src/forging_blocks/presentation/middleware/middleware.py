@@ -8,7 +8,7 @@ to the next handler in the chain.
 
 from typing import Protocol, runtime_checkable
 
-from forging_blocks.presentation.next_handler import NextHandler
+from forging_blocks.presentation.middleware.next_handler import NextHandler
 
 
 @runtime_checkable

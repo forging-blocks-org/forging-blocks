@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 
 from forging_blocks.foundation.autofreeze import auto_freeze
-from forging_blocks.presentation.error_message_model import ErrorMessageModel
+from forging_blocks.presentation.errors.error_message_model import ErrorMessageModel
 
 
 @auto_freeze
