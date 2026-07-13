@@ -9,7 +9,7 @@ from forging_blocks.foundation.autofreeze import auto_freeze
 
 
 @auto_freeze
-@dataclass(frozen=True)
+@dataclass
 class AuthorizationContext:
     """Bundles the information needed for a single authorization decision.
 

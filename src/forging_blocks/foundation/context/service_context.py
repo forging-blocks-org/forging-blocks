@@ -10,7 +10,7 @@ from forging_blocks.foundation.autofreeze import auto_freeze
 
 
 @auto_freeze
-@dataclass(frozen=True)
+@dataclass
 class ServiceContext:
     """Immutable context carried through every application-service call.
 

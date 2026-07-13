@@ -12,7 +12,7 @@ from forging_blocks.foundation.isolation_level import IsolationLevel
 
 
 @auto_freeze
-@dataclass(frozen=True)
+@dataclass
 class TransactionContext:
     """Metadata for a single transactional boundary.
 
