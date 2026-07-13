@@ -10,7 +10,6 @@ from forging_blocks.foundation.permission import Permission
 
 
 @pytest.mark.unit
-@pytest.mark.asyncio
 class TestRoleBasedPermissionChecker:
     async def test_when_role_has_permission_then_grants(self) -> None:
         checker = RoleBasedPermissionChecker({"admin": [Permission.READ, Permission.WRITE]})

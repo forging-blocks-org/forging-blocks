@@ -50,7 +50,6 @@ class TestOpenPullRequestHandler:
 
         assert handler._use_case is use_case
 
-    @pytest.mark.asyncio
     async def test_handle_when_called_then_creates_pr_input_with_command_data(
         self,
         handler: OpenPullRequestHandler,
@@ -66,7 +65,6 @@ class TestOpenPullRequestHandler:
         assert call_args.branch == "release/v1.2.0"
         assert call_args.dry_run is False
 
-    @pytest.mark.asyncio
     async def test_handle_when_dry_run_true_then_passes_dry_run_to_use_case(
         self, handler: OpenPullRequestHandler, use_case: FakeOpenReleasePullRequestUseCase
     ) -> None:
@@ -76,7 +74,6 @@ class TestOpenPullRequestHandler:
 
         assert use_case.execute_calls[0].dry_run is True
 
-    @pytest.mark.asyncio
     async def test_handle_when_use_case_raises_exception_then_propagates(
         self,
         handler: OpenPullRequestHandler,
@@ -88,7 +85,6 @@ class TestOpenPullRequestHandler:
         with pytest.raises(RuntimeError, match="Use case failed"):
             await handler.handle(command)
 
-    @pytest.mark.asyncio
     async def test_handle_when_called_with_different_versions_then_maps_correctly(
         self, handler: OpenPullRequestHandler, use_case: FakeOpenReleasePullRequestUseCase
     ) -> None:
@@ -105,7 +101,6 @@ class TestOpenPullRequestHandler:
         assert use_case.execute_calls[1].version == "2.1.3"
         assert use_case.execute_calls[2].version == "10.5.7"
 
-    @pytest.mark.asyncio
     async def test_handle_when_called_multiple_times_then_each_call_creates_separate_input(
         self, handler: OpenPullRequestHandler, use_case: FakeOpenReleasePullRequestUseCase
     ) -> None:

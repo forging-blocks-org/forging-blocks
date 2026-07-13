@@ -60,7 +60,6 @@ class TestBaseReadRepository:
         """Create a BaseReadRepository with test storage."""
         return BaseReadRepository[FakeEntity, str](storage)
 
-    @pytest.mark.asyncio
     async def test_get_by_id_existing(self, repo: BaseReadRepository[FakeEntity, str]) -> None:
         """Test getting an existing entity by ID."""
         entity = await repo.get_by_id("1")
@@ -68,13 +67,11 @@ class TestBaseReadRepository:
         assert entity.id == "1"
         assert entity.name == "Alice"
 
-    @pytest.mark.asyncio
     async def test_get_by_id_not_found(self, repo: BaseReadRepository[FakeEntity, str]) -> None:
         """Test getting a non-existent entity by ID."""
         entity = await repo.get_by_id("999")
         assert entity is None
 
-    @pytest.mark.asyncio
     async def test_list_all(self, repo: BaseReadRepository[FakeEntity, str]) -> None:
         """Test listing all entities."""
         entities = await repo.list_all()
@@ -82,7 +79,6 @@ class TestBaseReadRepository:
         names = {e.name for e in entities}
         assert names == {"Alice", "Bob", "Charlie"}
 
-    @pytest.mark.asyncio
     async def test_find_matching(self, repo: BaseReadRepository[FakeEntity, str]) -> None:
         """Test finding entities matching a specification."""
         spec = FakeSpecification("Ali")
@@ -90,14 +86,12 @@ class TestBaseReadRepository:
         assert len(entities) == 1
         assert entities[0].name == "Alice"
 
-    @pytest.mark.asyncio
     async def test_count_matching(self, repo: BaseReadRepository[FakeEntity, str]) -> None:
         """Test counting entities matching a specification."""
         spec = FakeSpecification("li")  # Alice, Charlie
         count = await repo.count_matching(spec)
         assert count == 2
 
-    @pytest.mark.asyncio
     async def test_exists_matching(self, repo: BaseReadRepository[FakeEntity, str]) -> None:
         """Test checking if any entity matches a specification."""
         spec = FakeSpecification("Bob")
@@ -108,7 +102,6 @@ class TestBaseReadRepository:
         exists = await repo.exists_matching(spec)
         assert exists is False
 
-    @pytest.mark.asyncio
     async def test_empty_storage(self) -> None:
         """Test repository with empty storage."""
         repo: BaseReadRepository[FakeEntity, str] = BaseReadRepository[FakeEntity, str]({})
@@ -124,7 +117,6 @@ class TestBaseWriteRepository:
         """Create a BaseWriteRepository."""
         return BaseWriteRepository[FakeEntity, str]()
 
-    @pytest.mark.asyncio
     async def test_save_entity(self, repo: BaseWriteRepository[FakeEntity, str]) -> None:
         """Test saving an entity."""
         entity = FakeEntity("1", "Alice")
@@ -132,7 +124,6 @@ class TestBaseWriteRepository:
 
         await repo.delete_by_id("1")
 
-    @pytest.mark.asyncio
     async def test_save_overwrites_existing(
         self, repo: BaseWriteRepository[FakeEntity, str]
     ) -> None:
@@ -144,7 +135,6 @@ class TestBaseWriteRepository:
 
         await repo.delete_by_id("1")
 
-    @pytest.mark.asyncio
     async def test_delete_by_id(self, repo: BaseWriteRepository[FakeEntity, str]) -> None:
         """Test deleting an entity by ID."""
         entity = FakeEntity("1", "Alice")
@@ -155,7 +145,6 @@ class TestBaseWriteRepository:
         with pytest.raises(RepositoryNotFoundError):
             await repo.delete_by_id("1")
 
-    @pytest.mark.asyncio
     async def test_delete_nonexistent_raises(
         self, repo: BaseWriteRepository[FakeEntity, str]
     ) -> None:
@@ -163,14 +152,12 @@ class TestBaseWriteRepository:
         with pytest.raises(RepositoryNotFoundError):
             await repo.delete_by_id("999")
 
-    @pytest.mark.asyncio
     async def test_save_none_id_raises(self, repo: BaseWriteRepository[FakeEntity, str]) -> None:
         """Test saving an entity with None ID raises RepositoryError."""
         entity = FakeEntity(name="Alice")
         with pytest.raises(RepositoryError):
             await repo.save(entity)
 
-    @pytest.mark.asyncio
     async def test_save_empty_string_id_raises(
         self, repo: BaseWriteRepository[FakeEntity, str]
     ) -> None:
@@ -179,7 +166,6 @@ class TestBaseWriteRepository:
         with pytest.raises(RepositoryError):
             await repo.save(entity)
 
-    @pytest.mark.asyncio
     async def test_save_false_id_raises(self, repo: BaseWriteRepository[FakeEntity, str]) -> None:
         """Test saving an entity with False ID raises RepositoryError."""
         entity = FakeEntity("1", "Alice")
@@ -187,7 +173,6 @@ class TestBaseWriteRepository:
         with pytest.raises(RepositoryError):
             await repo.save(entity)
 
-    @pytest.mark.asyncio
     async def test_delete_none_id_raises(self, repo: BaseWriteRepository[FakeEntity, str]) -> None:
         """Test deleting with None ID raises RepositoryError."""
         with pytest.raises(RepositoryError):
@@ -195,7 +180,6 @@ class TestBaseWriteRepository:
 
             await repo.delete_by_id(cast(str, None))
 
-    @pytest.mark.asyncio
     async def test_delete_empty_string_id_raises(
         self, repo: BaseWriteRepository[FakeEntity, str]
     ) -> None:
@@ -203,7 +187,6 @@ class TestBaseWriteRepository:
         with pytest.raises(RepositoryError):
             await repo.delete_by_id("")
 
-    @pytest.mark.asyncio
     async def test_delete_false_id_raises(self, repo: BaseWriteRepository[FakeEntity, str]) -> None:
         """Test deleting with False ID raises RepositoryError."""
         with pytest.raises(RepositoryError):
@@ -220,7 +203,6 @@ class TestBaseRepository:
         """Create a BaseRepository."""
         return BaseRepository[FakeEntity, str]()
 
-    @pytest.mark.asyncio
     async def test_full_crud(self, repo: BaseRepository[FakeEntity, str]) -> None:
         """Test full CRUD operations."""
         # Create
@@ -244,7 +226,6 @@ class TestBaseRepository:
         retrieved = await repo.get_by_id("1")
         assert retrieved is None
 
-    @pytest.mark.asyncio
     async def test_list_all_after_operations(self, repo: BaseRepository[FakeEntity, str]) -> None:
         """Test list_all reflects all operations."""
         await repo.save(FakeEntity("1", "Alice"))
@@ -258,7 +239,6 @@ class TestBaseRepository:
         assert len(entities) == 1
         assert entities[0].name == "Bob"
 
-    @pytest.mark.asyncio
     async def test_specification_queries(self, repo: BaseRepository[FakeEntity, str]) -> None:
         """Test specification-based queries work with full repository."""
         await repo.save(FakeEntity("1", "Alice"))

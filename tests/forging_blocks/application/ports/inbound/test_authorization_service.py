@@ -8,7 +8,6 @@ from forging_blocks.foundation.permission import Permission
 
 
 @pytest.mark.unit
-@pytest.mark.asyncio
 class TestAuthorizationService:
     async def test_when_check_permission_granted_then_returns_true(self) -> None:
         class PermissiveAuthorizationService(AuthorizationService):

@@ -1,133 +1,130 @@
-"""
-Tests for the EventBusPort port and InMemoryEventBus implementation.
-"""
+"""Tests for the EventBusBase base class and InMemoryEventBusBase implementation."""
 
-from typing import Any, Self
+from __future__ import annotations
 
 import pytest
 
+from forging_blocks.application.errors.event_bus_error import EventBusError
+from forging_blocks.application.ports.inbound.message_handler import CommandHandler, EventHandler
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.messages.message import MessageMetadata
-from forging_blocks.infrastructure.event_bus import EventBusPort, NoHandlerError
-from forging_blocks.infrastructure.in_memory_event_bus import InMemoryEventBus
+from forging_blocks.infrastructure.event_buses.event_bus_base import EventBusBase
+from forging_blocks.infrastructure.event_buses.in_memory_event_bus_base import InMemoryEventBusBase
 from tests.fixtures.fake_event_with_value import FakeEventWithValue
 from tests.fixtures.simple_fake_command import SimpleFakeCommand
-from tests.fixtures.simple_fake_command_with_value import SimpleFakeCommandWithValue
+
+TestPayload = dict[str, object]
 
 
-class TestEventBus:
-    """Tests for the EventBusPort port interface."""
+class TestEventBusBase:
+    """Tests for the EventBusBase base class."""
 
-    def test_event_bus_is_abstract(self):
-        """EventBusPort should be an abstract base class."""
-        assert hasattr(EventBusPort, "__abstractmethods__")
-        assert "publish" in EventBusPort.__abstractmethods__
-        assert "send" in EventBusPort.__abstractmethods__
-        assert "subscribe" in EventBusPort.__abstractmethods__
-        assert "register_command_handler" in EventBusPort.__abstractmethods__
+    def test_event_bus_is_abstract(self) -> None:
+        assert hasattr(EventBusBase, "__abstractmethods__")
+        assert "publish" in EventBusBase.__abstractmethods__
+        assert "send" in EventBusBase.__abstractmethods__
+        assert "register_handler" in EventBusBase.__abstractmethods__
 
 
-class TestInMemoryEventBus:
-    """Tests for the InMemoryEventBus implementation."""
+class TestInMemoryEventBusBase:
+    """Tests for the InMemoryEventBusBase implementation."""
 
     @pytest.fixture
-    def event_bus(self) -> InMemoryEventBus:
-        """Create a fresh InMemoryEventBus for each test."""
-        return InMemoryEventBus()
+    def event_bus(self) -> InMemoryEventBusBase[TestPayload, TestPayload]:
+        """Create a fresh InMemoryEventBusBase for each test."""
+        return InMemoryEventBusBase[TestPayload, TestPayload]()
 
-    @pytest.mark.asyncio
-    async def test_publish_event(self, event_bus: InMemoryEventBus) -> None:
+    async def test_publish_event(
+        self,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+    ) -> None:
         """Test publishing an event to subscribers."""
-        received_events: list[Event[Any]] = []
+        received: list[str] = []
 
-        async def handler(event: Event[Any]) -> None:
-            received_events.append(event)
+        class HandlerA(EventHandler[TestPayload]):
+            async def handle(self, message: Event[TestPayload]) -> None:
+                received.append("A")
 
-        event_bus.subscribe(FakeEventWithValue, handler)
+        event_bus.register_handler(FakeEventWithValue, HandlerA())
 
-        event = FakeEventWithValue("test-value")
-        await event_bus.publish(event)
+        result = await event_bus.publish(FakeEventWithValue("test-value"))
+        assert result.is_ok
+        assert received == ["A"]
 
-        assert len(received_events) == 1
-        event = received_events[0]
-        assert isinstance(event, FakeEventWithValue)
-        assert event.value["value"] == "test-value"
-
-    @pytest.mark.asyncio
-    async def test_publish_to_multiple_subscribers(self, event_bus: InMemoryEventBus) -> None:
+    async def test_publish_to_multiple_subscribers(
+        self,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+    ) -> None:
         """Test publishing an event to multiple subscribers."""
-        received_1: list[Event[Any]] = []
-        received_2: list[Event[Any]] = []
+        received: list[str] = []
 
-        async def handler1(event: Event[Any]) -> None:
-            received_1.append(event)
+        class HandlerA(EventHandler[TestPayload]):
+            async def handle(self, message: Event[TestPayload]) -> None:
+                received.append("A")
 
-        async def handler2(event: Event[Any]) -> None:
-            received_2.append(event)
+        class HandlerB(EventHandler[TestPayload]):
+            async def handle(self, message: Event[TestPayload]) -> None:
+                received.append("B")
 
-        event_bus.subscribe(FakeEventWithValue, handler1)
-        event_bus.subscribe(FakeEventWithValue, handler2)
+        event_bus.register_handler(FakeEventWithValue, HandlerA())
+        event_bus.register_handler(FakeEventWithValue, HandlerB())
 
-        event = FakeEventWithValue("test-value")
-        await event_bus.publish(event)
+        result = await event_bus.publish(FakeEventWithValue("test-value"))
+        assert result.is_ok
+        assert received == ["A", "B"]
 
-        assert len(received_1) == 1
-        assert len(received_2) == 1
-        e1 = received_1[0]
-        assert isinstance(e1, FakeEventWithValue)
-        assert e1.value["value"] == "test-value"
-        e2 = received_2[0]
-        assert isinstance(e2, FakeEventWithValue)
-        assert e2.value["value"] == "test-value"
-
-    @pytest.mark.asyncio
-    async def test_publish_no_subscribers(self, event_bus: InMemoryEventBus) -> None:
+    async def test_publish_no_handlers(
+        self,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+    ) -> None:
         """Test publishing an event with no subscribers."""
-        event = FakeEventWithValue("test-value")
-        # Should not raise
-        await event_bus.publish(event)
+        result = await event_bus.publish(FakeEventWithValue("test-value"))
+        assert result.is_ok
 
-    @pytest.mark.asyncio
-    async def test_send_command(self, event_bus: InMemoryEventBus) -> None:
+    async def test_send_command(
+        self,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+    ) -> None:
         """Test sending a command to its handler."""
-        received_commands: list[Command[Any]] = []
+        handled: list[str] = []
 
-        async def handler(command: Command[Any]) -> None:
-            received_commands.append(command)
+        class Handler(CommandHandler[TestPayload]):
+            async def handle(self, message: Command[TestPayload]) -> None:
+                handled.append("ok")
 
-        event_bus.register_command_handler(SimpleFakeCommandWithValue, handler)
+        event_bus.register_handler(SimpleFakeCommand, Handler())
+        result = await event_bus.send(SimpleFakeCommand("test-value"))
+        assert result.is_ok
+        assert handled == ["ok"]
 
-        command = SimpleFakeCommandWithValue("test-value")
-        await event_bus.send(command)
+    async def test_send_command_no_handler(
+        self,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+    ) -> None:
+        """Test sending a command with no handler returns error."""
+        result = await event_bus.send(SimpleFakeCommand("test-value"))
+        assert result.is_err
+        assert isinstance(result.error, EventBusError)
 
-        assert len(received_commands) == 1
-        c = received_commands[0]
-        assert isinstance(c, SimpleFakeCommandWithValue)
-        assert c.value["value"] == "test-value"
-
-    @pytest.mark.asyncio
-    async def test_send_command_no_handler(self, event_bus: InMemoryEventBus) -> None:
-        """Test sending a command with no handler raises NoHandlerError."""
-        command = SimpleFakeCommand("test-value")
-
-        with pytest.raises(NoHandlerError):
-            await event_bus.send(command)
-
-    @pytest.mark.asyncio
-    async def test_send_command_replaces_handler(self, event_bus: InMemoryEventBus) -> None:
+    async def test_send_command_replaces_handler(
+        self,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+    ) -> None:
         """Test that registering a handler twice replaces the previous one."""
-        received_1: list[Command[Any]] = []
-        received_2: list[Command[Any]] = []
+        received_1: list[Command[TestPayload]] = []
+        received_2: list[Command[TestPayload]] = []
 
-        async def handler1(command: Command[Any]) -> None:
-            received_1.append(command)
+        class Handler1(CommandHandler[TestPayload]):
+            async def handle(self, message: Command[TestPayload]) -> None:
+                received_1.append(message)
 
-        async def handler2(command: Command[Any]) -> None:
-            received_2.append(command)
+        class Handler2(CommandHandler[TestPayload]):
+            async def handle(self, message: Command[TestPayload]) -> None:
+                received_2.append(message)
 
-        event_bus.register_command_handler(SimpleFakeCommand, handler1)
-        event_bus.register_command_handler(SimpleFakeCommand, handler2)
+        event_bus.register_handler(SimpleFakeCommand, Handler1())
+        event_bus.register_handler(SimpleFakeCommand, Handler2())
 
         command = SimpleFakeCommand("test-value")
         await event_bus.send(command)
@@ -135,54 +132,68 @@ class TestInMemoryEventBus:
         assert len(received_1) == 0
         assert len(received_2) == 1
 
-    @pytest.mark.asyncio
-    async def test_different_event_types(self, event_bus: InMemoryEventBus) -> None:
+    async def test_different_event_types(
+        self,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+    ) -> None:
         """Test that different event types have separate handlers."""
+        received_a: list[str] = []
+        received_b: list[str] = []
 
-        class EventA(Event[dict[str, object]]):
+        class HandlerA(EventHandler[TestPayload]):
+            async def handle(self, message: Event[TestPayload]) -> None:
+                received_a.append("A")
+
+        class HandlerB(EventHandler[TestPayload]):
+            async def handle(self, message: Event[TestPayload]) -> None:
+                received_b.append("B")
+
+        class EventA(Event[TestPayload]):
             @property
-            def _payload(self) -> dict[str, object]:
+            def _payload(self) -> TestPayload:
                 return {"type": "A"}
 
             @property
-            def value(self) -> dict[str, object]:
+            def value(self) -> TestPayload:
                 return self._payload
 
             @classmethod
-            def _from_payload_fields(
-                cls, data: dict[str, object], metadata: MessageMetadata
-            ) -> Self:
+            def _from_payload_fields(cls, data: TestPayload, metadata: MessageMetadata) -> EventA:
                 return cls()
 
-        class EventB(Event[dict[str, object]]):
+        class EventB(Event[TestPayload]):
             @property
-            def _payload(self) -> dict[str, object]:
+            def _payload(self) -> TestPayload:
                 return {"type": "B"}
 
             @property
-            def value(self) -> dict[str, object]:
+            def value(self) -> TestPayload:
                 return self._payload
 
             @classmethod
-            def _from_payload_fields(
-                cls, data: dict[str, object], metadata: MessageMetadata
-            ) -> Self:
+            def _from_payload_fields(cls, data: TestPayload, metadata: MessageMetadata) -> EventB:
                 return cls()
 
-        received_a: list[Event[Any]] = []
-        received_b: list[Event[Any]] = []
-
-        async def handler_a(event: Event[Any]) -> None:
-            received_a.append(event)
-
-        async def handler_b(event: Event[Any]) -> None:
-            received_b.append(event)
-
-        event_bus.subscribe(EventA, handler_a)
-        event_bus.subscribe(EventB, handler_b)
+        event_bus.register_handler(EventA, HandlerA())
+        event_bus.register_handler(EventB, HandlerB())
 
         await event_bus.publish(EventA())
         await event_bus.publish(EventB())
 
-        assert len(received_a) == 1
-        assert len(received_b) == 1
+        assert received_a == ["A"]
+        assert received_b == ["B"]
+
+    async def test_handler_error(
+        self,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+    ) -> None:
+        """Test that handler errors are captured as EventBusError."""
+
+        class FailingHandler(EventHandler[TestPayload]):
+            async def handle(self, message: Event[TestPayload]) -> None:
+                raise ValueError("boom")
+
+        event_bus.register_handler(FakeEventWithValue, FailingHandler())
+        result = await event_bus.publish(FakeEventWithValue("x"))
+        assert result.is_err
+        assert isinstance(result.error, EventBusError)

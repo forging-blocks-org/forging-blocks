@@ -4,25 +4,43 @@ Provides a repository specifically designed for AggregateRoot persistence
 with event sourcing support.
 """
 
-from typing import Any
+from typing import Any, cast
+from uuid import UUID
 
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
-from forging_blocks.infrastructure.event_store import EventStorePort
+from forging_blocks.foundation.messages.event import Event
+from forging_blocks.infrastructure.event_stores.event_store_base import EventStoreBase
 from forging_blocks.infrastructure.repositories.base_repository import BaseRepository
 
 
-class AggregateRepository[TAggregateRoot: AggregateRoot[Any, Any], TId: Any](
-    BaseRepository[TAggregateRoot, TId]
-):
+class AggregateRepository[
+    EventPayloadType,
+    TAggregateRoot: AggregateRoot[UUID, Any],
+    TId: UUID,
+](BaseRepository[TAggregateRoot, TId]):
     """RepositoryPort for AggregateRoot persistence with event sourcing.
 
     Extends BaseRepository with event store integration for
     event-sourced aggregates.
+
+    Type Parameters:
+        EventPayloadType: The event payload type tracked by the event store.
+            Flows through the public generic interface.
+        TAggregateRoot: An AggregateRoot subtype with UUID identity whose event
+            payload type must match ``EventPayloadType`` at each call site. The
+            bound uses ``Any`` as the second type argument — not because the
+            event type is untyped, but because PEP 695 (and the underlying type
+            system) forbids one TypeVar from appearing inside another TypeVar's
+            bound. The ``cast`` in :meth:`save` is the explicit, localized bridge
+            across this gap. The invariant is enforced by construction.
+        TId: The aggregate identity type, bounded by ``UUID``.
     """
+
+    _event_store: EventStoreBase[EventPayloadType]
 
     def __init__(
         self,
-        event_store: EventStorePort,
+        event_store: EventStoreBase[EventPayloadType],
         storage: dict[TId, TAggregateRoot] | None = None,
     ) -> None:
         """Initialize the aggregate repository.
@@ -37,20 +55,36 @@ class AggregateRepository[TAggregateRoot: AggregateRoot[Any, Any], TId: Any](
     async def save(self, aggregate: TAggregateRoot) -> None:
         """Save an aggregate and its uncommitted events.
 
+        Writes events to the event store first, then persists the aggregate
+        snapshot. If the event store write fails, the error is raised so the
+        Unit of Work can rollback and the aggregate retains its uncommitted
+        events.
+
+        The ``cast`` on ``uncommitted_changes`` bridges the gap between
+        ``TAggregateRoot``'s bound (``AggregateRoot[UUID, Any]``) and the
+        repository's ``EventPayloadType`` generic. The types are guaranteed to
+        match at runtime by construction; the type system cannot express this
+        cross-TypeVar-bound relationship (see PEP 695, pyright
+        ``reportGeneralTypeIssues``).
+
         Args:
             aggregate: The aggregate to save.
-        """
-        # Save the aggregate snapshot
-        await super().save(aggregate)
 
-        # Persist uncommitted events to the event store
-        events = aggregate.collect_events()
-        if events:
-            await self._event_store.save_events(
-                aggregate_id=str(aggregate.id),
-                events=[event.to_dict() for event in events],
-                expected_version=aggregate.version.value - len(events),
+        Raises:
+            EventStoreError: If the event store write fails (e.g., concurrency
+                conflict, I/O error).
+        """
+        events = cast(list[Event[EventPayloadType]], aggregate.uncommitted_changes)
+        aggregate_id: UUID | None = aggregate.id  # type: ignore[assignment]
+        if events and aggregate_id is not None:
+            version = aggregate.version.value - len(events)
+            result = await self._event_store.append_events(
+                aggregate_id, events, expected_version=version
             )
+            if not result.is_ok:
+                raise result.error
+            aggregate.collect_events()
+        await super().save(aggregate)
 
     async def get_by_id(self, id: TId) -> TAggregateRoot | None:  # noqa: A002
         """Retrieve an aggregate by ID and replay its events.
@@ -60,18 +94,15 @@ class AggregateRepository[TAggregateRoot: AggregateRoot[Any, Any], TId: Any](
 
         Returns:
             The retrieved aggregate or None if not found.
+
+        Raises:
+            EventStoreError: If the event store read fails. Callers can
+                distinguish infrastructure failures from "not found" (None).
         """
-        # First check in-memory storage
         aggregate = await super().get_by_id(id)
         if aggregate is not None:
             return aggregate
-
-        # If not in memory, try to load from event store
-        events = await self._event_store.get_events(str(id))
-        if not events:
+        result = await self._event_store.get_events(cast(UUID, id))
+        if result.is_ok:
             return None
-
-        # Reconstruct aggregate from events
-        # This requires the aggregate type to have a factory method
-        # For now, return None - concrete implementations should override
-        return None
+        raise result.error
