@@ -12,6 +12,7 @@ from the primary/adapter side. It includes:
 - ``Middleware``: Protocol for cross-cutting interceptors that sit between
   the adapter and the application handler.
 - ``Pipeline``: Composes middleware into an immutable, executable chain.
+- ``NextHandler``: Type alias for the callable each middleware delegates to.
 - ``LoggingMiddleware``: Built-in middleware that traces every request.
 - ``TimingMiddleware``: Built-in middleware that measures execution time.
 """
@@ -25,6 +26,7 @@ from .errors.error_presenter import ErrorPresenter
 from .errors.error_status_code_mapper import ErrorStatusCodeMapper
 from .errors.error_view_model import ErrorViewModel
 from .middleware.middleware import Middleware
+from .middleware.next_handler import NextHandler
 from .middleware.pipeline import Pipeline
 from .presenter_contract import PresenterPort
 
@@ -35,6 +37,7 @@ __all__ = [
     "ErrorViewModel",
     "LoggingMiddleware",
     "Middleware",
+    "NextHandler",
     "Pipeline",
     "PresentationAdapter",
     "PresenterPort",

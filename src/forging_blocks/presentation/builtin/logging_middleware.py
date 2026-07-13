@@ -17,6 +17,10 @@ class LoggingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respo
         - Transform the request or response.
         - Handle errors raised by downstream middleware or the handler.
         - Measure execution time — use ``TimingMiddleware`` for that.
+        - Sanitize sensitive data — requests and responses are logged
+          via ``str()`` as-is. If your domain objects carry tokens,
+          passwords, or PII, wrap this middleware with a sanitizing
+          decorator or pass a ``LoggerPort`` that performs redaction.
     """
 
     __slots__ = ("_logger",)
