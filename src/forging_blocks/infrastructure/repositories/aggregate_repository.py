@@ -11,20 +11,22 @@ from forging_blocks.infrastructure.event_stores.event_store_base import EventSto
 from forging_blocks.infrastructure.repositories.base_repository import BaseRepository
 
 
-class AggregateRepository[TAggregateRoot: AggregateRoot[object, UUID], TId: UUID](
-    BaseRepository[TAggregateRoot, TId]
-):
+class AggregateRepository[
+    EventPayloadType,
+    TAggregateRoot: AggregateRoot[UUID, EventPayloadType],
+    TId: UUID,
+](BaseRepository[TAggregateRoot, TId]):
     """RepositoryPort for AggregateRoot persistence with event sourcing.
 
     Extends BaseRepository with event store integration for
     event-sourced aggregates.
     """
 
-    _event_store: EventStoreBase[object]
+    _event_store: EventStoreBase[EventPayloadType]
 
     def __init__(
         self,
-        event_store: EventStoreBase[object],
+        event_store: EventStoreBase[EventPayloadType],
         storage: dict[TId, TAggregateRoot] | None = None,
     ) -> None:
         """Initialize the aggregate repository.
