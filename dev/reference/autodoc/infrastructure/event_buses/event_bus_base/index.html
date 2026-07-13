@@ -12,28 +12,28 @@
         <meta name="author" content="ForgingBlocks Org">
       
       
-        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/event_store/">
+        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/event_buses/event_bus_base/">
       
       
-        <link rel="prev" href="../event_bus/">
+        <link rel="prev" href="../../errors/repository_errors/">
       
       
         <link rel="next" href="../in_memory_event_bus/">
       
       
-      <link rel="icon" href="../../../../assets/favicon.ico">
+      <link rel="icon" href="../../../../../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
     
     
       
-        <title>Event Store - ForgingBlocks</title>
+        <title>Event Bus Base - ForgingBlocks</title>
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.84d31ad4.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.84d31ad4.min.css">
       
         
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -52,13 +52,13 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../../assets/css/theme.css">
+      <link rel="stylesheet" href="../../../../../assets/css/theme.css">
     
-      <link rel="stylesheet" href="../../../../assets/css/mermaid-theme.css">
+      <link rel="stylesheet" href="../../../../../assets/css/mermaid-theme.css">
     
-    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#event-store" class="md-skip">
+        <a href="#event-bus-base" class="md-skip">
           Skip to content
         </a>
       
@@ -96,9 +96,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../.." title="ForgingBlocks" class="md-header__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
+    <a href="../../../../.." title="ForgingBlocks" class="md-header__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
       
-  <img src="../../../../assets/logo.png" alt="logo">
+  <img src="../../../../../assets/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Event Store
+              Event Bus Base
             
           </span>
         </div>
@@ -200,7 +200,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../.." class="md-tabs__link">
+      <a href="../../../../.." class="md-tabs__link">
         
   
   
@@ -221,7 +221,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../guide/" class="md-tabs__link">
+        <a href="../../../../../guide/" class="md-tabs__link">
           
   
   
@@ -243,7 +243,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../../" class="md-tabs__link">
+        <a href="../../../../" class="md-tabs__link">
           
   
   
@@ -263,7 +263,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../architectural-styles/" class="md-tabs__link">
+        <a href="../../../../../architectural-styles/" class="md-tabs__link">
           
   
   
@@ -283,7 +283,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../contributing/" class="md-tabs__link">
+        <a href="../../../../../contributing/" class="md-tabs__link">
           
   
   
@@ -301,7 +301,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../../LICENSE/" class="md-tabs__link">
+      <a href="../../../../../LICENSE/" class="md-tabs__link">
         
   
   
@@ -336,9 +336,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="ForgingBlocks" class="md-nav__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
+    <a href="../../../../.." title="ForgingBlocks" class="md-nav__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
       
-  <img src="../../../../assets/logo.png" alt="logo">
+  <img src="../../../../../assets/logo.png" alt="logo">
 
     </a>
     ForgingBlocks
@@ -365,7 +365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../.." class="md-nav__link">
+      <a href="../../../../.." class="md-nav__link">
         
   
   
@@ -430,7 +430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/" class="md-nav__link">
+      <a href="../../../../../guide/" class="md-nav__link">
         
   
   
@@ -453,7 +453,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/getting-started/" class="md-nav__link">
+      <a href="../../../../../guide/getting-started/" class="md-nav__link">
         
   
   
@@ -476,7 +476,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/testing/" class="md-nav__link">
+      <a href="../../../../../guide/testing/" class="md-nav__link">
         
   
   
@@ -499,7 +499,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/example_tests/" class="md-nav__link">
+      <a href="../../../../../guide/example_tests/" class="md-nav__link">
         
   
   
@@ -522,7 +522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/examples/" class="md-nav__link">
+      <a href="../../../../../guide/examples/" class="md-nav__link">
         
   
   
@@ -545,7 +545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/principles/" class="md-nav__link">
+      <a href="../../../../../guide/principles/" class="md-nav__link">
         
   
   
@@ -568,7 +568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/architecture-overview/" class="md-nav__link">
+      <a href="../../../../../guide/architecture-overview/" class="md-nav__link">
         
   
   
@@ -591,7 +591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/recommended_blocks_structure/" class="md-nav__link">
+      <a href="../../../../../guide/recommended_blocks_structure/" class="md-nav__link">
         
   
   
@@ -669,7 +669,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../" class="md-nav__link">
+      <a href="../../../../" class="md-nav__link">
         
   
   
@@ -738,7 +738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/" class="md-nav__link">
+      <a href="../../../../foundation/" class="md-nav__link">
         
   
   
@@ -761,7 +761,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/result/" class="md-nav__link">
+      <a href="../../../../foundation/result/" class="md-nav__link">
         
   
   
@@ -784,7 +784,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/ports/" class="md-nav__link">
+      <a href="../../../../foundation/ports/" class="md-nav__link">
         
   
   
@@ -807,7 +807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/errors/" class="md-nav__link">
+      <a href="../../../../foundation/errors/" class="md-nav__link">
         
   
   
@@ -830,7 +830,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/messages/" class="md-nav__link">
+      <a href="../../../../foundation/messages/" class="md-nav__link">
         
   
   
@@ -853,7 +853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/value-objects/" class="md-nav__link">
+      <a href="../../../../foundation/value-objects/" class="md-nav__link">
         
   
   
@@ -876,7 +876,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/auto-freeze/" class="md-nav__link">
+      <a href="../../../../foundation/auto-freeze/" class="md-nav__link">
         
   
   
@@ -899,7 +899,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/specifications/" class="md-nav__link">
+      <a href="../../../../foundation/specifications/" class="md-nav__link">
         
   
   
@@ -922,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/mappers/" class="md-nav__link">
+      <a href="../../../../foundation/mappers/" class="md-nav__link">
         
   
   
@@ -945,7 +945,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/identified/" class="md-nav__link">
+      <a href="../../../../foundation/identified/" class="md-nav__link">
         
   
   
@@ -968,7 +968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/meta/" class="md-nav__link">
+      <a href="../../../../foundation/meta/" class="md-nav__link">
         
   
   
@@ -1045,7 +1045,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/" class="md-nav__link">
+      <a href="../../../../domain/" class="md-nav__link">
         
   
   
@@ -1068,7 +1068,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/entities/" class="md-nav__link">
+      <a href="../../../../domain/entities/" class="md-nav__link">
         
   
   
@@ -1091,7 +1091,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/value-objects/" class="md-nav__link">
+      <a href="../../../../domain/value-objects/" class="md-nav__link">
         
   
   
@@ -1114,7 +1114,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/aggregates/" class="md-nav__link">
+      <a href="../../../../domain/aggregates/" class="md-nav__link">
         
   
   
@@ -1137,7 +1137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/specifications/" class="md-nav__link">
+      <a href="../../../../domain/specifications/" class="md-nav__link">
         
   
   
@@ -1160,7 +1160,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/errors/" class="md-nav__link">
+      <a href="../../../../domain/errors/" class="md-nav__link">
         
   
   
@@ -1237,7 +1237,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../application/" class="md-nav__link">
+      <a href="../../../../application/" class="md-nav__link">
         
   
   
@@ -1260,7 +1260,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../application/use-cases/" class="md-nav__link">
+      <a href="../../../../application/use-cases/" class="md-nav__link">
         
   
   
@@ -1283,7 +1283,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../application/ports/" class="md-nav__link">
+      <a href="../../../../application/ports/" class="md-nav__link">
         
   
   
@@ -1306,7 +1306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../application/errors/" class="md-nav__link">
+      <a href="../../../../application/errors/" class="md-nav__link">
         
   
   
@@ -1383,7 +1383,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../infrastructure/" class="md-nav__link">
+      <a href="../../../../infrastructure/" class="md-nav__link">
         
   
   
@@ -1406,7 +1406,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../infrastructure/persistence/" class="md-nav__link">
+      <a href="../../../../infrastructure/persistence/" class="md-nav__link">
         
   
   
@@ -1429,7 +1429,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../infrastructure/messaging/" class="md-nav__link">
+      <a href="../../../../infrastructure/messaging/" class="md-nav__link">
         
   
   
@@ -1452,7 +1452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../infrastructure/adapters/" class="md-nav__link">
+      <a href="../../../../infrastructure/adapters/" class="md-nav__link">
         
   
   
@@ -1529,7 +1529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../presentation/" class="md-nav__link">
+      <a href="../../../../presentation/" class="md-nav__link">
         
   
   
@@ -1552,7 +1552,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../presentation/adapters/" class="md-nav__link">
+      <a href="../../../../presentation/adapters/" class="md-nav__link">
         
   
   
@@ -1575,7 +1575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../presentation/error-handling/" class="md-nav__link">
+      <a href="../../../../presentation/error-handling/" class="md-nav__link">
         
   
   
@@ -1598,7 +1598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../presentation/middleware/" class="md-nav__link">
+      <a href="../../../../presentation/middleware/" class="md-nav__link">
         
   
   
@@ -1629,7 +1629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../testing/" class="md-nav__link">
+      <a href="../../../../testing/" class="md-nav__link">
         
   
   
@@ -1786,7 +1786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/errors/concurrency_error/" class="md-nav__link">
+      <a href="../../../application/errors/concurrency_error/" class="md-nav__link">
         
   
   
@@ -1809,7 +1809,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/errors/event_bus_error/" class="md-nav__link">
+      <a href="../../../application/errors/event_bus_error/" class="md-nav__link">
         
   
   
@@ -1832,7 +1832,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/errors/event_store_error/" class="md-nav__link">
+      <a href="../../../application/errors/event_store_error/" class="md-nav__link">
         
   
   
@@ -1855,7 +1855,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/errors/transaction_error/" class="md-nav__link">
+      <a href="../../../application/errors/transaction_error/" class="md-nav__link">
         
   
   
@@ -1878,7 +1878,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/errors/unit_of_work_error/" class="md-nav__link">
+      <a href="../../../application/errors/unit_of_work_error/" class="md-nav__link">
         
   
   
@@ -1952,7 +1952,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/inbound/application_service/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/application_service/" class="md-nav__link">
         
   
   
@@ -1975,7 +1975,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/inbound/authorization_service/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/authorization_service/" class="md-nav__link">
         
   
   
@@ -1998,7 +1998,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/inbound/message_handler/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/message_handler/" class="md-nav__link">
         
   
   
@@ -2021,7 +2021,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/inbound/use_case/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/use_case/" class="md-nav__link">
         
   
   
@@ -2044,7 +2044,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/inbound/validation_service/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/validation_service/" class="md-nav__link">
         
   
   
@@ -2118,7 +2118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/cache_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/cache_port/" class="md-nav__link">
         
   
   
@@ -2141,7 +2141,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/command_sender_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/command_sender_port/" class="md-nav__link">
         
   
   
@@ -2164,7 +2164,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/event_bus_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/event_bus_port/" class="md-nav__link">
         
   
   
@@ -2187,7 +2187,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/event_publisher_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/event_publisher_port/" class="md-nav__link">
         
   
   
@@ -2210,7 +2210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/event_store_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/event_store_port/" class="md-nav__link">
         
   
   
@@ -2233,7 +2233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/external_service_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/external_service_port/" class="md-nav__link">
         
   
   
@@ -2256,7 +2256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/file_system_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/file_system_port/" class="md-nav__link">
         
   
   
@@ -2279,7 +2279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/logger_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/logger_port/" class="md-nav__link">
         
   
   
@@ -2302,7 +2302,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/message_bus_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/message_bus_port/" class="md-nav__link">
         
   
   
@@ -2325,7 +2325,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/notifier_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/notifier_port/" class="md-nav__link">
         
   
   
@@ -2348,7 +2348,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/query_fetcher_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/query_fetcher_port/" class="md-nav__link">
         
   
   
@@ -2371,7 +2371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/repository_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/repository_port/" class="md-nav__link">
         
   
   
@@ -2394,7 +2394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/specification_repository_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/specification_repository_port/" class="md-nav__link">
         
   
   
@@ -2417,7 +2417,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/transaction_manager_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/transaction_manager_port/" class="md-nav__link">
         
   
   
@@ -2440,7 +2440,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/unit_of_work_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/unit_of_work_port/" class="md-nav__link">
         
   
   
@@ -2522,7 +2522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/entity/" class="md-nav__link">
+      <a href="../../../domain/entity/" class="md-nav__link">
         
   
   
@@ -2545,7 +2545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/value_object/" class="md-nav__link">
+      <a href="../../../domain/value_object/" class="md-nav__link">
         
   
   
@@ -2611,7 +2611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/aggregate_root/aggregate_root/" class="md-nav__link">
+      <a href="../../../domain/aggregate_root/aggregate_root/" class="md-nav__link">
         
   
   
@@ -2634,7 +2634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/aggregate_root/aggregate_version/" class="md-nav__link">
+      <a href="../../../domain/aggregate_root/aggregate_version/" class="md-nav__link">
         
   
   
@@ -2708,7 +2708,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/errors/draft_entity_is_not_hashable_error/" class="md-nav__link">
+      <a href="../../../domain/errors/draft_entity_is_not_hashable_error/" class="md-nav__link">
         
   
   
@@ -2731,7 +2731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/errors/entity_id_deletion_error/" class="md-nav__link">
+      <a href="../../../domain/errors/entity_id_deletion_error/" class="md-nav__link">
         
   
   
@@ -2754,7 +2754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/errors/entity_id_modification_error/" class="md-nav__link">
+      <a href="../../../domain/errors/entity_id_modification_error/" class="md-nav__link">
         
   
   
@@ -2777,7 +2777,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/errors/entity_id_none_error/" class="md-nav__link">
+      <a href="../../../domain/errors/entity_id_none_error/" class="md-nav__link">
         
   
   
@@ -2851,7 +2851,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/permissions/composite_permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/composite_permission_checker/" class="md-nav__link">
         
   
   
@@ -2874,7 +2874,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/permissions/permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/permission_checker/" class="md-nav__link">
         
   
   
@@ -2897,7 +2897,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/permissions/resource_permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/resource_permission_checker/" class="md-nav__link">
         
   
   
@@ -2920,7 +2920,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/permissions/role_based_permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/role_based_permission_checker/" class="md-nav__link">
         
   
   
@@ -2994,7 +2994,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/validators/composite_validation_rule/" class="md-nav__link">
+      <a href="../../../domain/validators/composite_validation_rule/" class="md-nav__link">
         
   
   
@@ -3017,7 +3017,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/validators/email_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/email_validator/" class="md-nav__link">
         
   
   
@@ -3040,7 +3040,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/validators/length_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/length_validator/" class="md-nav__link">
         
   
   
@@ -3063,7 +3063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/validators/range_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/range_validator/" class="md-nav__link">
         
   
   
@@ -3086,7 +3086,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/validators/required_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/required_validator/" class="md-nav__link">
         
   
   
@@ -3168,7 +3168,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/debuggable/" class="md-nav__link">
+      <a href="../../../foundation/debuggable/" class="md-nav__link">
         
   
   
@@ -3191,7 +3191,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/identified/" class="md-nav__link">
+      <a href="../../../foundation/identified/" class="md-nav__link">
         
   
   
@@ -3214,7 +3214,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/isolation_level/" class="md-nav__link">
+      <a href="../../../foundation/isolation_level/" class="md-nav__link">
         
   
   
@@ -3237,7 +3237,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/mapper/" class="md-nav__link">
+      <a href="../../../foundation/mapper/" class="md-nav__link">
         
   
   
@@ -3260,7 +3260,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/permission/" class="md-nav__link">
+      <a href="../../../foundation/permission/" class="md-nav__link">
         
   
   
@@ -3283,7 +3283,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/ports/" class="md-nav__link">
+      <a href="../../../foundation/ports/" class="md-nav__link">
         
   
   
@@ -3306,7 +3306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/value_object/" class="md-nav__link">
+      <a href="../../../foundation/value_object/" class="md-nav__link">
         
   
   
@@ -3372,7 +3372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/autofreeze/auto_freeze/" class="md-nav__link">
+      <a href="../../../foundation/autofreeze/auto_freeze/" class="md-nav__link">
         
   
   
@@ -3446,7 +3446,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/context/authorization_context/" class="md-nav__link">
+      <a href="../../../foundation/context/authorization_context/" class="md-nav__link">
         
   
   
@@ -3469,7 +3469,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/context/service_context/" class="md-nav__link">
+      <a href="../../../foundation/context/service_context/" class="md-nav__link">
         
   
   
@@ -3492,7 +3492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/context/transaction_context/" class="md-nav__link">
+      <a href="../../../foundation/context/transaction_context/" class="md-nav__link">
         
   
   
@@ -3566,7 +3566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/errors/cant_modify_immutable_attribute_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/cant_modify_immutable_attribute_error/" class="md-nav__link">
         
   
   
@@ -3589,7 +3589,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/errors/combined_errors/" class="md-nav__link">
+      <a href="../../../foundation/errors/combined_errors/" class="md-nav__link">
         
   
   
@@ -3612,7 +3612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/errors/core/" class="md-nav__link">
+      <a href="../../../foundation/errors/core/" class="md-nav__link">
         
   
   
@@ -3635,7 +3635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/errors/error/" class="md-nav__link">
+      <a href="../../../foundation/errors/error/" class="md-nav__link">
         
   
   
@@ -3658,7 +3658,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/errors/field_errors/" class="md-nav__link">
+      <a href="../../../foundation/errors/field_errors/" class="md-nav__link">
         
   
   
@@ -3681,7 +3681,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/errors/none_not_allowed_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/none_not_allowed_error/" class="md-nav__link">
         
   
   
@@ -3704,7 +3704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/errors/not_callable_predicate_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/not_callable_predicate_error/" class="md-nav__link">
         
   
   
@@ -3727,7 +3727,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/errors/result_access_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/result_access_error/" class="md-nav__link">
         
   
   
@@ -3750,7 +3750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/errors/rule_violation_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/rule_violation_error/" class="md-nav__link">
         
   
   
@@ -3773,7 +3773,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/errors/validation_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/validation_error/" class="md-nav__link">
         
   
   
@@ -3847,7 +3847,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/messages/command/" class="md-nav__link">
+      <a href="../../../foundation/messages/command/" class="md-nav__link">
         
   
   
@@ -3870,7 +3870,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/messages/decorators/" class="md-nav__link">
+      <a href="../../../foundation/messages/decorators/" class="md-nav__link">
         
   
   
@@ -3893,7 +3893,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/messages/event/" class="md-nav__link">
+      <a href="../../../foundation/messages/event/" class="md-nav__link">
         
   
   
@@ -3916,7 +3916,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/messages/message/" class="md-nav__link">
+      <a href="../../../foundation/messages/message/" class="md-nav__link">
         
   
   
@@ -3939,7 +3939,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/messages/query/" class="md-nav__link">
+      <a href="../../../foundation/messages/query/" class="md-nav__link">
         
   
   
@@ -4013,7 +4013,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/meta/final_abc_meta/" class="md-nav__link">
+      <a href="../../../foundation/meta/final_abc_meta/" class="md-nav__link">
         
   
   
@@ -4036,7 +4036,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/meta/final_meta/" class="md-nav__link">
+      <a href="../../../foundation/meta/final_meta/" class="md-nav__link">
         
   
   
@@ -4110,7 +4110,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/result/err/" class="md-nav__link">
+      <a href="../../../foundation/result/err/" class="md-nav__link">
         
   
   
@@ -4133,7 +4133,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/result/ok/" class="md-nav__link">
+      <a href="../../../foundation/result/ok/" class="md-nav__link">
         
   
   
@@ -4156,7 +4156,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/result/result/" class="md-nav__link">
+      <a href="../../../foundation/result/result/" class="md-nav__link">
         
   
   
@@ -4230,7 +4230,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/rules/validation_rule/" class="md-nav__link">
+      <a href="../../../foundation/rules/validation_rule/" class="md-nav__link">
         
   
   
@@ -4304,7 +4304,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/specification/base/" class="md-nav__link">
+      <a href="../../../foundation/specification/base/" class="md-nav__link">
         
   
   
@@ -4327,7 +4327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/specification/composable/" class="md-nav__link">
+      <a href="../../../foundation/specification/composable/" class="md-nav__link">
         
   
   
@@ -4350,7 +4350,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/specification/expression/" class="md-nav__link">
+      <a href="../../../foundation/specification/expression/" class="md-nav__link">
         
   
   
@@ -4424,7 +4424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/specification/logical_operators/and_specification/" class="md-nav__link">
+      <a href="../../../foundation/specification/logical_operators/and_specification/" class="md-nav__link">
         
   
   
@@ -4447,7 +4447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/specification/logical_operators/not_specification/" class="md-nav__link">
+      <a href="../../../foundation/specification/logical_operators/not_specification/" class="md-nav__link">
         
   
   
@@ -4470,7 +4470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../foundation/specification/logical_operators/or_specification/" class="md-nav__link">
+      <a href="../../../foundation/specification/logical_operators/or_specification/" class="md-nav__link">
         
   
   
@@ -4553,13 +4553,56 @@
   
   
   
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_4_1" id="__nav_3_8_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Caching
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            Caching
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../event_bus/" class="md-nav__link">
+      <a href="../../caching/in_memory_cache/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Bus
+    In Memory Cache
     
   </span>
   
@@ -4569,6 +4612,133 @@
   
 
               
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_4_2" id="__nav_3_8_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Errors
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Errors
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../errors/repository_errors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Repository Errors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_4_3" id="__nav_3_8_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Event Buses
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_8_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Event Buses
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -4591,7 +4761,7 @@
   
   
   <span class="md-ellipsis">
-    Event Store
+    Event Bus Base
     
   </span>
   
@@ -4604,7 +4774,7 @@
   
   
   <span class="md-ellipsis">
-    Event Store
+    Event Bus Base
     
   </span>
   
@@ -4627,56 +4797,47 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store" class="md-nav__link">
+  <a href="#forging_blocks.infrastructure.event_buses.event_bus_base" class="md-nav__link">
     <span class="md-ellipsis">
-      event_store
+      event_bus_base
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="event_store">
+    <nav class="md-nav" aria-label="event_bus_base">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.EventStorePort" class="md-nav__link">
+  <a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase" class="md-nav__link">
     <span class="md-ellipsis">
-      EventStorePort
+      EventBusBase
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="EventStorePort">
+    <nav class="md-nav" aria-label="EventBusBase">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.EventStorePort.save_events" class="md-nav__link">
+  <a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.publish" class="md-nav__link">
     <span class="md-ellipsis">
-      save_events
+      publish
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.EventStorePort.get_events" class="md-nav__link">
+  <a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.send" class="md-nav__link">
     <span class="md-ellipsis">
-      get_events
+      send
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.EventStorePort.get_snapshot" class="md-nav__link">
+  <a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.register_handler" class="md-nav__link">
     <span class="md-ellipsis">
-      get_snapshot
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.EventStorePort.save_snapshot" class="md-nav__link">
-    <span class="md-ellipsis">
-      save_snapshot
+      register_handler
     </span>
   </a>
   
@@ -4684,15 +4845,6 @@
         
       </ul>
     </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.ConcurrencyError" class="md-nav__link">
-    <span class="md-ellipsis">
-      ConcurrencyError
-    </span>
-  </a>
   
 </li>
         
@@ -4740,7 +4892,104 @@
   
   
     <li class="md-nav__item">
-      <a href="../in_memory_event_store/" class="md-nav__link">
+      <a href="../in_memory_event_bus_base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    In Memory Event Bus Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_4_4" id="__nav_3_8_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Event Stores
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Event Stores
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../event_stores/event_store_base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Event Store Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../event_stores/in_memory_event_store/" class="md-nav__link">
         
   
   
@@ -4751,6 +5000,37 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../event_stores/in_memory_event_store_base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    In Memory Event Store Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -4784,7 +5064,7 @@
   
   
   <span class="md-ellipsis">
-    Caching
+    File System
     
   </span>
   
@@ -4795,7 +5075,7 @@
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_4_5">
             <span class="md-nav__icon md-icon"></span>
-            Caching
+            File System
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4806,12 +5086,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../caching/in_memory_cache/" class="md-nav__link">
+      <a href="../../file_system/os_file_system/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    In Memory Cache
+    Os File System
     
   </span>
   
@@ -4858,7 +5138,7 @@
   
   
   <span class="md-ellipsis">
-    Errors
+    Http Client
     
   </span>
   
@@ -4869,7 +5149,7 @@
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_4_6">
             <span class="md-nav__icon md-icon"></span>
-            Errors
+            Http Client
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4880,12 +5160,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../errors/repository_errors/" class="md-nav__link">
+      <a href="../../http_client/urllib_client/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Repository Errors
+    Urllib Client
     
   </span>
   
@@ -4932,7 +5212,7 @@
   
   
   <span class="md-ellipsis">
-    Event Buses
+    Logging
     
   </span>
   
@@ -4943,7 +5223,7 @@
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_4_7">
             <span class="md-nav__icon md-icon"></span>
-            Event Buses
+            Logging
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4954,12 +5234,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../event_buses/in_memory_event_bus/" class="md-nav__link">
+      <a href="../../logging/stdlib_logger/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    In Memory Event Bus
+    Stdlib Logger
     
   </span>
   
@@ -5006,7 +5286,7 @@
   
   
   <span class="md-ellipsis">
-    Event Stores
+    Message Bus
     
   </span>
   
@@ -5017,7 +5297,7 @@
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_4_8">
             <span class="md-nav__icon md-icon"></span>
-            Event Stores
+            Message Bus
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -5028,12 +5308,81 @@
   
   
     <li class="md-nav__item">
-      <a href="../event_stores/in_memory_event_store/" class="md-nav__link">
+      <a href="../../message_bus/in_memory_message_bus/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    In Memory Event Store
+    In Memory Message Bus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../message_bus/message_bus_command_sender/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Command Sender
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../message_bus/message_bus_event_publisher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Event Publisher
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../message_bus/message_bus_query_fetcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message Bus Query Fetcher
     
   </span>
   
@@ -5080,7 +5429,7 @@
   
   
   <span class="md-ellipsis">
-    File System
+    Repositories
     
   </span>
   
@@ -5091,7 +5440,7 @@
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_4_9">
             <span class="md-nav__icon md-icon"></span>
-            File System
+            Repositories
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -5102,12 +5451,81 @@
   
   
     <li class="md-nav__item">
-      <a href="../file_system/os_file_system/" class="md-nav__link">
+      <a href="../../repositories/aggregate_repository/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Os File System
+    Aggregate Repository
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../repositories/base_repository/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base Repository
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../repositories/in_memory_read_repository/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    In Memory Read Repository
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../repositories/in_memory_write_repository/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    In Memory Write Repository
     
   </span>
   
@@ -5154,7 +5572,7 @@
   
   
   <span class="md-ellipsis">
-    Http Client
+    Serialization
     
   </span>
   
@@ -5165,7 +5583,7 @@
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_4_10">
             <span class="md-nav__icon md-icon"></span>
-            Http Client
+            Serialization
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -5176,12 +5594,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../http_client/urllib_client/" class="md-nav__link">
+      <a href="../../serialization/serializable/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Urllib Client
+    Serializable
     
   </span>
   
@@ -5228,7 +5646,7 @@
   
   
   <span class="md-ellipsis">
-    Logging
+    Unit Of Work
     
   </span>
   
@@ -5238,440 +5656,6 @@
         
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_4_11">
-            <span class="md-nav__icon md-icon"></span>
-            Logging
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../logging/stdlib_logger/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Stdlib Logger
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_12" >
-        
-          
-          <label class="md-nav__link" for="__nav_3_8_4_12" id="__nav_3_8_4_12_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    Message Bus
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_12_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_12">
-            <span class="md-nav__icon md-icon"></span>
-            Message Bus
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../message_bus/in_memory_message_bus/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    In Memory Message Bus
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../message_bus/message_bus_command_sender/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Message Bus Command Sender
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../message_bus/message_bus_event_publisher/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Message Bus Event Publisher
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../message_bus/message_bus_query_fetcher/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Message Bus Query Fetcher
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_13" >
-        
-          
-          <label class="md-nav__link" for="__nav_3_8_4_13" id="__nav_3_8_4_13_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    Repositories
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_13_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_13">
-            <span class="md-nav__icon md-icon"></span>
-            Repositories
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../repositories/aggregate_repository/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Aggregate Repository
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../repositories/base_repository/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Base Repository
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../repositories/in_memory_read_repository/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    In Memory Read Repository
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../repositories/in_memory_write_repository/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    In Memory Write Repository
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_14" >
-        
-          
-          <label class="md-nav__link" for="__nav_3_8_4_14" id="__nav_3_8_4_14_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    Serialization
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_14_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_14">
-            <span class="md-nav__icon md-icon"></span>
-            Serialization
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../serialization/serializable/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Serializable
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_4_15" >
-        
-          
-          <label class="md-nav__link" for="__nav_3_8_4_15" id="__nav_3_8_4_15_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    Unit Of Work
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_4_15_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_4_15">
             <span class="md-nav__icon md-icon"></span>
             Unit Of Work
           </label>
@@ -5684,7 +5668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../unit_of_work/in_memory_unit_of_work/" class="md-nav__link">
+      <a href="../../unit_of_work/in_memory_unit_of_work/" class="md-nav__link">
         
   
   
@@ -5766,7 +5750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/error_message_model/" class="md-nav__link">
+      <a href="../../../presentation/error_message_model/" class="md-nav__link">
         
   
   
@@ -5789,7 +5773,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/error_presenter/" class="md-nav__link">
+      <a href="../../../presentation/error_presenter/" class="md-nav__link">
         
   
   
@@ -5812,7 +5796,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/error_status_code_mapper/" class="md-nav__link">
+      <a href="../../../presentation/error_status_code_mapper/" class="md-nav__link">
         
   
   
@@ -5835,7 +5819,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/error_view_model/" class="md-nav__link">
+      <a href="../../../presentation/error_view_model/" class="md-nav__link">
         
   
   
@@ -5858,7 +5842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/middleware/" class="md-nav__link">
+      <a href="../../../presentation/middleware/" class="md-nav__link">
         
   
   
@@ -5881,7 +5865,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/next_handler/" class="md-nav__link">
+      <a href="../../../presentation/next_handler/" class="md-nav__link">
         
   
   
@@ -5904,7 +5888,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/pipeline/" class="md-nav__link">
+      <a href="../../../presentation/pipeline/" class="md-nav__link">
         
   
   
@@ -5927,7 +5911,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/presentation_adapter/" class="md-nav__link">
+      <a href="../../../presentation/presentation_adapter/" class="md-nav__link">
         
   
   
@@ -5950,7 +5934,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/presenter_contract/" class="md-nav__link">
+      <a href="../../../presentation/presenter_contract/" class="md-nav__link">
         
   
   
@@ -5973,7 +5957,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/request_adapter/" class="md-nav__link">
+      <a href="../../../presentation/request_adapter/" class="md-nav__link">
         
   
   
@@ -5996,7 +5980,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/response_adapter/" class="md-nav__link">
+      <a href="../../../presentation/response_adapter/" class="md-nav__link">
         
   
   
@@ -6085,7 +6069,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/" class="md-nav__link">
         
   
   
@@ -6108,7 +6092,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/clean-architecture/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/clean-architecture/" class="md-nav__link">
         
   
   
@@ -6131,7 +6115,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/hexagonal-architecture/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/hexagonal-architecture/" class="md-nav__link">
         
   
   
@@ -6154,7 +6138,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/layered-architecture/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/layered-architecture/" class="md-nav__link">
         
   
   
@@ -6177,7 +6161,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/cqrs/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/cqrs/" class="md-nav__link">
         
   
   
@@ -6200,7 +6184,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/event-driven/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/event-driven/" class="md-nav__link">
         
   
   
@@ -6273,7 +6257,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../contributing/" class="md-nav__link">
+      <a href="../../../../../contributing/" class="md-nav__link">
         
   
   
@@ -6296,7 +6280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../contributing/contributing/" class="md-nav__link">
+      <a href="../../../../../contributing/contributing/" class="md-nav__link">
         
   
   
@@ -6319,7 +6303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../contributing/docs-conventions/" class="md-nav__link">
+      <a href="../../../../../contributing/docs-conventions/" class="md-nav__link">
         
   
   
@@ -6342,7 +6326,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../contributing/release-guide/" class="md-nav__link">
+      <a href="../../../../../contributing/release-guide/" class="md-nav__link">
         
   
   
@@ -6372,7 +6356,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../LICENSE/" class="md-nav__link">
+      <a href="../../../../../LICENSE/" class="md-nav__link">
         
   
   
@@ -6414,56 +6398,47 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store" class="md-nav__link">
+  <a href="#forging_blocks.infrastructure.event_buses.event_bus_base" class="md-nav__link">
     <span class="md-ellipsis">
-      event_store
+      event_bus_base
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="event_store">
+    <nav class="md-nav" aria-label="event_bus_base">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.EventStorePort" class="md-nav__link">
+  <a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase" class="md-nav__link">
     <span class="md-ellipsis">
-      EventStorePort
+      EventBusBase
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="EventStorePort">
+    <nav class="md-nav" aria-label="EventBusBase">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.EventStorePort.save_events" class="md-nav__link">
+  <a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.publish" class="md-nav__link">
     <span class="md-ellipsis">
-      save_events
+      publish
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.EventStorePort.get_events" class="md-nav__link">
+  <a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.send" class="md-nav__link">
     <span class="md-ellipsis">
-      get_events
+      send
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.EventStorePort.get_snapshot" class="md-nav__link">
+  <a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.register_handler" class="md-nav__link">
     <span class="md-ellipsis">
-      get_snapshot
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.EventStorePort.save_snapshot" class="md-nav__link">
-    <span class="md-ellipsis">
-      save_snapshot
+      register_handler
     </span>
   </a>
   
@@ -6471,15 +6446,6 @@
         
       </ul>
     </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.infrastructure.event_store.ConcurrencyError" class="md-nav__link">
-    <span class="md-ellipsis">
-      ConcurrencyError
-    </span>
-  </a>
   
 </li>
         
@@ -6504,7 +6470,7 @@
 
 
   
-    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/infrastructure/event_store.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/infrastructure/event_buses/event_bus_base.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -6512,23 +6478,25 @@
   
 
 
-<h1 id="event-store">Event Store<a class="headerlink" href="#event-store" title="Permanent link">&para;</a></h1>
+<h1 id="event-bus-base">Event Bus Base<a class="headerlink" href="#event-bus-base" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="forging_blocks.infrastructure.event_store" class="doc doc-heading">
-            <code>event_store</code>
+<h2 id="forging_blocks.infrastructure.event_buses.event_bus_base" class="doc doc-heading">
+            <code>event_bus_base</code>
 
 
-<a href="#forging_blocks.infrastructure.event_store" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#forging_blocks.infrastructure.event_buses.event_bus_base" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-        <p>Event Store infrastructure.</p>
-<p>This module provides the EventStorePort port and its in-memory implementation.</p>
+        <p>Event bus base class compliant with the application EventBusPort contract.</p>
+<p>Defines the <code>EventBusBase</code> abstract interface for in-process message dispatch<br />
+with separate policies for events (multi-handler fan-out) and commands<br />
+(single-handler routing).</p>
 
 
 
@@ -6553,11 +6521,11 @@
 
 
 
-<h3 id="forging_blocks.infrastructure.event_store.EventStorePort" class="doc doc-heading">
-            <code>EventStorePort</code>
+<h3 id="forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase" class="doc doc-heading">
+            <code>EventBusBase</code>
 
 
-<a href="#forging_blocks.infrastructure.event_store.EventStorePort" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
@@ -6565,10 +6533,17 @@
               Bases: <code><span title="abc.ABC">ABC</span></code></p>
 
 
-        <p>EventStorePort port.</p>
-<p>The EventStorePort is responsible for persisting and retrieving events<br />
-for aggregate roots. It follows the Event Sourcing pattern.</p>
+        <p>Base class for event buses.</p>
 
+
+<details class="implementations-handle" open>
+  <summary>Implementations handle</summary>
+  <ul>
+<li>Publishing events to one or more registered handlers.</li>
+<li>Sending commands to a single registered handler.</li>
+<li>Registering handlers for specific message types.</li>
+</ul>
+</details>
 
 
 
@@ -6577,10 +6552,8 @@ for aggregate roots. It follows the Event Sourcing pattern.</p>
 
 
               <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/infrastructure/event_store.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+                <summary>Source code in <code>src/forging_blocks/infrastructure/event_buses/event_bus_base.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-16">16</a></span>
 <span class="normal"><a href="#__codelineno-0-17">17</a></span>
 <span class="normal"><a href="#__codelineno-0-18">18</a></span>
 <span class="normal"><a href="#__codelineno-0-19">19</a></span>
@@ -6625,108 +6598,52 @@ for aggregate roots. It follows the Event Sourcing pattern.</p>
 <span class="normal"><a href="#__codelineno-0-58">58</a></span>
 <span class="normal"><a href="#__codelineno-0-59">59</a></span>
 <span class="normal"><a href="#__codelineno-0-60">60</a></span>
-<span class="normal"><a href="#__codelineno-0-61">61</a></span>
-<span class="normal"><a href="#__codelineno-0-62">62</a></span>
-<span class="normal"><a href="#__codelineno-0-63">63</a></span>
-<span class="normal"><a href="#__codelineno-0-64">64</a></span>
-<span class="normal"><a href="#__codelineno-0-65">65</a></span>
-<span class="normal"><a href="#__codelineno-0-66">66</a></span>
-<span class="normal"><a href="#__codelineno-0-67">67</a></span>
-<span class="normal"><a href="#__codelineno-0-68">68</a></span>
-<span class="normal"><a href="#__codelineno-0-69">69</a></span>
-<span class="normal"><a href="#__codelineno-0-70">70</a></span>
-<span class="normal"><a href="#__codelineno-0-71">71</a></span>
-<span class="normal"><a href="#__codelineno-0-72">72</a></span>
-<span class="normal"><a href="#__codelineno-0-73">73</a></span>
-<span class="normal"><a href="#__codelineno-0-74">74</a></span>
-<span class="normal"><a href="#__codelineno-0-75">75</a></span>
-<span class="normal"><a href="#__codelineno-0-76">76</a></span>
-<span class="normal"><a href="#__codelineno-0-77">77</a></span>
-<span class="normal"><a href="#__codelineno-0-78">78</a></span>
-<span class="normal"><a href="#__codelineno-0-79">79</a></span>
-<span class="normal"><a href="#__codelineno-0-80">80</a></span>
-<span class="normal"><a href="#__codelineno-0-81">81</a></span>
-<span class="normal"><a href="#__codelineno-0-82">82</a></span>
-<span class="normal"><a href="#__codelineno-0-83">83</a></span>
-<span class="normal"><a href="#__codelineno-0-84">84</a></span>
-<span class="normal"><a href="#__codelineno-0-85">85</a></span>
-<span class="normal"><a href="#__codelineno-0-86">86</a></span>
-<span class="normal"><a href="#__codelineno-0-87">87</a></span>
-<span class="normal"><a href="#__codelineno-0-88">88</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventStorePort</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">    EventStorePort port.</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    The EventStorePort is responsible for persisting and retrieving events</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    for aggregate roots. It follows the Event Sourcing pattern.</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="nd">@abstractmethod</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save_events</span><span class="p">(</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>        <span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>        <span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>        <span class="n">expected_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">        Save a list of events for an aggregate.</span>
+<span class="normal"><a href="#__codelineno-0-61">61</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventBusBase</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">,</span> <span class="n">CommandPayloadType</span><span class="p">](</span><span class="n">ABC</span><span class="p">):</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for event buses.</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    Implementations handle:</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">      - Publishing events to one or more registered handlers.</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">      - Sending commands to a single registered handler.</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">      - Registering handlers for specific message types.</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]:</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Publish a domain event to all registered handlers.</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">            event: The domain event to publish.</span>
 </span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">            aggregate_id: The unique identifier of the aggregate.</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">            events: The list of events to save.</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">            expected_version: The expected version of the aggregate.</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">            A ``Result`` indicating success or an ``EventBusError``.</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>        <span class="o">...</span>
 </span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        Raises:</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">            ConcurrencyError: If the expected version does not match the current version.</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="k">pass</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="nd">@abstractmethod</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_events</span><span class="p">(</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>        <span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>        <span class="n">from_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>        <span class="n">to_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]:</span>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">        Retrieve events for an aggregate.</span>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="sd">            aggregate_id: The unique identifier of the aggregate.</span>
-</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">            from_version: The starting version (inclusive).</span>
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">            to_version: The ending version (inclusive).</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Command</span><span class="p">[</span><span class="n">CommandPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]:</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Send a command to its registered handler.</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">            command: The command to dispatch.</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">            A ``Result`` indicating success or an ``EventBusError``.</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>        <span class="o">...</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">register_handler</span><span class="p">(</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Event</span><span class="p">[</span><span class="nb">object</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Command</span><span class="p">[</span><span class="nb">object</span><span class="p">]],</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>        <span class="n">handler</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a handler for the given message type.</span>
 </span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>
-</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">            A list of events.</span>
-</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="k">pass</span>
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>
-</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>    <span class="nd">@abstractmethod</span>
-</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">        Retrieve a snapshot of an aggregate at a specific version.</span>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">            aggregate_id: The unique identifier of the aggregate.</span>
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">            version: The version of the snapshot.</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">            The snapshot data, or None if not found.</span>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="k">pass</span>
-</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>
-</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>    <span class="nd">@abstractmethod</span>
-</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save_snapshot</span><span class="p">(</span>
-</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">snapshot</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span>
-</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">        Save a snapshot of an aggregate.</span>
-</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>
-</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">            aggregate_id: The unique identifier of the aggregate.</span>
-</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">            version: The version of the snapshot.</span>
-</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="sd">            snapshot: The snapshot data.</span>
-</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>        <span class="k">pass</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">            message_type: The message class to handle.</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">            handler: A handler instance (``EventHandler`` or ``CommandHandler``).</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -6746,20 +6663,20 @@ for aggregate roots. It follows the Event Sourcing pattern.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.infrastructure.event_store.EventStorePort.save_events" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">save_events</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">expected_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+<h4 id="forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.publish" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">publish</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.infrastructure.event_store.EventStorePort.save_events" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.publish" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Save a list of events for an aggregate.</p>
+        <p>Publish a domain event to all registered handlers.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -6775,200 +6692,18 @@ for aggregate roots. It follows the Event Sourcing pattern.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>aggregate_id</code>
+                <code>event</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code><a class="autorefs autorefs-internal" title="Event (forging_blocks.foundation.messages.event.Event)" href="../../../foundation/messages/event/#forging_blocks.foundation.messages.event.Event">Event</a>[<span title="forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase[EventPayloadType]">EventPayloadType</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The unique identifier of the aggregate.</p>
+                <p>The domain event to publish.</p>
               </div>
             </td>
             <td>
                 <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>events</code>
-            </td>
-            <td>
-                  <code><span title="typing.List">List</span>[<span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The list of events to save.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>expected_version</code>
-            </td>
-            <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The expected version of the aggregate.</p>
-              </div>
-            </td>
-            <td>
-                  <code>None</code>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="ConcurrencyError (forging_blocks.infrastructure.event_store.ConcurrencyError)" href="#forging_blocks.infrastructure.event_store.ConcurrencyError">ConcurrencyError</a></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>If the expected version does not match the current version.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/infrastructure/event_store.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="nd">@abstractmethod</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save_events</span><span class="p">(</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="n">expected_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    Save a list of events for an aggregate.</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        aggregate_id: The unique identifier of the aggregate.</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        events: The list of events to save.</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">        expected_version: The expected version of the aggregate.</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    Raises:</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        ConcurrencyError: If the expected version does not match the current version.</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="k">pass</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="forging_blocks.infrastructure.event_store.EventStorePort.get_events" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_events</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">from_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">to_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.infrastructure.event_store.EventStorePort.get_events" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Retrieve events for an aggregate.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>aggregate_id</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The unique identifier of the aggregate.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>from_version</code>
-            </td>
-            <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The starting version (inclusive).</p>
-              </div>
-            </td>
-            <td>
-                  <code>None</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>to_version</code>
-            </td>
-            <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The ending version (inclusive).</p>
-              </div>
-            </td>
-            <td>
-                  <code>None</code>
             </td>
           </tr>
       </tbody>
@@ -6986,11 +6721,11 @@ for aggregate roots. It follows the Event Sourcing pattern.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="list">list</span>[<span title="dict">dict</span>[<span title="str">str</span>, <span title="object">object</span>]]</code>
+                  <code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../../../foundation/result/result/#forging_blocks.foundation.result.result.Result">Result</a>[None, <a class="autorefs autorefs-internal" title="EventBusError (forging_blocks.application.errors.event_bus_error.EventBusError)" href="../../../application/errors/event_bus_error/#forging_blocks.application.errors.event_bus_error.EventBusError">EventBusError</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A list of events.</p>
+                <p>A <code>Result</code> indicating success or an <code>EventBusError</code>.</p>
               </div>
             </td>
           </tr>
@@ -6999,15 +6734,204 @@ for aggregate roots. It follows the Event Sourcing pattern.</p>
 
 
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/infrastructure/event_store.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-42">42</a></span>
+              <summary>Source code in <code>src/forging_blocks/infrastructure/event_buses/event_bus_base.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="nd">@abstractmethod</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]:</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Publish a domain event to all registered handlers.</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">        event: The domain event to publish.</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        A ``Result`` indicating success or an ``EventBusError``.</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="o">...</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.send" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">send</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="n">Command</span><span class="p">[</span><span class="n">CommandPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.send" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Send a command to its registered handler.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>command</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="Command (forging_blocks.foundation.messages.command.Command)" href="../../../foundation/messages/command/#forging_blocks.foundation.messages.command.Command">Command</a>[<span title="forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase[CommandPayloadType]">CommandPayloadType</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The command to dispatch.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="Result (forging_blocks.foundation.result.Result)" href="../../../foundation/result/result/#forging_blocks.foundation.result.result.Result">Result</a>[None, <a class="autorefs autorefs-internal" title="EventBusError (forging_blocks.application.errors.event_bus_error.EventBusError)" href="../../../application/errors/event_bus_error/#forging_blocks.application.errors.event_bus_error.EventBusError">EventBusError</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A <code>Result</code> indicating success or an <code>EventBusError</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/infrastructure/event_buses/event_bus_base.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
 <span class="normal"><a href="#__codelineno-0-43">43</a></span>
 <span class="normal"><a href="#__codelineno-0-44">44</a></span>
 <span class="normal"><a href="#__codelineno-0-45">45</a></span>
 <span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="nd">@abstractmethod</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Command</span><span class="p">[</span><span class="n">CommandPayloadType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">EventBusError</span><span class="p">]:</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Send a command to its registered handler.</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        command: The command to dispatch.</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        A ``Result`` indicating success or an ``EventBusError``.</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="o">...</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.register_handler" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">register_handler</span><span class="p">(</span><span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Event</span><span class="p">[</span><span class="nb">object</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Command</span><span class="p">[</span><span class="nb">object</span><span class="p">]],</span> <span class="n">handler</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+  </span>
+
+<a href="#forging_blocks.infrastructure.event_buses.event_bus_base.EventBusBase.register_handler" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Register a handler for the given message type.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>message_type</code>
+            </td>
+            <td>
+                  <code><span title="type">type</span>[<a class="autorefs autorefs-internal" title="Event (forging_blocks.foundation.messages.event.Event)" href="../../../foundation/messages/event/#forging_blocks.foundation.messages.event.Event">Event</a>[<span title="object">object</span>]] | <span title="type">type</span>[<a class="autorefs autorefs-internal" title="Command (forging_blocks.foundation.messages.command.Command)" href="../../../foundation/messages/command/#forging_blocks.foundation.messages.command.Command">Command</a>[<span title="object">object</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The message class to handle.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>handler</code>
+            </td>
+            <td>
+                  <code><span title="object">object</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A handler instance (<code>EventHandler</code> or <code>CommandHandler</code>).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/infrastructure/event_buses/event_bus_base.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-49">49</a></span>
 <span class="normal"><a href="#__codelineno-0-50">50</a></span>
 <span class="normal"><a href="#__codelineno-0-51">51</a></span>
 <span class="normal"><a href="#__codelineno-0-52">52</a></span>
@@ -7018,331 +6942,25 @@ for aggregate roots. It follows the Event Sourcing pattern.</p>
 <span class="normal"><a href="#__codelineno-0-57">57</a></span>
 <span class="normal"><a href="#__codelineno-0-58">58</a></span>
 <span class="normal"><a href="#__codelineno-0-59">59</a></span>
-<span class="normal"><a href="#__codelineno-0-60">60</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="nd">@abstractmethod</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_events</span><span class="p">(</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>    <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="n">from_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="n">to_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]:</span>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">    Retrieve events for an aggregate.</span>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="sd">        aggregate_id: The unique identifier of the aggregate.</span>
-</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">        from_version: The starting version (inclusive).</span>
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">        to_version: The ending version (inclusive).</span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#__codelineno-0-61">61</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="nd">@abstractmethod</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="k">def</span><span class="w"> </span><span class="nf">register_handler</span><span class="p">(</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Event</span><span class="p">[</span><span class="nb">object</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Command</span><span class="p">[</span><span class="nb">object</span><span class="p">]],</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="n">handler</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Register a handler for the given message type.</span>
 </span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>
-</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">        A list of events.</span>
-</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>    <span class="k">pass</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">        message_type: The message class to handle.</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">        handler: A handler instance (``EventHandler`` or ``CommandHandler``).</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="forging_blocks.infrastructure.event_store.EventStorePort.get_snapshot" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_snapshot</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.infrastructure.event_store.EventStorePort.get_snapshot" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Retrieve a snapshot of an aggregate at a specific version.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>aggregate_id</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The unique identifier of the aggregate.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>version</code>
-            </td>
-            <td>
-                  <code><span title="int">int</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The version of the snapshot.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="object">object</span>] | None</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The snapshot data, or None if not found.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/infrastructure/event_store.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-62">62</a></span>
-<span class="normal"><a href="#__codelineno-0-63">63</a></span>
-<span class="normal"><a href="#__codelineno-0-64">64</a></span>
-<span class="normal"><a href="#__codelineno-0-65">65</a></span>
-<span class="normal"><a href="#__codelineno-0-66">66</a></span>
-<span class="normal"><a href="#__codelineno-0-67">67</a></span>
-<span class="normal"><a href="#__codelineno-0-68">68</a></span>
-<span class="normal"><a href="#__codelineno-0-69">69</a></span>
-<span class="normal"><a href="#__codelineno-0-70">70</a></span>
-<span class="normal"><a href="#__codelineno-0-71">71</a></span>
-<span class="normal"><a href="#__codelineno-0-72">72</a></span>
-<span class="normal"><a href="#__codelineno-0-73">73</a></span>
-<span class="normal"><a href="#__codelineno-0-74">74</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="nd">@abstractmethod</span>
-</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">    Retrieve a snapshot of an aggregate at a specific version.</span>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">        aggregate_id: The unique identifier of the aggregate.</span>
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">        version: The version of the snapshot.</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">        The snapshot data, or None if not found.</span>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>    <span class="k">pass</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="forging_blocks.infrastructure.event_store.EventStorePort.save_snapshot" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">save_snapshot</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">snapshot</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.infrastructure.event_store.EventStorePort.save_snapshot" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Save a snapshot of an aggregate.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>aggregate_id</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The unique identifier of the aggregate.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>version</code>
-            </td>
-            <td>
-                  <code><span title="int">int</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The version of the snapshot.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>snapshot</code>
-            </td>
-            <td>
-                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="object">object</span>]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The snapshot data.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/infrastructure/event_store.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-76">76</a></span>
-<span class="normal"><a href="#__codelineno-0-77">77</a></span>
-<span class="normal"><a href="#__codelineno-0-78">78</a></span>
-<span class="normal"><a href="#__codelineno-0-79">79</a></span>
-<span class="normal"><a href="#__codelineno-0-80">80</a></span>
-<span class="normal"><a href="#__codelineno-0-81">81</a></span>
-<span class="normal"><a href="#__codelineno-0-82">82</a></span>
-<span class="normal"><a href="#__codelineno-0-83">83</a></span>
-<span class="normal"><a href="#__codelineno-0-84">84</a></span>
-<span class="normal"><a href="#__codelineno-0-85">85</a></span>
-<span class="normal"><a href="#__codelineno-0-86">86</a></span>
-<span class="normal"><a href="#__codelineno-0-87">87</a></span>
-<span class="normal"><a href="#__codelineno-0-88">88</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="nd">@abstractmethod</span>
-</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save_snapshot</span><span class="p">(</span>
-</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a>    <span class="bp">self</span><span class="p">,</span> <span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">snapshot</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span>
-</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">    Save a snapshot of an aggregate.</span>
-</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>
-</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">        aggregate_id: The unique identifier of the aggregate.</span>
-</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">        version: The version of the snapshot.</span>
-</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="sd">        snapshot: The snapshot data.</span>
-</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>    <span class="k">pass</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-  </div>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h3 id="forging_blocks.infrastructure.event_store.ConcurrencyError" class="doc doc-heading">
-            <code>ConcurrencyError</code>
-
-
-<a href="#forging_blocks.infrastructure.event_store.ConcurrencyError" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="Error (forging_blocks.foundation.errors.error.Error)" href="../../foundation/errors/error/#forging_blocks.foundation.errors.error.Error">Error</a>[<span title="dict">dict</span>[<span title="str">str</span>, <span title="object">object</span>]]</code></p>
-
-
-        <p>Raised when a concurrency conflict is detected.</p>
-
-
-
-
-
-
-
-
-              <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/infrastructure/event_store.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-91">91</a></span>
-<span class="normal"><a href="#__codelineno-0-92">92</a></span>
-<span class="normal"><a href="#__codelineno-0-93">93</a></span>
-<span class="normal"><a href="#__codelineno-0-94">94</a></span>
-<span class="normal"><a href="#__codelineno-0-95">95</a></span>
-<span class="normal"><a href="#__codelineno-0-96">96</a></span>
-<span class="normal"><a href="#__codelineno-0-97">97</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="k">class</span><span class="w"> </span><span class="nc">ConcurrencyError</span><span class="p">(</span><span class="n">Error</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]):</span>
-</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="sd">    Raised when a concurrency conflict is detected.</span>
-</span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a>
-</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">ErrorMessage</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
-</span></code></pre></div></td></tr></table></div>
-              </details>
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
 
 
 
@@ -7410,14 +7028,14 @@ for aggregate roots. It follows the Event Sourcing pattern.</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.sections", "toc.follow", "content.code.copy", "content.action.edit", "content.tabs.link"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.sections", "toc.follow", "content.code.copy", "content.action.edit", "content.tabs.link"], "search": "../../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
-        <script src="../../../../assets/js/version-dropdown.js"></script>
+        <script src="../../../../../assets/js/version-dropdown.js"></script>
       
-        <script src="../../../../assets/js/mermaid-init.js"></script>
+        <script src="../../../../../assets/js/mermaid-init.js"></script>
       
     
   </body>
