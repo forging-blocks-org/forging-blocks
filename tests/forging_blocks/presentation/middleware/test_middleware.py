@@ -4,7 +4,7 @@
 import pytest
 
 from forging_blocks.presentation import Middleware
-from forging_blocks.presentation.next_handler import NextHandler
+from forging_blocks.presentation.middleware.next_handler import NextHandler
 
 
 class FakeRequest:

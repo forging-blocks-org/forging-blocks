@@ -1,5 +1,5 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-"""Tests for the PresenterPort contract."""
+"""Tests for PresenterPort contract."""
 
 import pytest
 
@@ -28,7 +28,7 @@ class StubPresenter(PresenterPort[FakeResponse]):
 
 
 @pytest.mark.unit
-class TestPresenterPortContract:
+class TestPresenterContract:
     """Verify that PresenterPort can be implemented and used via the protocol."""
 
     def test_present_delegates_to_implementation(self) -> None:
@@ -50,4 +50,16 @@ class TestPresenterPortContract:
     def test_implementation_satisfies_protocol(self) -> None:
         """StubPresenter must be recognised as a PresenterPort at runtime."""
         presenter = StubPresenter()
+        assert isinstance(presenter, PresenterPort)
+
+    def test_different_response_types_can_be_used(self) -> None:
+        class StringPresenter(PresenterPort[str]):
+            def present(self, response: str) -> None:  # noqa: ARG002
+                pass
+
+            def present_error(self, error: object) -> None:  # noqa: ARG002
+                pass
+
+        presenter = StringPresenter()
+        presenter.present("hello")
         assert isinstance(presenter, PresenterPort)
