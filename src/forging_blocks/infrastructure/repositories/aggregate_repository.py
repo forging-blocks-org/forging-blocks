@@ -4,10 +4,11 @@ Provides a repository specifically designed for AggregateRoot persistence
 with event sourcing support.
 """
 
-from typing import Any
+from typing import Any, cast
 from uuid import UUID
 
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
+from forging_blocks.foundation.messages.event import Event
 from forging_blocks.infrastructure.event_stores.event_store_base import EventStoreBase
 from forging_blocks.infrastructure.repositories.base_repository import BaseRepository
 
@@ -46,7 +47,7 @@ class AggregateRepository[
             aggregate: The aggregate to save.
         """
         await super().save(aggregate)
-        events = aggregate.collect_events()
+        events = cast("list[Event[EventPayloadType]]", aggregate.collect_events())
         aggregate_id: UUID | None = aggregate.id  # type: ignore[assignment]
         if events and aggregate_id is not None:
             version = aggregate.version.value - len(events)
