@@ -55,11 +55,12 @@ class AggregateRepository[
     async def save(self, aggregate: TAggregateRoot) -> None:
         """Save an aggregate and its uncommitted events.
 
-        Persists the aggregate via the base repository and appends
-        its collected domain events to the event store with optimistic
-        concurrency checks.
+        Writes events to the event store first, then persists the aggregate
+        snapshot. If the event store write fails, the error is raised so the
+        Unit of Work can rollback and the aggregate retains its uncommitted
+        events.
 
-        The ``cast`` on ``collect_events()`` bridges the gap between
+        The ``cast`` on ``uncommitted_changes`` bridges the gap between
         ``TAggregateRoot``'s bound (``AggregateRoot[UUID, Any]``) and the
         repository's ``EventPayloadType`` generic. The types are guaranteed to
         match at runtime by construction; the type system cannot express this
@@ -68,13 +69,22 @@ class AggregateRepository[
 
         Args:
             aggregate: The aggregate to save.
+
+        Raises:
+            EventStoreError: If the event store write fails (e.g., concurrency
+                conflict, I/O error).
         """
-        await super().save(aggregate)
-        events = cast("list[Event[EventPayloadType]]", aggregate.collect_events())
+        events = cast(list[Event[EventPayloadType]], aggregate.uncommitted_changes)
         aggregate_id: UUID | None = aggregate.id  # type: ignore[assignment]
         if events and aggregate_id is not None:
             version = aggregate.version.value - len(events)
-            await self._event_store.append_events(aggregate_id, events, expected_version=version)
+            result = await self._event_store.append_events(
+                aggregate_id, events, expected_version=version
+            )
+            if not result.is_ok:
+                raise result.error
+            aggregate.collect_events()
+        await super().save(aggregate)
 
     async def get_by_id(self, id: TId) -> TAggregateRoot | None:  # noqa: A002
         """Retrieve an aggregate by ID and replay its events.
