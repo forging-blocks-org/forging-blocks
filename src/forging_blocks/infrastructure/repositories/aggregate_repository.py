@@ -22,6 +22,18 @@ class AggregateRepository[
 
     Extends BaseRepository with event store integration for
     event-sourced aggregates.
+
+    Type Parameters:
+        EventPayloadType: The event payload type tracked by the event store.
+            Flows through the public generic interface.
+        TAggregateRoot: An AggregateRoot subtype with UUID identity whose event
+            payload type must match ``EventPayloadType`` at each call site. The
+            bound uses ``Any`` as the second type argument — not because the
+            event type is untyped, but because PEP 695 (and the underlying type
+            system) forbids one TypeVar from appearing inside another TypeVar's
+            bound. The ``cast`` in :meth:`save` is the explicit, localized bridge
+            across this gap. The invariant is enforced by construction.
+        TId: The aggregate identity type, bounded by ``UUID``.
     """
 
     _event_store: EventStoreBase[EventPayloadType]
@@ -42,6 +54,17 @@ class AggregateRepository[
 
     async def save(self, aggregate: TAggregateRoot) -> None:
         """Save an aggregate and its uncommitted events.
+
+        Persists the aggregate via the base repository and appends
+        its collected domain events to the event store with optimistic
+        concurrency checks.
+
+        The ``cast`` on ``collect_events()`` bridges the gap between
+        ``TAggregateRoot``'s bound (``AggregateRoot[UUID, Any]``) and the
+        repository's ``EventPayloadType`` generic. The types are guaranteed to
+        match at runtime by construction; the type system cannot express this
+        cross-TypeVar-bound relationship (see PEP 695, pyright
+        ``reportGeneralTypeIssues``).
 
         Args:
             aggregate: The aggregate to save.
