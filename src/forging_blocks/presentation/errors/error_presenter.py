@@ -35,6 +35,8 @@ class ErrorPresenter:
                 print(f"  {msg.title}")
     """
 
+    __slots__ = ()
+
     def to_view_model(self, error: object) -> ErrorViewModel:
         """Convert any error into a display-ready view model.
 
