@@ -16,4 +16,8 @@ class ErrorViewModel:
     validation or business-rule failures.
     """
 
-    messages: list[ErrorMessageModel] = field(default_factory=list[ErrorMessageModel])
+    messages: tuple[ErrorMessageModel, ...] = field(default_factory=tuple[ErrorMessageModel])
+
+    def __post_init__(self) -> None:
+        """Ensure ``messages`` is stored as an immutable tuple."""
+        self.messages = tuple(self.messages)

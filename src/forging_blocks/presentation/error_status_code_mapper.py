@@ -2,7 +2,6 @@
 
 from dataclasses import replace
 
-from forging_blocks.presentation.error_message_model import ErrorMessageModel
 from forging_blocks.presentation.error_view_model import ErrorViewModel
 
 
@@ -29,9 +28,9 @@ class ErrorStatusCodeMapper:
             A new ``ErrorViewModel`` whose ``ErrorMessageModel``
             entries each carry the appropriate ``status_code``.
         """
-        enriched: list[ErrorMessageModel] = [
+        enriched = tuple(
             replace(msg, status_code=self._status_code_for(msg.code)) for msg in view_model.messages
-        ]
+        )
         return ErrorViewModel(messages=enriched)
 
     def _status_code_for(self, code: str | None) -> int:
