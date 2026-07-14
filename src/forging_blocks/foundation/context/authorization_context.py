@@ -32,11 +32,11 @@ class AuthorizationContext(ValueObject[tuple[Hashable, ...]]):
         self,
         user_id: str,
         *,
-        roles: tuple[str, ...] | None = None,
+        roles: tuple[str, ...] = (),
         resource_id: str | None = None,
         resource_type: str | None = None,
         action: str | None = None,
-        metadata: tuple[tuple[str, Hashable], ...] | None = None,
+        metadata: tuple[tuple[str, Hashable], ...] = (),
     ) -> None:
         super().__init__()
         self._user_id = user_id
@@ -52,7 +52,7 @@ class AuthorizationContext(ValueObject[tuple[Hashable, ...]]):
         return self._user_id
 
     @property
-    def roles(self) -> tuple[str, ...] | None:
+    def roles(self) -> tuple[str, ...]:
         """Roles assigned to the user (e.g. ``("admin", "editor")``)."""
         return self._roles
 
@@ -72,7 +72,7 @@ class AuthorizationContext(ValueObject[tuple[Hashable, ...]]):
         return self._action
 
     @property
-    def metadata(self) -> tuple[tuple[str, Hashable], ...] | None:
+    def metadata(self) -> tuple[tuple[str, Hashable], ...]:
         """Arbitrary key-value pairs that checkers may inspect."""
         return self._metadata
 

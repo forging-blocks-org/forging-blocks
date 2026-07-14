@@ -11,7 +11,7 @@ class TestAuthorizationContext:
         context = AuthorizationContext(user_id="user-1")
 
         assert context.user_id == "user-1"
-        assert context.roles is None
+        assert context.roles == ()
 
     def test_when_created_with_full_arguments_then_stores_all(self) -> None:
         context = AuthorizationContext(

@@ -35,7 +35,7 @@ class TransactionContext(ValueObject[tuple[Hashable, ...]]):
         transaction_id: uuid.UUID | None = None,
         started_at: datetime | None = None,
         isolation_level: str = "read_committed",
-        metadata: tuple[tuple[str, Hashable], ...] | None = None,
+        metadata: tuple[tuple[str, Hashable], ...] = (),
     ) -> None:
         super().__init__()
         self._transaction_id = transaction_id if transaction_id is not None else uuid.uuid4()
@@ -59,7 +59,7 @@ class TransactionContext(ValueObject[tuple[Hashable, ...]]):
         return self._isolation_level
 
     @property
-    def metadata(self) -> tuple[tuple[str, Hashable], ...] | None:
+    def metadata(self) -> tuple[tuple[str, Hashable], ...]:
         """Arbitrary key-value pairs for cross-cutting concerns."""
         return self._metadata
 

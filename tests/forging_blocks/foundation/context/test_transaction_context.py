@@ -14,7 +14,7 @@ class TestTransactionContext:
 
         assert isinstance(context.transaction_id, uuid.UUID)
         assert context.isolation_level == "read_committed"
-        assert context.metadata is None
+        assert context.metadata == ()
 
     def test_when_two_contexts_then_different_identifiers(self) -> None:
         first = TransactionContext()
