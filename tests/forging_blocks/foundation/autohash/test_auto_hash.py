@@ -9,6 +9,10 @@ import pytest
 
 from forging_blocks.foundation.autofreeze.auto_freeze import auto_freeze
 from forging_blocks.foundation.autohash.auto_hash import auto_hash
+from forging_blocks.foundation.errors import CantModifyImmutableAttributeError
+from forging_blocks.foundation.errors.non_hashable_value_error import (
+    NonHashableValueError,
+)
 
 # ---------------------------------------------------------------------------
 # Tests for the auto_hash decorator
@@ -166,20 +170,20 @@ class TestAutoHashDecorator:
         assert hash(i1) == hash(i2)
         assert i1 in {i1, i2}  # hashable → can be in set
 
-    def test_when_only_auto_hash_no_freeze_then_mutable_but_hashable(self) -> None:
+    def test_when_auto_hash_then_instance_is_frozen(self) -> None:
+        """auto_hash composes auto_freeze — instances are immutable."""
+
         @auto_hash
         @dataclass
-        class MutablePoint:
+        class Point:
             x: int
             y: int
 
-        mp = MutablePoint(1, 2)
-        original_hash = hash(mp)
+        p = Point(1, 2)
+        _ = hash(p)
 
-        mp.x = 999
-        new_hash = hash(mp)
-
-        assert new_hash != original_hash
+        with pytest.raises(CantModifyImmutableAttributeError):
+            p.x = 999
 
     # -- Plain classes ------------------------------------------------------
 
@@ -213,6 +217,59 @@ class TestAutoHashDecorator:
 
         assert hash(s1) == hash(s2)
 
+    def test_when_slotted_inheritance_chain_with_auto_hash_then_hash_correct(self) -> None:
+        @auto_hash
+        class Base:
+            __slots__ = ("_x",)
+
+            def __init__(self, x: int) -> None:
+                self._x = x
+
+        @auto_hash
+        class Child(Base):
+            __slots__ = ("_y",)
+
+            def __init__(self, x: int, y: str) -> None:
+                super().__init__(x)
+                self._y = y
+
+        c1 = Child(1, "a")
+        c2 = Child(1, "a")
+        c3 = Child(2, "a")
+        c4 = Child(1, "b")
+
+        assert hash(c1) == hash(c2)
+        assert hash(c1) != hash(c3)
+        assert hash(c1) != hash(c4)
+
+    def test_when_slotted_with_mixin_then_slots_collected_across_mro(self) -> None:
+        """Verify _collect_slots walks MRO correctly even with mixins."""
+
+        class Mixin:
+            __slots__ = ()
+
+        @auto_hash
+        class Base:
+            __slots__ = ("_base_field",)
+
+            def __init__(self, base_field: int) -> None:
+                self._base_field = base_field
+
+        @auto_hash
+        class Child(Mixin, Base):
+            __slots__ = ("_child_field",)
+
+            def __init__(self, base_field: int, child_field: str) -> None:
+                super().__init__(base_field)
+                self._child_field = child_field
+
+        c1 = Child(1, "x")
+        c2 = Child(1, "x")
+        c3 = Child(2, "x")
+
+        assert hash(c1) == hash(c2)
+        assert hash(c1) != hash(c3)
+
     def test_when_non_dataclass_without_fields_then_type_error(self) -> None:
         with pytest.raises(TypeError, match="Cannot determine hash fields"):
 
@@ -221,6 +278,24 @@ class TestAutoHashDecorator:
                     self.x = x
 
             auto_hash(Plain)
+
+    def test_when_plain_class_with_annotations_then_hash_uses_annotations(self) -> None:
+        class Plain:
+            x: int
+            y: int
+
+            def __init__(self, x: int, y: int) -> None:
+                self.x = x
+                self.y = y
+
+        auto_hash(Plain)
+
+        p1 = Plain(1, 2)
+        p2 = Plain(1, 2)
+        p3 = Plain(3, 2)
+
+        assert hash(p1) == hash(p2)
+        assert hash(p1) != hash(p3)
 
     def test_when_non_dataclass_with_explicit_fields_then_succeeds(self) -> None:
         class Plain:
@@ -236,6 +311,36 @@ class TestAutoHashDecorator:
 
         assert hash(p1) == hash(p2)
         assert hash(p1) != hash(p3)
+
+    def test_when_auto_hash_and_auto_freeze_stacked_then_idempotent(self) -> None:
+        """@auto_hash auto-applies @auto_freeze — stacking both is harmless."""
+
+        @auto_freeze
+        @auto_hash
+        @dataclass
+        class Point:
+            x: int
+            y: int
+
+        p = Point(1, 2)
+        # Hashing works (auto_hash applied)
+        assert hash(p) == hash(Point(1, 2))
+        # Immutability works (auto_freeze applied, idempotent)
+        with pytest.raises(CantModifyImmutableAttributeError):
+            p.x = 99
+
+    def test_when_auto_freeze_before_auto_hash_then_idempotent(self) -> None:
+        @auto_hash
+        @auto_freeze
+        @dataclass
+        class Point:
+            x: int
+            y: int
+
+        p = Point(1, 2)
+        assert hash(p) == hash(Point(1, 2))
+        with pytest.raises(CantModifyImmutableAttributeError):
+            p.x = 99
 
     # -- Integration: sets --------------------------------------------------
 
@@ -306,5 +411,5 @@ class TestAutoHashDecorator:
 
         # sets are not converted — should raise
         instance = WithSet("x", {1, 2})
-        with pytest.raises(TypeError, match="Cannot convert"):
+        with pytest.raises(NonHashableValueError, match="Cannot convert"):
             hash(instance)
