@@ -1,129 +1,126 @@
-"""
-Tests for the AggregateRepository implementation.
-"""
+"""Tests for the AggregateRepository class."""
+
+from typing import cast
+from uuid import UUID, uuid7
 
 import pytest
 
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
-from forging_blocks.domain.aggregate_root.aggregate_version import AggregateVersion
 from forging_blocks.foundation.messages.event import Event
-from forging_blocks.infrastructure.in_memory_event_store import InMemoryEventStore
-from forging_blocks.infrastructure.repositories.aggregate_repository import AggregateRepository
-from tests.fixtures.fake_event_with_value import FakeEventWithValue
+from forging_blocks.infrastructure.event_stores.in_memory_event_store_base import (
+    InMemoryEventStoreBase,
+)
+from forging_blocks.infrastructure.repositories.aggregate_repository import (
+    AggregateRepository,
+)
 
 
-class FakeAggregate(AggregateRoot[str, dict[str, object]]):
-    """Fake aggregate for testing."""
-
-    def __init__(self, aggregate_id: str, version: AggregateVersion | None = None):
-        super().__init__(aggregate_id, version)
-        self._state = ""
-
-    def _handle(self, event: Event[dict[str, object]]) -> None:
-        self._state = event.value["value"]
+class FakeEvent(Event[object]):
+    def __init__(self, name: str) -> None:
+        super().__init__()
+        self._name = name
 
     @property
-    def state(self) -> object:
-        return self._state
+    def _payload(self) -> dict[str, object]:
+        return {"name": self._name}
+
+    @property
+    def value(self) -> dict[str, object]:
+        return self._payload
 
 
-class _FakeAggregateRepository(AggregateRepository[FakeAggregate, str]):
-    """Concrete subclass for testing."""
+class FakeAggregate(AggregateRoot[UUID, object]):
+    def __init__(self, aggregate_id: UUID) -> None:
+        super().__init__(aggregate_id)
+        self.items: list[str] = []
+
+    def add_item(self, name: str) -> None:
+        self.apply(FakeEvent(name))
+
+    def _handle(self, event: Event[object]) -> None:
+        if isinstance(event, FakeEvent):
+            self.items.append(cast(str, event.value["name"]))
 
 
+@pytest.mark.unit
 class TestAggregateRepository:
-    """Tests for the AggregateRepository implementation."""
-
-    @pytest.fixture
-    def event_store(self) -> InMemoryEventStore:
-        """Create an in-memory event store."""
-        return InMemoryEventStore()
-
-    @pytest.fixture
-    def repo(self, event_store: InMemoryEventStore) -> _FakeAggregateRepository:
-        """Create an AggregateRepository with the event store."""
-        return _FakeAggregateRepository(event_store)
-
-    @pytest.mark.asyncio
-    async def test_save_aggregate(self, repo: _FakeAggregateRepository) -> None:
-        """Test saving an aggregate."""
-        aggregate = FakeAggregate("1")
-        aggregate.apply(FakeEventWithValue("initial"))
+    async def test_save_and_retrieve_aggregate(self) -> None:
+        repo = AggregateRepository[object, FakeAggregate, UUID](
+            event_store=InMemoryEventStoreBase[object](),
+        )
+        aggregate = FakeAggregate(uuid7())
 
         await repo.save(aggregate)
+        retrieved = await repo.get_by_id(cast(UUID, aggregate.id))
 
-        # Check that aggregate is in storage
-        retrieved = await repo.get_by_id("1")
         assert retrieved is not None
-        assert retrieved.state == "initial"
+        assert retrieved.id == aggregate.id
 
-    @pytest.mark.asyncio
-    async def test_save_persists_events(
-        self,
-        repo: _FakeAggregateRepository,
-        event_store: InMemoryEventStore,
-    ) -> None:
-        """Test that saving an aggregate persists its events to the event store."""
-        aggregate = FakeAggregate("1")
-        aggregate.apply(FakeEventWithValue("event1"))
-        aggregate.apply(FakeEventWithValue("event2"))
+    async def test_save_persists_events_to_event_store(self) -> None:
+        event_store = InMemoryEventStoreBase[object]()
+        repo = AggregateRepository[object, FakeAggregate, UUID](event_store=event_store)
+        aggregate = FakeAggregate(uuid7())
+        aggregate.add_item("widget")
 
         await repo.save(aggregate)
-        # Check events in event store
-        events: list[dict[str, object]] = await event_store.get_events("1")
-        assert len(events) == 2
-        payload0 = events[0]["payload"]
-        assert isinstance(payload0, dict)
-        assert payload0["value"] == "event1"
-        payload1 = events[1]["payload"]
-        assert isinstance(payload1, dict)
-        assert payload1["value"] == "event2"
 
-    @pytest.mark.asyncio
-    async def test_save_with_expected_version(
-        self,
-        repo: _FakeAggregateRepository,
-        event_store: InMemoryEventStore,
-    ) -> None:
-        """Test saving with expected version for concurrency control."""
-        aggregate = FakeAggregate("1")
-        aggregate.apply(FakeEventWithValue("event1"))
-        await repo.save(aggregate)
+        result = await event_store.get_events(cast(UUID, aggregate.id))
+        assert result.is_ok
+        assert len(result.value) == 1
 
-        # Apply another event to the same aggregate instance
-        aggregate.apply(FakeEventWithValue("event2"))
+    async def test_get_by_id_returns_none_for_unknown_aggregate(self) -> None:
+        repo = AggregateRepository[object, FakeAggregate, UUID](
+            event_store=InMemoryEventStoreBase[object](),
+        )
 
-        # This should work since we're using the same aggregate instance
-        await repo.save(aggregate)
+        retrieved = await repo.get_by_id(uuid7())
 
-        # Check events in event store
-        events: list[dict[str, object]] = await event_store.get_events("1")
-        assert len(events) == 2
-
-    async def test_get_by_id_from_storage(self, repo: _FakeAggregateRepository) -> None:
-        """Test getting an aggregate from in-memory storage."""
-        aggregate = FakeAggregate("1")
-        aggregate.apply(FakeEventWithValue("initial"))
-        await repo.save(aggregate)
-
-        retrieved = await repo.get_by_id("1")
-        assert retrieved is not None
-        assert retrieved.state == "initial"
-
-    @pytest.mark.asyncio
-    async def test_get_by_id_not_found(self, repo: _FakeAggregateRepository) -> None:
-        """Test getting a non-existent aggregate."""
-        retrieved = await repo.get_by_id("999")
         assert retrieved is None
 
-    @pytest.mark.asyncio
-    async def test_delete_aggregate(self, repo: _FakeAggregateRepository) -> None:
-        """Test deleting an aggregate."""
-        aggregate = FakeAggregate("1")
-        aggregate.apply(FakeEventWithValue("initial"))
+    async def test_save_with_multiple_events_persists_all(self) -> None:
+        event_store = InMemoryEventStoreBase[object]()
+        repo = AggregateRepository[object, FakeAggregate, UUID](event_store=event_store)
+        aggregate = FakeAggregate(uuid7())
+        aggregate.add_item("a")
+        aggregate.add_item("b")
+        aggregate.add_item("c")
+
         await repo.save(aggregate)
 
-        await repo.delete_by_id("1")
+        result = await event_store.get_events(cast(UUID, aggregate.id))
+        assert result.is_ok
+        assert len(result.value) == 3
 
-        retrieved = await repo.get_by_id("1")
+    async def test_save_without_events_does_not_append_to_event_store(self) -> None:
+        event_store = InMemoryEventStoreBase[object]()
+        repo = AggregateRepository[object, FakeAggregate, UUID](event_store=event_store)
+        aggregate = FakeAggregate(uuid7())
+
+        await repo.save(aggregate)
+
+        result = await event_store.get_events(cast(UUID, aggregate.id))
+        assert result.is_ok
+        assert len(result.value) == 0
+
+    async def test_init_with_prefilled_storage_finds_existing(self) -> None:
+        aggregate = FakeAggregate(uuid7())
+        storage = {cast(UUID, aggregate.id): aggregate}
+        repo = AggregateRepository[object, FakeAggregate, UUID](
+            event_store=InMemoryEventStoreBase[object](),
+            storage=storage,
+        )
+
+        retrieved = await repo.get_by_id(cast(UUID, aggregate.id))
+
+        assert retrieved is not None
+        assert retrieved.id == aggregate.id
+
+    async def test_get_by_id_returns_none_when_only_event_store_has_events(self) -> None:
+        aggregate_id = uuid7()
+        event_store = InMemoryEventStoreBase[object]()
+        await event_store.append_events(aggregate_id, [FakeEvent("stale")])
+        repo = AggregateRepository[object, FakeAggregate, UUID](event_store=event_store)
+
+        retrieved = await repo.get_by_id(aggregate_id)
+
         assert retrieved is None

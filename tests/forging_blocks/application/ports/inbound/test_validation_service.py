@@ -8,7 +8,6 @@ from forging_blocks.foundation.errors.rule_violation_error import RuleViolationE
 
 
 @pytest.mark.unit
-@pytest.mark.asyncio
 class TestValidationService:
     async def test_when_concrete_implementation_then_returns_command_errors(self) -> None:
         class StrictValidator(ValidationService):

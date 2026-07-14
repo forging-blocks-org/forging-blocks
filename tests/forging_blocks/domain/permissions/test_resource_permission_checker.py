@@ -8,7 +8,6 @@ from forging_blocks.foundation.permission import Permission
 
 
 @pytest.mark.unit
-@pytest.mark.asyncio
 class TestResourcePermissionChecker:
     async def test_when_resource_type_allows_permission_then_grants(self) -> None:
         checker = ResourcePermissionChecker({"document": [Permission.READ, Permission.WRITE]})

@@ -1,6 +1,6 @@
 """Tests for the InMemoryEventBus implementation."""
 
-from typing import Any, cast
+from typing import cast
 
 import pytest
 
@@ -48,8 +48,8 @@ class TestInMemoryEventBus:
         handled: list[str] = []
 
         class Handler(CommandHandler[dict[str, object]]):
-            async def handle(self, message: Command[dict[str, object]]) -> None:  # type: ignore[override]
-                handled.append(cast(Any, message)._name)
+            async def handle(self, message: Command[dict[str, object]]) -> None:
+                handled.append(cast(str, cast(SimpleFakeCommand, message).value["name"]))
 
         bus.register_handler(SimpleFakeCommand, Handler())
 

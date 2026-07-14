@@ -7,7 +7,6 @@ from forging_blocks.foundation.result import Err, Ok
 
 
 @pytest.mark.unit
-@pytest.mark.asyncio
 class TestApplicationService:
     async def test_when_implementation_returns_ok_then_is_ok(self) -> None:
         class RegisterUserService:

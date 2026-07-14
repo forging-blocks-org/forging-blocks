@@ -11,7 +11,6 @@ from scripts.release.infrastructure.container import Container
 
 @pytest.mark.unit
 class TestContainer:
-    @pytest.mark.asyncio
     async def test_prepare_release_use_case_factory(self) -> None:
         container = Container()
         await container.initialize()
