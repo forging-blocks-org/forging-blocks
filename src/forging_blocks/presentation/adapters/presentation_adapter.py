@@ -128,7 +128,7 @@ class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
                 raise
             view_model = self._error_presenter.to_view_model(exc)
             mapped = ErrorViewModel(
-                messages=[replace(msg, status_code=400) for msg in view_model.messages]
+                messages=tuple(replace(msg, status_code=400) for msg in view_model.messages)
             )
             return self._response_adapter.adapt_error(mapped)
 
