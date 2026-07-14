@@ -344,7 +344,7 @@ class TestAutoHashDecorator:
 
     # -- Integration: sets --------------------------------------------------
 
-    def test_whenhash_consistent_then_set_deduplicates(self) -> None:
+    def test_when_hash_consistent_then_set_deduplicates(self) -> None:
         @auto_freeze
         @auto_hash
         @dataclass

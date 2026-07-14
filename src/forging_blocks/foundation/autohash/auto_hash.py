@@ -5,7 +5,8 @@ based on dataclass fields and automatically composes :func:`auto_freeze` to
 enforce immutability. A hashable object MUST be immutable — ``@auto_hash``
 guarantees both in a single decorator.
 
-Works with ``@dataclass`` (any order) and on plain classes with ``__slots__``
+Works with ``@dataclass`` (``@auto_hash`` must be the outermost decorator
+— apply it *above* ``@dataclass``) and on plain classes with ``__slots__``
 or ``__annotations__``::
 
     @auto_hash

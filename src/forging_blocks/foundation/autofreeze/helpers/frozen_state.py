@@ -61,6 +61,9 @@ class FrozenStateManager:
         try:
             object.__delattr__(instance, _INIT_DEPTH_FLAG)
         except (AttributeError, TypeError):
+            # Instance cannot have the tracking attribute removed
+            # (e.g., it was never set, or the class is slotted).
+            # Fallback map cleanup happens unconditionally below.
             pass
         cls._init_depth_fallback.pop(id(instance), None)
 

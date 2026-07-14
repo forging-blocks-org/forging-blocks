@@ -37,7 +37,7 @@ class HashableConverter:
                 set or a custom non-hashable object).
         """
         if isinstance(value, Hashable):
-            return value
+            return cls._ensure_deeply_hashable(value)
         if isinstance(value, list):
             return cls._convert_list(cast("list[object]", value))
         if isinstance(value, dict):
@@ -45,9 +45,26 @@ class HashableConverter:
         raise NonHashableValueError(type(value).__name__)
 
     @classmethod
+    def _ensure_deeply_hashable(cls, value: Hashable) -> Hashable:
+        """Verify and convert nested elements of an already-hashable container.
+
+        ``tuple`` and ``frozenset`` pass ``isinstance(..., Hashable)`` even when
+        they contain unhashable elements (e.g. ``([1,2],)``).  Recursively convert
+        those interior values.
+        """
+        if isinstance(value, tuple):
+            return tuple(cls.convert(v) for v in cast("tuple[object, ...]", value))
+        if isinstance(value, frozenset):
+            return frozenset(cls.convert(v) for v in cast("frozenset[object]", value))
+        return value
+
+    @classmethod
     def _convert_list[T](cls, items: list[T]) -> tuple[Hashable, ...]:
         return tuple(cls.convert(v) for v in items)
 
     @classmethod
     def _convert_dict[K, V](cls, mapping: dict[K, V]) -> tuple[tuple[K, Hashable], ...]:
-        return tuple(sorted((k, cls.convert(v)) for k, v in mapping.items()))
+        try:
+            return tuple(sorted((k, cls.convert(v)) for k, v in mapping.items()))
+        except TypeError as exc:
+            raise NonHashableValueError(f"dict keys are not orderable: {exc}") from exc
