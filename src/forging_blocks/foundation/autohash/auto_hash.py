@@ -2,9 +2,9 @@
 
 Provides the :func:`auto_hash` decorator that generates a ``__hash__`` method
 based on dataclass fields and automatically composes :func:`auto_freeze` to
-enforce immutability. A hashable object MUST be immutable — ``@auto_hash``
-guarantees both in a single decorator.
-
+enforce immutability.  A hashable object must be immutable — ``@auto_hash``
+ensures both by applying ``@auto_freeze`` internally, which forbids attribute
+assignment after ``__init__`` completes.
 Works with ``@dataclass`` (``@auto_hash`` must be the outermost decorator
 — apply it *above* ``@dataclass``) and on plain classes with ``__slots__``
 or ``__annotations__``::
@@ -133,10 +133,17 @@ class _AutoHashDecorator:
 
     @staticmethod
     def _collect_slots(class_: type[object]) -> set[str]:
-        """Collect all ``__slots__`` from *class_* and its MRO."""
+        """Collect all ``__slots__`` from *class_* and its MRO.
+
+        Handles the rare case where ``__slots__`` is defined as a single
+        string (``__slots__ = "x"``) rather than an iterable of strings.
+        """
         all_slots: set[str] = set()
         for cls in class_.__mro__:
-            for slot in getattr(cls, "__slots__", ()):
+            slots = getattr(cls, "__slots__", ())
+            if isinstance(slots, str):
+                slots = (slots,)
+            for slot in slots:
                 if not slot.startswith("__"):
                     all_slots.add(slot)
         return all_slots
