@@ -6,11 +6,9 @@ import uuid
 from dataclasses import dataclass, field
 from typing import Any
 
-from forging_blocks.foundation.autofreeze import auto_freeze
 from forging_blocks.foundation.autohash import auto_hash
 
 
-@auto_freeze
 @auto_hash
 @dataclass
 class ServiceContext:

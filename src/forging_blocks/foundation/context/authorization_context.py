@@ -5,11 +5,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from forging_blocks.foundation.autofreeze import auto_freeze
 from forging_blocks.foundation.autohash import auto_hash
 
 
-@auto_freeze
 @auto_hash
 @dataclass
 class AuthorizationContext:
