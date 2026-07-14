@@ -2,11 +2,11 @@
 
 from dataclasses import dataclass, field
 
-from forging_blocks.foundation.autofreeze import auto_freeze
+from forging_blocks.foundation.autohash import auto_hash
 from forging_blocks.presentation.error_message_model import ErrorMessageModel
 
 
-@auto_freeze
+@auto_hash
 @dataclass
 class ErrorViewModel:
     """Holds one or more ``ErrorMessageModel`` entries produced by an
