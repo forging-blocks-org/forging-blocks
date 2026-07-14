@@ -5,6 +5,7 @@ from .combined_errors import CombinedErrors
 from .core import ErrorMessage, ErrorMetadata, FieldReference
 from .error import Error
 from .field_errors import FieldErrors
+from .non_hashable_value_error import NonHashableValueError
 from .none_not_allowed_error import NoneNotAllowedError
 from .result_access_error import ResultAccessError
 from .rule_violation_error import CombinedRuleViolationErrors, RuleViolationError
@@ -18,6 +19,7 @@ __all__ = [
     "CombinedErrors",
     "CombinedRuleViolationErrors",
     "Error",
+    "NonHashableValueError",
     "FieldErrors",
     "NoneNotAllowedError",
     "CantModifyImmutableAttributeError",

@@ -2,8 +2,7 @@
 
 from dataclasses import replace
 
-from forging_blocks.presentation.errors.error_message_model import ErrorMessageModel
-from forging_blocks.presentation.errors.error_view_model import ErrorViewModel
+from forging_blocks.presentation.error_view_model import ErrorViewModel
 
 
 class ErrorStatusCodeMapper:
@@ -17,18 +16,6 @@ class ErrorStatusCodeMapper:
         - anything else              → 500
     """
 
-    __slots__ = ()
-
-    _STATUS_MAP: dict[str, int] = {
-        "ValidationError": 400,
-        "ValidationFieldErrors": 400,
-        "CombinedValidationErrors": 400,
-        "RuleViolationError": 409,
-        "CombinedRuleViolationErrors": 409,
-        "CombinedErrors": 422,
-        "FieldErrors": 422,
-    }
-
     def map(self, view_model: ErrorViewModel) -> ErrorViewModel:
         """Return a new ``ErrorViewModel`` with ``status_code`` set on
         every message.
@@ -41,12 +28,21 @@ class ErrorStatusCodeMapper:
             A new ``ErrorViewModel`` whose ``ErrorMessageModel``
             entries each carry the appropriate ``status_code``.
         """
-        enriched: list[ErrorMessageModel] = [
+        enriched = tuple(
             replace(msg, status_code=self._status_code_for(msg.code)) for msg in view_model.messages
-        ]
+        )
         return ErrorViewModel(messages=enriched)
 
     def _status_code_for(self, code: str | None) -> int:
         if code is None:
             return 500
-        return self._STATUS_MAP.get(code, 500)
+        status_map: dict[str, int] = {
+            "ValidationError": 400,
+            "ValidationFieldErrors": 400,
+            "CombinedValidationErrors": 400,
+            "RuleViolationError": 409,
+            "CombinedRuleViolationErrors": 409,
+            "CombinedErrors": 422,
+            "FieldErrors": 422,
+        }
+        return status_map.get(code, 500)

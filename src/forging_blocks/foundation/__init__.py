@@ -1,5 +1,6 @@
 """ForgingBlocks foundation modules."""
 
+from .autohash import auto_hash
 from .context import AuthorizationContext, ServiceContext, TransactionContext
 from .errors import (
     CantModifyImmutableAttributeError,
@@ -18,7 +19,6 @@ from .errors import (
     ValidationFieldErrors,
 )
 from .identified import Identified
-from .isolation_level import IsolationLevel
 from .mapper import Mapper
 from .messages import Command, Event, Message, Query
 from .meta import FinalABCMeta, FinalMeta, runtime_final
@@ -41,12 +41,13 @@ from .specification import (
 from .value_object import ValueObject
 
 __all__ = [
+    "auto_hash",
     "AndSpecification",
     "AuthorizationContext",
-    "CantModifyImmutableAttributeError",
     "CombinedErrors",
     "CombinedRuleViolationErrors",
     "CombinedValidationErrors",
+    "CantModifyImmutableAttributeError",
     "Command",
     "ComposableSpecification",
     "Err",
@@ -61,7 +62,6 @@ __all__ = [
     "FinalMeta",
     "Identified",
     "InboundPort",
-    "IsolationLevel",
     "Mapper",
     "Message",
     "NoneNotAllowedError",

@@ -2,11 +2,11 @@
 
 from dataclasses import dataclass, field
 
-from forging_blocks.foundation.autofreeze import auto_freeze
-from forging_blocks.presentation.errors.error_message_model import ErrorMessageModel
+from forging_blocks.foundation.autohash import auto_hash
+from forging_blocks.presentation.error_message_model import ErrorMessageModel
 
 
-@auto_freeze
+@auto_hash
 @dataclass
 class ErrorViewModel:
     """Holds one or more ``ErrorMessageModel`` entries produced by an
@@ -16,4 +16,8 @@ class ErrorViewModel:
     validation or business-rule failures.
     """
 
-    messages: list[ErrorMessageModel] = field(default_factory=list[ErrorMessageModel])
+    messages: tuple[ErrorMessageModel, ...] = field(default_factory=tuple[ErrorMessageModel])
+
+    def __post_init__(self) -> None:
+        """Ensure ``messages`` is stored as an immutable tuple."""
+        self.messages = tuple(self.messages)

@@ -51,19 +51,18 @@ Example:
     ```
 """
 
-import inspect
 from collections.abc import Callable, Sequence
-from functools import wraps
-from typing import Any, overload
+from typing import overload
 
-from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error import (
-    CantModifyImmutableAttributeError,
+from forging_blocks.foundation.autofreeze.helpers.frozen_init_wrapper import (
+    FrozenInitWrapper,
 )
-
-_AUTO_FREEZE_MARKER = "__auto_freeze_applied"
-_FROZEN_FLAG = "_autofreeze__frozen"
-_FROZEN_ATTRS_FLAG = "_autofreeze__frozen_attrs"
-_INIT_DEPTH_FLAG = "_autofreeze__init_depth"
+from forging_blocks.foundation.autofreeze.helpers.frozen_setattr_handler import (
+    FrozenSetattrHandler,
+)
+from forging_blocks.foundation.autofreeze.helpers.frozen_state import (
+    FrozenStateManager,
+)
 
 
 class _AutoFreezeDecorator:
@@ -100,62 +99,15 @@ class _AutoFreezeDecorator:
         Returns:
             The decorated class (may be the original if already decorated).
         """
-        if hasattr(class_.__init__, _AUTO_FREEZE_MARKER):
+        if FrozenStateManager.is_decorated(class_.__init__):
             return class_
 
-        original_init = class_.__init__
-        attrs = self._attrs
+        init_wrapper = FrozenInitWrapper(class_.__init__, class_, self._attrs)
+        class_.__init__ = init_wrapper.wrap()
 
-        original_setattr = class_.__setattr__
-        has_custom_setattr = original_setattr is not object.__setattr__
-
-        @wraps(original_init)
-        def wrapped_init(
-            instance: Any,
-            *args: Any,
-            **kwargs: Any,
-        ) -> None:
-            init_depth = getattr(instance, _INIT_DEPTH_FLAG, 0)
-            object.__setattr__(instance, _INIT_DEPTH_FLAG, init_depth + 1)
-
-            try:
-                original_init(instance, *args, **kwargs)
-            finally:
-                new_depth = getattr(instance, _INIT_DEPTH_FLAG, 1) - 1
-                if new_depth <= 0:
-                    object.__delattr__(instance, _INIT_DEPTH_FLAG)
-                else:
-                    object.__setattr__(instance, _INIT_DEPTH_FLAG, new_depth)
-
-                if new_depth == 0 and not inspect.isabstract(class_):
-                    if attrs is None:
-                        object.__setattr__(instance, _FROZEN_FLAG, True)
-                    else:
-                        object.__setattr__(instance, _FROZEN_ATTRS_FLAG, set(attrs))
-
-        object.__setattr__(wrapped_init, _AUTO_FREEZE_MARKER, True)
-        class_.__init__ = wrapped_init  # type: ignore[method-assign]
-
-        if not has_custom_setattr:
-
-            def frozen_setattr(instance: Any, name: str, value: Any) -> None:
-                # Check for full freeze
-                if getattr(instance, _FROZEN_FLAG, False):
-                    raise CantModifyImmutableAttributeError(
-                        class_name=instance.__class__.__name__,
-                        attribute_name=name,
-                    )
-
-                frozen_attrs = getattr(instance, _FROZEN_ATTRS_FLAG, None)
-                if frozen_attrs is not None and name in frozen_attrs:
-                    raise CantModifyImmutableAttributeError(
-                        class_name=instance.__class__.__name__,
-                        attribute_name=name,
-                    )
-
-                object.__setattr__(instance, name, value)
-
-            class_.__setattr__ = frozen_setattr  # type: ignore[method-assign]
+        setattr_handler = FrozenSetattrHandler(class_)
+        if setattr_handler.should_override_setattr():
+            class_.__setattr__ = setattr_handler.create_frozen_setattr()
 
         return class_
 
