@@ -19,6 +19,7 @@ from .errors import (
     ValidationFieldErrors,
 )
 from .identified import Identified
+from .mapper import Mapper
 from .messages import Command, Event, Message, Query
 from .meta import FinalABCMeta, FinalMeta, runtime_final
 from .permission import Permission
@@ -61,6 +62,7 @@ __all__ = [
     "FinalMeta",
     "Identified",
     "InboundPort",
+    "Mapper",
     "Message",
     "NoneNotAllowedError",
     "NotSpecification",
