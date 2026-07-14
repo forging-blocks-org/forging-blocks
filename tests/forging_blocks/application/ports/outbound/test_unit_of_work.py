@@ -47,7 +47,6 @@ class TestUnitOfWork:
         async with unit_of_work as uow:
             assert uow is unit_of_work
 
-    @pytest.mark.asyncio
     async def test_aexit_when_no_exception_then_commit_is_called(
         self, unit_of_work: FakeUnitOfWork
     ) -> None:
@@ -63,7 +62,6 @@ class TestUnitOfWork:
         unit_of_work.commit.assert_called_once()
         unit_of_work.rollback.assert_not_called()
 
-    @pytest.mark.asyncio
     async def test_aexit_when_exception_occurs_then_rollback_is_called(
         self, unit_of_work: FakeUnitOfWork
     ) -> None:

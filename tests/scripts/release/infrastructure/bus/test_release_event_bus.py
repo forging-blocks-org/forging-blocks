@@ -51,7 +51,6 @@ class TestInMemoryReleaseCommandBus:
     def test_init_when_called_then_instance_created(self, bus: InMemoryReleaseCommandBus) -> None:
         assert isinstance(bus, InMemoryReleaseCommandBus)
 
-    @pytest.mark.asyncio
     async def test_register_when_called_then_handler_is_registered(
         self, bus: InMemoryReleaseCommandBus, handler: FakeHandler
     ) -> None:
@@ -59,7 +58,6 @@ class TestInMemoryReleaseCommandBus:
 
         assert bus._subscribers[FakeCommand] is handler
 
-    @pytest.mark.asyncio
     async def test_send_when_no_subscribers_then_key_error(
         self,
         bus: InMemoryReleaseCommandBus,
@@ -68,7 +66,6 @@ class TestInMemoryReleaseCommandBus:
         with pytest.raises(KeyError):
             await bus.send(command)
 
-    @pytest.mark.asyncio
     async def test_send_when_handler_registered_then_handler_handle_called(
         self,
         bus: InMemoryReleaseCommandBus,
@@ -82,7 +79,6 @@ class TestInMemoryReleaseCommandBus:
         assert len(handler.handled) == 1
         assert handler.handled[0] is command
 
-    @pytest.mark.asyncio
     async def test_send_when_handler_registered_for_different_type_then_key_error(
         self,
         bus: InMemoryReleaseCommandBus,

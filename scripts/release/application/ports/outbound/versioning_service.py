@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from typing import Protocol
 
 from forging_blocks.foundation.ports import OutboundPort
 from scripts.release.domain.value_objects import (
@@ -7,18 +7,16 @@ from scripts.release.domain.value_objects import (
 )
 
 
-class VersioningService(OutboundPort[str, None], ABC):
+class VersioningService(OutboundPort[str, None], Protocol):
     """Computes and applies semantic versions to the package definition.
 
     Must be non-interactive and deterministic.
     """
 
-    @abstractmethod
     def current_version(self) -> ReleaseVersion:
         """Read the currently configured version (e.g., from pyproject.toml via Poetry)."""
         ...
 
-    @abstractmethod
     def compute_next_version(
         self,
         level: ReleaseLevel,
@@ -26,7 +24,6 @@ class VersioningService(OutboundPort[str, None], ABC):
         """Compute the next version without mutating state."""
         ...
 
-    @abstractmethod
     def apply_version(
         self,
         version: ReleaseVersion,
@@ -36,7 +33,6 @@ class VersioningService(OutboundPort[str, None], ABC):
         """Mutate version to the given target."""
         ...
 
-    @abstractmethod
     def rollback_version(
         self,
         previous: ReleaseVersion,

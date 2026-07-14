@@ -1,6 +1,6 @@
 """Tests for the InMemoryEventStore implementation."""
 
-from typing import Any, cast
+from typing import cast
 from uuid import uuid7
 
 import pytest
@@ -30,8 +30,8 @@ class TestInMemoryEventStore:
         assert result.is_ok
         retrieved = result.value
         assert len(retrieved) == 2
-        assert cast(Any, retrieved[0])._name == "evt1"
-        assert cast(Any, retrieved[1])._name == "evt2"
+        assert cast(FakeEventWithName, retrieved[0]).value["name"] == "evt1"
+        assert cast(FakeEventWithName, retrieved[1]).value["name"] == "evt2"
 
     async def test_get_events_empty_stream(self) -> None:
         """Getting events from an unknown aggregate returns an empty list."""
@@ -70,8 +70,8 @@ class TestInMemoryEventStore:
         assert result.is_ok
         sliced = result.value
         assert len(sliced) == 3
-        assert cast(Any, sliced[0])._name == "evt1"
-        assert cast(Any, sliced[2])._name == "evt3"
+        assert cast(FakeEventWithName, sliced[0]).value["name"] == "evt1"
+        assert cast(FakeEventWithName, sliced[2]).value["name"] == "evt3"
 
     async def test_current_version_after_append(self) -> None:
         """Current version reflects total events appended."""

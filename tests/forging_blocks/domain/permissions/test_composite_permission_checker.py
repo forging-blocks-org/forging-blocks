@@ -13,7 +13,6 @@ from forging_blocks.foundation.permission import Permission
 
 
 @pytest.mark.unit
-@pytest.mark.asyncio
 class TestCompositePermissionChecker:
     async def test_when_any_inner_grants_then_grants(self) -> None:
         checker = CompositePermissionChecker(

@@ -14,13 +14,12 @@ Non-Responsibilities:
     - Interact directly with aggregates.
 """
 
-from abc import ABC, abstractmethod
 from types import TracebackType
-from typing import Self
+from typing import Protocol, Self
 
 
-class UnitOfWorkPort(ABC):
-    """Abstract base class for managing transactional consistency.
+class UnitOfWorkPort(Protocol):
+    """Protocol for managing transactional consistency.
 
     A UnitOfWorkPort coordinates operations across multiple repositories and
     outbound ports. It ensures that state changes and domain events are
@@ -28,7 +27,6 @@ class UnitOfWorkPort(ABC):
     behaviour (``__aenter__`` / ``__aexit__``).
     """
 
-    @abstractmethod
     async def __aenter__(self) -> Self:
         """Enter the Unit of Work context.
 
@@ -37,7 +35,6 @@ class UnitOfWorkPort(ABC):
         """
         ...
 
-    @abstractmethod
     async def __aexit__(
         self,
         exc_type: type[BaseException] | None,
@@ -55,7 +52,6 @@ class UnitOfWorkPort(ABC):
         """
         ...
 
-    @abstractmethod
     async def commit(self) -> None:
         """Commit all changes in the Unit of Work.
 
@@ -69,7 +65,6 @@ class UnitOfWorkPort(ABC):
         """
         ...
 
-    @abstractmethod
     async def rollback(self) -> None:
         """Roll back the transaction and discard uncommitted changes."""
         ...
