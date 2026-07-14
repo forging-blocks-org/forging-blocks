@@ -8,11 +8,13 @@ from datetime import datetime, timezone
 from typing import Any
 
 from forging_blocks.foundation.autofreeze import auto_freeze
+from forging_blocks.foundation.autohash import auto_hash
 from forging_blocks.foundation.isolation_level import IsolationLevel
 
 
 @auto_freeze
-@dataclass(frozen=True)
+@auto_hash
+@dataclass
 class TransactionContext:
     """Metadata for a single transactional boundary.
 
