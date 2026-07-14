@@ -1,7 +1,6 @@
 """Authorization context bundled for a single authorization decision."""
 
 from collections.abc import Hashable
-from typing import Any
 
 from forging_blocks.foundation.value_object import ValueObject
 
@@ -37,7 +36,7 @@ class AuthorizationContext(ValueObject[tuple[Hashable, ...]]):
         resource_id: str | None = None,
         resource_type: str | None = None,
         action: str | None = None,
-        metadata: tuple[tuple[str, Any], ...] | None = None,
+        metadata: tuple[tuple[str, Hashable], ...] | None = None,
     ) -> None:
         super().__init__()
         self._user_id = user_id
@@ -73,7 +72,7 @@ class AuthorizationContext(ValueObject[tuple[Hashable, ...]]):
         return self._action
 
     @property
-    def metadata(self) -> tuple[tuple[str, Any], ...] | None:
+    def metadata(self) -> tuple[tuple[str, Hashable], ...] | None:
         """Arbitrary key-value pairs that checkers may inspect."""
         return self._metadata
 

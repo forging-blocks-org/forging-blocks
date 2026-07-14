@@ -3,7 +3,6 @@
 import uuid
 from collections.abc import Hashable
 from datetime import datetime, timezone
-from typing import Any
 
 from forging_blocks.foundation.value_object import ValueObject
 
@@ -36,7 +35,7 @@ class TransactionContext(ValueObject[tuple[Hashable, ...]]):
         transaction_id: uuid.UUID | None = None,
         started_at: datetime | None = None,
         isolation_level: str = "read_committed",
-        metadata: tuple[tuple[str, Any], ...] | None = None,
+        metadata: tuple[tuple[str, Hashable], ...] | None = None,
     ) -> None:
         super().__init__()
         self._transaction_id = transaction_id if transaction_id is not None else uuid.uuid4()
@@ -60,7 +59,7 @@ class TransactionContext(ValueObject[tuple[Hashable, ...]]):
         return self._isolation_level
 
     @property
-    def metadata(self) -> tuple[tuple[str, Any], ...] | None:
+    def metadata(self) -> tuple[tuple[str, Hashable], ...] | None:
         """Arbitrary key-value pairs for cross-cutting concerns."""
         return self._metadata
 

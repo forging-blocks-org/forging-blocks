@@ -2,7 +2,6 @@
 
 import uuid
 from collections.abc import Hashable
-from typing import Any
 
 from forging_blocks.foundation.value_object import ValueObject
 
@@ -32,7 +31,7 @@ class ServiceContext(ValueObject[tuple[Hashable, ...]]):
         correlation_id: uuid.UUID | None = None,
         user_id: str | None = None,
         permissions: tuple[str, ...] | None = None,
-        metadata: tuple[tuple[str, Any], ...] | None = None,
+        metadata: tuple[tuple[str, Hashable], ...] | None = None,
     ) -> None:
         super().__init__()
         self._correlation_id = correlation_id if correlation_id is not None else uuid.uuid4()
@@ -56,7 +55,7 @@ class ServiceContext(ValueObject[tuple[Hashable, ...]]):
         return self._permissions
 
     @property
-    def metadata(self) -> tuple[tuple[str, Any], ...]:
+    def metadata(self) -> tuple[tuple[str, Hashable], ...]:
         """Arbitrary key-value pairs for cross-cutting concerns."""
         return self._metadata
 
