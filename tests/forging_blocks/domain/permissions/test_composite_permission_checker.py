@@ -22,7 +22,7 @@ class TestCompositePermissionChecker:
                 RoleBasedPermissionChecker({"user": []}),
             ]
         )
-        context = AuthorizationContext(user_id="user-1", roles=["admin"])
+        context = AuthorizationContext(user_id="user-1", roles=("admin",))
 
         assert await checker.check(context, Permission.READ) is True
 
@@ -32,7 +32,7 @@ class TestCompositePermissionChecker:
                 RoleBasedPermissionChecker({"user": [Permission.READ]}),
             ]
         )
-        context = AuthorizationContext(user_id="user-1", roles=["guest"])
+        context = AuthorizationContext(user_id="user-1", roles=("guest",))
 
         assert await checker.check(context, Permission.READ) is False
 

@@ -29,6 +29,6 @@ class TestTransactionContext:
         assert context.isolation_level == IsolationLevel.SERIALIZABLE
 
     def test_when_metadata_provided_then_stores_it(self) -> None:
-        context = TransactionContext(metadata={"trace": "abc-123"})
+        context = TransactionContext(metadata=(("trace", "abc-123"),))
 
-        assert context.metadata == {"trace": "abc-123"}
+        assert context.metadata == (("trace", "abc-123"),)

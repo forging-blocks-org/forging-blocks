@@ -14,13 +14,13 @@ from forging_blocks.foundation.permission import Permission
 class TestRoleBasedPermissionChecker:
     async def test_when_role_has_permission_then_grants(self) -> None:
         checker = RoleBasedPermissionChecker({"admin": [Permission.READ, Permission.WRITE]})
-        context = AuthorizationContext(user_id="user-1", roles=["admin"])
+        context = AuthorizationContext(user_id="user-1", roles=("admin",))
 
         assert await checker.check(context, Permission.READ) is True
 
     async def test_when_role_lacks_permission_then_denies(self) -> None:
         checker = RoleBasedPermissionChecker({"user": [Permission.READ]})
-        context = AuthorizationContext(user_id="user-1", roles=["user"])
+        context = AuthorizationContext(user_id="user-1", roles=("user",))
 
         assert await checker.check(context, Permission.DELETE) is False
 
