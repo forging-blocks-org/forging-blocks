@@ -16,7 +16,7 @@ class HashableConverter:
     """Recursively converts non-hashable values to hashable equivalents.
 
     - ``list`` → ``tuple`` (recursively)
-    - ``dict``  → ``tuple(sorted(...))`` (recursively on values)
+    - ``dict``  → ``frozenset`` of ``(key, hashable_value)`` pairs (recursively)
     - Already-hashable values (``str``, ``int``, ``None``, ``tuple``,
       ``frozenset``, etc.) are returned unchanged.
     - Everything else raises :class:`NonHashableValueError`.
@@ -63,8 +63,10 @@ class HashableConverter:
         return tuple(cls.convert(v) for v in items)
 
     @classmethod
-    def _convert_dict[K, V](cls, mapping: dict[K, V]) -> tuple[tuple[K, Hashable], ...]:
-        try:
-            return tuple(sorted((k, cls.convert(v)) for k, v in mapping.items()))
-        except TypeError as exc:
-            raise NonHashableValueError(f"dict keys are not orderable: {exc}") from exc
+    def _convert_dict[K, V](cls, mapping: dict[K, V]) -> frozenset[tuple[K, Hashable]]:
+        """Convert *mapping* to a :class:`frozenset` of ``(key, hashable_value)`` pairs.
+
+        Uses :class:`frozenset` rather than ``tuple(sorted(...))`` because
+        dict keys must be hashable but are not required to be orderable.
+        """
+        return frozenset((k, cls.convert(v)) for k, v in mapping.items())

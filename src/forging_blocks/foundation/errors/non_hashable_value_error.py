@@ -12,8 +12,9 @@ class NonHashableValueError(Error[dict[str, object]]):
     """Raised when a value cannot be made hashable during ``__hash__`` computation.
 
     ``@auto_hash`` converts ``list`` → ``tuple`` and ``dict`` →
-    ``tuple(sorted(...))`` automatically. Values of other mutable types
-    (e.g. ``set``, custom objects without ``__hash__``) trigger this error.
+    ``frozenset`` of ``(key, value)`` pairs automatically. Values of
+    other mutable types (e.g. ``set``, custom objects without ``__hash__``)
+    trigger this error.
     """
 
     def __init__(self, type_name: str) -> None:
