@@ -5,7 +5,6 @@ from collections.abc import Hashable
 from datetime import datetime, timezone
 from typing import Any
 
-from forging_blocks.foundation.isolation_level import IsolationLevel
 from forging_blocks.foundation.value_object import ValueObject
 
 
@@ -18,7 +17,9 @@ class TransactionContext(ValueObject[tuple[Hashable, ...]]):
         started_at: UTC timestamp marking when the transaction began.
             Defaults to the current time.
         isolation_level: The isolation level requested for this
-            transaction.  Defaults to ``READ_COMMITTED``.
+            transaction (e.g. ``"read_committed"``, ``"serializable"``).
+            Any ``str``-compatible type (including ``StrEnum`` subclasses)
+            is accepted.  Defaults to ``"read_committed"``.
         metadata: Arbitrary key-value pairs for cross-cutting concerns.
     """
 
@@ -34,7 +35,7 @@ class TransactionContext(ValueObject[tuple[Hashable, ...]]):
         *,
         transaction_id: uuid.UUID | None = None,
         started_at: datetime | None = None,
-        isolation_level: IsolationLevel = IsolationLevel.READ_COMMITTED,
+        isolation_level: str = "read_committed",
         metadata: tuple[tuple[str, Any], ...] | None = None,
     ) -> None:
         super().__init__()
@@ -54,7 +55,7 @@ class TransactionContext(ValueObject[tuple[Hashable, ...]]):
         return self._started_at
 
     @property
-    def isolation_level(self) -> IsolationLevel:
+    def isolation_level(self) -> str:
         """The isolation level requested for this transaction."""
         return self._isolation_level
 
