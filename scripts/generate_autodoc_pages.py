@@ -33,8 +33,16 @@ def ensure_dir(path: Path) -> None:
 
 
 def find_source_files(base: Path) -> list[Path]:
-    """Find all Python source files, excluding __init__.py."""
-    return [p for p in base.rglob("*.py") if p.name != "__init__.py"]
+    """Find all Python source files, excluding __init__.py and internal modules.
+
+    Internal modules are those under directories named ``helpers`` — these
+    are implementation details, not part of the public API surface.
+    """
+    return [
+        p
+        for p in base.rglob("*.py")
+        if p.name != "__init__.py" and "helpers" not in p.relative_to(base).parts
+    ]
 
 
 def generate_markdown(src: Path) -> Path:
