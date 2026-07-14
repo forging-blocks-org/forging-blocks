@@ -2,10 +2,10 @@
 
 from dataclasses import dataclass
 
-from forging_blocks.foundation.autofreeze import auto_freeze
+from forging_blocks.foundation.autohash import auto_hash
 
 
-@auto_freeze
+@auto_hash
 @dataclass
 class ErrorMessageModel:
     """Carries the information needed to render one error to a user.

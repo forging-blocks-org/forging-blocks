@@ -12,10 +12,10 @@ class TestErrorViewModel:
 
     def test_empty_view_model_has_no_messages(self) -> None:
         vm = ErrorViewModel()
-        assert vm.messages == []
+        assert vm.messages == ()
 
     def test_view_model_stores_multiple_messages(self) -> None:
         msg1 = ErrorMessageModel(title="Error 1")
         msg2 = ErrorMessageModel(title="Error 2")
-        vm = ErrorViewModel(messages=[msg1, msg2])
+        vm = ErrorViewModel(messages=(msg1, msg2))
         assert len(vm.messages) == 2

@@ -210,6 +210,26 @@ class TestAutoFreezeDecorator:
         with pytest.raises(CantModifyImmutableAttributeError):
             instance._value = 99
 
+    def test_when_slotted_with_selective_freeze_then_only_specified_attrs_frozen(self) -> None:
+        class Slotted:
+            __slots__ = ("_a", "_b", "_c")
+
+            def __init__(self, a: int, b: int, c: int) -> None:
+                self._a = a
+                self._b = b
+                self._c = c
+
+        decorated = auto_freeze(attrs=["_a", "_b"])(Slotted)
+        instance = decorated(1, 2, 3)
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance._a = 99
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance._b = 99
+        # _c is NOT frozen — should succeed
+        instance._c = 99
+        assert instance._c == 99
+
     # -- Inheritance (requires manual decorator on each class) -------------
 
     def test_when_subclass_also_decorated_then_frozen_independently(self) -> None:
@@ -230,6 +250,29 @@ class TestAutoFreezeDecorator:
             instance.value = 99
         with pytest.raises(CantModifyImmutableAttributeError):
             instance.extra = "hacked"
+
+    def test_when_slotted_inheritance_chain_then_frozen_correctly(self) -> None:
+        @auto_freeze
+        class Base:
+            __slots__ = ("_base_field",)
+
+            def __init__(self, base_field: int) -> None:
+                self._base_field = base_field
+
+        @auto_freeze
+        class Child(Base):
+            __slots__ = ("_child_field",)
+
+            def __init__(self, base_field: int, child_field: str) -> None:
+                super().__init__(base_field)
+                self._child_field = child_field
+
+        instance = Child(42, "test")
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance._base_field = 99
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance._child_field = "hacked"
 
     def test_when_freeze_instance_is_async_then_still_works(self) -> None:
         class AsyncFreeze:
