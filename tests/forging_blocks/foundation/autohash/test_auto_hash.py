@@ -270,6 +270,21 @@ class TestAutoHashDecorator:
         assert hash(c1) == hash(c2)
         assert hash(c1) != hash(c3)
 
+    def test_when_single_string_slots_then_hash_works(self) -> None:
+        @auto_hash
+        class SingleSlot:
+            __slots__ = "_value"
+
+            def __init__(self, value: int) -> None:
+                self._value = value
+
+        s1 = SingleSlot(1)
+        s2 = SingleSlot(1)
+        s3 = SingleSlot(2)
+
+        assert hash(s1) == hash(s2)
+        assert hash(s1) != hash(s3)
+
     def test_when_non_dataclass_without_fields_then_type_error(self) -> None:
         with pytest.raises(TypeError, match="Cannot determine hash fields"):
 
@@ -378,7 +393,7 @@ class TestAutoHashDecorator:
         # Verify set dedup works
         assert len({a, b, c}) == 2
 
-    def test_when_dict_field_then_converted_to_sorted_tuple_for_hash(self) -> None:
+    def test_when_dict_field_then_converted_to_frozenset_for_hash(self) -> None:
         @auto_hash
         @dataclass
         class WithDict:

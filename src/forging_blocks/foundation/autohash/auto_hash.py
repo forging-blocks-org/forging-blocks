@@ -44,7 +44,6 @@ Example:
 
 import dataclasses
 from collections.abc import Callable, Sequence
-from functools import wraps
 from typing import Any, overload
 
 from forging_blocks.foundation.autofreeze import auto_freeze as _auto_freeze
@@ -83,10 +82,12 @@ class _AutoHashDecorator:
         field_names = self._resolve_field_names(class_)
         _field_names = tuple(field_names)
 
-        @wraps(object.__hash__)
         def _hash_impl(self: Any) -> int:
             values = tuple(getattr(self, f) for f in _field_names)
             return hash(tuple(HashableConverter.convert(v) for v in values))
+
+        _hash_impl.__name__ = "__hash__"
+        _hash_impl.__qualname__ = f"{class_.__name__}.__hash__"
 
         class_.__hash__ = _hash_impl
         _auto_freeze(class_)
@@ -177,8 +178,9 @@ def auto_hash[T](
     """Generate ``__hash__`` for a class based on its fields.
 
     Automatically applies :func:`auto_freeze` to enforce immutability.
-    Hashable objects MUST be immutable — ``@auto_hash`` guarantees both.
-
+    Hashable objects MUST be immutable — ``@auto_hash`` ensures both by
+    applying ``@auto_freeze`` internally, which forbids attribute assignment
+    after ``__init__`` completes.
     When the class is a ``@dataclass``, *fields* defaults to all declared
     dataclass fields (via ``dataclasses.fields``). Otherwise it falls back
     to ``__slots__`` (across the MRO) or ``__annotations__`` keys.
