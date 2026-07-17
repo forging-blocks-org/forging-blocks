@@ -83,3 +83,17 @@ class DomainErrorUseCase(UseCase[str, str]):
 
     async def execute(self, request: str) -> str:
         raise Error(ErrorMessage("Domain rule violated"))
+
+
+class NonExceptionErrorUseCase(UseCase[str, Result[str, str]]):
+    """Returns Err with a plain string (not a BaseException)."""
+
+    async def execute(self, request: str) -> Result[str, str]:
+        return Err("plain error string")
+
+
+class FailingRequestAdapter(RequestAdapter[DictRequest, str]):
+    """Always raises — simulates an unparseable raw request."""
+
+    def adapt(self, raw: DictRequest) -> str:
+        raise TypeError("Cannot parse request")

@@ -7,8 +7,10 @@ from tests.forging_blocks.presentation.conftest import (
     DictResponse,
     DomainErrorUseCase,
     ExceptionUseCase,
+    FailingRequestAdapter,
     FakeRequestAdapter,
     FakeResponseAdapter,
+    NonExceptionErrorUseCase,
     ResultErrorUseCase,
     ResultSuccessUseCase,
     SuccessUseCase,
@@ -156,3 +158,29 @@ class TestPresentationAdapter:
         response = await adapter.handle(DictRequest({}))  # Missing "name" key
 
         assert response.status == 400
+
+    async def test_handle_request_adapter_failure_without_error_presenter_propagates(
+        self,
+    ) -> None:
+        """Without an error presenter, request-adapter failures propagate as raw exceptions."""
+        adapter = PresentationAdapter(
+            use_case=SuccessUseCase(),
+            request_adapter=FailingRequestAdapter(),
+            response_adapter=FakeResponseAdapter(),
+            error_presenter=None,
+        )
+
+        with pytest.raises(TypeError, match="Cannot parse request"):
+            await adapter.handle(DictRequest({"name": "test"}))
+
+    async def test_handle_non_exception_result_error_without_error_presenter_wraps_in_runtime_error(
+        self,
+    ) -> None:
+        """Without an error presenter, Result.Err with a non-exception error wraps in RuntimeError."""
+        adapter = self._make_adapter(
+            NonExceptionErrorUseCase(),
+            error_presenter=None,
+        )
+
+        with pytest.raises(RuntimeError, match="plain error string"):
+            await adapter.handle(DictRequest({"name": "test"}))
