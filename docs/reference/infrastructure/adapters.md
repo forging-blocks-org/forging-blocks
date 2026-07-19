@@ -1,13 +1,13 @@
 # Technical Adapters
 
 ## Logging
-A standard-library logging adapter implementing `LoggerPort`. Provides `debug`, `info`, `warning`, and `error` methods.
+A standard-library logging adapter implementing `LoggerPort`. Provides `debug`, `info`, `warning`, and `error` methods — all accept `*args: str` for ``%``-style formatting (delegates to `logging.Logger`).
 
 ## HTTP Client
 A `urllib`-based HTTP client implementing `ExternalServicePort`. Supports GET, POST, headers, and timeout configuration.
 
 ## File System
-An OS-level filesystem adapter implementing `FileSystemPort`. Supports `read`, `write`, `delete`, `exists`, and directory listing.
+An OS-level filesystem adapter implementing `FileSystemPort`. All operations are `async`. Supports `read`, `write`, `delete`, `exists`, and directory listing.
 
 ## Caching
 A dictionary-backed key-value cache implementing `CachePort`. Supports `get`, `set`, `delete`, and `clear`.

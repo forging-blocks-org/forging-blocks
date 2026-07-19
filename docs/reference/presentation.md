@@ -22,7 +22,7 @@ On failure, the error pipeline kicks in:
 
 This handles both `Result.Err` and raised exceptions, so callers can choose their error style.
 
-Middleware wraps the handler in a right-to-left chain. The `Pipeline` pre-builds the chain at construction. Each `Middleware` receives `(request, next_handler)` and may transform, observe, or short-circuit.
+Middleware wraps the handler in a right-to-left chain. The `Pipeline` pre-builds the chain at construction. Each `Middleware` receives `(request, next_handler)` and may transform, observe, or short-circuit. The toolkit ships four [built-in middleware](presentation/middleware.md#built-in-middleware) for logging, timing, validation, and error handling.
 
 ---
 ## How to use
@@ -38,7 +38,7 @@ The Presentation block is the outermost ring. Keep it thin — translate, delega
 
 - **[Adapters](presentation/adapters.md)** — RequestAdapter, ResponseAdapter, PresentationAdapter
 - **[Error Handling](presentation/error-handling.md)** — ErrorPresenter, ErrorStatusCodeMapper, ErrorViewModel, PresenterPort
-- **[Middleware Pipeline](presentation/middleware.md)** — Middleware protocol, Pipeline class
+- **[Middleware Pipeline](presentation/middleware.md)** — Middleware protocol, Pipeline class, and built-in middleware
 
 ---
 ## What it does not do
