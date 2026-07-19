@@ -3,7 +3,7 @@
 from forging_blocks.application.ports.outbound.logger_port import LoggerPort
 
 
-class FakeLogger(LoggerPort):
+class FakeLogger(LoggerPort[str]):
     """Captures all log messages for inspection in tests."""
 
     __slots__ = ("messages",)

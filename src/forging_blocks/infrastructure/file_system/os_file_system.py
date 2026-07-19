@@ -10,7 +10,7 @@ from pathlib import Path
 from forging_blocks.application.ports.outbound.file_system_port import FileSystemPort
 
 
-class OSFileSystem(FileSystemPort):
+class OSFileSystem(FileSystemPort[Path | str, bytes]):
     """File system implementation backed by ``pathlib`` + ``asyncio.to_thread``."""
 
     async def read(self, path: Path | str) -> bytes:
