@@ -1,5 +1,6 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 from typing import Any, Self
+from unittest.mock import PropertyMock, patch
 
 import pytest
 
@@ -155,3 +156,38 @@ class TestInMemoryUnitOfWork:
         await uow.rollback()
         assert uow.rolled_back is True
         assert uow.committed is False
+
+    async def test_context_manager_when_no_exception_then_commits(
+        self, event_publisher: FakeEventPublisher, aggregate: FakeAggregate
+    ) -> None:
+        uow = InMemoryUnitOfWork(event_publisher)
+        event = FakeEvent("data")
+        aggregate.record_event(event)
+
+        async with uow:
+            uow.register_modified(aggregate)
+
+        assert uow.committed is True
+        assert len(event_publisher.published_events) == 1
+
+    async def test_context_manager_when_exception_then_rolls_back(
+        self, event_publisher: FakeEventPublisher, aggregate: FakeAggregate
+    ) -> None:
+        uow = InMemoryUnitOfWork(event_publisher)
+
+        with pytest.raises(ValueError, match="boom"):
+            async with uow:
+                uow.register_modified(aggregate)
+                raise ValueError("boom")
+
+        assert uow.rolled_back is True
+        assert uow.committed is False
+
+    async def test_register_modified_when_aggregate_id_is_none_then_raises(
+        self, aggregate: FakeAggregate
+    ) -> None:
+        uow = InMemoryUnitOfWork()
+
+        with patch.object(FakeAggregate, "id", new_callable=PropertyMock(return_value=None)):
+            with pytest.raises(ValueError, match="Cannot register aggregate with None id"):
+                uow.register_modified(aggregate)
