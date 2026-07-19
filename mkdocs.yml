@@ -110,7 +110,6 @@ nav:
           - Adapters: reference/presentation/adapters.md
           - Error Handling: reference/presentation/error-handling.md
           - Middleware: reference/presentation/middleware.md
-      - Testing: reference/testing.md
   - Architectural Styles:
       - Overview: architectural-styles/index.md
       - Clean Architecture: architectural-styles/clean-architecture.md
