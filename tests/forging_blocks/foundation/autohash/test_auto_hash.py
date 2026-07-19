@@ -428,3 +428,19 @@ class TestAutoHashDecorator:
         instance = WithSet("x", {1, 2})
         with pytest.raises(NonHashableValueError, match="Cannot convert"):
             hash(instance)
+
+
+@pytest.mark.unit
+class TestHashableConverterDeeplyHashable:
+    """Tests for HashableConverter._ensure_deeply_hashable internals."""
+
+    def test_ensure_deeply_hashable_when_frozenset_then_recursively_converts_elements(
+        self,
+    ) -> None:
+        from forging_blocks.foundation.autohash.helpers.hashable_converter import (
+            HashableConverter,
+        )
+
+        result = HashableConverter._ensure_deeply_hashable(frozenset([1, 2, 3]))
+        assert isinstance(result, frozenset)
+        assert result == frozenset([1, 2, 3])
