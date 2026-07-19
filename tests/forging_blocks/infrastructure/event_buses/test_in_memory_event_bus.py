@@ -18,7 +18,7 @@ from tests.fixtures.fake_event_with_name import FakeEventWithName
 from tests.fixtures.simple_fake_command import SimpleFakeCommand
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 class TestInMemoryEventBus:
     """InMemoryEventBus publish / send / register behaviour."""
 
