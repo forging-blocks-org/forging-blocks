@@ -72,6 +72,7 @@ nav:
 
   - Reference:
       - Overview: reference/index.md
+      - API Stability: reference/api-stability.md
       - Foundation:
           - Overview: reference/foundation.md
           - Result: reference/foundation/result.md
