@@ -77,3 +77,18 @@ class TestInMemoryEventBus:
         result = await bus.publish(FakeEventWithName("boom"))
         assert result.is_err
         assert isinstance(result.error, EventBusError)
+
+    async def test_send_when_handler_raises_then_returns_error(self) -> None:
+        """Sending a command whose handler raises returns ``EventBusError``."""
+        bus: InMemoryEventBus[dict[str, object], dict[str, object]] = InMemoryEventBus()
+
+        class FailingHandler(CommandHandler[dict[str, object]]):
+            async def handle(self, message: Command[dict[str, object]]) -> None:
+                raise RuntimeError("Handler exploded")
+
+        bus.register_handler(SimpleFakeCommand, FailingHandler())
+
+        result = await bus.send(SimpleFakeCommand("crash"))
+        assert result.is_err
+        assert isinstance(result.error, EventBusError)
+        assert "Handler exploded" in str(result.error.message)
