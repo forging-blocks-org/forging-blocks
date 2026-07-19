@@ -5,7 +5,7 @@ import logging
 from forging_blocks.application.ports.outbound.logger_port import LoggerPort
 
 
-class StdlibLogger(LoggerPort[str]):
+class StdlibLogger(LoggerPort):
     """LoggerPort implementation backed by Python's standard ``logging`` module.
 
     Args:

@@ -18,7 +18,7 @@ from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.result import Err, Ok, Result
 
 
-class InMemoryEventStore[EventPayloadType](EventStorePort[EventPayloadType, object]):
+class InMemoryEventStore[EventPayloadType](EventStorePort[EventPayloadType]):
     """In-memory event store backed by dictionaries.
 
     Attributes:

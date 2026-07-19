@@ -39,7 +39,7 @@ class ErrorHandlingMiddleware[RequestType, ResponseType](Middleware[RequestType,
         self,
         on_error: Callable[[ErrorViewModel], ResponseType],
         error_presenter: ErrorPresenter | None = None,
-        logger: LoggerPort[str] | None = None,
+        logger: LoggerPort | None = None,
     ) -> None:
         """Wrap the pipeline with exception-to-response mapping.
 

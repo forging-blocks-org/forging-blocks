@@ -27,7 +27,7 @@ class TimingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respon
 
     __slots__ = ("_logger",)
 
-    def __init__(self, logger: LoggerPort[str]) -> None:
+    def __init__(self, logger: LoggerPort) -> None:
         """Wrap *logger* so every request is timed.
 
         Args:

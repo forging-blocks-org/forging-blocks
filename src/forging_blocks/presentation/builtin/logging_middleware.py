@@ -25,7 +25,7 @@ class LoggingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respo
 
     __slots__ = ("_logger",)
 
-    def __init__(self, logger: LoggerPort[str]) -> None:
+    def __init__(self, logger: LoggerPort) -> None:
         """Wrap *logger* so every request is traced.
 
         Args:
