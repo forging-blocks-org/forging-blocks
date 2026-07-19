@@ -38,11 +38,11 @@ class TestFileSystemPort:
         assert inspect.iscoroutinefunction(FileSystemPort.list_dir)
 
     def test_filesystem_read_signature(self) -> None:
-        """read should accept path and return ContentType (generic)."""
+        """read should accept path and return bytes."""
         sig = inspect.signature(FileSystemPort.read)
         params = list(sig.parameters.keys())
         assert "path" in params
-        assert sig.return_annotation is not inspect.Parameter.empty
+        assert sig.return_annotation is bytes
 
     def test_filesystem_exists_signature(self) -> None:
         """exists should accept Path | str and return bool."""
