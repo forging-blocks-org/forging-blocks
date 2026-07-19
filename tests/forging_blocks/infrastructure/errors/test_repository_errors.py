@@ -8,7 +8,7 @@ from forging_blocks.infrastructure.errors.repository_errors import (
 )
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 class TestRepositoryError:
     def test_init_when_message_defined_then_stores_message(self) -> None:
         message = ErrorMessage("Save failed")
@@ -29,7 +29,7 @@ class TestRepositoryError:
         assert isinstance(error, RepositoryError)
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 class TestRepositoryNotFoundError:
     def test_for_id_when_called_then_returns_error_with_descriptive_message(self) -> None:
         error = RepositoryNotFoundError.for_id("abc-123")

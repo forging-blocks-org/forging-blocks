@@ -26,7 +26,7 @@ class FakeAggregate:
         return self.id == other.id and self.name == other.name
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 class TestInMemoryWriteRepository:
     @pytest.fixture
     def create_alice_aggregate(self) -> Callable[[str], FakeAggregate]:

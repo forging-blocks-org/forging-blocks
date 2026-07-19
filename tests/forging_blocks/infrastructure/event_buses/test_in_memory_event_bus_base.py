@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import pytest
 
+from forging_blocks.application.errors.event_bus_error import EventBusError
 from forging_blocks.application.ports.inbound.message_handler import CommandHandler, EventHandler
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
@@ -102,3 +103,20 @@ class TestInMemoryEventBusBase:
         result = await event_bus.send(command)
         assert result.is_ok
         assert len(received_commands) == 1
+
+    async def test_send_when_handler_raises_then_returns_error(
+        self,
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+    ) -> None:
+        """Sending a command whose handler raises returns ``EventBusError``."""
+
+        class FailingHandler(CommandHandler[TestPayload]):
+            async def handle(self, message: Command[TestPayload]) -> None:
+                raise RuntimeError("Handler exploded")
+
+        event_bus.register_handler(SimpleFakeCommandWithValue, FailingHandler())
+        command = SimpleFakeCommandWithValue("crash")
+        result = await event_bus.send(command)
+        assert result.is_err
+        assert isinstance(result.error, EventBusError)
+        assert "Handler exploded" in str(result.error.message)

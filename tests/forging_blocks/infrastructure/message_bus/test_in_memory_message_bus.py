@@ -48,7 +48,7 @@ class FakeQuery(Query[dict[str, Any]]):
         return cls(data=str(data.get("data", "")), metadata=metadata)
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 class TestInMemoryMessageBus:
     def test_init_when_created_then_has_empty_handler_registry(self) -> None:
         bus: InMemoryMessageBus[Command[object], object] = InMemoryMessageBus[
