@@ -69,7 +69,7 @@ class FailingGetEventsStore(InMemoryEventStoreBase[object]):
         return Err(EventStoreError("Connection lost"))
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 class TestAggregateRepository:
     async def test_save_and_retrieve_aggregate(self) -> None:
         repo = AggregateRepository[object, FakeAggregate, UUID](
