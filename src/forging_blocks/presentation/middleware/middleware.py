@@ -26,16 +26,19 @@ class Middleware[RequestType, ResponseType](Protocol):
     and the terminal handler.
 
     Example:
-        >>> from forging_blocks.presentation.middleware import Middleware, NextHandler
-        >>>
-        >>> class AuthMiddleware[Req, Res](Middleware[Req, Res]):
-        ...     def __init__(self, auth_service: AuthService) -> None:
-        ...         self._auth = auth_service
-        ...
-        ...     async def process(self, request: Req, next_handler: NextHandler[Req, Res]) -> Res:
-        ...         if not self._auth.is_authenticated(request):
-        ...             return UnauthorizedResponse()  # type: ignore[return-value]
-        ...         return await next_handler(request)
+        from forging_blocks.presentation.middleware import Middleware, NextHandler
+
+
+        class AuthMiddleware(
+            Middleware[Req, Res],
+        ):
+            def __init__(self, auth_service: AuthService) -> None:
+                self._auth = auth_service
+
+            async def process(self, request: Req, next_handler: NextHandler[Req, Res]) -> Res:
+                if not self._auth.is_authenticated(request):
+                    return UnauthorizedResponse()  # type: ignore[return-value]
+                return await next_handler(request)
     """
 
     async def process(
