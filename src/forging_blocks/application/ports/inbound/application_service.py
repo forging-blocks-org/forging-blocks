@@ -7,12 +7,12 @@ from forging_blocks.foundation.result import Result
 
 
 @runtime_checkable
-class ApplicationService[RequestType, ResponseType](
-    InboundPort[RequestType, Result[ResponseType, object]],
+class ApplicationService[RequestType, ResponseType, ErrorType](
+    InboundPort[RequestType, Result[ResponseType, ErrorType]],
     Protocol,
 ):
     """Protocol for a stateless application-service orchestrator."""
 
-    async def execute(self, request: RequestType) -> Result[ResponseType, object]:
+    async def execute(self, request: RequestType) -> Result[ResponseType, ErrorType]:
         """Execute the business logic for *request*."""
         ...
