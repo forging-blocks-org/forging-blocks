@@ -2,7 +2,7 @@
 
 import pytest
 
-from forging_blocks.presentation.error_message_model import ErrorMessageModel
+from forging_blocks.presentation.errors.error_message_model import ErrorMessageModel
 
 
 @pytest.mark.unit

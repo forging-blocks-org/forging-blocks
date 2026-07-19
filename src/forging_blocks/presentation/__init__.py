@@ -12,28 +12,36 @@ from the primary/adapter side. It includes:
 - ``Middleware``: Protocol for cross-cutting interceptors that sit between
   the adapter and the application handler.
 - ``Pipeline``: Composes middleware into an immutable, executable chain.
+- ``NextHandler``: Type alias for the callable each middleware delegates to.
+- ``LoggingMiddleware``: Built-in middleware that traces every request.
+- ``TimingMiddleware``: Built-in middleware that measures execution time.
 """
 
-from .error_message_model import ErrorMessageModel
-from .error_presenter import ErrorPresenter
-from .error_status_code_mapper import ErrorStatusCodeMapper
-from .error_view_model import ErrorViewModel
-from .middleware import Middleware
-from .pipeline import Pipeline
-from .presentation_adapter import PresentationAdapter
+from .adapters.presentation_adapter import PresentationAdapter
+from .adapters.request_adapter import RequestAdapter
+from .adapters.response_adapter import ResponseAdapter
+from .builtin import LoggingMiddleware, TimingMiddleware
+from .errors.error_message_model import ErrorMessageModel
+from .errors.error_presenter import ErrorPresenter
+from .errors.error_status_code_mapper import ErrorStatusCodeMapper
+from .errors.error_view_model import ErrorViewModel
+from .middleware.middleware import Middleware
+from .middleware.next_handler import NextHandler
+from .middleware.pipeline import Pipeline
 from .presenter_contract import PresenterPort
-from .request_adapter import RequestAdapter
-from .response_adapter import ResponseAdapter
 
 __all__ = [
     "ErrorMessageModel",
     "ErrorPresenter",
     "ErrorStatusCodeMapper",
     "ErrorViewModel",
+    "LoggingMiddleware",
     "Middleware",
+    "NextHandler",
     "Pipeline",
     "PresentationAdapter",
     "PresenterPort",
     "RequestAdapter",
     "ResponseAdapter",
+    "TimingMiddleware",
 ]
