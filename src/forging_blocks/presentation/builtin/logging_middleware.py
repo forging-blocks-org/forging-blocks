@@ -47,7 +47,7 @@ class LoggingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respo
         Returns:
             The response produced by the downstream handler.
         """
-        self._logger.debug("Processing request: %s", request)
+        self._logger.debug("Processing request: %s", str(request))
         response = await next_handler(request)
-        self._logger.debug("Request processed, response: %s", response)
+        self._logger.debug("Request processed, response: %s", str(response))
         return response

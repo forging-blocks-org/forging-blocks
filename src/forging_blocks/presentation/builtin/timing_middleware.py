@@ -54,4 +54,4 @@ class TimingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respon
             return await next_handler(request)
         finally:
             elapsed = time.monotonic() - start
-            self._logger.info("Request handled in %.4f seconds", elapsed)
+            self._logger.info("Request handled in %s seconds", f"{elapsed:.4f}")

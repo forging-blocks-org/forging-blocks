@@ -75,6 +75,6 @@ class ErrorHandlingMiddleware[RequestType, ResponseType](Middleware[RequestType,
             return await next_handler(request)
         except Exception as exc:
             if self._logger is not None:
-                self._logger.error("Unhandled exception in pipeline: %s", exc)
+                self._logger.error("Unhandled exception in pipeline: %s", str(exc))
             view_model = self._error_presenter.to_view_model(exc)
             return self._on_error(view_model)
