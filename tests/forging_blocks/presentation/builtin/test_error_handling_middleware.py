@@ -72,7 +72,7 @@ class TestErrorHandlingMiddleware:
 
         assert response.result == "mapped-error"
         assert len(logger.messages) == 1
-        assert logger.messages[0][0] == "Unhandled exception in pipeline"
+        assert logger.messages[0][0] == "Unhandled exception in pipeline: %s"
         assert isinstance(logger.messages[0][1][0], ValueError)
         assert str(logger.messages[0][1][0]) == "logged-failure"
 
