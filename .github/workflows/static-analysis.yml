@@ -1,0 +1,138 @@
+name: Static Analysis
+
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'pyproject.toml'
+      - 'poetry.lock'
+      - '.github/workflows/*.yml'
+      - '.github/actions/*.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'pyproject.toml'
+      - 'poetry.lock'
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
+jobs:
+  sast:
+    name: SAST Scan
+    runs-on: ubuntu-latest
+    container:
+      image: returntocorp/semgrep
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep scan
+        run: |
+          semgrep scan \
+            --config=p/security-audit \
+            --json \
+            --output=findings.json \
+            src/ \
+            || true
+
+      - name: Convert to SARIF
+        run: |
+          semgrep scan \
+            --config=p/security-audit \
+            --sarif \
+            --output=findings.sarif \
+            src/ \
+            || true
+
+      - name: Upload to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: findings.sarif
+          category: semgrep
+
+      - name: Comment findings on PR
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            if (!fs.existsSync('findings.json')) {
+              console.log('No findings file generated');
+              return;
+            }
+
+            let findings;
+            try {
+              findings = JSON.parse(fs.readFileSync('findings.json', 'utf8'));
+            } catch (e) {
+              console.log('Could not parse findings');
+              return;
+            }
+
+            if (!findings.results || findings.results.length === 0) {
+              core.info('No security issues detected');
+              return;
+            }
+
+            let comment = '## Static Analysis Results\n\n';
+            comment += `Found **${findings.results.length}** issue(s):\n\n`;
+
+            const grouped = findings.results.reduce((acc, result) => {
+              const severity = result.extra?.severity || 'medium';
+              acc[severity] = (acc[severity] || []).concat(result);
+              return acc;
+            }, {});
+
+            ['critical', 'high', 'medium', 'low'].forEach(sev => {
+              if (!grouped[sev]) return;
+              comment += `### ${sev.toUpperCase()} (${grouped[sev].length})\n`;
+              grouped[sev].slice(0, 10).forEach(result => {
+                const line = result.start?.line || '?';
+                const rule = result.check_id || 'unknown';
+                comment += `- \`${result.path}:${line}\` — ${result.extra?.message || rule}\n`;
+              });
+              if (grouped[sev].length > 10) {
+                comment += `- ... and ${grouped[sev].length - 10} more\n`;
+              }
+              comment += '\n';
+            });
+
+            comment += '_View full results in [Security > Code scanning](';
+            comment += context.payload.pull_request.html_url;
+            comment += '/security)_';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Enforce security policy
+        if: always()
+        run: |
+          if [ ! -f findings.json ]; then
+            exit 0
+          fi
+
+          # Count critical/high issues
+          CRITICAL=$(jq '[.results[] | select(.extra.severity == "critical")] | length' findings.json 2>/dev/null || echo 0)
+          HIGH=$(jq '[.results[] | select(.extra.severity == "high")] | length' findings.json 2>/dev/null || echo 0)
+          TOTAL=$((CRITICAL + HIGH))
+
+          if [ "$TOTAL" -gt 0 ]; then
+            echo "Security gate failed: Found $CRITICAL critical and $HIGH high severity issues"
+            exit 1
+          fi
+
+          echo "Security gate passed"
