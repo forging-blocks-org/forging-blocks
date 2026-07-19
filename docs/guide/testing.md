@@ -135,20 +135,6 @@ poetry run poe test:debug        # Debug mode with verbose output
 - Some tests are **conditionally skipped** based on environment configuration
 - Skipped tests are still valuable as documentation of system capabilities
 
-### **Test Results Summary**
-
-| Test Type | Count | Coverage | Speed | When to Use |
-| Test Type | Count | Coverage | Speed | When to Use |
-|-----------|-------|----------|-------|-------------|
-| Unit | 360 | — | Fast | Development, TDD, CI |
-| Integration | 84 | — | Moderate | Integration verification |
-| E2E | 16 skipped | N/A | Protected (skipped) | Documentation, manual testing |
-| **All** | **460 passed, 17 skipped** | **98.51%** | **Complete** | **CI, Release** |
-**Note:** Some tests are conditionally skipped based on environment:
-- GitHub CLI integration tests (require `RUN_GITHUB_CLI_TESTS=1`)
-- End-to-end workflow tests (require `RUN_E2E_TESTS=1` and complex setup)
-
-Use `poetry run poe test` to run all tests including those requiring setup (with environment variables).
 
 ---
 
@@ -340,6 +326,8 @@ ForgingBlocks encourages designing with Ports so that dependencies can be replac
 2. **Testing implementation:** Focus on behavior, not internal structure
 3. **Brittle tests:** Avoid coupling tests to internal call sequences
 4. **Slow feedback:** Run unit tests frequently, integration tests less often
+5. **Testing private methods directly:** Test through public API to avoid coupling to implementation
+6. **Sharing state between tests:** Keep tests independent to prevent ordering dependencies
 
 ---
 
@@ -353,3 +341,76 @@ The test environment automatically handles:
 - **Consistent branch naming** across CI/local environments
 
 Test fixtures provide clean, isolated environments for each test run.
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**1. Test Collection Errors**
+```bash
+# Check for syntax errors in test files
+poetry run pytest --collect-only
+```
+
+**2. Slow Test Suite**
+```bash
+# Profile test execution
+poetry run pytest --durations=10
+```
+
+**3. Flaky Integration Tests**
+```bash
+# Run integration tests multiple times
+poetry run pytest -m integration --count=5
+```
+
+**4. Missing Test Markers**
+```bash
+# Find unmarked tests
+poetry run pytest --strict-markers
+```
+
+### Environment Issues
+
+**Git Configuration**
+Integration tests require git to be configured:
+```bash
+git config --global user.email "test@example.com"
+git config --global user.name "Test User"
+```
+
+**Temporary Directory Cleanup**
+Test artifacts are automatically cleaned up, but manual cleanup:
+```bash
+# Clean pytest cache
+rm -rf .pytest_cache
+
+# Clean temporary test files
+find /tmp -name "pytest-*" -type d -exec rm -rf {} +
+```
+
+---
+
+## Coverage Guidelines
+
+**Target Coverage:**
+- Unit tests: >95%
+- Integration tests: >60%
+- Overall: >90%
+
+**Coverage Exclusions:**
+- `__init__.py` files
+- Development/debug utilities
+- Platform-specific code
+- External library wrappers
+
+**Generate Coverage Report:**
+```bash
+# HTML report
+poetry run pytest --cov-report=html
+
+# Terminal report
+poetry run pytest --cov-report=term-missing
+```
