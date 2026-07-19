@@ -1,12 +1,15 @@
 """Tests for the AggregateRepository class."""
 
+from collections.abc import Sequence
 from typing import cast
 from uuid import UUID, uuid7
 
 import pytest
 
+from forging_blocks.application.errors.event_store_error import EventStoreError
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
 from forging_blocks.foundation.messages.event import Event
+from forging_blocks.foundation.result import Err, Result
 from forging_blocks.infrastructure.event_stores.in_memory_event_store_base import (
     InMemoryEventStoreBase,
 )
@@ -40,6 +43,30 @@ class FakeAggregate(AggregateRoot[UUID, object]):
     def _handle(self, event: Event[object]) -> None:
         if isinstance(event, FakeEvent):
             self.items.append(cast(str, event.value["name"]))
+
+
+class FailingAppendEventStore(InMemoryEventStoreBase[object]):
+    """Event store that returns Err from append_events."""
+
+    async def append_events(
+        self,
+        aggregate_id: UUID,
+        events: Sequence[Event[object]],
+        expected_version: int | None = None,
+    ) -> Result[int, EventStoreError]:
+        return Err(EventStoreError("Store is down"))
+
+
+class FailingGetEventsStore(InMemoryEventStoreBase[object]):
+    """Event store that returns Err from get_events."""
+
+    async def get_events(
+        self,
+        aggregate_id: UUID,
+        from_version: int | None = None,
+        to_version: int | None = None,
+    ) -> Result[Sequence[Event[object]], EventStoreError]:
+        return Err(EventStoreError("Connection lost"))
 
 
 @pytest.mark.unit
@@ -124,3 +151,23 @@ class TestAggregateRepository:
         retrieved = await repo.get_by_id(aggregate_id)
 
         assert retrieved is None
+
+    async def test_save_when_event_store_append_fails_then_raises_error(self) -> None:
+        repo = AggregateRepository[object, FakeAggregate, UUID](
+            event_store=FailingAppendEventStore(),
+        )
+        aggregate = FakeAggregate(uuid7())
+        aggregate.add_item("widget")
+
+        with pytest.raises(EventStoreError, match="Store is down"):
+            await repo.save(aggregate)
+
+    async def test_get_by_id_when_event_store_get_events_fails_then_raises_error(
+        self,
+    ) -> None:
+        repo = AggregateRepository[object, FakeAggregate, UUID](
+            event_store=FailingGetEventsStore(),
+        )
+
+        with pytest.raises(EventStoreError, match="Connection lost"):
+            await repo.get_by_id(uuid7())
