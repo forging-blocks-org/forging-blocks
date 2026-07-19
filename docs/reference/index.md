@@ -10,7 +10,6 @@ Components:
 - **Application** — Application layer patterns (UseCase, CommandHandler, RepositoryPort, EventStorePort)
 - **Infrastructure** — Technical adapters and implementations (Repositories, Serializable)
 - **Presentation** — Input/output boundaries
-- **Testing** — Testing reference and guidelines
 
 Dependencies point inward: Infrastructure/Presentation → Application → Domain, all depending on Foundation.
 
@@ -33,4 +32,3 @@ flowchart LR
 - **[Application](application.md)** - Application layer patterns (UseCase, CommandHandler, RepositoryPort, EventStorePort, SpecificationRepositoryPort)
 - **[Infrastructure](infrastructure.md)** - Infrastructure adapters and implementations (Repositories, Serializable)
 - **[Presentation](presentation.md)** - Input/output boundaries and presentation layer
-- **[Testing](testing.md)** - Comprehensive testing reference and guidelines

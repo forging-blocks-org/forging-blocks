@@ -84,12 +84,16 @@ nav:
           - Mappers: reference/foundation/mappers.md
           - Identified: reference/foundation/identified.md
           - Meta Utilities: reference/foundation/meta.md
+          - Context: reference/foundation/context.md
+          - Rules: reference/foundation/rules.md
       - Domain:
           - Overview: reference/domain.md
           - Entities: reference/domain/entities.md
           - Value Objects: reference/domain/value-objects.md
           - Aggregate Roots: reference/domain/aggregates.md
           - Specifications: reference/domain/specifications.md
+          - Validators: reference/domain/validators.md
+          - Permissions: reference/domain/permissions.md
           - Errors: reference/domain/errors.md
       - Application:
           - Overview: reference/application.md
@@ -106,7 +110,6 @@ nav:
           - Adapters: reference/presentation/adapters.md
           - Error Handling: reference/presentation/error-handling.md
           - Middleware: reference/presentation/middleware.md
-      - Testing: reference/testing.md
   - Architectural Styles:
       - Overview: architectural-styles/index.md
       - Clean Architecture: architectural-styles/clean-architecture.md

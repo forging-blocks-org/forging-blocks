@@ -21,6 +21,16 @@ class LoggingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respo
           via ``str()`` as-is. If your domain objects carry tokens,
           passwords, or PII, wrap this middleware with a sanitizing
           decorator or pass a ``LoggerPort`` that performs redaction.
+
+    Example:
+        ```python
+        from forging_blocks.application.ports.outbound.logger_port import LoggerPort
+        from forging_blocks.presentation.builtin import LoggingMiddleware
+
+        mw = LoggingMiddleware[MyRequest, MyResponse](logger=my_logger)
+        response = await mw.process(request, next_handler)
+        # Logs "Processing request: ..." and "Request processed, response: ..." at debug
+        ```
     """
 
     __slots__ = ("_logger",)
@@ -47,7 +57,7 @@ class LoggingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respo
         Returns:
             The response produced by the downstream handler.
         """
-        self._logger.debug("Processing request: %s", request)
+        self._logger.debug("Processing request: %s", str(request))
         response = await next_handler(request)
-        self._logger.debug("Request processed, response: %s", response)
+        self._logger.debug("Request processed, response: %s", str(response))
         return response

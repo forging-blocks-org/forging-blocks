@@ -23,6 +23,16 @@ class TimingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respon
     Non-Responsibilities:
         - Transform the request or response.
         - Handle errors raised downstream.
+
+    Example:
+        ```python
+        from forging_blocks.application.ports.outbound.logger_port import LoggerPort
+        from forging_blocks.presentation.builtin import TimingMiddleware
+
+        mw = TimingMiddleware[MyRequest, MyResponse](logger=my_logger)
+        response = await mw.process(request, next_handler)
+        # Logs "Request handled in 0.0012 seconds" at info level
+        ```
     """
 
     __slots__ = ("_logger",)
@@ -54,4 +64,4 @@ class TimingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respon
             return await next_handler(request)
         finally:
             elapsed = time.monotonic() - start
-            self._logger.info("Request handled in %.4f seconds", elapsed)
+            self._logger.info("Request handled in %s seconds", f"{elapsed:.4f}")

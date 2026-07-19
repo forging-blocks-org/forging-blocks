@@ -32,6 +32,9 @@ class FakeRequest:
     def __init__(self, value: str) -> None:
         self.value = value
 
+    def __repr__(self) -> str:
+        return f"FakeRequest(value={self.value!r})"
+
 
 class FakeResponse:
     """Minimal response stub for middleware tests."""
@@ -40,3 +43,6 @@ class FakeResponse:
 
     def __init__(self, result: str) -> None:
         self.result = result
+
+    def __repr__(self) -> str:
+        return f"FakeResponse(result={self.result!r})"

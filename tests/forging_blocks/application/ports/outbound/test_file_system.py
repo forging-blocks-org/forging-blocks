@@ -10,6 +10,8 @@ import pytest
 
 from forging_blocks.application.ports.outbound.file_system_port import FileSystemPort
 
+# pyright: reportUnknownMemberType=false, reportUnknownArgumentType=false
+
 
 @pytest.mark.unit
 class TestFileSystemPort:
@@ -36,7 +38,7 @@ class TestFileSystemPort:
         assert inspect.iscoroutinefunction(FileSystemPort.list_dir)
 
     def test_filesystem_read_signature(self) -> None:
-        """read should accept Path | str and return bytes."""
+        """read should accept path and return bytes."""
         sig = inspect.signature(FileSystemPort.read)
         params = list(sig.parameters.keys())
         assert "path" in params

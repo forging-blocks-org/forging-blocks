@@ -13,14 +13,23 @@ from the primary/adapter side. It includes:
   the adapter and the application handler.
 - ``Pipeline``: Composes middleware into an immutable, executable chain.
 - ``NextHandler``: Type alias for the callable each middleware delegates to.
+- ``ErrorHandlingMiddleware``: Built-in middleware that catches exceptions
+  and maps them to responses.
 - ``LoggingMiddleware``: Built-in middleware that traces every request.
 - ``TimingMiddleware``: Built-in middleware that measures execution time.
+- ``ValidationMiddleware``: Built-in middleware that validates requests and
+  short-circuits on failure.
 """
 
 from .adapters.presentation_adapter import PresentationAdapter
 from .adapters.request_adapter import RequestAdapter
 from .adapters.response_adapter import ResponseAdapter
-from .builtin import LoggingMiddleware, TimingMiddleware
+from .builtin import (
+    ErrorHandlingMiddleware,
+    LoggingMiddleware,
+    TimingMiddleware,
+    ValidationMiddleware,
+)
 from .errors.error_message_model import ErrorMessageModel
 from .errors.error_presenter import ErrorPresenter
 from .errors.error_status_code_mapper import ErrorStatusCodeMapper
@@ -31,6 +40,7 @@ from .middleware.pipeline import Pipeline
 from .presenter_contract import PresenterPort
 
 __all__ = [
+    "ErrorHandlingMiddleware",
     "ErrorMessageModel",
     "ErrorPresenter",
     "ErrorStatusCodeMapper",
@@ -44,4 +54,5 @@ __all__ = [
     "RequestAdapter",
     "ResponseAdapter",
     "TimingMiddleware",
+    "ValidationMiddleware",
 ]

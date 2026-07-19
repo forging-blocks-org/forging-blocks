@@ -10,9 +10,11 @@ from typing import Protocol
 from forging_blocks.foundation.ports import OutboundPort
 
 
-class FileSystemPort(OutboundPort[object, object], Protocol):
+class FileSystemPort(
+    OutboundPort[Path | str, bytes],
+    Protocol,
+):
     """Structural protocol for file system operations.
-
     Any object with ``read``, ``write``, ``delete``, ``exists``,
     and ``list_dir`` async methods satisfies this protocol.
     """
