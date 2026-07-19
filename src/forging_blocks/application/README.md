@@ -25,8 +25,8 @@ application/
 
 ### 1. **Application Inbound Ports**
 - **Purpose:** Orchestrate business workflows by coordinating Domain logic and Infrastructure through ports.
-- **What goes here:** Abstract base classes/interfaces for commands, queries, and use cases.
-- **Example:** `AsyncUseCase` and `SyncUseCase` ABCs in `ports/inbound/use_case.py`.
+- **What goes here:** Protocol interfaces for commands, queries, and use cases.
+- **Example:** `UseCase` in `ports/inbound/use_case.py`.
 
 ### 2. **Application Services**
 - **Purpose:** Implement the business workflows and coordinate domain objects, repositories, and outbound ports.
@@ -49,55 +49,51 @@ application/
 > Application services (use cases) should use DTOs (Data Transfer Objects) as their input and output types, not domain entities.
 > This keeps your application blocks decoupled from domain and presentation concerns, and ensures a stable contract between blocks.
 
-### 1. Define Use Case, Request, and Response (with type hints, using AsyncUseCase or SyncUseCase)
+### 1. Define Use Case, Request, and Response (with type hints)
 
 ```python
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from forging_blocks.application.ports.inbound.use_case import AsyncUseCase
+from forging_blocks.application import UseCase
+
 
 @dataclass(frozen=True)
 class CreateUserRequest:
     email: str
     name: str
 
+
 @dataclass(frozen=True)
 class CreateUserResponse:
     user_id: str
 
-class CreateUserUseCase(AsyncUseCase[CreateUserRequest, CreateUserResponse], ABC):
-    @abstractmethod
-    async def execute(self, request: CreateUserRequest) -> CreateUserResponse:
-        """
-        Execute the use case to create a user.
 
-        Args:
-            request: The CreateUserRequest DTO with input data.
+class CreateUserUseCase(UseCase[CreateUserRequest, CreateUserResponse]):
+    """Use case for creating a new user.
 
-        Returns:
-            CreateUserResponse DTO with the result user_id.
-        """
+    Args:
+        request: The CreateUserRequest DTO with input data.
+
+    Returns:
+        CreateUserResponse DTO with the result user_id.
+    """
+
 ```
-
-> You can use either `AsyncUseCase` or `SyncUseCase` for your interfaces, depending on your application's needs.
-> Keeping request and response DTOs close to the use case interface helps with discoverability and cohesion.
+> `UseCase` is a Protocol — structural subtyping determines compatibility without
+> explicit inheritance. Use docstrings to document the intent of the execute method.
 
 ### 2. Implement the Use Case
 
 ```python
-from forging_blocks.application.ports.outbound.notifier import AsyncNotifier
-from forging_blocks.application.ports.outbound.unit_of_work import (
-    AsyncUnitOfWork
-)
-from forging_blocks.domain.ports.outbound.repository import AsyncRepository
+from forging_blocks.application import NotifierPort, RepositoryPort, UnitOfWorkPort
+
 
 class CreateUserService(CreateUserUseCase):
     def __init__(
         self,
-        user_repo: AsyncRepository,
-        notifier: AsyncNotifier,
-        uow: AsyncUnitOfWork
+        user_repo: RepositoryPort,
+        notifier: NotifierPort,
+        uow: UnitOfWorkPort,
     ) -> None:
         self._user_repo = user_repo
         self._notifier = notifier
