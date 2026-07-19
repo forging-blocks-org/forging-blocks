@@ -27,6 +27,17 @@ class ValidationMiddleware[RequestType, ResponseType](Middleware[RequestType, Re
         - Format error responses — the validator returns the
           final ``ResponseType`` directly.
         - Handle errors raised by downstream middleware or the handler.
+
+    Example:
+        >>> from forging_blocks.presentation.builtin import ValidationMiddleware
+        >>>
+        >>> def validate(request: MyRequest) -> MyResponse | None:
+        ...     if request.is_invalid:
+        ...         return MyResponse(error="Invalid request")
+        ...     return None  # pass-through to next handler
+        >>>
+        >>> mw = ValidationMiddleware[MyRequest, MyResponse](validator=validate)
+        >>> response = await mw.process(request, next_handler)
     """
 
     __slots__ = ("_validator",)
