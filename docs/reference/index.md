@@ -28,6 +28,7 @@ flowchart LR
 
 ## Reference Sections
 - **[Foundation](foundation.md)** - Core abstractions and utilities (Result, Port, Identified, Messages, Specification, etc.)
+- **[API Stability](api-stability.md)** - SemVer policy and public API stability guarantees
 - **[Domain](domain.md)** - Domain modeling abstractions (Entity, ValueObject, AggregateRoot, Specification)
 - **[Application](application.md)** - Application layer patterns (UseCase, CommandHandler, RepositoryPort, EventStorePort, SpecificationRepositoryPort)
 - **[Infrastructure](infrastructure.md)** - Infrastructure adapters and implementations (Repositories, Serializable)
