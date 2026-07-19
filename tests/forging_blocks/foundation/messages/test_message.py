@@ -251,3 +251,35 @@ class TestMessage:
     def test_cannot_instantiate_abstract_message_directly(self):
         with pytest.raises(TypeError, match="abstract"):
             type.__call__(Message)
+
+
+@pytest.mark.unit
+class TestMessageDataclassDecorator:
+    """Tests for the message_dataclass decorator internals."""
+
+    def test_message_dataclass_when_patched_message_check_fails_then_type_error(
+        self,
+    ) -> None:
+        from unittest.mock import patch
+
+        from forging_blocks.foundation.messages.decorators import (
+            _PatchedMessage,  # pyright: ignore[reportPrivateUsage]
+            message_dataclass,
+        )
+
+        class NotAMessage:
+            x: int
+
+        original_isinstance = isinstance
+
+        def _selective_isinstance(obj: object, cls: type) -> bool:
+            if cls is _PatchedMessage:
+                return False
+            return original_isinstance(obj, cls)
+
+        with patch(
+            "forging_blocks.foundation.messages.decorators.isinstance",
+            side_effect=_selective_isinstance,
+        ):
+            with pytest.raises(TypeError, match="does not satisfy _PatchedMessage"):
+                message_dataclass(NotAMessage)  # type: ignore[reportArgumentType]
