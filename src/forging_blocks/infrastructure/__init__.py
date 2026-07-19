@@ -1,7 +1,11 @@
-"""ForgingBlocks infrastructure package initialization.
+"""Infrastructure block — concrete implementations of application outbound ports.
 
 Provides generic, reusable infrastructure building blocks implementing
-the outbound ports defined in the application layer.
+the outbound ports defined in the application layer. Includes in-memory
+adapters for repositories, event buses, event stores, message buses,
+caching, logging, file system, and HTTP; plus Serializable, abstract
+base classes (BaseRepository, EventStoreBase, EventBusBase), and
+infrastructure-level errors.
 """
 
 from .caching.in_memory_cache import InMemoryCache
@@ -31,6 +35,7 @@ from .repositories import (
     InMemoryReadRepository,
     InMemoryWriteRepository,
 )
+from .serialization import Serializable
 from .unit_of_work.in_memory_unit_of_work import InMemoryUnitOfWork
 
 __all__ = [
@@ -55,6 +60,7 @@ __all__ = [
     "OSFileSystem",
     "RepositoryError",
     "RepositoryNotFoundError",
+    "Serializable",
     "StdlibLogger",
     "URLLibClient",
 ]
