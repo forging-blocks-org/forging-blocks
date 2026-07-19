@@ -33,17 +33,18 @@ class ErrorHandlingMiddleware[RequestType, ResponseType](Middleware[RequestType,
         - Handle errors from middleware upstream of this one.
 
     Example:
-        >>> from forging_blocks.presentation.errors.error_view_model import ErrorViewModel
-        >>> from forging_blocks.presentation.builtin import ErrorHandlingMiddleware
-        >>>
-        >>> def on_error(vm: ErrorViewModel) -> MyResponse:
-        ...     return MyResponse(error=vm.messages[0].title)
-        >>>
-        >>> mw = ErrorHandlingMiddleware[MyRequest, MyResponse](
-        ...     on_error=on_error,
-        ...     logger=my_logger,  # optional LoggerPort
-        ... )
-        >>> response = await mw.process(request, next_handler)
+        from forging_blocks.presentation.errors.error_view_model import ErrorViewModel
+        from forging_blocks.presentation.builtin import ErrorHandlingMiddleware
+
+        def on_error(vm: ErrorViewModel) -> MyResponse:
+            return MyResponse(error=vm.messages[0].title)
+
+        MW = ErrorHandlingMiddleware[MyRequest, MyResponse]
+        mw = MW(
+            on_error=on_error,
+            logger=my_logger,  # optional LoggerPort
+        )
+        response = await mw.process(request, next_handler)
     """
 
     __slots__ = ("_error_presenter", "_on_error", "_logger")
