@@ -15,8 +15,8 @@ from forging_blocks.foundation.ports import OutboundPort
 from forging_blocks.foundation.result import Result
 
 
-class EventStorePort[EventPayloadType, EventResultType](
-    OutboundPort[Event[EventPayloadType], EventResultType],
+class EventStorePort[EventPayloadType](
+    OutboundPort[Event[EventPayloadType], object],
     Protocol,
 ):
     """Protocol for event stores that persist and retrieve domain events.

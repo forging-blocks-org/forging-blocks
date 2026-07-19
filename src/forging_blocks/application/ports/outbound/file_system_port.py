@@ -10,8 +10,8 @@ from typing import Protocol
 from forging_blocks.foundation.ports import OutboundPort
 
 
-class FileSystemPort[PathType, ContentType](
-    OutboundPort[PathType, ContentType],
+class FileSystemPort(
+    OutboundPort[Path | str, bytes],
     Protocol,
 ):
     """Structural protocol for file system operations.
@@ -19,7 +19,7 @@ class FileSystemPort[PathType, ContentType](
     and ``list_dir`` async methods satisfies this protocol.
     """
 
-    async def read(self, path: PathType) -> ContentType:
+    async def read(self, path: Path | str) -> bytes:
         """Read the contents of a file.
 
         Args:
@@ -33,7 +33,7 @@ class FileSystemPort[PathType, ContentType](
         """
         ...
 
-    async def write(self, path: PathType, data: ContentType) -> None:
+    async def write(self, path: Path | str, data: bytes) -> None:
         """Write data to a file, creating parent directories as needed.
 
         Args:
@@ -42,7 +42,7 @@ class FileSystemPort[PathType, ContentType](
         """
         ...
 
-    async def delete(self, path: PathType) -> None:
+    async def delete(self, path: Path | str) -> None:
         """Delete a file.
 
         Args:
@@ -53,7 +53,7 @@ class FileSystemPort[PathType, ContentType](
         """
         ...
 
-    async def exists(self, path: PathType) -> bool:
+    async def exists(self, path: Path | str) -> bool:
         """Check whether a file or directory exists.
 
         Args:
@@ -64,7 +64,7 @@ class FileSystemPort[PathType, ContentType](
         """
         ...
 
-    async def list_dir(self, path: PathType) -> list[Path]:
+    async def list_dir(self, path: Path | str) -> list[Path]:
         """List the contents of a directory.
 
         Args:
