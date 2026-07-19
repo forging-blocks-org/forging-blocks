@@ -3,12 +3,12 @@
     "version": "v0.4.1",
     "title": "0.4.1",
     "aliases": ["latest"],
-    "is_default": true
+    "is_default": false
   },
   {
     "version": "dev",
     "title": "dev",
     "aliases": [],
-    "is_default": false
+    "is_default": true
   }
 ]

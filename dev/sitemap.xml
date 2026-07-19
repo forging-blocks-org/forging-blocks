@@ -109,10 +109,6 @@
          <lastmod>2026-07-19</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/testing/</loc>
-         <lastmod>2026-07-19</lastmod>
-    </url>
-    <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/application/errors/</loc>
          <lastmod>2026-07-19</lastmod>
     </url>
@@ -553,11 +549,19 @@
          <lastmod>2026-07-19</lastmod>
     </url>
     <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/builtin/error_handling_middleware/</loc>
+         <lastmod>2026-07-19</lastmod>
+    </url>
+    <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/builtin/logging_middleware/</loc>
          <lastmod>2026-07-19</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/builtin/timing_middleware/</loc>
+         <lastmod>2026-07-19</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/builtin/validation_middleware/</loc>
          <lastmod>2026-07-19</lastmod>
     </url>
     <url>

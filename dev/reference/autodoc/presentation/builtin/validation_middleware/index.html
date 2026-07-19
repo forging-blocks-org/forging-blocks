@@ -12,28 +12,28 @@
         <meta name="author" content="ForgingBlocks Org">
       
       
-        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/presentation/">
+        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/builtin/validation_middleware/">
       
       
-        <link rel="prev" href="../infrastructure/adapters/">
+        <link rel="prev" href="../timing_middleware/">
       
       
-        <link rel="next" href="adapters/">
+        <link rel="next" href="../../errors/error_message_model/">
       
       
-      <link rel="icon" href="../../assets/favicon.ico">
+      <link rel="icon" href="../../../../../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
     
     
       
-        <title>Overview - ForgingBlocks</title>
+        <title>Validation Middleware - ForgingBlocks</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.84d31ad4.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -52,13 +52,13 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../assets/css/theme.css">
+      <link rel="stylesheet" href="../../../../../assets/css/theme.css">
     
-      <link rel="stylesheet" href="../../assets/css/mermaid-theme.css">
+      <link rel="stylesheet" href="../../../../../assets/css/mermaid-theme.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#presentation" class="md-skip">
+        <a href="#validation-middleware" class="md-skip">
           Skip to content
         </a>
       
@@ -96,9 +96,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="ForgingBlocks" class="md-header__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
+    <a href="../../../../.." title="ForgingBlocks" class="md-header__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
       
-  <img src="../../assets/logo.png" alt="logo">
+  <img src="../../../../../assets/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Validation Middleware
             
           </span>
         </div>
@@ -200,7 +200,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../../../.." class="md-tabs__link">
         
   
   
@@ -221,7 +221,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../guide/" class="md-tabs__link">
+        <a href="../../../../../guide/" class="md-tabs__link">
           
   
   
@@ -243,7 +243,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+        <a href="../../../../" class="md-tabs__link">
           
   
   
@@ -263,7 +263,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../architectural-styles/" class="md-tabs__link">
+        <a href="../../../../../architectural-styles/" class="md-tabs__link">
           
   
   
@@ -283,7 +283,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../contributing/" class="md-tabs__link">
+        <a href="../../../../../contributing/" class="md-tabs__link">
           
   
   
@@ -301,7 +301,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../LICENSE/" class="md-tabs__link">
+      <a href="../../../../../LICENSE/" class="md-tabs__link">
         
   
   
@@ -336,9 +336,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="ForgingBlocks" class="md-nav__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
+    <a href="../../../../.." title="ForgingBlocks" class="md-nav__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
       
-  <img src="../../assets/logo.png" alt="logo">
+  <img src="../../../../../assets/logo.png" alt="logo">
 
     </a>
     ForgingBlocks
@@ -365,7 +365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../../../.." class="md-nav__link">
         
   
   
@@ -430,7 +430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/" class="md-nav__link">
+      <a href="../../../../../guide/" class="md-nav__link">
         
   
   
@@ -453,7 +453,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/getting-started/" class="md-nav__link">
+      <a href="../../../../../guide/getting-started/" class="md-nav__link">
         
   
   
@@ -476,7 +476,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/testing/" class="md-nav__link">
+      <a href="../../../../../guide/testing/" class="md-nav__link">
         
   
   
@@ -499,7 +499,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/example_tests/" class="md-nav__link">
+      <a href="../../../../../guide/example_tests/" class="md-nav__link">
         
   
   
@@ -522,7 +522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/examples/" class="md-nav__link">
+      <a href="../../../../../guide/examples/" class="md-nav__link">
         
   
   
@@ -545,7 +545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/principles/" class="md-nav__link">
+      <a href="../../../../../guide/principles/" class="md-nav__link">
         
   
   
@@ -568,7 +568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/architecture-overview/" class="md-nav__link">
+      <a href="../../../../../guide/architecture-overview/" class="md-nav__link">
         
   
   
@@ -591,7 +591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/recommended_blocks_structure/" class="md-nav__link">
+      <a href="../../../../../guide/recommended_blocks_structure/" class="md-nav__link">
         
   
   
@@ -669,7 +669,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../../../" class="md-nav__link">
         
   
   
@@ -738,7 +738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/" class="md-nav__link">
+      <a href="../../../../foundation/" class="md-nav__link">
         
   
   
@@ -761,7 +761,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/result/" class="md-nav__link">
+      <a href="../../../../foundation/result/" class="md-nav__link">
         
   
   
@@ -784,7 +784,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/ports/" class="md-nav__link">
+      <a href="../../../../foundation/ports/" class="md-nav__link">
         
   
   
@@ -807,7 +807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/errors/" class="md-nav__link">
+      <a href="../../../../foundation/errors/" class="md-nav__link">
         
   
   
@@ -830,7 +830,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/messages/" class="md-nav__link">
+      <a href="../../../../foundation/messages/" class="md-nav__link">
         
   
   
@@ -853,7 +853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/value-objects/" class="md-nav__link">
+      <a href="../../../../foundation/value-objects/" class="md-nav__link">
         
   
   
@@ -876,7 +876,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/auto-freeze/" class="md-nav__link">
+      <a href="../../../../foundation/auto-freeze/" class="md-nav__link">
         
   
   
@@ -899,7 +899,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/specifications/" class="md-nav__link">
+      <a href="../../../../foundation/specifications/" class="md-nav__link">
         
   
   
@@ -922,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/mappers/" class="md-nav__link">
+      <a href="../../../../foundation/mappers/" class="md-nav__link">
         
   
   
@@ -945,7 +945,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/identified/" class="md-nav__link">
+      <a href="../../../../foundation/identified/" class="md-nav__link">
         
   
   
@@ -968,7 +968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/meta/" class="md-nav__link">
+      <a href="../../../../foundation/meta/" class="md-nav__link">
         
   
   
@@ -991,7 +991,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/context/" class="md-nav__link">
+      <a href="../../../../foundation/context/" class="md-nav__link">
         
   
   
@@ -1014,7 +1014,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundation/rules/" class="md-nav__link">
+      <a href="../../../../foundation/rules/" class="md-nav__link">
         
   
   
@@ -1091,7 +1091,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../domain/" class="md-nav__link">
+      <a href="../../../../domain/" class="md-nav__link">
         
   
   
@@ -1114,7 +1114,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../domain/entities/" class="md-nav__link">
+      <a href="../../../../domain/entities/" class="md-nav__link">
         
   
   
@@ -1137,7 +1137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../domain/value-objects/" class="md-nav__link">
+      <a href="../../../../domain/value-objects/" class="md-nav__link">
         
   
   
@@ -1160,7 +1160,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../domain/aggregates/" class="md-nav__link">
+      <a href="../../../../domain/aggregates/" class="md-nav__link">
         
   
   
@@ -1183,7 +1183,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../domain/specifications/" class="md-nav__link">
+      <a href="../../../../domain/specifications/" class="md-nav__link">
         
   
   
@@ -1206,7 +1206,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../domain/validators/" class="md-nav__link">
+      <a href="../../../../domain/validators/" class="md-nav__link">
         
   
   
@@ -1229,7 +1229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../domain/permissions/" class="md-nav__link">
+      <a href="../../../../domain/permissions/" class="md-nav__link">
         
   
   
@@ -1252,7 +1252,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../domain/errors/" class="md-nav__link">
+      <a href="../../../../domain/errors/" class="md-nav__link">
         
   
   
@@ -1329,7 +1329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../application/" class="md-nav__link">
+      <a href="../../../../application/" class="md-nav__link">
         
   
   
@@ -1352,7 +1352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../application/use-cases/" class="md-nav__link">
+      <a href="../../../../application/use-cases/" class="md-nav__link">
         
   
   
@@ -1375,7 +1375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../application/ports/" class="md-nav__link">
+      <a href="../../../../application/ports/" class="md-nav__link">
         
   
   
@@ -1398,7 +1398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../application/errors/" class="md-nav__link">
+      <a href="../../../../application/errors/" class="md-nav__link">
         
   
   
@@ -1475,7 +1475,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../infrastructure/" class="md-nav__link">
+      <a href="../../../../infrastructure/" class="md-nav__link">
         
   
   
@@ -1498,7 +1498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../infrastructure/persistence/" class="md-nav__link">
+      <a href="../../../../infrastructure/persistence/" class="md-nav__link">
         
   
   
@@ -1521,7 +1521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../infrastructure/messaging/" class="md-nav__link">
+      <a href="../../../../infrastructure/messaging/" class="md-nav__link">
         
   
   
@@ -1544,12 +1544,158 @@
   
   
     <li class="md-nav__item">
-      <a href="../infrastructure/adapters/" class="md-nav__link">
+      <a href="../../../../infrastructure/adapters/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     Adapters
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Presentation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Presentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../presentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../presentation/adapters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Adapters
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../presentation/error-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Error Handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../presentation/middleware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Middleware
     
   </span>
   
@@ -1593,249 +1739,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Presentation
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_6">
-            <span class="md-nav__icon md-icon"></span>
-            Presentation
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Overview
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    Overview
-    
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#entry-points-and-interaction-boundaries" class="md-nav__link">
-    <span class="md-ellipsis">
-      Entry points and interaction boundaries
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      How it works
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-use" class="md-nav__link">
-    <span class="md-ellipsis">
-      How to use
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#core-abstractions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Core abstractions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-it-does-not-do" class="md-nav__link">
-    <span class="md-ellipsis">
-      What it does not do
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#glossary" class="md-nav__link">
-    <span class="md-ellipsis">
-      Glossary
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="adapters/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Adapters
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="error-handling/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Error Handling
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="middleware/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Middleware
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" checked>
         
           
           <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="">
@@ -1851,7 +1755,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_7">
             <span class="md-nav__icon md-icon"></span>
             API Reference
@@ -1951,7 +1855,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/errors/concurrency_error/" class="md-nav__link">
+      <a href="../../../application/errors/concurrency_error/" class="md-nav__link">
         
   
   
@@ -1974,7 +1878,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/errors/event_bus_error/" class="md-nav__link">
+      <a href="../../../application/errors/event_bus_error/" class="md-nav__link">
         
   
   
@@ -1997,7 +1901,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/errors/event_store_error/" class="md-nav__link">
+      <a href="../../../application/errors/event_store_error/" class="md-nav__link">
         
   
   
@@ -2020,7 +1924,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/errors/transaction_error/" class="md-nav__link">
+      <a href="../../../application/errors/transaction_error/" class="md-nav__link">
         
   
   
@@ -2043,7 +1947,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/errors/unit_of_work_error/" class="md-nav__link">
+      <a href="../../../application/errors/unit_of_work_error/" class="md-nav__link">
         
   
   
@@ -2117,7 +2021,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/inbound/application_service/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/application_service/" class="md-nav__link">
         
   
   
@@ -2140,7 +2044,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/inbound/authorization_service/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/authorization_service/" class="md-nav__link">
         
   
   
@@ -2163,7 +2067,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/inbound/message_handler/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/message_handler/" class="md-nav__link">
         
   
   
@@ -2186,7 +2090,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/inbound/use_case/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/use_case/" class="md-nav__link">
         
   
   
@@ -2209,7 +2113,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/inbound/validation_service/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/validation_service/" class="md-nav__link">
         
   
   
@@ -2283,7 +2187,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/cache_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/cache_port/" class="md-nav__link">
         
   
   
@@ -2306,7 +2210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/command_sender_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/command_sender_port/" class="md-nav__link">
         
   
   
@@ -2329,7 +2233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/event_bus_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/event_bus_port/" class="md-nav__link">
         
   
   
@@ -2352,7 +2256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/event_publisher_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/event_publisher_port/" class="md-nav__link">
         
   
   
@@ -2375,7 +2279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/event_store_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/event_store_port/" class="md-nav__link">
         
   
   
@@ -2398,7 +2302,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/external_service_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/external_service_port/" class="md-nav__link">
         
   
   
@@ -2421,7 +2325,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/file_system_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/file_system_port/" class="md-nav__link">
         
   
   
@@ -2444,7 +2348,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/logger_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/logger_port/" class="md-nav__link">
         
   
   
@@ -2467,7 +2371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/message_bus_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/message_bus_port/" class="md-nav__link">
         
   
   
@@ -2490,7 +2394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/notifier_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/notifier_port/" class="md-nav__link">
         
   
   
@@ -2513,7 +2417,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/query_fetcher_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/query_fetcher_port/" class="md-nav__link">
         
   
   
@@ -2536,7 +2440,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/repository_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/repository_port/" class="md-nav__link">
         
   
   
@@ -2559,7 +2463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/specification_repository_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/specification_repository_port/" class="md-nav__link">
         
   
   
@@ -2582,7 +2486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/transaction_manager_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/transaction_manager_port/" class="md-nav__link">
         
   
   
@@ -2605,7 +2509,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/application/ports/outbound/unit_of_work_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/unit_of_work_port/" class="md-nav__link">
         
   
   
@@ -2687,7 +2591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/entity/" class="md-nav__link">
+      <a href="../../../domain/entity/" class="md-nav__link">
         
   
   
@@ -2710,7 +2614,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/value_object/" class="md-nav__link">
+      <a href="../../../domain/value_object/" class="md-nav__link">
         
   
   
@@ -2776,7 +2680,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/aggregate_root/aggregate_root/" class="md-nav__link">
+      <a href="../../../domain/aggregate_root/aggregate_root/" class="md-nav__link">
         
   
   
@@ -2799,7 +2703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/aggregate_root/aggregate_version/" class="md-nav__link">
+      <a href="../../../domain/aggregate_root/aggregate_version/" class="md-nav__link">
         
   
   
@@ -2873,7 +2777,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/errors/draft_entity_is_not_hashable_error/" class="md-nav__link">
+      <a href="../../../domain/errors/draft_entity_is_not_hashable_error/" class="md-nav__link">
         
   
   
@@ -2896,7 +2800,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/errors/entity_id_deletion_error/" class="md-nav__link">
+      <a href="../../../domain/errors/entity_id_deletion_error/" class="md-nav__link">
         
   
   
@@ -2919,7 +2823,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/errors/entity_id_modification_error/" class="md-nav__link">
+      <a href="../../../domain/errors/entity_id_modification_error/" class="md-nav__link">
         
   
   
@@ -2942,7 +2846,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/errors/entity_id_none_error/" class="md-nav__link">
+      <a href="../../../domain/errors/entity_id_none_error/" class="md-nav__link">
         
   
   
@@ -3016,7 +2920,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/permissions/composite_permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/composite_permission_checker/" class="md-nav__link">
         
   
   
@@ -3039,7 +2943,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/permissions/permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/permission_checker/" class="md-nav__link">
         
   
   
@@ -3062,7 +2966,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/permissions/resource_permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/resource_permission_checker/" class="md-nav__link">
         
   
   
@@ -3085,7 +2989,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/permissions/role_based_permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/role_based_permission_checker/" class="md-nav__link">
         
   
   
@@ -3159,7 +3063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/validators/composite_validation_rule/" class="md-nav__link">
+      <a href="../../../domain/validators/composite_validation_rule/" class="md-nav__link">
         
   
   
@@ -3182,7 +3086,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/validators/email_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/email_validator/" class="md-nav__link">
         
   
   
@@ -3205,7 +3109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/validators/length_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/length_validator/" class="md-nav__link">
         
   
   
@@ -3228,7 +3132,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/validators/range_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/range_validator/" class="md-nav__link">
         
   
   
@@ -3251,7 +3155,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/domain/validators/required_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/required_validator/" class="md-nav__link">
         
   
   
@@ -3333,7 +3237,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/debuggable/" class="md-nav__link">
+      <a href="../../../foundation/debuggable/" class="md-nav__link">
         
   
   
@@ -3356,7 +3260,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/identified/" class="md-nav__link">
+      <a href="../../../foundation/identified/" class="md-nav__link">
         
   
   
@@ -3379,7 +3283,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/mapper/" class="md-nav__link">
+      <a href="../../../foundation/mapper/" class="md-nav__link">
         
   
   
@@ -3402,7 +3306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/permission/" class="md-nav__link">
+      <a href="../../../foundation/permission/" class="md-nav__link">
         
   
   
@@ -3425,7 +3329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/ports/" class="md-nav__link">
+      <a href="../../../foundation/ports/" class="md-nav__link">
         
   
   
@@ -3448,7 +3352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/value_object/" class="md-nav__link">
+      <a href="../../../foundation/value_object/" class="md-nav__link">
         
   
   
@@ -3514,7 +3418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/autofreeze/auto_freeze/" class="md-nav__link">
+      <a href="../../../foundation/autofreeze/auto_freeze/" class="md-nav__link">
         
   
   
@@ -3588,7 +3492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/autohash/auto_hash/" class="md-nav__link">
+      <a href="../../../foundation/autohash/auto_hash/" class="md-nav__link">
         
   
   
@@ -3662,7 +3566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/context/authorization_context/" class="md-nav__link">
+      <a href="../../../foundation/context/authorization_context/" class="md-nav__link">
         
   
   
@@ -3685,7 +3589,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/context/service_context/" class="md-nav__link">
+      <a href="../../../foundation/context/service_context/" class="md-nav__link">
         
   
   
@@ -3708,7 +3612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/context/transaction_context/" class="md-nav__link">
+      <a href="../../../foundation/context/transaction_context/" class="md-nav__link">
         
   
   
@@ -3782,7 +3686,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/errors/cant_modify_immutable_attribute_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/cant_modify_immutable_attribute_error/" class="md-nav__link">
         
   
   
@@ -3805,7 +3709,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/errors/combined_errors/" class="md-nav__link">
+      <a href="../../../foundation/errors/combined_errors/" class="md-nav__link">
         
   
   
@@ -3828,7 +3732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/errors/core/" class="md-nav__link">
+      <a href="../../../foundation/errors/core/" class="md-nav__link">
         
   
   
@@ -3851,7 +3755,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/errors/error/" class="md-nav__link">
+      <a href="../../../foundation/errors/error/" class="md-nav__link">
         
   
   
@@ -3874,7 +3778,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/errors/field_errors/" class="md-nav__link">
+      <a href="../../../foundation/errors/field_errors/" class="md-nav__link">
         
   
   
@@ -3897,7 +3801,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/errors/non_hashable_value_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/non_hashable_value_error/" class="md-nav__link">
         
   
   
@@ -3920,7 +3824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/errors/none_not_allowed_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/none_not_allowed_error/" class="md-nav__link">
         
   
   
@@ -3943,7 +3847,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/errors/not_callable_predicate_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/not_callable_predicate_error/" class="md-nav__link">
         
   
   
@@ -3966,7 +3870,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/errors/result_access_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/result_access_error/" class="md-nav__link">
         
   
   
@@ -3989,7 +3893,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/errors/rule_violation_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/rule_violation_error/" class="md-nav__link">
         
   
   
@@ -4012,7 +3916,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/errors/validation_error/" class="md-nav__link">
+      <a href="../../../foundation/errors/validation_error/" class="md-nav__link">
         
   
   
@@ -4086,7 +3990,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/messages/command/" class="md-nav__link">
+      <a href="../../../foundation/messages/command/" class="md-nav__link">
         
   
   
@@ -4109,7 +4013,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/messages/decorators/" class="md-nav__link">
+      <a href="../../../foundation/messages/decorators/" class="md-nav__link">
         
   
   
@@ -4132,7 +4036,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/messages/event/" class="md-nav__link">
+      <a href="../../../foundation/messages/event/" class="md-nav__link">
         
   
   
@@ -4155,7 +4059,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/messages/message/" class="md-nav__link">
+      <a href="../../../foundation/messages/message/" class="md-nav__link">
         
   
   
@@ -4178,7 +4082,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/messages/query/" class="md-nav__link">
+      <a href="../../../foundation/messages/query/" class="md-nav__link">
         
   
   
@@ -4252,7 +4156,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/meta/final_abc_meta/" class="md-nav__link">
+      <a href="../../../foundation/meta/final_abc_meta/" class="md-nav__link">
         
   
   
@@ -4275,7 +4179,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/meta/final_meta/" class="md-nav__link">
+      <a href="../../../foundation/meta/final_meta/" class="md-nav__link">
         
   
   
@@ -4349,7 +4253,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/result/err/" class="md-nav__link">
+      <a href="../../../foundation/result/err/" class="md-nav__link">
         
   
   
@@ -4372,7 +4276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/result/ok/" class="md-nav__link">
+      <a href="../../../foundation/result/ok/" class="md-nav__link">
         
   
   
@@ -4395,7 +4299,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/result/result/" class="md-nav__link">
+      <a href="../../../foundation/result/result/" class="md-nav__link">
         
   
   
@@ -4469,7 +4373,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/rules/validation_rule/" class="md-nav__link">
+      <a href="../../../foundation/rules/validation_rule/" class="md-nav__link">
         
   
   
@@ -4543,7 +4447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/specification/base/" class="md-nav__link">
+      <a href="../../../foundation/specification/base/" class="md-nav__link">
         
   
   
@@ -4566,7 +4470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/specification/composable/" class="md-nav__link">
+      <a href="../../../foundation/specification/composable/" class="md-nav__link">
         
   
   
@@ -4589,7 +4493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/specification/expression/" class="md-nav__link">
+      <a href="../../../foundation/specification/expression/" class="md-nav__link">
         
   
   
@@ -4663,7 +4567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/specification/logical_operators/and_specification/" class="md-nav__link">
+      <a href="../../../foundation/specification/logical_operators/and_specification/" class="md-nav__link">
         
   
   
@@ -4686,7 +4590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/specification/logical_operators/not_specification/" class="md-nav__link">
+      <a href="../../../foundation/specification/logical_operators/not_specification/" class="md-nav__link">
         
   
   
@@ -4709,7 +4613,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/foundation/specification/logical_operators/or_specification/" class="md-nav__link">
+      <a href="../../../foundation/specification/logical_operators/or_specification/" class="md-nav__link">
         
   
   
@@ -4834,7 +4738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/caching/in_memory_cache/" class="md-nav__link">
+      <a href="../../../infrastructure/caching/in_memory_cache/" class="md-nav__link">
         
   
   
@@ -4908,7 +4812,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/errors/repository_errors/" class="md-nav__link">
+      <a href="../../../infrastructure/errors/repository_errors/" class="md-nav__link">
         
   
   
@@ -4982,7 +4886,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/event_buses/event_bus_base/" class="md-nav__link">
+      <a href="../../../infrastructure/event_buses/event_bus_base/" class="md-nav__link">
         
   
   
@@ -5005,7 +4909,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/event_buses/in_memory_event_bus/" class="md-nav__link">
+      <a href="../../../infrastructure/event_buses/in_memory_event_bus/" class="md-nav__link">
         
   
   
@@ -5028,7 +4932,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/event_buses/in_memory_event_bus_base/" class="md-nav__link">
+      <a href="../../../infrastructure/event_buses/in_memory_event_bus_base/" class="md-nav__link">
         
   
   
@@ -5102,7 +5006,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/event_stores/event_store_base/" class="md-nav__link">
+      <a href="../../../infrastructure/event_stores/event_store_base/" class="md-nav__link">
         
   
   
@@ -5125,7 +5029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/event_stores/in_memory_event_store/" class="md-nav__link">
+      <a href="../../../infrastructure/event_stores/in_memory_event_store/" class="md-nav__link">
         
   
   
@@ -5148,7 +5052,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/event_stores/in_memory_event_store_base/" class="md-nav__link">
+      <a href="../../../infrastructure/event_stores/in_memory_event_store_base/" class="md-nav__link">
         
   
   
@@ -5222,7 +5126,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/file_system/os_file_system/" class="md-nav__link">
+      <a href="../../../infrastructure/file_system/os_file_system/" class="md-nav__link">
         
   
   
@@ -5296,7 +5200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/http_client/urllib_client/" class="md-nav__link">
+      <a href="../../../infrastructure/http_client/urllib_client/" class="md-nav__link">
         
   
   
@@ -5370,7 +5274,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/logging/stdlib_logger/" class="md-nav__link">
+      <a href="../../../infrastructure/logging/stdlib_logger/" class="md-nav__link">
         
   
   
@@ -5444,7 +5348,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/message_bus/in_memory_message_bus/" class="md-nav__link">
+      <a href="../../../infrastructure/message_bus/in_memory_message_bus/" class="md-nav__link">
         
   
   
@@ -5467,7 +5371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/message_bus/message_bus_command_sender/" class="md-nav__link">
+      <a href="../../../infrastructure/message_bus/message_bus_command_sender/" class="md-nav__link">
         
   
   
@@ -5490,7 +5394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/message_bus/message_bus_event_publisher/" class="md-nav__link">
+      <a href="../../../infrastructure/message_bus/message_bus_event_publisher/" class="md-nav__link">
         
   
   
@@ -5513,7 +5417,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/message_bus/message_bus_query_fetcher/" class="md-nav__link">
+      <a href="../../../infrastructure/message_bus/message_bus_query_fetcher/" class="md-nav__link">
         
   
   
@@ -5587,7 +5491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/repositories/aggregate_repository/" class="md-nav__link">
+      <a href="../../../infrastructure/repositories/aggregate_repository/" class="md-nav__link">
         
   
   
@@ -5610,7 +5514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/repositories/base_repository/" class="md-nav__link">
+      <a href="../../../infrastructure/repositories/base_repository/" class="md-nav__link">
         
   
   
@@ -5633,7 +5537,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/repositories/in_memory_read_repository/" class="md-nav__link">
+      <a href="../../../infrastructure/repositories/in_memory_read_repository/" class="md-nav__link">
         
   
   
@@ -5656,7 +5560,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/repositories/in_memory_write_repository/" class="md-nav__link">
+      <a href="../../../infrastructure/repositories/in_memory_write_repository/" class="md-nav__link">
         
   
   
@@ -5730,7 +5634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/serialization/serializable/" class="md-nav__link">
+      <a href="../../../infrastructure/serialization/serializable/" class="md-nav__link">
         
   
   
@@ -5804,7 +5708,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/infrastructure/unit_of_work/in_memory_unit_of_work/" class="md-nav__link">
+      <a href="../../../infrastructure/unit_of_work/in_memory_unit_of_work/" class="md-nav__link">
         
   
   
@@ -5840,8 +5744,10 @@
                 
   
   
+    
   
   
+  
     
     
     
@@ -5852,11 +5758,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7_5" checked>
         
           
           <label class="md-nav__link" for="__nav_3_7_5" id="__nav_3_7_5_label" tabindex="0">
@@ -5872,7 +5778,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_7_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_7_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_7_5">
             <span class="md-nav__icon md-icon"></span>
             Presentation
@@ -5886,7 +5792,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/presenter_contract/" class="md-nav__link">
+      <a href="../../presenter_contract/" class="md-nav__link">
         
   
   
@@ -5952,7 +5858,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/adapters/presentation_adapter/" class="md-nav__link">
+      <a href="../../adapters/presentation_adapter/" class="md-nav__link">
         
   
   
@@ -5975,7 +5881,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/adapters/request_adapter/" class="md-nav__link">
+      <a href="../../adapters/request_adapter/" class="md-nav__link">
         
   
   
@@ -5998,7 +5904,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/adapters/response_adapter/" class="md-nav__link">
+      <a href="../../adapters/response_adapter/" class="md-nav__link">
         
   
   
@@ -6026,8 +5932,10 @@
                 
   
   
+    
   
   
+  
     
     
     
@@ -6038,11 +5946,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7_5_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7_5_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3_7_5_3" id="__nav_3_7_5_3_label" tabindex="0">
@@ -6058,7 +5966,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_7_5_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_7_5_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_7_5_3">
             <span class="md-nav__icon md-icon"></span>
             Builtin
@@ -6072,7 +5980,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/builtin/error_handling_middleware/" class="md-nav__link">
+      <a href="../error_handling_middleware/" class="md-nav__link">
         
   
   
@@ -6095,7 +6003,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/builtin/logging_middleware/" class="md-nav__link">
+      <a href="../logging_middleware/" class="md-nav__link">
         
   
   
@@ -6118,7 +6026,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/builtin/timing_middleware/" class="md-nav__link">
+      <a href="../timing_middleware/" class="md-nav__link">
         
   
   
@@ -6138,10 +6046,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../autodoc/presentation/builtin/validation_middleware/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Validation Middleware
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -6152,6 +6082,74 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#forging_blocks.presentation.builtin.validation_middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      validation_middleware
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="validation_middleware">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      ValidationMiddleware
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ValidationMiddleware">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware.process" class="md-nav__link">
+    <span class="md-ellipsis">
+      process
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -6215,7 +6213,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/errors/error_message_model/" class="md-nav__link">
+      <a href="../../errors/error_message_model/" class="md-nav__link">
         
   
   
@@ -6238,7 +6236,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/errors/error_presenter/" class="md-nav__link">
+      <a href="../../errors/error_presenter/" class="md-nav__link">
         
   
   
@@ -6261,7 +6259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/errors/error_status_code_mapper/" class="md-nav__link">
+      <a href="../../errors/error_status_code_mapper/" class="md-nav__link">
         
   
   
@@ -6284,7 +6282,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/errors/error_view_model/" class="md-nav__link">
+      <a href="../../errors/error_view_model/" class="md-nav__link">
         
   
   
@@ -6358,7 +6356,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/middleware/middleware/" class="md-nav__link">
+      <a href="../../middleware/middleware/" class="md-nav__link">
         
   
   
@@ -6381,7 +6379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/middleware/next_handler/" class="md-nav__link">
+      <a href="../../middleware/next_handler/" class="md-nav__link">
         
   
   
@@ -6404,7 +6402,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autodoc/presentation/middleware/pipeline/" class="md-nav__link">
+      <a href="../../middleware/pipeline/" class="md-nav__link">
         
   
   
@@ -6501,7 +6499,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architectural-styles/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/" class="md-nav__link">
         
   
   
@@ -6524,7 +6522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architectural-styles/clean-architecture/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/clean-architecture/" class="md-nav__link">
         
   
   
@@ -6547,7 +6545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architectural-styles/hexagonal-architecture/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/hexagonal-architecture/" class="md-nav__link">
         
   
   
@@ -6570,7 +6568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architectural-styles/layered-architecture/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/layered-architecture/" class="md-nav__link">
         
   
   
@@ -6593,7 +6591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architectural-styles/cqrs/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/cqrs/" class="md-nav__link">
         
   
   
@@ -6616,7 +6614,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architectural-styles/event-driven/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/event-driven/" class="md-nav__link">
         
   
   
@@ -6689,7 +6687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/" class="md-nav__link">
+      <a href="../../../../../contributing/" class="md-nav__link">
         
   
   
@@ -6712,7 +6710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/contributing/" class="md-nav__link">
+      <a href="../../../../../contributing/contributing/" class="md-nav__link">
         
   
   
@@ -6735,7 +6733,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/docs-conventions/" class="md-nav__link">
+      <a href="../../../../../contributing/docs-conventions/" class="md-nav__link">
         
   
   
@@ -6758,7 +6756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/release-guide/" class="md-nav__link">
+      <a href="../../../../../contributing/release-guide/" class="md-nav__link">
         
   
   
@@ -6788,7 +6786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../LICENSE/" class="md-nav__link">
+      <a href="../../../../../LICENSE/" class="md-nav__link">
         
   
   
@@ -6830,56 +6828,50 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#entry-points-and-interaction-boundaries" class="md-nav__link">
+  <a href="#forging_blocks.presentation.builtin.validation_middleware" class="md-nav__link">
     <span class="md-ellipsis">
-      Entry points and interaction boundaries
+      validation_middleware
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="validation_middleware">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      ValidationMiddleware
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ValidationMiddleware">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware.process" class="md-nav__link">
     <span class="md-ellipsis">
-      How it works
+      process
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-use" class="md-nav__link">
-    <span class="md-ellipsis">
-      How to use
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#core-abstractions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Core abstractions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-it-does-not-do" class="md-nav__link">
-    <span class="md-ellipsis">
-      What it does not do
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#glossary" class="md-nav__link">
-    <span class="md-ellipsis">
-      Glossary
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -6899,7 +6891,7 @@
 
 
   
-    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/presentation.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/presentation/builtin/validation_middleware.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -6907,78 +6899,498 @@
   
 
 
-<h1 id="presentation">Presentation<a class="headerlink" href="#presentation" title="Permanent link">&para;</a></h1>
-<h2 id="entry-points-and-interaction-boundaries">Entry points and interaction boundaries<a class="headerlink" href="#entry-points-and-interaction-boundaries" title="Permanent link">&para;</a></h2>
-<p>The <strong>Presentation</strong> block translates external inputs (HTTP, CLI, events) into application calls and renders results back. It is the entry point for users and external systems.</p>
-<p>Depends on <strong>Application</strong> (for inbound ports). Does not depend on Domain or Infrastructure.</p>
-<hr />
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
-<p>The <code>PresentationAdapter</code> orchestrates the full lifecycle:</p>
-<ul>
-<li><strong>Adapt</strong> — <code>RequestAdapter</code> deserializes the raw request into typed use-case input.</li>
-<li><strong>Execute</strong> — The use case runs and returns a value or a <code>Result</code>.</li>
-<li><strong>Respond</strong> — On success, <code>ResponseAdapter</code> renders the output.</li>
+<h1 id="validation-middleware">Validation Middleware<a class="headerlink" href="#validation-middleware" title="Permanent link">&para;</a></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="forging_blocks.presentation.builtin.validation_middleware" class="doc doc-heading">
+            <code>validation_middleware</code>
+
+
+<a href="#forging_blocks.presentation.builtin.validation_middleware" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Middleware that validates requests before delegation and short-circuits on failure.</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware" class="doc doc-heading">
+            <code>ValidationMiddleware</code>
+
+
+<a href="#forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Middleware (forging_blocks.presentation.middleware.middleware.Middleware)" href="../../middleware/middleware/#forging_blocks.presentation.middleware.middleware.Middleware">Middleware</a>[<span title="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware[RequestType]">RequestType</span>, <span title="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware[ResponseType]">ResponseType</span>]</code></p>
+
+
+        <p>Validates each request before forwarding to the downstream handler.</p>
+<p>Delegates all validation logic to a caller-supplied <code>validator</code><br />
+callable.  When the validator returns a response, the middleware<br />
+short-circuits the pipeline — the downstream handler is never<br />
+called.  When the validator returns <code>None</code>, the request is<br />
+considered valid and passes through unchanged.</p>
+
+
+<details class="responsibilities" open>
+  <summary>Responsibilities</summary>
+  <ul>
+<li>Invoke the validator with every incoming request.</li>
+<li>Short-circuit and return the validator's response when<br />
+  it is not <code>None</code>.</li>
+<li>Pass the request through unchanged when the validator<br />
+  returns <code>None</code>.</li>
 </ul>
-<p>On failure, the error pipeline kicks in:</p>
-<ul>
-<li><code>ErrorPresenter</code> converts the error into an <code>ErrorViewModel</code>.</li>
-<li><code>ErrorStatusCodeMapper</code> assigns a status code.</li>
-<li><code>ResponseAdapter</code> renders the error response.</li>
+</details>
+
+<details class="non-responsibilities" open>
+  <summary>Non-Responsibilities</summary>
+  <ul>
+<li>Define validation rules — those live in the caller.</li>
+<li>Format error responses — the validator returns the<br />
+  final <code>ResponseType</code> directly.</li>
+<li>Handle errors raised by downstream middleware or the handler.</li>
 </ul>
-<p>This handles both <code>Result.Err</code> and raised exceptions, so callers can choose their error style.</p>
-<p>Middleware wraps the handler in a right-to-left chain. The <code>Pipeline</code> pre-builds the chain at construction. Each <code>Middleware</code> receives <code>(request, next_handler)</code> and may transform, observe, or short-circuit. The toolkit ships four <a href="middleware/#built-in-middleware">built-in middleware</a> for logging, timing, validation, and error handling.</p>
-<hr />
-<h2 id="how-to-use">How to use<a class="headerlink" href="#how-to-use" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Define a <code>RequestAdapter</code> and <code>ResponseAdapter</code> for your transport — FastAPI, CLI, message queue.</li>
-<li>Wire them into a <code>PresentationAdapter</code> with your use case and an <code>ErrorPresenter</code>.</li>
-<li>For cross-cutting concerns like logging or auth, compose a <code>Middleware</code> chain through a <code>Pipeline</code>.</li>
-</ol>
-<p>The Presentation block is the outermost ring. Keep it thin — translate, delegate, render. Business logic lives in Domain. Coordination lives in Application.</p>
-<hr />
-<h2 id="core-abstractions">Core abstractions<a class="headerlink" href="#core-abstractions" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong><a href="adapters/">Adapters</a></strong> — RequestAdapter, ResponseAdapter, PresentationAdapter</li>
-<li><strong><a href="error-handling/">Error Handling</a></strong> — ErrorPresenter, ErrorStatusCodeMapper, ErrorViewModel, PresenterPort</li>
-<li><strong><a href="middleware/">Middleware Pipeline</a></strong> — Middleware protocol, Pipeline class, and built-in middleware</li>
+</details>
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.presentation.builtin</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationMiddleware</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">MyRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MyResponse</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">is_invalid</span><span class="p">:</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="k">return</span> <span class="n">MyResponse</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="s2">&quot;Invalid request&quot;</span><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># pass-through to next handler</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">mw</span> <span class="o">=</span> <span class="n">ValidationMiddleware</span><span class="p">[</span><span class="n">MyRequest</span><span class="p">,</span> <span class="n">MyResponse</span><span class="p">](</span><span class="n">validator</span><span class="o">=</span><span class="n">validate</span><span class="p">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">mw</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">next_handler</span><span class="p">)</span>
+</span></code></pre></div>
+</details>
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>src/forging_blocks/presentation/builtin/validation_middleware.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#__codelineno-0-72">72</a></span>
+<span class="normal"><a href="#__codelineno-0-73">73</a></span>
+<span class="normal"><a href="#__codelineno-0-74">74</a></span>
+<span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span>
+<span class="normal"><a href="#__codelineno-0-77">77</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">ValidationMiddleware</span><span class="p">[</span><span class="n">RequestType</span><span class="p">,</span> <span class="n">ResponseType</span><span class="p">](</span><span class="n">Middleware</span><span class="p">[</span><span class="n">RequestType</span><span class="p">,</span> <span class="n">ResponseType</span><span class="p">]):</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Validates each request before forwarding to the downstream handler.</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="sd">    Delegates all validation logic to a caller-supplied ``validator``</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="sd">    callable.  When the validator returns a response, the middleware</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="sd">    short-circuits the pipeline — the downstream handler is never</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="sd">    called.  When the validator returns ``None``, the request is</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">    considered valid and passes through unchanged.</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    Responsibilities:</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">        - Invoke the validator with every incoming request.</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">        - Short-circuit and return the validator&#39;s response when</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">          it is not ``None``.</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">        - Pass the request through unchanged when the validator</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">          returns ``None``.</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">    Non-Responsibilities:</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">        - Define validation rules — those live in the caller.</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">        - Format error responses — the validator returns the</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">          final ``ResponseType`` directly.</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">        - Handle errors raised by downstream middleware or the handler.</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    Example:</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">        ```python</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        from forging_blocks.presentation.builtin import ValidationMiddleware</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">        def validate(request: MyRequest) -&gt; MyResponse | None:</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">            if request.is_invalid:</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">                return MyResponse(error=&quot;Invalid request&quot;)</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">            return None  # pass-through to next handler</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        mw = ValidationMiddleware[MyRequest, MyResponse](validator=validate)</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        response = await mw.process(request, next_handler)</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">        ```</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;_validator&quot;</span><span class="p">,)</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validator</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">RequestType</span><span class="p">],</span> <span class="n">ResponseType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap *validator* so every request is validated.</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="sd">            validator: A callable that receives the request and returns</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">                either a ``ResponseType`` (to short-circuit) or ``None``</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">                (to pass through).</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_validator</span> <span class="o">=</span> <span class="n">validator</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="n">request</span><span class="p">:</span> <span class="n">RequestType</span><span class="p">,</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>        <span class="n">next_handler</span><span class="p">:</span> <span class="n">NextHandler</span><span class="p">[</span><span class="n">RequestType</span><span class="p">,</span> <span class="n">ResponseType</span><span class="p">],</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResponseType</span><span class="p">:</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate the request, short-circuiting on failure.</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">            request: The incoming request.</span>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">            next_handler: The next callable in the pipeline chain.</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">            - The validator&#39;s response when it short-circuits.</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">            - The downstream handler&#39;s response otherwise.</span>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="n">error_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validator</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>        <span class="k">if</span> <span class="n">error_response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>            <span class="k">return</span> <span class="n">error_response</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>        <span class="k">return</span> <span class="k">await</span> <span class="n">next_handler</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">validator</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">RequestType</span><span class="p">],</span> <span class="n">ResponseType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+<a href="#forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware.__init__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Wrap <em>validator</em> so every request is validated.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>validator</code>
+            </td>
+            <td>
+                  <code><span title="collections.abc.Callable">Callable</span>[[<span title="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware[RequestType]">RequestType</span>], <span title="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware[ResponseType]">ResponseType</span> | None]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A callable that receives the request and returns<br />
+either a <code>ResponseType</code> (to short-circuit) or <code>None</code><br />
+(to pass through).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/presentation/builtin/validation_middleware.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validator</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">RequestType</span><span class="p">],</span> <span class="n">ResponseType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrap *validator* so every request is validated.</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="sd">        validator: A callable that receives the request and returns</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">            either a ``ResponseType`` (to short-circuit) or ``None``</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">            (to pass through).</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_validator</span> <span class="o">=</span> <span class="n">validator</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware.process" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">process</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">RequestType</span><span class="p">,</span> <span class="n">next_handler</span><span class="p">:</span> <span class="n">NextHandler</span><span class="p">[</span><span class="n">RequestType</span><span class="p">,</span> <span class="n">ResponseType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ResponseType</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware.process" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Validate the request, short-circuiting on failure.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>request</code>
+            </td>
+            <td>
+                  <code><span title="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware[RequestType]">RequestType</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The incoming request.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>next_handler</code>
+            </td>
+            <td>
+                  <code><span title="forging_blocks.presentation.middleware.next_handler.NextHandler">NextHandler</span>[<span title="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware[RequestType]">RequestType</span>, <span title="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware[ResponseType]">ResponseType</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The next callable in the pipeline chain.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware[ResponseType]">ResponseType</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <ul>
+<li>The validator's response when it short-circuits.</li>
 </ul>
-<hr />
-<h2 id="what-it-does-not-do">What it does not do<a class="headerlink" href="#what-it-does-not-do" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Contain business rules or domain logic</li>
-<li>Implement persistence or I/O directly</li>
-<li>Define transactional boundaries</li>
-<li>Make decisions about system behavior</li>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="forging_blocks.presentation.builtin.validation_middleware.ValidationMiddleware[ResponseType]">ResponseType</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <ul>
+<li>The downstream handler's response otherwise.</li>
 </ul>
-<hr />
-<h2 id="glossary">Glossary<a class="headerlink" href="#glossary" title="Permanent link">&para;</a></h2>
-<div class="admonition note">
-<p class="admonition-title">Request Adapter</p>
-<p>Translates raw transport requests into typed use-case input.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/presentation/builtin/validation_middleware.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#__codelineno-0-72">72</a></span>
+<span class="normal"><a href="#__codelineno-0-73">73</a></span>
+<span class="normal"><a href="#__codelineno-0-74">74</a></span>
+<span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span>
+<span class="normal"><a href="#__codelineno-0-77">77</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>    <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>    <span class="n">request</span><span class="p">:</span> <span class="n">RequestType</span><span class="p">,</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>    <span class="n">next_handler</span><span class="p">:</span> <span class="n">NextHandler</span><span class="p">[</span><span class="n">RequestType</span><span class="p">,</span> <span class="n">ResponseType</span><span class="p">],</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResponseType</span><span class="p">:</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate the request, short-circuiting on failure.</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">        request: The incoming request.</span>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">        next_handler: The next callable in the pipeline chain.</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="sd">        - The validator&#39;s response when it short-circuits.</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="sd">        - The downstream handler&#39;s response otherwise.</span>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>    <span class="n">error_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validator</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="k">if</span> <span class="n">error_response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>        <span class="k">return</span> <span class="n">error_response</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>    <span class="k">return</span> <span class="k">await</span> <span class="n">next_handler</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
 </div>
-<div class="admonition note">
-<p class="admonition-title">Response Adapter</p>
-<p>Translates use-case output (success and error) into transport responses.</p>
+
+
+
+  </div>
+
+    </div>
+
 </div>
-<div class="admonition note">
-<p class="admonition-title">Presentation Adapter</p>
-<p>Orchestrator wiring a use case to adapters with error handling. Handles both <code>Result.Err</code> and exceptions.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Error Presenter</p>
-<p>Converts errors into display-ready <code>ErrorViewModel</code> instances. Decomposes aggregate errors recursively.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Error Status Code Mapper</p>
-<p>Assigns HTTP-like status codes to error messages based on error type.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Middleware</p>
-<p>Cross-cutting interceptor that may transform, observe, or short-circuit requests.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Pipeline</p>
-<p>Immutable right-to-left chain of middleware around a terminal handler.</p>
+
+
+
+
+  </div>
+
+    </div>
+
 </div>
 
 
@@ -7030,14 +7442,14 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.instant", "navigation.sections", "toc.follow", "content.code.copy", "content.action.edit", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.sections", "toc.follow", "content.code.copy", "content.action.edit", "content.tabs.link"], "search": "../../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
-        <script src="../../assets/js/version-dropdown.js"></script>
+        <script src="../../../../../assets/js/version-dropdown.js"></script>
       
-        <script src="../../assets/js/mermaid-init.js"></script>
+        <script src="../../../../../assets/js/mermaid-init.js"></script>
       
     
   </body>
