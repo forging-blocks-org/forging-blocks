@@ -12,16 +12,10 @@ from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error impo
     CantModifyImmutableAttributeError,
 )
 
-# ---------------------------------------------------------------------------
-# Tests for the auto_freeze decorator
-# ---------------------------------------------------------------------------
-
 
 @pytest.mark.unit
 class TestAutoFreezeDecorator:
     """Tests for the auto_freeze decorator public API."""
-
-    # -- Usage modes --------------------------------------------------------
 
     def test_when_used_without_parentheses_then_decorates_class(self) -> None:
         class MyClass:
@@ -57,8 +51,6 @@ class TestAutoFreezeDecorator:
         first = auto_freeze(MyClass)
         second = auto_freeze(first)
         assert first is second
-
-    # -- Freeze behavior ----------------------------------------------------
 
     def test_when_attrs_is_none_then_freezes_entire_instance(self) -> None:
         class MyClass:
@@ -100,8 +92,6 @@ class TestAutoFreezeDecorator:
         with pytest.raises(ValueError, match="fail"):
             decorated(-1)
 
-    # -- Selective freezing -------------------------------------------------
-
     def test_when_attrs_is_list_then_only_those_attributes_frozen(self) -> None:
         class MyClass:
             def __init__(self, a: int, b: int, c: int) -> None:
@@ -131,8 +121,6 @@ class TestAutoFreezeDecorator:
         instance.a = 99
         assert instance.a == 99
 
-    # -- Abstract classes ---------------------------------------------------
-
     def test_when_class_is_abstract_then_not_frozen(self) -> None:
         from abc import ABC, abstractmethod
 
@@ -157,8 +145,6 @@ class TestAutoFreezeDecorator:
         with pytest.raises(CantModifyImmutableAttributeError):
             instance.value = 99
 
-    # -- Existing __setattr__ preservation ----------------------------------
-
     def test_when_class_has_custom_setattr_then_class_handles_freezing(self) -> None:
         """When a class has custom __setattr__, it must handle frozen checks itself."""
 
@@ -167,13 +153,11 @@ class TestAutoFreezeDecorator:
                 self._value = value
 
             def __setattr__(self, name: str, value: Any) -> None:
-                # Frozen check must come FIRST for frozen objects
                 if getattr(self, "_autofreeze__frozen", False):
                     raise CantModifyImmutableAttributeError(
                         class_name=self.__class__.__name__,
                         attribute_name=name,
                     )
-                # Custom validation
                 if name == "_value" and value < 0:
                     raise ValueError("value must be non-negative")
                 object.__setattr__(self, name, value)
@@ -181,8 +165,6 @@ class TestAutoFreezeDecorator:
         decorated = auto_freeze(MyClass)
         instance = decorated(10)
 
-        # Custom validation works during __init__ (before freeze)
-        # After freeze, class's own frozen check blocks modifications
         with pytest.raises(CantModifyImmutableAttributeError):
             instance._value = -5
 
@@ -226,11 +208,8 @@ class TestAutoFreezeDecorator:
             instance._a = 99
         with pytest.raises(CantModifyImmutableAttributeError):
             instance._b = 99
-        # _c is NOT frozen — should succeed
         instance._c = 99
         assert instance._c == 99
-
-    # -- Inheritance (requires manual decorator on each class) -------------
 
     def test_when_subclass_also_decorated_then_frozen_independently(self) -> None:
         @auto_freeze
@@ -286,8 +265,6 @@ class TestAutoFreezeDecorator:
         instance = decorated()
         assert instance is not None
 
-    # -- super().__init__ chaining -----------------------------------------
-
     def test_when_super_init_chaining_then_freezes_at_end(self) -> None:
         from abc import ABC, abstractmethod
 
@@ -317,3 +294,52 @@ class TestAutoFreezeDecorator:
             instance.base_value = 99
         with pytest.raises(CantModifyImmutableAttributeError):
             instance.extra = "hacked"
+
+
+@pytest.mark.unit
+class TestFrozenStateManagerStaleFallback:
+    """Tests for FrozenStateManager stale fallback entry cleanup."""
+
+    def test_read_is_frozen_when_stale_qualifier_then_deletes_entry_and_returns_false(
+        self,
+    ) -> None:
+        from forging_blocks.foundation.autofreeze.helpers.frozen_state import (
+            FrozenStateManager,
+        )
+
+        class SomeClass:
+            pass
+
+        instance = SomeClass()
+        key = FrozenStateManager._fallback_key(instance)
+        FrozenStateManager._frozen_fallback[key] = ("WrongQualifier", True)
+
+        try:
+            result = FrozenStateManager._read_is_frozen(instance)
+            assert result is False
+            assert key not in FrozenStateManager._frozen_fallback
+        finally:
+            FrozenStateManager._frozen_fallback.pop(key, None)
+            FrozenStateManager._refs_by_id.pop(key, None)
+
+    def test_read_frozen_attrs_when_stale_qualifier_then_deletes_entry_and_returns_none(
+        self,
+    ) -> None:
+        from forging_blocks.foundation.autofreeze.helpers.frozen_state import (
+            FrozenStateManager,
+        )
+
+        class SomeClass:
+            pass
+
+        instance = SomeClass()
+        key = FrozenStateManager._fallback_key(instance)
+        FrozenStateManager._frozen_attrs_fallback[key] = ("WrongQualifier", {"x", "y"})
+
+        try:
+            result = FrozenStateManager._read_frozen_attrs(instance)
+            assert result is None
+            assert key not in FrozenStateManager._frozen_attrs_fallback
+        finally:
+            FrozenStateManager._frozen_attrs_fallback.pop(key, None)
+            FrozenStateManager._refs_by_id.pop(key, None)

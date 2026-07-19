@@ -12,7 +12,7 @@ from forging_blocks.infrastructure.event_stores.in_memory_event_store import (
 from tests.fixtures.fake_event_with_name import FakeEventWithName
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 class TestInMemoryEventStore:
     """InMemoryEventStore append / get / version behaviour."""
 

@@ -44,7 +44,7 @@ class FakeAggregate(AggregateRoot[str, str]):
         pass
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 class TestInMemoryUnitOfWork:
     @pytest.fixture
     def event_publisher(self) -> FakeEventPublisher:
@@ -57,6 +57,18 @@ class TestInMemoryUnitOfWork:
     @pytest.fixture
     def aggregate(self) -> FakeAggregate:
         return FakeAggregate("agg-1")
+
+    @pytest.fixture
+    def draft_aggregate(self) -> FakeAggregate:
+        """Return a FakeAggregate with _id set to None via object.__setattr__.
+
+        This simulates a draft entity that has not yet been persisted.
+        Using object.__setattr__ bypasses both the Entity.__setattr__ guard
+        and the auto_freeze mechanism.
+        """
+        agg = FakeAggregate("temp-id")
+        object.__setattr__(agg, "_id", None)
+        return agg
 
     async def test_commit_when_modified_aggregate_has_events_then_publishes_them(
         self, event_publisher: FakeEventPublisher, aggregate: FakeAggregate
@@ -155,3 +167,37 @@ class TestInMemoryUnitOfWork:
         await uow.rollback()
         assert uow.rolled_back is True
         assert uow.committed is False
+
+    async def test_context_manager_when_no_exception_then_commits(
+        self, event_publisher: FakeEventPublisher, aggregate: FakeAggregate
+    ) -> None:
+        uow = InMemoryUnitOfWork(event_publisher)
+        event = FakeEvent("data")
+        aggregate.record_event(event)
+
+        async with uow:
+            uow.register_modified(aggregate)
+
+        assert uow.committed is True
+        assert len(event_publisher.published_events) == 1
+
+    async def test_context_manager_when_exception_then_rolls_back(
+        self, event_publisher: FakeEventPublisher, aggregate: FakeAggregate
+    ) -> None:
+        uow = InMemoryUnitOfWork(event_publisher)
+
+        with pytest.raises(ValueError, match="boom"):
+            async with uow:
+                uow.register_modified(aggregate)
+                raise ValueError("boom")
+
+        assert uow.rolled_back is True
+        assert uow.committed is False
+
+    async def test_register_modified_when_aggregate_id_is_none_then_raises(
+        self, draft_aggregate: FakeAggregate
+    ) -> None:
+        uow = InMemoryUnitOfWork()
+
+        with pytest.raises(ValueError, match="Cannot register aggregate with None id"):
+            uow.register_modified(draft_aggregate)

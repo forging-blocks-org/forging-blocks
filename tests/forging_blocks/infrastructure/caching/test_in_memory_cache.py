@@ -7,7 +7,7 @@ import pytest
 from forging_blocks.infrastructure.caching.in_memory_cache import InMemoryCache
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 class TestInMemoryCache:
     """Tests for InMemoryCache implementation."""
 

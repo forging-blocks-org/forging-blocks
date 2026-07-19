@@ -14,16 +14,10 @@ from forging_blocks.foundation.errors.non_hashable_value_error import (
     NonHashableValueError,
 )
 
-# ---------------------------------------------------------------------------
-# Tests for the auto_hash decorator
-# ---------------------------------------------------------------------------
-
 
 @pytest.mark.unit
 class TestAutoHashDecorator:
     """Tests for the auto_hash decorator public API."""
-
-    # -- Usage modes --------------------------------------------------------
 
     def test_when_used_without_parentheses_then_decorates_class(self) -> None:
         @auto_hash
@@ -61,12 +55,9 @@ class TestAutoHashDecorator:
 
         original_hash = MyClass.__hash__
 
-        # Decorating again replaces __hash__
         redecorated = auto_hash(MyClass)
         assert redecorated is MyClass
         assert redecorated.__hash__ is not original_hash
-
-    # -- Hash behavior ------------------------------------------------------
 
     def test_when_dataclass_all_fields_then_equal_objects_have_equal_hash(self) -> None:
         @auto_hash
@@ -105,7 +96,6 @@ class TestAutoHashDecorator:
         p1 = Point(1, 2)
         p2 = Point(1, 999)
 
-        # Same x, different y — should be equal hash since only x used
         assert hash(p1) == hash(p2)
 
     def test_when_none_field_value_then_hash_does_not_raise(self) -> None:
@@ -115,7 +105,6 @@ class TestAutoHashDecorator:
             name: str | None
 
         t = OptionalThing(None)
-        # Should not raise
         _ = hash(t)
 
     def test_when_single_field_then_hash_matches_tuple_of_one(self) -> None:
@@ -185,8 +174,6 @@ class TestAutoHashDecorator:
         with pytest.raises(CantModifyImmutableAttributeError):
             p.x = 999
 
-    # -- Plain classes ------------------------------------------------------
-
     def test_when_plain_class_with_slots_then_hash_works(self) -> None:
         @auto_hash
         class Slotted:
@@ -210,7 +197,7 @@ class TestAutoHashDecorator:
 
             def __init__(self, x: int) -> None:
                 self.x = x
-                self.__cached__ = hash(x)  # dunder slot ignored
+                self.__cached__ = hash(x)
 
         s1 = SlottedWithDunder(5)
         s2 = SlottedWithDunder(5)
@@ -338,9 +325,7 @@ class TestAutoHashDecorator:
             y: int
 
         p = Point(1, 2)
-        # Hashing works (auto_hash applied)
         assert hash(p) == hash(Point(1, 2))
-        # Immutability works (auto_freeze applied, idempotent)
         with pytest.raises(CantModifyImmutableAttributeError):
             p.x = 99
 
@@ -357,8 +342,6 @@ class TestAutoHashDecorator:
         with pytest.raises(CantModifyImmutableAttributeError):
             p.x = 99
 
-    # -- Integration: sets --------------------------------------------------
-
     def test_when_hash_consistent_then_set_deduplicates(self) -> None:
         @auto_freeze
         @auto_hash
@@ -374,8 +357,6 @@ class TestAutoHashDecorator:
 
         assert len(unique) == 2
 
-    # -- Unhashable field types -------------------------------------------
-
     def test_when_list_field_then_converted_to_tuple_for_hash(self) -> None:
         @auto_freeze
         @auto_hash
@@ -390,7 +371,6 @@ class TestAutoHashDecorator:
 
         assert hash(a) == hash(b)
         assert hash(a) != hash(c)
-        # Verify set dedup works
         assert len({a, b, c}) == 2
 
     def test_when_dict_field_then_converted_to_frozenset_for_hash(self) -> None:
@@ -424,7 +404,22 @@ class TestAutoHashDecorator:
             id: str
             values: set[int]
 
-        # sets are not converted — should raise
         instance = WithSet("x", {1, 2})
         with pytest.raises(NonHashableValueError, match="Cannot convert"):
             hash(instance)
+
+
+@pytest.mark.unit
+class TestHashableConverterDeeplyHashable:
+    """Tests for HashableConverter._ensure_deeply_hashable internals."""
+
+    def test_ensure_deeply_hashable_when_frozenset_then_recursively_converts_elements(
+        self,
+    ) -> None:
+        from forging_blocks.foundation.autohash.helpers.hashable_converter import (
+            HashableConverter,
+        )
+
+        result = HashableConverter._ensure_deeply_hashable(frozenset([1, 2, 3]))
+        assert isinstance(result, frozenset)
+        assert result == frozenset([1, 2, 3])

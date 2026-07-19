@@ -19,7 +19,7 @@ class FakeReadModel:
         return self.id == other.id and self.name == other.name
 
 
-@pytest.mark.unit
+@pytest.mark.integration
 class TestInMemoryReadRepository:
     async def test_get_by_id_when_id_exists_then_returns_aggregate(self) -> None:
         storage = {"1": FakeReadModel("1", "Alice")}
