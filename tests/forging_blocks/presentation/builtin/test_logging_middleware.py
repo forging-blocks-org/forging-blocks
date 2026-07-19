@@ -28,9 +28,11 @@ class TestLoggingMiddleware:
         assert response.result == "echo:hello"
         assert len(logger.messages) == 2
         assert logger.messages[0][0] == "Processing request: %s"
-        assert logger.messages[0][1][0].value == "hello"  # type: ignore[reportAttributeAccessIssue]
+        assert isinstance(logger.messages[0][1][0], str)
+        assert "hello" in logger.messages[0][1][0]
         assert logger.messages[1][0] == "Request processed, response: %s"
-        assert logger.messages[1][1][0].result == "echo:hello"  # type: ignore[reportAttributeAccessIssue]
+        assert isinstance(logger.messages[1][1][0], str)
+        assert "echo:hello" in logger.messages[1][1][0]
 
     async def test_does_not_catch_handler_exception(self) -> None:
         logger = FakeLogger()

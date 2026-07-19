@@ -26,8 +26,8 @@ class TestTimingMiddleware:
 
         assert response.result == "ok:hi"
         assert len(logger.messages) == 1
-        assert logger.messages[0][0] == "Request handled in %.4f seconds"
-        elapsed: float = logger.messages[0][1][0]  # type: ignore[assignment]
+        assert logger.messages[0][0] == "Request handled in %s seconds"
+        elapsed: float = float(logger.messages[0][1][0])  # type: ignore[assignment]
         assert elapsed >= 0.0
 
     async def test_logs_elapsed_time_on_handler_exception(self) -> None:
@@ -41,6 +41,6 @@ class TestTimingMiddleware:
             await middleware.process(FakeRequest("x"), _failing)
 
         assert len(logger.messages) == 1
-        assert logger.messages[0][0] == "Request handled in %.4f seconds"
-        elapsed: float = logger.messages[0][1][0]  # type: ignore[assignment]
+        assert logger.messages[0][0] == "Request handled in %s seconds"
+        elapsed: float = float(logger.messages[0][1][0])  # type: ignore[assignment]
         assert elapsed >= 0.0

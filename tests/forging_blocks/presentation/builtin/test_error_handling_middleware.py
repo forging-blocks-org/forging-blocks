@@ -73,8 +73,7 @@ class TestErrorHandlingMiddleware:
         assert response.result == "mapped-error"
         assert len(logger.messages) == 1
         assert logger.messages[0][0] == "Unhandled exception in pipeline: %s"
-        assert isinstance(logger.messages[0][1][0], ValueError)
-        assert str(logger.messages[0][1][0]) == "logged-failure"
+        assert logger.messages[0][1][0] == "logged-failure"
 
     async def test_does_not_log_when_logger_is_none(self) -> None:
         """When logger is None (default), no crash occurs and no logging happens."""
