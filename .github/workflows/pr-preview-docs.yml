@@ -7,16 +7,10 @@ on:
       - reopened
       - synchronize
       - closed
-    # No paths filter: always trigger so preview cleanup runs even if docs
-    # changes were reverted before close. Docs-change detection is done at
-    # step level via git diff (see "Detect docs changes" below).
 
-# Closed PRs serialize with deploy-docs.yml/release.yml (gh-pages group) to prevent
-# race conditions. Open/sync'd PRs use per-PR group so different PR previews deploy
-# concurrently.
 concurrency:
   group: ${{ github.event.action == 'closed' && 'gh-pages' || format('preview-{0}', github.ref) }}
-  cancel-in-progress: false  # Never cancel a running gh-pages deploy
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -36,22 +30,24 @@ jobs:
         env:
           ACTION: ${{ github.event.action }}
           BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
         run: |
           set -euo pipefail
 
           if [ "$ACTION" = "closed" ]; then
-            # Always run deploy step on close to ensure preview cleanup, even
-            # if docs changes were reverted (paths filter would miss this).
             build="false"
             do_deploy="true"
           else
-            # Fetch base ref explicitly — actions/checkout may not have it
-            # as a local tracking ref even with fetch-depth: 0.
-            git fetch origin "$BASE_REF"
+            if ! git rev-parse "origin/$BASE_REF" >/dev/null 2>&1; then
+              git fetch origin "$BASE_REF"
+            fi
 
-            if git diff --name-only \
-                "origin/${BASE_REF}...HEAD" \
-                | grep -qE '^(docs/|mkdocs\.yml|pyproject\.toml|\.github/workflows/pr-preview-docs\.yml)'; then
+            MERGE_BASE=$(git merge-base "origin/$BASE_REF" HEAD)
+
+            CHANGED_FILES=$(git diff --name-only "$MERGE_BASE..HEAD" || true)
+
+            if echo "$CHANGED_FILES" \
+                | grep -qE '^(docs/|mkdocs\.yml|pyproject\.toml)'; then
               build="true"
               do_deploy="true"
             else
@@ -62,7 +58,6 @@ jobs:
 
           echo "build=$build" >> "$GITHUB_OUTPUT"
           echo "do-deploy=$do_deploy" >> "$GITHUB_OUTPUT"
-          echo "build=$build, do-deploy=$do_deploy"
 
       - name: Set up Python
         if: steps.docs-changed.outputs.build == 'true'
