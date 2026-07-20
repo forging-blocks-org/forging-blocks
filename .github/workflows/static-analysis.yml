@@ -7,8 +7,8 @@ on:
       - 'tests/**'
       - 'pyproject.toml'
       - 'poetry.lock'
-      - '.github/workflows/*.yml'
-      - '.github/actions/*.yml'
+      - '.github/workflows/**/*.yml'
+      - '.github/actions/**/*.yml'
   push:
     branches:
       - main
@@ -17,11 +17,14 @@ on:
       - 'tests/**'
       - 'pyproject.toml'
       - 'poetry.lock'
+      - '.github/workflows/**/*.yml'
+      - '.github/actions/**/*.yml'
 
 permissions:
   contents: read
   security-events: write
   pull-requests: write
+  issues: write
 
 jobs:
   sast:
@@ -41,7 +44,6 @@ jobs:
             --json \
             --output=findings.json \
             src/ \
-            || true
 
       - name: Convert to SARIF
         run: |
@@ -50,7 +52,6 @@ jobs:
             --sarif \
             --output=findings.sarif \
             src/ \
-            || true
 
       - name: Upload to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
@@ -65,6 +66,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
+            const MARKER = '<!-- static-analysis-results -->';
 
             if (!fs.existsSync('findings.json')) {
               console.log('No findings file generated');
@@ -84,7 +86,7 @@ jobs:
               return;
             }
 
-            let comment = '## Static Analysis Results\n\n';
+            let comment = MARKER + '\n## Static Analysis Results\n\n';
             comment += `Found **${findings.results.length}** issue(s):\n\n`;
 
             const grouped = findings.results.reduce((acc, result) => {
@@ -107,16 +109,32 @@ jobs:
               comment += '\n';
             });
 
-            comment += '_View full results in [Security > Code scanning](';
-            comment += context.payload.pull_request.html_url;
-            comment += '/security)_';
+            comment += '_View full results in [Security > Code scanning](https://github.com/${context.repo.owner}/${context.repo.repo}/security/code-scanning)_';
 
-            github.rest.issues.createComment({
+            // Find existing bot comment to update, or create new one
+            const { data: comments } = await github.rest.issues.listComments({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: comment
             });
+
+            const existing = comments.find(c => c.user.type === 'Bot' && c.body.includes(MARKER));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                comment_id: existing.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment,
+              });
+            }
 
       - name: Enforce security policy
         if: always()
@@ -126,8 +144,8 @@ jobs:
           fi
 
           # Count critical/high issues
-          CRITICAL=$(jq '[.results[] | select(.extra.severity == "critical")] | length' findings.json 2>/dev/null || echo 0)
-          HIGH=$(jq '[.results[] | select(.extra.severity == "high")] | length' findings.json 2>/dev/null || echo 0)
+          CRITICAL=$(jq '[.results[] | select(.extra.severity == "critical")] | length' findings.json 2>/dev/null)
+          HIGH=$(jq '[.results[] | select(.extra.severity == "high")] | length' findings.json 2>/dev/null)
           TOTAL=$((CRITICAL + HIGH))
 
           if [ "$TOTAL" -gt 0 ]; then
