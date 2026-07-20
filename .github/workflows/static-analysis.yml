@@ -109,7 +109,8 @@ jobs:
               comment += '\n';
             });
 
-            comment += '_View full results in [Security > Code scanning](https://github.com/${context.repo.owner}/${context.repo.repo}/security/code-scanning)_';
+            comment += '_View full results in [Security > Code scanning](https://github.com/' +
+              context.repo.owner + '/' + context.repo.repo + '/security/code-scanning)_';
 
             // Find existing bot comment to update, or create new one
             const { data: comments } = await github.rest.issues.listComments({
