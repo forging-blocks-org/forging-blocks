@@ -1,5 +1,3 @@
-from typing import Protocol
-
 from forging_blocks.foundation.ports import OutboundPort
 from scripts.release.domain.value_objects import (
     ReleaseLevel,
@@ -7,7 +5,7 @@ from scripts.release.domain.value_objects import (
 )
 
 
-class VersioningService(OutboundPort[str, None], Protocol):
+class VersioningService(OutboundPort[str, None]):
     """Computes and applies semantic versions to the package definition.
 
     Must be non-interactive and deterministic.
