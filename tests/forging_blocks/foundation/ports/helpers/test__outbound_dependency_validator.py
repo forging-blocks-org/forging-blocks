@@ -17,9 +17,9 @@ class TestOutboundDependencyValidator:
     def test_validate_passes_for_outbound_dependency(self) -> None:
         """Concrete OutboundPort with only OutboundPort deps passes validation."""
 
-        class Logger(OutboundPort[None, None]): ...
+        class Logger(OutboundPort): ...
 
-        class Repo(OutboundPort[None, None]):
+        class Repo(OutboundPort):
             def __init__(self, logger: Logger) -> None: ...
 
         OutboundDependencyValidator(Repo, target_port=InboundPort).validate()
@@ -27,11 +27,11 @@ class TestOutboundDependencyValidator:
     def test_validate_raises_for_inbound_dependency(self) -> None:
         """OutboundPort depending on InboundPort raises ArchitectureError (line 30)."""
 
-        class BadInbound(InboundPort[None, None]): ...
+        class BadInbound(InboundPort): ...
 
         with pytest.raises(ArchitectureError) as exc_info:
 
-            class BadRepo(OutboundPort[None, None]):
+            class _(OutboundPort):
                 def __init__(self, dep: BadInbound) -> None: ...
 
-        assert "BadRepo" in str(exc_info.value)
+        assert "_" in str(exc_info.value)

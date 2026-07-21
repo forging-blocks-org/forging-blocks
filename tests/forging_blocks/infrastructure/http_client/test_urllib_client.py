@@ -7,6 +7,7 @@ from threading import Thread
 
 import pytest
 
+from forging_blocks.foundation.errors.configuration_error import ConfigurationError
 from forging_blocks.infrastructure.http_client.urllib_client import URLLibClient
 
 
@@ -90,7 +91,7 @@ class TestURLLibClientUnit:
         ],
     )
     async def test_request_rejects_non_http_schemes(self, client: URLLibClient, url: str) -> None:
-        with pytest.raises(ValueError, match="Disallowed URL scheme"):
+        with pytest.raises(ConfigurationError, match="Disallowed URL scheme"):
             await client.request("GET", url)
 
 

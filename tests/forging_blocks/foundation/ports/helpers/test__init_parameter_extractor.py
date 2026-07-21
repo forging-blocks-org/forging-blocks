@@ -37,7 +37,7 @@ class TestInitParameterExtractor:
         """Returns {} when get_type_hints raises an exception (lines 24-25)."""
 
         class Crasher:
-            def __init__(self, bad) -> None: ...
+            def __init__(self, bad: object) -> None: ...
 
         with patch(
             "forging_blocks.foundation.ports.helpers._init_parameter_extractor.get_type_hints",

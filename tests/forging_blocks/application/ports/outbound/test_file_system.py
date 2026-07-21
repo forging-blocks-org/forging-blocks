@@ -9,8 +9,6 @@ import pytest
 
 from forging_blocks.application.ports.outbound.file_system_port import FileSystemPort
 
-# pyright: reportUnknownMemberType=false, reportUnknownArgumentType=false
-
 
 @pytest.mark.unit
 class TestFileSystemPort:
