@@ -18,7 +18,7 @@ class ResponseAdapter[UseCaseOutput, RawResponse](Protocol):
         """Convert successful use-case output into a transport response.
 
         Args:
-            output: The value returned by ``UseCase.execute`` on
+            output: The value returned by ``UseCasePort.execute`` on
                 success.
 
         Returns:
