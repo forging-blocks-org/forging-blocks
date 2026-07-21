@@ -5,15 +5,19 @@ with separate policies for events (multi-handler fan-out) and commands
 (single-handler routing).
 """
 
-from typing import Protocol
+from abc import ABC, abstractmethod
 
 from forging_blocks.application.errors.event_bus_error import EventBusError
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
+from forging_blocks.foundation.ports import OutboundPort
 from forging_blocks.foundation.result import Result
 
 
-class EventBusPort[EventPayloadType, CommandPayloadType](Protocol):
+class EventBusPort[EventPayloadType, CommandPayloadType](
+    OutboundPort[Event[EventPayloadType], Result[None, EventBusError]],
+    ABC,
+):
     """Protocol for event buses that publish events and send commands.
 
     Implementations handle:
@@ -22,6 +26,7 @@ class EventBusPort[EventPayloadType, CommandPayloadType](Protocol):
       - Registering handlers for specific message types.
     """
 
+    @abstractmethod
     async def publish(self, event: Event[EventPayloadType]) -> Result[None, EventBusError]:
         """Publish a domain event to all registered handlers.
 
@@ -33,6 +38,7 @@ class EventBusPort[EventPayloadType, CommandPayloadType](Protocol):
         """
         ...
 
+    @abstractmethod
     async def send(self, command: Command[CommandPayloadType]) -> Result[None, EventBusError]:
         """Send a command to its registered handler.
 
@@ -44,15 +50,16 @@ class EventBusPort[EventPayloadType, CommandPayloadType](Protocol):
         """
         ...
 
+    @abstractmethod
     def register_handler(
         self,
         message_type: type[Event[object]] | type[Command[object]],
-        handler: object,
+        handler: object,  # Inbound handler types — can't import from outbound port.
     ) -> None:
         """Register a handler for the given message type.
 
         Args:
             message_type: The message class to handle.
-            handler: A handler instance (``EventHandler`` or ``CommandHandler``).
+        handler: A handler instance (``EventHandlerPort`` or ``CommandHandlerPort``).
         """
         ...

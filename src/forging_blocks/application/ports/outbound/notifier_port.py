@@ -12,14 +12,13 @@ Non-Responsibilities:
     - Implement retries or throttling unless defined by infrastructure.
 """
 
-from typing import Protocol
+from abc import abstractmethod
 
 from forging_blocks.foundation.ports import OutboundPort
 
 
 class NotifierPort[NotificationType](
     OutboundPort[NotificationType, None],
-    Protocol,
 ):
     """Outbound port for sending asynchronous notifications.
 
@@ -28,6 +27,7 @@ class NotifierPort[NotificationType](
     abstraction.
     """
 
+    @abstractmethod
     async def notify(self, message: NotificationType) -> None:
         """Send a notification.
 

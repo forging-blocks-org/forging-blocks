@@ -12,7 +12,7 @@ Non-Responsibilities:
     - Guarantee ordering or durability.
 """
 
-from typing import Protocol
+from abc import abstractmethod
 
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.ports import OutboundPort
@@ -20,14 +20,13 @@ from forging_blocks.foundation.ports import OutboundPort
 
 class EventPublisherPort[EventPayloadType](
     OutboundPort[Event[EventPayloadType], None],
-    Protocol,
 ):
-    """Protocol for publishing domain events asynchronously.
+    """ABC for publishing domain events asynchronously.
 
-    Any object with an async ``publish`` method that accepts an ``Event``
-    satisfies this protocol — no inheritance required.
+    Infrastructure implementations must explicitly inherit this class.
     """
 
+    @abstractmethod
     async def publish(self, event: Event[EventPayloadType]) -> None:
         """Publish a domain event.
 

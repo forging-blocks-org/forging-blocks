@@ -14,14 +14,13 @@ Non-Responsibilities:
     - Serialization of cache values.
 """
 
-from typing import Protocol
+from abc import abstractmethod
 
 from forging_blocks.foundation.ports import OutboundPort
 
 
 class CachePort[KeyType, ValueType](
     OutboundPort[KeyType, ValueType],
-    Protocol,
 ):
     """Protocol for caching operations.
 
@@ -33,6 +32,7 @@ class CachePort[KeyType, ValueType](
         ValueType: The type of cached values.
     """
 
+    @abstractmethod
     async def get(self, key: KeyType) -> ValueType | None:
         """Retrieve a value from the cache.
 
@@ -44,6 +44,7 @@ class CachePort[KeyType, ValueType](
         """
         ...
 
+    @abstractmethod
     async def set(
         self,
         key: KeyType,
@@ -59,6 +60,7 @@ class CachePort[KeyType, ValueType](
         """
         ...
 
+    @abstractmethod
     async def delete(self, key: KeyType) -> None:
         """Remove a value from the cache.
 
@@ -67,6 +69,7 @@ class CachePort[KeyType, ValueType](
         """
         ...
 
+    @abstractmethod
     async def exists(self, key: KeyType) -> bool:
         """Check whether a key exists in the cache and has not expired.
 
@@ -78,6 +81,7 @@ class CachePort[KeyType, ValueType](
         """
         ...
 
+    @abstractmethod
     async def clear(self) -> None:
         """Remove all entries from the cache."""
         ...

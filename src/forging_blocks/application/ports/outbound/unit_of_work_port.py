@@ -14,11 +14,14 @@ Non-Responsibilities:
     - Interact directly with aggregates.
 """
 
+from abc import ABC, abstractmethod
 from types import TracebackType
-from typing import Protocol, Self
+from typing import Self
+
+from forging_blocks.foundation.ports import OutboundPort
 
 
-class UnitOfWorkPort(Protocol):
+class UnitOfWorkPort(OutboundPort[object, None], ABC):
     """Protocol for managing transactional consistency.
 
     A UnitOfWorkPort coordinates operations across multiple repositories and
@@ -27,6 +30,7 @@ class UnitOfWorkPort(Protocol):
     behaviour (``__aenter__`` / ``__aexit__``).
     """
 
+    @abstractmethod
     async def __aenter__(self) -> Self:
         """Enter the Unit of Work context.
 
@@ -35,6 +39,7 @@ class UnitOfWorkPort(Protocol):
         """
         ...
 
+    @abstractmethod
     async def __aexit__(
         self,
         exc_type: type[BaseException] | None,
@@ -52,6 +57,7 @@ class UnitOfWorkPort(Protocol):
         """
         ...
 
+    @abstractmethod
     async def commit(self) -> None:
         """Commit all changes in the Unit of Work.
 
@@ -65,6 +71,7 @@ class UnitOfWorkPort(Protocol):
         """
         ...
 
+    @abstractmethod
     async def rollback(self) -> None:
         """Roll back the transaction and discard uncommitted changes."""
         ...
