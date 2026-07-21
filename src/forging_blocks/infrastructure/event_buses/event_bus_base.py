@@ -32,7 +32,6 @@ class EventBusBase[EventPayloadType, CommandPayloadType](ABC):
         Returns:
             A ``Result`` indicating success or an ``EventBusError``.
         """
-        ...
 
     @abstractmethod
     async def send(self, command: Command[CommandPayloadType]) -> Result[None, EventBusError]:
@@ -44,7 +43,6 @@ class EventBusBase[EventPayloadType, CommandPayloadType](ABC):
         Returns:
             A ``Result`` indicating success or an ``EventBusError``.
         """
-        ...
 
     @abstractmethod
     def register_handler(
@@ -58,4 +56,3 @@ class EventBusBase[EventPayloadType, CommandPayloadType](ABC):
             message_type: The message class to handle.
             handler: A handler instance.
         """
-        ...

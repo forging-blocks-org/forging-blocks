@@ -42,7 +42,6 @@ class EventStoreBase[EventPayloadType](ABC):
             A ``Result`` containing the new stream version on success or an
             ``EventStoreError`` on failure.
         """
-        ...
 
     @abstractmethod
     async def get_events(
@@ -64,7 +63,6 @@ class EventStoreBase[EventPayloadType](ABC):
             A ``Result`` containing the events on success or an
             ``EventStoreError`` on failure.
         """
-        ...
 
     @abstractmethod
     async def get_current_version(self, aggregate_id: UUID) -> Result[int, EventStoreError]:
@@ -77,4 +75,3 @@ class EventStoreBase[EventPayloadType](ABC):
             A ``Result`` containing the latest version number (0 for empty
             streams) on success, or an ``EventStoreError`` on failure.
         """
-        ...

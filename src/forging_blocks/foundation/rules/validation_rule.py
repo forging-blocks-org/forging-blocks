@@ -12,4 +12,3 @@ class ValidationRule(ABC):
     @abstractmethod
     def validate(self, value: Any) -> list[RuleViolationError]:
         """Validate *value* and return any errors found."""
-        ...
