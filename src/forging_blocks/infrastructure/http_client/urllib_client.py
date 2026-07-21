@@ -1,4 +1,4 @@
-"""Standard-library HTTP client implementation of ExternalServicePort.
+"""Standard-library HTTP client implementation of HttpClientPort.
 
 Uses ``urllib.request`` wrapped in ``asyncio.to_thread()`` to provide an
 async HTTP client with zero external dependencies.
@@ -10,14 +10,15 @@ wrapper that handles serialization.
 """
 
 import asyncio
+from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
-from forging_blocks.application.ports.outbound.external_service_port import (
-    ExternalServicePort,
+from forging_blocks.application.ports.outbound.http_client_port import (
+    HttpClientPort,
 )
 
 
-class URLLibClient(ExternalServicePort[str, str]):
+class URLLibClient(HttpClientPort[str, str]):
     """HTTP client backed by Python's ``urllib.request`` + ``asyncio.to_thread``.
 
     This adapter provides async HTTP methods without requiring external
@@ -60,9 +61,17 @@ class URLLibClient(ExternalServicePort[str, str]):
         http_headers: dict[str, str] = headers or {}
         data: bytes | None = body.encode("utf-8") if body is not None else None
 
+        # Block non-HTTP schemes — urllib supports file:// which allows
+        # reading arbitrary files if a caller-controlled URL is passed.
+        parsed = urlparse(url)
+        if parsed.scheme not in ("http", "https"):
+            raise ValueError(
+                f"Disallowed URL scheme '{parsed.scheme}'. Only http and https are supported."
+            )
+
         def _do_request() -> str:
             req = Request(url, data=data, headers=http_headers, method=method)
-            with urlopen(req) as response:  # nosec B310 — URL is caller-controlled; part of HTTP client contract
+            with urlopen(req) as response:  # nosec B310 — scheme validated above
                 return response.read().decode("utf-8")
 
         return await asyncio.to_thread(_do_request)
