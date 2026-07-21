@@ -5,13 +5,13 @@ They define how application responses are rendered, keeping formatting logic
 out of the application layer.
 """
 
-from abc import ABC
+from abc import abstractmethod
 
-from forging_blocks.foundation.ports import InboundPort, check_methods
+from forging_blocks.foundation.ports import InboundPort
 
 
-class PresenterPort[ResponseType](InboundPort[ResponseType, None], ABC):
-    """ABC for presentation adapters.
+class PresenterPort[ResponseType](InboundPort):
+    """Contract for presentation adapters.
 
     Responsibilities:
         - Define the contract for formatting application responses.
@@ -32,6 +32,7 @@ class PresenterPort[ResponseType](InboundPort[ResponseType, None], ABC):
         ...         print(f"Error: {error}", file=sys.stderr)
     """
 
+    @abstractmethod
     async def present(self, response: ResponseType) -> None:
         """Render the application response to the output channel.
 
@@ -44,6 +45,7 @@ class PresenterPort[ResponseType](InboundPort[ResponseType, None], ABC):
         """
         ...
 
+    @abstractmethod
     async def present_error(self, error: Exception) -> None:
         """Render an error to the output channel.
 
@@ -55,12 +57,3 @@ class PresenterPort[ResponseType](InboundPort[ResponseType, None], ABC):
             - Output format is adapter-specific.
         """
         ...
-
-    @classmethod
-    def __subclasshook__(cls, subclass: type) -> bool:
-        """Structural check: any class with ``present`` and
-        ``present_error`` satisfies this port.
-        """
-        if cls is PresenterPort:
-            return check_methods(subclass, "present", "present_error")
-        return NotImplemented
