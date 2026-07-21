@@ -3,30 +3,54 @@
 Contains inbound and outbound port definitions.
 """
 
-from .inbound import CommandHandler, EventHandler, MessageHandler, QueryHandler, UseCase
+from .inbound import (
+    CommandHandlerPort,
+    EventHandlerPort,
+    MessageHandlerPort,
+    QueryHandlerPort,
+    UseCasePort,
+)
 from .outbound import (
+    CachePort,
     CommandSenderPort,
+    EventBusPort,
     EventPublisherPort,
+    EventStorePort,
     FileSystemPort,
+    HttpClientPort,
     LoggerPort,
     MessageBusPort,
+    NotifierPort,
     QueryFetcherPort,
+    ReadOnlyRepositoryPort,
     RepositoryPort,
+    SpecificationRepositoryPort,
+    TransactionManagerPort,
     UnitOfWorkPort,
+    WriteOnlyRepositoryPort,
 )
 
 __all__ = [
+    "CachePort",
     "CommandSenderPort",
-    "CommandHandler",
-    "EventHandler",
+    "CommandHandlerPort",
+    "EventBusPort",
+    "EventHandlerPort",
     "EventPublisherPort",
+    "EventStorePort",
+    "HttpClientPort",
     "FileSystemPort",
     "LoggerPort",
     "MessageBusPort",
-    "MessageHandler",
-    "RepositoryPort",
-    "QueryHandler",
-    "UseCase",
+    "MessageHandlerPort",
+    "NotifierPort",
     "QueryFetcherPort",
+    "ReadOnlyRepositoryPort",
+    "RepositoryPort",
+    "WriteOnlyRepositoryPort",
+    "SpecificationRepositoryPort",
+    "TransactionManagerPort",
     "UnitOfWorkPort",
+    "QueryHandlerPort",
+    "UseCasePort",
 ]

@@ -11,7 +11,7 @@ It acts as a bridge between the domain block (business logic) and the outside wo
 application/
 ├── ports/
 │   ├── inbound/
-│   │   └── use_case.py         # Abstract base for use cases/handlers
+│   │   └── use_case_port.py         # Abstract base for use cases/handlers
 │   └── outbound/
 │       ├── event_publisher.py  # Contract for publishing integration events
 │       ├── notifier.py         # Contract for sending notifications
@@ -26,7 +26,7 @@ application/
 ### 1. **Application Inbound Ports**
 - **Purpose:** Orchestrate business workflows by coordinating Domain logic and Infrastructure through ports.
 - **What goes here:** Protocol interfaces for commands, queries, and use cases.
-- **Example:** `UseCase` in `ports/inbound/use_case.py`.
+- **Example:** ``UseCasePort`` in ``ports/inbound/use_case_port.py``.
 
 ### 2. **Application Services**
 - **Purpose:** Implement the business workflows and coordinate domain objects, repositories, and outbound ports.
@@ -54,7 +54,7 @@ application/
 ```python
 from dataclasses import dataclass
 
-from forging_blocks.application import UseCase
+from forging_blocks.application import UseCasePort
 
 
 @dataclass(frozen=True)
@@ -68,7 +68,7 @@ class CreateUserResponse:
     user_id: str
 
 
-class CreateUserUseCase(UseCase[CreateUserRequest, CreateUserResponse]):
+class CreateUserUseCase(UseCasePort[CreateUserRequest, CreateUserResponse]):
     """Use case for creating a new user.
 
     Args:
@@ -79,7 +79,7 @@ class CreateUserUseCase(UseCase[CreateUserRequest, CreateUserResponse]):
     """
 
 ```
-> `UseCase` is a Protocol — structural subtyping determines compatibility without
+> `UseCasePort` is a Protocol — structural subtyping determines compatibility without
 > explicit inheritance. Use docstrings to document the intent of the execute method.
 
 ### 2. Implement the Use Case
