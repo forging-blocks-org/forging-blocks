@@ -4,10 +4,11 @@ from abc import ABC, abstractmethod
 from typing import Any
 
 from forging_blocks.foundation.errors.rule_violation_error import RuleViolationError
+from forging_blocks.foundation.ports import InboundPort
 
 
-class ValidationService(ABC):
-    """Abstract validation service for commands and queries."""
+class ValidationPort(InboundPort[object, list[RuleViolationError]], ABC):
+    """Inbound port for commands and queries."""
 
     @abstractmethod
     async def validate_command(self, command: Any) -> list[RuleViolationError]:

@@ -4,10 +4,11 @@ from abc import ABC, abstractmethod
 
 from forging_blocks.foundation.context import AuthorizationContext
 from forging_blocks.foundation.permission import Permission
+from forging_blocks.foundation.ports import InboundPort
 
 
-class AuthorizationService(ABC):
-    """Abstract service that authorizes user actions."""
+class AuthorizationPort(InboundPort[AuthorizationContext, bool], ABC):
+    """Inbound port that authorizes user actions."""
 
     @abstractmethod
     async def check_permission(
