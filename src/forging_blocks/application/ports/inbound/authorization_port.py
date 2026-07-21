@@ -1,14 +1,34 @@
-"""Inbound port for authorization and permission checking."""
+"""Inbound port for authorization and permission checking.
 
-from abc import ABC, abstractmethod
+Responsibilities:
+    - Check whether a user has a specific permission.
+    - Evaluate resource-level access control.
+    - Retrieve effective permissions and roles for a user.
+
+Non-Responsibilities:
+    - Authenticate users (handled externally).
+    - Enforce business rules (handled by validation or domain).
+"""
+
+from abc import abstractmethod
 
 from forging_blocks.foundation.context import AuthorizationContext
 from forging_blocks.foundation.permission import Permission
 from forging_blocks.foundation.ports import InboundPort
 
 
-class AuthorizationPort(InboundPort[AuthorizationContext, bool], ABC):
-    """Inbound port that authorizes user actions."""
+class AuthorizationPort(InboundPort):
+    """Inbound port for authorization decisions.
+
+    Responsibilities:
+        - Evaluate permissions against an authorization context.
+        - Support resource-level and global permission checks.
+        - Expose user roles and effective permissions.
+
+    Non-Responsibilities:
+        - Manage user identities or credentials.
+        - Define permission hierarchies (delegated to domain or configuration).
+    """
 
     @abstractmethod
     async def check_permission(

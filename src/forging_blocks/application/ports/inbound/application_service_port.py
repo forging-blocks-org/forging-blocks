@@ -1,14 +1,13 @@
 """Inbound port for stateless application-service orchestrators."""
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 from forging_blocks.foundation.ports import InboundPort, check_methods
 from forging_blocks.foundation.result import Result
 
 
 class ApplicationServicePort[RequestType, ResponseType](
-    InboundPort[RequestType, Result[ResponseType, object]],
-    ABC,
+    InboundPort,
 ):
     """ABC for a stateless application-service orchestrator."""
 

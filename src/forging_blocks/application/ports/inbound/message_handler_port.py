@@ -17,7 +17,6 @@ Non-Responsibilities:
 """
 
 from abc import abstractmethod
-from typing import TypeVar
 
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
@@ -25,18 +24,9 @@ from forging_blocks.foundation.messages.message import Message
 from forging_blocks.foundation.messages.query import Query
 from forging_blocks.foundation.ports import InboundPort
 
-CommandPayloadType = TypeVar("CommandPayloadType", contravariant=True)
-QueryPayloadType = TypeVar("QueryPayloadType", contravariant=True)
-EventPayloadType = TypeVar("EventPayloadType", contravariant=True)
-QueryResultType = TypeVar("QueryResultType", covariant=True)
-
-CommandType = TypeVar("CommandType", contravariant=True, bound=Command[object])
-QueryType = TypeVar("QueryType", contravariant=True, bound=Query[object])
-EventType = TypeVar("EventType", contravariant=True, bound=Event[object])
-
 
 class MessageHandlerPort[MessageType: Message[object], MessageHandlerResultType](
-    InboundPort[MessageType, MessageHandlerResultType],
+    InboundPort,
 ):
     """Inbound port for handling messages asynchronously.
 

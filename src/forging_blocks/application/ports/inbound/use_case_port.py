@@ -15,14 +15,13 @@ Non-Responsibilities:
     - UI or framework-specific concerns.
 """
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 from forging_blocks.foundation.ports import InboundPort
 
 
 class UseCasePort[RequestType, ResponseType](
-    InboundPort[RequestType, ResponseType],
-    ABC,
+    InboundPort,
 ):
     """Inbound port for defining application use case operations.
 
