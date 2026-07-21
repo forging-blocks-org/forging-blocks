@@ -2,15 +2,15 @@
 
 import pytest
 
-from forging_blocks.application.ports.inbound.authorization_service import AuthorizationService
+from forging_blocks.application.ports.inbound.authorization_port import AuthorizationPort
 from forging_blocks.foundation.context import AuthorizationContext
 from forging_blocks.foundation.permission import Permission
 
 
 @pytest.mark.unit
-class TestAuthorizationService:
+class TestAuthorizationPort:
     async def test_when_check_permission_granted_then_returns_true(self) -> None:
-        class PermissiveAuthorizationService(AuthorizationService):
+        class PermissiveAuthorizationPort(AuthorizationPort):
             async def check_permission(
                 self,
                 context: AuthorizationContext,
@@ -36,13 +36,13 @@ class TestAuthorizationService:
                 del user_id
                 return ["admin"]
 
-        service = PermissiveAuthorizationService()
+        service = PermissiveAuthorizationPort()
         context = AuthorizationContext(user_id="user-1")
 
         assert await service.check_permission(context, Permission.READ) is True
 
     async def test_when_check_permission_denied_then_returns_false(self) -> None:
-        class RestrictiveAuthorizationService(AuthorizationService):
+        class RestrictiveAuthorizationPort(AuthorizationPort):
             async def check_permission(
                 self,
                 context: AuthorizationContext,
@@ -68,7 +68,7 @@ class TestAuthorizationService:
                 del user_id
                 return []
 
-        service = RestrictiveAuthorizationService()
+        service = RestrictiveAuthorizationPort()
 
         assert (
             await service.check_permission(

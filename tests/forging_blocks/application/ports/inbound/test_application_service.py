@@ -2,7 +2,7 @@
 
 import pytest
 
-from forging_blocks.application.ports.inbound.application_service import ApplicationService
+from forging_blocks.application.ports.inbound.application_service_port import ApplicationServicePort
 from forging_blocks.foundation.result import Err, Ok
 
 
@@ -15,7 +15,7 @@ class TestApplicationService:
                 return Ok("user-42")
 
         service = RegisterUserService()
-        assert isinstance(service, ApplicationService)
+        assert isinstance(service, ApplicationServicePort)
 
         result = await service.execute("register")
         assert result.is_ok
@@ -35,4 +35,4 @@ class TestApplicationService:
         class NotAService:
             pass
 
-        assert not isinstance(NotAService(), ApplicationService)
+        assert not isinstance(NotAService(), ApplicationServicePort)

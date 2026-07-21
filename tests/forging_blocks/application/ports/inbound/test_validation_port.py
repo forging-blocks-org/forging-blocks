@@ -2,15 +2,15 @@
 
 import pytest
 
-from forging_blocks.application.ports.inbound.validation_service import ValidationService
+from forging_blocks.application.ports.inbound.validation_port import ValidationPort
 from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.errors.rule_violation_error import RuleViolationError
 
 
 @pytest.mark.unit
-class TestValidationService:
+class TestValidationPort:
     async def test_when_concrete_implementation_then_returns_command_errors(self) -> None:
-        class StrictValidator(ValidationService):
+        class StrictValidator(ValidationPort):
             async def validate_command(self, command: object) -> list[RuleViolationError]:
                 return [RuleViolationError(ErrorMessage("invalid"))]
 
@@ -25,7 +25,7 @@ class TestValidationService:
         assert str(errors[0]) == "RuleViolationError: invalid"
 
     async def test_when_valid_query_then_returns_empty(self) -> None:
-        class PermissiveValidator(ValidationService):
+        class PermissiveValidator(ValidationPort):
             async def validate_command(self, command: object) -> list[RuleViolationError]:
                 del command
                 return []
