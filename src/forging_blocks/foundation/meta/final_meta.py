@@ -9,6 +9,14 @@ from collections.abc import Callable
 from typing import Any
 
 
+def _unwrap_descriptor(attr_value: object) -> object:
+    """Unwrap ``classmethod`` / ``staticmethod`` to the underlying function."""
+    try:
+        return object.__getattribute__(attr_value, "__func__")
+    except AttributeError:
+        return attr_value
+
+
 def validate_no_runtime_final_override(
     name: str,
     bases: tuple[type, ...],
@@ -24,7 +32,7 @@ def validate_no_runtime_final_override(
         for base in bases
         for cls in base.__mro__
         for attr_name, attr_value in cls.__dict__.items()
-        if getattr(attr_value, "__is_runtime_final__", False)
+        if getattr(_unwrap_descriptor(attr_value), "__is_runtime_final__", False)
     }
 
     for method_name in final_methods:

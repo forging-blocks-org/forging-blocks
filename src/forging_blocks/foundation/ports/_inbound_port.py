@@ -1,11 +1,10 @@
-"""ABC for inbound port contracts (use cases, application services).
+"""Inbound port contracts — the driving side of hexagonal architecture.
 
-At class-definition time, concrete subclasses are validated: their
-``__init__`` parameters must not reference any ``InboundPort`` type.
+Inbound ports are called *by* infrastructure *into* the application core.
+They define the boundary where external actors invoke application logic.
 """
 
-from abc import ABC
-
+from forging_blocks.foundation.meta.final_meta import runtime_final
 from forging_blocks.foundation.ports.helpers._abstract_port_classifier import (
     AbstractPortClassifier,
 )
@@ -16,8 +15,13 @@ from forging_blocks.foundation.ports.helpers._inbound_dependency_validator impor
 from ._port import Port
 
 
-class InboundPort[InputType, OutputType](Port[InputType, OutputType], ABC):
-    """ABC for inbound port contracts (use cases, application services).
+class InboundPort(Port):
+    """ABC for inbound port contracts.
+
+    Responsibilities:
+        - Define the driving-side boundary of the application core.
+        - Enforce that concrete inbound ports do not depend on other
+          inbound ports via ``__init_subclass__`` validation.
 
     Non-Responsibilities:
         - Does NOT perform structural duck-typing — returns
@@ -25,10 +29,10 @@ class InboundPort[InputType, OutputType](Port[InputType, OutputType], ABC):
     """
 
     @classmethod
-    def __subclasshook__(cls, subclass: type) -> bool:
-        return NotImplemented
-
+    @runtime_final
     def __init_subclass__(cls, /) -> None:
+        """ """
         super().__init_subclass__()
-        if not AbstractPortClassifier(cls).is_abstract() and "__init__" in cls.__dict__:
+
+        if not AbstractPortClassifier(cls).is_abstract():
             InboundDependencyValidator(cls, target_port=InboundPort).validate()

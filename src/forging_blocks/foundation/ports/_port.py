@@ -1,25 +1,29 @@
-"""Root marker ABC for all port contracts.
+"""Abstract base class for the port hierarchy.
 
-Subclass ``InboundPort`` or ``OutboundPort`` instead of this class
-directly — this base class itself enforces no dependency rules.
+Defines the root ``Port`` class, which all ports ultimately inherit from.
+Application code should subclass ``InboundPort`` or ``OutboundPort``
+instead of ``Port`` directly, as ``Port`` itself enforces no
+dependency-direction rules.
 """
 
-from abc import ABC
+from abc import ABC, abstractmethod
+
+from forging_blocks.foundation.meta.final_abc_meta import FinalABCMeta
 
 
-class Port[InputType, OutputType](ABC):  # noqa: B024
-    """Root marker ABC for all port contracts.
+class Port(ABC, metaclass=FinalABCMeta):
+    """Root abstract base class for all port contracts.
+    Responsibilities:
+        - Serve as the root abstract base for all port contracts.
+        - Define the contract that ``InboundPort`` and ``OutboundPort``
+          concretize.
 
     Non-Responsibilities:
-        - Does NOT perform structural duck-typing — returns
-          ``NotImplemented`` from ``__subclasshook__``.
+        - Does NOT enforce dependency-direction rules — that is delegated
+          to ``InboundPort`` and ``OutboundPort`` via ``__init_subclass__``.
     """
 
     @classmethod
-    def __subclasshook__(cls, subclass: type) -> bool:
-        return NotImplemented
-
-    # Fixes pyright structural-contract errors from
-    # Protocol.__init_subclass__'s (*args, **kwargs) signature.
+    @abstractmethod
     def __init_subclass__(cls, /) -> None:
         super().__init_subclass__()
