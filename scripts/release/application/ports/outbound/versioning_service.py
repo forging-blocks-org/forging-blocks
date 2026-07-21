@@ -5,7 +5,7 @@ from scripts.release.domain.value_objects import (
 )
 
 
-class VersioningService(OutboundPort[str, None]):
+class VersioningService(OutboundPort):
     """Computes and applies semantic versions to the package definition.
 
     Must be non-interactive and deterministic.

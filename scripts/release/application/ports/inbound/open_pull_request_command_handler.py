@@ -1,15 +1,12 @@
-from forging_blocks.foundation.ports import InboundPort
+from forging_blocks.application.ports.inbound.message_handler_port import MessageHandlerPort
 from scripts.release.domain.commands import OpenPullRequestCommand
 
 
-class OpenPullRequestCommandHandler(InboundPort[OpenPullRequestCommand, None]):
-    async def handle(self, message: OpenPullRequestCommand) -> None:
-        """Handle the OpenPullRequestCommand message.
-        This method is called when a release has been prepared
-        and a pull request needs to be opened.
+class OpenPullRequestCommandHandler(MessageHandlerPort[OpenPullRequestCommand, None]):
+    """Handler for opening release pull requests.
 
-        :param message: The OpenPullRequestCommand message to handle.
-
-        :return: None
-        """
-        ...
+    Responsibilities:
+        - Receive an OpenPullRequestCommand.
+        - Construct PR input from command data.
+        - Delegate PR creation to the use case.
+    """

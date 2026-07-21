@@ -13,7 +13,7 @@ class OpenPullRequestOutput:
     url: str | None
 
 
-class PullRequestService(OutboundPort[ReleasePullRequest, OpenPullRequestOutput]):
+class PullRequestService(OutboundPort):
     """Service that manages pull request creation in remote repository."""
 
     @abstractmethod

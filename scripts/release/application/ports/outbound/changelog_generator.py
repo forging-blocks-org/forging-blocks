@@ -21,7 +21,7 @@ class ChangelogResponse:
     entries: list[str]  # List of changelog entries
 
 
-class ChangelogGenerator(OutboundPort[ChangelogRequest, ChangelogResponse]):
+class ChangelogGenerator(OutboundPort):
     """Port for generating changelogs between versions."""
 
     @abstractmethod
