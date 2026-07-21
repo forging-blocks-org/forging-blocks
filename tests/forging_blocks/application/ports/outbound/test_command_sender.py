@@ -1,10 +1,19 @@
-# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-from typing import Any, Self
-from unittest.mock import AsyncMock, MagicMock
+"""Contract tests for CommandSenderPort.
+
+These tests verify that a concrete implementation of ``CommandSenderPort``
+correctly exposes the ``send`` contract.  The port itself declares an
+``@abstractmethod`` — the ``FakeCommandSender`` fixture provides a real
+implementation so tests exercise behaviour, not mock expectations.
+"""
+
+from __future__ import annotations
+
+from typing import Self
 
 import pytest
 
 from forging_blocks.application import CommandSenderPort
+from forging_blocks.foundation import OutboundPort
 from forging_blocks.foundation.messages import Command, MessageMetadata
 
 
@@ -13,7 +22,8 @@ class FakeCommand(Command[str]):
     def value(self) -> str:
         return "foo"
 
-    def _payload(self) -> dict[str, Any]:  # type: ignore[override]
+    @property
+    def _payload(self) -> dict[str, object]:
         return {"foo": "foo"}
 
     @classmethod
@@ -21,19 +31,32 @@ class FakeCommand(Command[str]):
         return cls()
 
 
+class FakeCommandSender(CommandSenderPort[str]):
+    """Concrete fixture that implements ``send`` and records dispatched commands."""
+
+    def __init__(self) -> None:
+        self.sent: list[Command[str]] = []
+
+    async def send(self, command: Command[str]) -> None:
+        self.sent.append(command)
+
+
 @pytest.mark.unit
 class TestCommandSenderPortContract:
-    """Contract tests verifying the CommandSenderPort protocol.
+    """Any object with an async ``send`` accepting a ``Command`` satisfies this port."""
 
-    Any object with an async ``send`` method accepting a ``Command``
-    must satisfy this port.
-    """
+    def test_fake_sender_is_instance_of_outbound_port(self) -> None:
+        """Concrete implementation passes structural isinstance checks."""
+        sender = FakeCommandSender()
+        assert isinstance(sender, OutboundPort)
+        assert isinstance(sender, CommandSenderPort)
 
-    async def test_send_when_called_with_command_then_completes(self) -> None:
-        mock_sender = MagicMock(spec=CommandSenderPort)
-        mock_sender.send = AsyncMock()
+    async def test_send_dispatches_command_to_fixture(self) -> None:
+        """The concrete sender records the command it receives."""
+        sender = FakeCommandSender()
         command = FakeCommand()
 
-        await mock_sender.send(command)
+        await sender.send(command)
 
-        mock_sender.send.assert_awaited_with(command)
+        assert command in sender.sent
+        assert len(sender.sent) == 1

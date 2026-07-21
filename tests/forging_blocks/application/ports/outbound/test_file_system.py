@@ -4,7 +4,6 @@ These verify the FileSystemPort protocol contract — not implementation-specifi
 """
 
 import inspect
-from typing import Protocol
 
 import pytest
 
@@ -17,9 +16,11 @@ from forging_blocks.application.ports.outbound.file_system_port import FileSyste
 class TestFileSystemPort:
     """Contract tests for the FileSystemPort protocol."""
 
-    def test_filesystem_is_protocol(self) -> None:
-        """FileSystemPort should be a Protocol."""
-        assert isinstance(FileSystemPort, type(Protocol))
+    def test_filesystem_is_abc(self) -> None:
+        """FileSystemPort should be an ABC."""
+        from abc import ABC as _ABC
+
+        assert issubclass(FileSystemPort, _ABC)
 
     def test_filesystem_has_required_methods(self) -> None:
         """FileSystemPort should define read, write, delete, exists, list_dir."""

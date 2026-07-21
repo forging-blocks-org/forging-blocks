@@ -3,8 +3,6 @@
 These verify the CachePort protocol contract for caching abstractions.
 """
 
-from typing import Protocol
-
 import pytest
 
 from forging_blocks.application.ports.outbound.cache_port import CachePort
@@ -14,9 +12,11 @@ from forging_blocks.application.ports.outbound.cache_port import CachePort
 class TestCachePort:
     """Contract tests for the CachePort protocol."""
 
-    def test_cache_is_protocol(self) -> None:
-        """CachePort should be a Protocol."""
-        assert isinstance(CachePort, type(Protocol))
+    def test_cache_is_abc(self) -> None:
+        """CachePort should be an ABC."""
+        from abc import ABC as _ABC
+
+        assert issubclass(CachePort, _ABC)
 
     def test_cache_has_get_method(self) -> None:
         """CachePort should define the get method."""
