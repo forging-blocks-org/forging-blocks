@@ -16,7 +16,7 @@ Event-Driven Architecture focuses on **reacting to events** and **propagating fa
 
 Mapping:
 - **Domain Events** — Facts that occurred (`Event`, past tense, immutable)
-- **Event Handlers** — React to events (`EventHandler`, `MessageHandler[EventType, None]`)
+- **Event Handlers** — React to events (`EventHandlerPort`, `MessageHandlerPort[EventType, None]`)
 - **Message Bus** — Routes events between components (`MessageBusPort` outbound port)
 - **Loose coupling** — Components don't call each other directly
 

@@ -15,8 +15,8 @@ This page shows how **ForgingBlocks concepts can be projected** to support a CQR
 Command Query Responsibility Segregation (CQRS) separates **write behavior** from **read behavior**. This page shows how **ForgingBlocks concepts can be projected** to support CQRS — **not required**.
 
 Mapping:
-- **Commands** — Express intent to change state (`Command`, `CommandHandler`, `WriteOnlyRepository`)
-- **Queries** — Retrieve information (`Query`, `QueryHandler`, `ReadOnlyRepository`)
+- **Commands** — Express intent to change state (`Command`, `CommandHandlerPort`, `WriteOnlyRepository`)
+- **Queries** — Retrieve information (`Query`, `QueryHandlerPort`, `ReadOnlyRepository`)
 - **Models may diverge** over time (separate read/write stores with replication)
 
 Fits when: read/write workloads differ significantly; scalability dominates; eventual consistency acceptable.
@@ -37,10 +37,10 @@ The diagram below shows a **canonical CQRS view** from the literature.
 title: CQRS (Command Query Responsibility Segregation)
 ---
 graph LR
-    Client -->|send| CommandHandler[Command Handler]
-    Client -->|fetch| QueryHandler[Query Handler]
-    CommandHandler -->|save| WriteStore[Write Store<br/>RepositoryPort]
-    QueryHandler -->|get_by_id/list_all| ReadStore[Read Store<br/>ReadOnlyRepository]
+    Client -->|send| CommandHandlerPort[Command Handler]
+    Client -->|fetch| QueryHandlerPort[Query Handler]
+    CommandHandlerPort -->|save| WriteStore[Write Store<br/>RepositoryPort]
+    QueryHandlerPort -->|get_by_id/list_all| ReadStore[Read Store<br/>ReadOnlyRepository]
     WriteStore -.->|replicate| ReadStore
 ```
 

@@ -78,7 +78,7 @@ def test_parse_reciprocal_when_zero_then_fails() -> None:
 ```python
 from dataclasses import dataclass
 
-from forging_blocks.application import UseCase
+from forging_blocks.application import UseCasePort
 from forging_blocks.foundation import Result, Err
 
 
@@ -92,7 +92,7 @@ class TaskRepository:
         ...
 
 
-class CreateTaskUseCase(UseCase):
+class CreateTaskUseCase(UseCasePort):
     def execute(self, data: CreateTaskInput) -> Result[int, str]:
         ...
 
