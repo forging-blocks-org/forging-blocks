@@ -10,8 +10,8 @@ wrapper that handles serialization.
 """
 
 import asyncio
+from http.client import HTTPConnection, HTTPSConnection
 from urllib.parse import urlparse
-from urllib.request import Request, urlopen
 
 from forging_blocks.application.ports.outbound.http_client_port import (
     HttpClientPort,
@@ -60,16 +60,24 @@ class URLLibClient(HttpClientPort[str, str]):
         """
         http_headers: dict[str, str] = headers or {}
         data: bytes | None = body.encode("utf-8") if body is not None else None
-
         parsed = urlparse(url)
-        if parsed.scheme not in ("http", "https"):
+        scheme = parsed.scheme
+        if scheme == "http":
+            Conn = HTTPConnection
+        elif scheme == "https":
+            Conn = HTTPSConnection
+        else:
             raise ConfigurationError(
-                f"Disallowed URL scheme '{parsed.scheme}'. Only http and https are supported."
+                f"Disallowed URL scheme '{scheme}'. Only http and https are supported."
             )
 
         def _do_request() -> str:
-            req = Request(url, data=data, headers=http_headers, method=method)
-            with urlopen(req) as response:
+            conn = Conn(parsed.netloc)
+            path = parsed.path or "/"
+            if parsed.query:
+                path = f"{path}?{parsed.query}"
+            conn.request(method, path, body=data, headers=http_headers)
+            with conn.getresponse() as response:
                 return response.read().decode("utf-8")
 
         return await asyncio.to_thread(_do_request)
