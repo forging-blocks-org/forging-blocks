@@ -58,7 +58,6 @@ class CachePort[KeyType, ValueType](
             value: The value to cache.
             ttl: Optional time-to-live in seconds. ``None`` means no expiration.
         """
-        ...
 
     @abstractmethod
     async def delete(self, key: KeyType) -> None:
@@ -67,7 +66,6 @@ class CachePort[KeyType, ValueType](
         Args:
             key: The cache key. No-op if the key does not exist.
         """
-        ...
 
     @abstractmethod
     async def exists(self, key: KeyType) -> bool:
@@ -84,4 +82,3 @@ class CachePort[KeyType, ValueType](
     @abstractmethod
     async def clear(self) -> None:
         """Remove all entries from the cache."""
-        ...

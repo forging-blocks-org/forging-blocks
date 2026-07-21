@@ -55,7 +55,6 @@ class UnitOfWorkPort(OutboundPort):
             exc_value: Exception instance.
             traceback: Execution traceback.
         """
-        ...
 
     @abstractmethod
     async def commit(self) -> None:
@@ -69,9 +68,7 @@ class UnitOfWorkPort(OutboundPort):
         Raises:
             UnitOfWorkError: If commit fails.
         """
-        ...
 
     @abstractmethod
     async def rollback(self) -> None:
         """Roll back the transaction and discard uncommitted changes."""
-        ...

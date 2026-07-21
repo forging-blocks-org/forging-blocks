@@ -61,4 +61,3 @@ class EventBusPort[EventPayloadType, CommandPayloadType](
             message_type: The message class to handle.
         handler: A handler instance (``EventHandlerPort`` or ``CommandHandlerPort``).
         """
-        ...

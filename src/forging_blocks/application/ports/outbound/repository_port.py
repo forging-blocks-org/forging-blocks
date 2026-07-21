@@ -74,7 +74,6 @@ class WriteOnlyRepositoryPort[TWriteAggregateRoot, TWriteId](OutboundPort):
         Raises:
             RepositoryError: If deletion fails.
         """
-        ...
 
     @abstractmethod
     async def save(self, aggregate: TWriteAggregateRoot) -> None:
@@ -83,7 +82,6 @@ class WriteOnlyRepositoryPort[TWriteAggregateRoot, TWriteId](OutboundPort):
         Args:
             aggregate: The aggregate to save.
         """
-        ...
 
 
 class RepositoryPort[TAggregateRoot, TId](

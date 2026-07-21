@@ -41,7 +41,6 @@ class FileSystemPort(
             path: Path to the file.
             data: The bytes to write.
         """
-        ...
 
     @abstractmethod
     async def delete(self, path: Path | str) -> None:
@@ -53,7 +52,6 @@ class FileSystemPort(
         Raises:
             FileNotFoundError: If the file does not exist.
         """
-        ...
 
     @abstractmethod
     async def exists(self, path: Path | str) -> bool:

@@ -33,4 +33,3 @@ class EventPublisherPort[EventPayloadType](
         Args:
             event: The domain event to publish.
         """
-        ...

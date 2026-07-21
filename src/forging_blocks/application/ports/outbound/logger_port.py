@@ -24,19 +24,15 @@ class LoggerPort(OutboundPort):
     @abstractmethod
     def debug(self, msg: str, *args: str) -> None:
         """Log a debug message."""
-        ...
 
     @abstractmethod
     def info(self, msg: str, *args: str) -> None:
         """Log an info message."""
-        ...
 
     @abstractmethod
     def warning(self, msg: str, *args: str) -> None:
         """Log a warning message."""
-        ...
 
     @abstractmethod
     def error(self, msg: str, *args: str) -> None:
         """Log an error message."""
-        ...

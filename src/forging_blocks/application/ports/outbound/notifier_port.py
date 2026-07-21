@@ -38,4 +38,3 @@ class NotifierPort[NotificationType](
             - Fire-and-forget behavior unless documented otherwise.
             - Delivery semantics are infrastructure-defined.
         """
-        ...
