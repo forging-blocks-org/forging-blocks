@@ -3,6 +3,7 @@
 from .architecture_error import ArchitectureError
 from .cant_modify_immutable_attribute_error import CantModifyImmutableAttributeError
 from .combined_errors import CombinedErrors
+from .configuration_error import ConfigurationError
 from .core import ErrorMessage, ErrorMetadata, FieldReference
 from .error import Error
 from .field_errors import FieldErrors
@@ -17,6 +18,7 @@ from .validation_error import (
 )
 
 __all__ = [
+    "ConfigurationError",
     "ArchitectureError",
     "CombinedErrors",
     "CombinedRuleViolationErrors",
