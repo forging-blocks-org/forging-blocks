@@ -16,6 +16,7 @@ from urllib.request import Request, urlopen
 from forging_blocks.application.ports.outbound.http_client_port import (
     HttpClientPort,
 )
+from forging_blocks.foundation.errors.configuration_error import ConfigurationError
 
 
 class URLLibClient(HttpClientPort[str, str]):
@@ -32,7 +33,7 @@ class URLLibClient(HttpClientPort[str, str]):
     Raises:
         urllib.error.HTTPError: On HTTP 4xx/5xx responses.
         urllib.error.URLError: On network/connection failures.
-        ValueError: On malformed URLs.
+        ConfigurationError: On misconfigured URLs (e.g., non-HTTP schemes).
     """
 
     async def request(
@@ -56,22 +57,19 @@ class URLLibClient(HttpClientPort[str, str]):
         Raises:
             HTTPError: On 4xx/5xx HTTP responses.
             URLError: On network or connection failures.
-            ValueError: On malformed URLs.
         """
         http_headers: dict[str, str] = headers or {}
         data: bytes | None = body.encode("utf-8") if body is not None else None
 
-        # Block non-HTTP schemes — urllib supports file:// which allows
-        # reading arbitrary files if a caller-controlled URL is passed.
         parsed = urlparse(url)
         if parsed.scheme not in ("http", "https"):
-            raise ValueError(
+            raise ConfigurationError(
                 f"Disallowed URL scheme '{parsed.scheme}'. Only http and https are supported."
             )
 
         def _do_request() -> str:
             req = Request(url, data=data, headers=http_headers, method=method)
-            with urlopen(req) as response:  # nosec B310 — scheme validated above
+            with urlopen(req) as response:
                 return response.read().decode("utf-8")
 
         return await asyncio.to_thread(_do_request)
