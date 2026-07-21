@@ -14,7 +14,7 @@ from forging_blocks.foundation.ports import OutboundPort
 from forging_blocks.foundation.result import Result
 
 
-class EventBusPort[EventPayloadType, CommandPayloadType](
+class EventBusPort[EventPayloadType, CommandPayloadType, HandlerType](
     OutboundPort,
 ):
     """Protocol for event buses that publish events and send commands.
@@ -52,12 +52,12 @@ class EventBusPort[EventPayloadType, CommandPayloadType](
     @abstractmethod
     def register_handler(
         self,
-        message_type: type[Event[object]] | type[Command[object]],
-        handler: object,  # Inbound handler types — can't import from outbound port.
+        message_type: type[Event[EventPayloadType]] | type[Command[CommandPayloadType]],
+        handler: HandlerType,
     ) -> None:
         """Register a handler for the given message type.
 
         Args:
             message_type: The message class to handle.
-        handler: A handler instance (``EventHandlerPort`` or ``CommandHandlerPort``).
+            handler: A handler instance implementing the handler contract.
         """

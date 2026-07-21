@@ -20,8 +20,8 @@ class _Handler[T](Protocol):
     async def handle(self, message: T) -> None: ...
 
 
-class InMemoryEventBusBase[EventPayloadType, CommandPayloadType](
-    EventBusBase[EventPayloadType, CommandPayloadType]
+class InMemoryEventBusBase[EventPayloadType, CommandPayloadType, HandlerType](
+    EventBusBase[EventPayloadType, CommandPayloadType, HandlerType]
 ):
     """In-memory event bus with separate event/command dispatch.
 
@@ -40,7 +40,11 @@ class InMemoryEventBusBase[EventPayloadType, CommandPayloadType](
             type[Command[CommandPayloadType]], _Handler[Command[CommandPayloadType]]
         ] = {}
 
-    def register_handler(self, message_type: type, handler: object) -> None:
+    def register_handler(
+        self,
+        message_type: type[Event[EventPayloadType]] | type[Command[CommandPayloadType]],
+        handler: HandlerType,
+    ) -> None:
         """Register a handler for a message type.
 
         For event types, multiple handlers can be registered (fan-out).
@@ -51,11 +55,11 @@ class InMemoryEventBusBase[EventPayloadType, CommandPayloadType](
             handler: A handler instance.
         """
         if issubclass(message_type, Event):
-            self._event_handlers.setdefault(
-                cast(type[Event[EventPayloadType]], message_type), []
-            ).append(cast(_Handler[Event[EventPayloadType]], handler))
-        elif issubclass(message_type, Command):
-            self._command_handlers[cast(type[Command[CommandPayloadType]], message_type)] = cast(
+            self._event_handlers.setdefault(message_type, []).append(
+                cast(_Handler[Event[EventPayloadType]], handler)
+            )
+        else:
+            self._command_handlers[message_type] = cast(
                 _Handler[Command[CommandPayloadType]], handler
             )
 

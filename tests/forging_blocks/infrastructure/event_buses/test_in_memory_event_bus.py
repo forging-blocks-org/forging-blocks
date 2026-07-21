@@ -24,7 +24,7 @@ class TestInMemoryEventBus:
 
     async def test_publish_sends_to_multiple_handlers(self) -> None:
         """Publishing an event dispatches to all registered handlers."""
-        bus: InMemoryEventBus[dict[str, object], dict[str, object]] = InMemoryEventBus()
+        bus: InMemoryEventBus[dict[str, object], dict[str, object], object] = InMemoryEventBus()
         received: list[str] = []
 
         class HandlerA(EventHandlerPort[dict[str, object]]):
@@ -44,7 +44,7 @@ class TestInMemoryEventBus:
 
     async def test_send_dispatches_to_single_handler(self) -> None:
         """Sending a command dispatches to its single registered handler."""
-        bus: InMemoryEventBus[dict[str, object], dict[str, object]] = InMemoryEventBus()
+        bus: InMemoryEventBus[dict[str, object], dict[str, object], object] = InMemoryEventBus()
         handled: list[str] = []
 
         class Handler(CommandHandlerPort[dict[str, object]]):
@@ -59,14 +59,14 @@ class TestInMemoryEventBus:
 
     async def test_send_no_handler_returns_error(self) -> None:
         """Sending a command with no registered handler returns an error."""
-        bus: InMemoryEventBus[dict[str, object], dict[str, object]] = InMemoryEventBus()
+        bus: InMemoryEventBus[dict[str, object], dict[str, object], object] = InMemoryEventBus()
         result = await bus.send(SimpleFakeCommand("missing"))
         assert result.is_err
         assert isinstance(result.error, EventBusError)
 
     async def test_handler_error_propagation(self) -> None:
         """Exceptions in handlers propagate as EventBusError."""
-        bus: InMemoryEventBus[dict[str, object], dict[str, object]] = InMemoryEventBus()
+        bus: InMemoryEventBus[dict[str, object], dict[str, object], object] = InMemoryEventBus()
 
         class FailingHandler(EventHandlerPort[dict[str, object]]):
             async def handle(self, message: Event[dict[str, object]]) -> None:  # type: ignore[override]
@@ -80,7 +80,7 @@ class TestInMemoryEventBus:
 
     async def test_send_when_handler_raises_then_returns_error(self) -> None:
         """Sending a command whose handler raises returns ``EventBusError``."""
-        bus: InMemoryEventBus[dict[str, object], dict[str, object]] = InMemoryEventBus()
+        bus: InMemoryEventBus[dict[str, object], dict[str, object], object] = InMemoryEventBus()
 
         class FailingHandler(CommandHandlerPort[dict[str, object]]):
             async def handle(self, message: Command[dict[str, object]]) -> None:

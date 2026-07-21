@@ -20,8 +20,8 @@ class _Handler[T](Protocol):
     async def handle(self, message: T) -> None: ...
 
 
-class InMemoryEventBus[EventPayloadType, CommandPayloadType](
-    EventBusPort[EventPayloadType, CommandPayloadType]
+class InMemoryEventBus[EventPayloadType, CommandPayloadType, HandlerType](
+    EventBusPort[EventPayloadType, CommandPayloadType, HandlerType]
 ):
     """In-memory event bus with separate event/command dispatch.
 
@@ -33,13 +33,17 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType](
     __slots__ = ("_command_handlers", "_event_handlers")
 
     def __init__(self) -> None:
-        self._event_handlers: dict[type[Event[object]], list[_Handler[Event[object]]]] = {}
-        self._command_handlers: dict[type[Command[object]], _Handler[Command[object]]] = {}
+        self._event_handlers: dict[
+            type[Event[EventPayloadType]], list[_Handler[Event[EventPayloadType]]]
+        ] = {}
+        self._command_handlers: dict[
+            type[Command[CommandPayloadType]], _Handler[Command[CommandPayloadType]]
+        ] = {}
 
     def register_handler(
         self,
-        message_type: type[Event[object]] | type[Command[object]],
-        handler: object,
+        message_type: type[Event[EventPayloadType]] | type[Command[CommandPayloadType]],
+        handler: HandlerType,
     ) -> None:
         """Register a handler for a message type.
 
@@ -52,10 +56,10 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType](
         """
         if issubclass(message_type, Event):
             self._event_handlers.setdefault(message_type, []).append(
-                cast(_Handler[Event[object]], handler)
+                cast(_Handler[Event[EventPayloadType]], handler)
             )
             return
-        self._command_handlers[message_type] = cast(_Handler[Command[object]], handler)
+        self._command_handlers[message_type] = cast(_Handler[Command[CommandPayloadType]], handler)
 
     async def publish(self, event: Event[EventPayloadType]) -> Result[None, EventBusError]:
         """Publish an event to all registered handlers.
@@ -68,7 +72,7 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType](
             handler raises.
         """
         handlers = self._event_handlers.get(type(event), [])
-        for handler in cast(list[_Handler[Event[EventPayloadType]]], handlers):
+        for handler in handlers:
             try:
                 await handler.handle(event)
             except Exception as exc:
@@ -88,9 +92,8 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType](
         handler = self._command_handlers.get(type(command))
         if handler is None:
             return Err(EventBusError(f"No handler registered for {type(command).__name__}"))
-        typed_handler = cast(_Handler[Command[CommandPayloadType]], handler)
         try:
-            await typed_handler.handle(command)
+            await handler.handle(command)
         except Exception as exc:
             return Err(EventBusError(str(exc)))
         return Ok(None)

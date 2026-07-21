@@ -36,13 +36,13 @@ class TestInMemoryEventBusBase:
     """Tests for the InMemoryEventBusBase implementation."""
 
     @pytest.fixture
-    def event_bus(self) -> InMemoryEventBusBase[TestPayload, TestPayload]:
+    def event_bus(self) -> InMemoryEventBusBase[TestPayload, TestPayload, object]:
         """Create a fresh InMemoryEventBusBase for each test."""
-        return InMemoryEventBusBase[TestPayload, TestPayload]()
+        return InMemoryEventBusBase[TestPayload, TestPayload, object]()
 
     async def test_publish_event(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test publishing an event to subscribers."""
         received_events: list[FakeEventWithValue] = []
@@ -60,7 +60,7 @@ class TestInMemoryEventBusBase:
 
     async def test_publish_to_multiple_subscribers(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test publishing an event to multiple subscribers."""
         received_1: list[str] = []
@@ -83,7 +83,7 @@ class TestInMemoryEventBusBase:
 
     async def test_publish_no_subscribers(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test publishing an event with no subscribers."""
         event = FakeEventWithValue("test-value")
@@ -92,7 +92,7 @@ class TestInMemoryEventBusBase:
 
     async def test_send_command(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test sending a command to its handler."""
         received_commands: list[SimpleFakeCommandWithValue] = []
@@ -109,7 +109,7 @@ class TestInMemoryEventBusBase:
 
     async def test_send_when_handler_raises_then_returns_error(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Sending a command whose handler raises returns ``EventBusError``."""
 

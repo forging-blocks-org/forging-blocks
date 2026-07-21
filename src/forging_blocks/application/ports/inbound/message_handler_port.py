@@ -20,12 +20,11 @@ from abc import abstractmethod
 
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.message import Message
 from forging_blocks.foundation.messages.query import Query
 from forging_blocks.foundation.ports import InboundPort
 
 
-class MessageHandlerPort[MessageType: Message[object], MessageHandlerResultType](
+class MessageHandlerPort[MessageType, MessageHandlerResultType](
     InboundPort,
 ):
     """Inbound port for handling messages asynchronously.
