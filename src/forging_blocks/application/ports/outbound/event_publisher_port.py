@@ -19,7 +19,7 @@ from forging_blocks.foundation.ports import OutboundPort
 
 
 class EventPublisherPort[EventPayloadType](
-    OutboundPort[Event[EventPayloadType], None],
+    OutboundPort,
 ):
     """ABC for publishing domain events asynchronously.
 

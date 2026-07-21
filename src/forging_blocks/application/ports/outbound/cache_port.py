@@ -20,7 +20,7 @@ from forging_blocks.foundation.ports import OutboundPort
 
 
 class CachePort[KeyType, ValueType](
-    OutboundPort[KeyType, ValueType],
+    OutboundPort,
 ):
     """Protocol for caching operations.
 

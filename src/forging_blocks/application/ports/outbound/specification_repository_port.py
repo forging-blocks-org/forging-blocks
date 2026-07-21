@@ -12,7 +12,7 @@ from forging_blocks.foundation.specification import Specification
 
 
 class SpecificationRepositoryPort[TEntity, TId](ReadOnlyRepositoryPort[TEntity, TId]):
-    """RepositoryPort that supports specification-based queries.
+    """Read-only repository port with Specification-based query support.
 
     In addition to standard read-only operations, this interface
     allows querying by ``Specification`` predicates.

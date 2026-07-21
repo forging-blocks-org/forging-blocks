@@ -18,7 +18,7 @@ from forging_blocks.foundation.ports import OutboundPort
 
 
 class NotifierPort[NotificationType](
-    OutboundPort[NotificationType, None],
+    OutboundPort,
 ):
     """Outbound port for sending asynchronous notifications.
 

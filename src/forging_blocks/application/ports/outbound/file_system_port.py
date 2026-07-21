@@ -11,7 +11,7 @@ from forging_blocks.foundation.ports import OutboundPort
 
 
 class FileSystemPort(
-    OutboundPort[Path | str, bytes],
+    OutboundPort,
 ):
     """Structural protocol for file system operations.
     Any object with ``read``, ``write``, ``delete``, ``exists``,

@@ -5,7 +5,7 @@ with separate policies for events (multi-handler fan-out) and commands
 (single-handler routing).
 """
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 from forging_blocks.application.errors.event_bus_error import EventBusError
 from forging_blocks.foundation.messages.command import Command
@@ -15,8 +15,7 @@ from forging_blocks.foundation.result import Result
 
 
 class EventBusPort[EventPayloadType, CommandPayloadType](
-    OutboundPort[Event[EventPayloadType], Result[None, EventBusError]],
-    ABC,
+    OutboundPort,
 ):
     """Protocol for event buses that publish events and send commands.
 

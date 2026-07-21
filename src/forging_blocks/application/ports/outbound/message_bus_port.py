@@ -16,11 +16,11 @@ Non-Responsibilities:
 
 from abc import abstractmethod
 
-from forging_blocks.foundation import OutboundPort
+from forging_blocks.foundation.ports import OutboundPort
 
 
 class MessageBusPort[MessageType, MessageBusResultType](
-    OutboundPort[MessageType, MessageBusResultType],
+    OutboundPort,
 ):
     """Outbound port representing a generic asynchronous message bus.
 

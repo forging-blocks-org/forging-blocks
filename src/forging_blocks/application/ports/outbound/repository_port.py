@@ -14,11 +14,13 @@ Non-Responsibilities:
     - Expose ORM models or database APIs directly.
 """
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from collections.abc import Sequence
 
+from forging_blocks.foundation.ports import OutboundPort
 
-class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](ABC):
+
+class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](OutboundPort):
     """Read-only repository abstraction for query operations.
 
     This interface is optimized for query-side usage in CQRS architectures.
@@ -55,7 +57,7 @@ class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](ABC):
         ...
 
 
-class WriteOnlyRepositoryPort[TWriteAggregateRoot, TWriteId](ABC):
+class WriteOnlyRepositoryPort[TWriteAggregateRoot, TWriteId](OutboundPort):
     """Write-only repository abstraction for command operations.
 
     This interface supports command-side operations where writes are applied
@@ -87,7 +89,6 @@ class WriteOnlyRepositoryPort[TWriteAggregateRoot, TWriteId](ABC):
 class RepositoryPort[TAggregateRoot, TId](
     ReadOnlyRepositoryPort[TAggregateRoot, TId],
     WriteOnlyRepositoryPort[TAggregateRoot, TId],
-    ABC,
 ):
     """Full CRUD repository abstraction.
 

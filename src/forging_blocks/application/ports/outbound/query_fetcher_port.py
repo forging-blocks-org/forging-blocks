@@ -19,7 +19,7 @@ from forging_blocks.foundation.ports import OutboundPort
 
 
 class QueryFetcherPort[QueryPayloadType, QueryFetcherResult](
-    OutboundPort[Query[QueryPayloadType], QueryFetcherResult],
+    OutboundPort,
 ):
     """ABC for dispatching query messages asynchronously.
 

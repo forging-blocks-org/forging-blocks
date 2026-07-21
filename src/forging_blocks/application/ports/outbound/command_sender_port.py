@@ -19,7 +19,7 @@ from forging_blocks.foundation.ports import OutboundPort
 
 
 class CommandSenderPort[CommandPayloadType](
-    OutboundPort[Command[CommandPayloadType], None],
+    OutboundPort,
 ):
     """ABC for dispatching command messages asynchronously."""
 

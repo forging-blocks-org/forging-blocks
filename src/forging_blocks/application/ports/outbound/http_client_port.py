@@ -19,7 +19,7 @@ from forging_blocks.foundation.ports import OutboundPort
 
 
 class HttpClientPort[RequestType, ResponseType](
-    OutboundPort[RequestType, ResponseType],
+    OutboundPort,
 ):
     """ABC for making HTTP requests to external services.
 

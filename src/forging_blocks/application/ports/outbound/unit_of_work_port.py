@@ -14,15 +14,15 @@ Non-Responsibilities:
     - Interact directly with aggregates.
 """
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from types import TracebackType
 from typing import Self
 
 from forging_blocks.foundation.ports import OutboundPort
 
 
-class UnitOfWorkPort(OutboundPort[object, None], ABC):
-    """Protocol for managing transactional consistency.
+class UnitOfWorkPort(OutboundPort):
+    """Contract for a transactional boundary.
 
     A UnitOfWorkPort coordinates operations across multiple repositories and
     outbound ports. It ensures that state changes and domain events are

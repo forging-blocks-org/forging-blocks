@@ -1,6 +1,18 @@
-"""Outbound port for transactional boundaries."""
+"""Outbound port for transactional boundaries.
 
-from abc import ABC, abstractmethod
+Defines the ``TransactionManagerPort`` contract for explicit transaction
+control (begin, commit, rollback) and transactional function execution.
+
+Responsibilities:
+    - Begin, commit, and roll back transactions.
+    - Execute arbitrary functions within transactional boundaries.
+
+Non-Responsibilities:
+    - Implement business logic.
+    - Manage connection pooling or resource cleanup.
+"""
+
+from abc import abstractmethod
 from collections.abc import Awaitable, Callable
 
 from forging_blocks.foundation.context import TransactionContext
@@ -8,8 +20,17 @@ from forging_blocks.foundation.ports import OutboundPort
 from forging_blocks.foundation.result import Result
 
 
-class TransactionManagerPort[TransactionErrorType](OutboundPort[TransactionContext, None], ABC):
-    """Protocol for transaction management in the application layer."""
+class TransactionManagerPort[TransactionErrorType](OutboundPort):
+    """Outbound port for explicit transaction management.
+
+    Responsibilities:
+        - Begin, commit, and roll back transactions.
+        - Execute arbitrary functions within transactional boundaries.
+
+    Non-Responsibilities:
+        - Implement business logic.
+        - Manage connection pooling or resource cleanup.
+    """
 
     @abstractmethod
     async def begin(self, context: TransactionContext) -> Result[None, TransactionErrorType]:
