@@ -30,4 +30,3 @@ class CommandSenderPort[CommandPayloadType](
         Args:
             command: The command instance to dispatch.
         """
-        ...
