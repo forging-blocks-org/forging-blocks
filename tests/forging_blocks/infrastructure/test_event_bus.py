@@ -5,7 +5,10 @@ from __future__ import annotations
 import pytest
 
 from forging_blocks.application.errors.event_bus_error import EventBusError
-from forging_blocks.application.ports.inbound.message_handler import CommandHandler, EventHandler
+from forging_blocks.application.ports.inbound.message_handler_port import (
+    CommandHandlerPort,
+    EventHandlerPort,
+)
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.messages.message import MessageMetadata
@@ -42,7 +45,7 @@ class TestInMemoryEventBusBase:
         """Test publishing an event to subscribers."""
         received: list[str] = []
 
-        class HandlerA(EventHandler[TestPayload]):
+        class HandlerA(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received.append("A")
 
@@ -59,11 +62,11 @@ class TestInMemoryEventBusBase:
         """Test publishing an event to multiple subscribers."""
         received: list[str] = []
 
-        class HandlerA(EventHandler[TestPayload]):
+        class HandlerA(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received.append("A")
 
-        class HandlerB(EventHandler[TestPayload]):
+        class HandlerB(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received.append("B")
 
@@ -89,7 +92,7 @@ class TestInMemoryEventBusBase:
         """Test sending a command to its handler."""
         handled: list[str] = []
 
-        class Handler(CommandHandler[TestPayload]):
+        class Handler(CommandHandlerPort[TestPayload]):
             async def handle(self, message: Command[TestPayload]) -> None:
                 handled.append("ok")
 
@@ -115,11 +118,11 @@ class TestInMemoryEventBusBase:
         received_1: list[Command[TestPayload]] = []
         received_2: list[Command[TestPayload]] = []
 
-        class Handler1(CommandHandler[TestPayload]):
+        class Handler1(CommandHandlerPort[TestPayload]):
             async def handle(self, message: Command[TestPayload]) -> None:
                 received_1.append(message)
 
-        class Handler2(CommandHandler[TestPayload]):
+        class Handler2(CommandHandlerPort[TestPayload]):
             async def handle(self, message: Command[TestPayload]) -> None:
                 received_2.append(message)
 
@@ -140,11 +143,11 @@ class TestInMemoryEventBusBase:
         received_a: list[str] = []
         received_b: list[str] = []
 
-        class HandlerA(EventHandler[TestPayload]):
+        class HandlerA(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received_a.append("A")
 
-        class HandlerB(EventHandler[TestPayload]):
+        class HandlerB(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received_b.append("B")
 
@@ -189,7 +192,7 @@ class TestInMemoryEventBusBase:
     ) -> None:
         """Test that handler errors are captured as EventBusError."""
 
-        class FailingHandler(EventHandler[TestPayload]):
+        class FailingHandler(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 raise ValueError("boom")
 

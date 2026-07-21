@@ -5,9 +5,9 @@ from typing import cast
 import pytest
 
 from forging_blocks.application.errors.event_bus_error import EventBusError
-from forging_blocks.application.ports.inbound.message_handler import (
-    CommandHandler,
-    EventHandler,
+from forging_blocks.application.ports.inbound.message_handler_port import (
+    CommandHandlerPort,
+    EventHandlerPort,
 )
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
@@ -27,11 +27,11 @@ class TestInMemoryEventBus:
         bus: InMemoryEventBus[dict[str, object], dict[str, object]] = InMemoryEventBus()
         received: list[str] = []
 
-        class HandlerA(EventHandler[dict[str, object]]):
+        class HandlerA(EventHandlerPort[dict[str, object]]):
             async def handle(self, message: Event[dict[str, object]]) -> None:  # type: ignore[override]
                 received.append("A")
 
-        class HandlerB(EventHandler[dict[str, object]]):
+        class HandlerB(EventHandlerPort[dict[str, object]]):
             async def handle(self, message: Event[dict[str, object]]) -> None:  # type: ignore[override]
                 received.append("B")
 
@@ -47,7 +47,7 @@ class TestInMemoryEventBus:
         bus: InMemoryEventBus[dict[str, object], dict[str, object]] = InMemoryEventBus()
         handled: list[str] = []
 
-        class Handler(CommandHandler[dict[str, object]]):
+        class Handler(CommandHandlerPort[dict[str, object]]):
             async def handle(self, message: Command[dict[str, object]]) -> None:
                 handled.append(cast(str, cast(SimpleFakeCommand, message).value["name"]))
 
@@ -68,7 +68,7 @@ class TestInMemoryEventBus:
         """Exceptions in handlers propagate as EventBusError."""
         bus: InMemoryEventBus[dict[str, object], dict[str, object]] = InMemoryEventBus()
 
-        class FailingHandler(EventHandler[dict[str, object]]):
+        class FailingHandler(EventHandlerPort[dict[str, object]]):
             async def handle(self, message: Event[dict[str, object]]) -> None:  # type: ignore[override]
                 raise ValueError("handler failure")
 
@@ -82,7 +82,7 @@ class TestInMemoryEventBus:
         """Sending a command whose handler raises returns ``EventBusError``."""
         bus: InMemoryEventBus[dict[str, object], dict[str, object]] = InMemoryEventBus()
 
-        class FailingHandler(CommandHandler[dict[str, object]]):
+        class FailingHandler(CommandHandlerPort[dict[str, object]]):
             async def handle(self, message: Command[dict[str, object]]) -> None:
                 raise RuntimeError("Handler exploded")
 

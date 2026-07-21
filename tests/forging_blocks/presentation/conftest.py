@@ -1,7 +1,7 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false, reportArgumentType=false
 """Shared test doubles for presentation-layer tests."""
 
-from forging_blocks.application.ports.inbound import UseCase
+from forging_blocks.application.ports.inbound import UseCasePort
 from forging_blocks.foundation import Error, ErrorMessage
 from forging_blocks.foundation.result import Err, Ok, Result
 from forging_blocks.presentation import RequestAdapter, ResponseAdapter
@@ -49,21 +49,21 @@ class FakeResponseAdapter(ResponseAdapter[str, DictResponse]):
         return DictResponse({"errors": messages}, status=status)
 
 
-class SuccessUseCase(UseCase[str, str]):
+class SuccessUseCase(UseCasePort[str, str]):
     """Returns the input unchanged."""
 
     async def execute(self, request: str) -> str:
         return f"processed:{request}"
 
 
-class ResultSuccessUseCase(UseCase[str, Result[str, object]]):
+class ResultSuccessUseCase(UseCasePort[str, Result[str, object]]):
     """Returns Ok(input)."""
 
     async def execute(self, request: str) -> Result[str, object]:
         return Ok(f"result:{request}")
 
 
-class ResultErrorUseCase(UseCase[str, Result[str, Error[dict[str, object]]]]):
+class ResultErrorUseCase(UseCasePort[str, Result[str, Error[dict[str, object]]]]):
     """Returns Err with a framework Error."""
 
     async def execute(self, request: str) -> Result[str, Error[dict[str, object]]]:
@@ -71,21 +71,21 @@ class ResultErrorUseCase(UseCase[str, Result[str, Error[dict[str, object]]]]):
         return Err(error)
 
 
-class ExceptionUseCase(UseCase[str, str]):
+class ExceptionUseCase(UseCasePort[str, str]):
     """Raises an exception."""
 
     async def execute(self, request: str) -> str:
         raise ValueError("Something broke")
 
 
-class DomainErrorUseCase(UseCase[str, str]):
+class DomainErrorUseCase(UseCasePort[str, str]):
     """Raises a framework Error."""
 
     async def execute(self, request: str) -> str:
         raise Error(ErrorMessage("Domain rule violated"))
 
 
-class NonExceptionErrorUseCase(UseCase[str, Result[str, str]]):
+class NonExceptionErrorUseCase(UseCasePort[str, Result[str, str]]):
     """Returns Err with a plain string (not a BaseException)."""
 
     async def execute(self, request: str) -> Result[str, str]:

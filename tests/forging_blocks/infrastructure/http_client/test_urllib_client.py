@@ -79,6 +79,20 @@ class TestURLLibClientUnit:
         for name in ("request", "get", "post", "put", "delete"):
             assert inspect.iscoroutinefunction(getattr(client, name)), f"{name} is not async"
 
+    @pytest.mark.parametrize(
+        "url",
+        [
+            "file:///etc/passwd",
+            "file:///C:/windows/win.ini",
+            "ftp://example.com/file",
+            "gopher://localhost/",
+            "data:text/plain,hello",
+        ],
+    )
+    async def test_request_rejects_non_http_schemes(self, client: URLLibClient, url: str) -> None:
+        with pytest.raises(ValueError, match="Disallowed URL scheme"):
+            await client.request("GET", url)
+
 
 @pytest.mark.integration
 class TestURLLibClientIntegration:
@@ -139,6 +153,13 @@ class TestURLLibClientIntegration:
 
         assert "method=DELETE" in result
         assert "bearer token123" in result.lower()
+
+    async def test_request_allows_http_schemes(
+        self, client: URLLibClient, echo_server: str
+    ) -> None:
+        """http and https should not be rejected by the scheme guard."""
+        result = await client.request("GET", f"{echo_server}/ok")
+        assert "method=GET" in result
 
     async def test_request_raw_method(self, client: URLLibClient, echo_server: str) -> None:
         result = await client.request("PATCH", f"{echo_server}/patch", body="raw")

@@ -13,17 +13,14 @@ from forging_blocks.infrastructure.file_system.os_file_system import OSFileSyste
 class TestFileSystemPort:
     """Tests for the FileSystemPort protocol."""
 
-    def test_filesystem_is_protocol(self) -> None:
-        """Test that FileSystemPort is a protocol."""
-        from typing import Protocol
+    def test_filesystem_is_abc(self) -> None:
+        """Test that FileSystemPort is an ABC."""
+        from abc import ABC as _ABC
 
-        assert isinstance(FileSystemPort, type(Protocol))
+        assert issubclass(FileSystemPort, _ABC)
 
     def test_filesystem_methods(self) -> None:
         """Test that FileSystemPort has required methods."""
-        from typing import Protocol
-
-        assert issubclass(FileSystemPort, Protocol)
         assert hasattr(FileSystemPort, "read")
         assert hasattr(FileSystemPort, "write")
         assert hasattr(FileSystemPort, "delete")

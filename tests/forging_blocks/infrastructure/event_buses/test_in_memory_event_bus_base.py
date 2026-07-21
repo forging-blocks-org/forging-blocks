@@ -5,7 +5,10 @@ from __future__ import annotations
 import pytest
 
 from forging_blocks.application.errors.event_bus_error import EventBusError
-from forging_blocks.application.ports.inbound.message_handler import CommandHandler, EventHandler
+from forging_blocks.application.ports.inbound.message_handler_port import (
+    CommandHandlerPort,
+    EventHandlerPort,
+)
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.infrastructure.event_buses.event_bus_base import EventBusBase
@@ -44,7 +47,7 @@ class TestInMemoryEventBusBase:
         """Test publishing an event to subscribers."""
         received_events: list[FakeEventWithValue] = []
 
-        class TestHandler(EventHandler[TestPayload]):
+        class TestHandler(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received_events.append(message)  # type: ignore[arg-type]
 
@@ -63,11 +66,11 @@ class TestInMemoryEventBusBase:
         received_1: list[str] = []
         received_2: list[str] = []
 
-        class Handler1(EventHandler[TestPayload]):
+        class Handler1(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received_1.append("handler1")
 
-        class Handler2(EventHandler[TestPayload]):
+        class Handler2(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received_2.append("handler2")
 
@@ -94,7 +97,7 @@ class TestInMemoryEventBusBase:
         """Test sending a command to its handler."""
         received_commands: list[SimpleFakeCommandWithValue] = []
 
-        class TestCmdHandler(CommandHandler[TestPayload]):
+        class TestCmdHandler(CommandHandlerPort[TestPayload]):
             async def handle(self, message: Command[TestPayload]) -> None:
                 received_commands.append(message)  # type: ignore[arg-type]
 
@@ -110,7 +113,7 @@ class TestInMemoryEventBusBase:
     ) -> None:
         """Sending a command whose handler raises returns ``EventBusError``."""
 
-        class FailingHandler(CommandHandler[TestPayload]):
+        class FailingHandler(CommandHandlerPort[TestPayload]):
             async def handle(self, message: Command[TestPayload]) -> None:
                 raise RuntimeError("Handler exploded")
 
