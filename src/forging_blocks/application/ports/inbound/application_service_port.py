@@ -1,24 +1,59 @@
-"""Inbound port for stateless application-service orchestrators."""
+"""Inbound application port for executing use cases and application services.
+
+Use cases and application services define the application's orchestration
+boundary: they coordinate domain operations to fulfill a specific
+application intent. They are pure application-blocks logic and must not
+depend on infrastructure details.
+
+Responsibilities:
+    - Orchestrate domain interactions.
+    - Call repositories, outbound ports, and aggregates.
+    - Maintain transactional consistency (via Unit of Work).
+
+Non-Responsibilities:
+    - Transport logic (HTTP, messaging systems).
+    - Persistence implementation details.
+    - UI or framework-specific concerns.
+"""
 
 from abc import abstractmethod
 
-from forging_blocks.foundation.ports import InboundPort, check_methods
-from forging_blocks.foundation.result import Result
+from forging_blocks.foundation.ports import InboundPort
 
 
 class ApplicationServicePort[RequestType, ResponseType](
     InboundPort,
 ):
-    """ABC for a stateless application-service orchestrator."""
+    """Inbound port for defining application use case operations.
+
+    A ``UseCasePort`` represents an application-level action that may
+    involve multiple domain objects and outbound interactions. Use cases
+    must remain free of infrastructure dependencies and must uphold
+    application-level invariants.
+    """
 
     @abstractmethod
-    async def execute(self, request: RequestType) -> Result[ResponseType, object]:
-        """Execute the business logic for *request*."""
+    async def execute(self, request: RequestType) -> ResponseType:
+        """Execute the use case asynchronously.
+
+        Args:
+            request: The request DTO carrying user or system input.
+
+        Returns:
+            A DTO or domain object representing the outcome.
+
+        Raises:
+            ApplicationError: If the use case fails for domain reasons.
+
+        Notes:
+            This method is asynchronous and should not perform blocking
+            operations.
+        """
         ...
 
-    @classmethod
-    def __subclasshook__(cls, subclass: type) -> bool:
-        """Structural check: any class with ``execute`` satisfies this port."""
-        if cls is ApplicationServicePort:
-            return check_methods(subclass, "execute")
-        return NotImplemented
+
+UseCasePort = ApplicationServicePort
+"""Type alias for ``ApplicationServicePort``.
+
+Both names refer to the same contract and are fully interchangeable.
+"""

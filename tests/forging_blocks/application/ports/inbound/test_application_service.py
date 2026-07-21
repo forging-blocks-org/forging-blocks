@@ -1,36 +1,38 @@
 import pytest
 
 from forging_blocks.application.ports.inbound.application_service_port import ApplicationServicePort
-from forging_blocks.foundation.result import Err, Ok
 
 
 @pytest.mark.unit
 class TestApplicationService:
-    async def test_when_implementation_returns_ok_then_is_ok(self) -> None:
-        class RegisterUserService:
-            async def execute(self, request: str) -> Ok[str, object]:
-                del request
-                return Ok("user-42")
+    async def test_execute_returns_direct_value(self) -> None:
+        """An implementation returns the response type directly (no Result wrapper)."""
+
+        class RegisterUserService(ApplicationServicePort[str, str]):
+            async def execute(self, request: str) -> str:
+                return f"created-{request}"
 
         service = RegisterUserService()
         assert isinstance(service, ApplicationServicePort)
+        assert await service.execute("alice") == "created-alice"
 
-        result = await service.execute("register")
-        assert result.is_ok
-        assert result.value == "user-42"
+    async def test_isinstance_requires_explicit_inheritance(self) -> None:
+        """Without explicit inheritance, isinstance is False —
+        there is no __subclasshook__ bypass."""
 
-    async def test_when_implementation_returns_err_then_is_err(self) -> None:
-        class FailingService:
-            async def execute(self, request: str) -> Err[object, str]:
+        class DuckTypedService:
+            async def execute(self, request: str) -> str:
                 del request
-                return Err("failed")
+                return "result"
 
-        result = await FailingService().execute("boom")
-        assert result.is_err
-        assert result.error == "failed"
+        assert not isinstance(DuckTypedService(), ApplicationServicePort)
 
-    async def test_when_protocol_not_implemented_then_not_instance(self) -> None:
-        class NotAService:
+    async def test_unimplemented_abstract_cannot_instantiate(self) -> None:
+        """A class that inherits but does not implement execute
+        cannot be instantiated."""
+
+        class IncompleteService(ApplicationServicePort[str, str]):
             pass
 
-        assert not isinstance(NotAService(), ApplicationServicePort)
+        with pytest.raises(TypeError, match="abstract"):
+            IncompleteService()  # pyright: ignore[reportAbstractUsage] — intentional runtime check

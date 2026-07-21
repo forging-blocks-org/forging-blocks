@@ -1,6 +1,6 @@
 """Module for inbound ports related to forging blocks application logic."""
 
-from .application_service_port import ApplicationServicePort
+from .application_service_port import ApplicationServicePort, UseCasePort
 from .authorization_port import AuthorizationPort
 from .message_handler_port import (
     CommandHandlerPort,
@@ -8,7 +8,6 @@ from .message_handler_port import (
     MessageHandlerPort,
     QueryHandlerPort,
 )
-from .use_case_port import UseCasePort
 from .validation_port import ValidationPort
 
 __all__ = [

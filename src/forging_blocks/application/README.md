@@ -11,7 +11,7 @@ It acts as a bridge between the domain block (business logic) and the outside wo
 application/
 ├── ports/
 │   ├── inbound/
-│   │   └── use_case_port.py         # Abstract base for use cases/handlers
+│   │   └── application_service_port.py   # Abstract base for use cases/handlers
 │   └── outbound/
 │       ├── event_publisher.py  # Contract for publishing integration events
 │       ├── notifier.py         # Contract for sending notifications
@@ -79,7 +79,7 @@ class CreateUserUseCase(UseCasePort[CreateUserRequest, CreateUserResponse]):
     """
 
 ```
-> `UseCasePort` is a Protocol — structural subtyping determines compatibility without
+> `UseCasePort` is a type alias for `ApplicationServicePort`, an ABC that requires
 > explicit inheritance. Use docstrings to document the intent of the execute method.
 
 ### 2. Implement the Use Case
