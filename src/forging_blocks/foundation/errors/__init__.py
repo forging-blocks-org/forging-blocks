@@ -1,5 +1,6 @@
 """ForgingBlocks foundation.errors package initialization."""
 
+from .architecture_error import ArchitectureError
 from .cant_modify_immutable_attribute_error import CantModifyImmutableAttributeError
 from .combined_errors import CombinedErrors
 from .core import ErrorMessage, ErrorMetadata, FieldReference
@@ -16,6 +17,7 @@ from .validation_error import (
 )
 
 __all__ = [
+    "ArchitectureError",
     "CombinedErrors",
     "CombinedRuleViolationErrors",
     "Error",
