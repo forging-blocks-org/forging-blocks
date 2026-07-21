@@ -56,6 +56,6 @@ class EventBusBase[EventPayloadType, CommandPayloadType](ABC):
 
         Args:
             message_type: The message class to handle.
-            handler: A handler instance (``EventHandler`` or ``CommandHandler``).
+            handler: A handler instance.
         """
         ...
