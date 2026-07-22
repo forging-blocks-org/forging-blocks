@@ -63,9 +63,9 @@ class EventPublisher[EventPayloadType](OutboundPort[Event[EventPayloadType], Non
         await self._message_bus.dispatch(event)   # ← real logic
 ```
 
-`Port`, `InboundPort`, and `OutboundPort` are **markers**, not
+`Port`, `InboundPort`, and `OutboundPort` are **marker ABCs**, not
 implementations. They convey semantic intent (this is an inbound/outbound
-boundary) and carry generic type parameters. They do not enforce or provide
+boundary) and define the lifecycle contract. They do not enforce or provide
 behavior.
 
 ### Custom ports in application code
@@ -301,7 +301,7 @@ class Order(AggregateRoot[UUID]):
 ```python
 from forging_blocks.application.ports.inbound.use_case import UseCase
 
-# Inbound port — still a Protocol
+# Inbound port — an ABC
 class CreateOrderUseCase(UseCase[CreateOrderRequest, CreateOrderResponse]):
     async def execute(self, request: CreateOrderRequest) -> CreateOrderResponse:
         ...
@@ -469,8 +469,8 @@ class MyPort[T](OutboundPort):
 
 ## Do NOT Flag These (Correct Patterns)
 
-- `class Foo[T](OutboundPort[T, None]):` — valid abstract port class
-- `class Foo[T](InboundPort[T, R]):` — same
+- `class Foo[T](OutboundPort):` — valid abstract port class
+- `class Foo[T](InboundPort):` — same
 - `async def method(self) -> None:` with docstring-only body — valid abstract method
 - `ABC` appearing at 2nd, 3rd, or deeper inheritance level — this is intentional
 - Applications subclassing `OutboundPort`/`InboundPort` for their own custom ports
