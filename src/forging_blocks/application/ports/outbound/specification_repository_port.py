@@ -1,4 +1,4 @@
-"""Specification-aware repository protocol.
+"""Specification-aware repository port.
 
 Extends ``ReadOnlyRepository`` with query methods that accept
 ``Specification`` predicates for in-memory filtering.
