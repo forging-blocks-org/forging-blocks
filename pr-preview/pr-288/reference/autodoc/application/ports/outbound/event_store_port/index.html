@@ -7099,7 +7099,7 @@
     <div class="doc doc-contents first">
 
         <p>Event store port for event-sourced aggregates.</p>
-<p>Defines the <code>EventStorePort</code> protocol for appending and retrieving<br />
+<p>Defines the <code>EventStorePort</code> contract for appending and retrieving<br />
 domain events. The interface is agnostic of storage backend — in-memory,<br />
 relational, or event-native implementations are all supported.</p>
 
@@ -7138,7 +7138,7 @@ relational, or event-native implementations are all supported.</p>
               Bases: <code><a class="autorefs autorefs-internal" title="OutboundPort (forging_blocks.foundation.ports.OutboundPort)" href="../../../../foundation/ports/_outbound_port/#forging_blocks.foundation.ports._outbound_port.OutboundPort">OutboundPort</a></code></p>
 
 
-        <p>Protocol for event stores that persist and retrieve domain events.</p>
+        <p>Abstract base class for event stores that persist and retrieve domain events.</p>
 
 
 <details class="responsibilities" open>
@@ -7245,7 +7245,7 @@ relational, or event-native implementations are all supported.</p>
 <span class="normal"><a href="#__codelineno-0-92">92</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventStorePort</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">](</span>
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>    <span class="n">OutboundPort</span><span class="p">,</span>
 </span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="p">):</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Protocol for event stores that persist and retrieve domain events.</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for event stores that persist and retrieve domain events.</span>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    Responsibilities:</span>
 </span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">        - Append domain events to an aggregate&#39;s event stream.</span>

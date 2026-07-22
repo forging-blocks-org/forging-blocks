@@ -7099,7 +7099,7 @@
     <div class="doc doc-contents first">
 
         <p>Event bus port for publishing events and sending commands.</p>
-<p>Defines the <code>EventBusPort</code> protocol for in-process message dispatch<br />
+<p>Defines the <code>EventBusPort</code> contract for in-process message dispatch<br />
 with separate policies for events (multi-handler fan-out) and commands<br />
 (single-handler routing).</p>
 
@@ -7138,7 +7138,7 @@ with separate policies for events (multi-handler fan-out) and commands<br />
               Bases: <code><a class="autorefs autorefs-internal" title="OutboundPort (forging_blocks.foundation.ports.OutboundPort)" href="../../../../foundation/ports/_outbound_port/#forging_blocks.foundation.ports._outbound_port.OutboundPort">OutboundPort</a></code></p>
 
 
-        <p>Protocol for event buses that publish events and send commands.</p>
+        <p>Abstract base class for event buses that publish events and send commands.</p>
 
 
 <details class="responsibilities" open>
@@ -7226,7 +7226,7 @@ with separate policies for events (multi-handler fan-out) and commands<br />
 <span class="normal"><a href="#__codelineno-0-72">72</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventBusPort</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">,</span> <span class="n">CommandPayloadType</span><span class="p">,</span> <span class="n">HandlerType</span><span class="p">](</span>
 </span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>    <span class="n">OutboundPort</span><span class="p">,</span>
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="p">):</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Protocol for event buses that publish events and send commands.</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for event buses that publish events and send commands.</span>
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">    Responsibilities:</span>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">        - Publish domain events to all registered handlers (fan-out).</span>
