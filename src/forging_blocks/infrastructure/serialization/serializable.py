@@ -6,11 +6,10 @@ infrastructure (JSON, database adapters, event stores) to work with any type
 that satisfies the protocol structurally — no base class required.
 """
 
-from collections.abc import Mapping
 from typing import Protocol, Self
 
 
-class Serializable[T: Mapping[str, object]](Protocol):
+class Serializable[T](Protocol):
     """Protocol for serializable objects.
 
     Types satisfying this protocol can be:
@@ -22,12 +21,12 @@ class Serializable[T: Mapping[str, object]](Protocol):
     without explicit registration or inheritance.
     """
 
-    def to_dict(self) -> dict[str, object]:
+    def to_dict(self) -> dict[str, T]:
         """Return a dictionary representation of this instance."""
         ...
 
     @classmethod
-    def from_dict(cls, data: dict[str, object]) -> Self:
+    def from_dict(cls, data: dict[str, T]) -> Self:
         """Create an instance from a dictionary representation.
 
         Args:

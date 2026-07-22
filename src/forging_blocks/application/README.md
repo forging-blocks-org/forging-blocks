@@ -29,7 +29,7 @@ application/
 │       ├── message_bus_port.py
 │       ├── notifier_port.py
 │       ├── query_fetcher_port.py
-│       ├── repository_port.py
+│       ├── repository_port/
 │       ├── specification_repository_port.py
 │       ├── transaction_manager_port.py
 │       └── unit_of_work_port.py

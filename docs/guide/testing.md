@@ -209,10 +209,10 @@ This lets you verify behavior without involving infrastructure.
 
 ```python
 from forging_blocks.foundation import Result
-from typing import Protocol
+from forging_blocks.foundation.ports import OutboundPort
 
 
-class IdGenerator(Protocol):
+class IdGenerator(OutboundPort):
     def generate(self) -> Result[str, str]:
         ...
 ```
@@ -230,7 +230,7 @@ A simple fake implementation:
 from forging_blocks.foundation import Result, Ok, Err
 
 
-class FakeIdGenerator:
+class FakeIdGenerator(IdGenerator):
     def __init__(self, ids: list[str]) -> None:
         self._ids = ids
 

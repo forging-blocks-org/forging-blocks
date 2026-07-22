@@ -89,6 +89,8 @@ exclude = [
   "**/.mypy_cache",
   "**/.ruff_cache",
   "**/node_modules",
+  "scripts/**",
+  "tests/**",
 ]
 executionEnvironments = [
   { root = "src" }

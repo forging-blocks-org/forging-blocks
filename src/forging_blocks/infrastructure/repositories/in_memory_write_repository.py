@@ -1,33 +1,35 @@
-"""In-memory write-only repository implementation.
+"""In-memory write-only repository backed by a dictionary.
 
-Provides a concrete implementation of WriteOnlyRepository backed by a
-dictionary for command-side operations in CQRS architectures.
+Provides a concrete implementation of WriteOnlyRepositoryPort for
+command-side operations in CQRS architectures. Storage is a plain
+dictionary keyed by entity identifier.
 """
 
-from collections.abc import MutableMapping
-from typing import Any
+from collections.abc import Mapping
+from typing import Any, cast
 
+from forging_blocks.application.ports.outbound.repository_port import WriteOnlyRepositoryPort
+from forging_blocks.foundation.errors.core import ErrorMessage
 from forging_blocks.foundation.identified import Identified
-from forging_blocks.infrastructure.repositories.base_repository import BaseWriteRepository
+from forging_blocks.infrastructure.errors.repository_errors import (
+    RepositoryError,
+    RepositoryNotFoundError,
+)
 
 
-class InMemoryWriteRepository[TWriteAggregateRoot: Identified[Any], TWriteId](
-    BaseWriteRepository[TWriteAggregateRoot, TWriteId],
-):
-    """In-memory implementation of WriteOnlyRepository for command operations.
+class InMemoryWriteRepository[TEntity: Identified[Any], TId](WriteOnlyRepositoryPort[TEntity, TId]):
+    """In-memory write-only repository backed by a dictionary.
 
-    Stores aggregates in a dictionary keyed by their identifier. Designed
-    for command-side usage in CQRS architectures.
+    Stores entities in a dictionary keyed by their identifier. Designed
+    for command-side usage in CQRS architectures or single-process contexts.
 
     The storage mapping is injected via the constructor and copied on init
     to ensure independence from external mutation.
     """
 
-    __slots__ = ()
-
     def __init__(
         self,
-        storage: MutableMapping[TWriteId, TWriteAggregateRoot] | None = None,
+        storage: Mapping[TId, TEntity] | None = None,
     ) -> None:
         """Initialize the write repository with optional external storage.
 
@@ -36,4 +38,61 @@ class InMemoryWriteRepository[TWriteAggregateRoot: Identified[Any], TWriteId](
                 If None, a new empty dictionary is used.
 
         """
-        super().__init__(storage)
+        super().__init__()
+        self._storage: dict[TId, TEntity] = dict(storage) if storage is not None else {}
+
+    async def delete_by_id(self, id: TId) -> None:
+        """Delete an entity by ID.
+
+        Args:
+            id: Unique identifier of the entity.
+
+        Raises:
+            RepositoryError: If the ID is None, an empty string,
+                or the boolean False.
+            RepositoryNotFoundError: If no entity exists with the given ID.
+
+        """
+        self._validate_id(id)
+        if id not in self._storage:
+            raise RepositoryNotFoundError.for_id(id)
+        del self._storage[id]
+
+    async def save(self, aggregate: TEntity) -> None:
+        """Persist an entity instance.
+
+        Args:
+            aggregate: The entity to save.
+
+        Raises:
+            RepositoryError: If the entity has no valid identifier
+                (None, empty string, or boolean False).
+
+        """
+        entity_id: TId = cast(TId, aggregate.id)
+        self._validate_id(entity_id)
+        self._storage[entity_id] = aggregate
+
+    @staticmethod
+    def _validate_id(identifier: object) -> None:
+        """Validate that an entity identifier is not None, empty, or False.
+
+        Mirrors the validation performed by
+        ``AggregateRoot._validate_identity`` so that the repository
+        independently guards against invalid identifiers.
+
+        Raises:
+            RepositoryError: If *identifier* is ``None``, an empty string
+                (``""``), or the boolean ``False``.
+
+        """
+        is_none = identifier is None
+        is_empty_string = identifier == ""
+        is_false = identifier is False
+
+        if is_none or is_empty_string or is_false:
+            raise RepositoryError(
+                ErrorMessage(
+                    "Invalid entity identifier (must not be None, empty string, or False)."
+                )
+            )

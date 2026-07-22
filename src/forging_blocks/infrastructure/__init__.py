@@ -4,8 +4,8 @@ Provides generic, reusable infrastructure building blocks implementing
 the outbound ports defined in the application layer. Includes in-memory
 adapters for repositories, event buses, event stores, message buses,
 caching, logging, file system, and HTTP; plus Serializable, abstract
-base classes (BaseRepository, EventStoreBase, EventBusBase), and
-infrastructure-level errors.
+base classes (EventStoreBase, EventBusBase), and infrastructure-level
+errors.
 """
 
 from .caching.in_memory_cache import InMemoryCache
@@ -29,10 +29,8 @@ from .message_bus.message_bus_event_publisher import MessageBusEventPublisher
 from .message_bus.message_bus_query_fetcher import MessageBusQueryFetcher
 from .repositories import (
     AggregateRepository,
-    BaseReadRepository,
-    BaseRepository,
-    BaseWriteRepository,
     InMemoryReadRepository,
+    InMemoryRepository,
     InMemoryWriteRepository,
 )
 from .serialization import Serializable
@@ -40,9 +38,6 @@ from .unit_of_work.in_memory_unit_of_work import InMemoryUnitOfWork
 
 __all__ = [
     "AggregateRepository",
-    "BaseReadRepository",
-    "BaseRepository",
-    "BaseWriteRepository",
     "EventBusBase",
     "EventStoreBase",
     "InMemoryCache",
@@ -52,6 +47,7 @@ __all__ = [
     "InMemoryEventStoreBase",
     "InMemoryMessageBus",
     "InMemoryReadRepository",
+    "InMemoryRepository",
     "InMemoryUnitOfWork",
     "InMemoryWriteRepository",
     "MessageBusCommandSender",
