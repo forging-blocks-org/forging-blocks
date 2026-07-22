@@ -9,8 +9,8 @@ that implement the outbound ports defined in the application layer.
 
 | Component | Description |
 |---|---|
-| `InMemoryReadRepository` | In-memory `ReadOnlyRepository` for query-side operations |
-| `InMemoryWriteRepository` | In-memory `WriteOnlyRepository` for command-side operations |
+| `InMemoryReadRepository` | In-memory `ReadOnlyRepositoryPort` for query-side operations |
+| `InMemoryWriteRepository` | In-memory `WriteOnlyRepositoryPort` for command-side operations |
 | `InMemoryUnitOfWork` | In-memory `UnitOfWork` for transactional consistency and event publication |
 | `InMemoryMessageBus` | In-memory `MessageBus` for intra-process message routing |
 | `RepositoryError` | Base error for repository operation failures |
