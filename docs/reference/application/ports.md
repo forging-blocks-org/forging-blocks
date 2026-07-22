@@ -1,37 +1,54 @@
 # Inbound and Outbound Ports
 
-Ports define the boundaries of the Application block — how it can be interacted with and what capabilities it depends on.
+Applications define their own ports by extending the foundation base classes —
+[`InboundPort`](../foundation/ports.md#inboundport) and
+[`OutboundPort`](../foundation/ports.md#outboundport) — which enforce dependency
+direction at class-definition time.
 
 ## Inbound Ports
 
-Inbound ports describe *what can be requested* from the application without exposing internal implementation details. They are invoked by the [Presentation](../presentation.md) block.
+Inbound ports define the **driving side** of the application. They describe *what
+can be requested* without exposing internal implementation details.
 
-- **Use Case** — A cohesive unit of behavior. Receives input, coordinates domain objects and outbound ports, returns a `Result`.
-- **Message Handler** — Reacts to a single message type (command, event, or query). Type aliases provide `CommandHandlerPort`, `EventHandlerPort`, and `QueryHandlerPort`.
-
-Both share the same contract: receive a typed input, return a typed output (or `None` for fire-and-forget handlers).
-
-## When to use
-
-Define an inbound port (extending `InboundPort`) for every system capability the outside world can invoke. Define an outbound port (extending `OutboundPort`) for every dependency the application needs. Ports are Protocols — any implementation that matches the shape satisfies the contract.
+- **`ApplicationServicePort`** (also available as `UseCasePort`) — A cohesive
+  unit of behavior. Receives a request DTO, coordinates domain objects and
+  outbound ports, returns a typed response.
+- **`MessageHandlerPort`** — Reacts to a single message type. Specialized concrete
+  subtypes: `CommandHandlerPort` (fire-and-forget commands), `EventHandlerPort`
+  (fire-and-forget events), and `QueryHandlerPort` (queries with results).
+- **`ValidationPort`** — Validates commands and queries against business rules,
+  returning structured `RuleViolationError` instances.
+- **`AuthorizationPort`** — Checks permissions, evaluates resource-level access
+  control, and retrieves effective user roles and permissions.
 
 ## Outbound Ports
 
-Outbound ports describe *what the application needs* from the outside world:
+Outbound ports define the **driven side** — *what the application needs* from the
+outside world. Infrastructure implements these.
 
-- **Repository Port** — Persistence abstraction (read-only, write-only, or read-write)
-- **Specification Repository Port** — Read repository with specification-based queries
-- **Unit of Work** — Transactional boundary across multiple operations
-- **Message Bus** — Dispatches commands, events, and queries
-- **Command Sender** — Fire-and-forget asynchronous commands
-- **Event Publisher** — Publishes domain events to consumers
-- **Event Store** — Append-only storage for event-sourced aggregates
-- **Query Fetcher** — Asynchronous data retrieval
-- **Cache Port** — Temporary key-value storage
-- **Logger Port** — Abstracted logging
-- **File System Port** — File read/write/delete operations
-- **External Service Port** — HTTP and remote API calls
-- **Notifier Port** — Asynchronous notification delivery
+- **`ReadOnlyRepositoryPort`**, **`WriteOnlyRepositoryPort`**, **`RepositoryPort`**
+  — Persistence abstraction. `RepositoryPort` combines read and write; the
+  separated variants support CQRS read/write splitting.
+- **`SpecificationRepositoryPort`** — Read repository with specification-based
+  queries.
+- **`UnitOfWorkPort`** — Transactional boundary across multiple operations.
+- **`TransactionManagerPort`** — Explicit transaction control (begin/commit/rollback)
+  with transactional function execution.
+- **`EventBusPort`** — In-process event publishing (multi-handler fan-out) and
+  command sending (single-handler routing).
+- **`MessageBusPort`** — Generic async dispatch for commands, queries, or events
+  via external transport (queues, brokers, in-memory routers).
+- **`EventStorePort`** — Append-only persistence for event-sourced aggregates
+  with optimistic concurrency.
+- **`CommandSenderPort`** — Async fire-and-forget command dispatch.
+- **`EventPublisherPort`** — Publishes domain events to external consumers.
+- **`QueryFetcherPort`** — Asynchronous data retrieval from remote sources.
+- **`CachePort`** — Temporary key-value storage.
+- **`LoggerPort`** — Abstracted structured logging.
+- **`FileSystemPort`** — File read/write/delete operations.
+- **`HttpClientPort`** — HTTP requests to external services (GET, POST, PUT, DELETE).
+- **`NotifierPort`** — Async notification delivery.
 
 !!! note "Ports and Adapters"
-    Outbound ports define *what* the application needs, never *how* it's implemented. Infrastructure provides the *how*.
+    Outbound ports define *what* the application needs, never *how* it's
+    implemented. Infrastructure provides the *how*.
