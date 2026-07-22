@@ -1,23 +1,3 @@
-## [1.0.0] - 2026-07-22
-
-### Features
-- **ports**: Enforce dependency direction with InboundPort/OutboundPort marker types
-- **ports**: Switch port contracts from Protocol to ABC for explicit inheritance
-- **ports**: Restructure repository ports into subdirectory package
-- **serialization**: Add generic type parameter to Serializable protocol
-
-### Bug Fixes
-- **autodoc**: Clean stale autodoc pages before regeneration
-- **docs**: Fix stale references, directory trees, and Protocol to ABC conversions
-- **docs**: Fix guide examples (parse_reciprocal, OutboundPort usage)
-- **docs**: Remove empty Notes section from docstring
-- **cov**: Confirm 100% coverage on forging_blocks (2124 stmts, 0 missed)
-
-### Refactor
-- **repositories**: Rename base_repository to InMemoryRepository, narrow type params
-- **infrastructure**: Replace type: ignore with cast(), update exports
-- **pyright**: Exclude tests/ and scripts/ from type checking
-
 ## [0.4.4] - 2026-07-02
 
 ### Features
