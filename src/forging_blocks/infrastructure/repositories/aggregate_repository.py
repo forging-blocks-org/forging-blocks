@@ -10,17 +10,16 @@ from uuid import UUID
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.infrastructure.event_stores.event_store_base import EventStoreBase
-from forging_blocks.infrastructure.repositories.base_repository import BaseRepository
+from forging_blocks.infrastructure.repositories.in_memory_repository import InMemoryRepository
 
 
 class AggregateRepository[
     EventPayloadType,
     TAggregateRoot: AggregateRoot[UUID, Any],
     TId: UUID,
-](BaseRepository[TAggregateRoot, TId]):
+](InMemoryRepository[TAggregateRoot, TId]):
     """RepositoryPort for AggregateRoot persistence with event sourcing.
-
-    Extends BaseRepository with event store integration for
+    Extends InMemoryRepository with event store integration for
     event-sourced aggregates.
 
     Type Parameters:
