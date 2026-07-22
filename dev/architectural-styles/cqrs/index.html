@@ -7011,8 +7011,8 @@ This page presents it as an <strong>architectural pattern</strong>, not a requir
 <h2 id="quick-summary">Quick summary<a class="headerlink" href="#quick-summary" title="Permanent link">&para;</a></h2>
 <p>Command Query Responsibility Segregation (CQRS) separates <strong>write behavior</strong> from <strong>read behavior</strong>. This page shows how <strong>ForgingBlocks concepts can be projected</strong> to support CQRS — <strong>not required</strong>.</p>
 <p>Mapping:<br />
-- <strong>Commands</strong> — Express intent to change state (<code>Command</code>, <code>CommandHandlerPort</code>, <code>WriteOnlyRepository</code>)<br />
-- <strong>Queries</strong> — Retrieve information (<code>Query</code>, <code>QueryHandlerPort</code>, <code>ReadOnlyRepository</code>)<br />
+- <strong>Commands</strong> — Express intent to change state (<code>Command</code>, <code>CommandHandlerPort</code>, <code>WriteOnlyRepositoryPort</code>)<br />
+- <strong>Queries</strong> — Retrieve information (<code>Query</code>, <code>QueryHandlerPort</code>, <code>ReadOnlyRepositoryPort</code>)<br />
 - <strong>Models may diverge</strong> over time (separate read/write stores with replication)</p>
 <p>Fits when: read/write workloads differ significantly; scalability dominates; eventual consistency acceptable.</p>
 <hr />
@@ -7031,7 +7031,7 @@ graph LR
     Client --&gt;|send| CommandHandlerPort[Command Handler]
     Client --&gt;|fetch| QueryHandlerPort[Query Handler]
     CommandHandlerPort --&gt;|save| WriteStore[Write Store&lt;br/&gt;RepositoryPort]
-    QueryHandlerPort --&gt;|get_by_id/list_all| ReadStore[Read Store&lt;br/&gt;ReadOnlyRepository]
+    QueryHandlerPort --&gt;|get_by_id/list_all| ReadStore[Read Store&lt;br/&gt;ReadOnlyRepositoryPort]
     WriteStore -.-&gt;|replicate| ReadStore</code></pre>
 <hr />
 <h2 id="when-this-style-fits">When this style fits<a class="headerlink" href="#when-this-style-fits" title="Permanent link">&para;</a></h2>

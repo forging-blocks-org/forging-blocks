@@ -7030,7 +7030,7 @@
 </ul>
 <p>Entities are appropriate when it is important to distinguish <em>which</em> instance is being referred to, even if its attributes change.</p>
 <h2 id="lifecycle">Lifecycle<a class="headerlink" href="#lifecycle" title="Permanent link">&para;</a></h2>
-<p>An Entity transitions through three states: draft (no ID), identified (ID assigned), and optionally deleted. The base class enforces that an ID, once set, cannot be changed or removed — violations raise <a href="../errors/">Domain Errors</a>.</p>
+<p>An Entity transitions through two states: draft (no ID) and identified (ID assigned). The base class enforces that an ID, once set, cannot be changed or removed — violations raise <a href="../errors/">Domain Errors</a>.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
 <p>Inherit from <code>Entity</code> when you need identity-based equality (<code>__eq__</code> / <code>__hash__</code> by ID) and the built-in lifecycle: draft → identified. The base class enforces that an ID, once set, cannot be changed or removed.</p>
 <div class="admonition note">
