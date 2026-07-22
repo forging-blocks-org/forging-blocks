@@ -8,6 +8,7 @@ for curated Guide or Reference documentation.
 from __future__ import annotations
 
 import re
+import shutil
 import sys
 from pathlib import Path
 
@@ -157,6 +158,9 @@ def main() -> None:
     if not SRC_DIR.exists():
         print(f"[ERROR] Source directory not found: {SRC_DIR}")
         sys.exit(1)
+
+    # Clean stale autodoc pages from renamed/deleted modules
+    shutil.rmtree(OUT_DIR, ignore_errors=True)
 
     files = [generate_markdown(p) for p in find_source_files(SRC_DIR)]
     ensure_autodoc_index(OUT_DIR)
