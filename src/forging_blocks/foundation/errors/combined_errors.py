@@ -18,6 +18,7 @@ class CombinedErrors[ErrorType: Error[dict[str, object]]](Error[dict[str, object
         Args:
             errors: The errors to aggregate. Stored internally as a
                 tuple to preserve the original collection.
+
         """
         self._errors: Sequence[ErrorType] = tuple(errors)
         combined_message = f"{len(self._errors)} errors occurred."

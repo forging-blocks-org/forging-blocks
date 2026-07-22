@@ -22,6 +22,7 @@ class FieldErrors[ContainedErrorType: Error[dict[str, object]]](Error[dict[str, 
 
         Raises:
             ValueError: If *errors* is empty or *field* is falsy.
+
         """
         self._field = field
         self._errors: Sequence[ContainedErrorType] = tuple(errors)

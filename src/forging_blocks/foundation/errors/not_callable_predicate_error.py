@@ -29,6 +29,7 @@ class NotCallablePredicateError[MetadataType: Mapping[str, object]](Error[Metada
         Traceback (most recent call last):
             ...
         NotCallablePredicateError: predicate must be Callable and not int
+
     """
 
     def __init__(
@@ -40,6 +41,7 @@ class NotCallablePredicateError[MetadataType: Mapping[str, object]](Error[Metada
         Args:
             predicate: The object that was provided as a predicate but is not callable.
                 The type name of this object will be included in the error message.
+
         """
         message = ErrorMessage(f"predicate must be Callable and not {type(predicate).__name__}")
         super().__init__(message)

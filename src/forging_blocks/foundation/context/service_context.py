@@ -16,6 +16,7 @@ class ServiceContext(ValueObject[tuple[Hashable, ...]]):
         permissions: The permissions held by the current user.
         metadata: Arbitrary key-value pairs for cross-cutting concerns
             (tracing, feature flags, tenant id, etc.).
+
     """
 
     __slots__ = (

@@ -81,6 +81,7 @@ class Result[ValueType, ErrorType](Protocol):
 
         Returns:
             The unwrapped success value if Ok; otherwise, `default`.
+
         """
         ...
 
@@ -99,5 +100,6 @@ class Result[ValueType, ErrorType](Protocol):
 
         Returns:
             The unwrapped success value if Ok; otherwise, the result of `fn(error)`.
+
         """
         ...

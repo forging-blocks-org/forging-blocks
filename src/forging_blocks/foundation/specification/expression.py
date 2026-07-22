@@ -25,6 +25,7 @@ class ExpressionSpecification[T](ComposableSpecification[T]):
         ...     lambda user: user.role == "admin", description="is_admin"
         ... )
         >>> active_admin = is_active & is_admin  # Uses inherited operator
+
     """
 
     __slots__ = ("_predicate", "_description")
@@ -42,6 +43,7 @@ class ExpressionSpecification[T](ComposableSpecification[T]):
 
         Raises:
             NotCallablePredicateError: If predicate is not callable.
+
         """
         if not callable(predicate):
             raise NotCallablePredicateError(predicate)
@@ -57,6 +59,7 @@ class ExpressionSpecification[T](ComposableSpecification[T]):
 
         Returns:
             The result of calling self._predicate(candidate).
+
         """
         return self._predicate(candidate)
 

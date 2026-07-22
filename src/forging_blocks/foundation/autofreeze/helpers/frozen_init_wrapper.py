@@ -39,6 +39,7 @@ class FrozenInitWrapper:
             target_class: The class being decorated.
             freeze_attrs: Attribute names for selective freezing, or
                 ``None`` for full freeze.
+
         """
         self.original_init = original_init
         self.target_class = target_class
@@ -49,6 +50,7 @@ class FrozenInitWrapper:
 
         Returns:
             A callable to assign to ``cls.__init__``.
+
         """
 
         @wraps(self.original_init)

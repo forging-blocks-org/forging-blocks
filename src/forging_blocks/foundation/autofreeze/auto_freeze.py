@@ -49,6 +49,7 @@ Example:
         def name(self) -> str:
             return self._name
     ```
+
 """
 
 from collections.abc import Callable, Sequence
@@ -83,6 +84,7 @@ class _AutoFreezeDecorator:
             attrs: Attribute names to selectively freeze. When ``None``
                 (the default), the entire instance is frozen. When provided,
                 only those attributes are frozen.
+
         """
         self._attrs = attrs
 
@@ -98,6 +100,7 @@ class _AutoFreezeDecorator:
 
         Returns:
             The decorated class (may be the original if already decorated).
+
         """
         if FrozenStateManager.is_decorated(class_.__init__):
             return class_
@@ -153,6 +156,7 @@ def auto_freeze[T](
     Returns:
         The decorated class if *class_* is provided; otherwise a callable
         that can be used as a decorator.
+
     """
     decorator = _AutoFreezeDecorator(attrs=attrs)
 
