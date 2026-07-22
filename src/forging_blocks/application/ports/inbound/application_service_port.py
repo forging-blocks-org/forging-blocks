@@ -26,7 +26,7 @@ class ApplicationServicePort[RequestType, ResponseType](
 ):
     """Inbound port for defining application use case operations.
 
-    A ``UseCasePort`` represents an application-level action that may
+    A ``ApplicationServicePort`` represents an application-level action that may
     involve multiple domain objects and outbound interactions. Use cases
     must remain free of infrastructure dependencies and must uphold
     application-level invariants.
