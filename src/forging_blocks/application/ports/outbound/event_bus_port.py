@@ -1,6 +1,6 @@
 """Event bus port for publishing events and sending commands.
 
-Defines the ``EventBusPort`` protocol for in-process message dispatch
+Defines the ``EventBusPort`` contract for in-process message dispatch
 with separate policies for events (multi-handler fan-out) and commands
 (single-handler routing).
 """
@@ -17,7 +17,7 @@ from forging_blocks.foundation.result import Result
 class EventBusPort[EventPayloadType, CommandPayloadType, HandlerType](
     OutboundPort,
 ):
-    """Protocol for event buses that publish events and send commands.
+    """Abstract base class for event buses that publish events and send commands.
 
     Responsibilities:
         - Publish domain events to all registered handlers (fan-out).
