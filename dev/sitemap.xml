@@ -209,10 +209,6 @@
          <lastmod>2026-07-22</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/repository_port/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/specification_repository_port/</loc>
          <lastmod>2026-07-22</lastmod>
     </url>
@@ -222,6 +218,18 @@
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/unit_of_work_port/</loc>
+         <lastmod>2026-07-22</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/repository_port/_read_only_repository_port/</loc>
+         <lastmod>2026-07-22</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/repository_port/_repository_port/</loc>
+         <lastmod>2026-07-22</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/repository_port/_write_only_repository_port/</loc>
          <lastmod>2026-07-22</lastmod>
     </url>
     <url>
@@ -533,11 +541,11 @@
          <lastmod>2026-07-22</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/repositories/base_repository/</loc>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/repositories/in_memory_read_repository/</loc>
          <lastmod>2026-07-22</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/repositories/in_memory_read_repository/</loc>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/repositories/in_memory_repository/</loc>
          <lastmod>2026-07-22</lastmod>
     </url>
     <url>

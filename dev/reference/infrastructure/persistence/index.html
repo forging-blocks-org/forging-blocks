@@ -2509,29 +2509,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../autodoc/application/ports/outbound/repository_port/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Repository Port
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../autodoc/application/ports/outbound/specification_repository_port/" class="md-nav__link">
         
   
@@ -2584,6 +2561,126 @@
   
   <span class="md-ellipsis">
     Unit Of Work Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_1_4" id="__nav_3_8_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ports / Outbound / Repository Port
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Ports / Outbound / Repository Port
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../autodoc/application/ports/outbound/repository_port/_read_only_repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Read Only Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../autodoc/application/ports/outbound/repository_port/_repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../autodoc/application/ports/outbound/repository_port/_write_only_repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Write Only Repository Port
     
   </span>
   
@@ -5749,12 +5846,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../autodoc/infrastructure/repositories/base_repository/" class="md-nav__link">
+      <a href="../../autodoc/infrastructure/repositories/in_memory_read_repository/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Base Repository
+    In Memory Read Repository
     
   </span>
   
@@ -5772,12 +5869,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../autodoc/infrastructure/repositories/in_memory_read_repository/" class="md-nav__link">
+      <a href="../../autodoc/infrastructure/repositories/in_memory_repository/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    In Memory Read Repository
+    In Memory Repository
     
   </span>
   
@@ -7023,7 +7120,7 @@
 <h2 id="repositories">Repositories<a class="headerlink" href="#repositories" title="Permanent link">&para;</a></h2>
 <p>Repositories bridge domain aggregates and persistence.</p>
 <ul>
-<li><strong>Base Repository</strong> — Shared identity-keyed storage: <code>get</code>, <code>add</code>, <code>remove</code>, <code>contains</code></li>
+<li><strong>InMemory Repository</strong> — Shared identity-keyed storage: <code>get_by_id</code>, <code>save</code>, <code>delete_by_id</code></li>
 <li><strong>In-Memory Write Repository</strong> — Dictionary-backed append-only store for testing</li>
 <li><strong>In-Memory Read Repository</strong> — Query-oriented read store for CQRS projections</li>
 <li><strong>Aggregate Repository</strong> — Integrates with <code>UnitOfWorkPort</code> and <code>EventBusPort</code>; tracks new/dirty aggregates</li>
@@ -7031,7 +7128,7 @@
 <h2 id="unit-of-work">Unit of Work<a class="headerlink" href="#unit-of-work" title="Permanent link">&para;</a></h2>
 <p>Manages a transactional boundary around repository operations. Tracks new and dirty aggregates, flushes events on commit, provides <code>commit</code>/<code>rollback</code> semantics.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Use the in-memory implementations for tests and development — no external dependencies. <code>BaseRepository</code> gives you <code>get</code>/<code>add</code>/<code>remove</code> for free; extend it for domain-specific queries. Use <code>AggregateRepository</code> when you need <code>UnitOfWorkPort</code> integration and event publishing.</p>
+<p>Use the in-memory implementations for tests and development — no external dependencies. <code>InMemoryRepository</code> gives you <code>get_by_id</code>/<code>save</code>/<code>delete_by_id</code>; extend it for domain-specific queries. Use <code>AggregateRepository</code> when you need <code>UnitOfWorkPort</code> integration and event publishing.</p>
 <p>Multiple repository operations within a single use case are treated as one atomic unit.</p>
 
 

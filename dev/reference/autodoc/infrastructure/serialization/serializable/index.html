@@ -2440,29 +2440,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../application/ports/outbound/repository_port/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Repository Port
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../../application/ports/outbound/specification_repository_port/" class="md-nav__link">
         
   
@@ -2515,6 +2492,126 @@
   
   <span class="md-ellipsis">
     Unit Of Work Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_1_4" id="__nav_3_8_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ports / Outbound / Repository Port
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Ports / Outbound / Repository Port
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../application/ports/outbound/repository_port/_read_only_repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Read Only Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../application/ports/outbound/repository_port/_repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Repository Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../application/ports/outbound/repository_port/_write_only_repository_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Write Only Repository Port
     
   </span>
   
@@ -5682,12 +5779,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../repositories/base_repository/" class="md-nav__link">
+      <a href="../../repositories/in_memory_read_repository/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Base Repository
+    In Memory Read Repository
     
   </span>
   
@@ -5705,12 +5802,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../repositories/in_memory_read_repository/" class="md-nav__link">
+      <a href="../../repositories/in_memory_repository/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    In Memory Read Repository
+    In Memory Repository
     
   </span>
   
@@ -7143,7 +7240,8 @@ without explicit registration or inheritance.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/forging_blocks/infrastructure/serialization/serializable.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-13">13</a></span>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
 <span class="normal"><a href="#__codelineno-0-14">14</a></span>
 <span class="normal"><a href="#__codelineno-0-15">15</a></span>
 <span class="normal"><a href="#__codelineno-0-16">16</a></span>
@@ -7169,35 +7267,34 @@ without explicit registration or inheritance.</p>
 <span class="normal"><a href="#__codelineno-0-36">36</a></span>
 <span class="normal"><a href="#__codelineno-0-37">37</a></span>
 <span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="k">class</span><span class="w"> </span><span class="nc">Serializable</span><span class="p">[</span><span class="n">T</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]](</span><span class="n">Protocol</span><span class="p">):</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Protocol for serializable objects.</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">    Types satisfying this protocol can be:</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">      - serialised to a dictionary via ``to_dict()``.</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">      - deserialised from a dictionary via ``from_dict()``.</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    The protocol is structural — any class that defines ``to_dict`` and</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    ``from_dict`` with matching signatures satisfies it automatically,</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">    without explicit registration or inheritance.</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a dictionary representation of this instance.&quot;&quot;&quot;</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>        <span class="o">...</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="nd">@classmethod</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an instance from a dictionary representation.</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        Args:</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">            data: Dictionary containing the serialised representation.</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">        Returns:</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">            A new instance reconstituted from *data*.</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="k">class</span><span class="w"> </span><span class="nc">Serializable</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Protocol for serializable objects.</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="sd">    Types satisfying this protocol can be:</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">      - serialised to a dictionary via ``to_dict()``.</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">      - deserialised from a dictionary via ``from_dict()``.</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    The protocol is structural — any class that defines ``to_dict`` and</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    ``from_dict`` with matching signatures satisfies it automatically,</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    without explicit registration or inheritance.</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a dictionary representation of this instance.&quot;&quot;&quot;</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>        <span class="o">...</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an instance from a dictionary representation.</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">            data: Dictionary containing the serialised representation.</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">            A new instance reconstituted from *data*.</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>        <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -7218,7 +7315,7 @@ without explicit registration or inheritance.</p>
 
 
 <h4 id="forging_blocks.infrastructure.serialization.serializable.Serializable.to_dict" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">to_dict</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span></code>
+            <code class="highlight language-python"><span class="n">to_dict</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span></code>
 
 <a href="#forging_blocks.infrastructure.serialization.serializable.Serializable.to_dict" class="headerlink" title="Permanent link">&para;</a></h4>
 
@@ -7230,11 +7327,11 @@ without explicit registration or inheritance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/forging_blocks/infrastructure/serialization/serializable.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a dictionary representation of this instance.&quot;&quot;&quot;</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="o">...</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="p">]:</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a dictionary representation of this instance.&quot;&quot;&quot;</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -7245,7 +7342,7 @@ without explicit registration or inheritance.</p>
 
 
 <h4 id="forging_blocks.infrastructure.serialization.serializable.Serializable.from_dict" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span></code>
+            <code class="highlight language-python"><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
@@ -7275,7 +7372,7 @@ without explicit registration or inheritance.</p>
                 <code>data</code>
             </td>
             <td>
-                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="object">object</span>]</code>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="forging_blocks.infrastructure.serialization.serializable.Serializable[T]">T</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -7315,7 +7412,8 @@ without explicit registration or inheritance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/forging_blocks/infrastructure/serialization/serializable.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-29">29</a></span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
 <span class="normal"><a href="#__codelineno-0-30">30</a></span>
 <span class="normal"><a href="#__codelineno-0-31">31</a></span>
 <span class="normal"><a href="#__codelineno-0-32">32</a></span>
@@ -7325,19 +7423,18 @@ without explicit registration or inheritance.</p>
 <span class="normal"><a href="#__codelineno-0-36">36</a></span>
 <span class="normal"><a href="#__codelineno-0-37">37</a></span>
 <span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="nd">@classmethod</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an instance from a dictionary representation.</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        data: Dictionary containing the serialised representation.</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        A new instance reconstituted from *data*.</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="nd">@classmethod</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an instance from a dictionary representation.</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        data: Dictionary containing the serialised representation.</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">        A new instance reconstituted from *data*.</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
