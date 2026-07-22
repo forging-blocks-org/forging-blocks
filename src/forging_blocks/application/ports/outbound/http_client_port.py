@@ -23,8 +23,7 @@ class HttpClientPort[RequestType, ResponseType](
 ):
     """ABC for making HTTP requests to external services.
 
-    Any object with the async ``request``, ``get``, ``post``, ``put``,
-    and ``delete`` methods satisfies this protocol — no inheritance required.
+    Infrastructure implementations must explicitly inherit this class.
 
     Type Parameters:
         RequestType: The type of the request body.
