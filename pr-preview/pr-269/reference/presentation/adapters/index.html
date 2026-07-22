@@ -7056,7 +7056,7 @@
 <h2 id="presentation-adapter">Presentation Adapter<a class="headerlink" href="#presentation-adapter" title="Permanent link">&para;</a></h2>
 <p><code>PresentationAdapter</code> orchestrates the full request/response lifecycle:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>1. RequestAdapter.adapt(raw)  → use-case input
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>2. UseCasePort.execute(input)     → output or Result
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>2. ApplicationServicePort.execute(input)     → output or Result
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>3a. Success  → ResponseAdapter.adapt(output)
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>3b. Err/Exception → ErrorPresenter → ErrorStatusCodeMapper → ResponseAdapter.adapt_error()
 </span></code></pre></div>

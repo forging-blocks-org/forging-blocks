@@ -1456,12 +1456,63 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Inbound Ports">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#applicationserviceportrequesttype-responsetype" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApplicationServicePort[RequestType, ResponseType]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#messagehandlerportmessagetype-messagehandlerresulttype" class="md-nav__link">
+    <span class="md-ellipsis">
+      MessageHandlerPort[MessageType, MessageHandlerResultType]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validationport" class="md-nav__link">
+    <span class="md-ellipsis">
+      ValidationPort
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authorizationport" class="md-nav__link">
+    <span class="md-ellipsis">
+      AuthorizationPort
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
   <a href="#outbound-ports" class="md-nav__link">
     <span class="md-ellipsis">
       Outbound Ports
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generic-type-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic type parameters
     </span>
   </a>
   
@@ -6966,12 +7017,63 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Inbound Ports">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#applicationserviceportrequesttype-responsetype" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApplicationServicePort[RequestType, ResponseType]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#messagehandlerportmessagetype-messagehandlerresulttype" class="md-nav__link">
+    <span class="md-ellipsis">
+      MessageHandlerPort[MessageType, MessageHandlerResultType]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validationport" class="md-nav__link">
+    <span class="md-ellipsis">
+      ValidationPort
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authorizationport" class="md-nav__link">
+    <span class="md-ellipsis">
+      AuthorizationPort
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
   <a href="#outbound-ports" class="md-nav__link">
     <span class="md-ellipsis">
       Outbound Ports
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generic-type-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic type parameters
     </span>
   </a>
   
@@ -7009,18 +7111,40 @@ direction at class-definition time.</p>
 <h2 id="inbound-ports">Inbound Ports<a class="headerlink" href="#inbound-ports" title="Permanent link">&para;</a></h2>
 <p>Inbound ports define the <strong>driving side</strong> of the application. They describe <em>what<br />
 can be requested</em> without exposing internal implementation details.</p>
-<ul>
-<li><strong><code>ApplicationServicePort</code></strong> (also available as <code>UseCasePort</code>) — A cohesive<br />
-  unit of behavior. Receives a request DTO, coordinates domain objects and<br />
-  outbound ports, returns a typed response.</li>
-<li><strong><code>MessageHandlerPort</code></strong> — Reacts to a single message type. Specialized concrete<br />
-  subtypes: <code>CommandHandlerPort</code> (fire-and-forget commands), <code>EventHandlerPort</code><br />
-  (fire-and-forget events), and <code>QueryHandlerPort</code> (queries with results).</li>
-<li><strong><code>ValidationPort</code></strong> — Validates commands and queries against business rules,<br />
-  returning structured <code>RuleViolationError</code> instances.</li>
-<li><strong><code>AuthorizationPort</code></strong> — Checks permissions, evaluates resource-level access<br />
-  control, and retrieves effective user roles and permissions.</li>
-</ul>
+<h3 id="applicationserviceportrequesttype-responsetype">ApplicationServicePort[RequestType, ResponseType]<a class="headerlink" href="#applicationserviceportrequesttype-responsetype" title="Permanent link">&para;</a></h3>
+<p>(Also available as <code>UseCasePort</code>.) A cohesive unit of behavior. Receives a request<br />
+DTO, coordinates domain objects and outbound ports, returns a typed response.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">CreateOrder</span><span class="p">(</span><span class="n">ApplicationServicePort</span><span class="p">[</span><span class="n">CreateOrderRequest</span><span class="p">,</span> <span class="n">Result</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">OrderError</span><span class="p">]]):</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">CreateOrderRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">OrderError</span><span class="p">]:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<h3 id="messagehandlerportmessagetype-messagehandlerresulttype">MessageHandlerPort[MessageType, MessageHandlerResultType]<a class="headerlink" href="#messagehandlerportmessagetype-messagehandlerresulttype" title="Permanent link">&para;</a></h3>
+<p>Reacts to a single message type. Specialized concrete subtypes below.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyHandler</span><span class="p">(</span><span class="n">MessageHandlerPort</span><span class="p">[</span><span class="n">MyMessage</span><span class="p">,</span> <span class="n">MyResult</span><span class="p">]):</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">MyMessage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MyResult</span><span class="p">:</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<p><strong><code>CommandHandlerPort[CommandPayloadType]</code></strong> — Fire-and-forget commands (result fixed to <code>None</code>).</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ShipOrder</span><span class="p">(</span><span class="n">CommandHandlerPort</span><span class="p">[</span><span class="n">ShipOrderPayload</span><span class="p">]):</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Command</span><span class="p">[</span><span class="n">ShipOrderPayload</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<p><strong><code>EventHandlerPort[EventPayloadType]</code></strong> — Fire-and-forget domain events.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">OrderShippedHandler</span><span class="p">(</span><span class="n">EventHandlerPort</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]):</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<p><strong><code>QueryHandlerPort[QueryPayloadType, QueryResultType]</code></strong> — Queries with a return value.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">GetOrderHandler</span><span class="p">(</span><span class="n">QueryHandlerPort</span><span class="p">[</span><span class="n">GetOrderPayload</span><span class="p">,</span> <span class="n">OrderDTO</span><span class="p">]):</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">Query</span><span class="p">[</span><span class="n">GetOrderPayload</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">OrderDTO</span><span class="p">:</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<h3 id="validationport">ValidationPort<a class="headerlink" href="#validationport" title="Permanent link">&para;</a></h3>
+<p>Validates commands and queries against business rules, returning structured<br />
+<code>RuleViolationError</code> instances. No generic type parameters.</p>
+<h3 id="authorizationport">AuthorizationPort<a class="headerlink" href="#authorizationport" title="Permanent link">&para;</a></h3>
+<p>Checks permissions, evaluates resource-level access control, and retrieves<br />
+effective user roles and permissions. No generic type parameters.</p>
 <h2 id="outbound-ports">Outbound Ports<a class="headerlink" href="#outbound-ports" title="Permanent link">&para;</a></h2>
 <p>Outbound ports define the <strong>driven side</strong> — <em>what the application needs</em> from the<br />
 outside world. Infrastructure implements these.</p>
@@ -7053,6 +7177,28 @@ outside world. Infrastructure implements these.</p>
 <p>Outbound ports define <em>what</em> the application needs, never <em>how</em> it's<br />
 implemented. Infrastructure provides the <em>how</em>.</p>
 </div>
+<h2 id="generic-type-parameters">Generic type parameters<a class="headerlink" href="#generic-type-parameters" title="Permanent link">&para;</a></h2>
+<p>Application port classes carry generic type parameters with <strong>no defaults</strong>.<br />
+Type arguments must be supplied at the point of inheritance:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># ApplicationServicePort — 2 required type args</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyUseCase</span><span class="p">(</span><span class="n">ApplicationServicePort</span><span class="p">[</span><span class="n">MyRequest</span><span class="p">,</span> <span class="n">MyResponse</span><span class="p">]):</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="o">...</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># MessageHandlerPort — 2 required type args</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyHandler</span><span class="p">(</span><span class="n">MessageHandlerPort</span><span class="p">[</span><span class="n">MyMessage</span><span class="p">,</span> <span class="n">MyResult</span><span class="p">]):</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="o">...</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># CommandHandlerPort — 1 required type arg (result fixed to None)</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyCmdHandler</span><span class="p">(</span><span class="n">CommandHandlerPort</span><span class="p">[</span><span class="n">MyCommandPayload</span><span class="p">]):</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="o">...</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># RepositoryPort — 2 required type args</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyRepo</span><span class="p">(</span><span class="n">RepositoryPort</span><span class="p">[</span><span class="n">MyAggregate</span><span class="p">,</span> <span class="n">MyId</span><span class="p">]):</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="o">...</span>
+</span></code></pre></div>
+<p>Omitting type arguments (e.g. <code>class Foo(ApplicationServicePort):</code>) will<br />
+trigger type-checker errors. Always specify them when inheriting from<br />
+generic port classes.</p>
 
 
 

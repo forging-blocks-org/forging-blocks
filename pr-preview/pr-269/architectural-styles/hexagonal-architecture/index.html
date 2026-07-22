@@ -7012,7 +7012,7 @@ This page presents it as an <strong>interpretation</strong> of responsibilities 
 <p>Hexagonal Architecture (Ports and Adapters) emphasizes separation between core behavior and external systems. This page shows how <strong>ForgingBlocks concepts can be projected</strong> onto this arrangement — <strong>not enforced</strong>.</p>
 <p>Mapping:<br />
 - <strong>Core</strong> — Domain (business rules) + Application (Use Cases, Handlers)<br />
-- <strong>Inbound Ports</strong> — Define how behavior is triggered (UseCasePort, MessageHandlerPort)<br />
+- <strong>Inbound Ports</strong> — Define how behavior is triggered (ApplicationServicePort, MessageHandlerPort)<br />
 - <strong>Outbound Ports</strong> — Define required external capabilities (RepositoryPort, MessageBusPort, UnitOfWorkPort)<br />
 - <strong>Adapters</strong> — Implement ports (Infrastructure: SQL repos, message brokers, HTTP clients)<br />
 - <strong>Dependencies point toward the core</strong></p>

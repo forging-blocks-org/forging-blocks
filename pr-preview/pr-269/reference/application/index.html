@@ -7080,7 +7080,7 @@
 <hr />
 <h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
 <p>The Application block sits between the outside world and the Domain as a behavioral boundary.</p>
-<p><strong>UseCasePort flow:</strong><br />
+<p><strong>ApplicationServicePort flow:</strong><br />
 1. Receives a request through an inbound port.<br />
 2. Coordinates domain objects.<br />
 3. Invokes outbound ports for persistence or side effects.<br />
@@ -7092,7 +7092,7 @@
 <p>Wire up a use case step by step:</p>
 <ol>
 <li>Define an inbound port for each system capability.</li>
-<li>Implement it as a <code>UseCasePort</code> class.</li>
+<li>Implement it as a <code>ApplicationServicePort</code> class.</li>
 <li>Inject outbound ports through the constructor — repositories, event buses, loggers.</li>
 <li>Return <code>Result[OutputType, Error]</code> so callers handle both paths explicitly.</li>
 </ol>

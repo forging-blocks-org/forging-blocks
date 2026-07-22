@@ -7050,7 +7050,11 @@
 <p>A Use Case orchestrates domain behavior and outbound interactions, keeping policy separate from details. It does not contain business rules itself.</p>
 </div>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Implement <code>UseCasePort</code> for any system capability that coordinates domain objects and outbound ports. Return <code>Result[OutputType, Error]</code> so callers handle both outcomes. Keep the class thin — it orchestrates, domain objects decide.</p>
+<p>Implement <code>ApplicationServicePort</code> for any system capability that coordinates domain objects and outbound ports. Return <code>Result[OutputType, Error]</code> so callers handle both outcomes. Keep the class thin — it orchestrates, domain objects decide.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">CreateOrderUseCase</span><span class="p">(</span><span class="n">ApplicationServicePort</span><span class="p">[</span><span class="n">CreateOrderRequest</span><span class="p">,</span> <span class="n">Result</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">OrderError</span><span class="p">]]):</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">CreateOrderRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">OrderError</span><span class="p">]:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        <span class="o">...</span>
+</span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Influence: Ivar Jacobson</p>
 <p>The focus on use cases as units of behavior originates from Ivar Jacobson's work. ForgingBlocks provides a structured, type-safe contract for executing them.</p>
