@@ -6,7 +6,7 @@ dictionary keyed by entity identifier.
 """
 
 from collections.abc import Mapping
-from typing import Any
+from typing import Any, cast
 
 from forging_blocks.application.ports.outbound.repository_port import WriteOnlyRepositoryPort
 from forging_blocks.foundation.errors.core import ErrorMessage
@@ -41,7 +41,7 @@ class InMemoryWriteRepository[TEntity: Identified[Any], TId](WriteOnlyRepository
         super().__init__()
         self._storage: dict[TId, TEntity] = dict(storage) if storage is not None else {}
 
-    async def delete_by_id(self, id: TId) -> None:  # noqa: A002
+    async def delete_by_id(self, id: TId) -> None:
         """Delete an entity by ID.
 
         Args:
@@ -69,7 +69,7 @@ class InMemoryWriteRepository[TEntity: Identified[Any], TId](WriteOnlyRepository
                 (None, empty string, or boolean False).
 
         """
-        entity_id: TId = aggregate.id  # type: ignore[assignment]
+        entity_id: TId = cast(TId, aggregate.id)
         self._validate_id(entity_id)
         self._storage[entity_id] = aggregate
 
