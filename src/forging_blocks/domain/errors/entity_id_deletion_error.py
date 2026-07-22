@@ -12,6 +12,7 @@ class EntityIdDeletionError(Error[dict[str, object]]):
 
         Args:
             class_name: Name of the class whose identifier was targeted for deletion.
+
         """
         message = ErrorMessage(
             f"Cannot delete 'id' of {class_name} as it defines the entity's identity."

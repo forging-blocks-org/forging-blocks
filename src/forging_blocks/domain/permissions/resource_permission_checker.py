@@ -11,6 +11,7 @@ class ResourcePermissionChecker:
         resource_permissions: A dictionary mapping resource-type names
             (``str``) to the list of :class:`Permission` values allowed
             for that resource type.
+
     """
 
     __match_args__ = ("_resource_permissions",)

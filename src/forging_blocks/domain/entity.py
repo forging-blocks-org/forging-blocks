@@ -77,6 +77,7 @@ class Entity[TId: Hashable](ABC):
 
         Raises:
             DraftEntityIsNotHashableError: If the entity is a draft (id is None).
+
         """
         if self._id is None:
             raise DraftEntityIsNotHashableError.from_class_name(self.__class__.__name__)
