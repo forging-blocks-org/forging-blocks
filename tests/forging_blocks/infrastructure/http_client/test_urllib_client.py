@@ -95,6 +95,7 @@ def https_echo_server():
     )
 
     ssl_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    ssl_ctx.minimum_version = ssl.TLSVersion.TLSv1_2
     ssl_ctx.load_cert_chain(cert_path, key_path)
 
     # Clean up temp files immediately — SSL context has them in memory
