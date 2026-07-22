@@ -1459,15 +1459,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#when-to-use" class="md-nav__link">
-    <span class="md-ellipsis">
-      When to use
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#outbound-ports" class="md-nav__link">
     <span class="md-ellipsis">
       Outbound Ports
@@ -6978,15 +6969,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#when-to-use" class="md-nav__link">
-    <span class="md-ellipsis">
-      When to use
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#outbound-ports" class="md-nav__link">
     <span class="md-ellipsis">
       Outbound Ports
@@ -7020,36 +7002,56 @@
 
 
 <h1 id="inbound-and-outbound-ports">Inbound and Outbound Ports<a class="headerlink" href="#inbound-and-outbound-ports" title="Permanent link">&para;</a></h1>
-<p>Ports define the boundaries of the Application block — how it can be interacted with and what capabilities it depends on.</p>
+<p>Applications define their own ports by extending the foundation base classes —<br />
+<a href="../../foundation/ports/#inboundport"><code>InboundPort</code></a> and<br />
+<a href="../../foundation/ports/#outboundport"><code>OutboundPort</code></a> — which enforce dependency<br />
+direction at class-definition time.</p>
 <h2 id="inbound-ports">Inbound Ports<a class="headerlink" href="#inbound-ports" title="Permanent link">&para;</a></h2>
-<p>Inbound ports describe <em>what can be requested</em> from the application without exposing internal implementation details. They are invoked by the <a href="../../presentation/">Presentation</a> block.</p>
+<p>Inbound ports define the <strong>driving side</strong> of the application. They describe <em>what<br />
+can be requested</em> without exposing internal implementation details.</p>
 <ul>
-<li><strong>Use Case</strong> — A cohesive unit of behavior. Receives input, coordinates domain objects and outbound ports, returns a <code>Result</code>.</li>
-<li><strong>Message Handler</strong> — Reacts to a single message type (command, event, or query). Type aliases provide <code>CommandHandlerPort</code>, <code>EventHandlerPort</code>, and <code>QueryHandlerPort</code>.</li>
+<li><strong><code>ApplicationServicePort</code></strong> (also available as <code>UseCasePort</code>) — A cohesive<br />
+  unit of behavior. Receives a request DTO, coordinates domain objects and<br />
+  outbound ports, returns a typed response.</li>
+<li><strong><code>MessageHandlerPort</code></strong> — Reacts to a single message type. Specialized concrete<br />
+  subtypes: <code>CommandHandlerPort</code> (fire-and-forget commands), <code>EventHandlerPort</code><br />
+  (fire-and-forget events), and <code>QueryHandlerPort</code> (queries with results).</li>
+<li><strong><code>ValidationPort</code></strong> — Validates commands and queries against business rules,<br />
+  returning structured <code>RuleViolationError</code> instances.</li>
+<li><strong><code>AuthorizationPort</code></strong> — Checks permissions, evaluates resource-level access<br />
+  control, and retrieves effective user roles and permissions.</li>
 </ul>
-<p>Both share the same contract: receive a typed input, return a typed output (or <code>None</code> for fire-and-forget handlers).</p>
-<h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Define an inbound port (extending <code>InboundPort</code>) for every system capability the outside world can invoke. Define an outbound port (extending <code>OutboundPort</code>) for every dependency the application needs. Ports are Protocols — any implementation that matches the shape satisfies the contract.</p>
 <h2 id="outbound-ports">Outbound Ports<a class="headerlink" href="#outbound-ports" title="Permanent link">&para;</a></h2>
-<p>Outbound ports describe <em>what the application needs</em> from the outside world:</p>
+<p>Outbound ports define the <strong>driven side</strong> — <em>what the application needs</em> from the<br />
+outside world. Infrastructure implements these.</p>
 <ul>
-<li><strong>Repository Port</strong> — Persistence abstraction (read-only, write-only, or read-write)</li>
-<li><strong>Specification Repository Port</strong> — Read repository with specification-based queries</li>
-<li><strong>Unit of Work</strong> — Transactional boundary across multiple operations</li>
-<li><strong>Message Bus</strong> — Dispatches commands, events, and queries</li>
-<li><strong>Command Sender</strong> — Fire-and-forget asynchronous commands</li>
-<li><strong>Event Publisher</strong> — Publishes domain events to consumers</li>
-<li><strong>Event Store</strong> — Append-only storage for event-sourced aggregates</li>
-<li><strong>Query Fetcher</strong> — Asynchronous data retrieval</li>
-<li><strong>Cache Port</strong> — Temporary key-value storage</li>
-<li><strong>Logger Port</strong> — Abstracted logging</li>
-<li><strong>File System Port</strong> — File read/write/delete operations</li>
-<li><strong>External Service Port</strong> — HTTP and remote API calls</li>
-<li><strong>Notifier Port</strong> — Asynchronous notification delivery</li>
+<li><strong><code>ReadOnlyRepositoryPort</code></strong>, <strong><code>WriteOnlyRepositoryPort</code></strong>, <strong><code>RepositoryPort</code></strong><br />
+  — Persistence abstraction. <code>RepositoryPort</code> combines read and write; the<br />
+  separated variants support CQRS read/write splitting.</li>
+<li><strong><code>SpecificationRepositoryPort</code></strong> — Read repository with specification-based<br />
+  queries.</li>
+<li><strong><code>UnitOfWorkPort</code></strong> — Transactional boundary across multiple operations.</li>
+<li><strong><code>TransactionManagerPort</code></strong> — Explicit transaction control (begin/commit/rollback)<br />
+  with transactional function execution.</li>
+<li><strong><code>EventBusPort</code></strong> — In-process event publishing (multi-handler fan-out) and<br />
+  command sending (single-handler routing).</li>
+<li><strong><code>MessageBusPort</code></strong> — Generic async dispatch for commands, queries, or events<br />
+  via external transport (queues, brokers, in-memory routers).</li>
+<li><strong><code>EventStorePort</code></strong> — Append-only persistence for event-sourced aggregates<br />
+  with optimistic concurrency.</li>
+<li><strong><code>CommandSenderPort</code></strong> — Async fire-and-forget command dispatch.</li>
+<li><strong><code>EventPublisherPort</code></strong> — Publishes domain events to external consumers.</li>
+<li><strong><code>QueryFetcherPort</code></strong> — Asynchronous data retrieval from remote sources.</li>
+<li><strong><code>CachePort</code></strong> — Temporary key-value storage.</li>
+<li><strong><code>LoggerPort</code></strong> — Abstracted structured logging.</li>
+<li><strong><code>FileSystemPort</code></strong> — File read/write/delete operations.</li>
+<li><strong><code>HttpClientPort</code></strong> — HTTP requests to external services (GET, POST, PUT, DELETE).</li>
+<li><strong><code>NotifierPort</code></strong> — Async notification delivery.</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Ports and Adapters</p>
-<p>Outbound ports define <em>what</em> the application needs, never <em>how</em> it's implemented. Infrastructure provides the <em>how</em>.</p>
+<p>Outbound ports define <em>what</em> the application needs, never <em>how</em> it's<br />
+implemented. Infrastructure provides the <em>how</em>.</p>
 </div>
 
 
