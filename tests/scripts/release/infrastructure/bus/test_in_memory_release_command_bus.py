@@ -7,8 +7,10 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
 )
 
+from forging_blocks.application.ports.inbound.message_handler_port import MessageHandlerPort
 
-class FakeHandler:
+
+class FakeHandler(MessageHandlerPort[OpenPullRequestCommand, None]):
     """State-based handler fake — records calls for assertion."""
 
     def __init__(self) -> None:

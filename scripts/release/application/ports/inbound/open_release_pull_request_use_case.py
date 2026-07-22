@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import abstractmethod
 from dataclasses import dataclass
 
-from forging_blocks.application.ports import UseCase
+from forging_blocks.application.ports import UseCasePort
 
 
 @dataclass(frozen=True)
@@ -34,7 +34,7 @@ class OpenReleasePullRequestOutput:
 
 
 class OpenReleasePullRequestUseCase(
-    UseCase[
+    UseCasePort[
         OpenReleasePullRequestInput,
         OpenReleasePullRequestOutput,
     ]

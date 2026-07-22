@@ -1,4 +1,4 @@
-"""Standard-library HTTP client implementation of ExternalServicePort.
+"""Standard-library HTTP client implementation of HttpClientPort.
 
 Uses ``urllib.request`` wrapped in ``asyncio.to_thread()`` to provide an
 async HTTP client with zero external dependencies.
@@ -10,14 +10,16 @@ wrapper that handles serialization.
 """
 
 import asyncio
-from urllib.request import Request, urlopen
+from http.client import HTTPConnection, HTTPSConnection
+from urllib.parse import urlparse
 
-from forging_blocks.application.ports.outbound.external_service_port import (
-    ExternalServicePort,
+from forging_blocks.application.ports.outbound.http_client_port import (
+    HttpClientPort,
 )
+from forging_blocks.foundation.errors.configuration_error import ConfigurationError
 
 
-class URLLibClient(ExternalServicePort[str, str]):
+class URLLibClient(HttpClientPort[str, str]):
     """HTTP client backed by Python's ``urllib.request`` + ``asyncio.to_thread``.
 
     This adapter provides async HTTP methods without requiring external
@@ -31,7 +33,7 @@ class URLLibClient(ExternalServicePort[str, str]):
     Raises:
         urllib.error.HTTPError: On HTTP 4xx/5xx responses.
         urllib.error.URLError: On network/connection failures.
-        ValueError: On malformed URLs.
+        ConfigurationError: On misconfigured URLs (e.g., non-HTTP schemes).
     """
 
     async def request(
@@ -55,14 +57,27 @@ class URLLibClient(ExternalServicePort[str, str]):
         Raises:
             HTTPError: On 4xx/5xx HTTP responses.
             URLError: On network or connection failures.
-            ValueError: On malformed URLs.
         """
         http_headers: dict[str, str] = headers or {}
         data: bytes | None = body.encode("utf-8") if body is not None else None
+        parsed = urlparse(url)
+        scheme = parsed.scheme
+        if scheme == "http":
+            Conn = HTTPConnection
+        elif scheme == "https":
+            Conn = HTTPSConnection
+        else:
+            raise ConfigurationError(
+                f"Disallowed URL scheme '{scheme}'. Only http and https are supported."
+            )
 
         def _do_request() -> str:
-            req = Request(url, data=data, headers=http_headers, method=method)
-            with urlopen(req) as response:  # nosec B310 — URL is caller-controlled; part of HTTP client contract
+            conn = Conn(parsed.netloc)
+            path = parsed.path or "/"
+            if parsed.query:
+                path = f"{path}?{parsed.query}"
+            conn.request(method, path, body=data, headers=http_headers)
+            with conn.getresponse() as response:
                 return response.read().decode("utf-8")
 
         return await asyncio.to_thread(_do_request)

@@ -1,20 +1,20 @@
-from typing import Any, Generic, Protocol, TypeVar
+from typing import Any, Generic, TypeVar
 
-from forging_blocks.application.ports.inbound.message_handler import MessageHandler
+from forging_blocks.application.ports.inbound.message_handler_port import MessageHandlerPort
 from forging_blocks.application.ports.outbound.message_bus_port import MessageBusPort
 from forging_blocks.foundation.messages.command import Command
 
 CommandType = TypeVar("CommandType", bound=Command[Any], contravariant=True)
 
 
-class ReleaseCommandBus(MessageBusPort[CommandType, None], Generic[CommandType], Protocol):
+class ReleaseCommandBus(MessageBusPort[CommandType, None], Generic[CommandType]):
     """Outbound port for registering message handlers and publishing release-related commands.
     A ReleaseCommandBus routes messages to their respective handlers and
     publishes domain command asynchronously.
     """
 
     async def register[CT: Command[Any]](
-        self, command_type: type[CT], handler: MessageHandler[CT, None]
+        self, command_type: type[CT], handler: MessageHandlerPort[CT, None]
     ) -> None:
         """Register a message handler for a specific message type.
 

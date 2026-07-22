@@ -14,14 +14,13 @@ Non-Responsibilities:
     - Delivery guarantees (up to infrastructure).
 """
 
-from typing import Protocol
+from abc import abstractmethod
 
-from forging_blocks.foundation import OutboundPort
+from forging_blocks.foundation.ports import OutboundPort
 
 
 class MessageBusPort[MessageType, MessageBusResultType](
-    OutboundPort[MessageType, MessageBusResultType],
-    Protocol,
+    OutboundPort,
 ):
     """Outbound port representing a generic asynchronous message bus.
 
@@ -29,6 +28,7 @@ class MessageBusPort[MessageType, MessageBusResultType](
     Implementations vary from simple function routers to networked brokers.
     """
 
+    @abstractmethod
     async def dispatch(self, message: MessageType) -> MessageBusResultType:
         """Dispatch a message to the configured handler or transport.
 

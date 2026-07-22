@@ -1,37 +1,125 @@
 # Inbound and Outbound Ports
 
-Ports define the boundaries of the Application block — how it can be interacted with and what capabilities it depends on.
+Applications define their own ports by extending the foundation base classes —
+[`InboundPort`](../foundation/ports.md#inboundport) and
+[`OutboundPort`](../foundation/ports.md#outboundport) — which enforce dependency
+direction at class-definition time.
 
 ## Inbound Ports
 
-Inbound ports describe *what can be requested* from the application without exposing internal implementation details. They are invoked by the [Presentation](../presentation.md) block.
+Inbound ports define the **driving side** of the application. They describe *what
+can be requested* without exposing internal implementation details.
 
-- **Use Case** — A cohesive unit of behavior. Receives input, coordinates domain objects and outbound ports, returns a `Result`.
-- **Message Handler** — Reacts to a single message type (command, event, or query). Type aliases provide `CommandHandler`, `EventHandler`, and `QueryHandler`.
+### ApplicationServicePort[RequestType, ResponseType]
 
-Both share the same contract: receive a typed input, return a typed output (or `None` for fire-and-forget handlers).
+(Also available as `UseCasePort`.) A cohesive unit of behavior. Receives a request
+DTO, coordinates domain objects and outbound ports, returns a typed response.
 
-## When to use
+```python
+class CreateOrder(ApplicationServicePort[CreateOrderRequest, Result[str, OrderError]]):
+    async def execute(self, request: CreateOrderRequest) -> Result[str, OrderError]:
+        ...
+```
 
-Define an inbound port (extending `InboundPort`) for every system capability the outside world can invoke. Define an outbound port (extending `OutboundPort`) for every dependency the application needs. Ports are Protocols — any implementation that matches the shape satisfies the contract.
+### MessageHandlerPort[MessageType, MessageHandlerResultType]
+
+Reacts to a single message type. Specialized concrete subtypes below.
+
+```python
+class MyHandler(MessageHandlerPort[MyMessage, MyResult]):
+    async def handle(self, message: MyMessage) -> MyResult:
+        ...
+```
+
+**`CommandHandlerPort[CommandPayloadType]`** — Fire-and-forget commands (result fixed to `None`).
+
+```python
+class ShipOrder(CommandHandlerPort[ShipOrderPayload]):
+    async def handle(self, command: Command[ShipOrderPayload]) -> None:
+        ...
+```
+
+**`EventHandlerPort[EventPayloadType]`** — Fire-and-forget domain events.
+
+```python
+class OrderShippedHandler(EventHandlerPort[dict[str, object]]):
+    async def handle(self, event: Event[dict[str, object]]) -> None:
+        ...
+```
+
+**`QueryHandlerPort[QueryPayloadType, QueryResultType]`** — Queries with a return value.
+
+```python
+class GetOrderHandler(QueryHandlerPort[GetOrderPayload, OrderDTO]):
+    async def handle(self, query: Query[GetOrderPayload]) -> OrderDTO:
+        ...
+```
+
+### ValidationPort
+
+Validates commands and queries against business rules, returning structured
+`RuleViolationError` instances. No generic type parameters.
+
+### AuthorizationPort
+
+Checks permissions, evaluates resource-level access control, and retrieves
+effective user roles and permissions. No generic type parameters.
 
 ## Outbound Ports
 
-Outbound ports describe *what the application needs* from the outside world:
+Outbound ports define the **driven side** — *what the application needs* from the
+outside world. Infrastructure implements these.
 
-- **Repository Port** — Persistence abstraction (read-only, write-only, or read-write)
-- **Specification Repository Port** — Read repository with specification-based queries
-- **Unit of Work** — Transactional boundary across multiple operations
-- **Message Bus** — Dispatches commands, events, and queries
-- **Command Sender** — Fire-and-forget asynchronous commands
-- **Event Publisher** — Publishes domain events to consumers
-- **Event Store** — Append-only storage for event-sourced aggregates
-- **Query Fetcher** — Asynchronous data retrieval
-- **Cache Port** — Temporary key-value storage
-- **Logger Port** — Abstracted logging
-- **File System Port** — File read/write/delete operations
-- **External Service Port** — HTTP and remote API calls
-- **Notifier Port** — Asynchronous notification delivery
+- **`ReadOnlyRepositoryPort`**, **`WriteOnlyRepositoryPort`**, **`RepositoryPort`**
+  — Persistence abstraction. `RepositoryPort` combines read and write; the
+  separated variants support CQRS read/write splitting.
+- **`SpecificationRepositoryPort`** — Read repository with specification-based
+  queries.
+- **`UnitOfWorkPort`** — Transactional boundary across multiple operations.
+- **`TransactionManagerPort`** — Explicit transaction control (begin/commit/rollback)
+  with transactional function execution.
+- **`EventBusPort`** — In-process event publishing (multi-handler fan-out) and
+  command sending (single-handler routing).
+- **`MessageBusPort`** — Generic async dispatch for commands, queries, or events
+  via external transport (queues, brokers, in-memory routers).
+- **`EventStorePort`** — Append-only persistence for event-sourced aggregates
+  with optimistic concurrency.
+- **`CommandSenderPort`** — Async fire-and-forget command dispatch.
+- **`EventPublisherPort`** — Publishes domain events to external consumers.
+- **`QueryFetcherPort`** — Asynchronous data retrieval from remote sources.
+- **`CachePort`** — Temporary key-value storage.
+- **`LoggerPort`** — Abstracted structured logging.
+- **`FileSystemPort`** — File read/write/delete operations.
+- **`HttpClientPort`** — HTTP requests to external services (GET, POST, PUT, DELETE).
+- **`NotifierPort`** — Async notification delivery.
 
 !!! note "Ports and Adapters"
-    Outbound ports define *what* the application needs, never *how* it's implemented. Infrastructure provides the *how*.
+    Outbound ports define *what* the application needs, never *how* it's
+    implemented. Infrastructure provides the *how*.
+
+## Generic type parameters
+
+Application port classes carry generic type parameters with **no defaults**.
+Type arguments must be supplied at the point of inheritance:
+
+```python
+# ApplicationServicePort — 2 required type args
+class MyUseCase(ApplicationServicePort[MyRequest, MyResponse]):
+    ...
+
+# MessageHandlerPort — 2 required type args
+class MyHandler(MessageHandlerPort[MyMessage, MyResult]):
+    ...
+
+# CommandHandlerPort — 1 required type arg (result fixed to None)
+class MyCmdHandler(CommandHandlerPort[MyCommandPayload]):
+    ...
+
+# RepositoryPort — 2 required type args
+class MyRepo(RepositoryPort[MyAggregate, MyId]):
+    ...
+```
+
+Omitting type arguments (e.g. `class Foo(ApplicationServicePort):`) will
+trigger type-checker errors. Always specify them when inheriting from
+generic port classes.

@@ -41,4 +41,9 @@ class Event[RawEventType](Message[RawEventType]):
 
     @property
     @abstractmethod
-    def _payload(self) -> dict[str, object]: ...
+    def _payload(self) -> dict[str, object]:
+        """Retrieve the event's payload as a dictionary.
+
+        Subclasses MUST implement this property to return the event-specific
+        data.
+        """

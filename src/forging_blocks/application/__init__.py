@@ -1,34 +1,34 @@
 """Application block — orchestrates workflows and coordinates domain logic.
 
-Exports inbound ports (UseCase, CommandHandler, EventHandler, QueryHandler,
-MessageHandler, ApplicationService, AuthorizationService, ValidationService),
+Exports inbound ports (UseCasePort, CommandHandlerPort, EventHandlerPort, QueryHandlerPort,
+MessageHandlerPort, ApplicationServicePort, AuthorizationPort, ValidationPort),
 outbound ports (RepositoryPort, UnitOfWorkPort, MessageBusPort, EventBusPort,
 EventStorePort, CachePort, LoggerPort, FileSystemPort, NotifierPort,
-ExternalServicePort, TransactionManagerPort, and more), and application-level
+HttpClientPort, TransactionManagerPort, and more), and application-level
 errors (ConcurrencyError, EventBusError, EventStoreError, UnitOfWorkError).
 """
 
 from .errors import ConcurrencyError, EventBusError, EventStoreError, UnitOfWorkError
 from .ports import (
-    CommandHandler,
+    CommandHandlerPort,
     CommandSenderPort,
-    EventHandler,
+    EventHandlerPort,
     EventPublisherPort,
     MessageBusPort,
-    MessageHandler,
+    MessageHandlerPort,
     QueryFetcherPort,
-    QueryHandler,
+    QueryHandlerPort,
     RepositoryPort,
     UnitOfWorkPort,
-    UseCase,
+    UseCasePort,
 )
-from .ports.inbound import ApplicationService, AuthorizationService, ValidationService
+from .ports.inbound import ApplicationServicePort, AuthorizationPort, ValidationPort
 from .ports.outbound import (
     CachePort,
     EventBusPort,
     EventStorePort,
-    ExternalServicePort,
     FileSystemPort,
+    HttpClientPort,
     LoggerPort,
     NotifierPort,
     ReadOnlyRepositoryPort,
@@ -38,33 +38,33 @@ from .ports.outbound import (
 )
 
 __all__ = [
-    "ApplicationService",
-    "AuthorizationService",
+    "ApplicationServicePort",
+    "AuthorizationPort",
     "CachePort",
-    "CommandHandler",
+    "CommandHandlerPort",
     "CommandSenderPort",
     "ConcurrencyError",
     "EventBusError",
     "EventBusPort",
-    "EventHandler",
+    "EventHandlerPort",
     "EventPublisherPort",
     "EventStoreError",
     "EventStorePort",
-    "ExternalServicePort",
+    "HttpClientPort",
     "FileSystemPort",
     "LoggerPort",
     "MessageBusPort",
-    "MessageHandler",
+    "MessageHandlerPort",
     "NotifierPort",
     "QueryFetcherPort",
-    "QueryHandler",
+    "QueryHandlerPort",
     "ReadOnlyRepositoryPort",
     "RepositoryPort",
     "SpecificationRepositoryPort",
     "TransactionManagerPort",
     "UnitOfWorkError",
     "UnitOfWorkPort",
-    "UseCase",
-    "ValidationService",
+    "UseCasePort",
+    "ValidationPort",
     "WriteOnlyRepositoryPort",
 ]

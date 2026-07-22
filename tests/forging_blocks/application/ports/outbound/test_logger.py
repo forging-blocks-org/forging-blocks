@@ -34,11 +34,11 @@ class DummyLogger:
 class TestLoggerPort:
     """Contract tests for the LoggerPort protocol."""
 
-    def test_logger_is_protocol(self) -> None:
-        """LoggerPort should be a Protocol (structural subtyping)."""
-        from typing import Protocol as _Protocol
+    def test_logger_is_abc(self) -> None:
+        """LoggerPort should be an ABC (structural subtyping)."""
+        from abc import ABC as _ABC
 
-        assert isinstance(LoggerPort, type(_Protocol))
+        assert issubclass(LoggerPort, _ABC)
 
     def test_logger_has_required_methods(self) -> None:
         """LoggerPort protocol should define debug, info, warning, error."""

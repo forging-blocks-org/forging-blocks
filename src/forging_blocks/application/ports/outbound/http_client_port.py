@@ -1,6 +1,6 @@
-"""External service port for abstract HTTP client operations.
+"""HTTP client port for abstract HTTP client operations.
 
-Defines the ``ExternalServicePort`` that application code depends on,
+Defines the ``HttpClientPort`` that application code depends on,
 decoupling HTTP requests from any specific client implementation.
 
 Responsibilities:
@@ -13,16 +13,15 @@ Non-Responsibilities:
     - Service discovery or URL resolution.
 """
 
-from typing import Protocol
+from abc import abstractmethod
 
 from forging_blocks.foundation.ports import OutboundPort
 
 
-class ExternalServicePort[RequestType, ResponseType](
-    OutboundPort[RequestType, ResponseType],
-    Protocol,
+class HttpClientPort[RequestType, ResponseType](
+    OutboundPort,
 ):
-    """Protocol for making HTTP requests to external services.
+    """ABC for making HTTP requests to external services.
 
     Any object with the async ``request``, ``get``, ``post``, ``put``,
     and ``delete`` methods satisfies this protocol — no inheritance required.
@@ -32,6 +31,7 @@ class ExternalServicePort[RequestType, ResponseType](
         ResponseType: The type of the response body.
     """
 
+    @abstractmethod
     async def request(
         self,
         method: str,
@@ -52,6 +52,7 @@ class ExternalServicePort[RequestType, ResponseType](
         """
         ...
 
+    @abstractmethod
     async def get(
         self,
         url: str,
@@ -68,6 +69,7 @@ class ExternalServicePort[RequestType, ResponseType](
         """
         ...
 
+    @abstractmethod
     async def post(
         self,
         url: str,
@@ -86,6 +88,7 @@ class ExternalServicePort[RequestType, ResponseType](
         """
         ...
 
+    @abstractmethod
     async def put(
         self,
         url: str,
@@ -104,6 +107,7 @@ class ExternalServicePort[RequestType, ResponseType](
         """
         ...
 
+    @abstractmethod
     async def delete(
         self,
         url: str,

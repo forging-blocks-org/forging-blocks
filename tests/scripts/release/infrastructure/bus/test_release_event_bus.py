@@ -6,17 +6,8 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
     InMemoryReleaseCommandBus,
 )
 
+from forging_blocks.application.ports.inbound.message_handler_port import MessageHandlerPort
 from forging_blocks.foundation.messages.command import Command
-
-
-class FakeHandler:
-    """State-based handler fake — records handled commands."""
-
-    def __init__(self) -> None:
-        self.handled: list[Command] = []
-
-    async def handle(self, message: Command) -> None:
-        self.handled.append(message)
 
 
 class FakeCommand(Command):
@@ -32,6 +23,16 @@ class FakeCommand(Command):
 
     def _payload(self) -> dict[str, Any]:
         return {"value": self._value}
+
+
+class FakeHandler(MessageHandlerPort[FakeCommand, None]):
+    """State-based handler fake — records handled commands."""
+
+    def __init__(self) -> None:
+        self.handled: list[Command[Any]] = []
+
+    async def handle(self, message: FakeCommand) -> None:
+        self.handled.append(message)
 
 
 @pytest.mark.unit

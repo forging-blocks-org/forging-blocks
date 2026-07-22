@@ -3,10 +3,12 @@
 from .autohash import auto_hash
 from .context import AuthorizationContext, ServiceContext, TransactionContext
 from .errors import (
+    ArchitectureError,
     CantModifyImmutableAttributeError,
     CombinedErrors,
     CombinedRuleViolationErrors,
     CombinedValidationErrors,
+    ConfigurationError,
     Error,
     ErrorMessage,
     ErrorMetadata,
@@ -42,7 +44,9 @@ from .value_object import ValueObject
 
 __all__ = [
     "auto_hash",
+    "ArchitectureError",
     "AndSpecification",
+    "ConfigurationError",
     "AuthorizationContext",
     "CombinedErrors",
     "CombinedRuleViolationErrors",

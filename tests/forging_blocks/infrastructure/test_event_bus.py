@@ -5,7 +5,10 @@ from __future__ import annotations
 import pytest
 
 from forging_blocks.application.errors.event_bus_error import EventBusError
-from forging_blocks.application.ports.inbound.message_handler import CommandHandler, EventHandler
+from forging_blocks.application.ports.inbound.message_handler_port import (
+    CommandHandlerPort,
+    EventHandlerPort,
+)
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.messages.message import MessageMetadata
@@ -31,18 +34,18 @@ class TestInMemoryEventBusBase:
     """Tests for the InMemoryEventBusBase implementation."""
 
     @pytest.fixture
-    def event_bus(self) -> InMemoryEventBusBase[TestPayload, TestPayload]:
+    def event_bus(self) -> InMemoryEventBusBase[TestPayload, TestPayload, object]:
         """Create a fresh InMemoryEventBusBase for each test."""
-        return InMemoryEventBusBase[TestPayload, TestPayload]()
+        return InMemoryEventBusBase[TestPayload, TestPayload, object]()
 
     async def test_publish_event(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test publishing an event to subscribers."""
         received: list[str] = []
 
-        class HandlerA(EventHandler[TestPayload]):
+        class HandlerA(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received.append("A")
 
@@ -54,16 +57,16 @@ class TestInMemoryEventBusBase:
 
     async def test_publish_to_multiple_subscribers(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test publishing an event to multiple subscribers."""
         received: list[str] = []
 
-        class HandlerA(EventHandler[TestPayload]):
+        class HandlerA(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received.append("A")
 
-        class HandlerB(EventHandler[TestPayload]):
+        class HandlerB(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received.append("B")
 
@@ -76,7 +79,7 @@ class TestInMemoryEventBusBase:
 
     async def test_publish_no_handlers(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test publishing an event with no subscribers."""
         result = await event_bus.publish(FakeEventWithValue("test-value"))
@@ -84,12 +87,12 @@ class TestInMemoryEventBusBase:
 
     async def test_send_command(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test sending a command to its handler."""
         handled: list[str] = []
 
-        class Handler(CommandHandler[TestPayload]):
+        class Handler(CommandHandlerPort[TestPayload]):
             async def handle(self, message: Command[TestPayload]) -> None:
                 handled.append("ok")
 
@@ -100,7 +103,7 @@ class TestInMemoryEventBusBase:
 
     async def test_send_command_no_handler(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test sending a command with no handler returns error."""
         result = await event_bus.send(SimpleFakeCommand("test-value"))
@@ -109,17 +112,17 @@ class TestInMemoryEventBusBase:
 
     async def test_send_command_replaces_handler(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test that registering a handler twice replaces the previous one."""
         received_1: list[Command[TestPayload]] = []
         received_2: list[Command[TestPayload]] = []
 
-        class Handler1(CommandHandler[TestPayload]):
+        class Handler1(CommandHandlerPort[TestPayload]):
             async def handle(self, message: Command[TestPayload]) -> None:
                 received_1.append(message)
 
-        class Handler2(CommandHandler[TestPayload]):
+        class Handler2(CommandHandlerPort[TestPayload]):
             async def handle(self, message: Command[TestPayload]) -> None:
                 received_2.append(message)
 
@@ -134,17 +137,17 @@ class TestInMemoryEventBusBase:
 
     async def test_different_event_types(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test that different event types have separate handlers."""
         received_a: list[str] = []
         received_b: list[str] = []
 
-        class HandlerA(EventHandler[TestPayload]):
+        class HandlerA(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received_a.append("A")
 
-        class HandlerB(EventHandler[TestPayload]):
+        class HandlerB(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received_b.append("B")
 
@@ -185,11 +188,11 @@ class TestInMemoryEventBusBase:
 
     async def test_handler_error(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test that handler errors are captured as EventBusError."""
 
-        class FailingHandler(EventHandler[TestPayload]):
+        class FailingHandler(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 raise ValueError("boom")
 

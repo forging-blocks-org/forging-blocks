@@ -5,21 +5,23 @@ commands to a single registered handler.  Handlers are looked up
 by the exact type of the message.
 """
 
-from typing import cast
+from typing import Protocol, cast
 
 from forging_blocks.application.errors.event_bus_error import EventBusError
-from forging_blocks.application.ports.inbound.message_handler import (
-    CommandHandler,
-    EventHandler,
-)
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.result import Err, Ok, Result
 from forging_blocks.infrastructure.event_buses.event_bus_base import EventBusBase
 
 
-class InMemoryEventBusBase[EventPayloadType, CommandPayloadType](
-    EventBusBase[EventPayloadType, CommandPayloadType]
+class _Handler[T](Protocol):
+    """Structural protocol for message handlers."""
+
+    async def handle(self, message: T) -> None: ...
+
+
+class InMemoryEventBusBase[EventPayloadType, CommandPayloadType, HandlerType](
+    EventBusBase[EventPayloadType, CommandPayloadType, HandlerType]
 ):
     """In-memory event bus with separate event/command dispatch.
 
@@ -32,13 +34,17 @@ class InMemoryEventBusBase[EventPayloadType, CommandPayloadType](
 
     def __init__(self) -> None:
         self._event_handlers: dict[
-            type[Event[EventPayloadType]], list[EventHandler[EventPayloadType]]
+            type[Event[EventPayloadType]], list[_Handler[Event[EventPayloadType]]]
         ] = {}
         self._command_handlers: dict[
-            type[Command[CommandPayloadType]], CommandHandler[CommandPayloadType]
+            type[Command[CommandPayloadType]], _Handler[Command[CommandPayloadType]]
         ] = {}
 
-    def register_handler(self, message_type: type, handler: object) -> None:
+    def register_handler(
+        self,
+        message_type: type[Event[EventPayloadType]] | type[Command[CommandPayloadType]],
+        handler: HandlerType,
+    ) -> None:
         """Register a handler for a message type.
 
         For event types, multiple handlers can be registered (fan-out).
@@ -49,12 +55,12 @@ class InMemoryEventBusBase[EventPayloadType, CommandPayloadType](
             handler: A handler instance.
         """
         if issubclass(message_type, Event):
-            self._event_handlers.setdefault(
-                cast(type[Event[EventPayloadType]], message_type), []
-            ).append(cast(EventHandler[EventPayloadType], handler))
-        elif issubclass(message_type, Command):
-            self._command_handlers[cast(type[Command[CommandPayloadType]], message_type)] = cast(
-                CommandHandler[CommandPayloadType], handler
+            self._event_handlers.setdefault(message_type, []).append(
+                cast(_Handler[Event[EventPayloadType]], handler)
+            )
+        else:
+            self._command_handlers[message_type] = cast(
+                _Handler[Command[CommandPayloadType]], handler
             )
 
     async def publish(self, event: Event[EventPayloadType]) -> Result[None, EventBusError]:

@@ -18,12 +18,12 @@ class StubPresenter(PresenterPort[FakeResponse]):
 
     def __init__(self) -> None:
         self.presented: list[FakeResponse] = []
-        self.errors: list[object] = []
+        self.errors: list[Exception] = []
 
-    def present(self, response: FakeResponse) -> None:
+    async def present(self, response: FakeResponse) -> None:
         self.presented.append(response)
 
-    def present_error(self, error: object) -> None:
+    async def present_error(self, error: Exception) -> None:
         self.errors.append(error)
 
 
@@ -31,19 +31,19 @@ class StubPresenter(PresenterPort[FakeResponse]):
 class TestPresenterContract:
     """Verify that PresenterPort can be implemented and used via the protocol."""
 
-    def test_present_delegates_to_implementation(self) -> None:
+    async def test_present_delegates_to_implementation(self) -> None:
         presenter = StubPresenter()
         response = FakeResponse("all good")
 
-        presenter.present(response)
+        await presenter.present(response)
 
         assert presenter.presented == [response]
 
-    def test_present_error_delegates_to_implementation(self) -> None:
+    async def test_present_error_delegates_to_implementation(self) -> None:
         presenter = StubPresenter()
         error = RuntimeError("boom")
 
-        presenter.present_error(error)
+        await presenter.present_error(error)
 
         assert presenter.errors == [error]
 
@@ -52,14 +52,14 @@ class TestPresenterContract:
         presenter = StubPresenter()
         assert isinstance(presenter, PresenterPort)
 
-    def test_different_response_types_can_be_used(self) -> None:
+    async def test_different_response_types_can_be_used(self) -> None:
         class StringPresenter(PresenterPort[str]):
-            def present(self, response: str) -> None:  # noqa: ARG002
+            async def present(self, response: str) -> None:  # noqa: ARG002
                 pass
 
-            def present_error(self, error: object) -> None:  # noqa: ARG002
+            async def present_error(self, error: Exception) -> None:  # noqa: ARG002
                 pass
 
         presenter = StringPresenter()
-        presenter.present("hello")
+        await presenter.present("hello")
         assert isinstance(presenter, PresenterPort)

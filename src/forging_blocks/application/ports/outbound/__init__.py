@@ -5,8 +5,8 @@ from .command_sender_port import CommandSenderPort
 from .event_bus_port import EventBusPort
 from .event_publisher_port import EventPublisherPort
 from .event_store_port import EventStorePort
-from .external_service_port import ExternalServicePort
 from .file_system_port import FileSystemPort
+from .http_client_port import HttpClientPort
 from .logger_port import LoggerPort
 from .message_bus_port import MessageBusPort
 from .notifier_port import NotifierPort
@@ -22,7 +22,7 @@ __all__ = [
     "EventBusPort",
     "EventPublisherPort",
     "EventStorePort",
-    "ExternalServicePort",
+    "HttpClientPort",
     "FileSystemPort",
     "LoggerPort",
     "MessageBusPort",
