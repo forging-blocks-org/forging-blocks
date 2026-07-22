@@ -10,6 +10,7 @@ class StdlibLogger(LoggerPort):
 
     Args:
         name: LoggerPort name (default ``"forging_blocks"``).
+
     """
 
     __slots__ = ("_logger",)

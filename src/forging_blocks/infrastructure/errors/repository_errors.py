@@ -28,5 +28,6 @@ class RepositoryNotFoundError(RepositoryError):
 
         Returns:
             A RepositoryNotFoundError with a descriptive message.
+
         """
         return cls(ErrorMessage(f"Aggregate with id '{entity_id}' not found."))

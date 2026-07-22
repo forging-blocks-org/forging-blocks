@@ -35,5 +35,6 @@ class Serializable[T: Mapping[str, object]](Protocol):
 
         Returns:
             A new instance reconstituted from *data*.
+
         """
         ...

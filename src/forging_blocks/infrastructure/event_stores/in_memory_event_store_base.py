@@ -26,6 +26,7 @@ class InMemoryEventStoreBase[EventPayloadType](EventStoreBase[EventPayloadType])
     Attributes:
         _streams: Per-aggregate ordered event lists.
         _versions: Per-aggregate current version counters.
+
     """
 
     __slots__ = ("_streams", "_versions")
@@ -51,6 +52,7 @@ class InMemoryEventStoreBase[EventPayloadType](EventStoreBase[EventPayloadType])
 
         Returns:
             A ``Result`` containing the new stream version.
+
         """
         current = self._versions.get(aggregate_id, 0)
 
@@ -78,6 +80,7 @@ class InMemoryEventStoreBase[EventPayloadType](EventStoreBase[EventPayloadType])
 
         Returns:
             A ``Result`` containing the matching events.
+
         """
         stream = self._streams.get(aggregate_id, [])
         start = from_version if from_version is not None else 0
@@ -93,5 +96,6 @@ class InMemoryEventStoreBase[EventPayloadType](EventStoreBase[EventPayloadType])
 
         Returns:
             A ``Result`` containing the version number (0 for empty streams).
+
         """
         return Ok(self._versions.get(aggregate_id, 0))

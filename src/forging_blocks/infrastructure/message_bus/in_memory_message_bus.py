@@ -46,6 +46,7 @@ class InMemoryMessageBus[MessageType: Message[object], MessageBusResultType](
 
         Raises:
             ValueError: If the message type is already registered.
+
         """
         if message_type in self._handlers:
             raise ValueError(
@@ -64,6 +65,7 @@ class InMemoryMessageBus[MessageType: Message[object], MessageBusResultType](
 
         Raises:
             KeyError: If no handler is registered for the message type.
+
         """
         handler = self._handlers[type(message)]
         result = handler(message)
