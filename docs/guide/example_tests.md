@@ -78,7 +78,7 @@ def test_parse_reciprocal_when_zero_then_fails() -> None:
 ```python
 from dataclasses import dataclass
 
-from forging_blocks.application import UseCasePort
+from forging_blocks.application import ApplicationServicePort
 from forging_blocks.foundation import Result, Err
 
 
@@ -92,8 +92,8 @@ class TaskRepository:
         ...
 
 
-class CreateTaskUseCase(UseCasePort):
-    def execute(self, data: CreateTaskInput) -> Result[int, str]:
+class CreateTaskUseCase(ApplicationServicePort[CreateTaskInput, Result[int, str]]):
+    async def execute(self, data: CreateTaskInput) -> Result[int, str]:
         ...
 
 
@@ -101,12 +101,17 @@ class CreateTaskService(CreateTaskUseCase):
     def __init__(self, repo: TaskRepository) -> None:
         self._repo = repo
 
-    def execute(self, data: CreateTaskInput) -> Result[int, str]:
+    async def execute(self, data: CreateTaskInput) -> Result[int, str]:
         if not data.title.strip():
             return Err("title required")
 
         return self._repo.save(data.title)
 ```
+
+!!! note "Generic type parameters are required"
+    Port classes like `ApplicationServicePort` have **no defaults** on their
+    generic type parameters. Inheriting as `ApplicationServicePort[Input, Output]`
+    is mandatory — omitting the type arguments will trigger pyright errors.
 
 ### Fake repository
 
