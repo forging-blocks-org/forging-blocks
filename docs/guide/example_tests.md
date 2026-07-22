@@ -37,14 +37,7 @@ def reciprocal(value: int) -> Result[float, str]:
 
 
 def parse_reciprocal(raw: str) -> Result[float, str]:
-    result = parse_int(raw)
-
-    if result.is_err:
-        return result
-
-    match result:
-        case Ok(value):
-            return reciprocal(value)
+    return parse_int(raw).flat_map(reciprocal)
 ```
 
 ### Tests
@@ -93,7 +86,7 @@ class TaskRepository:
 
 
 class CreateTaskUseCase(ApplicationServicePort[CreateTaskInput, Result[int, str]]):
-    async def execute(self, data: CreateTaskInput) -> Result[int, str]:
+    async def execute(self, request: CreateTaskInput) -> Result[int, str]:
         ...
 
 
@@ -101,11 +94,11 @@ class CreateTaskService(CreateTaskUseCase):
     def __init__(self, repo: TaskRepository) -> None:
         self._repo = repo
 
-    async def execute(self, data: CreateTaskInput) -> Result[int, str]:
-        if not data.title.strip():
+    async def execute(self, request: CreateTaskInput) -> Result[int, str]:
+        if not request.title.strip():
             return Err("title required")
 
-        return self._repo.save(data.title)
+        return self._repo.save(request.title)
 ```
 
 !!! note "Generic type parameters are required"
