@@ -48,6 +48,7 @@ class ApplicationServicePort[RequestType, ResponseType](
         Notes:
             This method is asynchronous and should not perform blocking
             operations.
+
         """
         ...
 

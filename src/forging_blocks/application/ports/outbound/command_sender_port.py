@@ -21,7 +21,19 @@ from forging_blocks.foundation.ports import OutboundPort
 class CommandSenderPort[CommandPayloadType](
     OutboundPort,
 ):
-    """ABC for dispatching command messages asynchronously."""
+    """ABC for dispatching command messages asynchronously.
+
+    Responsibilities:
+        - Accept any domain command type and dispatch it asynchronously.
+        - Maintain a contract decoupled from any specific transport or
+          message bus implementation.
+
+    Non-Responsibilities:
+        - Validate command payloads — that belongs to the validation layer.
+        - Implement retry, delivery guarantees, or dead-letter handling.
+        - Handle registration — registrations happen through a message bus,
+          not through this port.
+    """
 
     @abstractmethod
     async def send(self, command: Command[CommandPayloadType]) -> None:
@@ -29,4 +41,5 @@ class CommandSenderPort[CommandPayloadType](
 
         Args:
             command: The command instance to dispatch.
+
         """

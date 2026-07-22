@@ -16,6 +16,16 @@ class SpecificationRepositoryPort[TEntity, TId](ReadOnlyRepositoryPort[TEntity, 
 
     In addition to standard read-only operations, this interface
     allows querying by ``Specification`` predicates.
+
+    Responsibilities:
+        - Find all entities matching a ``Specification`` predicate.
+        - Count entities satisfying a specification.
+        - Check whether any entity matches a specification.
+
+    Non-Responsibilities:
+        - Compile or optimize ``Specification`` predicates.
+        - Paginate or sort specification results.
+        - Provide indexing strategies — that belongs to infrastructure.
     """
 
     @abstractmethod

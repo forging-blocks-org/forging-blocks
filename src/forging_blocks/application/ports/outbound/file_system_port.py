@@ -14,8 +14,20 @@ class FileSystemPort(
     OutboundPort,
 ):
     """Structural protocol for file system operations.
+
     Any object with ``read``, ``write``, ``delete``, ``exists``,
     and ``list_dir`` async methods satisfies this protocol.
+
+    Responsibilities:
+        - Read and write file contents as bytes.
+        - Delete files and check existence.
+        - List directory contents.
+
+    Non-Responsibilities:
+        - Manage file permissions or ownership.
+        - Resolve symlinks or handle special file types.
+        - Provide atomic or transactional file operations.
+        - Stream large files — the whole content is read into memory.
     """
 
     @abstractmethod
@@ -30,6 +42,7 @@ class FileSystemPort(
 
         Raises:
             FileNotFoundError: If the file does not exist.
+
         """
         ...
 
@@ -40,6 +53,7 @@ class FileSystemPort(
         Args:
             path: Path to the file.
             data: The bytes to write.
+
         """
 
     @abstractmethod
@@ -51,6 +65,7 @@ class FileSystemPort(
 
         Raises:
             FileNotFoundError: If the file does not exist.
+
         """
 
     @abstractmethod
@@ -62,6 +77,7 @@ class FileSystemPort(
 
         Returns:
             ``True`` if the path exists, ``False`` otherwise.
+
         """
         ...
 
@@ -77,5 +93,6 @@ class FileSystemPort(
 
         Raises:
             NotADirectoryError: If *path* is not a directory.
+
         """
         ...

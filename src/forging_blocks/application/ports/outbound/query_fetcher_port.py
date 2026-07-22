@@ -35,5 +35,6 @@ class QueryFetcherPort[QueryPayloadType, QueryFetcherResult](
 
         Returns:
             Any result returned by the underlying query handler.
+
         """
         ...

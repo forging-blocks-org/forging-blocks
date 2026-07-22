@@ -49,6 +49,7 @@ class HttpClientPort[RequestType, ResponseType](
 
         Returns:
             The response body of type ResponseType.
+
         """
         ...
 
@@ -66,6 +67,7 @@ class HttpClientPort[RequestType, ResponseType](
 
         Returns:
             The response body of type ResponseType.
+
         """
         ...
 
@@ -85,6 +87,7 @@ class HttpClientPort[RequestType, ResponseType](
 
         Returns:
             The response body of type ResponseType.
+
         """
         ...
 
@@ -104,6 +107,7 @@ class HttpClientPort[RequestType, ResponseType](
 
         Returns:
             The response body of type ResponseType.
+
         """
         ...
 
@@ -121,5 +125,6 @@ class HttpClientPort[RequestType, ResponseType](
 
         Returns:
             The response body of type ResponseType.
+
         """
         ...

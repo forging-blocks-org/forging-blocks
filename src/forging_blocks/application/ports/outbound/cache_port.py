@@ -41,6 +41,7 @@ class CachePort[KeyType, ValueType](
 
         Returns:
             The cached value, or ``None`` if not found or expired.
+
         """
         ...
 
@@ -57,6 +58,7 @@ class CachePort[KeyType, ValueType](
             key: The cache key.
             value: The value to cache.
             ttl: Optional time-to-live in seconds. ``None`` means no expiration.
+
         """
 
     @abstractmethod
@@ -65,6 +67,7 @@ class CachePort[KeyType, ValueType](
 
         Args:
             key: The cache key. No-op if the key does not exist.
+
         """
 
     @abstractmethod
@@ -76,6 +79,7 @@ class CachePort[KeyType, ValueType](
 
         Returns:
             ``True`` if the key exists and is not expired, ``False`` otherwise.
+
         """
         ...
 

@@ -42,6 +42,7 @@ class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](OutboundPort):
                 - read replicas,
                 - projections,
                 - cached read models.
+
         """
         ...
 
@@ -53,6 +54,7 @@ class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](OutboundPort):
             A sequence of aggregate or read model instances.
 
         Notes:
+
         """
         ...
 
@@ -73,6 +75,7 @@ class WriteOnlyRepositoryPort[TWriteAggregateRoot, TWriteId](OutboundPort):
 
         Raises:
             RepositoryError: If deletion fails.
+
         """
 
     @abstractmethod
@@ -81,6 +84,7 @@ class WriteOnlyRepositoryPort[TWriteAggregateRoot, TWriteId](OutboundPort):
 
         Args:
             aggregate: The aggregate to save.
+
         """
 
 
