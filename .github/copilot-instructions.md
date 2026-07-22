@@ -20,36 +20,41 @@ The toolkit deliberately excludes any integration with third-party dependencies 
 
 ---
 
-## Protocol Hierarchy: The Core Concept
+## Port Hierarchy: ABC-Based Abstract Contracts
 
-### How Protocols compose in this codebase
+### How Ports compose in this codebase
 
-`Protocol` (from `typing`) enables **structural subtyping**: any class satisfying the interface is compatible, without explicit inheritance. In forging-blocks, Protocols are chained across multiple levels. Each level is still a Protocol, and still has no real implementation.
+Port classes use `ABC(metaclass=FinalABCMeta)` — abstract base classes with
+`@abstractmethod` stubs. Explicit inheritance is required; structural
+subtyping is not used. In forging-blocks, ports are chained across multiple
+levels. Each level is still an ABC, and still has no real implementation.
 
 ```
-typing.Protocol
-  └── Port[InputType, OutputType](Protocol)           ← foundation marker
-        ├── InboundPort[In, Out](Port[In, Out], Protocol)   ← role marker
-        └── OutboundPort[In, Out](Port[In, Out], Protocol)  ← role marker
-              ├── Notifier[T](OutboundPort[T, None], Protocol)   ← application port
-              ├── MessageBus[M, R](OutboundPort[M, R], Protocol) ← application port
-              ├── Repository[T, Id](..., Protocol)               ← application port
+ABC(metaclass=FinalABCMeta)
+  └── Port[InputType, OutputType](ABC)           ← foundation marker
+        ├── InboundPort[In, Out](Port[In, Out])   ← role marker
+        └── OutboundPort[In, Out](Port[In, Out])  ← role marker
+              ├── Notifier[T](OutboundPort[T, None])   ← application port
+              ├── MessageBus[M, R](OutboundPort[M, R]) ← application port
+              ├── Repository[T, Id](...)               ← application port
               └── ...
 ```
 
-**Key rule:** a class in this chain remains a `Protocol` (i.e., a pure interface) if and only if **`Protocol` appears explicitly in its class signature** and it contains **only `...` stubs** (no `__init__`, no real logic).
+**Key rule:** a class in this chain is a pure abstract contract if and only
+if it has `@abstractmethod` stubs and contains only docstrings (no
+`__init__`, no instance fields, no real logic).
 
 ```python
-# CORRECT — still a Protocol: pure interface, no implementation
+# CORRECT — abstract port class: has @abstractmethod stubs, no implementation
 class Notifier[NotificationType](
     OutboundPort[NotificationType, None],
-    Protocol,              # ← explicit re-declaration keeps it a Protocol
 ):
+    @abstractmethod
     async def notify(self, message: NotificationType) -> None:
-        ...                # ← stub only, no body
+        """Deliver a notification to an external channel."""
 
 
-# NOT a Protocol — concrete class: has __init__ and real method bodies
+# NOT an abstract port — concrete adapter: has __init__ and real method bodies
 class EventPublisher[EventPayloadType](OutboundPort[Event[EventPayloadType], None]):
     def __init__(self, message_bus: MessageBus[...]) -> None:
         self._message_bus = message_bus            # ← real field
@@ -58,40 +63,46 @@ class EventPublisher[EventPayloadType](OutboundPort[Event[EventPayloadType], Non
         await self._message_bus.dispatch(event)   # ← real logic
 ```
 
-`Port`, `InboundPort`, and `OutboundPort` are **markers**, not implementations. They convey semantic intent (this is an inbound/outbound boundary) and carry generic type parameters. They do not enforce or provide behavior.
+`Port`, `InboundPort`, and `OutboundPort` are **markers**, not
+implementations. They convey semantic intent (this is an inbound/outbound
+boundary) and carry generic type parameters. They do not enforce or provide
+behavior.
 
 ### Custom ports in application code
 
 Applications importing this toolkit will define their own ports the same way:
 
 ```python
-# CORRECT — application-defined outbound port (still a Protocol)
+# CORRECT — application-defined outbound port (abstract ABC)
 from forging_blocks.foundation.ports import OutboundPort
-from typing import Protocol
+from abc import abstractmethod
 
-class PaymentGateway[PaymentType](OutboundPort[PaymentType, Result[str, PaymentError]], Protocol):
+class PaymentGateway[PaymentType](OutboundPort[PaymentType, Result[str, PaymentError]]):
+    @abstractmethod
     async def charge(self, payment: PaymentType) -> Result[str, PaymentError]:
-        ...
+        """Charge a payment and return the result."""
 ```
 
-Do **not** flag third-party or application-level `OutboundPort`/`InboundPort` subclasses as errors. They are the intended usage pattern.
+Do **not** flag third-party or application-level `OutboundPort`/`InboundPort`
+subclasses as errors. They are the intended usage pattern.
 
 ---
 
+
 ## Port Rules
 
-| Characteristic | Pure Port (Protocol) | Concrete Adapter |
+| Characteristic | Pure Port (ABC) | Concrete Adapter |
 |---|---|---|
-| `Protocol` in class signature | ✅ Yes | ❌ No |
-| Method bodies | `...` only | Real logic |
+| `@abstractmethod` stubs | ✅ Yes | ❌ No |
+| Method bodies | Docstrings only | Real logic |
 | `__init__` | Never | Allowed |
 | Instance fields | Never | Allowed |
 | Purpose | Define contract | Implement contract |
 
 **DO NOT** add implementation to ports.
 **DO NOT** add `__init__` to ports.
-**DO** flag instance variables on Protocol-typed ports.
-**DO** flag real method bodies on Protocol-typed ports.
+**DO** flag instance variables on abstract port classes.
+**DO** flag real method bodies on abstract ports.
 
 ---
 
@@ -408,7 +419,9 @@ class MyBase(metaclass=FinalABCMeta):
 All public types and methods must have docstrings with explicit Responsibilities / Non-Responsibilities sections for ports:
 
 ```python
-class MyPort[T](OutboundPort[T, None], Protocol):
+from abc import abstractmethod
+
+class MyPort[T](OutboundPort):
     """Contract for sending notifications.
 
     Responsibilities:
@@ -419,6 +432,7 @@ class MyPort[T](OutboundPort[T, None], Protocol):
         - Implement retry logic.
     """
 
+    @abstractmethod
     async def send(self, message: T) -> None:
         """Send a notification message.
 
@@ -429,7 +443,6 @@ class MyPort[T](OutboundPort[T, None], Protocol):
             - Fire-and-forget.
             - Delivery semantics are infrastructure-defined.
         """
-        ...
 ```
 
 ---
@@ -441,8 +454,8 @@ class MyPort[T](OutboundPort[T, None], Protocol):
 | `Optional[T]` | ❌ Flag | Use `T \| None` |
 | `Union[A, B]` | ❌ Flag | Use `A \| B` |
 | `Generic[T]` in class signature | ❌ Flag | Use `class Foo[T]:` |
-| Instance variables on a `Protocol` | ❌ Flag | Remove — Protocols are contracts, not classes |
-| Real method body on a `Protocol` port | ❌ Flag | Replace with `...` stub |
+| Instance variables on an abstract port class | ❌ Flag | Remove — ABCs are contracts, not classes |
+| Real method body on an abstract port | ❌ Flag | Replace with docstring-only stub |
 | Blocking I/O in async context | ❌ Flag | Add `async def` / `await` |
 | Manual `_payload` on `@event_dataclass` class | ❌ Flag | Decorator patches it automatically |
 | Missing `__slots__` on ValueObject subclass | ❌ Flag | Add `__slots__ = ("_field",)` |
@@ -456,15 +469,15 @@ class MyPort[T](OutboundPort[T, None], Protocol):
 
 ## Do NOT Flag These (Correct Patterns)
 
-- `class Foo[T](OutboundPort[T, None], Protocol):` — valid multi-level Protocol chain
-- `class Foo[T](InboundPort[T, R], Protocol):` — same
-- `async def method(self) -> None: ...` on a Protocol — async stubs are valid
-- `Protocol` appearing at 2nd, 3rd, or deeper inheritance level — this is intentional
+- `class Foo[T](OutboundPort[T, None]):` — valid abstract port class
+- `class Foo[T](InboundPort[T, R]):` — same
+- `async def method(self) -> None:` with docstring-only body — valid abstract method
+- `ABC` appearing at 2nd, 3rd, or deeper inheritance level — this is intentional
 - Applications subclassing `OutboundPort`/`InboundPort` for their own custom ports
-- `...` as method body on ports — correct stub
+- `@abstractmethod` with docstring body on ports — correct abstract stub
 - Lazy imports inside composition methods (avoids circular imports)
 - `@runtime_final` and `FinalABCMeta` together — standard toolkit metaclass pattern
 - `@event_dataclass` / `@command_dataclass` / `@query_dataclass` decorators
 - `Message` subclasses without manual `_payload` if decorated with `@message_dataclass`
 - `ValueObject` subclasses without explicit `@auto_freeze` — it is applied automatically via `__init_subclass__`
-- Multiple Protocol inheritance — valid for composing port contracts
+- Multiple ABC inheritance — valid for composing port contracts
