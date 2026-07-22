@@ -12,28 +12,28 @@
         <meta name="author" content="ForgingBlocks Org">
       
       
-        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/ports/">
+        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/architecture_error/">
       
       
-        <link rel="prev" href="../permission/">
+        <link rel="prev" href="../../context/transaction_context/">
       
       
-        <link rel="next" href="../value_object/">
+        <link rel="next" href="../cant_modify_immutable_attribute_error/">
       
       
-      <link rel="icon" href="../../../../assets/favicon.ico">
+      <link rel="icon" href="../../../../../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
     
     
       
-        <title>Ports - ForgingBlocks</title>
+        <title>Architecture Error - ForgingBlocks</title>
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.84d31ad4.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.84d31ad4.min.css">
       
         
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -52,13 +52,13 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../../assets/css/theme.css">
+      <link rel="stylesheet" href="../../../../../assets/css/theme.css">
     
-      <link rel="stylesheet" href="../../../../assets/css/mermaid-theme.css">
+      <link rel="stylesheet" href="../../../../../assets/css/mermaid-theme.css">
     
-    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ports" class="md-skip">
+        <a href="#architecture-error" class="md-skip">
           Skip to content
         </a>
       
@@ -96,9 +96,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../.." title="ForgingBlocks" class="md-header__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
+    <a href="../../../../.." title="ForgingBlocks" class="md-header__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
       
-  <img src="../../../../assets/logo.png" alt="logo">
+  <img src="../../../../../assets/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Ports
+              Architecture Error
             
           </span>
         </div>
@@ -200,7 +200,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../.." class="md-tabs__link">
+      <a href="../../../../.." class="md-tabs__link">
         
   
   
@@ -221,7 +221,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../guide/" class="md-tabs__link">
+        <a href="../../../../../guide/" class="md-tabs__link">
           
   
   
@@ -243,7 +243,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../../" class="md-tabs__link">
+        <a href="../../../../" class="md-tabs__link">
           
   
   
@@ -263,7 +263,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../architectural-styles/" class="md-tabs__link">
+        <a href="../../../../../architectural-styles/" class="md-tabs__link">
           
   
   
@@ -283,7 +283,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../contributing/" class="md-tabs__link">
+        <a href="../../../../../contributing/" class="md-tabs__link">
           
   
   
@@ -301,7 +301,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../../LICENSE/" class="md-tabs__link">
+      <a href="../../../../../LICENSE/" class="md-tabs__link">
         
   
   
@@ -336,9 +336,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="ForgingBlocks" class="md-nav__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
+    <a href="../../../../.." title="ForgingBlocks" class="md-nav__button md-logo" aria-label="ForgingBlocks" data-md-component="logo">
       
-  <img src="../../../../assets/logo.png" alt="logo">
+  <img src="../../../../../assets/logo.png" alt="logo">
 
     </a>
     ForgingBlocks
@@ -365,7 +365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../.." class="md-nav__link">
+      <a href="../../../../.." class="md-nav__link">
         
   
   
@@ -430,7 +430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/" class="md-nav__link">
+      <a href="../../../../../guide/" class="md-nav__link">
         
   
   
@@ -453,7 +453,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/getting-started/" class="md-nav__link">
+      <a href="../../../../../guide/getting-started/" class="md-nav__link">
         
   
   
@@ -476,7 +476,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/testing/" class="md-nav__link">
+      <a href="../../../../../guide/testing/" class="md-nav__link">
         
   
   
@@ -499,7 +499,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/example_tests/" class="md-nav__link">
+      <a href="../../../../../guide/example_tests/" class="md-nav__link">
         
   
   
@@ -522,7 +522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/examples/" class="md-nav__link">
+      <a href="../../../../../guide/examples/" class="md-nav__link">
         
   
   
@@ -545,7 +545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/principles/" class="md-nav__link">
+      <a href="../../../../../guide/principles/" class="md-nav__link">
         
   
   
@@ -568,7 +568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/architecture-overview/" class="md-nav__link">
+      <a href="../../../../../guide/architecture-overview/" class="md-nav__link">
         
   
   
@@ -591,7 +591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../guide/recommended_blocks_structure/" class="md-nav__link">
+      <a href="../../../../../guide/recommended_blocks_structure/" class="md-nav__link">
         
   
   
@@ -669,7 +669,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../" class="md-nav__link">
+      <a href="../../../../" class="md-nav__link">
         
   
   
@@ -692,7 +692,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api-stability/" class="md-nav__link">
+      <a href="../../../../api-stability/" class="md-nav__link">
         
   
   
@@ -761,7 +761,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/" class="md-nav__link">
+      <a href="../../../../foundation/" class="md-nav__link">
         
   
   
@@ -784,7 +784,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/result/" class="md-nav__link">
+      <a href="../../../../foundation/result/" class="md-nav__link">
         
   
   
@@ -807,7 +807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/ports/" class="md-nav__link">
+      <a href="../../../../foundation/ports/" class="md-nav__link">
         
   
   
@@ -830,7 +830,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/errors/" class="md-nav__link">
+      <a href="../../../../foundation/errors/" class="md-nav__link">
         
   
   
@@ -853,7 +853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/messages/" class="md-nav__link">
+      <a href="../../../../foundation/messages/" class="md-nav__link">
         
   
   
@@ -876,7 +876,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/value-objects/" class="md-nav__link">
+      <a href="../../../../foundation/value-objects/" class="md-nav__link">
         
   
   
@@ -899,7 +899,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/auto-freeze/" class="md-nav__link">
+      <a href="../../../../foundation/auto-freeze/" class="md-nav__link">
         
   
   
@@ -922,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/specifications/" class="md-nav__link">
+      <a href="../../../../foundation/specifications/" class="md-nav__link">
         
   
   
@@ -945,7 +945,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/mappers/" class="md-nav__link">
+      <a href="../../../../foundation/mappers/" class="md-nav__link">
         
   
   
@@ -968,7 +968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/identified/" class="md-nav__link">
+      <a href="../../../../foundation/identified/" class="md-nav__link">
         
   
   
@@ -991,7 +991,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/meta/" class="md-nav__link">
+      <a href="../../../../foundation/meta/" class="md-nav__link">
         
   
   
@@ -1014,7 +1014,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/context/" class="md-nav__link">
+      <a href="../../../../foundation/context/" class="md-nav__link">
         
   
   
@@ -1037,7 +1037,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../foundation/rules/" class="md-nav__link">
+      <a href="../../../../foundation/rules/" class="md-nav__link">
         
   
   
@@ -1114,7 +1114,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/" class="md-nav__link">
+      <a href="../../../../domain/" class="md-nav__link">
         
   
   
@@ -1137,7 +1137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/entities/" class="md-nav__link">
+      <a href="../../../../domain/entities/" class="md-nav__link">
         
   
   
@@ -1160,7 +1160,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/value-objects/" class="md-nav__link">
+      <a href="../../../../domain/value-objects/" class="md-nav__link">
         
   
   
@@ -1183,7 +1183,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/aggregates/" class="md-nav__link">
+      <a href="../../../../domain/aggregates/" class="md-nav__link">
         
   
   
@@ -1206,7 +1206,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/specifications/" class="md-nav__link">
+      <a href="../../../../domain/specifications/" class="md-nav__link">
         
   
   
@@ -1229,7 +1229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/validators/" class="md-nav__link">
+      <a href="../../../../domain/validators/" class="md-nav__link">
         
   
   
@@ -1252,7 +1252,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/permissions/" class="md-nav__link">
+      <a href="../../../../domain/permissions/" class="md-nav__link">
         
   
   
@@ -1275,7 +1275,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../domain/errors/" class="md-nav__link">
+      <a href="../../../../domain/errors/" class="md-nav__link">
         
   
   
@@ -1352,7 +1352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../application/" class="md-nav__link">
+      <a href="../../../../application/" class="md-nav__link">
         
   
   
@@ -1375,7 +1375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../application/use-cases/" class="md-nav__link">
+      <a href="../../../../application/use-cases/" class="md-nav__link">
         
   
   
@@ -1398,7 +1398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../application/ports/" class="md-nav__link">
+      <a href="../../../../application/ports/" class="md-nav__link">
         
   
   
@@ -1421,7 +1421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../application/errors/" class="md-nav__link">
+      <a href="../../../../application/errors/" class="md-nav__link">
         
   
   
@@ -1498,7 +1498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../infrastructure/" class="md-nav__link">
+      <a href="../../../../infrastructure/" class="md-nav__link">
         
   
   
@@ -1521,7 +1521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../infrastructure/persistence/" class="md-nav__link">
+      <a href="../../../../infrastructure/persistence/" class="md-nav__link">
         
   
   
@@ -1544,7 +1544,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../infrastructure/messaging/" class="md-nav__link">
+      <a href="../../../../infrastructure/messaging/" class="md-nav__link">
         
   
   
@@ -1567,7 +1567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../infrastructure/adapters/" class="md-nav__link">
+      <a href="../../../../infrastructure/adapters/" class="md-nav__link">
         
   
   
@@ -1644,7 +1644,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../presentation/" class="md-nav__link">
+      <a href="../../../../presentation/" class="md-nav__link">
         
   
   
@@ -1667,7 +1667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../presentation/adapters/" class="md-nav__link">
+      <a href="../../../../presentation/adapters/" class="md-nav__link">
         
   
   
@@ -1690,7 +1690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../presentation/error-handling/" class="md-nav__link">
+      <a href="../../../../presentation/error-handling/" class="md-nav__link">
         
   
   
@@ -1713,7 +1713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../presentation/middleware/" class="md-nav__link">
+      <a href="../../../../presentation/middleware/" class="md-nav__link">
         
   
   
@@ -1878,7 +1878,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/errors/concurrency_error/" class="md-nav__link">
+      <a href="../../../application/errors/concurrency_error/" class="md-nav__link">
         
   
   
@@ -1901,7 +1901,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/errors/event_bus_error/" class="md-nav__link">
+      <a href="../../../application/errors/event_bus_error/" class="md-nav__link">
         
   
   
@@ -1924,7 +1924,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/errors/event_store_error/" class="md-nav__link">
+      <a href="../../../application/errors/event_store_error/" class="md-nav__link">
         
   
   
@@ -1947,7 +1947,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/errors/transaction_error/" class="md-nav__link">
+      <a href="../../../application/errors/transaction_error/" class="md-nav__link">
         
   
   
@@ -1970,7 +1970,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/errors/unit_of_work_error/" class="md-nav__link">
+      <a href="../../../application/errors/unit_of_work_error/" class="md-nav__link">
         
   
   
@@ -2044,12 +2044,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/inbound/application_service/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/application_service_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Application Service
+    Application Service Port
     
   </span>
   
@@ -2067,12 +2067,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/inbound/authorization_service/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/authorization_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Authorization Service
+    Authorization Port
     
   </span>
   
@@ -2090,12 +2090,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/inbound/message_handler/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/message_handler_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Message Handler
+    Message Handler Port
     
   </span>
   
@@ -2113,35 +2113,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/inbound/use_case/" class="md-nav__link">
+      <a href="../../../application/ports/inbound/validation_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Use Case
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../application/ports/inbound/validation_service/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Validation Service
+    Validation Port
     
   </span>
   
@@ -2210,7 +2187,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/cache_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/cache_port/" class="md-nav__link">
         
   
   
@@ -2233,7 +2210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/command_sender_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/command_sender_port/" class="md-nav__link">
         
   
   
@@ -2256,7 +2233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/event_bus_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/event_bus_port/" class="md-nav__link">
         
   
   
@@ -2279,7 +2256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/event_publisher_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/event_publisher_port/" class="md-nav__link">
         
   
   
@@ -2302,7 +2279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/event_store_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/event_store_port/" class="md-nav__link">
         
   
   
@@ -2325,30 +2302,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/external_service_port/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    External Service Port
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../application/ports/outbound/file_system_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/file_system_port/" class="md-nav__link">
         
   
   
@@ -2371,7 +2325,30 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/logger_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/http_client_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Http Client Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../application/ports/outbound/logger_port/" class="md-nav__link">
         
   
   
@@ -2394,7 +2371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/message_bus_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/message_bus_port/" class="md-nav__link">
         
   
   
@@ -2417,7 +2394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/notifier_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/notifier_port/" class="md-nav__link">
         
   
   
@@ -2440,7 +2417,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/query_fetcher_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/query_fetcher_port/" class="md-nav__link">
         
   
   
@@ -2463,7 +2440,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/repository_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/repository_port/" class="md-nav__link">
         
   
   
@@ -2486,7 +2463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/specification_repository_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/specification_repository_port/" class="md-nav__link">
         
   
   
@@ -2509,7 +2486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/transaction_manager_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/transaction_manager_port/" class="md-nav__link">
         
   
   
@@ -2532,7 +2509,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../application/ports/outbound/unit_of_work_port/" class="md-nav__link">
+      <a href="../../../application/ports/outbound/unit_of_work_port/" class="md-nav__link">
         
   
   
@@ -2614,7 +2591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/entity/" class="md-nav__link">
+      <a href="../../../domain/entity/" class="md-nav__link">
         
   
   
@@ -2637,7 +2614,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/value_object/" class="md-nav__link">
+      <a href="../../../domain/value_object/" class="md-nav__link">
         
   
   
@@ -2703,7 +2680,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/aggregate_root/aggregate_root/" class="md-nav__link">
+      <a href="../../../domain/aggregate_root/aggregate_root/" class="md-nav__link">
         
   
   
@@ -2726,7 +2703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/aggregate_root/aggregate_version/" class="md-nav__link">
+      <a href="../../../domain/aggregate_root/aggregate_version/" class="md-nav__link">
         
   
   
@@ -2800,7 +2777,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/errors/draft_entity_is_not_hashable_error/" class="md-nav__link">
+      <a href="../../../domain/errors/draft_entity_is_not_hashable_error/" class="md-nav__link">
         
   
   
@@ -2823,7 +2800,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/errors/entity_id_deletion_error/" class="md-nav__link">
+      <a href="../../../domain/errors/entity_id_deletion_error/" class="md-nav__link">
         
   
   
@@ -2846,7 +2823,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/errors/entity_id_modification_error/" class="md-nav__link">
+      <a href="../../../domain/errors/entity_id_modification_error/" class="md-nav__link">
         
   
   
@@ -2869,7 +2846,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/errors/entity_id_none_error/" class="md-nav__link">
+      <a href="../../../domain/errors/entity_id_none_error/" class="md-nav__link">
         
   
   
@@ -2943,7 +2920,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/permissions/composite_permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/composite_permission_checker/" class="md-nav__link">
         
   
   
@@ -2966,7 +2943,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/permissions/permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/permission_checker/" class="md-nav__link">
         
   
   
@@ -2989,7 +2966,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/permissions/resource_permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/resource_permission_checker/" class="md-nav__link">
         
   
   
@@ -3012,7 +2989,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/permissions/role_based_permission_checker/" class="md-nav__link">
+      <a href="../../../domain/permissions/role_based_permission_checker/" class="md-nav__link">
         
   
   
@@ -3086,7 +3063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/validators/composite_validation_rule/" class="md-nav__link">
+      <a href="../../../domain/validators/composite_validation_rule/" class="md-nav__link">
         
   
   
@@ -3109,7 +3086,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/validators/email_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/email_validator/" class="md-nav__link">
         
   
   
@@ -3132,7 +3109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/validators/length_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/length_validator/" class="md-nav__link">
         
   
   
@@ -3155,7 +3132,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/validators/range_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/range_validator/" class="md-nav__link">
         
   
   
@@ -3178,7 +3155,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../domain/validators/required_validator/" class="md-nav__link">
+      <a href="../../../domain/validators/required_validator/" class="md-nav__link">
         
   
   
@@ -3262,7 +3239,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debuggable/" class="md-nav__link">
+      <a href="../../debuggable/" class="md-nav__link">
         
   
   
@@ -3285,7 +3262,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../identified/" class="md-nav__link">
+      <a href="../../identified/" class="md-nav__link">
         
   
   
@@ -3308,7 +3285,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mapper/" class="md-nav__link">
+      <a href="../../mapper/" class="md-nav__link">
         
   
   
@@ -3331,7 +3308,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../permission/" class="md-nav__link">
+      <a href="../../permission/" class="md-nav__link">
         
   
   
@@ -3351,117 +3328,10 @@
                 
   
   
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Ports
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    Ports
-    
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#forging_blocks.foundation.ports" class="md-nav__link">
-    <span class="md-ellipsis">
-      ports
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="ports">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.foundation.ports.Port" class="md-nav__link">
-    <span class="md-ellipsis">
-      Port
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.foundation.ports.InboundPort" class="md-nav__link">
-    <span class="md-ellipsis">
-      InboundPort
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.foundation.ports.OutboundPort" class="md-nav__link">
-    <span class="md-ellipsis">
-      OutboundPort
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
   
   
     <li class="md-nav__item">
-      <a href="../value_object/" class="md-nav__link">
+      <a href="../../value_object/" class="md-nav__link">
         
   
   
@@ -3497,10 +3367,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_6" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_7" id="__nav_3_8_3_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_6" id="__nav_3_8_3_6_label" tabindex="0">
             
   
   
@@ -3513,8 +3383,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_7">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_6">
             <span class="md-nav__icon md-icon"></span>
             Autofreeze
           </label>
@@ -3527,12 +3397,86 @@
   
   
     <li class="md-nav__item">
-      <a href="../autofreeze/auto_freeze/" class="md-nav__link">
+      <a href="../../autofreeze/auto_freeze/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     Auto Freeze
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_3_7" id="__nav_3_8_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Autohash
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            Autohash
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../autohash/auto_hash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Auto Hash
     
   </span>
   
@@ -3579,7 +3523,7 @@
   
   
   <span class="md-ellipsis">
-    Autohash
+    Context
     
   </span>
   
@@ -3589,80 +3533,6 @@
         
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_3_8">
-            <span class="md-nav__icon md-icon"></span>
-            Autohash
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../autohash/auto_hash/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Auto Hash
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_9" >
-        
-          
-          <label class="md-nav__link" for="__nav_3_8_3_9" id="__nav_3_8_3_9_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    Context
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_9">
             <span class="md-nav__icon md-icon"></span>
             Context
           </label>
@@ -3675,7 +3545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../context/authorization_context/" class="md-nav__link">
+      <a href="../../context/authorization_context/" class="md-nav__link">
         
   
   
@@ -3698,7 +3568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../context/service_context/" class="md-nav__link">
+      <a href="../../context/service_context/" class="md-nav__link">
         
   
   
@@ -3721,12 +3591,445 @@
   
   
     <li class="md-nav__item">
-      <a href="../context/transaction_context/" class="md-nav__link">
+      <a href="../../context/transaction_context/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     Transaction Context
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_3_9" id="__nav_3_8_3_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Errors
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_8_3_9">
+            <span class="md-nav__icon md-icon"></span>
+            Errors
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Architecture Error
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture Error
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#forging_blocks.foundation.errors.architecture_error" class="md-nav__link">
+    <span class="md-ellipsis">
+      architecture_error
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="architecture_error">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.foundation.errors.architecture_error.ArchitectureError" class="md-nav__link">
+    <span class="md-ellipsis">
+      ArchitectureError
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ArchitectureError">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.foundation.errors.architecture_error.ArchitectureError.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cant_modify_immutable_attribute_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cant Modify Immutable Attribute Error
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combined_errors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Combined Errors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration Error
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Error
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../field_errors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Field Errors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../non_hashable_value_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Non Hashable Value Error
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../none_not_allowed_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    None Not Allowed Error
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../not_callable_predicate_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Not Callable Predicate Error
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../result_access_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Result Access Error
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rule_violation_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Rule Violation Error
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validation_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Validation Error
     
   </span>
   
@@ -3773,7 +4076,7 @@
   
   
   <span class="md-ellipsis">
-    Errors
+    Messages
     
   </span>
   
@@ -3784,7 +4087,7 @@
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_3_10">
             <span class="md-nav__icon md-icon"></span>
-            Errors
+            Messages
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -3795,12 +4098,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../errors/cant_modify_immutable_attribute_error/" class="md-nav__link">
+      <a href="../../messages/command/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Cant Modify Immutable Attribute Error
+    Command
     
   </span>
   
@@ -3818,12 +4121,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../errors/combined_errors/" class="md-nav__link">
+      <a href="../../messages/decorators/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Combined Errors
+    Decorators
     
   </span>
   
@@ -3841,12 +4144,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../errors/core/" class="md-nav__link">
+      <a href="../../messages/event/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Core
+    Event
     
   </span>
   
@@ -3864,12 +4167,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../errors/error/" class="md-nav__link">
+      <a href="../../messages/message/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Error
+    Message
     
   </span>
   
@@ -3887,150 +4190,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../errors/field_errors/" class="md-nav__link">
+      <a href="../../messages/query/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Field Errors
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../errors/non_hashable_value_error/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Non Hashable Value Error
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../errors/none_not_allowed_error/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    None Not Allowed Error
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../errors/not_callable_predicate_error/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Not Callable Predicate Error
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../errors/result_access_error/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Result Access Error
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../errors/rule_violation_error/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Rule Violation Error
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../errors/validation_error/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Validation Error
+    Query
     
   </span>
   
@@ -4077,7 +4242,7 @@
   
   
   <span class="md-ellipsis">
-    Messages
+    Meta
     
   </span>
   
@@ -4088,7 +4253,7 @@
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_3_11">
             <span class="md-nav__icon md-icon"></span>
-            Messages
+            Meta
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4099,12 +4264,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../messages/command/" class="md-nav__link">
+      <a href="../../meta/final_abc_meta/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Command
+    Final Abc Meta
     
   </span>
   
@@ -4122,81 +4287,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../messages/decorators/" class="md-nav__link">
+      <a href="../../meta/final_meta/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Decorators
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../messages/event/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../messages/message/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Message
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../messages/query/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Query
+    Final Meta
     
   </span>
   
@@ -4243,7 +4339,7 @@
   
   
   <span class="md-ellipsis">
-    Meta
+    Ports
     
   </span>
   
@@ -4254,7 +4350,7 @@
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_12_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_8_3_12">
             <span class="md-nav__icon md-icon"></span>
-            Meta
+            Ports
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4265,12 +4361,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../meta/final_abc_meta/" class="md-nav__link">
+      <a href="../../ports/_check_methods/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Final Abc Meta
+    Check Methods
     
   </span>
   
@@ -4288,12 +4384,58 @@
   
   
     <li class="md-nav__item">
-      <a href="../meta/final_meta/" class="md-nav__link">
+      <a href="../../ports/_inbound_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Final Meta
+    Inbound Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ports/_outbound_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Outbound Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ports/_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port
     
   </span>
   
@@ -4362,7 +4504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../result/err/" class="md-nav__link">
+      <a href="../../result/err/" class="md-nav__link">
         
   
   
@@ -4385,7 +4527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../result/ok/" class="md-nav__link">
+      <a href="../../result/ok/" class="md-nav__link">
         
   
   
@@ -4408,7 +4550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../result/result/" class="md-nav__link">
+      <a href="../../result/result/" class="md-nav__link">
         
   
   
@@ -4482,7 +4624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rules/validation_rule/" class="md-nav__link">
+      <a href="../../rules/validation_rule/" class="md-nav__link">
         
   
   
@@ -4556,7 +4698,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../specification/base/" class="md-nav__link">
+      <a href="../../specification/base/" class="md-nav__link">
         
   
   
@@ -4579,7 +4721,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../specification/composable/" class="md-nav__link">
+      <a href="../../specification/composable/" class="md-nav__link">
         
   
   
@@ -4602,7 +4744,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../specification/expression/" class="md-nav__link">
+      <a href="../../specification/expression/" class="md-nav__link">
         
   
   
@@ -4676,7 +4818,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../specification/logical_operators/and_specification/" class="md-nav__link">
+      <a href="../../specification/logical_operators/and_specification/" class="md-nav__link">
         
   
   
@@ -4699,7 +4841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../specification/logical_operators/not_specification/" class="md-nav__link">
+      <a href="../../specification/logical_operators/not_specification/" class="md-nav__link">
         
   
   
@@ -4722,7 +4864,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../specification/logical_operators/or_specification/" class="md-nav__link">
+      <a href="../../specification/logical_operators/or_specification/" class="md-nav__link">
         
   
   
@@ -4847,7 +4989,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/caching/in_memory_cache/" class="md-nav__link">
+      <a href="../../../infrastructure/caching/in_memory_cache/" class="md-nav__link">
         
   
   
@@ -4921,7 +5063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/errors/repository_errors/" class="md-nav__link">
+      <a href="../../../infrastructure/errors/repository_errors/" class="md-nav__link">
         
   
   
@@ -4995,7 +5137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/event_buses/event_bus_base/" class="md-nav__link">
+      <a href="../../../infrastructure/event_buses/event_bus_base/" class="md-nav__link">
         
   
   
@@ -5018,7 +5160,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/event_buses/in_memory_event_bus/" class="md-nav__link">
+      <a href="../../../infrastructure/event_buses/in_memory_event_bus/" class="md-nav__link">
         
   
   
@@ -5041,7 +5183,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/event_buses/in_memory_event_bus_base/" class="md-nav__link">
+      <a href="../../../infrastructure/event_buses/in_memory_event_bus_base/" class="md-nav__link">
         
   
   
@@ -5115,7 +5257,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/event_stores/event_store_base/" class="md-nav__link">
+      <a href="../../../infrastructure/event_stores/event_store_base/" class="md-nav__link">
         
   
   
@@ -5138,7 +5280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/event_stores/in_memory_event_store/" class="md-nav__link">
+      <a href="../../../infrastructure/event_stores/in_memory_event_store/" class="md-nav__link">
         
   
   
@@ -5161,7 +5303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/event_stores/in_memory_event_store_base/" class="md-nav__link">
+      <a href="../../../infrastructure/event_stores/in_memory_event_store_base/" class="md-nav__link">
         
   
   
@@ -5235,7 +5377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/file_system/os_file_system/" class="md-nav__link">
+      <a href="../../../infrastructure/file_system/os_file_system/" class="md-nav__link">
         
   
   
@@ -5309,7 +5451,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/http_client/urllib_client/" class="md-nav__link">
+      <a href="../../../infrastructure/http_client/urllib_client/" class="md-nav__link">
         
   
   
@@ -5383,7 +5525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/logging/stdlib_logger/" class="md-nav__link">
+      <a href="../../../infrastructure/logging/stdlib_logger/" class="md-nav__link">
         
   
   
@@ -5457,7 +5599,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/message_bus/in_memory_message_bus/" class="md-nav__link">
+      <a href="../../../infrastructure/message_bus/in_memory_message_bus/" class="md-nav__link">
         
   
   
@@ -5480,7 +5622,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/message_bus/message_bus_command_sender/" class="md-nav__link">
+      <a href="../../../infrastructure/message_bus/message_bus_command_sender/" class="md-nav__link">
         
   
   
@@ -5503,7 +5645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/message_bus/message_bus_event_publisher/" class="md-nav__link">
+      <a href="../../../infrastructure/message_bus/message_bus_event_publisher/" class="md-nav__link">
         
   
   
@@ -5526,7 +5668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/message_bus/message_bus_query_fetcher/" class="md-nav__link">
+      <a href="../../../infrastructure/message_bus/message_bus_query_fetcher/" class="md-nav__link">
         
   
   
@@ -5600,7 +5742,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/repositories/aggregate_repository/" class="md-nav__link">
+      <a href="../../../infrastructure/repositories/aggregate_repository/" class="md-nav__link">
         
   
   
@@ -5623,7 +5765,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/repositories/base_repository/" class="md-nav__link">
+      <a href="../../../infrastructure/repositories/base_repository/" class="md-nav__link">
         
   
   
@@ -5646,7 +5788,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/repositories/in_memory_read_repository/" class="md-nav__link">
+      <a href="../../../infrastructure/repositories/in_memory_read_repository/" class="md-nav__link">
         
   
   
@@ -5669,7 +5811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/repositories/in_memory_write_repository/" class="md-nav__link">
+      <a href="../../../infrastructure/repositories/in_memory_write_repository/" class="md-nav__link">
         
   
   
@@ -5743,7 +5885,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/serialization/serializable/" class="md-nav__link">
+      <a href="../../../infrastructure/serialization/serializable/" class="md-nav__link">
         
   
   
@@ -5817,7 +5959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../infrastructure/unit_of_work/in_memory_unit_of_work/" class="md-nav__link">
+      <a href="../../../infrastructure/unit_of_work/in_memory_unit_of_work/" class="md-nav__link">
         
   
   
@@ -5899,7 +6041,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/presenter_contract/" class="md-nav__link">
+      <a href="../../../presentation/presenter_contract/" class="md-nav__link">
         
   
   
@@ -5965,7 +6107,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/adapters/presentation_adapter/" class="md-nav__link">
+      <a href="../../../presentation/adapters/presentation_adapter/" class="md-nav__link">
         
   
   
@@ -5988,7 +6130,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/adapters/request_adapter/" class="md-nav__link">
+      <a href="../../../presentation/adapters/request_adapter/" class="md-nav__link">
         
   
   
@@ -6011,7 +6153,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/adapters/response_adapter/" class="md-nav__link">
+      <a href="../../../presentation/adapters/response_adapter/" class="md-nav__link">
         
   
   
@@ -6085,7 +6227,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/builtin/error_handling_middleware/" class="md-nav__link">
+      <a href="../../../presentation/builtin/error_handling_middleware/" class="md-nav__link">
         
   
   
@@ -6108,7 +6250,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/builtin/logging_middleware/" class="md-nav__link">
+      <a href="../../../presentation/builtin/logging_middleware/" class="md-nav__link">
         
   
   
@@ -6131,7 +6273,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/builtin/timing_middleware/" class="md-nav__link">
+      <a href="../../../presentation/builtin/timing_middleware/" class="md-nav__link">
         
   
   
@@ -6154,7 +6296,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/builtin/validation_middleware/" class="md-nav__link">
+      <a href="../../../presentation/builtin/validation_middleware/" class="md-nav__link">
         
   
   
@@ -6228,7 +6370,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/errors/error_message_model/" class="md-nav__link">
+      <a href="../../../presentation/errors/error_message_model/" class="md-nav__link">
         
   
   
@@ -6251,7 +6393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/errors/error_presenter/" class="md-nav__link">
+      <a href="../../../presentation/errors/error_presenter/" class="md-nav__link">
         
   
   
@@ -6274,7 +6416,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/errors/error_status_code_mapper/" class="md-nav__link">
+      <a href="../../../presentation/errors/error_status_code_mapper/" class="md-nav__link">
         
   
   
@@ -6297,7 +6439,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/errors/error_view_model/" class="md-nav__link">
+      <a href="../../../presentation/errors/error_view_model/" class="md-nav__link">
         
   
   
@@ -6371,7 +6513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/middleware/middleware/" class="md-nav__link">
+      <a href="../../../presentation/middleware/middleware/" class="md-nav__link">
         
   
   
@@ -6394,7 +6536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/middleware/next_handler/" class="md-nav__link">
+      <a href="../../../presentation/middleware/next_handler/" class="md-nav__link">
         
   
   
@@ -6417,7 +6559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../presentation/middleware/pipeline/" class="md-nav__link">
+      <a href="../../../presentation/middleware/pipeline/" class="md-nav__link">
         
   
   
@@ -6514,7 +6656,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/" class="md-nav__link">
         
   
   
@@ -6537,7 +6679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/clean-architecture/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/clean-architecture/" class="md-nav__link">
         
   
   
@@ -6560,7 +6702,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/hexagonal-architecture/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/hexagonal-architecture/" class="md-nav__link">
         
   
   
@@ -6583,7 +6725,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/layered-architecture/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/layered-architecture/" class="md-nav__link">
         
   
   
@@ -6606,7 +6748,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/cqrs/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/cqrs/" class="md-nav__link">
         
   
   
@@ -6629,7 +6771,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../architectural-styles/event-driven/" class="md-nav__link">
+      <a href="../../../../../architectural-styles/event-driven/" class="md-nav__link">
         
   
   
@@ -6702,7 +6844,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../contributing/" class="md-nav__link">
+      <a href="../../../../../contributing/" class="md-nav__link">
         
   
   
@@ -6725,7 +6867,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../contributing/contributing/" class="md-nav__link">
+      <a href="../../../../../contributing/contributing/" class="md-nav__link">
         
   
   
@@ -6748,7 +6890,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../contributing/docs-conventions/" class="md-nav__link">
+      <a href="../../../../../contributing/docs-conventions/" class="md-nav__link">
         
   
   
@@ -6771,7 +6913,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../contributing/release-guide/" class="md-nav__link">
+      <a href="../../../../../contributing/release-guide/" class="md-nav__link">
         
   
   
@@ -6801,7 +6943,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../LICENSE/" class="md-nav__link">
+      <a href="../../../../../LICENSE/" class="md-nav__link">
         
   
   
@@ -6843,39 +6985,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.foundation.ports" class="md-nav__link">
+  <a href="#forging_blocks.foundation.errors.architecture_error" class="md-nav__link">
     <span class="md-ellipsis">
-      ports
+      architecture_error
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="ports">
+    <nav class="md-nav" aria-label="architecture_error">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.foundation.ports.Port" class="md-nav__link">
+  <a href="#forging_blocks.foundation.errors.architecture_error.ArchitectureError" class="md-nav__link">
     <span class="md-ellipsis">
-      Port
+      ArchitectureError
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ArchitectureError">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.foundation.errors.architecture_error.ArchitectureError.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
     </span>
   </a>
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#forging_blocks.foundation.ports.InboundPort" class="md-nav__link">
-    <span class="md-ellipsis">
-      InboundPort
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.foundation.ports.OutboundPort" class="md-nav__link">
-    <span class="md-ellipsis">
-      OutboundPort
-    </span>
-  </a>
+      </ul>
+    </nav>
   
 </li>
         
@@ -6900,7 +7039,7 @@
 
 
   
-    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/foundation/ports.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/foundation/errors/architecture_error.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -6908,22 +7047,24 @@
   
 
 
-<h1 id="ports">Ports<a class="headerlink" href="#ports" title="Permanent link">&para;</a></h1>
+<h1 id="architecture-error">Architecture Error<a class="headerlink" href="#architecture-error" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="forging_blocks.foundation.ports" class="doc doc-heading">
-            <code>ports</code>
+<h2 id="forging_blocks.foundation.errors.architecture_error" class="doc doc-heading">
+            <code>architecture_error</code>
 
 
-<a href="#forging_blocks.foundation.ports" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#forging_blocks.foundation.errors.architecture_error" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-        <p>Foundational port definition for the ForgingBlocks.</p>
+        <p>Architecture error for dependency direction violations.</p>
+<p>Defines <code>ArchitectureError</code>, raised at class-definition time when a port<br />
+subclass violates Clean Architecture dependency rules.</p>
 
 
 
@@ -6948,26 +7089,23 @@
 
 
 
-<h3 id="forging_blocks.foundation.ports.Port" class="doc doc-heading">
-            <code>Port</code>
+<h3 id="forging_blocks.foundation.errors.architecture_error.ArchitectureError" class="doc doc-heading">
+            <code>ArchitectureError</code>
 
 
-<a href="#forging_blocks.foundation.ports.Port" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#forging_blocks.foundation.errors.architecture_error.ArchitectureError" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="typing.Protocol">Protocol</span></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="Error (forging_blocks.foundation.errors.error.Error)" href="../error/#forging_blocks.foundation.errors.error.Error">Error</a>[<span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="object">object</span>]]</code></p>
 
 
-        <p>Base protocol for defining interface contracts.</p>
-<p>Port is a generic Protocol that serves as the foundation for interface<br />
-declarations. It provides type parameters (InputType, OutputType) and<br />
-defines no methods — it's a marker protocol that you extend to create<br />
-your own specific interfaces.</p>
-<p>TYPE PARAMETERS:<br />
-- <code>InputType</code>: The type of data accepted by operations on this interface.<br />
-- <code>OutputType</code>: The type of data returned by operations on this interface.</p>
+        <p>Raised when a port subclass violates dependency direction rules.</p>
+<p>Inbound ports may only depend on OutboundPort instances; Outbound ports<br />
+may only depend on other OutboundPort instances. This error fires at<br />
+class creation time via <code>__init_subclass__</code> on <code>InboundPort</code> and<br />
+<code>OutboundPort</code>.</p>
 
 
 
@@ -6977,108 +7115,133 @@ your own specific interfaces.</p>
 
 
               <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/foundation/ports.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+                <summary>Source code in <code>src/forging_blocks/foundation/errors/architecture_error.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-13">13</a></span>
 <span class="normal"><a href="#__codelineno-0-14">14</a></span>
 <span class="normal"><a href="#__codelineno-0-15">15</a></span>
 <span class="normal"><a href="#__codelineno-0-16">16</a></span>
 <span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="nd">@runtime_checkable</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">Port</span><span class="p">[</span><span class="n">InputType</span><span class="p">,</span> <span class="n">OutputType</span><span class="p">](</span><span class="n">Protocol</span><span class="p">):</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base protocol for defining interface contracts.</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="sd">    Port is a generic Protocol that serves as the foundation for interface</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="sd">    declarations. It provides type parameters (InputType, OutputType) and</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="sd">    defines no methods — it&#39;s a marker protocol that you extend to create</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="sd">    your own specific interfaces.</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="sd">    TYPE PARAMETERS:</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">    - `InputType`: The type of data accepted by operations on this interface.</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">    - `OutputType`: The type of data returned by operations on this interface.</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="k">class</span><span class="w"> </span><span class="nc">ArchitectureError</span><span class="p">(</span><span class="n">Error</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]):</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a port subclass violates dependency direction rules.</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">    Inbound ports may only depend on OutboundPort instances; Outbound ports</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">    may only depend on other OutboundPort instances. This error fires at</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    class creation time via ``__init_subclass__`` on ``InboundPort`` and</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    ``OutboundPort``.</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialise with a descriptive violation message.</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">            message: Human-readable description of the violation,</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">                including the class name, the offending parameter,</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">                and the applicable rule.</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">ErrorMessage</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="forging_blocks.foundation.errors.architecture_error.ArchitectureError.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+<a href="#forging_blocks.foundation.errors.architecture_error.ArchitectureError.__init__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Initialise with a descriptive violation message.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>message</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Human-readable description of the violation,<br />
+including the class name, the offending parameter,<br />
+and the applicable rule.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/forging_blocks/foundation/errors/architecture_error.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialise with a descriptive violation message.</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">        message: Human-readable description of the violation,</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">            including the class name, the offending parameter,</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">            and the applicable rule.</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">ErrorMessage</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
     </div>
 
 </div>
 
-<div class="doc doc-object doc-class">
 
 
-
-<h3 id="forging_blocks.foundation.ports.InboundPort" class="doc doc-heading">
-            <code>InboundPort</code>
-
-
-<a href="#forging_blocks.foundation.ports.InboundPort" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="Port (forging_blocks.foundation.ports.Port)" href="#forging_blocks.foundation.ports.Port">Port</a>[<span title="forging_blocks.foundation.ports.InboundPort[InputType]">InputType</span>, <span title="forging_blocks.foundation.ports.InboundPort[OutputType]">OutputType</span>]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
-
-
-        <p>Alias for Port used as an inbound marker.</p>
-
-
-
-
-
-
-
-
-              <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/foundation/ports.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="k">class</span><span class="w"> </span><span class="nc">InboundPort</span><span class="p">[</span><span class="n">InputType</span><span class="p">,</span> <span class="n">OutputType</span><span class="p">](</span><span class="n">Port</span><span class="p">[</span><span class="n">InputType</span><span class="p">,</span> <span class="n">OutputType</span><span class="p">],</span> <span class="n">Protocol</span><span class="p">):</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Alias for Port used as an inbound marker.&quot;&quot;&quot;</span>
-</span></code></pre></div></td></tr></table></div>
-              </details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h3 id="forging_blocks.foundation.ports.OutboundPort" class="doc doc-heading">
-            <code>OutboundPort</code>
-
-
-<a href="#forging_blocks.foundation.ports.OutboundPort" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="Port (forging_blocks.foundation.ports.Port)" href="#forging_blocks.foundation.ports.Port">Port</a>[<span title="forging_blocks.foundation.ports.OutboundPort[InputType]">InputType</span>, <span title="forging_blocks.foundation.ports.OutboundPort[OutputType]">OutputType</span>]</code>, <code><span title="typing.Protocol">Protocol</span></code></p>
-
-
-        <p>Alias for Port used as an outbound marker.</p>
-
-
-
-
-
-
-
-
-              <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/foundation/ports.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="k">class</span><span class="w"> </span><span class="nc">OutboundPort</span><span class="p">[</span><span class="n">InputType</span><span class="p">,</span> <span class="n">OutputType</span><span class="p">](</span><span class="n">Port</span><span class="p">[</span><span class="n">InputType</span><span class="p">,</span> <span class="n">OutputType</span><span class="p">],</span> <span class="n">Protocol</span><span class="p">):</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Alias for Port used as an outbound marker.&quot;&quot;&quot;</span>
-</span></code></pre></div></td></tr></table></div>
-              </details>
+  </div>
 
     </div>
 
@@ -7142,14 +7305,14 @@ your own specific interfaces.</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.sections", "toc.follow", "content.code.copy", "content.action.edit", "content.tabs.link"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.sections", "toc.follow", "content.code.copy", "content.action.edit", "content.tabs.link"], "search": "../../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
-        <script src="../../../../assets/js/version-dropdown.js"></script>
+        <script src="../../../../../assets/js/version-dropdown.js"></script>
       
-        <script src="../../../../assets/js/mermaid-init.js"></script>
+        <script src="../../../../../assets/js/mermaid-init.js"></script>
       
     
   </body>

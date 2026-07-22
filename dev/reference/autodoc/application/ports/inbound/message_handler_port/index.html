@@ -12,13 +12,13 @@
         <meta name="author" content="ForgingBlocks Org">
       
       
-        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/inbound/validation_service/">
+        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/inbound/message_handler_port/">
       
       
-        <link rel="prev" href="../use_case/">
+        <link rel="prev" href="../authorization_port/">
       
       
-        <link rel="next" href="../../outbound/cache_port/">
+        <link rel="next" href="../validation_port/">
       
       
       <link rel="icon" href="../../../../../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Validation Service - ForgingBlocks</title>
+        <title>Message Handler Port - ForgingBlocks</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#validation-service" class="md-skip">
+        <a href="#message-handler-port" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Validation Service
+              Message Handler Port
             
           </span>
         </div>
@@ -2048,12 +2048,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../application_service/" class="md-nav__link">
+      <a href="../application_service_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Application Service
+    Application Service Port
     
   </span>
   
@@ -2071,58 +2071,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../authorization_service/" class="md-nav__link">
+      <a href="../authorization_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Authorization Service
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../message_handler/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Message Handler
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../use_case/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Use Case
+    Authorization Port
     
   </span>
   
@@ -2154,7 +2108,7 @@
   
   
   <span class="md-ellipsis">
-    Validation Service
+    Message Handler Port
     
   </span>
   
@@ -2167,7 +2121,7 @@
   
   
   <span class="md-ellipsis">
-    Validation Service
+    Message Handler Port
     
   </span>
   
@@ -2190,38 +2144,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.validation_service" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port" class="md-nav__link">
     <span class="md-ellipsis">
-      validation_service
+      message_handler_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="validation_service">
+    <nav class="md-nav" aria-label="message_handler_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.validation_service.ValidationService" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort" class="md-nav__link">
     <span class="md-ellipsis">
-      ValidationService
+      MessageHandlerPort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="ValidationService">
+    <nav class="md-nav" aria-label="MessageHandlerPort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.validation_service.ValidationService.validate_command" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort.handle" class="md-nav__link">
     <span class="md-ellipsis">
-      validate_command
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.validation_service.ValidationService.validate_query" class="md-nav__link">
-    <span class="md-ellipsis">
-      validate_query
+      handle
     </span>
   </a>
   
@@ -2229,6 +2174,33 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port.CommandHandlerPort" class="md-nav__link">
+    <span class="md-ellipsis">
+      CommandHandlerPort
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port.QueryHandlerPort" class="md-nav__link">
+    <span class="md-ellipsis">
+      QueryHandlerPort
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port.EventHandlerPort" class="md-nav__link">
+    <span class="md-ellipsis">
+      EventHandlerPort
+    </span>
+  </a>
   
 </li>
         
@@ -2241,6 +2213,29 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validation_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Validation Port
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -2419,12 +2414,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/external_service_port/" class="md-nav__link">
+      <a href="../../outbound/file_system_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    External Service Port
+    File System Port
     
   </span>
   
@@ -2442,12 +2437,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/file_system_port/" class="md-nav__link">
+      <a href="../../outbound/http_client_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    File System Port
+    Http Client Port
     
   </span>
   
@@ -3446,29 +3441,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../foundation/ports/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Ports
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../../../foundation/value_object/" class="md-nav__link">
         
   
@@ -3505,10 +3477,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_6" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_7" id="__nav_3_8_3_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_6" id="__nav_3_8_3_6_label" tabindex="0">
             
   
   
@@ -3521,8 +3493,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_7">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_6">
             <span class="md-nav__icon md-icon"></span>
             Autofreeze
           </label>
@@ -3579,10 +3551,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_7" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_8" id="__nav_3_8_3_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_7" id="__nav_3_8_3_7_label" tabindex="0">
             
   
   
@@ -3595,8 +3567,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_8">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_7">
             <span class="md-nav__icon md-icon"></span>
             Autohash
           </label>
@@ -3653,10 +3625,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_8" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_9" id="__nav_3_8_3_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_8" id="__nav_3_8_3_8_label" tabindex="0">
             
   
   
@@ -3669,8 +3641,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_9">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_8">
             <span class="md-nav__icon md-icon"></span>
             Context
           </label>
@@ -3773,10 +3745,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_9" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_10" id="__nav_3_8_3_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_9" id="__nav_3_8_3_9_label" tabindex="0">
             
   
   
@@ -3789,12 +3761,35 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_10">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_9">
             <span class="md-nav__icon md-icon"></span>
             Errors
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/errors/architecture_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture Error
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3832,6 +3827,29 @@
   
   <span class="md-ellipsis">
     Combined Errors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/errors/configuration_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration Error
     
   </span>
   
@@ -4077,10 +4095,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_10" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_11" id="__nav_3_8_3_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_10" id="__nav_3_8_3_10_label" tabindex="0">
             
   
   
@@ -4093,8 +4111,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_11">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_10">
             <span class="md-nav__icon md-icon"></span>
             Messages
           </label>
@@ -4243,10 +4261,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_12" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_11" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_12" id="__nav_3_8_3_12_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_11" id="__nav_3_8_3_11_label" tabindex="0">
             
   
   
@@ -4259,8 +4277,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_12_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_12">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_11">
             <span class="md-nav__icon md-icon"></span>
             Meta
           </label>
@@ -4302,6 +4320,149 @@
   
   <span class="md-ellipsis">
     Final Meta
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_3_12" id="__nav_3_8_3_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ports
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_12">
+            <span class="md-nav__icon md-icon"></span>
+            Ports
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/ports/_check_methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Check Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/ports/_inbound_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inbound Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/ports/_outbound_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Outbound Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/ports/_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port
     
   </span>
   
@@ -6851,38 +7012,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.validation_service" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port" class="md-nav__link">
     <span class="md-ellipsis">
-      validation_service
+      message_handler_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="validation_service">
+    <nav class="md-nav" aria-label="message_handler_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.validation_service.ValidationService" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort" class="md-nav__link">
     <span class="md-ellipsis">
-      ValidationService
+      MessageHandlerPort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="ValidationService">
+    <nav class="md-nav" aria-label="MessageHandlerPort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.validation_service.ValidationService.validate_command" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort.handle" class="md-nav__link">
     <span class="md-ellipsis">
-      validate_command
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.validation_service.ValidationService.validate_query" class="md-nav__link">
-    <span class="md-ellipsis">
-      validate_query
+      handle
     </span>
   </a>
   
@@ -6890,6 +7042,33 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port.CommandHandlerPort" class="md-nav__link">
+    <span class="md-ellipsis">
+      CommandHandlerPort
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port.QueryHandlerPort" class="md-nav__link">
+    <span class="md-ellipsis">
+      QueryHandlerPort
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.application.ports.inbound.message_handler_port.EventHandlerPort" class="md-nav__link">
+    <span class="md-ellipsis">
+      EventHandlerPort
+    </span>
+  </a>
   
 </li>
         
@@ -6914,7 +7093,7 @@
 
 
   
-    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/inbound/validation_service.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/inbound/message_handler_port.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -6922,23 +7101,45 @@
   
 
 
-<h1 id="validation-service">Validation Service<a class="headerlink" href="#validation-service" title="Permanent link">&para;</a></h1>
+<h1 id="message-handler-port">Message Handler Port<a class="headerlink" href="#message-handler-port" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="forging_blocks.application.ports.inbound.validation_service" class="doc doc-heading">
-            <code>validation_service</code>
+<h2 id="forging_blocks.application.ports.inbound.message_handler_port" class="doc doc-heading">
+            <code>message_handler_port</code>
 
 
-<a href="#forging_blocks.application.ports.inbound.validation_service" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#forging_blocks.application.ports.inbound.message_handler_port" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-        <p>Inbound port for domain command and query validation.</p>
+        <p>Inbound message-handling ports for the application blocks.</p>
+<p>This module defines the contract for handling application messages<br />
+(commands, queries, and domain events). Message handlers sit at the<br />
+application boundary and orchestrate domain logic by invoking domain<br />
+services, aggregates, value objects, and outbound ports.</p>
 
+
+<details class="responsibilities" open>
+  <summary>Responsibilities</summary>
+  <ul>
+<li>Process an incoming message of a specific type.</li>
+<li>Delegate work to domain logic and outbound ports.</li>
+<li>Execute asynchronously.</li>
+</ul>
+</details>
+
+<details class="non-responsibilities" open>
+  <summary>Non-Responsibilities</summary>
+  <ul>
+<li>Infrastructure concerns (transport, serialization, queues).</li>
+<li>Transaction management (handled externally, e.g., by Unit of Work).</li>
+<li>Persistence (handled by repositories).</li>
+</ul>
+</details>
 
 
 
@@ -6962,20 +7163,32 @@
 
 
 
-<h3 id="forging_blocks.application.ports.inbound.validation_service.ValidationService" class="doc doc-heading">
-            <code>ValidationService</code>
+<h3 id="forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort" class="doc doc-heading">
+            <code>MessageHandlerPort</code>
 
 
-<a href="#forging_blocks.application.ports.inbound.validation_service.ValidationService" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="abc.ABC">ABC</span></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="InboundPort (forging_blocks.foundation.ports.InboundPort)" href="../../../../foundation/ports/_inbound_port/#forging_blocks.foundation.ports._inbound_port.InboundPort">InboundPort</a></code></p>
 
 
-        <p>Abstract validation service for commands and queries.</p>
+        <p>Inbound port for handling messages asynchronously.</p>
+<p>A MessageHandlerPort defines the contract for processing a single message<br />
+and producing a typed result. Implementations must avoid infrastructure<br />
+dependencies and remain purely application-blocks logic.</p>
 
+
+<details class="implementers-typically" open>
+  <summary>Implementers typically</summary>
+  <ul>
+<li>Validate or transform the incoming message.</li>
+<li>Orchestrate domain operations.</li>
+<li>Invoke repositories, outbound ports, and publish domain events.</li>
+</ul>
+</details>
 
 
 
@@ -6984,30 +7197,74 @@
 
 
               <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/application/ports/inbound/validation_service.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">ValidationService</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract validation service for commands and queries.&quot;&quot;&quot;</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>    <span class="nd">@abstractmethod</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">validate_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">RuleViolationError</span><span class="p">]:</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate a domain command.&quot;&quot;&quot;</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>        <span class="o">...</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>    <span class="nd">@abstractmethod</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">validate_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">RuleViolationError</span><span class="p">]:</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate a domain query.&quot;&quot;&quot;</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>        <span class="o">...</span>
+                <summary>Source code in <code>src/forging_blocks/application/ports/inbound/message_handler_port.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="k">class</span><span class="w"> </span><span class="nc">MessageHandlerPort</span><span class="p">[</span><span class="n">MessageType</span><span class="p">,</span> <span class="n">MessageHandlerResultType</span><span class="p">](</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="n">InboundPort</span><span class="p">,</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="p">):</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Inbound port for handling messages asynchronously.</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    A MessageHandlerPort defines the contract for processing a single message</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">    and producing a typed result. Implementations must avoid infrastructure</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    dependencies and remain purely application-blocks logic.</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">    Implementers typically:</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        - Validate or transform the incoming message.</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        - Orchestrate domain operations.</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        - Invoke repositories, outbound ports, and publish domain events.</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">MessageType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageHandlerResultType</span><span class="p">:</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Process a message and return an application result.</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">            message: The message instance to handle.</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">            A value representing the result of the message processing.</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">        Raises:</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="sd">            ApplicationError: If processing fails due to business logic violations.</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">        Notes:</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">            This method is asynchronous and should not block. Infrastructure</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">            concerns such as retry logic or message acknowledgment must be</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">            handled externally.</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -7027,70 +7284,324 @@
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.inbound.validation_service.ValidationService.validate_command" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">validate_command</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">RuleViolationError</span><span class="p">]</span></code>
+<h4 id="forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort.handle" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">handle</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">MessageType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageHandlerResultType</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.inbound.validation_service.ValidationService.validate_command" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort.handle" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Validate a domain command.</p>
+        <p>Process a message and return an application result.</p>
 
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>message</code>
+            </td>
+            <td>
+                  <code><span title="forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort[MessageType]">MessageType</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The message instance to handle.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort[MessageHandlerResultType]">MessageHandlerResultType</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A value representing the result of the message processing.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ApplicationError">ApplicationError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If processing fails due to business logic violations.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <p>This method is asynchronous and should not block. Infrastructure<br />
+concerns such as retry logic or message acknowledgment must be<br />
+handled externally.</p>
+</details>
 
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/inbound/validation_service.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="nd">@abstractmethod</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">validate_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">RuleViolationError</span><span class="p">]:</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a domain command.&quot;&quot;&quot;</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>    <span class="o">...</span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/inbound/message_handler_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="nd">@abstractmethod</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">MessageType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageHandlerResultType</span><span class="p">:</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Process a message and return an application result.</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        message: The message instance to handle.</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">        A value representing the result of the message processing.</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">    Raises:</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="sd">        ApplicationError: If processing fails due to business logic violations.</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">    Notes:</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">        This method is asynchronous and should not block. Infrastructure</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">        concerns such as retry logic or message acknowledgment must be</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">        handled externally.</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div>
 
-<div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.inbound.validation_service.ValidationService.validate_query" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">validate_query</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">RuleViolationError</span><span class="p">]</span></code>
+  </div>
 
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.application.ports.inbound.validation_service.ValidationService.validate_query" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Validate a domain query.</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/inbound/validation_service.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="nd">@abstractmethod</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">validate_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">RuleViolationError</span><span class="p">]:</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a domain query.&quot;&quot;&quot;</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
     </div>
 
 </div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="forging_blocks.application.ports.inbound.message_handler_port.CommandHandlerPort" class="doc doc-heading">
+            <code>CommandHandlerPort</code>
+
+
+<a href="#forging_blocks.application.ports.inbound.message_handler_port.CommandHandlerPort" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="MessageHandlerPort (forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort)" href="#forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort">MessageHandlerPort</a>[<a class="autorefs autorefs-internal" title="Command (forging_blocks.foundation.messages.command.Command)" href="../../../../foundation/messages/command/#forging_blocks.foundation.messages.command.Command">Command</a>[<span title="forging_blocks.application.ports.inbound.message_handler_port.CommandHandlerPort[CommandPayloadType]">CommandPayloadType</span>], None]</code></p>
+
+
+        <p>Inbound port for handling commands asynchronously.</p>
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>src/forging_blocks/application/ports/inbound/message_handler_port.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="k">class</span><span class="w"> </span><span class="nc">CommandHandlerPort</span><span class="p">[</span><span class="n">CommandPayloadType</span><span class="p">](</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>    <span class="n">MessageHandlerPort</span><span class="p">[</span><span class="n">Command</span><span class="p">[</span><span class="n">CommandPayloadType</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="p">):</span>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Inbound port for handling commands asynchronously.&quot;&quot;&quot;</span>
+</span></code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="forging_blocks.application.ports.inbound.message_handler_port.QueryHandlerPort" class="doc doc-heading">
+            <code>QueryHandlerPort</code>
+
+
+<a href="#forging_blocks.application.ports.inbound.message_handler_port.QueryHandlerPort" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="MessageHandlerPort (forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort)" href="#forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort">MessageHandlerPort</a>[<a class="autorefs autorefs-internal" title="Query (forging_blocks.foundation.messages.query.Query)" href="../../../../foundation/messages/query/#forging_blocks.foundation.messages.query.Query">Query</a>[<span title="forging_blocks.application.ports.inbound.message_handler_port.QueryHandlerPort[QueryPayloadType]">QueryPayloadType</span>], <span title="forging_blocks.application.ports.inbound.message_handler_port.QueryHandlerPort[QueryResultType]">QueryResultType</span>]</code></p>
+
+
+        <p>Inbound port for handling queries asynchronously.</p>
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>src/forging_blocks/application/ports/inbound/message_handler_port.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#__codelineno-0-72">72</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="k">class</span><span class="w"> </span><span class="nc">QueryHandlerPort</span><span class="p">[</span><span class="n">QueryPayloadType</span><span class="p">,</span> <span class="n">QueryResultType</span><span class="p">](</span>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>    <span class="n">MessageHandlerPort</span><span class="p">[</span><span class="n">Query</span><span class="p">[</span><span class="n">QueryPayloadType</span><span class="p">],</span> <span class="n">QueryResultType</span><span class="p">],</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="p">):</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Inbound port for handling queries asynchronously.&quot;&quot;&quot;</span>
+</span></code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="forging_blocks.application.ports.inbound.message_handler_port.EventHandlerPort" class="doc doc-heading">
+            <code>EventHandlerPort</code>
+
+
+<a href="#forging_blocks.application.ports.inbound.message_handler_port.EventHandlerPort" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="MessageHandlerPort (forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort)" href="#forging_blocks.application.ports.inbound.message_handler_port.MessageHandlerPort">MessageHandlerPort</a>[<a class="autorefs autorefs-internal" title="Event (forging_blocks.foundation.messages.event.Event)" href="../../../../foundation/messages/event/#forging_blocks.foundation.messages.event.Event">Event</a>[<span title="forging_blocks.application.ports.inbound.message_handler_port.EventHandlerPort[EventPayloadType]">EventPayloadType</span>], None]</code></p>
+
+
+        <p>Inbound port for handling events asynchronously.</p>
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>src/forging_blocks/application/ports/inbound/message_handler_port.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span>
+<span class="normal"><a href="#__codelineno-0-77">77</a></span>
+<span class="normal"><a href="#__codelineno-0-78">78</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventHandlerPort</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">](</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>    <span class="n">MessageHandlerPort</span><span class="p">[</span><span class="n">Event</span><span class="p">[</span><span class="n">EventPayloadType</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="p">):</span>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Inbound port for handling events asynchronously.&quot;&quot;&quot;</span>
+</span></code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
 
 
 

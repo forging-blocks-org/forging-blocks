@@ -12,13 +12,13 @@
         <meta name="author" content="ForgingBlocks Org">
       
       
-        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/inbound/authorization_service/">
+        <link rel="canonical" href="https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/inbound/application_service_port/">
       
       
-        <link rel="prev" href="../application_service/">
+        <link rel="prev" href="../../../errors/unit_of_work_error/">
       
       
-        <link rel="next" href="../message_handler/">
+        <link rel="next" href="../authorization_port/">
       
       
       <link rel="icon" href="../../../../../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Authorization Service - ForgingBlocks</title>
+        <title>Application Service Port - ForgingBlocks</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#authorization-service" class="md-skip">
+        <a href="#application-service-port" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Authorization Service
+              Application Service Port
             
           </span>
         </div>
@@ -2045,29 +2045,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../application_service/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Application Service
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -2085,7 +2062,7 @@
   
   
   <span class="md-ellipsis">
-    Authorization Service
+    Application Service Port
     
   </span>
   
@@ -2098,7 +2075,7 @@
   
   
   <span class="md-ellipsis">
-    Authorization Service
+    Application Service Port
     
   </span>
   
@@ -2121,56 +2098,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.application_service_port" class="md-nav__link">
     <span class="md-ellipsis">
-      authorization_service
+      application_service_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="authorization_service">
+    <nav class="md-nav" aria-label="application_service_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.application_service_port.UseCasePort" class="md-nav__link">
     <span class="md-ellipsis">
-      AuthorizationService
+      UseCasePort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="AuthorizationService">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.application.ports.inbound.application_service_port.ApplicationServicePort" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApplicationServicePort
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ApplicationServicePort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.check_permission" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.application_service_port.ApplicationServicePort.execute" class="md-nav__link">
     <span class="md-ellipsis">
-      check_permission
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.check_resource_permission" class="md-nav__link">
-    <span class="md-ellipsis">
-      check_resource_permission
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.get_user_permissions" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_user_permissions
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.get_user_roles" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_user_roles
+      execute
     </span>
   </a>
   
@@ -2202,12 +2161,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../message_handler/" class="md-nav__link">
+      <a href="../authorization_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Message Handler
+    Authorization Port
     
   </span>
   
@@ -2225,12 +2184,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../use_case/" class="md-nav__link">
+      <a href="../message_handler_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Use Case
+    Message Handler Port
     
   </span>
   
@@ -2248,12 +2207,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../validation_service/" class="md-nav__link">
+      <a href="../validation_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Validation Service
+    Validation Port
     
   </span>
   
@@ -2437,12 +2396,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/external_service_port/" class="md-nav__link">
+      <a href="../../outbound/file_system_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    External Service Port
+    File System Port
     
   </span>
   
@@ -2460,12 +2419,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../outbound/file_system_port/" class="md-nav__link">
+      <a href="../../outbound/http_client_port/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    File System Port
+    Http Client Port
     
   </span>
   
@@ -3464,29 +3423,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../foundation/ports/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Ports
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../../../foundation/value_object/" class="md-nav__link">
         
   
@@ -3523,10 +3459,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_6" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_7" id="__nav_3_8_3_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_6" id="__nav_3_8_3_6_label" tabindex="0">
             
   
   
@@ -3539,8 +3475,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_7">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_6">
             <span class="md-nav__icon md-icon"></span>
             Autofreeze
           </label>
@@ -3597,10 +3533,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_7" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_8" id="__nav_3_8_3_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_7" id="__nav_3_8_3_7_label" tabindex="0">
             
   
   
@@ -3613,8 +3549,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_8">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_7">
             <span class="md-nav__icon md-icon"></span>
             Autohash
           </label>
@@ -3671,10 +3607,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_8" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_9" id="__nav_3_8_3_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_8" id="__nav_3_8_3_8_label" tabindex="0">
             
   
   
@@ -3687,8 +3623,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_9">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_8">
             <span class="md-nav__icon md-icon"></span>
             Context
           </label>
@@ -3791,10 +3727,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_9" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_10" id="__nav_3_8_3_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_9" id="__nav_3_8_3_9_label" tabindex="0">
             
   
   
@@ -3807,12 +3743,35 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_10">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_9">
             <span class="md-nav__icon md-icon"></span>
             Errors
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/errors/architecture_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture Error
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3850,6 +3809,29 @@
   
   <span class="md-ellipsis">
     Combined Errors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/errors/configuration_error/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration Error
     
   </span>
   
@@ -4095,10 +4077,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_10" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_11" id="__nav_3_8_3_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_10" id="__nav_3_8_3_10_label" tabindex="0">
             
   
   
@@ -4111,8 +4093,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_11">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_10">
             <span class="md-nav__icon md-icon"></span>
             Messages
           </label>
@@ -4261,10 +4243,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_12" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_11" >
         
           
-          <label class="md-nav__link" for="__nav_3_8_3_12" id="__nav_3_8_3_12_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_8_3_11" id="__nav_3_8_3_11_label" tabindex="0">
             
   
   
@@ -4277,8 +4259,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_12_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_8_3_12">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_11">
             <span class="md-nav__icon md-icon"></span>
             Meta
           </label>
@@ -4320,6 +4302,149 @@
   
   <span class="md-ellipsis">
     Final Meta
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8_3_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8_3_12" id="__nav_3_8_3_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ports
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_8_3_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8_3_12">
+            <span class="md-nav__icon md-icon"></span>
+            Ports
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/ports/_check_methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Check Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/ports/_inbound_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inbound Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/ports/_outbound_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Outbound Port
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../foundation/ports/_port/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port
     
   </span>
   
@@ -6869,56 +6994,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.application_service_port" class="md-nav__link">
     <span class="md-ellipsis">
-      authorization_service
+      application_service_port
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="authorization_service">
+    <nav class="md-nav" aria-label="application_service_port">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.application_service_port.UseCasePort" class="md-nav__link">
     <span class="md-ellipsis">
-      AuthorizationService
+      UseCasePort
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="AuthorizationService">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forging_blocks.application.ports.inbound.application_service_port.ApplicationServicePort" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApplicationServicePort
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ApplicationServicePort">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.check_permission" class="md-nav__link">
+  <a href="#forging_blocks.application.ports.inbound.application_service_port.ApplicationServicePort.execute" class="md-nav__link">
     <span class="md-ellipsis">
-      check_permission
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.check_resource_permission" class="md-nav__link">
-    <span class="md-ellipsis">
-      check_resource_permission
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.get_user_permissions" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_user_permissions
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.get_user_roles" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_user_roles
+      execute
     </span>
   </a>
   
@@ -6950,7 +7057,7 @@
 
 
   
-    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/inbound/authorization_service.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/forging-blocks-org/edit/main/docs/reference/autodoc/application/ports/inbound/application_service_port.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -6958,23 +7065,45 @@
   
 
 
-<h1 id="authorization-service">Authorization Service<a class="headerlink" href="#authorization-service" title="Permanent link">&para;</a></h1>
+<h1 id="application-service-port">Application Service Port<a class="headerlink" href="#application-service-port" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<h2 id="forging_blocks.application.ports.inbound.authorization_service" class="doc doc-heading">
-            <code>authorization_service</code>
+<h2 id="forging_blocks.application.ports.inbound.application_service_port" class="doc doc-heading">
+            <code>application_service_port</code>
 
 
-<a href="#forging_blocks.application.ports.inbound.authorization_service" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#forging_blocks.application.ports.inbound.application_service_port" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-        <p>Inbound port for authorization and permission checking.</p>
+        <p>Inbound application port for executing use cases and application services.</p>
+<p>Use cases and application services define the application's orchestration<br />
+boundary: they coordinate domain operations to fulfill a specific<br />
+application intent. They are pure application-blocks logic and must not<br />
+depend on infrastructure details.</p>
 
+
+<details class="responsibilities" open>
+  <summary>Responsibilities</summary>
+  <ul>
+<li>Orchestrate domain interactions.</li>
+<li>Call repositories, outbound ports, and aggregates.</li>
+<li>Maintain transactional consistency (via Unit of Work).</li>
+</ul>
+</details>
+
+<details class="non-responsibilities" open>
+  <summary>Non-Responsibilities</summary>
+  <ul>
+<li>Transport logic (HTTP, messaging systems).</li>
+<li>Persistence implementation details.</li>
+<li>UI or framework-specific concerns.</li>
+</ul>
+</details>
 
 
 
@@ -6992,25 +7121,52 @@
 
 
 
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="forging_blocks.application.ports.inbound.application_service_port.UseCasePort" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">UseCasePort</span> <span class="o">=</span> <span class="n">ApplicationServicePort</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#forging_blocks.application.ports.inbound.application_service_port.UseCasePort" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Type alias for <code>ApplicationServicePort</code>.</p>
+<p>Both names refer to the same contract and are fully interchangeable.</p>
+
+    </div>
+
+</div>
+
 
 
 <div class="doc doc-object doc-class">
 
 
 
-<h3 id="forging_blocks.application.ports.inbound.authorization_service.AuthorizationService" class="doc doc-heading">
-            <code>AuthorizationService</code>
+<h3 id="forging_blocks.application.ports.inbound.application_service_port.ApplicationServicePort" class="doc doc-heading">
+            <code>ApplicationServicePort</code>
 
 
-<a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#forging_blocks.application.ports.inbound.application_service_port.ApplicationServicePort" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="abc.ABC">ABC</span></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="InboundPort (forging_blocks.foundation.ports.InboundPort)" href="../../../../foundation/ports/_inbound_port/#forging_blocks.foundation.ports._inbound_port.InboundPort">InboundPort</a></code></p>
 
 
-        <p>Abstract service that authorizes user actions.</p>
+        <p>Inbound port for defining application use case operations.</p>
+<p>A <code>UseCasePort</code> represents an application-level action that may<br />
+involve multiple domain objects and outbound interactions. Use cases<br />
+must remain free of infrastructure dependencies and must uphold<br />
+application-level invariants.</p>
 
 
 
@@ -7020,23 +7176,8 @@
 
 
               <details class="quote">
-                <summary>Source code in <code>src/forging_blocks/application/ports/inbound/authorization_service.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+                <summary>Source code in <code>src/forging_blocks/application/ports/inbound/application_service_port.py</code></summary>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-24">24</a></span>
 <span class="normal"><a href="#__codelineno-0-25">25</a></span>
 <span class="normal"><a href="#__codelineno-0-26">26</a></span>
 <span class="normal"><a href="#__codelineno-0-27">27</a></span>
@@ -7051,37 +7192,48 @@
 <span class="normal"><a href="#__codelineno-0-36">36</a></span>
 <span class="normal"><a href="#__codelineno-0-37">37</a></span>
 <span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">AuthorizationService</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract service that authorizes user actions.&quot;&quot;&quot;</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>    <span class="nd">@abstractmethod</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check_permission</span><span class="p">(</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>        <span class="n">context</span><span class="p">:</span> <span class="n">AuthorizationContext</span><span class="p">,</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>        <span class="n">permission</span><span class="p">:</span> <span class="n">Permission</span><span class="p">,</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate whether *permission* is granted in *context*.&quot;&quot;&quot;</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>        <span class="o">...</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="nd">@abstractmethod</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check_resource_permission</span><span class="p">(</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>        <span class="n">context</span><span class="p">:</span> <span class="n">AuthorizationContext</span><span class="p">,</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>        <span class="n">resource</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>        <span class="n">action</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate whether *action* on *resource* is permitted in *context*.&quot;&quot;&quot;</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>        <span class="o">...</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="nd">@abstractmethod</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_user_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Permission</span><span class="p">]:</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the effective permissions for *user_id*.&quot;&quot;&quot;</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>        <span class="o">...</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="nd">@abstractmethod</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_user_roles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the roles assigned to *user_id*.&quot;&quot;&quot;</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>        <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="k">class</span><span class="w"> </span><span class="nc">ApplicationServicePort</span><span class="p">[</span><span class="n">RequestType</span><span class="p">,</span> <span class="n">ResponseType</span><span class="p">](</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">InboundPort</span><span class="p">,</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="p">):</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Inbound port for defining application use case operations.</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    A ``UseCasePort`` represents an application-level action that may</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    involve multiple domain objects and outbound interactions. Use cases</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    must remain free of infrastructure dependencies and must uphold</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    application-level invariants.</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">RequestType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResponseType</span><span class="p">:</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the use case asynchronously.</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        Args:</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">            request: The request DTO carrying user or system input.</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        Returns:</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">            A DTO or domain object representing the outcome.</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        Raises:</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">            ApplicationError: If the use case fails for domain reasons.</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">        Notes:</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">            This method is asynchronous and should not perform blocking</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">            operations.</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -7101,151 +7253,142 @@
 <div class="doc doc-object doc-function">
 
 
-<h4 id="forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.check_permission" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">check_permission</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">AuthorizationContext</span><span class="p">,</span> <span class="n">permission</span><span class="p">:</span> <span class="n">Permission</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span></code>
+<h4 id="forging_blocks.application.ports.inbound.application_service_port.ApplicationServicePort.execute" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">RequestType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResponseType</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.check_permission" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#forging_blocks.application.ports.inbound.application_service_port.ApplicationServicePort.execute" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
 
-        <p>Evaluate whether <em>permission</em> is granted in <em>context</em>.</p>
+        <p>Execute the use case asynchronously.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/inbound/authorization_service.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="nd">@abstractmethod</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check_permission</span><span class="p">(</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>    <span class="n">context</span><span class="p">:</span> <span class="n">AuthorizationContext</span><span class="p">,</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>    <span class="n">permission</span><span class="p">:</span> <span class="n">Permission</span><span class="p">,</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate whether *permission* is granted in *context*.&quot;&quot;&quot;</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>    <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.check_resource_permission" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">check_resource_permission</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">AuthorizationContext</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.check_resource_permission" class="headerlink" title="Permanent link">&para;</a></h4>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>request</code>
+            </td>
+            <td>
+                  <code><span title="forging_blocks.application.ports.inbound.application_service_port.ApplicationServicePort[RequestType]">RequestType</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The request DTO carrying user or system input.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
-    <div class="doc doc-contents ">
-
-        <p>Evaluate whether <em>action</em> on <em>resource</em> is permitted in <em>context</em>.</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/inbound/authorization_service.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="nd">@abstractmethod</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check_resource_permission</span><span class="p">(</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="n">context</span><span class="p">:</span> <span class="n">AuthorizationContext</span><span class="p">,</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">resource</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="n">action</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate whether *action* on *resource* is permitted in *context*.&quot;&quot;&quot;</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="forging_blocks.application.ports.inbound.application_service_port.ApplicationServicePort[ResponseType]">ResponseType</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A DTO or domain object representing the outcome.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
-<h4 id="forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.get_user_permissions" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_user_permissions</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Permission</span><span class="p">]</span></code>
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ApplicationError">ApplicationError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the use case fails for domain reasons.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
 
-<a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.get_user_permissions" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Return the effective permissions for <em>user_id</em>.</p>
-
+<details class="notes" open>
+  <summary>Notes</summary>
+  <p>This method is asynchronous and should not perform blocking<br />
+operations.</p>
+</details>
 
             <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/inbound/authorization_service.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="nd">@abstractmethod</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_user_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Permission</span><span class="p">]:</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the effective permissions for *user_id*.&quot;&quot;&quot;</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="o">...</span>
-</span></code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.get_user_roles" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_user_roles</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-<a href="#forging_blocks.application.ports.inbound.authorization_service.AuthorizationService.get_user_roles" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Return the roles assigned to <em>user_id</em>.</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/forging_blocks/application/ports/inbound/authorization_service.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-36">36</a></span>
+              <summary>Source code in <code>src/forging_blocks/application/ports/inbound/application_service_port.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
 <span class="normal"><a href="#__codelineno-0-37">37</a></span>
 <span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="nd">@abstractmethod</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_user_roles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the roles assigned to *user_id*.&quot;&quot;&quot;</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="o">...</span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="nd">@abstractmethod</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">RequestType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResponseType</span><span class="p">:</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute the use case asynchronously.</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        request: The request DTO carrying user or system input.</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        A DTO or domain object representing the outcome.</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    Raises:</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">        ApplicationError: If the use case fails for domain reasons.</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">    Notes:</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">        This method is asynchronous and should not perform blocking</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">        operations.</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="o">...</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
