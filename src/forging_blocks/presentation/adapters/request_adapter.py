@@ -21,5 +21,6 @@ class RequestAdapter[RawRequest, UseCaseInput](Protocol):
         Returns:
             A typed input value suitable for passing to a
             ``UseCasePort.execute`` call.
+
         """
         ...

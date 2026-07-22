@@ -39,6 +39,7 @@ class Middleware[RequestType, ResponseType](Protocol):
                     return UnauthorizedResponse()  # type: ignore[return-value]
                 return await next_handler(request)
         ```
+
     """
 
     async def process(
@@ -57,5 +58,6 @@ class Middleware[RequestType, ResponseType](Protocol):
 
         Returns:
             The response after processing.
+
         """
         ...

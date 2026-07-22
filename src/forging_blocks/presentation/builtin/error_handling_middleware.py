@@ -48,6 +48,7 @@ class ErrorHandlingMiddleware[RequestType, ResponseType](Middleware[RequestType,
         )
         response = await mw.process(request, next_handler)
         ```
+
     """
 
     __slots__ = ("_error_presenter", "_on_error", "_logger")
@@ -68,6 +69,7 @@ class ErrorHandlingMiddleware[RequestType, ResponseType](Middleware[RequestType,
                 ``ErrorPresenter()`` when omitted.
             logger: An optional ``LoggerPort``.  When provided, caught
                 exceptions are logged at error level before mapping.
+
         """
         self._on_error = on_error
         self._error_presenter = error_presenter if error_presenter is not None else ErrorPresenter()
@@ -87,6 +89,7 @@ class ErrorHandlingMiddleware[RequestType, ResponseType](Middleware[RequestType,
         Returns:
             The downstream handler's response on success, or the result
             of ``on_error`` when an exception is caught.
+
         """
         try:
             return await next_handler(request)

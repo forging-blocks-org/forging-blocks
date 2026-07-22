@@ -23,6 +23,7 @@ class ResponseAdapter[UseCaseOutput, RawResponse](Protocol):
 
         Returns:
             A transport-level response ready to send to the caller.
+
         """
         ...
 
@@ -37,5 +38,6 @@ class ResponseAdapter[UseCaseOutput, RawResponse](Protocol):
         Returns:
             A transport-level error response (e.g. an HTTP response
             with the appropriate status code and JSON body).
+
         """
         ...

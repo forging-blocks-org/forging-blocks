@@ -30,6 +30,7 @@ class PresenterPort[ResponseType](InboundPort):
         ...
         ...     async def present_error(self, error: Exception) -> None:
         ...         print(f"Error: {error}", file=sys.stderr)
+
     """
 
     @abstractmethod
@@ -42,6 +43,7 @@ class PresenterPort[ResponseType](InboundPort):
         Notes:
             - Output channel (terminal, API, file) is adapter-specific.
             - Must not modify the response data.
+
         """
         ...
 
@@ -55,5 +57,6 @@ class PresenterPort[ResponseType](InboundPort):
         Notes:
             - Must preserve error context for diagnostics.
             - Output format is adapter-specific.
+
         """
         ...
