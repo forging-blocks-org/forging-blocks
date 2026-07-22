@@ -141,33 +141,33 @@ class InMemoryTaskRepository:
 from your_module import CreateTaskService, CreateTaskInput, InMemoryTaskRepository
 
 
-def test_create_task_when_valid_title_then_succeeds() -> None:
+async def test_create_task_when_valid_title_then_succeeds() -> None:
     repo = InMemoryTaskRepository()
     service = CreateTaskService(repo)
 
-    result = service.execute(CreateTaskInput(title="Write docs"))
+    result = await service.execute(CreateTaskInput(title="Write docs"))
 
     assert result.is_ok
     assert len(repo.tasks) == 1
 
 
-def test_create_task_when_duplicate_title_then_reuses_task() -> None:
+async def test_create_task_when_duplicate_title_then_reuses_task() -> None:
     repo = InMemoryTaskRepository()
     service = CreateTaskService(repo)
 
-    first = service.execute(CreateTaskInput(title="Write docs"))
-    second = service.execute(CreateTaskInput(title="Write docs"))
+    first = await service.execute(CreateTaskInput(title="Write docs"))
+    second = await service.execute(CreateTaskInput(title="Write docs"))
 
     assert first.is_ok
     assert second.is_ok
     assert len(repo.tasks) == 1
 
 
-def test_create_task_when_missing_title_then_fails() -> None:
+async def test_create_task_when_missing_title_then_fails() -> None:
     repo = InMemoryTaskRepository()
     service = CreateTaskService(repo)
 
-    result = service.execute(CreateTaskInput(title=" "))
+    result = await service.execute(CreateTaskInput(title=" "))
 
     assert result.is_err
 ```

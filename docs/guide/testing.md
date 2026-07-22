@@ -208,10 +208,11 @@ When code depends on a **Port**, you can replace that dependency in tests.
 This lets you verify behavior without involving infrastructure.
 
 ```python
-from forging_blocks.foundation import Result, Port
+from forging_blocks.foundation import Result
+from typing import Protocol
 
 
-class IdGenerator(Port):
+class IdGenerator(Protocol):
     def generate(self) -> Result[str, str]:
         ...
 ```
