@@ -37,7 +37,7 @@ class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](OutboundPort):
         """Retrieve all resources.
 
         Returns:
-            A list-like collection of all stored instances.
+            A sequence of all stored instances.
 
         """
         ...
