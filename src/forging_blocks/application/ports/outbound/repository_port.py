@@ -53,8 +53,6 @@ class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](OutboundPort):
         Returns:
             A sequence of aggregate or read model instances.
 
-        Notes:
-
         """
         ...
 
