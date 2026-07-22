@@ -5,7 +5,7 @@ command-side operations in CQRS architectures. Storage is a plain
 dictionary keyed by entity identifier.
 """
 
-from collections.abc import MutableMapping
+from collections.abc import Mapping
 from typing import Any
 
 from forging_blocks.application.ports.outbound.repository_port import WriteOnlyRepositoryPort
@@ -29,7 +29,7 @@ class InMemoryWriteRepository[TEntity: Identified[Any], TId](WriteOnlyRepository
 
     def __init__(
         self,
-        storage: MutableMapping[TId, TEntity] | None = None,
+        storage: Mapping[TId, TEntity] | None = None,
     ) -> None:
         """Initialize the write repository with optional external storage.
 
