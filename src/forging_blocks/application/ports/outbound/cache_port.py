@@ -1,6 +1,6 @@
 """Cache port for abstract caching operations.
 
-Defines the ``CachePort`` protocol that application code depends on,
+Defines the ``CachePort`` contract that application code depends on,
 decoupling caching from any specific implementation (in-memory, Redis, etc.).
 
 Responsibilities:
@@ -22,10 +22,9 @@ from forging_blocks.foundation.ports import OutboundPort
 class CachePort[KeyType, ValueType](
     OutboundPort,
 ):
-    """Protocol for caching operations.
+    """Abstract base class for caching operations.
 
-    Any object with the async ``get``, ``set``, ``delete``, ``exists``,
-    and ``clear`` methods satisfies this protocol.
+    Infrastructure implementations must explicitly inherit this class.
 
     Type Parameters:
         KeyType: The type of cache keys (typically str).
