@@ -48,6 +48,7 @@ class ErrorPresenter:
         Returns:
             An ``ErrorViewModel`` with one or more ``ErrorMessageModel``
             entries suitable for presentation.
+
         """
         return ErrorViewModel(messages=tuple(self._to_message_models(error)))
 

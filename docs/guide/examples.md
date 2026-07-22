@@ -89,10 +89,11 @@ class Task(Entity[int]):
 ## 3. Using a port and adapter
 
 ```python
-from forging_blocks.foundation import Err, Ok, Port, Result
+from forging_blocks.foundation import Err, Ok, Result
+from typing import Protocol
 
 
-class EmailSender(Port):
+class EmailSender(Protocol):
     def send(self, to: str, subject: str, body: str) -> Result[None, str]:
         ...
 ```
@@ -123,14 +124,16 @@ The design is:
 - independent of any particular mail provider or framework.
 
 ---
-
 ## 4. Modeling a value with ValueObject
 
 ```python
+from collections.abc import Hashable
 from forging_blocks.foundation.value_object import ValueObject
 
 
 class Email(ValueObject[str]):
+    __slots__ = ("_value",)
+
     def __init__(self, value: str) -> None:
         super().__init__()
         if "@" not in value:
@@ -142,7 +145,7 @@ class Email(ValueObject[str]):
         return self._value
 
     @property
-    def _equality_components(self) -> tuple[str, ...]:
+    def _equality_components(self) -> tuple[Hashable, ...]:
         return (self._value,)
 ```
 

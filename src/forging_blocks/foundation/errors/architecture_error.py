@@ -26,5 +26,6 @@ class ArchitectureError(Error[Mapping[str, object]]):
             message: Human-readable description of the violation,
                 including the class name, the offending parameter,
                 and the applicable rule.
+
         """
         super().__init__(ErrorMessage(message))

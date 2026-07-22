@@ -33,6 +33,7 @@ class BaseReadRepository[TEntity, TId](ReadOnlyRepositoryPort[TEntity, TId]):
         Args:
             storage: An optional mapping to use as backing storage.
                 If None, a new empty dictionary is used.
+
         """
         self._storage: dict[TId, TEntity] = dict(storage) if storage is not None else {}
 
@@ -44,6 +45,7 @@ class BaseReadRepository[TEntity, TId](ReadOnlyRepositoryPort[TEntity, TId]):
 
         Returns:
             The retrieved instance or None if not found.
+
         """
         return self._storage.get(id)
 
@@ -52,6 +54,7 @@ class BaseReadRepository[TEntity, TId](ReadOnlyRepositoryPort[TEntity, TId]):
 
         Returns:
             A sequence of entity instances.
+
         """
         return list(self._storage.values())
 
@@ -63,6 +66,7 @@ class BaseReadRepository[TEntity, TId](ReadOnlyRepositoryPort[TEntity, TId]):
 
         Returns:
             A list of matching entities.
+
         """
         return [v for v in self._storage.values() if spec.is_satisfied_by(v)]
 
@@ -74,6 +78,7 @@ class BaseReadRepository[TEntity, TId](ReadOnlyRepositoryPort[TEntity, TId]):
 
         Returns:
             The count of matching entities.
+
         """
         return sum(1 for v in self._storage.values() if spec.is_satisfied_by(v))
 
@@ -85,6 +90,7 @@ class BaseReadRepository[TEntity, TId](ReadOnlyRepositoryPort[TEntity, TId]):
 
         Returns:
             True if any entity matches, False otherwise.
+
         """
         return any(spec.is_satisfied_by(v) for v in self._storage.values())
 
@@ -106,6 +112,7 @@ class BaseWriteRepository[TEntity: Identified[Any], TId](WriteOnlyRepositoryPort
         Args:
             storage: An optional mutable mapping to use as backing storage.
                 If None, a new empty dictionary is used.
+
         """
         self._storage: dict[TId, TEntity] = dict(storage) if storage is not None else {}
 
@@ -119,6 +126,7 @@ class BaseWriteRepository[TEntity: Identified[Any], TId](WriteOnlyRepositoryPort
             RepositoryError: If the ID is None, an empty string,
                 or the boolean False.
             RepositoryNotFoundError: If no entity exists with the given ID.
+
         """
         self._validate_id(id)
         if id not in self._storage:
@@ -134,6 +142,7 @@ class BaseWriteRepository[TEntity: Identified[Any], TId](WriteOnlyRepositoryPort
         Raises:
             RepositoryError: If the entity has no valid identifier
                 (None, empty string, or boolean False).
+
         """
         entity_id: TId = aggregate.id  # type: ignore[assignment]
         self._validate_id(entity_id)
@@ -150,6 +159,7 @@ class BaseWriteRepository[TEntity: Identified[Any], TId](WriteOnlyRepositoryPort
         Raises:
             RepositoryError: If *identifier* is ``None``, an empty string
                 (``""``), or the boolean ``False``.
+
         """
         is_none = identifier is None
         is_empty_string = identifier == ""
@@ -183,5 +193,6 @@ class BaseRepository[TEntity: Identified[Any], TId](
         Args:
             storage: An optional mutable mapping to use as backing storage.
                 If None, a new empty dictionary is used.
+
         """
         super().__init__(storage)

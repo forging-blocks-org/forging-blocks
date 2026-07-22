@@ -1,6 +1,6 @@
 """Outbound port for asynchronously publishing domain events.
 
-Defines the ``EventPublisherPort`` protocol for publishing domain events
+Defines the ``EventPublisherPort`` contract for publishing domain events
 to an external message bus or event broker.  Infrastructure implementations
 determine durability, ordering, and delivery guarantees.
 
@@ -32,4 +32,5 @@ class EventPublisherPort[EventPayloadType](
 
         Args:
             event: The domain event to publish.
+
         """

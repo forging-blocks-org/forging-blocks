@@ -36,6 +36,7 @@ class UnitOfWorkPort(OutboundPort):
 
         Returns:
             The active UnitOfWorkPort instance.
+
         """
         ...
 
@@ -54,6 +55,7 @@ class UnitOfWorkPort(OutboundPort):
             exc_type: Raised exception type if any.
             exc_value: Exception instance.
             traceback: Execution traceback.
+
         """
 
     @abstractmethod
@@ -67,6 +69,7 @@ class UnitOfWorkPort(OutboundPort):
 
         Raises:
             UnitOfWorkError: If commit fails.
+
         """
 
     @abstractmethod

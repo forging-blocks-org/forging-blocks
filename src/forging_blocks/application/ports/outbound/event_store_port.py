@@ -1,6 +1,6 @@
 """Event store port for event-sourced aggregates.
 
-Defines the ``EventStorePort`` protocol for appending and retrieving
+Defines the ``EventStorePort`` contract for appending and retrieving
 domain events. The interface is agnostic of storage backend — in-memory,
 relational, or event-native implementations are all supported.
 """
@@ -18,13 +18,18 @@ from forging_blocks.foundation.result import Result
 class EventStorePort[EventPayloadType](
     OutboundPort,
 ):
-    """Protocol for event stores that persist and retrieve domain events.
+    """Abstract base class for event stores that persist and retrieve domain events.
 
-    Implementations must handle:
-      - Appending new events to an event stream.
-      - Retrieving events within an optional version range.
-      - Tracking the current version of each event stream.
-      - Optimistic concurrency via ``expected_version``.
+    Responsibilities:
+        - Append domain events to an aggregate's event stream.
+        - Retrieve events by version range from a stream.
+        - Track and report the current version of each stream.
+        - Enforce optimistic concurrency via ``expected_version``.
+
+    Non-Responsibilities:
+        - Serialize or deserialize events — that belongs to infrastructure.
+        - Validate event schemas or enforce event versioning.
+        - Manage snapshots or compaction strategies.
     """
 
     @abstractmethod
@@ -45,6 +50,7 @@ class EventStorePort[EventPayloadType](
         Returns:
             A ``Result`` containing the new stream version on success or an
             ``EventStoreError`` on failure.
+
         """
         ...
 
@@ -67,6 +73,7 @@ class EventStorePort[EventPayloadType](
         Returns:
             A ``Result`` containing the events on success or an
             ``EventStoreError`` on failure.
+
         """
         ...
 
@@ -80,5 +87,6 @@ class EventStorePort[EventPayloadType](
         Returns:
             A ``Result`` containing the latest version number (0 for empty
             streams) on success, or an ``EventStoreError`` on failure.
+
         """
         ...

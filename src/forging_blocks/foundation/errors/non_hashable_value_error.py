@@ -22,6 +22,7 @@ class NonHashableValueError(Error[dict[str, object]]):
 
         Args:
             type_name: The ``type(value).__name__`` of the offending value.
+
         """
         message = ErrorMessage(
             f"Cannot convert {type_name!r} to hashable. "

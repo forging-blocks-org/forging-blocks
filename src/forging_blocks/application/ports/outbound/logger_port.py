@@ -16,6 +16,15 @@ class LoggerPort(OutboundPort):
     ``warning``, and ``error`` are ``@abstractmethod`` stubs
     that subclasses must implement.
 
+    Responsibilities:
+        - Emit log messages at debug, info, warning, and error levels.
+        - Accept format-style ``*args`` for string interpolation.
+
+    Non-Responsibilities:
+        - Persist log output or rotate log files.
+        - Manage log levels, filters, or structured logging formats.
+        - Schedule async I/O — this is a synchronous contract.
+
     Implementations MAY accept wider types for ``*args`` (e.g.
     ``*args: object``) — the port contract only constrains callers,
     not implementors.

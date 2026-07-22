@@ -44,6 +44,7 @@ class Pipeline[RequestType, ResponseType]:
                 The first element wraps all subsequent elements.
             handler: The terminal handler invoked after all middleware
                 has delegated.
+
         """
         self._middlewares: tuple[Middleware[RequestType, ResponseType], ...] = tuple(middlewares)
         self._handler = handler
@@ -58,6 +59,7 @@ class Pipeline[RequestType, ResponseType]:
         Returns:
             The response produced by the terminal handler (possibly
             transformed by middleware on the way out).
+
         """
         return await self._chain(request)
 

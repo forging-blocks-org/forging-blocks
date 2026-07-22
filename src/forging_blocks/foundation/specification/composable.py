@@ -36,6 +36,7 @@ class ComposableSpecification[T](Specification[T]):
 
         Returns:
             A new AndSpecification combining both.
+
         """
         from .logical_operators import AndSpecification
 
@@ -49,6 +50,7 @@ class ComposableSpecification[T](Specification[T]):
 
         Returns:
             A new OrSpecification combining both.
+
         """
         from .logical_operators import OrSpecification
 
@@ -59,6 +61,7 @@ class ComposableSpecification[T](Specification[T]):
 
         Returns:
             A new NotSpecification wrapping this one.
+
         """
         from .logical_operators import NotSpecification
 
@@ -72,6 +75,7 @@ class ComposableSpecification[T](Specification[T]):
 
         Returns:
             A new AndSpecification combining both.
+
         """
         return self.and_(other)
 
@@ -83,6 +87,7 @@ class ComposableSpecification[T](Specification[T]):
 
         Returns:
             A new OrSpecification combining both.
+
         """
         return self.or_(other)
 
@@ -91,5 +96,6 @@ class ComposableSpecification[T](Specification[T]):
 
         Returns:
             A new NotSpecification wrapping this one.
+
         """
         return self.not_()

@@ -97,6 +97,7 @@ class Err[ValueType, ErrorType](Result[ValueType, ErrorType]):
 
         Returns:
             ``default``, since there is no success value to unwrap.
+
         """
         return default
 
@@ -112,5 +113,6 @@ class Err[ValueType, ErrorType](Result[ValueType, ErrorType]):
 
         Returns:
             The result of ``fn(error)``.
+
         """
         return fn(self._error)

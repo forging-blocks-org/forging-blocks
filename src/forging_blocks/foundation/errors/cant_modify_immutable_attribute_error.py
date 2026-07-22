@@ -13,6 +13,7 @@ class CantModifyImmutableAttributeError(Error[dict[str, object]]):
         Args:
             class_name: Name of the class whose immutable attribute was targeted.
             attribute_name: Name of the attribute that was being modified.
+
         """
         message = ErrorMessage(
             f"Cannot modify immutable attribute '{attribute_name}' of class '{class_name}'."

@@ -42,6 +42,7 @@ class ValidationMiddleware[RequestType, ResponseType](Middleware[RequestType, Re
         mw = ValidationMiddleware[MyRequest, MyResponse](validator=validate)
         response = await mw.process(request, next_handler)
         ```
+
     """
 
     __slots__ = ("_validator",)
@@ -53,6 +54,7 @@ class ValidationMiddleware[RequestType, ResponseType](Middleware[RequestType, Re
             validator: A callable that receives the request and returns
                 either a ``ResponseType`` (to short-circuit) or ``None``
                 (to pass through).
+
         """
         self._validator = validator
 
@@ -70,6 +72,7 @@ class ValidationMiddleware[RequestType, ResponseType](Middleware[RequestType, Re
         Returns:
             - The validator's response when it short-circuits.
             - The downstream handler's response otherwise.
+
         """
         error_response = self._validator(request)
         if error_response is not None:

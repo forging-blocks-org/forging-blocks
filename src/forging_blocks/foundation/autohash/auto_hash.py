@@ -40,6 +40,7 @@ Example:
     assert m1 == m2
     assert hash(m1) == hash(m2)
     ```
+
 """
 
 import dataclasses
@@ -67,6 +68,7 @@ class _AutoHashDecorator:
             fields: Specific field names to hash. When ``None``, all
                 dataclass fields (or ``__slots__``/``__annotations__`` keys) are
                 used.
+
         """
         self._fields = fields
 
@@ -78,6 +80,7 @@ class _AutoHashDecorator:
 
         Returns:
             The decorated class with ``__hash__`` generated.
+
         """
         field_names = self._resolve_field_names(class_)
         _field_names = tuple(field_names)
@@ -111,6 +114,7 @@ class _AutoHashDecorator:
         Raises:
             TypeError: If no fields can be determined automatically and
                 *fields* is ``None``.
+
         """
         if self._fields is not None:
             return list(self._fields)
@@ -197,6 +201,7 @@ def auto_hash[T](
     Raises:
         TypeError: If no field names can be determined and *fields* is
             ``None``.
+
     """
     decorator = _AutoHashDecorator(fields=fields)
 

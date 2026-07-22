@@ -54,5 +54,6 @@ class Mapper[SourceType, TargetType](Protocol):
 
         Returns:
             The transformed target object.
+
         """
         ...

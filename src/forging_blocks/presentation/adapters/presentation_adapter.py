@@ -87,6 +87,7 @@ class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
                 ``False`` when the use case's output type is itself
                 a ``Result`` that the response adapter should receive
                 unmodified.
+
         """
         self._use_case = use_case
         self._request_adapter = request_adapter
@@ -120,6 +121,7 @@ class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
                 without an error presenter, the original exception
                 (or a ``RuntimeError`` for non-exception errors)
                 propagates.
+
         """
         try:
             use_case_input = self._request_adapter.adapt(raw_request)

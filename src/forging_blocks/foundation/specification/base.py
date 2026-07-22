@@ -26,4 +26,5 @@ class Specification[T](ABC):
 
         Returns:
             True if the candidate satisfies this specification, False otherwise.
+
         """

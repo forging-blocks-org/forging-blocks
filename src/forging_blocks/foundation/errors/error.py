@@ -23,6 +23,7 @@ class Error[MetadataType: Mapping[str, object]](Exception, Debuggable):
             metadata: Optional structured metadata with additional diagnostic
                 context. Defaults to an empty `ErrorMetadata` when
                 not provided.
+
         """
         super().__init__(message.value)
         self._message = message

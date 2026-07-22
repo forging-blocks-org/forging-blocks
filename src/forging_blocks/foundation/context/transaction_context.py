@@ -20,6 +20,7 @@ class TransactionContext(ValueObject[tuple[Hashable, ...]]):
             Any ``str``-compatible type (including ``StrEnum`` subclasses)
             is accepted.  Defaults to ``"read_committed"``.
         metadata: Arbitrary key-value pairs for cross-cutting concerns.
+
     """
 
     __slots__ = (

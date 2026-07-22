@@ -21,6 +21,7 @@ class InMemoryCache[KeyType, ValueType](CachePort[KeyType, ValueType]):
         Returns:
             The ``(value, expire_at)`` tuple or ``None`` if the key is
             absent or the entry has expired.
+
         """
         entry = self._store.get(key)
         if entry is None:

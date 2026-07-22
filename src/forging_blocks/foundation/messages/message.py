@@ -38,6 +38,7 @@ class MessageMetadata(ValueObject[dict[str, object]]):
             created_at=datetime(2025, 6, 11, 19, 36, 6, tzinfo=timezone.utc),
         )
         ```
+
     """
 
     __slots__ = (
@@ -67,6 +68,7 @@ class MessageMetadata(ValueObject[dict[str, object]]):
                 generates a new UUID.
             causation_id: Identifier of the message that caused this one. If None,
                 generates a new UUID.
+
         """
         super().__init__()
         self._message_type = message_type
@@ -81,6 +83,7 @@ class MessageMetadata(ValueObject[dict[str, object]]):
 
         Returns:
             The unique message identifier.
+
         """
         return self._message_id
 
@@ -90,6 +93,7 @@ class MessageMetadata(ValueObject[dict[str, object]]):
 
         Returns:
             The causation identifier.
+
         """
         return self._causation_id
 
@@ -99,6 +103,7 @@ class MessageMetadata(ValueObject[dict[str, object]]):
 
         Returns:
             When the message was created (UTC timezone).
+
         """
         return self._created_at
 
@@ -108,6 +113,7 @@ class MessageMetadata(ValueObject[dict[str, object]]):
 
         Returns:
             The correlation identifier.
+
         """
         return self._correlation_id
 
@@ -117,6 +123,7 @@ class MessageMetadata(ValueObject[dict[str, object]]):
 
         Returns:
             The message type name.
+
         """
         return self._message_type
 
@@ -137,6 +144,7 @@ class MessageMetadata(ValueObject[dict[str, object]]):
 
         Returns:
             Tuple containing message_id and created_at.
+
         """
         return (self._message_id, self._created_at)
 
@@ -145,6 +153,7 @@ class MessageMetadata(ValueObject[dict[str, object]]):
 
         Returns:
             Dictionary representation of the metadata.
+
         """
         return self.value
 
@@ -157,6 +166,7 @@ class MessageMetadata(ValueObject[dict[str, object]]):
 
         Returns:
             A new MessageMetadata instance reconstituted from *data*.
+
         """
         return cls(
             message_type=str(data["message_type"]),
@@ -191,6 +201,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         Args:
             metadata: Message metadata. If None, creates new metadata with
                 generated ID and current timestamp.
+
         """
         super().__init__()
         effective_type = type(self).__name__
@@ -211,6 +222,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
 
         Returns:
             The message metadata containing ID, timestamp, etc.
+
         """
         return self._metadata
 
@@ -220,6 +232,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
 
         Returns:
             The unique message identifier.
+
         """
         return self._metadata.message_id
 
@@ -229,6 +242,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
 
         Returns:
             When the message was created.
+
         """
         return self._metadata.created_at
 
@@ -242,6 +256,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
 
         Returns:
             The message payload.
+
         """
 
     @property
@@ -252,6 +267,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
 
         Returns:
             Tuple containing the message ID for equality comparison.
+
         """
         return (self._metadata.message_id,)
 
@@ -262,6 +278,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
 
         Returns:
             Complete dictionary representation of the message.
+
         """
         result: dict[str, object] = {
             "metadata": self._metadata.to_dict(),
@@ -279,6 +296,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
 
         Returns:
             Dictionary of domain data fields.
+
         """
         return self._payload
 
@@ -291,6 +309,7 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
 
         Returns:
             A new message instance reconstituted from *data*.
+
         """
         metadata = MessageMetadata.from_dict(cast(dict[str, object], data["metadata"]))
         payload = cast(dict[str, object], data.get("payload", data.get("data", {})))
@@ -314,8 +333,8 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         Raises:
             NotImplementedError: If the subclass has not overridden this method or
                 does not have a ``_from_payload_fields`` method.
-        """
 
+        """
         method = getattr(cls, "_from_payload_fields", None)
         if method is not None:
             return cast(Callable[..., Self], method)(data, metadata)

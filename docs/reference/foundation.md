@@ -62,7 +62,7 @@ The Foundation block is pure Python — standard library only. It introduces no 
     A Protocol representing explicit success (Ok) or failure (Err) without exceptions.
 
 !!! note "Port"
-    A Protocol defining a boundary — what is expected, not how it is implemented.
+    An ABC defining a boundary — what is expected, not how it is implemented.
 
 !!! note "Error"
     A structured failure with a message and metadata, used across all layers.

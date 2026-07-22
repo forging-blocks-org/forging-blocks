@@ -44,5 +44,6 @@ class MessageBusPort[MessageType, MessageBusResultType](
                 - reliability,
                 - ordering,
                 - concurrency model.
+
         """
         ...

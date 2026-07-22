@@ -1,6 +1,6 @@
 """File system port for abstract file operations.
 
-Defines the ``FileSystemPort`` protocol that application code depends on,
+Defines the ``FileSystemPort`` contract that application code depends on,
 decoupling file I/O from any specific implementation.
 """
 
@@ -13,9 +13,20 @@ from forging_blocks.foundation.ports import OutboundPort
 class FileSystemPort(
     OutboundPort,
 ):
-    """Structural protocol for file system operations.
-    Any object with ``read``, ``write``, ``delete``, ``exists``,
-    and ``list_dir`` async methods satisfies this protocol.
+    """Abstract contract for file system operations.
+
+    Infrastructure implementations must explicitly inherit this class.
+
+    Responsibilities:
+        - Read and write file contents as bytes.
+        - Delete files and check existence.
+        - List directory contents.
+
+    Non-Responsibilities:
+        - Manage file permissions or ownership.
+        - Resolve symlinks or handle special file types.
+        - Provide atomic or transactional file operations.
+        - Stream large files — the whole content is read into memory.
     """
 
     @abstractmethod
@@ -30,6 +41,7 @@ class FileSystemPort(
 
         Raises:
             FileNotFoundError: If the file does not exist.
+
         """
         ...
 
@@ -40,6 +52,7 @@ class FileSystemPort(
         Args:
             path: Path to the file.
             data: The bytes to write.
+
         """
 
     @abstractmethod
@@ -51,6 +64,7 @@ class FileSystemPort(
 
         Raises:
             FileNotFoundError: If the file does not exist.
+
         """
 
     @abstractmethod
@@ -62,6 +76,7 @@ class FileSystemPort(
 
         Returns:
             ``True`` if the path exists, ``False`` otherwise.
+
         """
         ...
 
@@ -77,5 +92,6 @@ class FileSystemPort(
 
         Raises:
             NotADirectoryError: If *path* is not a directory.
+
         """
         ...
