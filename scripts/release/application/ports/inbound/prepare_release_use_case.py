@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import abstractmethod
 from dataclasses import dataclass, field
 
-from forging_blocks.application.ports import UseCase
+from forging_blocks.application.ports import UseCasePort
 
 
 @dataclass(frozen=True)
@@ -40,7 +40,7 @@ class PrepareReleaseOutput:
     changelog_entries: list[str] = field(default_factory=lambda: [])
 
 
-class PrepareReleaseUseCase(UseCase[PrepareReleaseInput, PrepareReleaseOutput]):
+class PrepareReleaseUseCase(UseCasePort[PrepareReleaseInput, PrepareReleaseOutput]):
     """Prepares a release from the main branch.
 
     Responsibilities:

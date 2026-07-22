@@ -4,21 +4,21 @@ Defines the ``FileSystemPort`` protocol that application code depends on,
 decoupling file I/O from any specific implementation.
 """
 
+from abc import abstractmethod
 from pathlib import Path
-from typing import Protocol
 
 from forging_blocks.foundation.ports import OutboundPort
 
 
 class FileSystemPort(
-    OutboundPort[Path | str, bytes],
-    Protocol,
+    OutboundPort,
 ):
     """Structural protocol for file system operations.
     Any object with ``read``, ``write``, ``delete``, ``exists``,
     and ``list_dir`` async methods satisfies this protocol.
     """
 
+    @abstractmethod
     async def read(self, path: Path | str) -> bytes:
         """Read the contents of a file.
 
@@ -33,6 +33,7 @@ class FileSystemPort(
         """
         ...
 
+    @abstractmethod
     async def write(self, path: Path | str, data: bytes) -> None:
         """Write data to a file, creating parent directories as needed.
 
@@ -40,8 +41,8 @@ class FileSystemPort(
             path: Path to the file.
             data: The bytes to write.
         """
-        ...
 
+    @abstractmethod
     async def delete(self, path: Path | str) -> None:
         """Delete a file.
 
@@ -51,8 +52,8 @@ class FileSystemPort(
         Raises:
             FileNotFoundError: If the file does not exist.
         """
-        ...
 
+    @abstractmethod
     async def exists(self, path: Path | str) -> bool:
         """Check whether a file or directory exists.
 
@@ -64,6 +65,7 @@ class FileSystemPort(
         """
         ...
 
+    @abstractmethod
     async def list_dir(self, path: Path | str) -> list[Path]:
         """List the contents of a directory.
 

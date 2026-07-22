@@ -5,8 +5,8 @@ domain events. The interface is agnostic of storage backend — in-memory,
 relational, or event-native implementations are all supported.
 """
 
+from abc import abstractmethod
 from collections.abc import Sequence
-from typing import Protocol
 from uuid import UUID
 
 from forging_blocks.application.errors.event_store_error import EventStoreError
@@ -16,8 +16,7 @@ from forging_blocks.foundation.result import Result
 
 
 class EventStorePort[EventPayloadType](
-    OutboundPort[Event[EventPayloadType], object],
-    Protocol,
+    OutboundPort,
 ):
     """Protocol for event stores that persist and retrieve domain events.
 
@@ -28,6 +27,7 @@ class EventStorePort[EventPayloadType](
       - Optimistic concurrency via ``expected_version``.
     """
 
+    @abstractmethod
     async def append_events(
         self,
         aggregate_id: UUID,
@@ -48,6 +48,7 @@ class EventStorePort[EventPayloadType](
         """
         ...
 
+    @abstractmethod
     async def get_events(
         self,
         aggregate_id: UUID,
@@ -69,6 +70,7 @@ class EventStorePort[EventPayloadType](
         """
         ...
 
+    @abstractmethod
     async def get_current_version(self, aggregate_id: UUID) -> Result[int, EventStoreError]:
         """Retrieve the current version of an aggregate's event stream.
 

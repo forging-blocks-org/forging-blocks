@@ -1,6 +1,6 @@
 """Outbound port for asynchronously fetching query results.
 
-Defines the ``QueryFetcherPort`` protocol for dispatching query messages
+Defines the ``QueryFetcherPort`` ABC for dispatching query messages
 and returning their results.  Supports CQRS-style architectures where
 queries are processed independently of commands.
 
@@ -12,22 +12,21 @@ Non-Responsibilities:
     - Guarantee consistency between read and write models.
 """
 
-from typing import Protocol
+from abc import abstractmethod
 
 from forging_blocks.foundation.messages.query import Query
 from forging_blocks.foundation.ports import OutboundPort
 
 
 class QueryFetcherPort[QueryPayloadType, QueryFetcherResult](
-    OutboundPort[Query[QueryPayloadType], QueryFetcherResult],
-    Protocol,
+    OutboundPort,
 ):
-    """Protocol for dispatching query messages asynchronously.
+    """ABC for dispatching query messages asynchronously.
 
-    Any object with an async ``fetch`` method that accepts a ``Query`` and
-    returns a result satisfies this protocol — no inheritance required.
+    Infrastructure implementations determine delivery semantics.
     """
 
+    @abstractmethod
     async def fetch(self, query: Query[QueryPayloadType]) -> QueryFetcherResult:
         """Fetch the result of a query.
 

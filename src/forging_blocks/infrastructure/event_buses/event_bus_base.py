@@ -13,7 +13,7 @@ from forging_blocks.foundation.messages.event import Event
 from forging_blocks.foundation.result import Result
 
 
-class EventBusBase[EventPayloadType, CommandPayloadType](ABC):
+class EventBusBase[EventPayloadType, CommandPayloadType, HandlerType](ABC):
     """Base class for event buses.
 
     Implementations handle:
@@ -32,7 +32,6 @@ class EventBusBase[EventPayloadType, CommandPayloadType](ABC):
         Returns:
             A ``Result`` indicating success or an ``EventBusError``.
         """
-        ...
 
     @abstractmethod
     async def send(self, command: Command[CommandPayloadType]) -> Result[None, EventBusError]:
@@ -44,18 +43,16 @@ class EventBusBase[EventPayloadType, CommandPayloadType](ABC):
         Returns:
             A ``Result`` indicating success or an ``EventBusError``.
         """
-        ...
 
     @abstractmethod
     def register_handler(
         self,
-        message_type: type[Event[object]] | type[Command[object]],
-        handler: object,
+        message_type: type[Event[EventPayloadType]] | type[Command[CommandPayloadType]],
+        handler: HandlerType,
     ) -> None:
         """Register a handler for the given message type.
 
         Args:
             message_type: The message class to handle.
-            handler: A handler instance (``EventHandler`` or ``CommandHandler``).
+            handler: A handler instance.
         """
-        ...

@@ -16,7 +16,7 @@ from tests.forging_blocks.presentation.conftest import (
     SuccessUseCase,
 )
 
-from forging_blocks.application.ports.inbound import UseCase
+from forging_blocks.application.ports.inbound import UseCasePort
 from forging_blocks.foundation import Error
 from forging_blocks.foundation.result import Ok
 from forging_blocks.presentation import (
@@ -33,7 +33,7 @@ class TestPresentationAdapter:
 
     def _make_adapter(
         self,
-        use_case: UseCase[str, object],
+        use_case: UseCasePort[str, object],
         error_presenter: ErrorPresenter | None = None,
         unwrap_use_case_result: bool = True,
     ) -> PresentationAdapter[DictRequest, str, object, DictResponse]:

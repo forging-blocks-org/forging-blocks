@@ -5,7 +5,10 @@ from __future__ import annotations
 import pytest
 
 from forging_blocks.application.errors.event_bus_error import EventBusError
-from forging_blocks.application.ports.inbound.message_handler import CommandHandler, EventHandler
+from forging_blocks.application.ports.inbound.message_handler_port import (
+    CommandHandlerPort,
+    EventHandlerPort,
+)
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
 from forging_blocks.infrastructure.event_buses.event_bus_base import EventBusBase
@@ -33,18 +36,18 @@ class TestInMemoryEventBusBase:
     """Tests for the InMemoryEventBusBase implementation."""
 
     @pytest.fixture
-    def event_bus(self) -> InMemoryEventBusBase[TestPayload, TestPayload]:
+    def event_bus(self) -> InMemoryEventBusBase[TestPayload, TestPayload, object]:
         """Create a fresh InMemoryEventBusBase for each test."""
-        return InMemoryEventBusBase[TestPayload, TestPayload]()
+        return InMemoryEventBusBase[TestPayload, TestPayload, object]()
 
     async def test_publish_event(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test publishing an event to subscribers."""
         received_events: list[FakeEventWithValue] = []
 
-        class TestHandler(EventHandler[TestPayload]):
+        class TestHandler(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received_events.append(message)  # type: ignore[arg-type]
 
@@ -57,17 +60,17 @@ class TestInMemoryEventBusBase:
 
     async def test_publish_to_multiple_subscribers(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test publishing an event to multiple subscribers."""
         received_1: list[str] = []
         received_2: list[str] = []
 
-        class Handler1(EventHandler[TestPayload]):
+        class Handler1(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received_1.append("handler1")
 
-        class Handler2(EventHandler[TestPayload]):
+        class Handler2(EventHandlerPort[TestPayload]):
             async def handle(self, message: Event[TestPayload]) -> None:
                 received_2.append("handler2")
 
@@ -80,7 +83,7 @@ class TestInMemoryEventBusBase:
 
     async def test_publish_no_subscribers(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test publishing an event with no subscribers."""
         event = FakeEventWithValue("test-value")
@@ -89,12 +92,12 @@ class TestInMemoryEventBusBase:
 
     async def test_send_command(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Test sending a command to its handler."""
         received_commands: list[SimpleFakeCommandWithValue] = []
 
-        class TestCmdHandler(CommandHandler[TestPayload]):
+        class TestCmdHandler(CommandHandlerPort[TestPayload]):
             async def handle(self, message: Command[TestPayload]) -> None:
                 received_commands.append(message)  # type: ignore[arg-type]
 
@@ -106,11 +109,11 @@ class TestInMemoryEventBusBase:
 
     async def test_send_when_handler_raises_then_returns_error(
         self,
-        event_bus: InMemoryEventBusBase[TestPayload, TestPayload],
+        event_bus: InMemoryEventBusBase[TestPayload, TestPayload, object],
     ) -> None:
         """Sending a command whose handler raises returns ``EventBusError``."""
 
-        class FailingHandler(CommandHandler[TestPayload]):
+        class FailingHandler(CommandHandlerPort[TestPayload]):
             async def handle(self, message: Command[TestPayload]) -> None:
                 raise RuntimeError("Handler exploded")
 

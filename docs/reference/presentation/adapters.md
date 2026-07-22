@@ -31,7 +31,7 @@ Handles both happy and error paths. Produces the final transport response.
 
 ```
 1. RequestAdapter.adapt(raw)  → use-case input
-2. UseCase.execute(input)     → output or Result
+2. ApplicationServicePort.execute(input)     → output or Result
 3a. Success  → ResponseAdapter.adapt(output)
 3b. Err/Exception → ErrorPresenter → ErrorStatusCodeMapper → ResponseAdapter.adapt_error()
 ```

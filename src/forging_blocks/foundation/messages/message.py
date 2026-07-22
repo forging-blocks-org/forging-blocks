@@ -243,7 +243,6 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         Returns:
             The message payload.
         """
-        ...
 
     @property
     def _equality_components(self) -> tuple[object, ...]:

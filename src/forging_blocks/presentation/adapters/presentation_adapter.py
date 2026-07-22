@@ -24,7 +24,7 @@ from forging_blocks.presentation.errors.error_view_model import ErrorViewModel
 from forging_blocks.presentation.middleware.pipeline import Pipeline
 
 if TYPE_CHECKING:
-    from forging_blocks.application.ports.inbound import UseCase
+    from forging_blocks.application.ports.inbound import UseCasePort
 
 
 class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
@@ -53,7 +53,7 @@ class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
 
     def __init__(
         self,
-        use_case: "UseCase[UseCaseInput, UseCaseOutput]",
+        use_case: "UseCasePort[UseCaseInput, UseCaseOutput]",
         request_adapter: RequestAdapter[RawRequest, UseCaseInput],
         response_adapter: ResponseAdapter[UseCaseOutput, RawResponse],
         error_presenter: ErrorPresenter | None = None,

@@ -125,4 +125,3 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
         Implemented by concrete subclasses. Called exclusively
         by apply() — never directly.
         """
-        ...

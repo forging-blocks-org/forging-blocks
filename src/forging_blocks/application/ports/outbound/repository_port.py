@@ -14,20 +14,20 @@ Non-Responsibilities:
     - Expose ORM models or database APIs directly.
 """
 
-from __future__ import annotations
+from abc import abstractmethod
+from collections.abc import Sequence
 
-from typing import Any, Protocol, Sequence
-
-from forging_blocks.foundation.ports import Port
+from forging_blocks.foundation.ports import OutboundPort
 
 
-class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](Port[Any, Any], Protocol):
+class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](OutboundPort):
     """Read-only repository abstraction for query operations.
 
     This interface is optimized for query-side usage in CQRS architectures.
     It provides type-safe retrieval of aggregates or read models.
     """
 
+    @abstractmethod
     async def get_by_id(self, id: TId) -> TReadAggregateRoot | None:
         """Retrieve an aggregate or read model by ID.
 
@@ -45,6 +45,7 @@ class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](Port[Any, Any], Protocol):
         """
         ...
 
+    @abstractmethod
     async def list_all(self) -> Sequence[TReadAggregateRoot]:
         """Retrieve all resources.
 
@@ -56,13 +57,14 @@ class ReadOnlyRepositoryPort[TReadAggregateRoot, TId](Port[Any, Any], Protocol):
         ...
 
 
-class WriteOnlyRepositoryPort[TWriteAggregateRoot, TWriteId](Port[Any, Any], Protocol):
+class WriteOnlyRepositoryPort[TWriteAggregateRoot, TWriteId](OutboundPort):
     """Write-only repository abstraction for command operations.
 
     This interface supports command-side operations where writes are applied
     independently from read-side storage.
     """
 
+    @abstractmethod
     async def delete_by_id(self, id: TWriteId) -> None:
         """Delete an aggregate by ID.
 
@@ -72,21 +74,19 @@ class WriteOnlyRepositoryPort[TWriteAggregateRoot, TWriteId](Port[Any, Any], Pro
         Raises:
             RepositoryError: If deletion fails.
         """
-        ...
 
+    @abstractmethod
     async def save(self, aggregate: TWriteAggregateRoot) -> None:
         """Persist an aggregate instance.
 
         Args:
             aggregate: The aggregate to save.
         """
-        ...
 
 
 class RepositoryPort[TAggregateRoot, TId](
     ReadOnlyRepositoryPort[TAggregateRoot, TId],
     WriteOnlyRepositoryPort[TAggregateRoot, TId],
-    Protocol,
 ):
     """Full CRUD repository abstraction.
 

@@ -10,13 +10,13 @@ It depends on **Domain** and **Foundation**. It must not depend on Presentation 
 
 The Application block sits between the outside world and the Domain as a behavioral boundary.
 
-**UseCase flow:**
+**ApplicationServicePort flow:**
 1. Receives a request through an inbound port.
 2. Coordinates domain objects.
 3. Invokes outbound ports for persistence or side effects.
 4. Returns a `Result[OutputType, Error]`.
 
-A `MessageHandler` follows the same pattern but reacts to a single message type — commands, events, or queries.
+A `MessageHandlerPort` follows the same pattern but reacts to a single message type — commands, events, or queries.
 
 Ports define *what* the application needs, never *how*. Outbound ports like `RepositoryPort` or `EventBusPort` are contracts. Infrastructure implements them. The Application block composes them without knowing their implementation.
 
@@ -26,7 +26,7 @@ Ports define *what* the application needs, never *how*. Outbound ports like `Rep
 Wire up a use case step by step:
 
 1. Define an inbound port for each system capability.
-2. Implement it as a `UseCase` class.
+2. Implement it as a `ApplicationServicePort` class.
 3. Inject outbound ports through the constructor — repositories, event buses, loggers.
 4. Return `Result[OutputType, Error]` so callers handle both paths explicitly.
 

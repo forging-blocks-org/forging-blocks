@@ -16,31 +16,20 @@ Non-Responsibilities:
     - Persistence (handled by repositories).
 """
 
-from typing import Protocol, TypeVar
+from abc import abstractmethod
 
 from forging_blocks.foundation.messages.command import Command
 from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.message import Message
 from forging_blocks.foundation.messages.query import Query
 from forging_blocks.foundation.ports import InboundPort
 
-CommandPayloadType = TypeVar("CommandPayloadType", contravariant=True)
-QueryPayloadType = TypeVar("QueryPayloadType", contravariant=True)
-EventPayloadType = TypeVar("EventPayloadType", contravariant=True)
-QueryResultType = TypeVar("QueryResultType", covariant=True)
 
-CommandType = TypeVar("CommandType", contravariant=True, bound=Command[object])
-QueryType = TypeVar("QueryType", contravariant=True, bound=Query[object])
-EventType = TypeVar("EventType", contravariant=True, bound=Event[object])
-
-
-class MessageHandler[MessageType: Message[object], MessageHandlerResultType](
-    InboundPort[MessageType, MessageHandlerResultType],
-    Protocol,
+class MessageHandlerPort[MessageType, MessageHandlerResultType](
+    InboundPort,
 ):
     """Inbound port for handling messages asynchronously.
 
-    A MessageHandler defines the contract for processing a single message
+    A MessageHandlerPort defines the contract for processing a single message
     and producing a typed result. Implementations must avoid infrastructure
     dependencies and remain purely application-blocks logic.
 
@@ -50,6 +39,7 @@ class MessageHandler[MessageType: Message[object], MessageHandlerResultType](
         - Invoke repositories, outbound ports, and publish domain events.
     """
 
+    @abstractmethod
     async def handle(self, message: MessageType) -> MessageHandlerResultType:
         """Process a message and return an application result.
 
@@ -70,22 +60,19 @@ class MessageHandler[MessageType: Message[object], MessageHandlerResultType](
         ...
 
 
-class CommandHandler[CommandPayloadType](
-    MessageHandler[Command[CommandPayloadType], None],
-    Protocol,
+class CommandHandlerPort[CommandPayloadType](
+    MessageHandlerPort[Command[CommandPayloadType], None],
 ):
     """Inbound port for handling commands asynchronously."""
 
 
-class QueryHandler[QueryPayloadType, QueryResultType](
-    MessageHandler[Query[QueryPayloadType], QueryResultType],
-    Protocol,
+class QueryHandlerPort[QueryPayloadType, QueryResultType](
+    MessageHandlerPort[Query[QueryPayloadType], QueryResultType],
 ):
     """Inbound port for handling queries asynchronously."""
 
 
-class EventHandler[EventPayloadType](
-    MessageHandler[Event[EventPayloadType], None],
-    Protocol,
+class EventHandlerPort[EventPayloadType](
+    MessageHandlerPort[Event[EventPayloadType], None],
 ):
     """Inbound port for handling events asynchronously."""
