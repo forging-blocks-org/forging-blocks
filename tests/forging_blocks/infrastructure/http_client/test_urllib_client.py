@@ -2,6 +2,10 @@
 
 import asyncio
 import inspect
+import os
+import ssl
+import subprocess
+import tempfile
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from threading import Thread
 
@@ -55,6 +59,57 @@ def echo_server():
     thread.start()
     host, port = server.server_address[0], server.server_address[1]
     url = f"http://{host}:{port}"
+    yield url
+    server.shutdown()
+    thread.join(timeout=2)
+
+
+@pytest.fixture(scope="module")
+def https_echo_server():
+    """Start a local HTTPS server that echoes requests; returns base URL."""
+    tmpdir = tempfile.mkdtemp()
+    cert_path = os.path.join(tmpdir, "cert.pem")
+    key_path = os.path.join(tmpdir, "key.pem")
+
+    subprocess.run(
+        [
+            "openssl",
+            "req",
+            "-x509",
+            "-newkey",
+            "rsa:2048",
+            "-keyout",
+            key_path,
+            "-out",
+            cert_path,
+            "-days",
+            "1",
+            "-nodes",
+            "-subj",
+            "/CN=localhost",
+            "-addext",
+            "subjectAltName=DNS:localhost",
+        ],
+        check=True,
+        capture_output=True,
+    )
+
+    ssl_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    ssl_ctx.minimum_version = ssl.TLSVersion.TLSv1_2
+    ssl_ctx.load_cert_chain(cert_path, key_path)
+
+    # Clean up temp files immediately — SSL context has them in memory
+    os.unlink(cert_path)
+    os.unlink(key_path)
+    os.rmdir(tmpdir)
+
+    server = HTTPServer(("127.0.0.1", 0), _EchoHandler)
+    server.socket = ssl_ctx.wrap_socket(server.socket, server_side=True)
+
+    thread = Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    host, port = server.server_address[0], server.server_address[1]
+    url = f"https://{host}:{port}"
     yield url
     server.shutdown()
     thread.join(timeout=2)
@@ -192,3 +247,24 @@ class TestURLLibClientIntegration:
         assert len(results) == 3
         for i, r in enumerate(results):
             assert f"path=/c{i}" in r
+
+    async def test_https_scheme_and_query_string(
+        self,
+        client: URLLibClient,
+        https_echo_server: str,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """HTTPS scheme selects HTTPSConnection and query strings are encoded in the path."""
+
+        def _unverified_context() -> ssl.SSLContext:
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            return ctx
+
+        monkeypatch.setattr(ssl, "_create_default_https_context", _unverified_context)
+
+        result = await client.request("GET", f"{https_echo_server}/api/data?page=1&limit=10")
+
+        assert "method=GET" in result
+        assert "path=/api/data?page=1&limit=10" in result
