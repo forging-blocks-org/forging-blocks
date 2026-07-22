@@ -34,5 +34,6 @@ class InMemoryWriteRepository[TWriteAggregateRoot: Identified[Any], TWriteId](
         Args:
             storage: An optional mutable mapping to use as backing storage.
                 If None, a new empty dictionary is used.
+
         """
         super().__init__(storage)

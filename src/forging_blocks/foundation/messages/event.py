@@ -32,6 +32,7 @@ class Event[RawEventType](Message[RawEventType]):
                     "total": self._total,
                 }
         ```
+
     """
 
     @property

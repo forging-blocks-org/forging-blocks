@@ -27,6 +27,7 @@ class ErrorStatusCodeMapper:
         Returns:
             A new ``ErrorViewModel`` whose ``ErrorMessageModel``
             entries each carry the appropriate ``status_code``.
+
         """
         enriched = tuple(
             replace(msg, status_code=self._status_code_for(msg.code)) for msg in view_model.messages

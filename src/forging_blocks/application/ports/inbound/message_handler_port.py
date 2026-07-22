@@ -56,6 +56,7 @@ class MessageHandlerPort[MessageType, MessageHandlerResultType](
             This method is asynchronous and should not block. Infrastructure
             concerns such as retry logic or message acknowledgment must be
             handled externally.
+
         """
         ...
 

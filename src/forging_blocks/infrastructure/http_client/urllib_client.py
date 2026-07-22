@@ -34,6 +34,7 @@ class URLLibClient(HttpClientPort[str, str]):
         urllib.error.HTTPError: On HTTP 4xx/5xx responses.
         urllib.error.URLError: On network/connection failures.
         ConfigurationError: On misconfigured URLs (e.g., non-HTTP schemes).
+
     """
 
     async def request(
@@ -57,6 +58,7 @@ class URLLibClient(HttpClientPort[str, str]):
         Raises:
             HTTPError: On 4xx/5xx HTTP responses.
             URLError: On network or connection failures.
+
         """
         http_headers: dict[str, str] = headers or {}
         data: bytes | None = body.encode("utf-8") if body is not None else None

@@ -27,6 +27,7 @@ class FrozenSetattrHandler:
 
         Args:
             target_class: The class being decorated by ``@auto_freeze``.
+
         """
         self.target_class = target_class
         self.original_setattr = target_class.__setattr__
@@ -43,6 +44,7 @@ class FrozenSetattrHandler:
             A callable suitable for assignment to ``cls.__setattr__``.
             When the class already has a custom setattr, the original is
             returned unchanged.
+
         """
         if self.has_custom_setattr:
             return self.original_setattr

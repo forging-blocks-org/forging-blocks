@@ -14,6 +14,7 @@ class EntityIdModificationError(Error[dict[str, object]]):
             class_name: Name of the class whose identifier was targeted.
             attribute_name: Name of the attribute that was being modified.
             current_value: The current (immutable) value of the identifier.
+
         """
         message = ErrorMessage(
             f"Cannot modify '{attribute_name}' of {class_name} once set "

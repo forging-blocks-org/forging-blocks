@@ -25,6 +25,7 @@ class Query[QueryPayloadType](Message[QueryPayloadType]):
             def _payload(self) -> dict[str, object]:
                 return {"order_id": self._order_id}
         ```
+
     """
 
     @property

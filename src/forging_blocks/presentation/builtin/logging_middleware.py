@@ -31,6 +31,7 @@ class LoggingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respo
         response = await mw.process(request, next_handler)
         # Logs "Processing request: ..." and "Request processed, response: ..." at debug
         ```
+
     """
 
     __slots__ = ("_logger",)
@@ -40,6 +41,7 @@ class LoggingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respo
 
         Args:
             logger: A ``LoggerPort`` used for debug-level tracing.
+
         """
         self._logger = logger
 
@@ -56,6 +58,7 @@ class LoggingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respo
 
         Returns:
             The response produced by the downstream handler.
+
         """
         self._logger.debug("Processing request: %s", str(request))
         response = await next_handler(request)

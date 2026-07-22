@@ -41,6 +41,7 @@ class EventStoreBase[EventPayloadType](ABC):
         Returns:
             A ``Result`` containing the new stream version on success or an
             ``EventStoreError`` on failure.
+
         """
 
     @abstractmethod
@@ -62,6 +63,7 @@ class EventStoreBase[EventPayloadType](ABC):
         Returns:
             A ``Result`` containing the events on success or an
             ``EventStoreError`` on failure.
+
         """
 
     @abstractmethod
@@ -74,4 +76,5 @@ class EventStoreBase[EventPayloadType](ABC):
         Returns:
             A ``Result`` containing the latest version number (0 for empty
             streams) on success, or an ``EventStoreError`` on failure.
+
         """

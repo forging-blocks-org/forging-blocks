@@ -17,6 +17,7 @@ class AuthorizationContext(ValueObject[tuple[Hashable, ...]]):
         action: Optional name of the action being performed
             (e.g. ``"publish"``, ``"archive"``).
         metadata: Arbitrary key-value pairs that checkers may inspect.
+
     """
 
     __slots__ = (

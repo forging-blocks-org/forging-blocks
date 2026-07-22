@@ -29,6 +29,7 @@ class Command[RawCommandType](Message[RawCommandType]):
             def _payload(self) -> dict[str, object]:
                 return {"customer_id": self._customer_id, "items": self._items}
         ```
+
     """
 
     @property

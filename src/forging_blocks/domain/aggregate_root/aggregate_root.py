@@ -22,6 +22,7 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
     References:
         Vernon, V. (2013). Implementing Domain-Driven Design.
         Addison-Wesley. Ch.8, Ch.10, Appendix A.
+
     """
 
     def __init__(self, aggregate_id: TId, version: AggregateVersion | None = None) -> None:
@@ -41,6 +42,7 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
         Raises:
             EntityIdNoneError: If the identity is None, an empty string,
                 or the boolean False.
+
         """
         is_none = aggregate_id is None
         is_empty_string = aggregate_id == ""

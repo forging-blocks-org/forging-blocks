@@ -13,7 +13,7 @@ Entities are appropriate when it is important to distinguish *which* instance is
 
 ## Lifecycle
 
-An Entity transitions through three states: draft (no ID), identified (ID assigned), and optionally deleted. The base class enforces that an ID, once set, cannot be changed or removed — violations raise [Domain Errors](errors.md).
+An Entity transitions through two states: draft (no ID) and identified (ID assigned). The base class enforces that an ID, once set, cannot be changed or removed — violations raise [Domain Errors](errors.md).
 
 ## When to use
 

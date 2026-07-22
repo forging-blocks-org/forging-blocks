@@ -43,6 +43,7 @@ class ValueObject[RawValueType](ABC):
             def _equality_components(self) -> tuple[Hashable, ...]:
                 return (self._value,)
         ```
+
     """
 
     def __init_subclass__(cls, **kwargs: Any) -> None:

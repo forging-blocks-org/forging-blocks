@@ -12,6 +12,7 @@ class ConcurrencyError(EventStoreError):
         aggregate_id: The aggregate that experienced the conflict.
         expected_version: The version the caller expected.
         actual_version: The version currently stored.
+
     """
 
     def __init__(self, aggregate_id: UUID, expected_version: int, actual_version: int) -> None:

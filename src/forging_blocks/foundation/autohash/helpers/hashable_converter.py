@@ -35,6 +35,7 @@ class HashableConverter:
         Raises:
             NonHashableValueError: When *value* cannot be made hashable (e.g. a mutable
                 set or a custom non-hashable object).
+
         """
         if isinstance(value, Hashable):
             return cls._ensure_deeply_hashable(value)

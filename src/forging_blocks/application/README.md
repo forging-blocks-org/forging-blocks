@@ -9,14 +9,30 @@ It acts as a bridge between the domain block (business logic) and the outside wo
 
 ```
 application/
+├── errors/
+├── dtos/
 ├── ports/
 │   ├── inbound/
-│   │   └── application_service_port.py   # Abstract base for use cases/handlers
+│   │   ├── application_service_port.py
+│   │   ├── authorization_port.py
+│   │   ├── message_handler_port.py
+│   │   └── validation_port.py
 │   └── outbound/
-│       ├── event_publisher.py  # Contract for publishing integration events
-│       ├── notifier.py         # Contract for sending notifications
-│       └── unit_of_work.py     # Contract for transaction management
-└── services/                   # Implementations of application use cases
+│       ├── cache_port.py
+│       ├── command_sender_port.py
+│       ├── event_bus_port.py
+│       ├── event_publisher_port.py
+│       ├── event_store_port.py
+│       ├── file_system_port.py
+│       ├── http_client_port.py
+│       ├── logger_port.py
+│       ├── message_bus_port.py
+│       ├── notifier_port.py
+│       ├── query_fetcher_port.py
+│       ├── repository_port.py
+│       ├── specification_repository_port.py
+│       ├── transaction_manager_port.py
+│       └── unit_of_work_port.py
 ```
 
 ---
@@ -25,8 +41,8 @@ application/
 
 ### 1. **Application Inbound Ports**
 - **Purpose:** Orchestrate business workflows by coordinating Domain logic and Infrastructure through ports.
-- **What goes here:** Protocol interfaces for commands, queries, and use cases.
-- **Example:** ``UseCasePort`` in ``ports/inbound/use_case_port.py``.
+- **What goes here:** Abstract base classes for commands, queries, and use cases.
+- **Example:** ``ApplicationServicePort`` in ``ports/inbound/application_service_port.py``.
 
 ### 2. **Application Services**
 - **Purpose:** Implement the business workflows and coordinate domain objects, repositories, and outbound ports.
@@ -37,9 +53,9 @@ application/
 - **Purpose:** Abstract external systems or cross-cutting concerns that the application interacts with.
 - **What goes here:** Interfaces for things like event publishing, notifications, and transaction management.
 - **Examples:**
-  - `event_publisher.py`: Publish integration/application events
-  - `notifier.py`: Send notifications (email, SMS, etc.)
-  - `unit_of_work.py`: Coordinate transactional boundaries for use cases
+  - `event_publisher_port.py`: Publish integration/application events
+  - `notifier_port.py`: Send notifications (email, SMS, etc.)
+  - `unit_of_work_port.py`: Coordinate transactional boundaries for use cases
 
 ---
 

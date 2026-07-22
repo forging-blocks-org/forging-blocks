@@ -25,5 +25,6 @@ class ConfigurationError(Error[Mapping[str, object]]):
         Args:
             message: Human-readable description of the misconfiguration,
                 including the offending value and the acceptable range.
+
         """
         super().__init__(ErrorMessage(message))

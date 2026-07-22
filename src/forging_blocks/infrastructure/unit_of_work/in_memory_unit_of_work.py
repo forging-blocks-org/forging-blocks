@@ -37,6 +37,7 @@ class InMemoryUnitOfWork[IdType, EventPayloadType](UnitOfWorkPort):
         Args:
             event_publisher: An optional EventPublisherPort for publishing
                 domain events collected from aggregates on commit.
+
         """
         self._event_publisher = event_publisher
         self._modified_aggregates: dict[IdType, AggregateRoot[IdType, EventPayloadType]] = {}
@@ -77,6 +78,7 @@ class InMemoryUnitOfWork[IdType, EventPayloadType](UnitOfWorkPort):
 
         Args:
             aggregate: The aggregate root that was modified.
+
         """
         if aggregate.id is None:
             raise ValueError("Cannot register aggregate with None id")
@@ -87,6 +89,7 @@ class InMemoryUnitOfWork[IdType, EventPayloadType](UnitOfWorkPort):
 
         Raises:
             UnitOfWorkError: If commit fails.
+
         """
         try:
             await self._publish_events()

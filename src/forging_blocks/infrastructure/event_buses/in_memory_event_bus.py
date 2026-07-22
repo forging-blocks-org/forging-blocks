@@ -28,6 +28,7 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType, HandlerType](
     Attributes:
         _event_handlers: Per-event-type list of handlers.
         _command_handlers: Per-command-type single handler.
+
     """
 
     __slots__ = ("_command_handlers", "_event_handlers")
@@ -53,6 +54,7 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType, HandlerType](
         Args:
             message_type: The message class to handle.
             handler: A handler instance.
+
         """
         if issubclass(message_type, Event):
             self._event_handlers.setdefault(message_type, []).append(
@@ -70,6 +72,7 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType, HandlerType](
         Returns:
             ``Ok(None)`` on success, or ``Err(EventBusError)`` if any
             handler raises.
+
         """
         handlers = self._event_handlers.get(type(event), [])
         for handler in handlers:
@@ -88,6 +91,7 @@ class InMemoryEventBus[EventPayloadType, CommandPayloadType, HandlerType](
         Returns:
             ``Ok(None)`` on success, or ``Err(EventBusError)`` if the
             handler raises or no handler is registered.
+
         """
         handler = self._command_handlers.get(type(command))
         if handler is None:

@@ -49,10 +49,13 @@ When a value is more than a primitive, you can wrap it in a `ValueObject` to
 make its rules visible and reusable.
 
 ```python
+from collections.abc import Hashable
 from forging_blocks.foundation.value_object import ValueObject
 
 
 class Email(ValueObject[str]):
+    __slots__ = ("_value",)
+
     def __init__(self, value: str) -> None:
         super().__init__()
         if "@" not in value:
@@ -64,7 +67,7 @@ class Email(ValueObject[str]):
         return self._value
 
     @property
-    def _equality_components(self) -> tuple[str, ...]:
+    def _equality_components(self) -> tuple[Hashable, ...]:
         return (self._value,)
 ```
 

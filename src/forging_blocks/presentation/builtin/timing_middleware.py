@@ -33,6 +33,7 @@ class TimingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respon
         response = await mw.process(request, next_handler)
         # Logs "Request handled in 0.0012 seconds" at info level
         ```
+
     """
 
     __slots__ = ("_logger",)
@@ -42,6 +43,7 @@ class TimingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respon
 
         Args:
             logger: A ``LoggerPort`` used for info-level timing messages.
+
         """
         self._logger = logger
 
@@ -58,6 +60,7 @@ class TimingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respon
 
         Returns:
             The response produced by the downstream handler.
+
         """
         start = time.monotonic()
         try:

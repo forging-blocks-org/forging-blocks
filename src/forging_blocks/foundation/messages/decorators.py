@@ -81,6 +81,7 @@ def message_dataclass(
 
     Returns:
         The decorated class (or a wrapper when called with keyword arguments).
+
     """
 
     def wrap(cls: type[_M]) -> type[_M]:

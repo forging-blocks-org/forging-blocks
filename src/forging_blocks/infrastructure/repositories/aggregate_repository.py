@@ -48,6 +48,7 @@ class AggregateRepository[
         Args:
             event_store: The event store for persisting domain events.
             storage: Optional in-memory storage for aggregate snapshots.
+
         """
         super().__init__(storage)
         self._event_store = event_store
@@ -73,6 +74,7 @@ class AggregateRepository[
         Raises:
             EventStoreError: If the event store write fails (e.g., concurrency
                 conflict, I/O error).
+
         """
         events = cast(list[Event[EventPayloadType]], aggregate.uncommitted_changes)
         aggregate_id: UUID | None = aggregate.id  # type: ignore[assignment]
@@ -98,6 +100,7 @@ class AggregateRepository[
         Raises:
             EventStoreError: If the event store read fails. Callers can
                 distinguish infrastructure failures from "not found" (None).
+
         """
         aggregate = await super().get_by_id(id)
         if aggregate is not None:

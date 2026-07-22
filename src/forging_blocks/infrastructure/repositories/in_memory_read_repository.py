@@ -29,5 +29,6 @@ class InMemoryReadRepository[TReadAggregateRoot, TId](
         Args:
             storage: An optional mapping to use as backing storage.
                 If None, a new empty dictionary is used.
+
         """
         super().__init__(storage)

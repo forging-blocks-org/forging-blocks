@@ -31,6 +31,7 @@ class EventBusBase[EventPayloadType, CommandPayloadType, HandlerType](ABC):
 
         Returns:
             A ``Result`` indicating success or an ``EventBusError``.
+
         """
 
     @abstractmethod
@@ -42,6 +43,7 @@ class EventBusBase[EventPayloadType, CommandPayloadType, HandlerType](ABC):
 
         Returns:
             A ``Result`` indicating success or an ``EventBusError``.
+
         """
 
     @abstractmethod
@@ -55,4 +57,5 @@ class EventBusBase[EventPayloadType, CommandPayloadType, HandlerType](ABC):
         Args:
             message_type: The message class to handle.
             handler: A handler instance.
+
         """

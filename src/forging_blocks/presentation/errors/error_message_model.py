@@ -18,6 +18,7 @@ class ErrorMessageModel:
         code: An optional machine-readable error code for lookups.
         status_code: An optional HTTP-like status code (e.g. 400, 422)
             assigned by an ``ErrorStatusCodeMapper``.
+
     """
 
     title: str

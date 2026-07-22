@@ -13,6 +13,7 @@ class ResultAccessError(Error[dict[str, object]]):
         Args:
             message: Optional `ErrorMessage` describing the invalid
                 access. Defaults to a generic message when not provided.
+
         """
         message = message or ErrorMessage("Invalid access on Result type.")
         super().__init__(message)
