@@ -4,7 +4,7 @@ Combines InMemoryReadRepository and InMemoryWriteRepository into a single
 class suitable for non-CQRS applications or simplified contexts.
 """
 
-from collections.abc import MutableMapping
+from collections.abc import Mapping
 from typing import Any
 
 from forging_blocks.foundation.identified import Identified
@@ -29,7 +29,7 @@ class InMemoryRepository[TEntity: Identified[Any], TId](
 
     def __init__(
         self,
-        storage: MutableMapping[TId, TEntity] | None = None,
+        storage: Mapping[TId, TEntity] | None = None,
     ) -> None:
         """Initialize the repository with optional external storage.
 
