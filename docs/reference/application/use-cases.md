@@ -15,7 +15,13 @@ Characteristics:
 
 ## When to use
 
-Implement `UseCasePort` for any system capability that coordinates domain objects and outbound ports. Return `Result[OutputType, Error]` so callers handle both outcomes. Keep the class thin — it orchestrates, domain objects decide.
+Implement `ApplicationServicePort` for any system capability that coordinates domain objects and outbound ports. Return `Result[OutputType, Error]` so callers handle both outcomes. Keep the class thin — it orchestrates, domain objects decide.
+
+```python
+class CreateOrderUseCase(ApplicationServicePort[CreateOrderRequest, Result[str, OrderError]]):
+    async def execute(self, request: CreateOrderRequest) -> Result[str, OrderError]:
+        ...
+```
 
 !!! note "Influence: Ivar Jacobson"
     The focus on use cases as units of behavior originates from Ivar Jacobson's work. ForgingBlocks provides a structured, type-safe contract for executing them.

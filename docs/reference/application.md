@@ -10,7 +10,7 @@ It depends on **Domain** and **Foundation**. It must not depend on Presentation 
 
 The Application block sits between the outside world and the Domain as a behavioral boundary.
 
-**UseCasePort flow:**
+**ApplicationServicePort flow:**
 1. Receives a request through an inbound port.
 2. Coordinates domain objects.
 3. Invokes outbound ports for persistence or side effects.
@@ -26,7 +26,7 @@ Ports define *what* the application needs, never *how*. Outbound ports like `Rep
 Wire up a use case step by step:
 
 1. Define an inbound port for each system capability.
-2. Implement it as a `UseCasePort` class.
+2. Implement it as a `ApplicationServicePort` class.
 3. Inject outbound ports through the constructor — repositories, event buses, loggers.
 4. Return `Result[OutputType, Error]` so callers handle both paths explicitly.
 
