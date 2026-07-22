@@ -90,10 +90,10 @@ class Task(Entity[int]):
 
 ```python
 from forging_blocks.foundation import Err, Ok, Result
-from typing import Protocol
+from forging_blocks.foundation.ports import OutboundPort
 
 
-class EmailSender(Protocol):
+class EmailSender(OutboundPort):
     def send(self, to: str, subject: str, body: str) -> Result[None, str]:
         ...
 ```
@@ -101,7 +101,7 @@ class EmailSender(Protocol):
 A console-based implementation:
 
 ```python
-class ConsoleEmailSender:
+class ConsoleEmailSender(EmailSender):
     def send(self, to: str, subject: str, body: str) -> Result[None, str]:
         print(f"To: {to}\nSubject: {subject}\n\n{body}")
         return Ok(None)
