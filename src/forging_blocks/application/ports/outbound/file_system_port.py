@@ -1,6 +1,6 @@
 """File system port for abstract file operations.
 
-Defines the ``FileSystemPort`` protocol that application code depends on,
+Defines the ``FileSystemPort`` contract that application code depends on,
 decoupling file I/O from any specific implementation.
 """
 
@@ -13,10 +13,9 @@ from forging_blocks.foundation.ports import OutboundPort
 class FileSystemPort(
     OutboundPort,
 ):
-    """Structural protocol for file system operations.
+    """Abstract contract for file system operations.
 
-    Any object with ``read``, ``write``, ``delete``, ``exists``,
-    and ``list_dir`` async methods satisfies this protocol.
+    Infrastructure implementations must explicitly inherit this class.
 
     Responsibilities:
         - Read and write file contents as bytes.
