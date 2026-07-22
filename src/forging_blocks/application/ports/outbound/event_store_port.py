@@ -1,6 +1,6 @@
 """Event store port for event-sourced aggregates.
 
-Defines the ``EventStorePort`` protocol for appending and retrieving
+Defines the ``EventStorePort`` contract for appending and retrieving
 domain events. The interface is agnostic of storage backend — in-memory,
 relational, or event-native implementations are all supported.
 """
@@ -18,7 +18,7 @@ from forging_blocks.foundation.result import Result
 class EventStorePort[EventPayloadType](
     OutboundPort,
 ):
-    """Protocol for event stores that persist and retrieve domain events.
+    """Abstract base class for event stores that persist and retrieve domain events.
 
     Responsibilities:
         - Append domain events to an aggregate's event stream.
