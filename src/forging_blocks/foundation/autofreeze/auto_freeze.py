@@ -13,7 +13,6 @@ should be immutable after construction.
 Example:
     ```python
     from forging_blocks.foundation.autofreeze import auto_freeze
-    from forging_blocks.foundation.errors import CantModifyImmutableAttributeError
 
 
     @auto_freeze
