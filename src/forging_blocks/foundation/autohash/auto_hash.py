@@ -101,7 +101,7 @@ class _AutoHashDecorator:
         _hash_impl.__qualname__ = f"{class_.__name__}.__hash__"
 
         class_.__hash__ = _hash_impl
-        class_.__auto_hash_fields__ = _field_names
+        type.__setattr__(class_, "__auto_hash_fields__", _field_names)
         return class_
 
     def _resolve_field_names(self, class_: type[object]) -> list[str]:

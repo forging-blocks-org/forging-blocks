@@ -101,7 +101,7 @@ class _AutoEqDecorator:
         _eq_impl.__qualname__ = f"{class_.__name__}.__eq__"
 
         class_.__eq__ = _eq_impl
-        class_.__auto_eq_fields__ = _field_names
+        type.__setattr__(class_, "__auto_eq_fields__", _field_names)
         return class_
 
 
