@@ -9,7 +9,7 @@ class RoleBasedPermissionChecker:
 
     Args:
         role_permissions: A dictionary mapping role names (``str``) to the list
-            of :class:`Permission` values that role is allowed.
+            of `Permission` values that role is allowed.
 
     """
 
