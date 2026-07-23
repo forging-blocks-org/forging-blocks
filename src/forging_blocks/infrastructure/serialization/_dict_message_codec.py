@@ -9,6 +9,14 @@ from forging_blocks.foundation.messages import Message, MessageMetadata
 from ._message_codec import MessageCodec
 
 
+def _get_required(data: dict[str, object], key: str) -> object:
+    """Return ``data[key]`` or raise ``ValueError`` with a descriptive message."""
+    try:
+        return data[key]
+    except KeyError:
+        raise ValueError(f"Missing required key {key!r} in message metadata") from None
+
+
 class DictMessageCodec[M: Message[dict[str, object]]](MessageCodec[M, dict[str, object]]):
     """Codec that serializes messages to ``dict[str, object]``.
 
@@ -32,10 +40,18 @@ class DictMessageCodec[M: Message[dict[str, object]]](MessageCodec[M, dict[str, 
 
         metadata = MessageMetadata(
             message_type=str(raw_metadata.get("message_type", message_type.__name__)),
-            message_id=UUID(str(raw_metadata["message_id"])),
-            created_at=datetime.fromisoformat(str(raw_metadata["created_at"])),
-            causation_id=UUID(str(raw_metadata["causation_id"])),
-            correlation_id=UUID(str(raw_metadata["correlation_id"])),
+            message_id=UUID(
+                str(_get_required(raw_metadata, "message_id")),
+            ),
+            created_at=datetime.fromisoformat(
+                str(_get_required(raw_metadata, "created_at")),
+            ),
+            causation_id=UUID(
+                str(_get_required(raw_metadata, "causation_id")),
+            ),
+            correlation_id=UUID(
+                str(_get_required(raw_metadata, "correlation_id")),
+            ),
         )
 
         return message_type.from_payload_fields(payload, metadata)
