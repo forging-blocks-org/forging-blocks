@@ -14,7 +14,7 @@ class FinalABCMeta(FinalMeta, ABCMeta):
     """Metaclass combining `FinalMeta` and `ABCMeta`.
 
     Enables both abstract base class functionality via `ABCMeta`
-    and runtime enforcement of methods decorated with :func:`runtime_final`.
+    and runtime enforcement of methods decorated with `runtime_final`.
 
     Usage::
 
