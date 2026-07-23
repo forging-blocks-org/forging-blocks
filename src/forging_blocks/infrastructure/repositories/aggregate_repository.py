@@ -81,7 +81,7 @@ class AggregateRepository[
 
         """
         events = cast(list[Event[EventPayloadType]], aggregate.uncommitted_changes)
-        aggregate_id: TId | None = aggregate.id
+        aggregate_id: UUID | None = aggregate.id
         if events and aggregate_id is not None:
             version = aggregate.version.value - len(events)
             result = await self._event_store.append_events(
