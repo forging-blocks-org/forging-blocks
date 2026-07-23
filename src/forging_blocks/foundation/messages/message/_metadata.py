@@ -97,7 +97,8 @@ class MessageMetadata(ValueObject[dict[str, object]]):
         """Get the timestamp when this message was created.
 
         Returns:
-            When the message was created (UTC timezone).
+            The timestamp (preserved as given when provided, or the
+            current UTC time when defaulted).
 
         """
         return self._created_at
