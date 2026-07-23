@@ -145,7 +145,7 @@ class Email(ValueObject[str]):
 
 ```
 
-`ValueObject` uses :func:`auto_freeze` and :func:`auto_hash` under the hood --
+`ValueObject` uses `auto_freeze` and `auto_hash` under the hood --
 concrete subclasses are automatically frozen and hashable via
 ``__init_subclass__``.  Two ``Email`` instances with the same value are
 equal and can be used as dictionary keys or set members.  Attempting to
