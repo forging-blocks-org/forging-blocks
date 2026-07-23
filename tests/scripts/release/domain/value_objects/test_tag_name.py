@@ -85,8 +85,3 @@ class TestTagName:
         tag = TagName.for_version(version)
 
         assert tag.value == "v2.1.0"
-
-    def test_equality_components_when_called_then_returns_tuple(self) -> None:
-        tag = TagName("v1.0.0")
-
-        assert tag._equality_components == ("v1.0.0",)

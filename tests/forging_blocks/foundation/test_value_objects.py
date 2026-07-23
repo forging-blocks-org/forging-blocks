@@ -18,10 +18,6 @@ class Email(ValueObject[str]):
     def value(self) -> str:
         return self._value
 
-    @property
-    def _equality_components(self) -> tuple[str]:
-        return (self._value,)
-
 
 class AnotherEmailType(ValueObject[str]):
     __slots__ = ("_value",)
@@ -36,10 +32,6 @@ class AnotherEmailType(ValueObject[str]):
     def value(self) -> str:
         return self._value
 
-    @property
-    def _equality_components(self) -> tuple[str]:
-        return (self._value,)
-
 
 class ParentVO(ValueObject[str]):
     __slots__ = ("_value",)
@@ -51,10 +43,6 @@ class ParentVO(ValueObject[str]):
     @property
     def value(self) -> str:
         return self._value
-
-    @property
-    def _equality_components(self) -> tuple[str]:
-        return (self._value,)
 
 
 class ChildVO(ParentVO):
@@ -77,10 +65,6 @@ class MultiComponentVO(ValueObject[str]):
     @property
     def value(self) -> str:
         return f"{self._first}:{self._second}"
-
-    @property
-    def _equality_components(self) -> tuple[str, str]:
-        return (self._first, self._second)
 
 
 @pytest.mark.unit

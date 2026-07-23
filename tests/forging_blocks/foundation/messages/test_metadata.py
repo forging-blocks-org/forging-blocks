@@ -94,17 +94,21 @@ class TestMessageMetadata:
         assert metadata.created_at == naive
         assert metadata.created_at.tzinfo is None
 
-    def test_eq_when_same_id_and_timestamp_then_true(self) -> None:
-        """Two instances with identical message_id and created_at are equal."""
+    def test_eq_when_all_fields_equal_then_true(self) -> None:
+        """Two instances with identical values for all fields are equal."""
         metadata1 = MessageMetadata(
             message_type=self.message_type,
             message_id=self.message_id,
             created_at=self.created_at,
+            causation_id=self.causation_id,
+            correlation_id=self.correlation_id,
         )
         metadata2 = MessageMetadata(
             message_type=self.message_type,
             message_id=self.message_id,
             created_at=self.created_at,
+            causation_id=self.causation_id,
+            correlation_id=self.correlation_id,
         )
 
         assert metadata1 == metadata2
@@ -150,20 +154,26 @@ class TestMessageMetadata:
         assert metadata != "not metadata"
         assert metadata != 42
 
-    def test_hash_when_same_values_then_same_hash(self) -> None:
-        """Equal instances produce identical hashes."""
+    def test_hash_when_all_fields_equal_then_same_hash(self) -> None:
+        """Equal instances (all fields match) produce identical hashes."""
         message_id = uuid7()
         created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
+        causation_id = uuid7()
+        correlation_id = uuid7()
 
         metadata1 = MessageMetadata(
             message_type=self.message_type,
             message_id=message_id,
             created_at=created_at,
+            causation_id=causation_id,
+            correlation_id=correlation_id,
         )
         metadata2 = MessageMetadata(
             message_type=self.message_type,
             message_id=message_id,
             created_at=created_at,
+            causation_id=causation_id,
+            correlation_id=correlation_id,
         )
 
         assert hash(metadata1) == hash(metadata2)
