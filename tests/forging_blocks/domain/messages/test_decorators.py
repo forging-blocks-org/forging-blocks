@@ -87,3 +87,60 @@ class TestMessageDataclassDecorator:
         b = Shipped(tracking_code="TRK-001")
 
         assert a != b, "messages with different message_ids should not be equal"
+
+    def test_from_payload_fields_raises_typeerror_when_unknown_keys_present(self) -> None:
+        from forging_blocks.domain.messages.decorators import event_dataclass
+        from forging_blocks.domain.messages.event import Event
+        from forging_blocks.domain.messages.message import MessageMetadata
+
+        @event_dataclass
+        class Shipped(Event[dict[str, object]]):
+            tracking_code: str
+
+        with pytest.raises(TypeError, match="Unknown field"):
+            Shipped.from_payload_fields(
+                {"tracking_code": "TRK-001", "garbage": "bad"},
+                MessageMetadata(message_type="Shipped", message_id="test-id"),
+            )
+
+    def test_from_payload_fields_succeeds_when_all_keys_match(self) -> None:
+        from forging_blocks.domain.messages.decorators import event_dataclass
+        from forging_blocks.domain.messages.event import Event
+        from forging_blocks.domain.messages.message import MessageMetadata
+
+        @event_dataclass
+        class Shipped(Event[dict[str, object]]):
+            tracking_code: str
+
+        result = Shipped.from_payload_fields(
+            {"tracking_code": "TRK-001"},
+            MessageMetadata(message_type="Shipped", message_id="test-id"),
+        )
+        assert result.tracking_code == "TRK-001"
+        assert result.metadata.message_type == "Shipped"
+
+    def test_get_payload_fields_returns_non_private_dataclass_fields(self) -> None:
+        from forging_blocks.domain.messages.decorators import event_dataclass
+        from forging_blocks.domain.messages.event import Event
+
+        @event_dataclass
+        class Shipped(Event[dict[str, object]]):
+            tracking_code: str
+
+        msg = Shipped(tracking_code="TRK-001")
+        result = msg.get_payload_fields()
+        assert result == {"tracking_code": "TRK-001"}
+
+    def test_setattr_on_frozen_message_raises_frozen_instance_error(self) -> None:
+        from forging_blocks.domain.messages.decorators import event_dataclass
+        from forging_blocks.domain.messages.event import Event
+
+        @event_dataclass
+        class Shipped(Event[dict[str, object]]):
+            tracking_code: str
+
+        msg = Shipped(tracking_code="TRK-001")
+        import dataclasses
+
+        with pytest.raises(dataclasses.FrozenInstanceError, match="cannot assign to field"):
+            msg.tracking_code = "changed"
