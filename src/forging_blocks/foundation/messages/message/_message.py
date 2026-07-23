@@ -15,8 +15,8 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
     """Base class for all foundation messages.
 
     Messages are immutable value objects that represent intent or facts in the application.
-    This is the base class for Events (something that happened) and Commands
-    (something to do).
+    This is the base class for Commands (something to do), Events (something that happened),
+    and Queries (something to obtain).
 
     Features:
     - Immutable by design (inherits from ValueObject)
