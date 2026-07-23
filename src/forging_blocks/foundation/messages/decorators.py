@@ -74,9 +74,9 @@ def message_dataclass(
     ``get_payload_fields`` and ``from_payload_fields`` onto the class so
     that payload data is automatically derived from its fields.
 
-    **ABC interaction:** When the decorated class inherits from an abstract
-    base (e.g. :class:`Event`, :class:`Command`, :class:`Query`), the
-    decorator automatically patches ``_payload``, ``value``, and
+    When the decorated class inherits from an abstract base (e.g.
+    :class:`Event`, :class:`Command`, :class:`Query`), the decorator
+    automatically patches ``_payload``, ``value``, and
     ``from_payload_fields`` — and removes them from ``__abstractmethods__``
     — so the concrete subclass is instantiable without manual stubs.
 
