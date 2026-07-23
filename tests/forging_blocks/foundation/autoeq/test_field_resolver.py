@@ -86,3 +86,15 @@ class TestFieldResolver:
 
         with pytest.raises(TypeError, match="Cannot determine eq fields"):
             FieldResolver.resolve(A)
+
+    def test_when_slots_is_string_then_converts_to_tuple(self) -> None:
+        class A:
+            __slots__ = ("only_slot",)
+
+            def __init__(self, only_slot: int) -> None:
+                self.only_slot = only_slot
+
+        type.__setattr__(A, "__slots__", "only_slot")
+
+        result = FieldResolver.resolve(A)
+        assert result == ["only_slot"]
