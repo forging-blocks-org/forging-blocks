@@ -33,3 +33,51 @@ class TestMessageDataclassDecorator:
         ):
             with pytest.raises(TypeError, match="does not satisfy _PatchedMessage"):
                 message_dataclass(NotAMessage)  # type: ignore[reportArgumentType]
+
+    def test_decorated_messages_preserve_message_equality_by_id(self) -> None:
+        """Two decorated messages with the same message_id are equal, regardless of field data."""
+        import uuid
+
+        from forging_blocks.foundation.messages.decorators import event_dataclass
+        from forging_blocks.foundation.messages.event import Event
+        from forging_blocks.foundation.messages.message import MessageMetadata
+
+        shared_id = uuid.uuid4()
+
+        @event_dataclass
+        class Shipped(Event[dict[str, object]]):
+            tracking_code: str
+
+        # Same message_id, different field data — must be equal
+        a = Shipped(
+            tracking_code="TRK-001",
+            metadata=MessageMetadata(
+                message_type="Shipped",
+                message_id=shared_id,
+            ),
+        )
+        b = Shipped(
+            tracking_code="TRK-002",
+            metadata=MessageMetadata(
+                message_type="Shipped",
+                message_id=shared_id,
+            ),
+        )
+
+        assert a.tracking_code != b.tracking_code, "precondition: field data differs"
+        assert a == b, "messages with same message_id should be equal"
+        assert hash(a) == hash(b), "messages with same message_id should have equal hashes"
+
+    def test_decorated_messages_differ_by_message_id(self) -> None:
+        """Two decorated messages with different message_ids are not equal, even if field data matches."""
+        from forging_blocks.foundation.messages.decorators import event_dataclass
+        from forging_blocks.foundation.messages.event import Event
+
+        @event_dataclass
+        class Shipped(Event[dict[str, object]]):
+            tracking_code: str
+
+        a = Shipped(tracking_code="TRK-001")
+        b = Shipped(tracking_code="TRK-001")
+
+        assert a != b, "messages with different message_ids should not be equal"
