@@ -1,7 +1,6 @@
 """The `auto_hash` decorator generates `__hash__` for class instances.
 
-Does **not** generate ``__eq__`` or apply ``auto_freeze``. ``__eq__`` in the
-examples below is provided by ``@dataclass``. Combine with
+Does **not** generate ``__eq__`` or apply ``auto_freeze``. Combine with
 `auto_eq` for explicit equality,
 and `auto_freeze` for immutability.
 
@@ -9,14 +8,15 @@ and `auto_freeze` for immutability.
 
 === "Bare decorator"
     ```python
-    from dataclasses import dataclass
     from forging_blocks.foundation.autohash import auto_hash
 
     @auto_hash
-    @dataclass
     class Point:
-        x: int
-        y: int
+        __slots__ = ("x", "y")
+
+        def __init__(self, x: int, y: int) -> None:
+            self.x = x
+            self.y = y
 
     p1 = Point(1, 2)
     p2 = Point(1, 2)
@@ -25,14 +25,15 @@ and `auto_freeze` for immutability.
 
 === "With parameters"
     ```python
-    from dataclasses import dataclass
     from forging_blocks.foundation.autohash import auto_hash
 
     @auto_hash(fields=["x"])
-    @dataclass
     class Point:
-        x: int
-        y: int
+        __slots__ = ("x", "y")
+
+        def __init__(self, x: int, y: int) -> None:
+            self.x = x
+            self.y = y
 
     p1 = Point(1, 2)
     p2 = Point(1, 999)
