@@ -1,13 +1,10 @@
 """Auto-hash decorator for generating ``__hash__`` and ``__eq__`` on class instances.
 
 Provides the :func:`auto_hash` decorator that generates ``__hash__`` and
-``__eq__`` methods based on class fields and automatically composes
-:func:`auto_freeze` to enforce immutability.  A hashable object must be
-immutable -- ``@auto_hash`` ensures both by applying ``@auto_freeze``
-internally, which forbids attribute assignment after ``__init__`` completes.
-Works with ``@dataclass`` (``@auto_hash`` must be the outermost decorator
--- apply it *above* ``@dataclass``) and on plain classes with ``__slots__``
-or ``__annotations__``::
+``__eq__`` methods based on class fields.  Works with ``@dataclass``
+(``@auto_hash`` must be the outermost decorator -- apply it *above*
+``@dataclass``) and on plain classes with ``__slots__`` or
+``__annotations__``::
 
     @auto_hash
     @dataclass
@@ -18,17 +15,25 @@ or ``__annotations__``::
 Can be used as ``@auto_hash``, ``@auto_hash()``, or
 ``@auto_hash(fields=[...])`` to hash only specific attributes.
 
-Explicit ``@auto_freeze`` is NOT required -- ``@auto_hash`` applies it
-automatically. Applying both is harmless (idempotent).
+For immutability, combine with :func:`auto_freeze`:
+
+    @auto_hash
+    @auto_freeze
+    @dataclass
+    class Money:
+        amount: int
+        currency: str
 
 Example:
     ```python
     from dataclasses import dataclass
 
     from forging_blocks.foundation.autohash import auto_hash
+    from forging_blocks.foundation.autofreeze import auto_freeze
 
 
     @auto_hash
+    @auto_freeze
     @dataclass
     class Money:
         amount: int
@@ -47,7 +52,6 @@ import dataclasses
 from collections.abc import Callable, Sequence
 from typing import Any, overload
 
-from forging_blocks.foundation.autofreeze import auto_freeze as _auto_freeze
 from forging_blocks.foundation.autohash.helpers.hashable_converter import (
     HashableConverter,
 )
@@ -80,7 +84,9 @@ class _AutoHashDecorator:
             class_: The target class to decorate.
 
         Returns:
-            The decorated class with ``__hash__`` and ``__eq__`` generated.
+            The decorated class with ``__hash__`` and ``__eq__`` generated
+            (no longer applies ``@auto_freeze`` implicitly -- apply both
+            decorators separately when immutability is needed).
 
         """
         field_names = self._resolve_field_names(class_)
@@ -104,7 +110,6 @@ class _AutoHashDecorator:
         class_.__hash__ = _hash_impl
         class_.__eq__ = _eq_impl
         class_.__auto_hash_fields__ = _field_names
-        _auto_freeze(class_)
         return class_
 
     def _resolve_field_names(self, class_: type[object]) -> list[str]:
@@ -190,12 +195,12 @@ def auto_hash[T](
     *,
     fields: Sequence[str] | None = None,
 ) -> type[T] | Callable[[type[T]], type[T]]:
-    """Generate ``__hash__`` for a class based on its fields.
+    """Generate ``__hash__`` and ``__eq__`` for a class based on its fields.
 
-    Automatically applies :func:`auto_freeze` to enforce immutability.
-    Hashable objects MUST be immutable -- ``@auto_hash`` ensures both by
-    applying ``@auto_freeze`` internally, which forbids attribute assignment
-    after ``__init__`` completes.
+    Does NOT apply :func:`auto_freeze` -- combine both decorators when
+    immutability is required.  Hashable objects SHOULD be immutable;
+    ``@auto_hash`` generates the structural comparison but leaves
+    immutability enforcement to the caller.
     When the class is a ``@dataclass``, *fields* defaults to all declared
     dataclass fields (via ``dataclasses.fields``). Otherwise it falls back
     to ``__slots__`` (across the MRO) or ``__annotations__`` keys.
@@ -206,7 +211,7 @@ def auto_hash[T](
             ``None`` (the default), all dataclass fields are used.
     Returns:
         The decorated class (or a decorator when used parameterised),
-        with ``__hash__``, ``__eq__``, and immutability applied.
+        with ``__hash__`` and ``__eq__`` generated.
 
     Raises:
         TypeError: If no field names can be determined and *fields* is

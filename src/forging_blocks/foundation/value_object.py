@@ -8,6 +8,7 @@ import inspect
 from abc import ABC, abstractmethod
 from typing import Any
 
+from forging_blocks.foundation.autofreeze import auto_freeze
 from forging_blocks.foundation.autohash import auto_hash
 
 
@@ -19,10 +20,10 @@ class ValueObject[RawValueType](ABC):
     are considered equal.
 
     Concrete subclasses are automatically frozen and hashable via
-    :func:`auto_hash` which generates ``__hash__`` / ``__eq__`` from slot
-    fields and applies ``@auto_freeze`` for immutability.  Intermediate
-    abstract classes are skipped so leaf subclasses finish their own
-    ``__init__`` without restriction.
+    :func:`auto_freeze` and :func:`auto_hash`, which generate
+    ``__hash__`` / ``__eq__`` from slot fields and enforce
+    immutability.  Intermediate abstract classes are skipped so leaf
+    subclasses finish their own ``__init__`` without restriction.
 
     Example:
         ```python
@@ -43,13 +44,14 @@ class ValueObject[RawValueType](ABC):
     """
 
     def __init_subclass__(cls, **kwargs: Any) -> None:
-        """Automatically apply ``auto_hash`` to concrete subclasses.
+        """Apply ``auto_freeze`` and ``auto_hash`` to concrete subclasses.
 
-        ``auto_hash`` generates ``__hash__`` / ``__eq__`` from class fields
-        and also applies ``@auto_freeze`` to enforce immutability.
+        ``auto_freeze`` enforces immutability; ``auto_hash`` generates
+        ``__hash__`` / ``__eq__`` from class fields.
         """
         super().__init_subclass__(**kwargs)
         if not inspect.isabstract(cls):
+            auto_freeze(cls)
             auto_hash(cls)
 
     def __str__(self) -> str:
