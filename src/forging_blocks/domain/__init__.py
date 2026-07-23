@@ -1,5 +1,7 @@
 """ForgingBlocks for domain-specific modules."""
 
+from typing import TYPE_CHECKING
+
 from .entity import Entity
 from .errors import (
     DraftEntityIsNotHashableError,
@@ -25,6 +27,10 @@ from .validators.length_validator import LengthValidator
 from .validators.range_validator import RangeValidator
 from .validators.required_validator import RequiredValidator
 from .value_object import ValueObject
+
+if TYPE_CHECKING:
+    from .aggregate_root.aggregate_root import AggregateRoot
+    from .aggregate_root.aggregate_version import AggregateVersion
 
 __all__ = [
     "AggregateRoot",
