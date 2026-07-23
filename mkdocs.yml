@@ -78,10 +78,7 @@ nav:
           - Result: reference/foundation/result.md
           - Ports: reference/foundation/ports.md
           - Errors: reference/foundation/errors.md
-          - Messages: reference/foundation/messages.md
-          - Value Objects: reference/foundation/value-objects.md
           - Auto-Freeze: reference/foundation/auto-freeze.md
-          - Specifications: reference/foundation/specifications.md
           - Mappers: reference/foundation/mappers.md
           - Identified: reference/foundation/identified.md
           - Meta Utilities: reference/foundation/meta.md
@@ -91,6 +88,7 @@ nav:
           - Overview: reference/domain.md
           - Entities: reference/domain/entities.md
           - Value Objects: reference/domain/value-objects.md
+          - Messages: reference/domain/messages.md
           - Aggregate Roots: reference/domain/aggregates.md
           - Specifications: reference/domain/specifications.md
           - Validators: reference/domain/validators.md
@@ -111,6 +109,173 @@ nav:
           - Adapters: reference/presentation/adapters.md
           - Error Handling: reference/presentation/error-handling.md
           - Middleware: reference/presentation/middleware.md
+      - API Reference:
+        - Application:
+          - Errors:
+            - Concurrency Error: reference/autodoc/application/errors/concurrency_error.md
+            - Event Bus Error: reference/autodoc/application/errors/event_bus_error.md
+            - Event Store Error: reference/autodoc/application/errors/event_store_error.md
+            - Transaction Error: reference/autodoc/application/errors/transaction_error.md
+            - Unit Of Work Error: reference/autodoc/application/errors/unit_of_work_error.md
+          - Ports / Inbound:
+            - Application Service Port: reference/autodoc/application/ports/inbound/application_service_port.md
+            - Authorization Port: reference/autodoc/application/ports/inbound/authorization_port.md
+            - Message Handler Port: reference/autodoc/application/ports/inbound/message_handler_port.md
+            - Validation Port: reference/autodoc/application/ports/inbound/validation_port.md
+          - Ports / Outbound:
+            - Cache Port: reference/autodoc/application/ports/outbound/cache_port.md
+            - Command Sender Port: reference/autodoc/application/ports/outbound/command_sender_port.md
+            - Event Bus Port: reference/autodoc/application/ports/outbound/event_bus_port.md
+            - Event Publisher Port: reference/autodoc/application/ports/outbound/event_publisher_port.md
+            - Event Store Port: reference/autodoc/application/ports/outbound/event_store_port.md
+            - File System Port: reference/autodoc/application/ports/outbound/file_system_port.md
+            - Http Client Port: reference/autodoc/application/ports/outbound/http_client_port.md
+            - Logger Port: reference/autodoc/application/ports/outbound/logger_port.md
+            - Message Bus Port: reference/autodoc/application/ports/outbound/message_bus_port.md
+            - Notifier Port: reference/autodoc/application/ports/outbound/notifier_port.md
+            - Query Fetcher Port: reference/autodoc/application/ports/outbound/query_fetcher_port.md
+            - Specification Repository Port: reference/autodoc/application/ports/outbound/specification_repository_port.md
+            - Transaction Manager Port: reference/autodoc/application/ports/outbound/transaction_manager_port.md
+            - Unit Of Work Port: reference/autodoc/application/ports/outbound/unit_of_work_port.md
+          - Ports / Outbound / Repository Port:
+            -  Read Only Repository Port: reference/autodoc/application/ports/outbound/repository_port/_read_only_repository_port.md
+            -  Repository Port: reference/autodoc/application/ports/outbound/repository_port/_repository_port.md
+            -  Write Only Repository Port: reference/autodoc/application/ports/outbound/repository_port/_write_only_repository_port.md
+        - Domain:
+          - Entity: reference/autodoc/domain/entity.md
+          - Value Object: reference/autodoc/domain/value_object.md
+          - Aggregate Root:
+            - Aggregate Root: reference/autodoc/domain/aggregate_root/aggregate_root.md
+            - Aggregate Version: reference/autodoc/domain/aggregate_root/aggregate_version.md
+          - Errors:
+            - Draft Entity Is Not Hashable Error: reference/autodoc/domain/errors/draft_entity_is_not_hashable_error.md
+            - Entity Id Deletion Error: reference/autodoc/domain/errors/entity_id_deletion_error.md
+            - Entity Id Modification Error: reference/autodoc/domain/errors/entity_id_modification_error.md
+            - Entity Id None Error: reference/autodoc/domain/errors/entity_id_none_error.md
+          - Messages:
+            - Command: reference/autodoc/domain/messages/command.md
+            - Decorators: reference/autodoc/domain/messages/decorators.md
+            - Event: reference/autodoc/domain/messages/event.md
+            - Query: reference/autodoc/domain/messages/query.md
+          - Messages / Message:
+            -  Message: reference/autodoc/domain/messages/message/_message.md
+            -  Metadata: reference/autodoc/domain/messages/message/_metadata.md
+          - Permissions:
+            - Composite Permission Checker: reference/autodoc/domain/permissions/composite_permission_checker.md
+            - Permission Checker: reference/autodoc/domain/permissions/permission_checker.md
+            - Resource Permission Checker: reference/autodoc/domain/permissions/resource_permission_checker.md
+            - Role Based Permission Checker: reference/autodoc/domain/permissions/role_based_permission_checker.md
+          - Specification:
+            - Base: reference/autodoc/domain/specification/base.md
+            - Composable: reference/autodoc/domain/specification/composable.md
+            - Expression: reference/autodoc/domain/specification/expression.md
+          - Specification / Logical Operators:
+            - And Specification: reference/autodoc/domain/specification/logical_operators/and_specification.md
+            - Not Specification: reference/autodoc/domain/specification/logical_operators/not_specification.md
+            - Or Specification: reference/autodoc/domain/specification/logical_operators/or_specification.md
+          - Validators:
+            - Composite Validation Rule: reference/autodoc/domain/validators/composite_validation_rule.md
+            - Email Validator: reference/autodoc/domain/validators/email_validator.md
+            - Length Validator: reference/autodoc/domain/validators/length_validator.md
+            - Range Validator: reference/autodoc/domain/validators/range_validator.md
+            - Required Validator: reference/autodoc/domain/validators/required_validator.md
+        - Foundation:
+          - Debuggable: reference/autodoc/foundation/debuggable.md
+          - Identified: reference/autodoc/foundation/identified.md
+          - Mapper: reference/autodoc/foundation/mapper.md
+          - Permission: reference/autodoc/foundation/permission.md
+          - Autoeq:
+            - Auto Eq: reference/autodoc/foundation/autoeq/auto_eq.md
+          - Autofreeze:
+            - Auto Freeze: reference/autodoc/foundation/autofreeze/auto_freeze.md
+          - Autohash:
+            - Auto Hash: reference/autodoc/foundation/autohash/auto_hash.md
+          - Context:
+            - Authorization Context: reference/autodoc/foundation/context/authorization_context.md
+            - Service Context: reference/autodoc/foundation/context/service_context.md
+            - Transaction Context: reference/autodoc/foundation/context/transaction_context.md
+          - Errors:
+            - Architecture Error: reference/autodoc/foundation/errors/architecture_error.md
+            - Cant Modify Immutable Attribute Error: reference/autodoc/foundation/errors/cant_modify_immutable_attribute_error.md
+            - Combined Errors: reference/autodoc/foundation/errors/combined_errors.md
+            - Configuration Error: reference/autodoc/foundation/errors/configuration_error.md
+            - Core: reference/autodoc/foundation/errors/core.md
+            - Error: reference/autodoc/foundation/errors/error.md
+            - Field Errors: reference/autodoc/foundation/errors/field_errors.md
+            - Non Hashable Value Error: reference/autodoc/foundation/errors/non_hashable_value_error.md
+            - None Not Allowed Error: reference/autodoc/foundation/errors/none_not_allowed_error.md
+            - Not Callable Predicate Error: reference/autodoc/foundation/errors/not_callable_predicate_error.md
+            - Result Access Error: reference/autodoc/foundation/errors/result_access_error.md
+            - Rule Violation Error: reference/autodoc/foundation/errors/rule_violation_error.md
+            - Validation Error: reference/autodoc/foundation/errors/validation_error.md
+          - Meta:
+            - Final Abc Meta: reference/autodoc/foundation/meta/final_abc_meta.md
+            - Final Meta: reference/autodoc/foundation/meta/final_meta.md
+          - Ports:
+            -  Check Methods: reference/autodoc/foundation/ports/_check_methods.md
+            -  Inbound Port: reference/autodoc/foundation/ports/_inbound_port.md
+            -  Outbound Port: reference/autodoc/foundation/ports/_outbound_port.md
+            -  Port: reference/autodoc/foundation/ports/_port.md
+          - Result:
+            - Err: reference/autodoc/foundation/result/err.md
+            - Ok: reference/autodoc/foundation/result/ok.md
+            - Result: reference/autodoc/foundation/result/result.md
+          - Rules:
+            - Validation Rule: reference/autodoc/foundation/rules/validation_rule.md
+        - Infrastructure:
+          - Caching:
+            - In Memory Cache: reference/autodoc/infrastructure/caching/in_memory_cache.md
+          - Errors:
+            - Repository Errors: reference/autodoc/infrastructure/errors/repository_errors.md
+          - Event Buses:
+            - Event Bus Base: reference/autodoc/infrastructure/event_buses/event_bus_base.md
+            - In Memory Event Bus: reference/autodoc/infrastructure/event_buses/in_memory_event_bus.md
+            - In Memory Event Bus Base: reference/autodoc/infrastructure/event_buses/in_memory_event_bus_base.md
+          - Event Stores:
+            - Event Store Base: reference/autodoc/infrastructure/event_stores/event_store_base.md
+            - In Memory Event Store: reference/autodoc/infrastructure/event_stores/in_memory_event_store.md
+            - In Memory Event Store Base: reference/autodoc/infrastructure/event_stores/in_memory_event_store_base.md
+          - File System:
+            - Os File System: reference/autodoc/infrastructure/file_system/os_file_system.md
+          - Http Client:
+            - Urllib Client: reference/autodoc/infrastructure/http_client/urllib_client.md
+          - Logging:
+            - Stdlib Logger: reference/autodoc/infrastructure/logging/stdlib_logger.md
+          - Message Bus:
+            - In Memory Message Bus: reference/autodoc/infrastructure/message_bus/in_memory_message_bus.md
+            - Message Bus Command Sender: reference/autodoc/infrastructure/message_bus/message_bus_command_sender.md
+            - Message Bus Event Publisher: reference/autodoc/infrastructure/message_bus/message_bus_event_publisher.md
+            - Message Bus Query Fetcher: reference/autodoc/infrastructure/message_bus/message_bus_query_fetcher.md
+          - Repositories:
+            - Aggregate Repository: reference/autodoc/infrastructure/repositories/aggregate_repository.md
+            - In Memory Read Repository: reference/autodoc/infrastructure/repositories/in_memory_read_repository.md
+            - In Memory Repository: reference/autodoc/infrastructure/repositories/in_memory_repository.md
+            - In Memory Write Repository: reference/autodoc/infrastructure/repositories/in_memory_write_repository.md
+          - Serialization:
+            -  Dict Message Codec: reference/autodoc/infrastructure/serialization/_dict_message_codec.md
+            -  Message Codec: reference/autodoc/infrastructure/serialization/_message_codec.md
+          - Unit Of Work:
+            - In Memory Unit Of Work: reference/autodoc/infrastructure/unit_of_work/in_memory_unit_of_work.md
+        - Presentation:
+          - Presenter Contract: reference/autodoc/presentation/presenter_contract.md
+          - Adapters:
+            - Presentation Adapter: reference/autodoc/presentation/adapters/presentation_adapter.md
+            - Request Adapter: reference/autodoc/presentation/adapters/request_adapter.md
+            - Response Adapter: reference/autodoc/presentation/adapters/response_adapter.md
+          - Builtin:
+            - Error Handling Middleware: reference/autodoc/presentation/builtin/error_handling_middleware.md
+            - Logging Middleware: reference/autodoc/presentation/builtin/logging_middleware.md
+            - Timing Middleware: reference/autodoc/presentation/builtin/timing_middleware.md
+            - Validation Middleware: reference/autodoc/presentation/builtin/validation_middleware.md
+          - Errors:
+            - Error Message Model: reference/autodoc/presentation/errors/error_message_model.md
+            - Error Presenter: reference/autodoc/presentation/errors/error_presenter.md
+            - Error Status Code Mapper: reference/autodoc/presentation/errors/error_status_code_mapper.md
+            - Error View Model: reference/autodoc/presentation/errors/error_view_model.md
+          - Middleware:
+            - Middleware: reference/autodoc/presentation/middleware/middleware.md
+            - Next Handler: reference/autodoc/presentation/middleware/next_handler.md
+            - Pipeline: reference/autodoc/presentation/middleware/pipeline.md
   - Architectural Styles:
       - Overview: architectural-styles/index.md
       - Clean Architecture: architectural-styles/clean-architecture.md
