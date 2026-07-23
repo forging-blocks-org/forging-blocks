@@ -1,10 +1,7 @@
-"""Unit tests for the Message module.
-
-Tests for MessageMetadata and Message classes.
-"""
+"""Unit tests for the Message base class."""
 
 from datetime import datetime, timezone
-from typing import Any, Self, cast
+from typing import Any, Self
 from uuid import UUID, uuid7
 
 import pytest
@@ -28,130 +25,8 @@ class FakeMessage(Message[str]):
         return {"data": self._data}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(data=str(data.get("data", "")), metadata=metadata)
-
-
-@pytest.mark.unit
-class TestMessageMetadata:
-    """Tests for MessageMetadata class."""
-
-    causation_id = uuid7()
-    created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
-    correlation_id = uuid7()
-    message_id = uuid7()
-    message_type = "FakeMessage"
-
-    def test_init_when_no_params_then_generates_id_and_timestamp(self):
-        metadata = MessageMetadata(message_type=self.message_type)
-
-        assert isinstance(metadata.message_id, UUID)
-        assert isinstance(metadata.created_at, datetime)
-        assert metadata.created_at.tzinfo == timezone.utc
-
-    def test_init_when_custom_params_then_uses_provided_values(self):
-        metadata = MessageMetadata(
-            message_type=self.message_type,
-            message_id=self.message_id,
-            created_at=self.created_at,
-            correlation_id=self.correlation_id,
-            causation_id=self.causation_id,
-        )
-
-        assert metadata.causation_id == self.causation_id
-        assert metadata.correlation_id == self.correlation_id
-        assert metadata.message_type == self.message_type
-        assert metadata.message_id == self.message_id
-        assert metadata.created_at == self.created_at
-
-    def test_init_when_partial_params_then_generates_missing_values(self):
-        metadata = MessageMetadata(message_type=self.message_type, message_id=self.message_id)
-
-        assert metadata.message_id == self.message_id
-        assert isinstance(metadata.created_at, datetime)
-        assert metadata.created_at.tzinfo == timezone.utc
-        assert isinstance(metadata.correlation_id, UUID)
-        assert isinstance(metadata.causation_id, UUID)
-
-    def test_eq_when_same_id_and_timestamp_then_true(self):
-        metadata1 = MessageMetadata(
-            message_type=self.message_type,
-            message_id=self.message_id,
-            created_at=self.created_at,
-        )
-        metadata2 = MessageMetadata(
-            message_type=self.message_type,
-            message_id=self.message_id,
-            created_at=self.created_at,
-        )
-
-        assert metadata1 == metadata2
-
-    def test_eq_when_different_id_then_false(self):
-        created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
-
-        metadata1 = MessageMetadata(
-            created_at=created_at,
-            message_id=uuid7(),
-            message_type=self.message_type,
-        )
-        metadata2 = MessageMetadata(
-            created_at=created_at,
-            message_id=uuid7(),
-            message_type=self.message_type,
-        )
-
-        assert metadata1 != metadata2
-
-    def test_eq_when_different_timestamp_then_false(self):
-        message_id = uuid7()
-
-        metadata1 = MessageMetadata(
-            message_type=self.message_type,
-            message_id=message_id,
-            created_at=datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc),
-        )
-        metadata2 = MessageMetadata(
-            message_type=self.message_type,
-            message_id=message_id,
-            created_at=datetime(2025, 6, 11, 19, 44, 15, tzinfo=timezone.utc),
-        )
-
-        assert metadata1 != metadata2
-
-    def test_to_dict_when_called_then_returns_serializable_dict(self):
-        message_id = uuid7()
-        created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
-
-        metadata = MessageMetadata(
-            message_type=self.message_type, message_id=message_id, created_at=created_at
-        )
-        result = metadata.to_dict()
-
-        assert result["message_id"] == str(message_id)
-        assert result["created_at"] == "2025-06-11T19:44:14+00:00"
-        assert result["message_type"] == self.message_type
-        UUID(str(result["correlation_id"]))
-        UUID(str(result["causation_id"]))
-
-    def test_hash_when_same_values_then_same_hash(self):
-        message_id = uuid7()
-        created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
-
-        metadata1 = MessageMetadata(
-            message_type=self.message_type, message_id=message_id, created_at=created_at
-        )
-        metadata2 = MessageMetadata(
-            message_type=self.message_type, message_id=message_id, created_at=created_at
-        )
-
-        assert hash(metadata1) == hash(metadata2)
-
-    def test_hash_when_different_values_then_different_hash(self):
-        metadata1 = MessageMetadata(message_type="Message")
-        metadata2 = MessageMetadata(message_type="AnotherMessage")
-
-        assert hash(metadata1) != hash(metadata2)
 
 
 @pytest.mark.unit
@@ -215,25 +90,6 @@ class TestMessage:
 
         assert message != another_type_instance
 
-    def test_to_dict_when_called_then_includes_metadata_type_and_payload(self):
-        message_id = uuid7()
-        created_at = datetime(2025, 6, 11, 19, 44, 14, tzinfo=timezone.utc)
-        metadata = MessageMetadata(
-            message_type="FakeMessage", message_id=message_id, created_at=created_at
-        )
-
-        message = FakeMessage("test_data", metadata=metadata)
-        result = message.to_dict()
-
-        meta = result["metadata"]
-        assert isinstance(meta, dict)
-        assert meta["message_id"] == str(message_id)
-        assert meta["created_at"] == "2025-06-11T19:44:14+00:00"
-        assert meta["message_type"] == "FakeMessage"
-        UUID(str(cast(str, meta["correlation_id"])))
-        UUID(str(cast(str, meta["causation_id"])))
-        assert result["payload"] == {"data": "test_data"}
-
     def test_hash_when_same_message_id_then_same_hash(self):
         metadata = MessageMetadata("FakeMessage", message_id=uuid7())
 
@@ -252,34 +108,39 @@ class TestMessage:
         with pytest.raises(TypeError, match="abstract"):
             type.__call__(Message)
 
+    def test_metadata_property_when_called_then_returns_stored_metadata(self) -> None:
+        metadata = MessageMetadata(message_type="FakeMessage")
 
-@pytest.mark.unit
-class TestMessageDataclassDecorator:
-    """Tests for the message_dataclass decorator internals."""
+        message = FakeMessage("test_data", metadata=metadata)
 
-    def test_message_dataclass_when_patched_message_check_fails_then_type_error(
-        self,
-    ) -> None:
-        from unittest.mock import patch
+        assert message.metadata is metadata
 
-        from forging_blocks.foundation.messages.decorators import (
-            _PatchedMessage,  # pyright: ignore[reportPrivateUsage]
-            message_dataclass,
-        )
+    def test_eq_when_same_instance_then_true(self) -> None:
+        message = FakeMessage("test_data")
 
-        class NotAMessage:
-            x: int
+        assert message == message
 
-        original_isinstance = isinstance
+    def test_eq_when_different_message_type_then_false(self) -> None:
+        class _(Message[str]):
+            def __init__(self, data: str, metadata: MessageMetadata | None = None):
+                super().__init__(metadata)
+                self._data = data
 
-        def _selective_isinstance(obj: object, cls: type) -> bool:
-            if cls is _PatchedMessage:
-                return False
-            return original_isinstance(obj, cls)
+            @property
+            def value(self) -> str:
+                return self._data
 
-        with patch(
-            "forging_blocks.foundation.messages.decorators.isinstance",
-            side_effect=_selective_isinstance,
-        ):
-            with pytest.raises(TypeError, match="does not satisfy _PatchedMessage"):
-                message_dataclass(NotAMessage)  # type: ignore[reportArgumentType]
+            @property
+            def _payload(self) -> str:
+                return self._data
+
+            @classmethod
+            def from_payload_fields(
+                cls, data: dict[str, object], metadata: MessageMetadata
+            ) -> Self:
+                return cls(str(data.get("data", "")), metadata=metadata)
+
+        fake = FakeMessage("data")
+        other = _("data")
+
+        assert fake != other

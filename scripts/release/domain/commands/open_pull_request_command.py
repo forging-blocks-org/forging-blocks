@@ -42,7 +42,7 @@ class OpenPullRequestCommand(Command[PayloadType]):
         return cast(dict[str, object], self._value)
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         """Reconstruct from payload fields and metadata."""
         return cls(
             version=str(data["version"]),

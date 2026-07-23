@@ -8,7 +8,7 @@ from forging_blocks.foundation.messages import Event, MessageMetadata
 
 class PayloadNotImplementEvent(Event):
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls()
 
 
@@ -50,7 +50,7 @@ class FakeEvent(Event):
         }
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(
             order_id=str(data.get("order_id", "")),
             customer_id=str(data.get("customer_id", "")),

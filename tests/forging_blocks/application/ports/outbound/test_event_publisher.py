@@ -27,7 +27,7 @@ class FakeEvent(Event[str]):
         return {"foo": "bar"}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls()
 
 

@@ -29,7 +29,7 @@ class FakeEvent(Event[str]):
         return {"data": self._data}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(data=str(data.get("data", "")), metadata=metadata)
 
 

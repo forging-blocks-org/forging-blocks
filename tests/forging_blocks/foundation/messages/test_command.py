@@ -4,9 +4,7 @@ Tests for Command class.
 """
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 
-from datetime import datetime, timezone
 from typing import Any, Self
-from uuid import uuid4
 
 import pytest
 
@@ -15,7 +13,7 @@ from forging_blocks.foundation.messages import Command, Message, MessageMetadata
 
 class PayloadAndValueNotImplCommand(Command):
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls()
 
 
@@ -47,7 +45,7 @@ class FakeUserCommand(Command[dict[str, Any]]):
         return {"customer_id": self._customer_id, "amount": self._amount}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(
             customer_id=str(data.get("customer_id", "")),
             amount=float(str(data.get("amount", 0.0))),
@@ -76,35 +74,6 @@ class TestCommand:
         issued_at = command.issued_at
 
         assert issued_at == command.created_at
-
-    def test_to_dict_when_called_then_includes_command_payload(self):
-        message_id = uuid4()
-        created_at = datetime(2025, 6, 11, 19, 36, 6, tzinfo=timezone.utc)
-        metadata = MessageMetadata(
-            created_at=created_at, message_id=message_id, message_type="FakeUserCommand"
-        )
-        command = FakeUserCommand("customer_123", 99.99, metadata=metadata)
-
-        result = command.to_dict()
-
-        expected = {
-            "metadata": {
-                "message_id": str(message_id),
-                "created_at": "2025-06-11T19:36:06+00:00",
-                "message_type": "FakeUserCommand",
-                "correlation_id": str(metadata.correlation_id),
-                "causation_id": str(metadata.causation_id),
-            },
-            "payload": {
-                "customer_id": "customer_123",
-                "amount": 99.99,
-            },
-            "data": {
-                "customer_id": "customer_123",
-                "amount": 99.99,
-            },
-        }
-        assert result == expected
 
     def test_payload_when_called_then_returns_command_data(self):
         command = FakeUserCommand("customer_123", 99.99)

@@ -161,7 +161,7 @@ class TestInMemoryEventBusBase:
                 return self._payload
 
             @classmethod
-            def _from_payload_fields(cls, data: TestPayload, metadata: MessageMetadata) -> EventA:
+            def from_payload_fields(cls, data: TestPayload, metadata: MessageMetadata) -> EventA:
                 return cls()
 
         class EventB(Event[TestPayload]):
@@ -174,7 +174,7 @@ class TestInMemoryEventBusBase:
                 return self._payload
 
             @classmethod
-            def _from_payload_fields(cls, data: TestPayload, metadata: MessageMetadata) -> EventB:
+            def from_payload_fields(cls, data: TestPayload, metadata: MessageMetadata) -> EventB:
                 return cls()
 
         event_bus.register_handler(EventA, HandlerA())

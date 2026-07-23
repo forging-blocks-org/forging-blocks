@@ -17,7 +17,7 @@ class FakeCommand(Command[str]):
         return {"foo": "foo"}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls()
 
 
