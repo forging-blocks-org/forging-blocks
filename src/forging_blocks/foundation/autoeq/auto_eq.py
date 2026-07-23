@@ -1,8 +1,7 @@
 """Auto-eq decorator for generating ``__eq__`` on class instances.
 
 Provides the `auto_eq` decorator that generates ``__eq__`` based on
-class fields. Works with ``@dataclass`` (``@auto_eq`` must be the outermost
-decorator — apply it *above* ``@dataclass``) and on plain classes with
+class fields. Works on plain classes with
 ``__slots__`` or ``__annotations__``.
 
 Can be used as ``@auto_eq``, ``@auto_eq()``, or
@@ -11,21 +10,21 @@ Can be used as ``@auto_eq``, ``@auto_eq()``, or
 Does NOT generate ``__hash__`` — use `auto_hash` when
 hashability is required.
 
-Useful for: Value objects, plain data classes, and any type that requires
+Useful for: Plain data classes and any type that requires
 structural equality comparisons.
 
 Example:
     ```python
-    from dataclasses import dataclass
-
     from forging_blocks.foundation.autoeq import auto_eq
 
 
     @auto_eq
-    @dataclass
     class Point:
-        x: int
-        y: int
+        __slots__ = ("x", "y")
+
+        def __init__(self, x: int, y: int) -> None:
+            self.x = x
+            self.y = y
 
 
     p1 = Point(1, 2)
@@ -33,6 +32,20 @@ Example:
     p3 = Point(3, 4)
     assert p1 == p2
     assert p1 != p3
+    ```
+
+    With selective fields:
+    ```python
+    @auto_eq(fields=["x"])
+    class Point:
+        __slots__ = ("x", "y")
+
+        def __init__(self, x: int, y: int) -> None:
+            self.x = x
+            self.y = y
+
+
+    assert Point(1, 2) == Point(1, 999)
     ```
 
 """
@@ -58,8 +71,8 @@ class _AutoEqDecorator:
 
         Args:
             fields: Specific field names to compare in equality.
-                When ``None``, all dataclass fields (or ``__slots__``/
-                ``__annotations__`` keys) are used.
+                When ``None``, field names are resolved from ``__slots__``
+                (across the MRO) or ``__annotations__`` keys.
 
         """
         self._fields = fields
@@ -124,17 +137,16 @@ def auto_eq[T](
     generate ``__hash__``. Use `auto_hash` when hashability
     is required.
 
-    When the class is a ``@dataclass``, *fields* defaults to all declared
-    dataclass fields (via ``dataclasses.fields``). Otherwise it falls back
-    to ``__slots__`` (across the MRO) or ``__annotations__`` keys.
+    Field names are resolved from ``__slots__`` (across the MRO) or
+    ``__annotations__`` keys when *fields* is ``None``.
 
     Args:
         class_: The target class (when used directly as ``@auto_eq``).
             ``None`` when used with parentheses (``@auto_eq()`` or
             ``@auto_eq(fields=...)``).
         fields: Optional sequence of field names to include in equality.
-            When ``None``, all dataclass fields (or ``__slots__``/
-            ``__annotations__`` keys) are used.
+            When ``None``, field names are resolved from ``__slots__``
+            (across the MRO) or ``__annotations__`` keys.
 
     Returns:
         The decorated class if *class_* is provided; otherwise a callable

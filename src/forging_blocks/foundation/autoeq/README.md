@@ -7,28 +7,30 @@ Generates equality based on class fields but does **not** generate
 
 === "Bare decorator"
     ```python
-    from dataclasses import dataclass
     from forging_blocks.foundation.autoeq import auto_eq
 
     @auto_eq
-    @dataclass
     class Point:
-        x: int
-        y: int
+        __slots__ = ("x", "y")
+
+        def __init__(self, x: int, y: int) -> None:
+            self.x = x
+            self.y = y
 
     assert Point(1, 2) == Point(1, 2)
     ```
 
 === "With parameters"
     ```python
-    from dataclasses import dataclass
     from forging_blocks.foundation.autoeq import auto_eq
 
     @auto_eq(fields=["x"])
-    @dataclass
     class Point:
-        x: int
-        y: int
+        __slots__ = ("x", "y")
+
+        def __init__(self, x: int, y: int) -> None:
+            self.x = x
+            self.y = y
 
     assert Point(1, 2) == Point(1, 999)
     ```
