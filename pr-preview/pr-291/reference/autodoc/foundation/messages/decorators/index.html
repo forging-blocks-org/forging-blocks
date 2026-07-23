@@ -7408,9 +7408,9 @@ event = OrderCreated(order_id=&quot;ORD-001&quot;, customer_id=&quot;CUST-42&quo
 <p>The decorator applies <code>@dataclass(frozen=frozen)</code> and then patches<br />
 <code>get_payload_fields</code> and <code>from_payload_fields</code> onto the class so<br />
 that payload data is automatically derived from its fields.</p>
-<p><strong>ABC interaction:</strong> When the decorated class inherits from an abstract<br />
-base (e.g. :class:<code>Event</code>, :class:<code>Command</code>, :class:<code>Query</code>), the<br />
-decorator automatically patches <code>_payload</code>, <code>value</code>, and<br />
+<p>When the decorated class inherits from an abstract base (e.g.<br />
+:class:<code>Event</code>, :class:<code>Command</code>, :class:<code>Query</code>), the decorator<br />
+automatically patches <code>_payload</code>, <code>value</code>, and<br />
 <code>from_payload_fields</code> — and removes them from <code>__abstractmethods__</code><br />
 — so the concrete subclass is instantiable without manual stubs.</p>
 
@@ -7602,9 +7602,9 @@ decorator automatically patches <code>_payload</code>, <code>value</code>, and<b
 </span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">    ``get_payload_fields`` and ``from_payload_fields`` onto the class so</span>
 </span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="sd">    that payload data is automatically derived from its fields.</span>
 </span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>
-</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="sd">    **ABC interaction:** When the decorated class inherits from an abstract</span>
-</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">    base (e.g. :class:`Event`, :class:`Command`, :class:`Query`), the</span>
-</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">    decorator automatically patches ``_payload``, ``value``, and</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="sd">    When the decorated class inherits from an abstract base (e.g.</span>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="sd">    :class:`Event`, :class:`Command`, :class:`Query`), the decorator</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="sd">    automatically patches ``_payload``, ``value``, and</span>
 </span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="sd">    ``from_payload_fields`` — and removes them from ``__abstractmethods__``</span>
 </span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">    — so the concrete subclass is instantiable without manual stubs.</span>
 </span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>
