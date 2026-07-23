@@ -167,7 +167,7 @@ Do **not** implement `_payload` manually on decorated classes — the decorator 
 
 ```python
 from forging_blocks.foundation.value_object import ValueObject
-from collections.abc import Hashable
+
 
 class Email(ValueObject[str]):
     __slots__ = ("_value",)      # always include __slots__
@@ -181,13 +181,11 @@ class Email(ValueObject[str]):
     @property
     def value(self) -> str:
         return self._value
-
-    @property
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        return (self._value,)    # controls equality and hashing
 ```
 
-`ValueObject` uses `@auto_freeze` internally. After `__init__` completes, any mutation raises `CantModifyImmutableAttributeError`. Concrete subclasses are frozen automatically — no decorator needed.
+Concrete ``ValueObject`` subclasses are automatically frozen and hashable via
+:func:`auto_freeze` and :func:`auto_hash` (applied through ``__init_subclass__``).
+After ``__init__`` completes, any mutation raises ``CantModifyImmutableAttributeError``.
 
 ### Specifications: Composable Predicates
 

@@ -35,13 +35,13 @@ class TestReleaseLevel:
         with pytest.raises(InvalidReleaseLevelError):
             ReleaseLevel.from_str("hotfix")
 
-    def test_equality_components_when_same_level_then_equal(self) -> None:
+    def test_when_same_level_then_equal(self) -> None:
         level_1 = ReleaseLevel.from_str("PATCH")
         level_2 = ReleaseLevel.from_str("PATCH")
 
         assert level_1 == level_2
 
-    def test_equality_components_when_different_level_then_not_equal(self) -> None:
+    def test_when_different_level_then_not_equal(self) -> None:
         level_1 = ReleaseLevel.from_str("PATCH")
         level_2 = ReleaseLevel.from_str("MINOR")
 
