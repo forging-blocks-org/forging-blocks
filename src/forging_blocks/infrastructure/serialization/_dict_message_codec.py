@@ -18,21 +18,15 @@ class DictMessageCodec[M: Message[dict[str, object]]](MessageCodec[M, dict[str, 
     concrete ``Message`` subclass provides.
     """
 
-    def _to_data(self, message: M) -> dict[str, object]:
-        """Serialize *message* to a dictionary.
-
-        Returns a ``dict`` with ``metadata`` and ``payload`` keys.
-        """
+    def encode(self, message: M) -> dict[str, object]:
+        """Encode *message* to a dictionary with ``metadata`` and ``payload`` keys."""
         return {
             "metadata": message.metadata.value,
             "payload": message.value,
         }
 
-    def _from_data(self, data: dict[str, object], message_type: type[M]) -> M:
-        """Reconstruct a message of *message_type* from *data*.
-
-        Expects a ``dict`` with ``metadata`` and ``payload`` keys.
-        """
+    def decode(self, data: dict[str, object], message_type: type[M]) -> M:
+        """Decode *data* back into a message of *message_type*."""
         raw_metadata = cast(dict[str, object], data["metadata"])
         payload = cast(dict[str, object], data.get("payload", {}))
 
