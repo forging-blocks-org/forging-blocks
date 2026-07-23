@@ -138,3 +138,14 @@ class TestDictMessageCodecEdgeCases:
         decoded = e_codec.decode(encoded, SimpleEvent)
 
         assert decoded.metadata.message_type == "SimpleEvent"
+
+    def test_decode_raises_value_error_when_required_metadata_key_missing(self) -> None:
+        original = SimpleEvent(name="test")
+        e_codec: DictMessageCodec[SimpleEvent] = DictMessageCodec()
+        encoded = e_codec.encode(original)
+        del encoded["metadata"]["message_id"]
+
+        with pytest.raises(
+            ValueError, match="Missing required key 'message_id' in message metadata"
+        ):
+            e_codec.decode(encoded, SimpleEvent)
