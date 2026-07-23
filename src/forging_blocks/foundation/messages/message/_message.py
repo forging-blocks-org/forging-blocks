@@ -6,7 +6,9 @@ from datetime import datetime
 from typing import Any, Self
 from uuid import UUID
 
+from forging_blocks.foundation.autoeq import auto_eq
 from forging_blocks.foundation.autofreeze import auto_freeze
+from forging_blocks.foundation.autohash import auto_hash
 
 from ._metadata import MessageMetadata
 
@@ -18,17 +20,29 @@ class Message[MessageRawType](ABC):
     base class for Commands (something to do), Events (something that
     happened), and Queries (something to obtain).
 
-    Messages are immutable and each instance is unique -- equality is
-    determined solely by the ``message_id`` carried in
-    :class:`MessageMetadata`.
+    Messages are immutable and each instance is unique — equality and
+    hash are determined solely by the ``message_id`` carried in
+    :class:`MessageMetadata`, enforced via :func:`auto_hash` and
+    :func:`auto_eq` with ``fields=["message_id"]``.
 
     This class should not be used directly.  Import :class:`Event` or
     :class:`Command` instead.
     """
 
     def __init_subclass__(cls, **kwargs: Any) -> None:
-        """Automatically apply ``auto_freeze`` to concrete subclasses."""
+        """Automatically apply ``auto_hash``, ``auto_eq``, and ``auto_freeze``
+        to concrete subclasses.
+
+        ``auto_hash`` and ``auto_eq`` are applied unconditionally (before the
+        abstract-method check) so they take effect even when a decorator like
+        ``@message_dataclass`` patches ``__abstractmethods__`` later.
+        ``auto_hash`` and ``auto_eq`` use ``fields=["message_id"]`` so that
+        message identity (equality and hashing) is driven solely by the
+        unique message identifier, not by payload fields.
+        """
         super().__init_subclass__(**kwargs)
+        auto_hash(cls, fields=["message_id"])
+        auto_eq(cls, fields=["message_id"])
         if not inspect.isabstract(cls):
             auto_freeze(cls)
 
@@ -43,20 +57,6 @@ class Message[MessageRawType](ABC):
         super().__init__()
         effective_type = type(self).__name__
         self._metadata = metadata or MessageMetadata(message_type=effective_type)
-
-    def __eq__(self, other: object) -> bool:
-        """Compare messages by message ID.
-
-        Two messages are equal if and only if they have the same
-        ``message_id``.  All other fields (payload, timestamp, causation)
-        are ignored for equality.
-        """
-        if type(self) is not type(other):
-            return False
-        return self.message_id == other.message_id  # type: ignore[union-attr]
-
-    def __hash__(self) -> int:
-        return hash(self.message_id)
 
     @property
     def metadata(self) -> MessageMetadata:
