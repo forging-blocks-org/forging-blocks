@@ -11,6 +11,7 @@ import ast
 import re
 import shutil
 import sys
+import textwrap
 from pathlib import Path
 
 SRC_DIR = Path("src/forging_blocks")
@@ -168,7 +169,7 @@ def validate_docstring_imports(src_path: Path) -> list[str]:
             continue
         for block in _find_python_blocks(docstring):
             try:
-                block_tree = ast.parse(block)
+                block_tree = ast.parse(textwrap.dedent(block))
             except SyntaxError:
                 continue
 
