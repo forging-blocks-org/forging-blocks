@@ -1,42 +1,36 @@
-# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-
 import pytest
 
 from forging_blocks.domain.permissions.composite_permission_checker import (
     CompositePermissionChecker,
 )
-from forging_blocks.domain.permissions.role_based_permission_checker import (
-    RoleBasedPermissionChecker,
-)
-from forging_blocks.foundation.context import AuthorizationContext
 from forging_blocks.foundation.permission import Permission
+
+
+class _AlwaysGrant:
+    async def check(self, context: object, permission: Permission) -> bool:
+        del context, permission
+        return True
+
+
+class _AlwaysDeny:
+    async def check(self, context: object, permission: Permission) -> bool:
+        del context, permission
+        return False
 
 
 @pytest.mark.unit
 class TestCompositePermissionChecker:
     async def test_when_any_inner_grants_then_grants(self) -> None:
-        checker = CompositePermissionChecker(
-            [
-                RoleBasedPermissionChecker({"admin": [Permission.READ]}),
-                RoleBasedPermissionChecker({"user": []}),
-            ]
-        )
-        context = AuthorizationContext(user_id="user-1", roles=("admin",))
+        checker = CompositePermissionChecker([_AlwaysGrant(), _AlwaysDeny()])
 
-        assert await checker.check(context, Permission.READ) is True
+        assert await checker.check(object(), Permission.READ) is True
 
     async def test_when_all_deny_then_denies(self) -> None:
-        checker = CompositePermissionChecker(
-            [
-                RoleBasedPermissionChecker({"user": [Permission.READ]}),
-            ]
-        )
-        context = AuthorizationContext(user_id="user-1", roles=("guest",))
+        checker = CompositePermissionChecker([_AlwaysDeny()])
 
-        assert await checker.check(context, Permission.READ) is False
+        assert await checker.check(object(), Permission.READ) is False
 
     async def test_when_empty_checkers_then_denies(self) -> None:
         checker = CompositePermissionChecker([])
-        context = AuthorizationContext(user_id="user-1")
 
-        assert await checker.check(context, Permission.READ) is False
+        assert await checker.check(object(), Permission.READ) is False

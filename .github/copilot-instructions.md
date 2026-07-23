@@ -166,7 +166,7 @@ Do **not** implement `_payload` manually on decorated classes — the decorator 
 ### ValueObject: Immutable Domain Values
 
 ```python
-from forging_blocks.foundation.value_object import ValueObject
+from forging_blocks.domain.value_object import ValueObject
 
 
 class Email(ValueObject[str]):

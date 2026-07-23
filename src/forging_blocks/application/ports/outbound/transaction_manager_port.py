@@ -15,13 +15,16 @@ Non-Responsibilities:
 from abc import abstractmethod
 from collections.abc import Awaitable, Callable
 
-from forging_blocks.foundation.context import TransactionContext
 from forging_blocks.foundation.ports import OutboundPort
 from forging_blocks.foundation.result import Result
 
 
-class TransactionManagerPort[TransactionErrorType](OutboundPort):
+class TransactionManagerPort[TransactionSessionContext, TransactionErrorType](OutboundPort):
     """Outbound port for explicit transaction management.
+
+    Type Args:
+        TransactionSessionContext: The application-defined session context for transactions.
+        TransactionErrorType: The error type for transactional failures.
 
     Responsibilities:
         - Begin, commit, and roll back transactions.
@@ -33,7 +36,7 @@ class TransactionManagerPort[TransactionErrorType](OutboundPort):
     """
 
     @abstractmethod
-    async def begin(self, context: TransactionContext) -> Result[None, TransactionErrorType]:
+    async def begin(self, context: TransactionSessionContext) -> Result[None, TransactionErrorType]:
         """Start a new transaction."""
         ...
 
@@ -51,7 +54,7 @@ class TransactionManagerPort[TransactionErrorType](OutboundPort):
     async def execute_in_transaction[ResponseType](
         self,
         fn: Callable[..., Awaitable[ResponseType]],
-        context: TransactionContext,
+        context: TransactionSessionContext,
         *args: object,
         **kwargs: object,
     ) -> Result[ResponseType, TransactionErrorType]:

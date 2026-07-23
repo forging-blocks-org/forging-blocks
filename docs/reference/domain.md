@@ -38,7 +38,7 @@ The Domain block is the innermost ring. It imports nothing from outer layers. Wh
 - **[Messages](domain/messages.md)** — Command, Event, Query (immutable, architecture-neutral)
 - **[Domain Errors](domain/errors.md)** — Invalid states and rule violations in domain terms
 - **[Validators](domain/validators.md)** — Concrete validation rules (RequiredValidator, EmailValidator, LengthValidator, RangeValidator)
-- **[Permissions](domain/permissions.md)** — Composable permission checkers (RoleBased, ResourceBased, Composite)
+- **[Permissions](domain/permissions.md)** — Composable permission checkers (protocol-based, application-defined)
 
 ---
 ## What it does not do
