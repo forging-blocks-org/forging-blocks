@@ -2,25 +2,22 @@
 
 Provides the :func:`auto_eq` decorator that generates ``__eq__`` based on
 class fields. Works with ``@dataclass`` (``@auto_eq`` must be the outermost
-decorator) and on plain classes with ``__slots__`` or ``__annotations__``.
+decorator — apply it *above* ``@dataclass``) and on plain classes with
+``__slots__`` or ``__annotations__``.
 
-Can be used as ``@auto_eq``, ``@auto_eq()``, or ``@auto_eq(fields=[...])``
-to compare only specific attributes.
+Can be used as ``@auto_eq``, ``@auto_eq()``, or
+``@auto_eq(fields=[...])`` to compare only specific attributes.
 
-Does NOT generate ``__hash__`` — combine with :func:`auto_hash` when
-hashability is needed:
+Does NOT generate ``__hash__`` — use :func:`auto_hash` when
+hashability is required.
 
-    @auto_hash
-    @auto_eq
-    @auto_freeze
-    @dataclass
-    class Money:
-        amount: int
-        currency: str
+Useful for: Value objects, domain entities, and any type that requires
+structural equality comparisons.
 
 Example:
     ```python
     from dataclasses import dataclass
+
     from forging_blocks.foundation.autoeq import auto_eq
 
 
@@ -37,6 +34,29 @@ Example:
     assert p1 == p2
     assert p1 != p3
     ```
+
+    With selective fields and :func:`auto_hash`:
+    ```python
+    from dataclasses import dataclass
+
+    from forging_blocks.foundation.autoeq import auto_eq
+    from forging_blocks.foundation.autohash import auto_hash
+
+
+    @auto_hash
+    @auto_eq
+    @dataclass
+    class Money:
+        amount: int
+        currency: str
+
+
+    m1 = Money(100, "USD")
+    m2 = Money(100, "USD")
+    assert m1 == m2  # from @auto_eq
+    assert hash(m1) == hash(m2)  # from @auto_hash
+    ```
+
 """
 
 from collections.abc import Callable, Sequence
@@ -56,9 +76,28 @@ class _AutoEqDecorator:
     """
 
     def __init__(self, *, fields: Sequence[str] | None = None) -> None:
+        """Initialise the decorator with optional field selector.
+
+        Args:
+            fields: Specific field names to compare in equality.
+                When ``None``, all dataclass fields (or ``__slots__``/
+                ``__annotations__`` keys) are used.
+
+        """
         self._fields = fields
 
     def __call__[T](self, class_: type[T]) -> type[T]:
+        """Apply auto-eq behaviour to *class_*.
+
+        Args:
+            class_: The target class to decorate.
+
+        Returns:
+            The decorated class with ``__eq__`` generated from its fields.
+            Hashing (``__hash__``) is NOT generated — use :func:`auto_hash`
+            separately when hashability is required.
+
+        """
         field_names = FieldResolver.resolve(class_, self._fields)
         _field_names = tuple(field_names)
 
@@ -102,24 +141,31 @@ def auto_eq[T](
 ) -> type[T] | Callable[[type[T]], type[T]]:
     """Generate ``__eq__`` for a class based on its fields.
 
-    Does NOT generate ``__hash__`` — combine with :func:`auto_hash`
-    when hashability is required.
+    Can be used as ``@auto_eq``, ``@auto_eq()``, or
+    ``@auto_eq(fields=[...])``. Generates ``__eq__`` only — does NOT
+    generate ``__hash__``. Use :func:`auto_hash` when hashability
+    is required.
+
     When the class is a ``@dataclass``, *fields* defaults to all declared
     dataclass fields (via ``dataclasses.fields``). Otherwise it falls back
     to ``__slots__`` (across the MRO) or ``__annotations__`` keys.
 
     Args:
-        class_: The target class (when used bare).
-        fields: Specific attribute names to include in equality. When
-            ``None`` (the default), all dataclass fields are used.
+        class_: The target class (when used directly as ``@auto_eq``).
+            ``None`` when used with parentheses (``@auto_eq()`` or
+            ``@auto_eq(fields=...)``).
+        fields: Optional sequence of field names to include in equality.
+            When ``None``, all dataclass fields (or ``__slots__``/
+            ``__annotations__`` keys) are used.
 
     Returns:
-        The decorated class (or a decorator when used parameterised),
-        with ``__eq__`` generated.
+        The decorated class if *class_* is provided; otherwise a callable
+        that can be used as a decorator.
 
     Raises:
-        TypeError: If no field names can be determined and *fields* is
-            ``None``.
+        TypeError: If no field names can be determined automatically and
+            *fields* is ``None``.
+
     """
     decorator = _AutoEqDecorator(fields=fields)
 
