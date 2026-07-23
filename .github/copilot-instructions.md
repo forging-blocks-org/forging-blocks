@@ -184,7 +184,7 @@ class Email(ValueObject[str]):
 ```
 
 Concrete ``ValueObject`` subclasses are automatically frozen and hashable via
-:func:`auto_freeze` and :func:`auto_hash` (applied through ``__init_subclass__``).
+`auto_freeze` and `auto_hash` (applied through ``__init_subclass__``).
 After ``__init__`` completes, any mutation raises ``CantModifyImmutableAttributeError``.
 
 ### Specifications: Composable Predicates
