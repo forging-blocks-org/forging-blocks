@@ -11,7 +11,7 @@ Can be used as ``@auto_hash``, ``@auto_hash()``, or
 Does NOT generate ``__eq__`` — combine with `auto_eq` when structural
 equality is needed alongside hashing.
 
-Useful for: Value objects, domain events, and any type that requires
+Useful for: Value objects, hashable data types, and any type that requires
 consistent hashing for sets or dictionary keys.
 
 Example:
@@ -29,28 +29,6 @@ Example:
     u1 = UserId("abc")
     u2 = UserId("abc")
     assert hash(u1) == hash(u2)
-    ```
-
-    With selective fields and `auto_eq`:
-    ```python
-    from dataclasses import dataclass
-
-    from forging_blocks.foundation.autoeq import auto_eq
-    from forging_blocks.foundation.autohash import auto_hash
-
-
-    @auto_hash
-    @auto_eq
-    @dataclass
-    class Money:
-        amount: int
-        currency: str
-
-
-    m1 = Money(100, "USD")
-    m2 = Money(100, "USD")
-    assert hash(m1) == hash(m2)
-    assert m1 == m2  # from @auto_eq
     ```
 
 """

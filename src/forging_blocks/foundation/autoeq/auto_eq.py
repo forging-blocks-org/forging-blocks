@@ -11,7 +11,7 @@ Can be used as ``@auto_eq``, ``@auto_eq()``, or
 Does NOT generate ``__hash__`` — use `auto_hash` when
 hashability is required.
 
-Useful for: Value objects, domain entities, and any type that requires
+Useful for: Value objects, plain data classes, and any type that requires
 structural equality comparisons.
 
 Example:
@@ -33,28 +33,6 @@ Example:
     p3 = Point(3, 4)
     assert p1 == p2
     assert p1 != p3
-    ```
-
-    With selective fields and `auto_hash`:
-    ```python
-    from dataclasses import dataclass
-
-    from forging_blocks.foundation.autoeq import auto_eq
-    from forging_blocks.foundation.autohash import auto_hash
-
-
-    @auto_hash
-    @auto_eq
-    @dataclass
-    class Money:
-        amount: int
-        currency: str
-
-
-    m1 = Money(100, "USD")
-    m2 = Money(100, "USD")
-    assert m1 == m2  # from @auto_eq
-    assert hash(m1) == hash(m2)  # from @auto_hash
     ```
 
 """

@@ -7,7 +7,7 @@ a ``__setattr__`` override to prevent attribute modifications.
 Can be used as ``@auto_freeze``, ``@auto_freeze()``, or
 ``@auto_freeze(attrs=[...])`` for selective freezing.
 
-Useful for: Entities, value objects, and any domain type that
+Useful for: Value objects, immutable data types, and any class that
 should be immutable after construction.
 
 Example:
@@ -33,7 +33,7 @@ Example:
             return self._currency
     ```
 
-    With selective freezing (e.g., for Entities):
+    With selective freezing:
     ```python
     @auto_freeze(attrs=["_id"])
     class User:
