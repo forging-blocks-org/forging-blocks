@@ -1,42 +1,46 @@
 """Auto-hash decorator for generating ``__hash__`` on class instances.
 
 Provides the :func:`auto_hash` decorator that generates ``__hash__``
-based on class fields.  Works with ``@dataclass`` (``@auto_hash`` must be
-the outermost decorator -- apply it *above* ``@dataclass``) and on plain
-classes with ``__slots__`` or ``__annotations__``::
-
-    @auto_hash
-    @dataclass
-    class MyType:
-        user_id: str
-        name: str | None = None
+based on class fields. Works with ``@dataclass`` (``@auto_hash`` must be
+the outermost decorator — apply it *above* ``@dataclass``) and on plain
+classes with ``__slots__`` or ``__annotations__``.
 
 Can be used as ``@auto_hash``, ``@auto_hash()``, or
 ``@auto_hash(fields=[...])`` to hash only specific attributes.
 
-Does NOT generate ``__eq__`` -- combine with :func:`auto_eq` when structural
-equality is needed alongside hashing:
+Does NOT generate ``__eq__`` — combine with :func:`auto_eq` when structural
+equality is needed alongside hashing.
 
-    @auto_hash
-    @auto_eq
-    @auto_freeze
-    @dataclass
-    class Money:
-        amount: int
-        currency: str
+Useful for: Value objects, domain events, and any type that requires
+consistent hashing for sets or dictionary keys.
 
 Example:
     ```python
     from dataclasses import dataclass
+    from forging_blocks.foundation.autohash import auto_hash
+
+
+    @auto_hash
+    @dataclass
+    class UserId:
+        value: str
+
+
+    u1 = UserId("abc")
+    u2 = UserId("abc")
+    assert hash(u1) == hash(u2)
+    ```
+
+    With selective fields and :func:`auto_eq`:
+    ```python
+    from dataclasses import dataclass
 
     from forging_blocks.foundation.autoeq import auto_eq
-    from forging_blocks.foundation.autofreeze import auto_freeze
     from forging_blocks.foundation.autohash import auto_hash
 
 
     @auto_hash
     @auto_eq
-    @auto_freeze
     @dataclass
     class Money:
         amount: int
@@ -191,19 +195,26 @@ def auto_hash[T](
 ) -> type[T] | Callable[[type[T]], type[T]]:
     """Generate ``__hash__`` for a class based on its fields.
 
-    Generates ``__hash__`` only — does NOT generate ``__eq__``.
-    Use :func:`auto_eq` for structural equality comparisons.
+    Can be used as ``@auto_hash``, ``@auto_hash()``, or
+    ``@auto_hash(fields=[...])``. Generates ``__hash__`` only — does NOT
+    generate ``__eq__``. Use :func:`auto_eq` for structural equality
+    comparisons.
 
     Args:
-        class_: The class to decorate.
+        class_: The target class (when used directly as ``@auto_hash``).
+            ``None`` when used with parentheses (``@auto_hash()`` or
+            ``@auto_hash(fields=...)``).
         fields: Optional sequence of field names to include in the hash.
             When ``None``, all dataclass fields (or ``__slots__``/
             ``__annotations__`` keys) are used.
 
     Returns:
-        The decorated class with ``__hash__`` generated. Equality
-        (``__eq__``) is not changed — apply ``@auto_eq`` separately
-        when needed.
+        The decorated class if *class_* is provided; otherwise a callable
+        that can be used as a decorator.
+
+    Raises:
+        TypeError: If no field names can be determined automatically and
+            *fields* is ``None``.
 
     """
     decorator = _AutoHashDecorator(fields=fields)
