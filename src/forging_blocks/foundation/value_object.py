@@ -21,8 +21,8 @@ class ValueObject[RawValueType](ABC):
     are considered equal.
 
     Concrete subclasses are automatically frozen, hashable, and structurally
-    comparable via :func:`auto_freeze`, :func:`auto_hash`, and
-    :func:`auto_eq`.  The three decorators are independent — each applies
+    comparable via `auto_freeze`, `auto_hash`, and
+    `auto_eq`.  The three decorators are independent — each applies
     exactly one concern:
 
     - ``@auto_freeze`` enforces immutability.
