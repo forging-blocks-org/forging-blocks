@@ -67,7 +67,7 @@ class Email(ValueObject[str]):
 ```
 
 `ValueObject` gives you value-based equality, hashability, and immutability
-automatically via :func:`auto_hash` and :func:`auto_freeze`, so that you
+automatically via `auto_hash` and `auto_freeze`, so that you
 can focus on the rules of *your* value.
 
 ---
