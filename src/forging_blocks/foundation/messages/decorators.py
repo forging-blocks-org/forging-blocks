@@ -48,7 +48,7 @@ class _PatchedMessage(Protocol):
         cls,
         data: dict[str, object],
         metadata: MessageMetadata,
-    ) -> type[Self]: ...
+    ) -> Self: ...
 
 
 @overload

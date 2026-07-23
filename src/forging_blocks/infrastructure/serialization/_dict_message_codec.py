@@ -1,7 +1,7 @@
 """Dict-based message codec that serializes messages to ``dict[str, object]``."""
 
 from datetime import datetime
-from typing import Any, cast
+from typing import cast
 from uuid import UUID
 
 from forging_blocks.foundation.messages import Message, MessageMetadata
@@ -9,7 +9,7 @@ from forging_blocks.foundation.messages import Message, MessageMetadata
 from ._message_codec import MessageCodec
 
 
-class DictMessageCodec[M: Message[Any]](MessageCodec[M, dict[str, object]]):
+class DictMessageCodec[M: Message[dict[str, object]]](MessageCodec[M, dict[str, object]]):
     """Codec that serializes messages to ``dict[str, object]``.
 
     Uses the message's own ``value`` property for the payload and
@@ -39,9 +39,7 @@ class DictMessageCodec[M: Message[Any]](MessageCodec[M, dict[str, object]]):
         metadata = MessageMetadata(
             message_type=str(raw_metadata.get("message_type", message_type.__name__)),
             message_id=UUID(str(raw_metadata["message_id"])),
-            created_at=datetime.fromisoformat(
-                str(raw_metadata.get("created_at", datetime.min.isoformat())),
-            ),
+            created_at=datetime.fromisoformat(str(raw_metadata["created_at"])),
             causation_id=UUID(str(raw_metadata["causation_id"])),
             correlation_id=UUID(str(raw_metadata["correlation_id"])),
         )
