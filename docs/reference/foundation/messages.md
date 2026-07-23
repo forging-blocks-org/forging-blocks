@@ -2,7 +2,7 @@
 
 Messages are immutable, architecture-neutral data carriers — **Command**, **Event**, and **Query**.
 
-All messages are frozen dataclasses. Their type communicates intent: a Command asks for action, an Event records a fact, a Query requests data. Serialization is handled by codecs in the infrastructure layer (see :class:`~forging_blocks.infrastructure.serialization.DictMessageCodec`).
+All messages are frozen dataclasses. Their type communicates intent: a Command asks for action, an Event records a fact, a Query requests data. Serialization is handled by codecs in the infrastructure layer (see `DictMessageCodec`).
 
 ## Types
 
