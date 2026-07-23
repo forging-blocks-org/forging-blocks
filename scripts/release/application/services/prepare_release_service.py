@@ -1,6 +1,6 @@
 from typing import Any
 
-from forging_blocks.foundation.messages.command import Command
+from forging_blocks.domain.messages.command import Command
 from scripts.release.application.ports.inbound import (
     PrepareReleaseInput,
     PrepareReleaseOutput,
