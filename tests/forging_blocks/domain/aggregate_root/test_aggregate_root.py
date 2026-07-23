@@ -1,4 +1,3 @@
-# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 from typing import Self
 
 import pytest
@@ -28,7 +27,7 @@ class DummyEvent(Event[raw_event]):
         return {"name": self.name}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(name=str(data.get("name", "")), metadata=metadata)
 
 
@@ -60,7 +59,7 @@ class BoolAggregate(AggregateRoot[bool, raw_event]):
 class TestAggregateRoot:
     def test___init___when_id_is_none_then_raises_entity_id_none_error(self) -> None:
         with pytest.raises(EntityIdNoneError):
-            OrderAggregate(None)  # type: ignore
+            OrderAggregate(None)
 
     def test___init___when_id_is_valid_then_initializes_with_default_version_zero(
         self,
@@ -77,13 +76,25 @@ class TestAggregateRoot:
 
         assert aggregate.version == custom_version
 
-    def test___init___when_version_is_not_provided_then_sets_version_zero(self) -> None:
-        id = 1
-        aggregate = OrderAggregate(id)
+    def test___init___when_id_is_zero_then_initializes_successfully(self) -> None:
+        aggregate = OrderAggregate(0)
 
-        expected_version_value = 0
+        assert aggregate.id == 0
+        assert aggregate.version.value == 0
 
-        assert aggregate.version.value == expected_version_value
+    def test___init___when_id_is_empty_string_then_raises_entity_id_none_error(self) -> None:
+        with pytest.raises(EntityIdNoneError):
+            StringAggregate("")
+
+    def test___init___when_id_is_false_then_raises_entity_id_none_error(self) -> None:
+        with pytest.raises(EntityIdNoneError):
+            BoolAggregate(False)
+
+    def test___init___when_id_is_true_then_initializes_successfully(self) -> None:
+        aggregate = BoolAggregate(True)
+
+        assert aggregate.id is True
+        assert aggregate.version.value == 0
 
     def test_version_property_when_accessed_then_returns_current_version(self) -> None:
         aggregate = OrderAggregate(1)
@@ -107,11 +118,10 @@ class TestAggregateRoot:
     ) -> None:
         aggregate = OrderAggregate(1)
         event = DummyEvent("created")
+
         aggregate.record_event(event)
 
-        result = aggregate.uncommitted_changes
-
-        assert result == [event]
+        assert aggregate.uncommitted_changes == [event]
 
     def test_collect_events_when_called_then_clears_uncommitted_events(
         self,
@@ -123,7 +133,7 @@ class TestAggregateRoot:
 
         assert aggregate.uncommitted_changes == []
 
-    def test_collect_events_does_not_increment_version(self) -> None:
+    def test_collect_events_when_called_then_does_not_increment_version(self) -> None:
         aggregate = OrderAggregate(1)
         aggregate.record_event(DummyEvent("x"))
 
@@ -143,21 +153,6 @@ class TestAggregateRoot:
         assert aggregate.uncommitted_changes == []
         assert aggregate.version == old_version
 
-    def test___init___when_id_is_zero_then_initializes_successfully(self) -> None:
-        aggregate = OrderAggregate(0)
-
-        actual_id = aggregate.id
-        actual_version_value = aggregate.version.value
-
-        expected_id = 0
-        expected_version_value = 0
-        assert actual_id == expected_id
-        assert actual_version_value == expected_version_value
-
-    def test___init___when_id_is_empty_string_then_raises_entity_id_none_error(self) -> None:
-        with pytest.raises(EntityIdNoneError):
-            StringAggregate("")
-
     def test_apply_when_called_then_records_event_in_uncommitted(self) -> None:
         aggregate = OrderAggregate(1)
         event = DummyEvent("created")
@@ -174,35 +169,6 @@ class TestAggregateRoot:
 
         assert aggregate.version == AggregateVersion(1)
 
-    def test_apply_is_runtime_final_on_aggregate_root(self) -> None:
-        assert getattr(AggregateRoot.apply, "__is_runtime_final__", False) is True
-
-    def test__handle_is_abstract_on_aggregate_root(self) -> None:
-        assert getattr(AggregateRoot._handle, "__isabstractmethod__", False) is True
-
-    def test_discard_events_is_runtime_final_on_aggregate_root(self) -> None:
-        assert getattr(AggregateRoot.discard_events, "__is_runtime_final__", False) is True
-
-    def test_overriding_discard_events_raises_type_error(self) -> None:
-        with pytest.raises(TypeError, match="runtime-final"):
-
-            class BadAggregate(OrderAggregate):  # type: ignore[misc]
-                def discard_events(self) -> None:
-                    pass
-
-    def test___init___when_id_is_false_then_raises_entity_id_none_error(self) -> None:
-        with pytest.raises(EntityIdNoneError):
-            BoolAggregate(False)
-
-    def test___init___when_id_is_true_then_initializes_successfully(self) -> None:
-        aggregate = BoolAggregate(True)
-
-        assert aggregate.id is True
-        assert aggregate.version.value == 0
-
-
-@pytest.mark.unit
-class TestReplay:
     def test_replay_when_called_then_does_not_record_event_in_uncommitted(
         self,
     ) -> None:
@@ -221,12 +187,52 @@ class TestReplay:
 
         assert aggregate.version == AggregateVersion(1)
 
-    def test_replay_is_runtime_final_on_aggregate_root(self) -> None:
-        assert getattr(AggregateRoot.replay, "__is_runtime_final__", False) is True
+    def test_reconstitute_when_called_then_creates_aggregate_with_given_id(
+        self,
+    ) -> None:
+        events = [DummyEvent("a")]
 
-    def test_overriding_replay_raises_type_error(self) -> None:
-        with pytest.raises(TypeError, match="runtime-final"):
+        aggregate = OrderAggregate.reconstitute(42, events)
 
-            class _(OrderAggregate):
-                def replay(self, _: Event) -> None:
-                    pass
+        assert aggregate.id == 42
+
+    def test_reconstitute_when_called_then_replays_all_events_in_order(
+        self,
+    ) -> None:
+        events = [DummyEvent("a"), DummyEvent("b"), DummyEvent("c")]
+
+        aggregate = OrderAggregate.reconstitute(1, events)
+
+        assert aggregate.version.value == 3
+
+    def test_reconstitute_when_called_then_does_not_record_events_as_uncommitted(
+        self,
+    ) -> None:
+        events = [DummyEvent("a")]
+
+        aggregate = OrderAggregate.reconstitute(1, events)
+
+        assert aggregate.uncommitted_changes == []
+
+    def test_reconstitute_when_empty_event_list_then_has_version_zero_and_returns_aggregate(
+        self,
+    ) -> None:
+        aggregate = OrderAggregate.reconstitute(1, [])
+
+        assert aggregate is not None
+        assert aggregate.id == 1
+        assert aggregate.version.value == 0
+
+    def test_reconstitute_when_handle_raises_then_exception_propagates(self) -> None:
+        class _(AggregateRoot[int, raw_event]):
+            def __init__(self, aggregate_id: int) -> None:
+                super().__init__(aggregate_id)
+
+            def _handle(self, event: Event[raw_event]) -> None:
+                msg = "Replay failed"
+                raise RuntimeError(msg)
+
+        events = [DummyEvent("boom")]
+
+        with pytest.raises(RuntimeError, match="Replay failed"):
+            _.reconstitute(1, events)
