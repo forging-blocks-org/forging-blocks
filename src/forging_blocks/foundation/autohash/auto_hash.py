@@ -1,6 +1,6 @@
 """Auto-hash decorator for generating ``__hash__`` on class instances.
 
-Provides the :func:`auto_hash` decorator that generates ``__hash__``
+Provides the `auto_hash` decorator that generates ``__hash__``
 based on class fields. Works with ``@dataclass`` (``@auto_hash`` must be
 the outermost decorator — apply it *above* ``@dataclass``) and on plain
 classes with ``__slots__`` or ``__annotations__``.
@@ -8,7 +8,7 @@ classes with ``__slots__`` or ``__annotations__``.
 Can be used as ``@auto_hash``, ``@auto_hash()``, or
 ``@auto_hash(fields=[...])`` to hash only specific attributes.
 
-Does NOT generate ``__eq__`` — combine with :func:`auto_eq` when structural
+Does NOT generate ``__eq__`` — combine with `auto_eq` when structural
 equality is needed alongside hashing.
 
 Useful for: Value objects, domain events, and any type that requires
@@ -31,7 +31,7 @@ Example:
     assert hash(u1) == hash(u2)
     ```
 
-    With selective fields and :func:`auto_eq`:
+    With selective fields and `auto_eq`:
     ```python
     from dataclasses import dataclass
 
@@ -92,7 +92,7 @@ class _AutoHashDecorator:
 
         Returns:
             The decorated class with ``__hash__`` generated from its fields.
-            Equality (``__eq__``) is NOT generated — use :func:`auto_eq`
+            Equality (``__eq__``) is NOT generated — use `auto_eq`
             separately for structural equality comparisons.
 
         """
@@ -197,7 +197,7 @@ def auto_hash[T](
 
     Can be used as ``@auto_hash``, ``@auto_hash()``, or
     ``@auto_hash(fields=[...])``. Generates ``__hash__`` only — does NOT
-    generate ``__eq__``. Use :func:`auto_eq` for structural equality
+    generate ``__eq__``. Use `auto_eq` for structural equality
     comparisons.
 
     Args:
