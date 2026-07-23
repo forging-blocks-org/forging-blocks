@@ -6,13 +6,11 @@ following the principles of Domain-Driven Design (DDD).
 
 import inspect
 from abc import ABC, abstractmethod
-from collections.abc import Hashable
 from typing import Any
 
-from forging_blocks.foundation.autofreeze import auto_freeze
+from forging_blocks.foundation.autohash import auto_hash
 
 
-@auto_freeze
 class ValueObject[RawValueType](ABC):
     """Base class for all domain value objects.
 
@@ -20,9 +18,11 @@ class ValueObject[RawValueType](ABC):
     rather than by an identity. Two value objects with the same attributes
     are considered equal.
 
-    Concrete subclasses are automatically frozen after ``__init__`` completes.
-    Intermediate abstract classes remain unfrozen so their concrete leaf
-    subclasses can finish setting up via ``super().__init__()``.
+    Concrete subclasses are automatically frozen and hashable via
+    :func:`auto_hash` which generates ``__hash__`` / ``__eq__`` from slot
+    fields and applies ``@auto_freeze`` for immutability.  Intermediate
+    abstract classes are skipped so leaf subclasses finish their own
+    ``__init__`` without restriction.
 
     Example:
         ```python
@@ -38,31 +38,23 @@ class ValueObject[RawValueType](ABC):
             @property
             def value(self) -> str:
                 return self._value
-
-            @property
-            def _equality_components(self) -> tuple[Hashable, ...]:
-                return (self._value,)
         ```
 
     """
 
     def __init_subclass__(cls, **kwargs: Any) -> None:
-        """Automatically apply auto_freeze to concrete subclasses."""
+        """Automatically apply ``auto_hash`` to concrete subclasses.
+
+        ``auto_hash`` generates ``__hash__`` / ``__eq__`` from class fields
+        and also applies ``@auto_freeze`` to enforce immutability.
+        """
         super().__init_subclass__(**kwargs)
         if not inspect.isabstract(cls):
-            auto_freeze(cls)
-
-    def __eq__(self, other: object) -> bool:
-        if type(self) is not type(other):
-            return False
-        other_vo: ValueObject[RawValueType] = other  # type: ignore[assignment]
-        return self._equality_components == other_vo._equality_components
-
-    def __hash__(self) -> int:
-        return hash(self._equality_components)
+            auto_hash(cls)
 
     def __str__(self) -> str:
-        components = self._equality_components
+        field_names = getattr(self, "__auto_hash_fields__", ())
+        components = tuple(getattr(self, name) for name in field_names)
         if len(components) == 1:
             return f"{self.__class__.__name__}({components[0]!r})"
         return f"{self.__class__.__name__}{components!r}"
@@ -74,8 +66,3 @@ class ValueObject[RawValueType](ABC):
     @abstractmethod
     def value(self) -> RawValueType:
         """Return the primary raw value encapsulated by the ValueObject."""
-
-    @property
-    @abstractmethod
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        """Return the components used for equality and hashing."""
