@@ -2,15 +2,15 @@
 
 import pytest
 
-from forging_blocks.foundation.messages import (
+from forging_blocks.domain.messages import (
     MessageMetadata,
     command_dataclass,
     event_dataclass,
     query_dataclass,
 )
-from forging_blocks.foundation.messages.command import Command
-from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.query import Query
+from forging_blocks.domain.messages.command import Command
+from forging_blocks.domain.messages.event import Event
+from forging_blocks.domain.messages.query import Query
 from forging_blocks.infrastructure.serialization import DictMessageCodec
 
 PAYLOAD_MSG: dict[str, object] = {"_name": "write_in", "_value": 42}

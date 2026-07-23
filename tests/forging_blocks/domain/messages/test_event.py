@@ -3,7 +3,7 @@ from typing import Any, Self, cast
 
 import pytest
 
-from forging_blocks.foundation.messages import Event, MessageMetadata
+from forging_blocks.domain.messages import Event, MessageMetadata
 
 
 class PayloadNotImplementEvent(Event):
@@ -64,7 +64,7 @@ class TestEvent:
     def test_inheritance_when_instantied_then_is_message(self):
         event = FakeEvent("order_123", "customer_456", 150.0)
 
-        from forging_blocks.foundation.messages.message import Message
+        from forging_blocks.domain.messages.message import Message
 
         assert isinstance(event, Message)
         assert isinstance(event, Event)

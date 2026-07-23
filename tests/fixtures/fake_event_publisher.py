@@ -5,7 +5,7 @@ state inspection rather than mock interaction assertions.
 """
 
 from forging_blocks.application.ports.outbound.event_publisher_port import EventPublisherPort
-from forging_blocks.foundation.messages.event import Event
+from forging_blocks.domain.messages.event import Event
 
 
 class FakeEventPublisher(EventPublisherPort[object]):

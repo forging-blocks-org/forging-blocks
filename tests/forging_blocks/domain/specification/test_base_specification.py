@@ -3,7 +3,7 @@ from typing import Any, cast
 
 import pytest
 
-from forging_blocks.foundation.specification.base import Specification
+from forging_blocks.domain.specification.base import Specification
 
 
 @pytest.mark.unit

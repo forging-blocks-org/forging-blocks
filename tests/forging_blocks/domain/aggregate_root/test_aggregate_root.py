@@ -7,8 +7,8 @@ from forging_blocks.domain import (
     AggregateVersion,
     EntityIdNoneError,
 )
-from forging_blocks.foundation import Event
-from forging_blocks.foundation.messages.message import MessageMetadata
+from forging_blocks.domain.messages import Event
+from forging_blocks.domain.messages.message import MessageMetadata
 
 raw_event = dict[str, str]
 

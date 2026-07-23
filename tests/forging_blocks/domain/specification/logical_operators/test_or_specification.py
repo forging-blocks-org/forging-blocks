@@ -1,7 +1,7 @@
 import pytest
 
-from forging_blocks.foundation.specification.base import Specification
-from forging_blocks.foundation.specification.logical_operators.or_specification import (
+from forging_blocks.domain.specification.base import Specification
+from forging_blocks.domain.specification.logical_operators.or_specification import (
     OrSpecification,
 )
 

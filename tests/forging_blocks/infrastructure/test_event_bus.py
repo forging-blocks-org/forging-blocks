@@ -9,9 +9,9 @@ from forging_blocks.application.ports.inbound.message_handler_port import (
     CommandHandlerPort,
     EventHandlerPort,
 )
-from forging_blocks.foundation.messages.command import Command
-from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.message import MessageMetadata
+from forging_blocks.domain.messages.command import Command
+from forging_blocks.domain.messages.event import Event
+from forging_blocks.domain.messages.message import MessageMetadata
 from forging_blocks.infrastructure.event_buses.event_bus_base import EventBusBase
 from forging_blocks.infrastructure.event_buses.in_memory_event_bus_base import InMemoryEventBusBase
 from tests.fixtures.fake_event_with_value import FakeEventWithValue

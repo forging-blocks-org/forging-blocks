@@ -13,8 +13,8 @@ from typing import Self
 import pytest
 
 from forging_blocks.application import QueryFetcherPort
+from forging_blocks.domain.messages import MessageMetadata, Query
 from forging_blocks.foundation import OutboundPort
-from forging_blocks.foundation.messages import MessageMetadata, Query
 
 
 class FakeQuery(Query[str]):

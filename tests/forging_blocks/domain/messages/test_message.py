@@ -6,7 +6,7 @@ from uuid import UUID, uuid7
 
 import pytest
 
-from forging_blocks.foundation.messages import Message, MessageMetadata
+from forging_blocks.domain.messages import Message, MessageMetadata
 
 
 class FakeMessage(Message[str]):

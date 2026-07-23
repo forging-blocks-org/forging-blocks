@@ -3,7 +3,7 @@ from typing import Self
 
 import pytest
 
-from forging_blocks.foundation.messages import Event, MessageMetadata
+from forging_blocks.domain.messages import Event, MessageMetadata
 from forging_blocks.infrastructure import MessageBusEventPublisher
 from tests.fixtures.fake_message_bus import FakeMessageBus
 

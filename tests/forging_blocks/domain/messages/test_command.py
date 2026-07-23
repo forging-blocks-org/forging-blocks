@@ -8,7 +8,7 @@ from typing import Any, Self, cast
 
 import pytest
 
-from forging_blocks.foundation.messages import Command, Message, MessageMetadata
+from forging_blocks.domain.messages import Command, Message, MessageMetadata
 
 
 class PayloadAndValueNotImplCommand(Command):

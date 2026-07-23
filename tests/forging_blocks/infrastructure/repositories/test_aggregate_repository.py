@@ -8,8 +8,8 @@ import pytest
 
 from forging_blocks.application.errors.event_store_error import EventStoreError
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
-from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.message import MessageMetadata
+from forging_blocks.domain.messages.event import Event
+from forging_blocks.domain.messages.message import MessageMetadata
 from forging_blocks.foundation.result import Err, Result
 from forging_blocks.infrastructure.event_stores.in_memory_event_store_base import (
     InMemoryEventStoreBase,

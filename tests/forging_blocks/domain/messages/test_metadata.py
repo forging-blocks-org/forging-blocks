@@ -5,8 +5,8 @@ from uuid import UUID, uuid7
 
 import pytest
 
+from forging_blocks.domain.messages import MessageMetadata
 from forging_blocks.foundation import CantModifyImmutableAttributeError
-from forging_blocks.foundation.messages import MessageMetadata
 
 
 @pytest.mark.unit

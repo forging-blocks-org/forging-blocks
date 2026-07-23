@@ -6,7 +6,7 @@ from typing import cast
 
 import pytest
 
-from forging_blocks.foundation.messages.message import Message
+from forging_blocks.domain.messages.message import Message
 
 
 @pytest.mark.unit
@@ -18,7 +18,7 @@ class TestMessageDataclassDecorator:
     ) -> None:
         from unittest.mock import patch
 
-        from forging_blocks.foundation.messages.decorators import (
+        from forging_blocks.domain.messages.decorators import (
             _PatchedMessage,
             message_dataclass,
         )
@@ -34,7 +34,7 @@ class TestMessageDataclassDecorator:
             return original_isinstance(obj, cls)
 
         with patch(
-            "forging_blocks.foundation.messages.decorators.isinstance",
+            "forging_blocks.domain.messages.decorators.isinstance",
             side_effect=_selective_isinstance,
         ):
             with pytest.raises(TypeError, match="does not satisfy _PatchedMessage"):
@@ -44,9 +44,9 @@ class TestMessageDataclassDecorator:
         """Two decorated messages with the same message_id are equal, regardless of field data."""
         import uuid
 
-        from forging_blocks.foundation.messages.decorators import event_dataclass
-        from forging_blocks.foundation.messages.event import Event
-        from forging_blocks.foundation.messages.message import MessageMetadata
+        from forging_blocks.domain.messages.decorators import event_dataclass
+        from forging_blocks.domain.messages.event import Event
+        from forging_blocks.domain.messages.message import MessageMetadata
 
         shared_id = uuid.uuid4()
 
@@ -76,8 +76,8 @@ class TestMessageDataclassDecorator:
 
     def test_decorated_messages_differ_by_message_id(self) -> None:
         """Two decorated messages with different message_ids are not equal, even if field data matches."""
-        from forging_blocks.foundation.messages.decorators import event_dataclass
-        from forging_blocks.foundation.messages.event import Event
+        from forging_blocks.domain.messages.decorators import event_dataclass
+        from forging_blocks.domain.messages.event import Event
 
         @event_dataclass
         class Shipped(Event[dict[str, object]]):

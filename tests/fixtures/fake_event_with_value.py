@@ -1,7 +1,7 @@
 from typing import Self
 
-from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.message import MessageMetadata
+from forging_blocks.domain.messages.event import Event
+from forging_blocks.domain.messages.message import MessageMetadata
 
 
 class FakeEventWithValue(Event[dict[str, object]]):

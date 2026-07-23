@@ -9,8 +9,8 @@ from forging_blocks.application.ports.inbound.message_handler_port import (
     CommandHandlerPort,
     EventHandlerPort,
 )
-from forging_blocks.foundation.messages.command import Command
-from forging_blocks.foundation.messages.event import Event
+from forging_blocks.domain.messages.command import Command
+from forging_blocks.domain.messages.event import Event
 from forging_blocks.infrastructure.event_buses.in_memory_event_bus import (
     InMemoryEventBus,
 )

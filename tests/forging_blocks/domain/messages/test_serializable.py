@@ -5,13 +5,13 @@ from typing import Any, cast
 
 import pytest
 
-from forging_blocks.foundation.messages.decorators import (
+from forging_blocks.domain.messages.decorators import (
     command_dataclass,
     event_dataclass,
     query_dataclass,
 )
-from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.message import MessageMetadata
+from forging_blocks.domain.messages.event import Event
+from forging_blocks.domain.messages.message import MessageMetadata
 
 
 class TestMessageDataclassDecorator:

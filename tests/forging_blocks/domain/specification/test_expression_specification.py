@@ -3,8 +3,8 @@ from typing import Any, cast
 
 import pytest
 
+from forging_blocks.domain.specification.expression import ExpressionSpecification
 from forging_blocks.foundation.errors.not_callable_predicate_error import NotCallablePredicateError
-from forging_blocks.foundation.specification.expression import ExpressionSpecification
 
 
 @pytest.mark.unit
@@ -204,7 +204,7 @@ class TestExpressionSpecification:
     def test_is_subclass_of_composable_specification(self) -> None:
         """ExpressionSpecification should be a subclass of ComposableSpecification."""
         # Arrange & Act & Assert
-        from forging_blocks.foundation.specification.composable import ComposableSpecification
+        from forging_blocks.domain.specification.composable import ComposableSpecification
 
         assert issubclass(ExpressionSpecification, ComposableSpecification)
 

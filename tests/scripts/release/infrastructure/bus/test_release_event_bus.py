@@ -7,8 +7,8 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
 )
 
 from forging_blocks.application.ports.inbound.message_handler_port import MessageHandlerPort
-from forging_blocks.foundation.messages.command import Command
-from forging_blocks.foundation.messages.message import MessageMetadata
+from forging_blocks.domain.messages.command import Command
+from forging_blocks.domain.messages.message import MessageMetadata
 
 
 class FakeCommand(Command):

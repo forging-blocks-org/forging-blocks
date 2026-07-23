@@ -1,8 +1,8 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 import pytest
 
+from forging_blocks.domain.value_object import ValueObject
 from forging_blocks.foundation import CantModifyImmutableAttributeError
-from forging_blocks.foundation.value_object import ValueObject
 
 
 class Email(ValueObject[str]):

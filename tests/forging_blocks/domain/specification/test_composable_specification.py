@@ -2,8 +2,8 @@ from typing import Any, cast
 
 import pytest
 
-from forging_blocks.foundation.specification.base import Specification
-from forging_blocks.foundation.specification.composable import ComposableSpecification
+from forging_blocks.domain.specification.base import Specification
+from forging_blocks.domain.specification.composable import ComposableSpecification
 
 
 @pytest.mark.unit
@@ -50,7 +50,7 @@ class TestComposableSpecification:
         result = left.and_(right)
 
         # Assert
-        from forging_blocks.foundation.specification.logical_operators import AndSpecification
+        from forging_blocks.domain.specification.logical_operators import AndSpecification
 
         assert isinstance(result, AndSpecification)
         assert result.is_satisfied_by(5) is True
@@ -76,7 +76,7 @@ class TestComposableSpecification:
         result = left.or_(right)
 
         # Assert
-        from forging_blocks.foundation.specification.logical_operators import OrSpecification
+        from forging_blocks.domain.specification.logical_operators import OrSpecification
 
         assert isinstance(result, OrSpecification)
         assert result.is_satisfied_by(5) is True
@@ -97,7 +97,7 @@ class TestComposableSpecification:
         result = spec.not_()
 
         # Assert
-        from forging_blocks.foundation.specification.logical_operators import NotSpecification
+        from forging_blocks.domain.specification.logical_operators import NotSpecification
 
         assert isinstance(result, NotSpecification)
         assert result.is_satisfied_by(-5) is True
@@ -122,7 +122,7 @@ class TestComposableSpecification:
         result = left & right
 
         # Assert
-        from forging_blocks.foundation.specification.logical_operators import AndSpecification
+        from forging_blocks.domain.specification.logical_operators import AndSpecification
 
         assert isinstance(result, AndSpecification)
         assert result.is_satisfied_by(5) is True
@@ -146,7 +146,7 @@ class TestComposableSpecification:
         result = left | right
 
         # Assert
-        from forging_blocks.foundation.specification.logical_operators import OrSpecification
+        from forging_blocks.domain.specification.logical_operators import OrSpecification
 
         assert isinstance(result, OrSpecification)
         assert result.is_satisfied_by(5) is True
@@ -165,7 +165,7 @@ class TestComposableSpecification:
         result = ~spec
 
         # Assert
-        from forging_blocks.foundation.specification.logical_operators import NotSpecification
+        from forging_blocks.domain.specification.logical_operators import NotSpecification
 
         assert isinstance(result, NotSpecification)
         assert result.is_satisfied_by(-5) is True
