@@ -1,6 +1,6 @@
 """Auto-freeze decorator for enforcing immutability on class instances.
 
-Provides the :func:`auto_freeze` decorator that automatically freezes instances
+Provides the `auto_freeze` decorator that automatically freezes instances
 after ``__init__`` completes. The decorator injects a frozen state marker and
 a ``__setattr__`` override to prevent attribute modifications.
 
