@@ -22,11 +22,11 @@ class Message[MessageRawType](ABC):
 
     Messages are immutable and each instance is unique — equality and
     hash are determined solely by the ``message_id`` carried in
-    :class:`MessageMetadata`, enforced via :func:`auto_hash` and
-    :func:`auto_eq` with ``fields=["message_id"]``.
+    `MessageMetadata`, enforced via `auto_hash` and
+    `auto_eq` with ``fields=["message_id"]``.
 
-    This class should not be used directly.  Import :class:`Event` or
-    :class:`Command` instead.
+    This class should not be used directly.  Import `Event` or
+    `Command` instead.
     """
 
     def __init_subclass__(cls, **kwargs: Any) -> None:
