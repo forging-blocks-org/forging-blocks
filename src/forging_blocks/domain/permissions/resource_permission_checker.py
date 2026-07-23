@@ -9,7 +9,7 @@ class ResourcePermissionChecker:
 
     Args:
         resource_permissions: A dictionary mapping resource-type names
-            (``str``) to the list of :class:`Permission` values allowed
+            (``str``) to the list of `Permission` values allowed
             for that resource type.
 
     """
