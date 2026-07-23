@@ -30,7 +30,7 @@ class AggregateRepository[
             bound uses ``Any`` as the second type argument — not because the
             event type is untyped, but because PEP 695 (and the underlying type
             system) forbids one TypeVar from appearing inside another TypeVar's
-            bound. The ``cast`` in :meth:`save` is the explicit, localized bridge
+            bound. The ``cast`` in `save` is the explicit, localized bridge
             across this gap. The invariant is enforced by construction.
         TId: The aggregate identity type, bounded by ``UUID``.
     """
