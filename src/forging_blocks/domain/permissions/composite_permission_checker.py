@@ -6,7 +6,7 @@ from forging_blocks.foundation.permission import Permission
 
 
 class CompositePermissionChecker:
-    """Combines multiple :class:`PermissionChecker` instances with OR logic."""
+    """Combines multiple `PermissionChecker` instances with OR logic."""
 
     __match_args__ = ("_checkers",)
 
