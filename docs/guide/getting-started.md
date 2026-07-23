@@ -49,7 +49,7 @@ When a value is more than a primitive, you can wrap it in a `ValueObject` to
 make its rules visible and reusable.
 
 ```python
-from forging_blocks.foundation.value_object import ValueObject
+from forging_blocks.domain.value_object import ValueObject
 
 
 class Email(ValueObject[str]):

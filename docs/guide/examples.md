@@ -127,7 +127,7 @@ The design is:
 ## 4. Modeling a value with ValueObject
 
 ```python
-from forging_blocks.foundation.value_object import ValueObject
+from forging_blocks.domain.value_object import ValueObject
 
 
 class Email(ValueObject[str]):

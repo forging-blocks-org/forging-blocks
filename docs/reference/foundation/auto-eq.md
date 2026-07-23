@@ -12,7 +12,7 @@ After decoration, instances compare equal when all selected fields match. Compar
 
 ## When to use
 
-`@auto_eq` is useful when you need structural equality without hashability — for example, mutable objects where hashing would be incorrect. For immutable value types that need both equality and hashing, use [`@auto_hash`](auto-hash.md) or the [`ValueObject`](value-objects.md) base class instead.
+`@auto_eq` is useful when you need structural equality without hashability — for example, mutable objects where hashing would be incorrect. For immutable value types that need both equality and hashing, use [`@auto_hash`](auto-hash.md) or the [`ValueObject`](../domain/value-objects.md) base class instead.
 
 ## Generated members
 
