@@ -2,8 +2,8 @@
 
 Does **not** generate ``__eq__`` or apply ``auto_freeze``. ``__eq__`` in the
 examples below is provided by ``@dataclass``. Combine with
-:func:`~forging_blocks.foundation.autoeq.auto_eq` for explicit equality,
-and :func:`~forging_blocks.foundation.autofreeze.auto_freeze` for immutability.
+`auto_eq` for explicit equality,
+and `auto_freeze` for immutability.
 
 ## Usage
 
