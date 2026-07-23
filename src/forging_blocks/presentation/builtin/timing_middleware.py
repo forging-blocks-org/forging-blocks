@@ -26,7 +26,6 @@ class TimingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respon
 
     Example:
         ```python
-        from forging_blocks.application.ports.outbound.logger_port import LoggerPort
         from forging_blocks.presentation.builtin import TimingMiddleware
 
         mw = TimingMiddleware[MyRequest, MyResponse](logger=my_logger)
