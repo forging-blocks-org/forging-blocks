@@ -459,7 +459,6 @@ class MyPort[T](OutboundPort):
 | Blocking I/O in async context | ❌ Flag | Add `async def` / `await` |
 | Manual `_payload` on `@event_dataclass` class | ❌ Flag | Decorator patches it automatically |
 | Missing `__slots__` on ValueObject subclass | ❌ Flag | Add `__slots__ = ("_field",)` |
-| Missing `_equality_components` on ValueObject | ❌ Flag | Implement required property |
 | `try/except` for control flow | ❌ Flag | Use `Result[T, E]` |
 | Overriding `@runtime_final` method | ❌ Flag | `TypeError` at class creation |
 | Overriding `apply`, `replay`, `collect_events` in AggregateRoot | ❌ Flag | These are runtime-final |

@@ -49,7 +49,6 @@ When a value is more than a primitive, you can wrap it in a `ValueObject` to
 make its rules visible and reusable.
 
 ```python
-from collections.abc import Hashable
 from forging_blocks.foundation.value_object import ValueObject
 
 
@@ -65,14 +64,11 @@ class Email(ValueObject[str]):
     @property
     def value(self) -> str:
         return self._value
-
-    @property
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        return (self._value,)
 ```
 
 `ValueObject` gives you value-based equality, hashability, and immutability
-out of the box, so that you can focus on the rules of *your* value.
+automatically via :func:`auto_hash` and :func:`auto_freeze`, so that you
+can focus on the rules of *your* value.
 
 ---
 
