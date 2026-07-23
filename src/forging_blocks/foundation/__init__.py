@@ -1,5 +1,6 @@
 """ForgingBlocks foundation modules."""
 
+from .autoeq import auto_eq
 from .autohash import auto_hash
 from .context import AuthorizationContext, ServiceContext, TransactionContext
 from .errors import (
@@ -43,6 +44,7 @@ from .specification import (
 from .value_object import ValueObject
 
 __all__ = [
+    "auto_eq",
     "auto_hash",
     "ArchitectureError",
     "AndSpecification",

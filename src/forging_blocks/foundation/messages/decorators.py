@@ -133,18 +133,11 @@ def message_dataclass(
                 )
             return cls(metadata=metadata, **data)
 
-        # Pyright cannot verify attribute assignment on a closed generic class.
-        # Assign through a cast(Any, dc_cls) boundary so pyright permits the
-        # monkey-patching while ruff's B009 (prefer direct assignment) is satisfied.
-        # The result is validated against _PatchedMessage below.
         patched = cast(Any, dc_cls)
         patched.__init__ = new_init
         patched.get_payload_fields = get_payload_fields
         patched.from_payload_fields = from_payload_fields
 
-        # Patch abstract members so decorated subclasses of Event/Command/Query
-        # can be instantiated without manually implementing _payload / value
-        # or from_payload_fields.
         abstract_methods: frozenset[str] = getattr(dc_cls, "__abstractmethods__", frozenset())
         if "_payload" in abstract_methods:
             patched._payload = property(lambda self: self.get_payload_fields())

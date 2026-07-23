@@ -6,7 +6,7 @@ subclasses from overriding these methods at runtime.
 """
 
 from collections.abc import Callable
-from typing import Any
+from typing import Any, cast
 
 
 def _unwrap_descriptor(attr_value: object) -> object:
@@ -58,7 +58,7 @@ class FinalMeta(type):
     ) -> type:
         """Prevent overriding of runtime-final methods in subclasses."""
         validate_no_runtime_final_override(name, bases, namespace)
-        return type.__new__(mcls, name, bases, namespace, **kwargs)  # type: ignore[no-any-return]
+        return cast(type, type.__new__(mcls, name, bases, namespace, **kwargs))
 
 
 type AnyCallable = Callable[..., Any]
@@ -69,6 +69,6 @@ def runtime_final[F: AnyCallable](func: F) -> F:
 
     Adds both static (`__final__`) and runtime (`__is_runtime_final__`) flags.
     """
-    func.__final__ = True  # type: ignore[attr-defined]
-    func.__is_runtime_final__ = True  # type: ignore[attr-defined]
+    object.__setattr__(func, "__final__", True)
+    object.__setattr__(func, "__is_runtime_final__", True)
     return func

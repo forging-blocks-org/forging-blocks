@@ -8,6 +8,7 @@ import inspect
 from abc import ABC, abstractmethod
 from typing import Any
 
+from forging_blocks.foundation.autoeq import auto_eq
 from forging_blocks.foundation.autofreeze import auto_freeze
 from forging_blocks.foundation.autohash import auto_hash
 
@@ -19,11 +20,17 @@ class ValueObject[RawValueType](ABC):
     rather than by an identity. Two value objects with the same attributes
     are considered equal.
 
-    Concrete subclasses are automatically frozen and hashable via
-    :func:`auto_freeze` and :func:`auto_hash`, which generate
-    ``__hash__`` / ``__eq__`` from slot fields and enforce
-    immutability.  Intermediate abstract classes are skipped so leaf
-    subclasses finish their own ``__init__`` without restriction.
+    Concrete subclasses are automatically frozen, hashable, and structurally
+    comparable via :func:`auto_freeze`, :func:`auto_hash`, and
+    :func:`auto_eq`.  The three decorators are independent — each applies
+    exactly one concern:
+
+    - ``@auto_freeze`` enforces immutability.
+    - ``@auto_hash`` generates ``__hash__`` from class fields.
+    - ``@auto_eq`` generates ``__eq__`` from class fields.
+
+    Intermediate abstract classes are skipped so leaf subclasses finish
+    their own ``__init__`` without restriction.
 
     Example:
         ```python
@@ -44,15 +51,18 @@ class ValueObject[RawValueType](ABC):
     """
 
     def __init_subclass__(cls, **kwargs: Any) -> None:
-        """Apply ``auto_freeze`` and ``auto_hash`` to concrete subclasses.
+        """Apply ``auto_freeze``, ``auto_hash``, and ``auto_eq`` to concrete subclasses.
 
         ``auto_freeze`` enforces immutability; ``auto_hash`` generates
-        ``__hash__`` / ``__eq__`` from class fields.
+        ``__hash__`` from class fields; ``auto_eq`` generates ``__eq__``
+        from class fields.  All three are independent decorators — none
+        composes the others.
         """
         super().__init_subclass__(**kwargs)
         if not inspect.isabstract(cls):
             auto_freeze(cls)
             auto_hash(cls)
+            auto_eq(cls)
 
     def __str__(self) -> str:
         field_names = getattr(self, "__auto_hash_fields__", ())
