@@ -1,11 +1,9 @@
 """Message codec ABC for encoding/decoding foundation messages."""
 
-from abc import abstractmethod
-
-from forging_blocks.foundation import FinalABCMeta
+from abc import ABC, abstractmethod
 
 
-class MessageCodec[M, Raw](metaclass=FinalABCMeta):
+class MessageCodec[M, Raw](ABC):
     """Abstract codec for encoding and decoding messages.
 
     A *codec* is a bidirectional transformation between a message
