@@ -12,8 +12,6 @@ from .errors import (
 from .messages import Command, Event, Message, Query
 from .permissions.composite_permission_checker import CompositePermissionChecker
 from .permissions.permission_checker import PermissionChecker
-from .permissions.resource_permission_checker import ResourcePermissionChecker
-from .permissions.role_based_permission_checker import RoleBasedPermissionChecker
 from .specification import (
     AndSpecification,
     ExpressionSpecification,
@@ -55,8 +53,6 @@ __all__ = [
     "Query",
     "RangeValidator",
     "RequiredValidator",
-    "ResourcePermissionChecker",
-    "RoleBasedPermissionChecker",
     "Specification",
     "ValueObject",
 ]

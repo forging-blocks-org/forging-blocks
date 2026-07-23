@@ -162,8 +162,6 @@ nav:
           - Permissions:
             - Composite Permission Checker: reference/autodoc/domain/permissions/composite_permission_checker.md
             - Permission Checker: reference/autodoc/domain/permissions/permission_checker.md
-            - Resource Permission Checker: reference/autodoc/domain/permissions/resource_permission_checker.md
-            - Role Based Permission Checker: reference/autodoc/domain/permissions/role_based_permission_checker.md
           - Specification:
             - Base: reference/autodoc/domain/specification/base.md
             - Composable: reference/autodoc/domain/specification/composable.md
@@ -189,10 +187,6 @@ nav:
             - Auto Freeze: reference/autodoc/foundation/autofreeze/auto_freeze.md
           - Autohash:
             - Auto Hash: reference/autodoc/foundation/autohash/auto_hash.md
-          - Context:
-            - Authorization Context: reference/autodoc/foundation/context/authorization_context.md
-            - Service Context: reference/autodoc/foundation/context/service_context.md
-            - Transaction Context: reference/autodoc/foundation/context/transaction_context.md
           - Errors:
             - Architecture Error: reference/autodoc/foundation/errors/architecture_error.md
             - Cant Modify Immutable Attribute Error: reference/autodoc/foundation/errors/cant_modify_immutable_attribute_error.md
