@@ -25,7 +25,7 @@ class DictMessageCodec[M: Message[dict[str, object]]](MessageCodec[M, dict[str, 
         """
         return {
             "metadata": message.metadata.value,
-            "payload": cast(dict[str, object], message.value),
+            "payload": message.value,
         }
 
     def _from_data(self, data: dict[str, object], message_type: type[M]) -> M:
