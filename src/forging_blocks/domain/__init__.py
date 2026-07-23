@@ -1,6 +1,5 @@
 """ForgingBlocks for domain-specific modules."""
 
-from .aggregate_root import AggregateRoot, AggregateVersion
 from .entity import Entity
 from .errors import (
     DraftEntityIsNotHashableError,
@@ -55,3 +54,16 @@ __all__ = [
     "Specification",
     "ValueObject",
 ]
+
+
+def __getattr__(name: str):
+    if name == "AggregateRoot":
+        from .aggregate_root.aggregate_root import AggregateRoot
+
+        return AggregateRoot
+    if name == "AggregateVersion":
+        from .aggregate_root.aggregate_version import AggregateVersion
+
+        return AggregateVersion
+    msg = f"module {__name__!r} has no attribute {name!r}"
+    raise AttributeError(msg)
