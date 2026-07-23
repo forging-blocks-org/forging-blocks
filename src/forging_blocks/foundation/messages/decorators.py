@@ -125,6 +125,12 @@ def message_dataclass(
             data: dict[str, object],
             metadata: MessageMetadata,
         ) -> _M:
+            fields = cast(Any, dc_cls).__dataclass_fields__
+            unknown = data.keys() - fields.keys()
+            if unknown:
+                raise TypeError(
+                    f"Unknown field(s) in payload for {cls.__name__}: {sorted(unknown)}"
+                )
             return cls(metadata=metadata, **data)
 
         # Pyright cannot verify attribute assignment on a closed generic class.
