@@ -1,6 +1,5 @@
 """MessageMetadata value object for messaging patterns."""
 
-from collections.abc import Hashable
 from datetime import datetime, timezone
 from uuid import UUID, uuid7
 
@@ -133,13 +132,3 @@ class MessageMetadata(ValueObject[dict[str, object]]):
             "message_id": str(self._message_id),
             "message_type": self._message_type,
         }
-
-    @property
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        """Message metadata equality is based on message ID and timestamp.
-
-        Returns:
-            Tuple containing message_id and created_at.
-
-        """
-        return (self._message_id, self._created_at)

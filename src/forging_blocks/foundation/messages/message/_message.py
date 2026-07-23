@@ -1,31 +1,36 @@
 """Base Message class for messaging patterns."""
 
+import inspect
 from abc import ABC, abstractmethod
-from collections.abc import Hashable
 from datetime import datetime
-from typing import Self
+from typing import Any, Self
 from uuid import UUID
 
-from forging_blocks.foundation.value_object import ValueObject
+from forging_blocks.foundation.autofreeze import auto_freeze
 
 from ._metadata import MessageMetadata
 
 
-class Message[MessageRawType](ValueObject[MessageRawType], ABC):
+class Message[MessageRawType](ABC):
     """Base class for all foundation messages.
 
-    Messages are immutable value objects that represent intent or facts in the application.
-    This is the base class for Commands (something to do), Events (something that happened),
-    and Queries (something to obtain).
+    Messages represent intent or facts in the application.  This is the
+    base class for Commands (something to do), Events (something that
+    happened), and Queries (something to obtain).
 
-    Features:
-    - Immutable by design (inherits from ValueObject)
-    - Contains MessageMetadata for infrastructure concerns
-    - Focus on data in subclasses
-    - Each message instance is unique (based on metadata.message_id)
+    Messages are immutable and each instance is unique -- equality is
+    determined solely by the ``message_id`` carried in
+    :class:`MessageMetadata`.
 
-    This class should not be used directly. Use Event or Command instead.
+    This class should not be used directly.  Import :class:`Event` or
+    :class:`Command` instead.
     """
+
+    def __init_subclass__(cls, **kwargs: Any) -> None:
+        """Automatically apply ``auto_freeze`` to concrete subclasses."""
+        super().__init_subclass__(**kwargs)
+        if not inspect.isabstract(cls):
+            auto_freeze(cls)
 
     def __init__(self, metadata: MessageMetadata | None = None) -> None:
         """Initialize the message with metadata.
@@ -40,13 +45,18 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         self._metadata = metadata or MessageMetadata(message_type=effective_type)
 
     def __eq__(self, other: object) -> bool:
-        """Check equality based on _equality_components."""
-        if not isinstance(other, Message):
+        """Compare messages by message ID.
+
+        Two messages are equal if and only if they have the same
+        ``message_id``.  All other fields (payload, timestamp, causation)
+        are ignored for equality.
+        """
+        if type(self) is not type(other):
             return False
-        return self._equality_components == other._equality_components
+        return self.message_id == other.message_id  # type: ignore[union-attr]
 
     def __hash__(self) -> int:
-        return hash(self._equality_components)
+        return hash(self.message_id)
 
     @property
     def metadata(self) -> MessageMetadata:
@@ -112,13 +122,6 @@ class Message[MessageRawType](ValueObject[MessageRawType], ABC):
         """
 
     @property
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        """Messages are equal if they have the same message ID.
-
-        Each message instance is unique, even if they have the same data.
-
-        Returns:
-            Tuple containing the message ID for equality comparison.
-
-        """
-        return (self._metadata.message_id,)
+    @abstractmethod
+    def value(self) -> MessageRawType:
+        """Return the raw message payload as a single value."""
