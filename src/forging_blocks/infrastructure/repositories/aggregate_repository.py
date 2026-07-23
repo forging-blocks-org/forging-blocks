@@ -95,6 +95,10 @@ class AggregateRepository[
     async def get_by_id(self, id: TId) -> TAggregateRoot | None:
         """Retrieve an aggregate by ID and replay its events.
 
+        Checks the in-memory cache first; if not cached, replays the
+        aggregate from the event store and caches the result so subsequent
+        reads avoid a full replay.
+
         Args:
             id: Unique identifier of the aggregate.
 
@@ -121,5 +125,6 @@ class AggregateRepository[
             return None
 
         aggregate = self._aggregate_type.reconstitute(id, events)
+        await super().save(aggregate)
 
         return aggregate
