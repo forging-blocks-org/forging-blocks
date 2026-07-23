@@ -6,7 +6,7 @@ from forging_blocks.domain.permissions.permission_checker import PermissionCheck
 from forging_blocks.foundation.permission import Permission
 
 
-class CompositePermissionChecker[PermissionCheckContext]:
+class CompositePermissionChecker[PermissionCheckContext](PermissionChecker[PermissionCheckContext]):
     """Combines multiple `PermissionChecker` instances with OR logic.
 
     Type Args:
