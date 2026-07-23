@@ -265,6 +265,30 @@
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/messages/command/</loc>
+         <lastmod>2026-07-23</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/messages/decorators/</loc>
+         <lastmod>2026-07-23</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/messages/event/</loc>
+         <lastmod>2026-07-23</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/messages/query/</loc>
+         <lastmod>2026-07-23</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/messages/message/_message/</loc>
+         <lastmod>2026-07-23</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/messages/message/_metadata/</loc>
+         <lastmod>2026-07-23</lastmod>
+    </url>
+    <url>
          <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/permissions/composite_permission_checker/</loc>
          <lastmod>2026-07-23</lastmod>
     </url>
@@ -273,11 +297,27 @@
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/permissions/resource_permission_checker/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/specification/base/</loc>
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/permissions/role_based_permission_checker/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/specification/composable/</loc>
+         <lastmod>2026-07-23</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/specification/expression/</loc>
+         <lastmod>2026-07-23</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/specification/logical_operators/and_specification/</loc>
+         <lastmod>2026-07-23</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/specification/logical_operators/not_specification/</loc>
+         <lastmod>2026-07-23</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/domain/specification/logical_operators/or_specification/</loc>
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
@@ -317,7 +357,7 @@
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/value_object/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/autoeq/auto_eq/</loc>
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
@@ -326,18 +366,6 @@
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/autohash/auto_hash/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/context/authorization_context/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/context/service_context/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/context/transaction_context/</loc>
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
@@ -393,30 +421,6 @@
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/messages/command/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/messages/decorators/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/messages/event/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/messages/query/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/messages/message/_message/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/messages/message/_metadata/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
          <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/meta/final_abc_meta/</loc>
          <lastmod>2026-07-23</lastmod>
     </url>
@@ -454,30 +458,6 @@
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/rules/validation_rule/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/specification/base/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/specification/composable/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/specification/expression/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/specification/logical_operators/and_specification/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/specification/logical_operators/not_specification/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/autodoc/foundation/specification/logical_operators/or_specification/</loc>
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
@@ -641,6 +621,10 @@
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
+         <loc>https://forging-blocks-org.github.io/reference/domain/messages/</loc>
+         <lastmod>2026-07-23</lastmod>
+    </url>
+    <url>
          <loc>https://forging-blocks-org.github.io/reference/domain/permissions/</loc>
          <lastmod>2026-07-23</lastmod>
     </url>
@@ -657,11 +641,7 @@
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/reference/foundation/auto-freeze/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/foundation/context/</loc>
+         <loc>https://forging-blocks-org.github.io/reference/foundation/auto-decorators/</loc>
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
@@ -674,10 +654,6 @@
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/reference/foundation/mappers/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/foundation/messages/</loc>
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
@@ -694,14 +670,6 @@
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/reference/foundation/rules/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/foundation/specifications/</loc>
-         <lastmod>2026-07-23</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/reference/foundation/value-objects/</loc>
          <lastmod>2026-07-23</lastmod>
     </url>
     <url>
