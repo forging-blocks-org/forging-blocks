@@ -67,10 +67,10 @@ class MessageMetadata(ValueObject[dict[str, object]]):
         """
         super().__init__()
         self._message_type = message_type
-        self._message_id = message_id or uuid7()
-        self._created_at = created_at or datetime.now(timezone.utc)
-        self._correlation_id = correlation_id or uuid7()
-        self._causation_id = causation_id or uuid7()
+        self._message_id = message_id if message_id is not None else uuid7()
+        self._created_at = created_at if created_at is not None else datetime.now(timezone.utc)
+        self._correlation_id = correlation_id if correlation_id is not None else uuid7()
+        self._causation_id = causation_id if causation_id is not None else uuid7()
 
     @property
     def message_id(self) -> UUID:
