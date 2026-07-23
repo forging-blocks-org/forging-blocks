@@ -40,7 +40,7 @@ class FrozenStateManager:
     concurrently-live instances, which is acceptable for typical
     workloads.
 
-    All internal dicts are keyed by ``id(instance)`` (an :class:`int`)
+    All internal dicts are keyed by ``id(instance)`` (an `int`)
     so that lookups never trigger ``__hash__`` on the instance — the
     instance may still be inside ``__init__`` and its fields may not be
     populated yet.
@@ -69,7 +69,7 @@ class FrozenStateManager:
     def _fallback_key(cls, instance: object) -> _RefKey:
         """Return the stable ``id(instance)`` key used in all tracking dicts.
 
-        As a side effect, registers a :class:`weakref.ref` for instances
+        As a side effect, registers a `weakref.ref` for instances
         that support weak references so that entries are cleaned up on
         garbage collection.
         """
@@ -90,8 +90,8 @@ class FrozenStateManager:
     def _cleanup_fallback(cls, ref: weakref.ReferenceType[object]) -> None:
         """Remove all per-instance entries from every tracking dict.
 
-        Installed as the callback on every :class:`weakref.ref` stored in
-        :attr:`_refs_by_id`.  Called automatically by the runtime when the
+        Installed as the callback on every `weakref.ref` stored in
+        `_refs_by_id`.  Called automatically by the runtime when the
         referent is garbage-collected.
         """
         # Find the id that maps to this ref.
