@@ -40,17 +40,22 @@ class AggregateRepository[
     def __init__(
         self,
         event_store: EventStoreBase[EventPayloadType],
+        aggregate_type: type[TAggregateRoot],
         storage: dict[TId, TAggregateRoot] | None = None,
     ) -> None:
         """Initialize the aggregate repository.
 
         Args:
             event_store: The event store for persisting domain events.
+            aggregate_type: The aggregate root class. Used via
+                its ``reconstitute`` classmethod when an aggregate
+                must be rebuilt from stored events.
             storage: Optional in-memory storage for aggregate snapshots.
 
         """
         super().__init__(storage)
         self._event_store = event_store
+        self._aggregate_type = aggregate_type
 
     async def save(self, aggregate: TAggregateRoot) -> None:
         """Save an aggregate and its uncommitted events.
@@ -104,7 +109,17 @@ class AggregateRepository[
         aggregate = await super().get_by_id(id)
         if aggregate is not None:
             return aggregate
+
         result = await self._event_store.get_events(cast(UUID, id))
-        if result.is_ok:
+
+        if not result.is_ok:
+            raise result.error
+
+        events = result.value
+
+        if not events:
             return None
-        raise result.error
+
+        aggregate = self._aggregate_type.reconstitute(id, events)
+
+        return aggregate
