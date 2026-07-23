@@ -1,7 +1,5 @@
 """AggregateVersion value object for optimistic concurrency control."""
 
-from collections.abc import Hashable
-
 from forging_blocks.foundation.value_object import ValueObject
 
 
@@ -27,8 +25,3 @@ class AggregateVersion(ValueObject[int]):
     def increment(self) -> AggregateVersion:
         """Return a new AggregateVersion incremented by one."""
         return AggregateVersion(self._value + 1)
-
-    @property
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        """Components used for equality comparison."""
-        return (self._value,)

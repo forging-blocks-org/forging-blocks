@@ -63,10 +63,6 @@ class ServiceContext(ValueObject[tuple[Hashable, ...]]):
     @property
     def value(self) -> tuple[Hashable, ...]:
         """Composite value: all fields as a tuple."""
-        return self._equality_components
-
-    @property
-    def _equality_components(self) -> tuple[Hashable, ...]:
         return (
             self._correlation_id,
             self._user_id,
