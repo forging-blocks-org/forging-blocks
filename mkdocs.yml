@@ -82,7 +82,6 @@ nav:
           - Mappers: reference/foundation/mappers.md
           - Identified: reference/foundation/identified.md
           - Meta Utilities: reference/foundation/meta.md
-          - Context: reference/foundation/context.md
           - Rules: reference/foundation/rules.md
       - Domain:
           - Overview: reference/domain.md
