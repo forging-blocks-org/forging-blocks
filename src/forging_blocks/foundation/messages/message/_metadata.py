@@ -13,12 +13,13 @@ class MessageMetadata(ValueObject[dict[str, object]]):
     Contains technical-level information about messages such as:
     - Unique message identifier
     - When the message was created
-    - correlation_id is used to trace related messages across systems.
-    - correlation_id is used to link messages that belong to the same business process.
+    - correlation_id is used to trace related messages across systems
+      and link messages that belong to the same business process.
     - causation_id is used to identify the immediate predecessor message that caused
+      this message.
 
     This separation allows messages to focus on foundational data while keeping
-    infrastructure handling concerns in metadata without foundation understand anything about
+    infrastructure handling concerns in metadata without needing to understand anything about
     infrastructure rules.
 
     Example:

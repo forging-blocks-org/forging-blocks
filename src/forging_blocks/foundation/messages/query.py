@@ -31,7 +31,7 @@ class Query[QueryPayloadType](Message[QueryPayloadType]):
     @property
     @abstractmethod
     def _payload(self) -> QueryPayloadType:
-        """Retrieve the query's payload as a dictionary.
+        """Return the query-specific payload data.
 
         Subclasses MUST implement this property to return the query-specific
         data.
