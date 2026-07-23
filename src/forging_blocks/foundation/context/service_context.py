@@ -3,7 +3,7 @@
 import uuid
 from collections.abc import Hashable
 
-from forging_blocks.foundation.value_object import ValueObject
+from forging_blocks.domain.value_object import ValueObject
 
 
 class ServiceContext(ValueObject[tuple[Hashable, ...]]):

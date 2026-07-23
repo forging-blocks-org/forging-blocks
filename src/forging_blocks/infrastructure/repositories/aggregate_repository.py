@@ -8,7 +8,7 @@ from typing import Any, cast
 from uuid import UUID
 
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
-from forging_blocks.foundation.messages.event import Event
+from forging_blocks.domain.messages.event import Event
 from forging_blocks.infrastructure.event_stores.event_store_base import EventStoreBase
 from forging_blocks.infrastructure.repositories.in_memory_repository import InMemoryRepository
 

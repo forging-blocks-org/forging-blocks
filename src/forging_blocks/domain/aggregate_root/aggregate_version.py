@@ -1,6 +1,6 @@
 """AggregateVersion value object for optimistic concurrency control."""
 
-from forging_blocks.foundation.value_object import ValueObject
+from forging_blocks.domain.value_object import ValueObject
 
 
 class AggregateVersion(ValueObject[int]):

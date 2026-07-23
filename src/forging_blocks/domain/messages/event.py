@@ -3,7 +3,7 @@
 from abc import abstractmethod
 from datetime import datetime
 
-from forging_blocks.foundation.messages.message import Message
+from forging_blocks.domain.messages.message import Message
 
 
 class Event[RawEventType](Message[RawEventType]):

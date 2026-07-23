@@ -3,7 +3,7 @@
 from datetime import datetime, timezone
 from uuid import UUID, uuid7
 
-from forging_blocks.foundation.value_object import ValueObject
+from forging_blocks.domain.value_object import ValueObject
 
 
 class MessageMetadata(ValueObject[dict[str, object]]):

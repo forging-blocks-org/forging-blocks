@@ -5,7 +5,7 @@ Delegates command dispatch to an injected ``MessageBusPort``.
 
 from forging_blocks.application.ports.outbound.command_sender_port import CommandSenderPort
 from forging_blocks.application.ports.outbound.message_bus_port import MessageBusPort
-from forging_blocks.foundation.messages.command import Command
+from forging_blocks.domain.messages.command import Command
 
 
 class MessageBusCommandSender[CommandPayloadType](CommandSenderPort[CommandPayloadType]):

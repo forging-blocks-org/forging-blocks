@@ -1,5 +1,5 @@
-from forging_blocks.foundation.specification.base import Specification
-from forging_blocks.foundation.specification.composable import ComposableSpecification
+from forging_blocks.domain.specification.base import Specification
+from forging_blocks.domain.specification.composable import ComposableSpecification
 
 
 class AndSpecification[T](ComposableSpecification[T]):

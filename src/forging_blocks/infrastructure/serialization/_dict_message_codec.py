@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import cast
 from uuid import UUID
 
-from forging_blocks.foundation.messages import Message, MessageMetadata
+from forging_blocks.domain.messages import Message, MessageMetadata
 
 from ._message_codec import MessageCodec
 

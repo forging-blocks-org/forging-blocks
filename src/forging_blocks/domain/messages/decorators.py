@@ -8,8 +8,8 @@ by ``from_payload_fields()`` for reconstruction.
 
 Example::
 
-    from forging_blocks.foundation.messages.decorators import event_dataclass
-    from forging_blocks.foundation.messages.event import Event
+    from forging_blocks.domain.messages.decorators import event_dataclass
+    from forging_blocks.domain.messages.event import Event
 
 
     @event_dataclass
@@ -27,7 +27,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any, Protocol, Self, TypeVar, cast, overload, runtime_checkable
 
-from forging_blocks.foundation.messages.message import Message, MessageMetadata
+from forging_blocks.domain.messages.message import Message, MessageMetadata
 
 _M = TypeVar("_M", bound="Message[Any]")
 

@@ -3,7 +3,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from forging_blocks.foundation.messages.message import Message
+from forging_blocks.domain.messages.message import Message
 
 
 class Command[RawCommandType](Message[RawCommandType]):

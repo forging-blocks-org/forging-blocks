@@ -6,8 +6,8 @@ from typing import Self
 
 from forging_blocks.domain.entity import Entity
 from forging_blocks.domain.errors.entity_id_none_error import EntityIdNoneError
+from forging_blocks.domain.messages.event import Event
 from forging_blocks.foundation import FinalABCMeta, runtime_final
-from forging_blocks.foundation.messages.event import Event
 
 from .aggregate_version import AggregateVersion
 

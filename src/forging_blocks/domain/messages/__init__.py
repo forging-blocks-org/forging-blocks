@@ -1,4 +1,4 @@
-"""Foundation messages package."""
+"""Domain messages package."""
 
 from .command import Command
 from .decorators import (

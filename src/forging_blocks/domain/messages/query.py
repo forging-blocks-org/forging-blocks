@@ -2,7 +2,7 @@
 
 from abc import abstractmethod
 
-from forging_blocks.foundation.messages.message import Message
+from forging_blocks.domain.messages.message import Message
 
 
 class Query[QueryPayloadType](Message[QueryPayloadType]):

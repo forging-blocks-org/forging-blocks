@@ -5,7 +5,7 @@ Delegates event publishing to an injected ``MessageBusPort``.
 
 from forging_blocks.application.ports.outbound.event_publisher_port import EventPublisherPort
 from forging_blocks.application.ports.outbound.message_bus_port import MessageBusPort
-from forging_blocks.foundation.messages.event import Event
+from forging_blocks.domain.messages.event import Event
 
 
 class MessageBusEventPublisher[EventPayloadType](EventPublisherPort[EventPayloadType]):

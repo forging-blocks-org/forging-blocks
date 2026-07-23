@@ -1,9 +1,13 @@
 """Protocol for permission-checking implementations."""
 
-from typing import Protocol, runtime_checkable
+from __future__ import annotations
 
-from forging_blocks.foundation.context import AuthorizationContext
+from typing import TYPE_CHECKING, Protocol, runtime_checkable
+
 from forging_blocks.foundation.permission import Permission
+
+if TYPE_CHECKING:
+    from forging_blocks.foundation.context import AuthorizationContext
 
 
 @runtime_checkable

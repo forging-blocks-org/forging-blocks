@@ -1,8 +1,14 @@
 """Composite permission checker with OR logic."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from forging_blocks.domain.permissions.permission_checker import PermissionChecker
-from forging_blocks.foundation.context import AuthorizationContext
 from forging_blocks.foundation.permission import Permission
+
+if TYPE_CHECKING:
+    from forging_blocks.foundation.context import AuthorizationContext
 
 
 class CompositePermissionChecker:

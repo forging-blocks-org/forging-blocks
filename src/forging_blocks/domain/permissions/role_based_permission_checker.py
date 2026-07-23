@@ -1,7 +1,13 @@
 """Role-based permission checker implementation."""
 
-from forging_blocks.foundation.context import AuthorizationContext
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from forging_blocks.foundation.permission import Permission
+
+if TYPE_CHECKING:
+    from forging_blocks.foundation.context import AuthorizationContext
 
 
 class RoleBasedPermissionChecker:
