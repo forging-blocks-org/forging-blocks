@@ -4,7 +4,7 @@ Provides ``@message_dataclass`` (and its aliases ``@event_dataclass``,
 ``@command_dataclass``, ``@query_dataclass``) to reduce boilerplate when
 defining message types.  The decorated class is a frozen dataclass whose
 fields are automatically exposed via ``get_payload_fields()`` and are used
-by ``_from_payload_fields()`` for deserialisation.
+by ``from_payload_fields()`` for reconstruction.
 
 Example::
 
@@ -20,7 +20,6 @@ Example::
 
 
     event = OrderCreated(order_id="ORD-001", customer_id="CUST-42", total=99.95)
-    event.to_dict()  # includes both "payload" and "data" keys
 """
 
 import dataclasses
@@ -30,7 +29,7 @@ from typing import Any, Protocol, Self, TypeVar, cast, overload, runtime_checkab
 
 from forging_blocks.foundation.messages.message import Message, MessageMetadata
 
-_M = TypeVar("_M", bound="Message[dict[str, object]]")
+_M = TypeVar("_M", bound="Message[Any]")
 
 
 @runtime_checkable
@@ -45,7 +44,7 @@ class _PatchedMessage(Protocol):
     def get_payload_fields(self) -> dict[str, object]: ...
 
     @classmethod
-    def _from_payload_fields(
+    def from_payload_fields(
         cls,
         data: dict[str, object],
         metadata: MessageMetadata,
@@ -72,7 +71,7 @@ def message_dataclass(
     """Decorate a class as a message dataclass.
 
     The decorator applies ``@dataclass(frozen=frozen)`` and then patches
-    ``get_payload_fields`` and ``_from_payload_fields`` onto the class so
+    ``get_payload_fields`` and ``from_payload_fields`` onto the class so
     that payload data is automatically derived from its fields.
 
     Args:
@@ -119,7 +118,7 @@ def message_dataclass(
             }
 
         @classmethod
-        def _from_payload_fields(
+        def from_payload_fields(
             cls: type[_M],
             data: dict[str, object],
             metadata: MessageMetadata,
@@ -133,13 +132,11 @@ def message_dataclass(
         patched = cast(Any, dc_cls)
         patched.__init__ = new_init
         patched.get_payload_fields = get_payload_fields
-        patched._from_payload_fields = _from_payload_fields
+        patched.from_payload_fields = from_payload_fields
 
         # Patch abstract members so decorated subclasses of Event/Command/Query
-        # can be instantiated without manually implementing _payload / value.
-        # ``_from_payload_fields`` is intentionally not patched here: it is never
-        # declared abstract by the Message hierarchy, so it cannot appear in
-        # ``__abstractmethods__``. It is added explicitly above.
+        # can be instantiated without manually implementing _payload / value
+        # or from_payload_fields.
         abstract_methods: frozenset[str] = getattr(dc_cls, "__abstractmethods__", frozenset())
         if "_payload" in abstract_methods:
             patched._payload = property(lambda self: self.get_payload_fields())
@@ -150,6 +147,10 @@ def message_dataclass(
             patched.value = property(lambda self: self.get_payload_fields())
             dc_cls.__abstractmethods__ = frozenset(
                 m for m in dc_cls.__abstractmethods__ if m != "value"
+            )
+        if "from_payload_fields" in abstract_methods:
+            dc_cls.__abstractmethods__ = frozenset(
+                m for m in dc_cls.__abstractmethods__ if m != "from_payload_fields"
             )
 
         if not isinstance(dc_cls, _PatchedMessage):

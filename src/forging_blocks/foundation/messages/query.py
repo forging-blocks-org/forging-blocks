@@ -1,4 +1,4 @@
-"""Module defining the base Query class for domain queries."""
+"""Module defining the base Query class for queries."""
 
 from abc import abstractmethod
 
@@ -6,9 +6,9 @@ from forging_blocks.foundation.messages.message import Message
 
 
 class Query[QueryPayloadType](Message[QueryPayloadType]):
-    """Base class for all domain queries.
+    """Base class for all queries.
 
-    Queries represent a request to retrieve data from the domain.
+    Queries represent a request to retrieve data from the system.
     They are handled by query handlers and should not modify state.
 
     Queries are named in interrogative mood (e.g., GetOrder, FindCustomer,
@@ -30,7 +30,7 @@ class Query[QueryPayloadType](Message[QueryPayloadType]):
 
     @property
     @abstractmethod
-    def _payload(self) -> dict[str, object]:
+    def _payload(self) -> QueryPayloadType:
         """Retrieve the query's payload as a dictionary.
 
         Subclasses MUST implement this property to return the query-specific

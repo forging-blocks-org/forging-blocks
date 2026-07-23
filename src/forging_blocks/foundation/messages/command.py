@@ -1,4 +1,4 @@
-"""Module defining the Command base class for domain commands."""
+"""Module defining the Command base class for commands."""
 
 from datetime import datetime
 from uuid import UUID
@@ -7,13 +7,14 @@ from forging_blocks.foundation.messages.message import Message
 
 
 class Command[RawCommandType](Message[RawCommandType]):
-    """Base class for all domain commands.
+    """Base class for all commands.
 
-    Commands represent an intent to do something in the domain.
+    Commands represent an intent to do something in the system.
     They are requests that may succeed or fail, and are handled by a command handler.
 
     Commands are named in imperative mood (e.g., CreateOrder, RegisterCustomer,
     ProcessPayment).
+
 
     Example:
         ```python

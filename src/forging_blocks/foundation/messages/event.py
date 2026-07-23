@@ -1,4 +1,4 @@
-"""Module defining the base Event class for domain events."""
+"""Module defining the base Event class for events."""
 
 from abc import abstractmethod
 from datetime import datetime
@@ -7,13 +7,14 @@ from forging_blocks.foundation.messages.message import Message
 
 
 class Event[RawEventType](Message[RawEventType]):
-    """Base class for all domain events.
+    """Base class for all events.
 
-    Domain events represent something significant that happened in the domain.
+    Events represent something significant that happened in the system.
     They are immutable facts about the past that other parts of the system can react to.
 
     Events are named in past tense (e.g., OrderCreated, CustomerRegistered,
     PaymentProcessed).
+
 
     Example:
         ```python
@@ -42,7 +43,7 @@ class Event[RawEventType](Message[RawEventType]):
 
     @property
     @abstractmethod
-    def _payload(self) -> dict[str, object]:
+    def _payload(self) -> RawEventType:
         """Retrieve the event's payload as a dictionary.
 
         Subclasses MUST implement this property to return the event-specific
