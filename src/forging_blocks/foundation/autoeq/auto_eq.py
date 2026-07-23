@@ -1,6 +1,6 @@
 """Auto-eq decorator for generating ``__eq__`` on class instances.
 
-Provides the :func:`auto_eq` decorator that generates ``__eq__`` based on
+Provides the `auto_eq` decorator that generates ``__eq__`` based on
 class fields. Works with ``@dataclass`` (``@auto_eq`` must be the outermost
 decorator — apply it *above* ``@dataclass``) and on plain classes with
 ``__slots__`` or ``__annotations__``.
@@ -8,7 +8,7 @@ decorator — apply it *above* ``@dataclass``) and on plain classes with
 Can be used as ``@auto_eq``, ``@auto_eq()``, or
 ``@auto_eq(fields=[...])`` to compare only specific attributes.
 
-Does NOT generate ``__hash__`` — use :func:`auto_hash` when
+Does NOT generate ``__hash__`` — use `auto_hash` when
 hashability is required.
 
 Useful for: Value objects, domain entities, and any type that requires
@@ -35,7 +35,7 @@ Example:
     assert p1 != p3
     ```
 
-    With selective fields and :func:`auto_hash`:
+    With selective fields and `auto_hash`:
     ```python
     from dataclasses import dataclass
 
@@ -71,7 +71,7 @@ class _AutoEqDecorator:
     """Callable class that applies auto-eq behaviour to a target class.
 
     Generates ``__eq__`` based on the class's fields. Does NOT generate
-    ``__hash__`` — use :func:`auto_hash` separately when hashability
+    ``__hash__`` — use `auto_hash` separately when hashability
     is required.
     """
 
@@ -94,7 +94,7 @@ class _AutoEqDecorator:
 
         Returns:
             The decorated class with ``__eq__`` generated from its fields.
-            Hashing (``__hash__``) is NOT generated — use :func:`auto_hash`
+            Hashing (``__hash__``) is NOT generated — use `auto_hash`
             separately when hashability is required.
 
         """
@@ -143,7 +143,7 @@ def auto_eq[T](
 
     Can be used as ``@auto_eq``, ``@auto_eq()``, or
     ``@auto_eq(fields=[...])``. Generates ``__eq__`` only — does NOT
-    generate ``__hash__``. Use :func:`auto_hash` when hashability
+    generate ``__hash__``. Use `auto_hash` when hashability
     is required.
 
     When the class is a ``@dataclass``, *fields* defaults to all declared
