@@ -51,7 +51,7 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
         """Reconstitute an aggregate from a sequence of stored events.
 
         Creates a new aggregate instance identified by *aggregate_id* and
-        replays each event via :meth:`replay` to restore its state. The
+        replays each event via `replay` to restore its state. The
         caller is responsible for providing events in chronological order.
 
         Args:
