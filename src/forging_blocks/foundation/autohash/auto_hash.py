@@ -1,12 +1,12 @@
-"""Auto-hash decorator for generating ``__hash__`` on dataclass instances.
+"""Auto-hash decorator for generating ``__hash__`` and ``__eq__`` on class instances.
 
-Provides the :func:`auto_hash` decorator that generates a ``__hash__`` method
-based on dataclass fields and automatically composes :func:`auto_freeze` to
-enforce immutability.  A hashable object must be immutable — ``@auto_hash``
-ensures both by applying ``@auto_freeze`` internally, which forbids attribute
-assignment after ``__init__`` completes.
+Provides the :func:`auto_hash` decorator that generates ``__hash__`` and
+``__eq__`` methods based on class fields and automatically composes
+:func:`auto_freeze` to enforce immutability.  A hashable object must be
+immutable -- ``@auto_hash`` ensures both by applying ``@auto_freeze``
+internally, which forbids attribute assignment after ``__init__`` completes.
 Works with ``@dataclass`` (``@auto_hash`` must be the outermost decorator
-— apply it *above* ``@dataclass``) and on plain classes with ``__slots__``
+-- apply it *above* ``@dataclass``) and on plain classes with ``__slots__``
 or ``__annotations__``::
 
     @auto_hash
@@ -18,7 +18,7 @@ or ``__annotations__``::
 Can be used as ``@auto_hash``, ``@auto_hash()``, or
 ``@auto_hash(fields=[...])`` to hash only specific attributes.
 
-Explicit ``@auto_freeze`` is NOT required — ``@auto_hash`` applies it
+Explicit ``@auto_freeze`` is NOT required -- ``@auto_hash`` applies it
 automatically. Applying both is harmless (idempotent).
 
 Example:
@@ -56,9 +56,10 @@ from forging_blocks.foundation.autohash.helpers.hashable_converter import (
 class _AutoHashDecorator:
     """Callable class that applies auto-hash behaviour to a target class.
 
-    Generates a ``__hash__`` method based on the class's fields. The hash
-    is computed by converting each field value to a hashable form and
-    then hashing the resulting tuple.
+    Generates ``__hash__`` and ``__eq__`` methods based on the class's fields.
+    The hash is computed by converting each field value to a hashable form and
+    then hashing the resulting tuple.  Equality compares the same fields.
+
     """
 
     def __init__(self, *, fields: Sequence[str] | None = None) -> None:
@@ -79,7 +80,7 @@ class _AutoHashDecorator:
             class_: The target class to decorate.
 
         Returns:
-            The decorated class with ``__hash__`` generated.
+            The decorated class with ``__hash__`` and ``__eq__`` generated.
 
         """
         field_names = self._resolve_field_names(class_)
@@ -92,12 +93,22 @@ class _AutoHashDecorator:
         _hash_impl.__name__ = "__hash__"
         _hash_impl.__qualname__ = f"{class_.__name__}.__hash__"
 
+        def _eq_impl(self: Any, other: object) -> bool:
+            if type(self) is not type(other):
+                return False
+            return all(getattr(self, f) == getattr(other, f) for f in _field_names)
+
+        _eq_impl.__name__ = "__eq__"
+        _eq_impl.__qualname__ = f"{class_.__name__}.__eq__"
+
         class_.__hash__ = _hash_impl
+        class_.__eq__ = _eq_impl
+        class_.__auto_hash_fields__ = _field_names
         _auto_freeze(class_)
         return class_
 
     def _resolve_field_names(self, class_: type[object]) -> list[str]:
-        """Determine which field names contribute to ``__hash__``.
+        """Determine which field names contribute to ``__hash__`` and ``__eq__``.
 
         Priority:
         1. Explicit *fields* argument passed to the decorator.
@@ -182,7 +193,7 @@ def auto_hash[T](
     """Generate ``__hash__`` for a class based on its fields.
 
     Automatically applies :func:`auto_freeze` to enforce immutability.
-    Hashable objects MUST be immutable — ``@auto_hash`` ensures both by
+    Hashable objects MUST be immutable -- ``@auto_hash`` ensures both by
     applying ``@auto_freeze`` internally, which forbids attribute assignment
     after ``__init__`` completes.
     When the class is a ``@dataclass``, *fields* defaults to all declared
@@ -193,10 +204,9 @@ def auto_hash[T](
         class_: The target class (when used bare).
         fields: Specific attribute names to include in the hash. When
             ``None`` (the default), all dataclass fields are used.
-
     Returns:
         The decorated class (or a decorator when used parameterised),
-        with both ``__hash__`` and immutability applied.
+        with ``__hash__``, ``__eq__``, and immutability applied.
 
     Raises:
         TypeError: If no field names can be determined and *fields* is
