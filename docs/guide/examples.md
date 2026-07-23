@@ -82,7 +82,7 @@ class Task(Entity[int]):
         return self
 ```
 
-`Entity` uses **selective freezing** via `@auto_freeze(attrs=["_id"])` — the identity field (`_id`) is frozen after `__init__`, while other attributes remain mutable. This ensures the entity's identity never changes, while its state can evolve. See [Domain > Entities](../reference/domain/entities.md) for why identity matters, and [Foundation > Auto-freeze](../reference/foundation/auto-freeze.md) for the mechanism.
+`Entity` uses **selective freezing** via `@auto_freeze(attrs=["_id"])` — the identity field (`_id`) is frozen after `__init__`, while other attributes remain mutable. This ensures the entity's identity never changes, while its state can evolve. See [Domain > Entities](../reference/domain/entities.md) for why identity matters, and [Foundation > Auto Decorators](../reference/foundation/auto-decorators.md) for the mechanism.
 
 ---
 

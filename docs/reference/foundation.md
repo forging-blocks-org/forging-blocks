@@ -34,7 +34,7 @@ The Foundation block is pure Python — standard library only. It introduces no 
 - **[Result](foundation/result.md)** — Explicit Ok/Err outcomes without exceptions for control flow
 - **[Ports](foundation/ports.md)** — Boundaries between components (InboundPort, OutboundPort)
 - **[Errors](foundation/errors.md)** — Structured error model (message + metadata, validation, rule violation, combined)
-- **[Auto-Freeze](foundation/auto-freeze.md)** — Lightweight immutability without inheriting from ValueObject
+- **[Auto Decorators](foundation/auto-decorators.md)** — Immutability, equality, and hashing decorators (auto_freeze, auto_eq, auto_hash)
 - **[Mappers](foundation/mappers.md)** — Explicit transformations between types
 - **[Identified](foundation/identified.md)** — Protocol for objects carrying an identifier
 - **[Meta Utilities](foundation/meta.md)** — Runtime enforcement (final, sealed, abstract)
