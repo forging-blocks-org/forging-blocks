@@ -7,7 +7,7 @@ a ``__setattr__`` override to prevent attribute modifications.
 Can be used as ``@auto_freeze``, ``@auto_freeze()``, or
 ``@auto_freeze(attrs=[...])`` for selective freezing.
 
-Useful for: Value objects, immutable data types, and any class that
+Useful for: Immutable data types and any class that
 should be immutable after construction.
 
 Example:
