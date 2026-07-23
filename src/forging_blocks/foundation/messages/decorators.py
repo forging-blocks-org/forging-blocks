@@ -58,21 +58,19 @@ def message_dataclass(cls: type[_M]) -> type[_M]: ...
 @overload
 def message_dataclass(
     cls: None = None,
-    *,
-    frozen: bool = True,
 ) -> Callable[[type[_M]], type[_M]]: ...
 
 
 def message_dataclass(
     cls: type[_M] | None = None,
-    *,
-    frozen: bool = True,
 ) -> type[_M] | Callable[[type[_M]], type[_M]]:
     """Decorate a class as a message dataclass.
 
-    The decorator applies ``@dataclass(frozen=frozen)`` and then patches
-    ``get_payload_fields`` and ``from_payload_fields`` onto the class so
-    that payload data is automatically derived from its fields.
+    The decorator applies ``@dataclass(frozen=False)`` and then replaces
+    ``__setattr__`` with a custom implementation that raises
+    ``FrozenInstanceError`` after ``__init__`` completes.  It also
+    patches ``get_payload_fields`` and ``from_payload_fields`` onto the
+    class so that payload data is automatically derived from its fields.
 
     When the decorated class inherits from an abstract base (e.g.
     :class:`Event`, :class:`Command`, :class:`Query`), the decorator
@@ -82,15 +80,13 @@ def message_dataclass(
 
     Args:
         cls: The class to decorate (when used without arguments).
-        frozen: Whether the dataclass should be frozen (default ``True``).
 
     Returns:
         The decorated class (or a wrapper when called with keyword arguments).
-
     """
 
     def wrap(cls: type[_M]) -> type[_M]:
-        dc_cls: type[_M] = dataclass(frozen=False)(cls)
+        dc_cls: type[_M] = dataclass(frozen=False, eq=False)(cls)
 
         original_init = dc_cls.__init__
 
