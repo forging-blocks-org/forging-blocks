@@ -78,7 +78,7 @@ class TestValueObject:
     ) -> None:
         email = Email("a@example.com")
         with pytest.raises(CantModifyImmutableAttributeError):
-            email._value = "b@example.com"  # type: ignore
+            email._value = "b@example.com"
 
     def test___eq___when_values_are_equal_then_returns_true(self) -> None:
         e1 = Email("a@example.com")
@@ -178,4 +178,4 @@ class TestValueObject:
         vo = MultiComponentVO("hello", "world")
 
         with pytest.raises(CantModifyImmutableAttributeError):
-            vo._first = "changed"  # type: ignore
+            vo._first = "changed"

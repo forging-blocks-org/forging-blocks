@@ -1,5 +1,5 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-from typing import Any, Self
+from typing import Any, Self, cast
 
 import pytest
 
@@ -78,4 +78,4 @@ class TestEvent:
 
     def test_constructor_when_not_implemented_then_raises_type_error(self):
         with pytest.raises(TypeError):
-            _ = PayloadNotImplementEvent()  # type: ignore
+            _ = cast(type[object], PayloadNotImplementEvent)()

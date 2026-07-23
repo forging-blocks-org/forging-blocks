@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+from typing import cast
+
 import pytest
 
 from forging_blocks.foundation import FinalMeta, runtime_final
@@ -154,17 +156,20 @@ class TestFinalMeta:
 @pytest.mark.unit
 class TestValidateNoRuntimeFinalOverride:
     def test_when_no_bases_then_returns_none(self) -> None:
-        assert validate_no_runtime_final_override("MyClass", (), {"x": 1}) is None  # type: ignore[func-returns-value]
+        assert cast(object, validate_no_runtime_final_override("MyClass", (), {"x": 1})) is None
 
     def test_when_base_has_final_method_not_overridden_then_returns_none(
         self,
     ) -> None:
         assert (
-            validate_no_runtime_final_override(
-                "Child", (HelperBaseWithFinal,), {"other_method": lambda: None}
+            cast(
+                object,
+                validate_no_runtime_final_override(
+                    "Child", (HelperBaseWithFinal,), {"other_method": lambda: None}
+                ),
             )
             is None
-        )  # type: ignore[func-returns-value]
+        )
 
     def test_when_base_has_final_method_overridden_then_raises_type_error(
         self,
@@ -178,11 +183,16 @@ class TestValidateNoRuntimeFinalOverride:
 
     def test_when_base_has_no_final_methods_then_returns_none(self) -> None:
         assert (
-            validate_no_runtime_final_override(
-                "Child", (HelperBasePlain,), {"normal_method": lambda self: "overridden"}
+            cast(
+                object,
+                validate_no_runtime_final_override(
+                    "Child",
+                    (HelperBasePlain,),
+                    {"normal_method": lambda self: "overridden"},
+                ),
             )
             is None
-        )  # type: ignore[func-returns-value]
+        )
 
     def test_error_message_contains_subclass_name(self) -> None:
         with pytest.raises(TypeError, match="in subclass 'BadChild'"):
@@ -216,13 +226,16 @@ class TestValidateNoRuntimeFinalOverride:
         self,
     ) -> None:
         assert (
-            validate_no_runtime_final_override(
-                "Child",
-                (HelperBaseWithFinal,),
-                {"brand_new_method": lambda self: 42},
+            cast(
+                object,
+                validate_no_runtime_final_override(
+                    "Child",
+                    (HelperBaseWithFinal,),
+                    {"brand_new_method": lambda self: 42},
+                ),
             )
             is None
-        )  # type: ignore[func-returns-value]
+        )
 
 
 @pytest.mark.unit
@@ -271,11 +284,12 @@ class TestRuntimeFinal:
     def test_runtime_final_when_applied_to_classmethod_then_sets_attributes(
         self,
     ) -> None:
-        @classmethod  # type: ignore[misc]
-        def sample_classmethod(cls) -> str:
-            return "test"
+        class _:
+            @classmethod
+            def sample_classmethod(cls) -> str:
+                return "test"
 
-        decorated = runtime_final(sample_classmethod)
+        decorated = runtime_final(_.__dict__["sample_classmethod"])
 
         assert hasattr(decorated, "__is_runtime_final__")
         assert decorated.__is_runtime_final__ is True
@@ -283,11 +297,12 @@ class TestRuntimeFinal:
     def test_runtime_final_when_applied_to_staticmethod_then_sets_attributes(
         self,
     ) -> None:
-        @staticmethod  # type: ignore[misc]
-        def sample_staticmethod() -> str:
-            return "test"
+        class _:
+            @staticmethod
+            def sample_staticmethod() -> str:
+                return "test"
 
-        decorated = runtime_final(sample_staticmethod)
+        decorated = runtime_final(_.__dict__["sample_staticmethod"])
 
         assert hasattr(decorated, "__is_runtime_final__")
         assert decorated.__is_runtime_final__ is True

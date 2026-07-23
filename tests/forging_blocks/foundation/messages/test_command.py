@@ -4,7 +4,7 @@ Tests for Command class.
 """
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 
-from typing import Any, Self
+from typing import Any, Self, cast
 
 import pytest
 
@@ -92,4 +92,4 @@ class TestCommand:
 
     def test_constructuor_when_payload_not_implemented_then_raises_type_error(self):
         with pytest.raises(TypeError):
-            PayloadAndValueNotImplCommand()  # type: ignore
+            cast(type[object], PayloadAndValueNotImplCommand)()

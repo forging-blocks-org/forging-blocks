@@ -29,7 +29,7 @@ class WithIdAsPlainAttribute:
     """Class with id as a plain attribute, not a property."""
 
     def __init__(self, entity_id: str) -> None:
-        self.id = entity_id  # type: ignore[assignment]
+        object.__setattr__(self, "id", entity_id)
 
 
 @pytest.mark.unit

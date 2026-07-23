@@ -214,4 +214,4 @@ class TestMessageMetadata:
         metadata = MessageMetadata(message_type=self.message_type)
 
         with pytest.raises(CantModifyImmutableAttributeError):
-            metadata._message_id = uuid7()  # type: ignore[reportAttributeAccessIssue]
+            metadata._message_id = uuid7()

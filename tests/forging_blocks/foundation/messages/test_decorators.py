@@ -1,6 +1,12 @@
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+
 """Unit tests for message dataclass decorators."""
 
+from typing import cast
+
 import pytest
+
+from forging_blocks.foundation.messages.message import Message
 
 
 @pytest.mark.unit
@@ -13,7 +19,7 @@ class TestMessageDataclassDecorator:
         from unittest.mock import patch
 
         from forging_blocks.foundation.messages.decorators import (
-            _PatchedMessage,  # pyright: ignore[reportPrivateUsage]
+            _PatchedMessage,
             message_dataclass,
         )
 
@@ -32,7 +38,7 @@ class TestMessageDataclassDecorator:
             side_effect=_selective_isinstance,
         ):
             with pytest.raises(TypeError, match="does not satisfy _PatchedMessage"):
-                message_dataclass(NotAMessage)  # type: ignore[reportArgumentType]
+                message_dataclass(cast(type[Message[object]], NotAMessage))
 
     def test_decorated_messages_preserve_message_equality_by_id(self) -> None:
         """Two decorated messages with the same message_id are equal, regardless of field data."""
