@@ -7,13 +7,11 @@ proceed.
 """
 
 from collections.abc import Callable
-from typing import TypeVar, cast
+from typing import cast
 
 from forging_blocks.foundation.errors import ResultAccessError
 
 from .result import Result
-
-ErrType = TypeVar("ErrType", bound="Err[object, object]")
 
 
 class Err[ValueType, ErrorType](Result[ValueType, ErrorType]):
