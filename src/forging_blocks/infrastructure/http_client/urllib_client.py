@@ -31,8 +31,7 @@ class URLLibClient(HttpClientPort[str, str]):
         consider an adapter backed by ``httpx`` or ``aiohttp`` instead.
 
     Raises:
-        urllib.error.HTTPError: On HTTP 4xx/5xx responses.
-        urllib.error.URLError: On network/connection failures.
+        OSError: On network or connection failures.
         ConfigurationError: On misconfigured URLs (e.g., non-HTTP schemes).
 
     """

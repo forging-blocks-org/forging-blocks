@@ -21,7 +21,7 @@ class OSFileSystem(FileSystemPort):
     async def write(self, path: Path | str, data: bytes) -> None:
         """Write bytes to a file, creating parent directories."""
         target = Path(path)
-        target.parent.mkdir(parents=True, exist_ok=True)
+        await asyncio.to_thread(lambda: target.parent.mkdir(parents=True, exist_ok=True))
         await asyncio.to_thread(target.write_bytes, data)
 
     async def delete(self, path: Path | str) -> None:

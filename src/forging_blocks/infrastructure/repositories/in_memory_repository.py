@@ -38,4 +38,5 @@ class InMemoryRepository[TEntity: Identified[Any], TId](
                 If None, a new empty dictionary is used.
 
         """
-        super().__init__(storage)
+        super().__init__()
+        self._storage: dict[TId, TEntity] = dict(storage) if storage is not None else {}

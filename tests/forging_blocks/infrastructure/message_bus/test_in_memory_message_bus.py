@@ -116,7 +116,8 @@ class TestInMemoryMessageBus:
         bus.register(FakeQuery, handler)
         query = FakeQuery("hello")
 
-        await bus.dispatch(query)
+        result = await bus.dispatch(query)
+        assert result == "HELLO"
 
     async def test_dispatch_when_no_handler_registered_then_raises_key_error(
         self,

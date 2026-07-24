@@ -27,7 +27,7 @@ class FieldErrors[ContainedErrorType: Error[dict[str, object]]](Error[dict[str, 
         self._field = field
         self._errors: Sequence[ContainedErrorType] = tuple(errors)
 
-        if not errors or not field:
+        if not self._errors or not field:
             raise ValueError("FieldErrors must contain at least one error and field defined.")
 
         message = ErrorMessage(f"{len(self._errors)} error(s) for field '{field}'.")
