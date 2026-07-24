@@ -13,8 +13,8 @@ from typing import Self
 import pytest
 
 from forging_blocks.application import CommandSenderPort
+from forging_blocks.domain.messages import Command, MessageMetadata
 from forging_blocks.foundation import OutboundPort
-from forging_blocks.foundation.messages import Command, MessageMetadata
 
 
 class FakeCommand(Command[str]):
@@ -27,7 +27,7 @@ class FakeCommand(Command[str]):
         return {"foo": "foo"}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls()
 
 

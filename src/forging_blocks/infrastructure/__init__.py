@@ -3,8 +3,7 @@
 Provides generic, reusable infrastructure building blocks implementing
 the outbound ports defined in the application layer. Includes in-memory
 adapters for repositories, event buses, event stores, message buses,
-caching, logging, file system, and HTTP; plus Serializable, abstract
-base classes (EventStoreBase, EventBusBase), and infrastructure-level
+caching, logging, file system, and HTTP; plus MessageCodec/DictMessageCodec, abstract
 errors.
 """
 
@@ -33,7 +32,7 @@ from .repositories import (
     InMemoryRepository,
     InMemoryWriteRepository,
 )
-from .serialization import Serializable
+from .serialization import DictMessageCodec, MessageCodec
 from .unit_of_work.in_memory_unit_of_work import InMemoryUnitOfWork
 
 __all__ = [
@@ -56,7 +55,8 @@ __all__ = [
     "OSFileSystem",
     "RepositoryError",
     "RepositoryNotFoundError",
-    "Serializable",
+    "DictMessageCodec",
+    "MessageCodec",
     "StdlibLogger",
     "URLLibClient",
 ]

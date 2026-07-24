@@ -18,9 +18,9 @@ Non-Responsibilities:
 
 from abc import abstractmethod
 
-from forging_blocks.foundation.messages.command import Command
-from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.query import Query
+from forging_blocks.domain.messages.command import Command
+from forging_blocks.domain.messages.event import Event
+from forging_blocks.domain.messages.query import Query
 from forging_blocks.foundation.ports import InboundPort
 
 

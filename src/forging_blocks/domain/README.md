@@ -8,15 +8,15 @@ This block models your problem space using core DDD patterns: **Entities, Value 
 
 ## Directory Structure
 
-```
 domain/
-├── aggregate_root.py            # Base class for aggregate roots
-├── aggregate_version.py         # Version tracking for optimistic concurrency
-├── entity.py                    # Base class for entities with identity
-├── value_object.py              # Base class for value objects (immutables)
-├── errors/                      # Domain-specific errors
-└── README.md                    # This documentation
-```
+├── aggregate_root/               # Aggregate roots with event sourcing
+├── entity.py                     # Base class for entities with identity
+├── value_object.py               # Base class for value objects (immutables)
+├── messages/                     # Commands, Events, Queries
+├── specification/                # Composable specification pattern
+├── permissions/                  # Permission checking
+├── errors/                       # Domain-specific errors
+└── README.md                     # This documentation
 
 ---
 
@@ -38,7 +38,7 @@ domain/
 - **Events:** Things that have happened (immutable, recordable).
 - **Commands:** Requests for actions (intent, not result).
 - **Queries:** Requests for data (query, not result).
-- All are defined in the **Foundation** block as reusable message abstractions.
+- All are defined in the **Domain** block as reusable message abstractions.
 
 ---
 
@@ -59,7 +59,7 @@ domain/
    Create subclasses of `Event` and use them to communicate important business changes.
 
 4. **Use Domain Commands and Queries**
-   Import from `forging_blocks.foundation.messages` for intent and data retrieval.
+   Import from `forging_blocks.domain.messages` for intent and data retrieval.
 
 ---
 

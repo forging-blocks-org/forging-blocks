@@ -7,6 +7,7 @@ from dataclasses import dataclass
 
 import pytest
 
+from forging_blocks.foundation.autoeq.auto_eq import auto_eq
 from forging_blocks.foundation.autofreeze.auto_freeze import auto_freeze
 from forging_blocks.foundation.autohash.auto_hash import auto_hash
 from forging_blocks.foundation.errors import CantModifyImmutableAttributeError
@@ -59,8 +60,8 @@ class TestAutoHashDecorator:
         assert redecorated is MyClass
         assert redecorated.__hash__ is not original_hash
 
-    def test_when_dataclass_all_fields_then_equal_objects_have_equal_hash(self) -> None:
         @auto_hash
+        @auto_eq
         @dataclass
         class Point:
             x: int
@@ -131,6 +132,7 @@ class TestAutoHashDecorator:
     def test_when_dataclass_frozen_by_auto_freeze_then_hash_still_works(self) -> None:
         @auto_freeze
         @auto_hash
+        @auto_eq
         @dataclass
         class Money:
             amount: int
@@ -159,8 +161,8 @@ class TestAutoHashDecorator:
         assert hash(i1) == hash(i2)
         assert i1 in {i1, i2}  # hashable → can be in set
 
-    def test_when_auto_hash_then_instance_is_frozen(self) -> None:
-        """auto_hash composes auto_freeze — instances are immutable."""
+    def test_when_auto_hash_alone_then_instance_not_frozen(self) -> None:
+        """@auto_hash no longer applies @auto_freeze — mutation is allowed."""
 
         @auto_hash
         @dataclass
@@ -171,8 +173,9 @@ class TestAutoHashDecorator:
         p = Point(1, 2)
         _ = hash(p)
 
-        with pytest.raises(CantModifyImmutableAttributeError):
-            p.x = 999
+        # No error expected — @auto_hash alone does NOT freeze.
+        p.x = 999
+        assert p.x == 999
 
     def test_when_plain_class_with_slots_then_hash_works(self) -> None:
         @auto_hash
@@ -315,7 +318,7 @@ class TestAutoHashDecorator:
         assert hash(p1) != hash(p3)
 
     def test_when_auto_hash_and_auto_freeze_stacked_then_idempotent(self) -> None:
-        """@auto_hash auto-applies @auto_freeze — stacking both is harmless."""
+        """@auto_hash and @auto_freeze are independent — stacking is explicit."""
 
         @auto_freeze
         @auto_hash
@@ -330,6 +333,8 @@ class TestAutoHashDecorator:
             p.x = 99
 
     def test_when_auto_freeze_before_auto_hash_then_idempotent(self) -> None:
+        """@auto_hash stacked above @auto_freeze — order-independent when both explicit."""
+
         @auto_hash
         @auto_freeze
         @dataclass

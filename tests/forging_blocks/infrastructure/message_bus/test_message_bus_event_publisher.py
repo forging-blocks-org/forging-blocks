@@ -3,7 +3,7 @@ from typing import Self
 
 import pytest
 
-from forging_blocks.foundation.messages import Event, MessageMetadata
+from forging_blocks.domain.messages import Event, MessageMetadata
 from forging_blocks.infrastructure import MessageBusEventPublisher
 from tests.fixtures.fake_message_bus import FakeMessageBus
 
@@ -18,7 +18,7 @@ class FakeEvent(Event):
         return {"foo": "bar"}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls()
 
 

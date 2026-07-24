@@ -19,7 +19,7 @@ class HashableConverter:
     - ``dict``  → ``frozenset`` of ``(key, hashable_value)`` pairs (recursively)
     - Already-hashable values (``str``, ``int``, ``None``, ``tuple``,
       ``frozenset``, etc.) are returned unchanged.
-    - Everything else raises :class:`NonHashableValueError`.
+    - Everything else raises `NonHashableValueError`.
     """
 
     @classmethod
@@ -65,9 +65,9 @@ class HashableConverter:
 
     @classmethod
     def _convert_dict[K, V](cls, mapping: dict[K, V]) -> frozenset[tuple[K, Hashable]]:
-        """Convert *mapping* to a :class:`frozenset` of ``(key, hashable_value)`` pairs.
+        """Convert *mapping* to a `frozenset` of ``(key, hashable_value)`` pairs.
 
-        Uses :class:`frozenset` rather than ``tuple(sorted(...))`` because
+        Uses `frozenset` rather than ``tuple(sorted(...))`` because
         dict keys must be hashable but are not required to be orderable.
         """
         return frozenset((k, cls.convert(v)) for k, v in mapping.items())

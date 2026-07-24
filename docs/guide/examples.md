@@ -82,7 +82,7 @@ class Task(Entity[int]):
         return self
 ```
 
-`Entity` uses **selective freezing** via `@auto_freeze(attrs=["_id"])` — the identity field (`_id`) is frozen after `__init__`, while other attributes remain mutable. This ensures the entity's identity never changes, while its state can evolve. See [Domain > Entities](../reference/domain/entities.md) for why identity matters, and [Foundation > Auto-freeze](../reference/foundation/auto-freeze.md) for the mechanism.
+`Entity` uses **selective freezing** via `@auto_freeze(attrs=["_id"])` — the identity field (`_id`) is frozen after `__init__`, while other attributes remain mutable. This ensures the entity's identity never changes, while its state can evolve. See [Domain > Entities](../reference/domain/entities.md) for why identity matters, and [Foundation > Auto Decorators](../reference/foundation/auto-decorators.md) for the mechanism.
 
 ---
 
@@ -127,8 +127,7 @@ The design is:
 ## 4. Modeling a value with ValueObject
 
 ```python
-from collections.abc import Hashable
-from forging_blocks.foundation.value_object import ValueObject
+from forging_blocks.domain.value_object import ValueObject
 
 
 class Email(ValueObject[str]):
@@ -144,16 +143,13 @@ class Email(ValueObject[str]):
     def value(self) -> str:
         return self._value
 
-    @property
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        return (self._value,)
 ```
 
-`ValueObject` uses automatic freezing — subclasses need **no** `@auto_freeze`
-decorator or `_freeze()` call. Two `Email` instances with the same value are
-considered equal and can be used interchangeably as dictionary keys or set
-members. Attempting to mutate one after construction raises a
-`CantModifyImmutableAttributeError`.
+`ValueObject` uses `auto_freeze` and `auto_hash` under the hood --
+concrete subclasses are automatically frozen and hashable via
+``__init_subclass__``.  Two ``Email`` instances with the same value are
+equal and can be used as dictionary keys or set members.  Attempting to
+mutate one after construction raises a ``CantModifyImmutableAttributeError``.
 
 ---
 

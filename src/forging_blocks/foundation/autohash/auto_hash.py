@@ -1,44 +1,50 @@
-"""Auto-hash decorator for generating ``__hash__`` on dataclass instances.
+"""Auto-hash decorator for generating ``__hash__`` on class instances.
 
-Provides the :func:`auto_hash` decorator that generates a ``__hash__`` method
-based on dataclass fields and automatically composes :func:`auto_freeze` to
-enforce immutability.  A hashable object must be immutable — ``@auto_hash``
-ensures both by applying ``@auto_freeze`` internally, which forbids attribute
-assignment after ``__init__`` completes.
-Works with ``@dataclass`` (``@auto_hash`` must be the outermost decorator
-— apply it *above* ``@dataclass``) and on plain classes with ``__slots__``
-or ``__annotations__``::
-
-    @auto_hash
-    @dataclass
-    class MyType:
-        user_id: str
-        name: str | None = None
+Provides the `auto_hash` decorator that generates ``__hash__``
+based on class fields. Works on plain classes with ``__slots__`` or
+``__annotations__``.
 
 Can be used as ``@auto_hash``, ``@auto_hash()``, or
 ``@auto_hash(fields=[...])`` to hash only specific attributes.
 
-Explicit ``@auto_freeze`` is NOT required — ``@auto_hash`` applies it
-automatically. Applying both is harmless (idempotent).
+Does NOT generate ``__eq__`` — combine with `auto_eq` when structural
+equality is needed alongside hashing.
+
+Useful for: Hashable data types and any type that requires
+consistent hashing for sets or dictionary keys.
 
 Example:
     ```python
-    from dataclasses import dataclass
-
     from forging_blocks.foundation.autohash import auto_hash
 
 
     @auto_hash
-    @dataclass
-    class Money:
-        amount: int
-        currency: str
+    class UserId:
+        __slots__ = ("value",)
+
+        def __init__(self, value: str) -> None:
+            self.value = value
 
 
-    m1 = Money(100, "USD")
-    m2 = Money(100, "USD")
-    assert m1 == m2
-    assert hash(m1) == hash(m2)
+    u1 = UserId("abc")
+    u2 = UserId("abc")
+    assert hash(u1) == hash(u2)
+    ```
+
+    With selective fields:
+    ```python
+    @auto_hash(fields=["id"])
+    class Entity:
+        __slots__ = ("id", "name")
+
+        def __init__(self, id: str, name: str) -> None:
+            self.id = id
+            self.name = name
+
+
+    e1 = Entity("1", "Alice")
+    e2 = Entity("1", "Bob")
+    assert hash(e1) == hash(e2)
     ```
 
 """
@@ -47,7 +53,6 @@ import dataclasses
 from collections.abc import Callable, Sequence
 from typing import Any, overload
 
-from forging_blocks.foundation.autofreeze import auto_freeze as _auto_freeze
 from forging_blocks.foundation.autohash.helpers.hashable_converter import (
     HashableConverter,
 )
@@ -56,9 +61,10 @@ from forging_blocks.foundation.autohash.helpers.hashable_converter import (
 class _AutoHashDecorator:
     """Callable class that applies auto-hash behaviour to a target class.
 
-    Generates a ``__hash__`` method based on the class's fields. The hash
-    is computed by converting each field value to a hashable form and
+    Generates ``__hash__`` only, based on the class's fields.
+    The hash is computed by converting each field value to a hashable form and
     then hashing the resulting tuple.
+
     """
 
     def __init__(self, *, fields: Sequence[str] | None = None) -> None:
@@ -66,8 +72,8 @@ class _AutoHashDecorator:
 
         Args:
             fields: Specific field names to hash. When ``None``, all
-                dataclass fields (or ``__slots__``/``__annotations__`` keys) are
-                used.
+                all fields declared in ``__slots__`` or
+                ``__annotations__`` are used.
 
         """
         self._fields = fields
@@ -79,7 +85,9 @@ class _AutoHashDecorator:
             class_: The target class to decorate.
 
         Returns:
-            The decorated class with ``__hash__`` generated.
+            The decorated class with ``__hash__`` generated from its fields.
+            Equality (``__eq__``) is NOT generated — use `auto_eq`
+            separately for structural equality comparisons.
 
         """
         field_names = self._resolve_field_names(class_)
@@ -93,7 +101,7 @@ class _AutoHashDecorator:
         _hash_impl.__qualname__ = f"{class_.__name__}.__hash__"
 
         class_.__hash__ = _hash_impl
-        _auto_freeze(class_)
+        type.__setattr__(class_, "__auto_hash_fields__", _field_names)
         return class_
 
     def _resolve_field_names(self, class_: type[object]) -> list[str]:
@@ -101,9 +109,8 @@ class _AutoHashDecorator:
 
         Priority:
         1. Explicit *fields* argument passed to the decorator.
-        2. Dataclass fields (via ``dataclasses.fields``).
-        3. ``__slots__`` across the full MRO, excluding dunder names.
-        4. ``__annotations__`` if defined.
+        2. ``__slots__`` across the full MRO, excluding dunder names.
+        3. ``__annotations__`` if defined.
 
         Args:
             class_: The class being decorated.
@@ -131,7 +138,7 @@ class _AutoHashDecorator:
             return [k for k in annotations if not k.startswith("__")]
 
         msg = (
-            f"Cannot determine hash fields for non-dataclass {class_.__name__}. "
+            f"Cannot determine hash fields for {class_.__name__}. "
             f"Pass fields= explicitly, e.g. @auto_hash(fields=['x', 'y'])."
         )
         raise TypeError(msg)
@@ -181,26 +188,26 @@ def auto_hash[T](
 ) -> type[T] | Callable[[type[T]], type[T]]:
     """Generate ``__hash__`` for a class based on its fields.
 
-    Automatically applies :func:`auto_freeze` to enforce immutability.
-    Hashable objects MUST be immutable — ``@auto_hash`` ensures both by
-    applying ``@auto_freeze`` internally, which forbids attribute assignment
-    after ``__init__`` completes.
-    When the class is a ``@dataclass``, *fields* defaults to all declared
-    dataclass fields (via ``dataclasses.fields``). Otherwise it falls back
-    to ``__slots__`` (across the MRO) or ``__annotations__`` keys.
+    Can be used as ``@auto_hash``, ``@auto_hash()``, or
+    ``@auto_hash(fields=[...])``. Generates ``__hash__`` only — does NOT
+    generate ``__eq__``. Use `auto_eq` for structural equality
+    comparisons.
 
     Args:
-        class_: The target class (when used bare).
-        fields: Specific attribute names to include in the hash. When
-            ``None`` (the default), all dataclass fields are used.
+        class_: The target class (when used directly as ``@auto_hash``).
+            ``None`` when used with parentheses (``@auto_hash()`` or
+            ``@auto_hash(fields=...)``).
+        fields: Optional sequence of field names to include in the hash.
+            When ``None``, all fields declared in ``__slots__`` or
+            ``__annotations__`` are used.
 
     Returns:
-        The decorated class (or a decorator when used parameterised),
-        with both ``__hash__`` and immutability applied.
+        The decorated class if *class_* is provided; otherwise a callable
+        that can be used as a decorator.
 
     Raises:
-        TypeError: If no field names can be determined and *fields* is
-            ``None``.
+        TypeError: If no field names can be determined automatically and
+            *fields* is ``None``.
 
     """
     decorator = _AutoHashDecorator(fields=fields)

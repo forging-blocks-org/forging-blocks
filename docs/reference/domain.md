@@ -35,9 +35,10 @@ The Domain block is the innermost ring. It imports nothing from outer layers. Wh
 - **[Value Object](domain/value-objects.md)** — Immutable, defined by its values; prevents primitive obsession
 - **[Aggregate Root](domain/aggregates.md)** — Consistency boundary; controls mutation and invariants
 - **[Specification](domain/specifications.md)** — Composable predicates for business rules, querying, and validation
+- **[Messages](domain/messages.md)** — Command, Event, Query (immutable, architecture-neutral)
 - **[Domain Errors](domain/errors.md)** — Invalid states and rule violations in domain terms
 - **[Validators](domain/validators.md)** — Concrete validation rules (RequiredValidator, EmailValidator, LengthValidator, RangeValidator)
-- **[Permissions](domain/permissions.md)** — Composable permission checkers (RoleBased, ResourceBased, Composite)
+- **[Permissions](domain/permissions.md)** — Composable permission checkers (protocol-based, application-defined)
 
 ---
 ## What it does not do
@@ -61,3 +62,5 @@ The Domain block is the innermost ring. It imports nothing from outer layers. Wh
 
 !!! note "Specification"
     A composable predicate over a candidate object for business rules, querying, and validation.
+!!! note "Message"
+    An immutable dataclass representing a command, event, or query.

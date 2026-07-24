@@ -20,7 +20,7 @@ class TestErrorMetadata:
         metadata = ErrorMetadata(context={"key": "value"})
 
         with pytest.raises(AttributeError):
-            metadata.context = {"new_key": "new_value"}  # type: ignore[misc]
+            metadata.context = {"new_key": "new_value"}
 
     def test_context_when_mutating_dictionary_then_succeeds(self) -> None:
         metadata = ErrorMetadata(context={"key": "value"})

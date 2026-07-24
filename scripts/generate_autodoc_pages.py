@@ -7,9 +7,11 @@ for curated Guide or Reference documentation.
 
 from __future__ import annotations
 
+import ast
 import re
 import shutil
 import sys
+import textwrap
 from pathlib import Path
 
 SRC_DIR = Path("src/forging_blocks")
@@ -133,6 +135,77 @@ def update_nav(mkdocs: str, section: str) -> str:
     return mkdocs.rstrip() + "\n" + section + "\n"
 
 
+_PYTHON_BLOCK_RE = re.compile(r"```python\n(.*?)```", re.DOTALL)
+
+
+def _find_python_blocks(docstring: str) -> list[str]:
+    """Extract ```python code blocks from a docstring."""
+    return _PYTHON_BLOCK_RE.findall(docstring)
+
+
+def validate_docstring_imports(src_path: Path) -> list[str]:
+    """Verify that imports in docstring code examples are actually used.
+
+    Parses every ```python block in every module/class/function docstring,
+    collects imported names, then checks whether each imported name appears
+    as a ``Load``-context reference (including as the root of an attribute
+    chain like ``mod.Thing``).
+
+    Returns a list of warning messages, one per unused import.
+    """
+    warnings: list[str] = []
+    source = src_path.read_text(encoding="utf-8")
+
+    try:
+        tree = ast.parse(source)
+    except SyntaxError:
+        return warnings
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Module | ast.ClassDef | ast.FunctionDef | ast.AsyncFunctionDef):
+            continue
+        docstring = ast.get_docstring(node)
+        if not docstring:
+            continue
+        for block in _find_python_blocks(docstring):
+            try:
+                block_tree = ast.parse(textwrap.dedent(block))
+            except SyntaxError:
+                continue
+
+            imported: dict[str, int] = {}  # name -> line in block
+            for n in ast.walk(block_tree):
+                match n:
+                    case ast.Import(names=names):
+                        for alias in names:
+                            imported[alias.asname or alias.name] = n.lineno
+                    case ast.ImportFrom(names=names):
+                        for alias in names:
+                            if alias.name == "*":
+                                continue
+                            imported[alias.asname or alias.name] = n.lineno
+
+            used: set[str] = set()
+            for n in ast.walk(block_tree):
+                if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load):
+                    used.add(n.id)
+                elif isinstance(n, ast.Attribute) and isinstance(n.ctx, ast.Load):
+                    root = n
+                    while isinstance(root, ast.Attribute):
+                        root = root.value
+                    if isinstance(root, ast.Name):
+                        used.add(root.id)
+
+            for name, line_no in imported.items():
+                if name not in used:
+                    warnings.append(
+                        f"{src_path}: unused import '{name}' "
+                        f"in docstring code example (block line {line_no})"
+                    )
+
+    return warnings
+
+
 def ensure_autodoc_index(out_dir: Path) -> None:
     index_file = out_dir / "index.md"
 
@@ -159,10 +232,23 @@ def main() -> None:
         print(f"[ERROR] Source directory not found: {SRC_DIR}")
         sys.exit(1)
 
+    source_files = find_source_files(SRC_DIR)
+
+    all_warnings: list[str] = []
+    for src_path in source_files:
+        all_warnings.extend(validate_docstring_imports(src_path))
+
+    if all_warnings:
+        print("\n[DOCSTRING IMPORT WARNINGS]")
+        for w in all_warnings:
+            print(f"  {w}")
+        print()
+        sys.exit(1)
+
     # Clean stale autodoc pages from renamed/deleted modules
     shutil.rmtree(OUT_DIR, ignore_errors=True)
 
-    files = [generate_markdown(p) for p in find_source_files(SRC_DIR)]
+    files = [generate_markdown(p) for p in source_files]
     ensure_autodoc_index(OUT_DIR)
 
     mkdocs_text = MKDOCS_YML.read_text(encoding="utf-8")

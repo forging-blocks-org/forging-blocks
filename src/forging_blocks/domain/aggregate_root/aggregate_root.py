@@ -1,12 +1,13 @@
 """Base AggregateRoot class for Domain-Driven Design."""
 
 from abc import abstractmethod
-from collections.abc import Hashable
+from collections.abc import Hashable, Sequence
+from typing import Self
 
 from forging_blocks.domain.entity import Entity
 from forging_blocks.domain.errors.entity_id_none_error import EntityIdNoneError
+from forging_blocks.domain.messages.event import Event
 from forging_blocks.foundation import FinalABCMeta, runtime_final
-from forging_blocks.foundation.messages.event import Event
 
 from .aggregate_version import AggregateVersion
 
@@ -31,26 +32,6 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
         self._uncommitted_events: list[Event[EventPayloadType]] = []
         super().__init__(aggregate_id)
 
-    @runtime_final
-    def _validate_identity(self, aggregate_id: Hashable) -> None:
-        """Ensure the aggregate root identity is valid.
-
-        Aggregate roots must always have a defined, non-falsy identity.
-        Draft state is intentionally prohibited — identity must exist before
-        construction, not after persistence.
-
-        Raises:
-            EntityIdNoneError: If the identity is None, an empty string,
-                or the boolean False.
-
-        """
-        is_none = aggregate_id is None
-        is_empty_string = aggregate_id == ""
-        is_false = aggregate_id is False
-
-        if is_none or is_empty_string or is_false:
-            raise EntityIdNoneError(self.__class__.__name__)
-
     @property
     def version(self) -> AggregateVersion:
         """Return the current version of the aggregate."""
@@ -60,6 +41,31 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
     def uncommitted_changes(self) -> list[Event[EventPayloadType]]:
         """Return a copy of uncommitted domain events recorded by this aggregate."""
         return self._uncommitted_events.copy()
+
+    @classmethod
+    def reconstitute(
+        cls,
+        aggregate_id: TId,
+        events: Sequence[Event[EventPayloadType]],
+    ) -> Self:
+        """Reconstitute an aggregate from a sequence of stored events.
+
+        Creates a new aggregate instance identified by *aggregate_id* and
+        replays each event via `replay` to restore its state. The
+        caller is responsible for providing events in chronological order.
+
+        Args:
+            aggregate_id: The identity for the reconstituted aggregate.
+            events: Stored domain events in chronological order.
+
+        Returns:
+            A fully reconstituted aggregate with version equal to the number
+            of events replayed.
+        """
+        instance = cls(aggregate_id)
+        for event in events:
+            instance.replay(event)
+        return instance
 
     @runtime_final
     def collect_events(self) -> list[Event[EventPayloadType]]:
@@ -120,10 +126,30 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
         self._handle(event)
         self._version = self._version.increment()
 
+    @runtime_final
+    def _validate_identity(self, aggregate_id: Hashable) -> None:
+        """Ensure the aggregate root identity is valid.
+
+        Aggregate roots must always have a defined, non-falsy identity.
+        Draft state is intentionally prohibited — identity must exist before
+        construction, not after persistence.
+
+        Raises:
+            EntityIdNoneError: If the identity is None, an empty string,
+                or the boolean False.
+
+        """
+        is_none = aggregate_id is None
+        is_empty_string = aggregate_id == ""
+        is_false = aggregate_id is False
+
+        if is_none or is_empty_string or is_false:
+            raise EntityIdNoneError(self.__class__.__name__)
+
     @abstractmethod
     def _handle(self, event: Event[EventPayloadType]) -> None:
         """Mutate aggregate state in response to an event.
 
-        Implemented by concrete subclasses. Called exclusively
-        by apply() — never directly.
+        Implemented by concrete subclasses. Called by apply() and
+        replay() — never directly.
         """

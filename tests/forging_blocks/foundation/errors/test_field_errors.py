@@ -1,4 +1,6 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
+from typing import cast
+
 import pytest
 
 from forging_blocks.foundation import Error, ErrorMessage, FieldErrors, FieldReference
@@ -16,7 +18,7 @@ class TestFieldErrors:
         error_message = ErrorMessage("An error occurred")
 
         with pytest.raises(ValueError):
-            FieldErrors(field=None, errors=[error_message])  # type: ignore
+            FieldErrors(field=cast(FieldReference, None), errors=[error_message])
 
     def test_errors_when_errors_defined_then_returns_errors(self) -> None:
         error_message = ErrorMessage("An error occurred")

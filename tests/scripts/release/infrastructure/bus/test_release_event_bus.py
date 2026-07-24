@@ -1,5 +1,5 @@
 # pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-from typing import Any
+from typing import Any, Self
 
 import pytest
 from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
@@ -7,7 +7,8 @@ from scripts.release.infrastructure.bus.in_memory_release_command_bus import (
 )
 
 from forging_blocks.application.ports.inbound.message_handler_port import MessageHandlerPort
-from forging_blocks.foundation.messages.command import Command
+from forging_blocks.domain.messages.command import Command
+from forging_blocks.domain.messages.message import MessageMetadata
 
 
 class FakeCommand(Command):
@@ -21,8 +22,13 @@ class FakeCommand(Command):
     def value(self) -> str:
         return self._value
 
+    @property
     def _payload(self) -> dict[str, Any]:
         return {"value": self._value}
+
+    @classmethod
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+        return cls(val=str(data.get("value", "test")))
 
 
 class FakeHandler(MessageHandlerPort[FakeCommand, None]):
@@ -97,8 +103,15 @@ class TestInMemoryReleaseCommandBus:
             def value(self) -> str:
                 return self._value
 
+            @property
             def _payload(self) -> dict[str, Any]:
                 return {"value": self._value}
+
+            @classmethod
+            def from_payload_fields(
+                cls, data: dict[str, object], metadata: MessageMetadata
+            ) -> "OtherCommand":
+                return cls(val=str(data.get("value", "other")))
 
         with pytest.raises(KeyError):
             await bus.send(OtherCommand())

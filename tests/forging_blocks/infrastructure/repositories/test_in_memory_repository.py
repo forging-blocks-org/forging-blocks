@@ -4,8 +4,8 @@ Tests for the in-memory repository classes.
 
 import pytest
 
+from forging_blocks.domain.specification import Specification
 from forging_blocks.foundation.identified import Identified
-from forging_blocks.foundation.specification import Specification
 from forging_blocks.infrastructure.errors.repository_errors import (
     RepositoryError,
     RepositoryNotFoundError,

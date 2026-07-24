@@ -7,7 +7,7 @@ proceed.
 """
 
 from collections.abc import Callable
-from typing import TypeVar
+from typing import TypeVar, cast
 
 from forging_blocks.foundation.errors import ResultAccessError
 
@@ -37,7 +37,7 @@ class Err[ValueType, ErrorType](Result[ValueType, ErrorType]):
         """Two Errs are equal when their wrapped errors are equal."""
         if not isinstance(other, Err):
             return False
-        other_err: ErrType = other  # type: ignore[assignment]
+        other_err = cast(Err[object, object], other)
         return self._error == other_err._error
 
     def __hash__(self) -> int:

@@ -1,4 +1,4 @@
-from typing import Hashable, Self
+from typing import Self
 
 from forging_blocks.domain import ValueObject
 from scripts.release.domain.errors import InvalidReleaseBranchNameError, InvalidReleaseVersionError
@@ -41,7 +41,3 @@ class ReleaseBranchName(ValueObject[str]):
     @property
     def value(self) -> str:
         return self._value
-
-    @property
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        return (self._value,)

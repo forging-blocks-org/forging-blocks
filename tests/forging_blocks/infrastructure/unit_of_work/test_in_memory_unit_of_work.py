@@ -5,8 +5,8 @@ import pytest
 
 from forging_blocks.application import UnitOfWorkError
 from forging_blocks.domain.aggregate_root import AggregateRoot
-from forging_blocks.foundation.messages.event import Event
-from forging_blocks.foundation.messages.message import MessageMetadata
+from forging_blocks.domain.messages.event import Event
+from forging_blocks.domain.messages.message import MessageMetadata
 from forging_blocks.infrastructure.unit_of_work.in_memory_unit_of_work import (
     InMemoryUnitOfWork,
 )
@@ -29,7 +29,7 @@ class FakeEvent(Event[str]):
         return {"data": self._data}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(data=str(data.get("data", "")), metadata=metadata)
 
 

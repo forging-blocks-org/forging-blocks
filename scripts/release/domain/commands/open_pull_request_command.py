@@ -1,7 +1,7 @@
 from typing import Self, TypeAlias, cast
 
-from forging_blocks.foundation.messages.command import Command
-from forging_blocks.foundation.messages.message import MessageMetadata
+from forging_blocks.domain.messages.command import Command
+from forging_blocks.domain.messages.message import MessageMetadata
 
 PayloadType: TypeAlias = dict[str, str | bool]
 
@@ -42,7 +42,7 @@ class OpenPullRequestCommand(Command[PayloadType]):
         return cast(dict[str, object], self._value)
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         """Reconstruct from payload fields and metadata."""
         return cls(
             version=str(data["version"]),

@@ -19,4 +19,4 @@ Inherit from `ValueObject` when you need immutability, value-based equality, and
     Value Objects prevent domain rules from being scattered across the codebase. Wrapping meaning in explicit types makes constraints visible, reusable, and testable.
 
 !!! note "Where the implementation lives"
-    The `ValueObject` base class lives in the [Foundation](../foundation.md) block because value-based equality and immutability are reusable outside the Domain block.
+    The `ValueObject` base class lives in the Domain block alongside Entity and AggregateRoot. It is imported from `forging_blocks.domain.value_object`.

@@ -3,7 +3,7 @@ from typing import Any, Self
 
 import pytest
 
-from forging_blocks.foundation.messages import MessageMetadata, Query
+from forging_blocks.domain.messages import MessageMetadata, Query
 from forging_blocks.infrastructure import MessageBusQueryFetcher
 from tests.fixtures.fake_message_bus import FakeMessageBus
 
@@ -18,7 +18,7 @@ class FakeQuery(Query):
         return {"foo": "bar"}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls()
 
 

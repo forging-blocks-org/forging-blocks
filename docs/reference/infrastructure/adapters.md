@@ -14,7 +14,7 @@ A dictionary-backed key-value cache implementing `CachePort`. Supports `get`, `s
 
 ## Serialization
 
-`Serializable` is structural — any class with `to_dict()` / `from_dict()` methods satisfies the contract, enabling generic serialization infrastructure.
+`MessageCodec` is an abstract codec base that defines `encode` / `decode` for bidirectional message serialization. `DictMessageCodec` is the concrete ``dict[str, object]`` implementation that ships with Forging Blocks.
 
 ## When to use
 

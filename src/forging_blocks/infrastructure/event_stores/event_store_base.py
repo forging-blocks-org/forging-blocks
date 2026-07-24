@@ -9,7 +9,7 @@ from collections.abc import Sequence
 from uuid import UUID
 
 from forging_blocks.application.errors.event_store_error import EventStoreError
-from forging_blocks.foundation.messages.event import Event
+from forging_blocks.domain.messages.event import Event
 from forging_blocks.foundation.result import Result
 
 
