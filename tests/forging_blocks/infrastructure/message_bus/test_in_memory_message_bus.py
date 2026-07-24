@@ -2,9 +2,9 @@ from typing import Any, Self
 
 import pytest
 
-from forging_blocks.foundation.messages.command import Command
-from forging_blocks.foundation.messages.message import MessageMetadata
-from forging_blocks.foundation.messages.query import Query
+from forging_blocks.domain.messages.command import Command
+from forging_blocks.domain.messages.message import MessageMetadata
+from forging_blocks.domain.messages.query import Query
 from forging_blocks.infrastructure.message_bus.in_memory_message_bus import (
     InMemoryMessageBus,
 )
@@ -26,7 +26,7 @@ class FakeCommand(Command[str]):
         return {"data": self._data}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(data=str(data.get("data", "")), metadata=metadata)
 
 
@@ -44,7 +44,7 @@ class FakeQuery(Query[dict[str, Any]]):
         return {"data": self._data}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls(data=str(data.get("data", "")), metadata=metadata)
 
 

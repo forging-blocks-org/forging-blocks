@@ -13,8 +13,8 @@ from typing import Self
 import pytest
 
 from forging_blocks.application import EventPublisherPort
+from forging_blocks.domain.messages import Event, MessageMetadata
 from forging_blocks.foundation import OutboundPort
-from forging_blocks.foundation.messages import Event, MessageMetadata
 
 
 class FakeEvent(Event[str]):
@@ -27,7 +27,7 @@ class FakeEvent(Event[str]):
         return {"foo": "bar"}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls()
 
 

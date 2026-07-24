@@ -8,7 +8,7 @@ dictionary keyed by entity identifier.
 from collections.abc import Mapping, Sequence
 
 from forging_blocks.application.ports.outbound.repository_port import ReadOnlyRepositoryPort
-from forging_blocks.foundation.specification import Specification
+from forging_blocks.domain.specification import Specification
 
 
 class InMemoryReadRepository[TEntity, TId](ReadOnlyRepositoryPort[TEntity, TId]):

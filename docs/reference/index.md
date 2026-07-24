@@ -8,7 +8,7 @@ Components:
 - **Foundation** — Core abstractions (Result, Port, Identified, Messages, Specification)
 - **Domain** — Domain modeling (Entity, ValueObject, AggregateRoot, Specification)
 - **Application** — Application layer patterns (ApplicationServicePort, CommandHandlerPort, RepositoryPort, EventStorePort)
-- **Infrastructure** — Technical adapters and implementations (Repositories, Serializable)
+- **Infrastructure** — Technical adapters and implementations (Repositories, MessageCodec/DictMessageCodec)
 - **Presentation** — Input/output boundaries
 
 Dependencies point inward: Infrastructure/Presentation → Application → Domain, all depending on Foundation.
@@ -31,5 +31,5 @@ flowchart LR
 - **[API Stability](api-stability.md)** - SemVer policy and public API stability guarantees
 - **[Domain](domain.md)** - Domain modeling abstractions (Entity, ValueObject, AggregateRoot, Specification)
 - **[Application](application.md)** - Application layer patterns (ApplicationServicePort, CommandHandlerPort, RepositoryPort, EventStorePort, SpecificationRepositoryPort)
-- **[Infrastructure](infrastructure.md)** - Infrastructure adapters and implementations (Repositories, Serializable)
+- **[Infrastructure](infrastructure.md)** - Infrastructure adapters and implementations (Repositories, MessageCodec/DictMessageCodec)
 - **[Presentation](presentation.md)** - Input/output boundaries and presentation layer

@@ -3,7 +3,7 @@ from typing import Any, Self
 
 import pytest
 
-from forging_blocks.foundation.messages import Command, MessageMetadata
+from forging_blocks.domain.messages import Command, MessageMetadata
 from forging_blocks.infrastructure import MessageBusCommandSender
 from tests.fixtures.fake_message_bus import FakeMessageBus
 
@@ -17,7 +17,7 @@ class FakeCommand(Command[str]):
         return {"foo": "foo"}
 
     @classmethod
-    def _from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
+    def from_payload_fields(cls, data: dict[str, object], metadata: MessageMetadata) -> Self:
         return cls()
 
 

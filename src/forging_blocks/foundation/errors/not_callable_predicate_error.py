@@ -24,7 +24,7 @@ class NotCallablePredicateError[MetadataType: Mapping[str, object]](Error[Metada
         context: Shortcut access to the metadata context dictionary.
 
     Example:
-        >>> from forging_blocks.foundation.specification import ExpressionSpecification
+        >>> from forging_blocks.domain.specification import ExpressionSpecification
         >>> spec = ExpressionSpecification(123)  # Not callable
         Traceback (most recent call last):
             ...

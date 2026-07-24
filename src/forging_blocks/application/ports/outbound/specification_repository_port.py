@@ -8,7 +8,7 @@ from abc import abstractmethod
 from collections.abc import Sequence
 
 from forging_blocks.application.ports.outbound.repository_port import ReadOnlyRepositoryPort
-from forging_blocks.foundation.specification import Specification
+from forging_blocks.domain.specification import Specification
 
 
 class SpecificationRepositoryPort[TEntity, TId](ReadOnlyRepositoryPort[TEntity, TId]):

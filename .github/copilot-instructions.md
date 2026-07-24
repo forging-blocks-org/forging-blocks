@@ -166,8 +166,8 @@ Do **not** implement `_payload` manually on decorated classes — the decorator 
 ### ValueObject: Immutable Domain Values
 
 ```python
-from forging_blocks.foundation.value_object import ValueObject
-from collections.abc import Hashable
+from forging_blocks.domain.value_object import ValueObject
+
 
 class Email(ValueObject[str]):
     __slots__ = ("_value",)      # always include __slots__
@@ -181,13 +181,11 @@ class Email(ValueObject[str]):
     @property
     def value(self) -> str:
         return self._value
-
-    @property
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        return (self._value,)    # controls equality and hashing
 ```
 
-`ValueObject` uses `@auto_freeze` internally. After `__init__` completes, any mutation raises `CantModifyImmutableAttributeError`. Concrete subclasses are frozen automatically — no decorator needed.
+Concrete ``ValueObject`` subclasses are automatically frozen and hashable via
+`auto_freeze` and `auto_hash` (applied through ``__init_subclass__``).
+After ``__init__`` completes, any mutation raises ``CantModifyImmutableAttributeError``.
 
 ### Specifications: Composable Predicates
 
@@ -459,7 +457,6 @@ class MyPort[T](OutboundPort):
 | Blocking I/O in async context | ❌ Flag | Add `async def` / `await` |
 | Manual `_payload` on `@event_dataclass` class | ❌ Flag | Decorator patches it automatically |
 | Missing `__slots__` on ValueObject subclass | ❌ Flag | Add `__slots__ = ("_field",)` |
-| Missing `_equality_components` on ValueObject | ❌ Flag | Implement required property |
 | `try/except` for control flow | ❌ Flag | Use `Result[T, E]` |
 | Overriding `@runtime_final` method | ❌ Flag | `TypeError` at class creation |
 | Overriding `apply`, `replay`, `collect_events` in AggregateRoot | ❌ Flag | These are runtime-final |

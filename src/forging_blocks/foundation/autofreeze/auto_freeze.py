@@ -1,19 +1,18 @@
 """Auto-freeze decorator for enforcing immutability on class instances.
 
-Provides the :func:`auto_freeze` decorator that automatically freezes instances
+Provides the `auto_freeze` decorator that automatically freezes instances
 after ``__init__`` completes. The decorator injects a frozen state marker and
 a ``__setattr__`` override to prevent attribute modifications.
 
 Can be used as ``@auto_freeze``, ``@auto_freeze()``, or
 ``@auto_freeze(attrs=[...])`` for selective freezing.
 
-Useful for: Entities, value objects, and any domain type that
+Useful for: Immutable data types and any class that
 should be immutable after construction.
 
 Example:
     ```python
     from forging_blocks.foundation.autofreeze import auto_freeze
-    from forging_blocks.foundation.errors import CantModifyImmutableAttributeError
 
 
     @auto_freeze
@@ -33,7 +32,7 @@ Example:
             return self._currency
     ```
 
-    With selective freezing (e.g., for Entities):
+    With selective freezing:
     ```python
     @auto_freeze(attrs=["_id"])
     class User:

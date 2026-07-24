@@ -12,13 +12,15 @@ Non-Responsibilities:
 
 from abc import abstractmethod
 
-from forging_blocks.foundation.context import AuthorizationContext
 from forging_blocks.foundation.permission import Permission
 from forging_blocks.foundation.ports import InboundPort
 
 
-class AuthorizationPort(InboundPort):
+class AuthorizationPort[AuthorizationCheckContext](InboundPort):
     """Inbound port for authorization decisions.
+
+    Type Args:
+        AuthorizationCheckContext: The application-defined context for authorization checks.
 
     Responsibilities:
         - Evaluate permissions against an authorization context.
@@ -33,7 +35,7 @@ class AuthorizationPort(InboundPort):
     @abstractmethod
     async def check_permission(
         self,
-        context: AuthorizationContext,
+        context: AuthorizationCheckContext,
         permission: Permission,
     ) -> bool:
         """Evaluate whether *permission* is granted in *context*."""
@@ -42,7 +44,7 @@ class AuthorizationPort(InboundPort):
     @abstractmethod
     async def check_resource_permission(
         self,
-        context: AuthorizationContext,
+        context: AuthorizationCheckContext,
         resource: str,
         action: str,
     ) -> bool:

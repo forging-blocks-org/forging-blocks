@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from enum import StrEnum, auto
-from typing import Hashable
 
 from forging_blocks.domain import ValueObject
 from scripts.release.domain.errors import InvalidReleaseLevelError
@@ -29,7 +28,3 @@ class ReleaseLevel(ValueObject[ReleaseLevelEnum]):
     @property
     def value(self) -> ReleaseLevelEnum:
         return self._level
-
-    @property
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        return (self._level,)

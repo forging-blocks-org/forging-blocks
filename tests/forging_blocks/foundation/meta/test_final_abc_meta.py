@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from typing import cast
 
 import pytest
 
@@ -114,7 +115,7 @@ class Incomplete(AbstractBase):
 class TestFinalABCMetaAbstractEnforcement:
     def test_instantiating_base_with_abstract_method_raises_type_error(self) -> None:
         with pytest.raises(TypeError):
-            AbstractBase()  # type: ignore[abstract]
+            cast(type[object], AbstractBase)()
 
     def test_concrete_child_instantiates(self) -> None:
         instance = ConcreteChild()
@@ -127,7 +128,7 @@ class TestFinalABCMetaAbstractEnforcement:
 
     def test_inheriting_abstract_without_implementation_raises_type_error(self) -> None:
         with pytest.raises(TypeError):
-            Incomplete()  # type: ignore[abstract]
+            cast(type[object], Incomplete)()
 
 
 @pytest.mark.unit
@@ -213,7 +214,7 @@ class TestFinalABCMetaCombinedBehavior:
 
     def test_instantiating_class_with_only_abstract_fails_without_implementation(self) -> None:
         with pytest.raises(TypeError):
-            IncompleteOnly()  # type: ignore[abstract]
+            cast(type[object], IncompleteOnly)()
 
     def test_plain_base_with_no_abstract_or_sealed_instantiates(self) -> None:
         instance = PlainBase()

@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Hashable
-
 from forging_blocks.domain import ValueObject
 from scripts.release.domain.errors import InvalidReleaseVersionError
 
@@ -42,7 +40,3 @@ class ReleaseVersion(ValueObject[str]):
     @property
     def patch(self) -> int:
         return self._patch
-
-    @property
-    def _equality_components(self) -> tuple[Hashable, ...]:
-        return (self._major, self._minor, self._patch)

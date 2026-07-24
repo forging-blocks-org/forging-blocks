@@ -8,8 +8,8 @@ with separate policies for events (multi-handler fan-out) and commands
 from abc import ABC, abstractmethod
 
 from forging_blocks.application.errors.event_bus_error import EventBusError
-from forging_blocks.foundation.messages.command import Command
-from forging_blocks.foundation.messages.event import Event
+from forging_blocks.domain.messages.command import Command
+from forging_blocks.domain.messages.event import Event
 from forging_blocks.foundation.result import Result
 
 

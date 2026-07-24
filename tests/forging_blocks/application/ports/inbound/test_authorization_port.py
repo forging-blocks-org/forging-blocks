@@ -1,17 +1,16 @@
 import pytest
 
 from forging_blocks.application.ports.inbound.authorization_port import AuthorizationPort
-from forging_blocks.foundation.context import AuthorizationContext
 from forging_blocks.foundation.permission import Permission
 
 
 @pytest.mark.unit
 class TestAuthorizationPort:
     async def test_when_check_permission_granted_then_returns_true(self) -> None:
-        class PermissiveAuthorizationPort(AuthorizationPort):
+        class PermissiveAuthorizationPort(AuthorizationPort[object]):
             async def check_permission(
                 self,
-                context: AuthorizationContext,
+                context: object,
                 permission: Permission,
             ) -> bool:
                 del context, permission
@@ -19,7 +18,7 @@ class TestAuthorizationPort:
 
             async def check_resource_permission(
                 self,
-                context: AuthorizationContext,
+                context: object,
                 resource: str,
                 action: str,
             ) -> bool:
@@ -35,15 +34,14 @@ class TestAuthorizationPort:
                 return ["admin"]
 
         service = PermissiveAuthorizationPort()
-        context = AuthorizationContext(user_id="user-1")
 
-        assert await service.check_permission(context, Permission.READ) is True
+        assert await service.check_permission(object(), Permission.READ) is True
 
     async def test_when_check_permission_denied_then_returns_false(self) -> None:
-        class RestrictiveAuthorizationPort(AuthorizationPort):
+        class RestrictiveAuthorizationPort(AuthorizationPort[object]):
             async def check_permission(
                 self,
-                context: AuthorizationContext,
+                context: object,
                 permission: Permission,
             ) -> bool:
                 del context, permission
@@ -51,7 +49,7 @@ class TestAuthorizationPort:
 
             async def check_resource_permission(
                 self,
-                context: AuthorizationContext,
+                context: object,
                 resource: str,
                 action: str,
             ) -> bool:
@@ -70,7 +68,7 @@ class TestAuthorizationPort:
 
         assert (
             await service.check_permission(
-                AuthorizationContext(user_id="user-1"),
+                object(),
                 Permission.ADMIN,
             )
             is False

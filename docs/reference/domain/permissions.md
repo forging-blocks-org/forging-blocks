@@ -1,57 +1,57 @@
 # Permissions
 
-Composable permission-checking strategies for authorization decisions. Each checker evaluates an `AuthorizationContext` against a specific `Permission` and returns `True` when granted.
+Composable permission-checking strategies for authorization decisions. Each checker evaluates an application-defined context against a specific `Permission` and returns `True` when granted.
 
 ## PermissionChecker
 
-`PermissionChecker` is a `Protocol` that any permission-checking implementation must satisfy.
+`PermissionChecker[PermissionCheckContext]` is a `Protocol` that any permission-checking implementation must satisfy. The context type is provided by the application.
 
 ```python
-class PermissionChecker(Protocol):
-    async def check(self, context: AuthorizationContext, permission: Permission) -> bool:
+class PermissionChecker[PermissionCheckContext](Protocol):
+    async def check(self, context: PermissionCheckContext, permission: Permission) -> bool:
         ...
 ```
 
 Implementations may internally use synchronous logic, but must expose an `async def check(...)` method — callers always `await` the result.
 
-## RoleBasedPermissionChecker
-
-Grants permissions based on a static mapping of roles to allowed permissions. Looks up the user's roles in the `AuthorizationContext` and checks whether any assigned role includes the requested permission.
-
-```python
-checker = RoleBasedPermissionChecker({
-    "admin": [Permission.READ, Permission.WRITE, Permission.DELETE, Permission.ADMIN],
-    "editor": [Permission.READ, Permission.WRITE],
-})
-```
-
-## ResourcePermissionChecker
-
-Grants permissions based on a static mapping of resource types to allowed permissions. Inspects `AuthorizationContext.resource_type` and checks whether the targeted resource type permits the requested permission.
-
-```python
-checker = ResourcePermissionChecker({
-    "document": [Permission.READ, Permission.WRITE],
-    "image": [Permission.READ],
-})
-```
-
 ## CompositePermissionChecker
 
-Combines multiple `PermissionChecker` instances with OR logic. A check passes as soon as **any** inner checker approves. Returns `True` immediately on the first success; otherwise `False` after all checkers have been consulted.
+Combines multiple `PermissionChecker[PermissionCheckContext]` instances with OR logic. A check passes as soon as **any** inner checker approves. Returns `True` immediately on the first success; otherwise `False` after all checkers have been consulted.
 
 ```python
 checker = CompositePermissionChecker([
-    RoleBasedPermissionChecker({"admin": [Permission.READ]}),
-    ResourcePermissionChecker({"document": [Permission.READ]}),
+    my_role_checker,
+    my_resource_checker,
 ])
+result = await checker.check(context, Permission.READ)
 ```
+
+## Designing your own checkers
+
+Applications define concrete `PermissionChecker` implementations that inspect their own context type. A role-based checker might look up permissions from a role-to-permission mapping:
+
+```python
+from forging_blocks.domain.permissions import PermissionChecker
+
+class RoleBasedChecker[PermissionCheckContext](PermissionChecker[PermissionCheckContext]):
+    def __init__(self, role_map: dict[str, list[Permission]]) -> None:
+        self._role_map = role_map
+
+    async def check(self, context: PermissionCheckContext, permission: Permission) -> bool:
+        roles = getattr(context, "roles", [])
+        for role in roles:
+            if permission in self._role_map.get(role, []):
+                return True
+        return False
+```
+
+A resource-based checker would similarly inspect resource metadata on the context object.
 
 ## When to use
 
-Use `RoleBasedPermissionChecker` for role-driven authorization (RBAC). Use `ResourcePermissionChecker` for resource-level access control. Combine them with `CompositePermissionChecker` when authorization depends on multiple factors — an admin role OR ownership of a document, for example.
+Use `CompositePermissionChecker` to combine multiple checkers when authorization depends on multiple factors — an admin role OR ownership of a document, for example. Define application-specific `PermissionChecker` subclasses for role-driven authorization (RBAC), resource-level access control, or any custom authorization logic.
 
-All checkers operate on the foundation `AuthorizationContext` and `Permission` types, keeping the domain free of infrastructure concerns.
+All checkers operate on the foundation `Permission` type and an application-defined context, keeping the domain free of infrastructure concerns.
 
 !!! note "Related"
-    See [Foundation Context](../foundation/context.md) for `AuthorizationContext` and `Permission`, and [Foundation Errors](../foundation/errors.md) for error types.
+    Permissions use the `Permission` enum (in `forging_blocks.foundation.permission`). See [Foundation Errors](../foundation/errors.md) for error types.

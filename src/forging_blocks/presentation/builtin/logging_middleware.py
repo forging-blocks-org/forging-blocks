@@ -24,7 +24,6 @@ class LoggingMiddleware[RequestType, ResponseType](Middleware[RequestType, Respo
 
     Example:
         ```python
-        from forging_blocks.application.ports.outbound.logger_port import LoggerPort
         from forging_blocks.presentation.builtin import LoggingMiddleware
 
         mw = LoggingMiddleware[MyRequest, MyResponse](logger=my_logger)

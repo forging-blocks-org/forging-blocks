@@ -1,9 +1,10 @@
 """Serialization infrastructure for the application.
 
-Provides protocols and utilities for serializing and deserializing
-domain objects to and from plain dictionaries.
+Provides abstract and concrete codecs for encoding/decoding messages
+to and from different representations.
 """
 
-from .serializable import Serializable
+from ._dict_message_codec import DictMessageCodec
+from ._message_codec import MessageCodec
 
-__all__ = ["Serializable"]
+__all__ = ["DictMessageCodec", "MessageCodec"]

@@ -6,7 +6,7 @@ side of the Either monad (the ``Right`` in Haskell / Scala).
 """
 
 from collections.abc import Callable
-from typing import TypeVar
+from typing import TypeVar, cast
 
 from forging_blocks.foundation.errors import ResultAccessError
 
@@ -36,7 +36,7 @@ class Ok[ValueType, ErrorType](Result[ValueType, ErrorType]):
         """Two Oks are equal when their wrapped values are equal."""
         if not isinstance(other, Ok):
             return False
-        other_ok: OkType = other  # type: ignore[assignment]
+        other_ok = cast(Ok[object, object], other)
         return self._value == other_ok._value
 
     def __hash__(self) -> int:

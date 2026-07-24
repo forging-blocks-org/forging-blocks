@@ -1,6 +1,6 @@
 """Error raised when a field value cannot be converted to a hashable equivalent.
 
-Used by :class:`HashableConverter` when a value is neither natively hashable
+Used by `HashableConverter` when a value is neither natively hashable
 nor one of the supported convertible types (``list``, ``dict``).
 """
 

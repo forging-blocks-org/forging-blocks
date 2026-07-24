@@ -263,7 +263,6 @@ class TestEnsureAutodocIndex:
         assert index_file.read_text() == "existing content"
 
 
-@pytest.mark.unit
 class TestMain:
     def test_when_src_dir_missing_then_exits(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
