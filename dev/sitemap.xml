@@ -2,722 +2,698 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://forging-blocks-org.github.io/dev/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/LICENSE/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/test_mermaid/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/architectural-styles/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/architectural-styles/clean-architecture/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/architectural-styles/cqrs/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/architectural-styles/event-driven/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/architectural-styles/hexagonal-architecture/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/architectural-styles/layered-architecture/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/contributing/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/contributing/contributing/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/contributing/docs-conventions/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/contributing/release-guide/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/guide/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/guide/architecture-overview/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/guide/example_tests/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/guide/examples/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/guide/getting-started/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/guide/principles/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/guide/recommended_blocks_structure/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/guide/testing/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/api-stability/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/application/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/domain/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/foundation/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/infrastructure/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/presentation/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/application/errors/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/application/ports/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/application/use-cases/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/errors/concurrency_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/errors/event_bus_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/errors/event_store_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/errors/transaction_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/errors/unit_of_work_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/inbound/application_service_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/inbound/authorization_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/inbound/message_handler_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/inbound/validation_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/cache_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/command_sender_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/event_bus_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/event_publisher_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/event_store_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/file_system_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/http_client_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/logger_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/message_bus_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/notifier_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/query_fetcher_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/specification_repository_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/transaction_manager_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/unit_of_work_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/repository_port/_read_only_repository_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/repository_port/_repository_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/application/ports/outbound/repository_port/_write_only_repository_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/entity/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/value_object/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/aggregate_root/aggregate_root/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/aggregate_root/aggregate_version/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/errors/draft_entity_is_not_hashable_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/errors/entity_id_deletion_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/errors/entity_id_modification_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/errors/entity_id_none_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/messages/command/</loc>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/messages/decorators/</loc>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/messages/event/</loc>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/messages/query/</loc>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/messages/message/_message/</loc>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/messages/message/_metadata/</loc>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/permissions/composite_permission_checker/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/permissions/permission_checker/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/permissions/resource_permission_checker/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/specification/base/</loc>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/permissions/role_based_permission_checker/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/specification/composable/</loc>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/specification/expression/</loc>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/specification/logical_operators/and_specification/</loc>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/specification/logical_operators/not_specification/</loc>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/specification/logical_operators/or_specification/</loc>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/validators/composite_validation_rule/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/validators/email_validator/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/validators/length_validator/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/validators/range_validator/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/domain/validators/required_validator/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/debuggable/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/identified/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/mapper/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/permission/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/value_object/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/autoeq/auto_eq/</loc>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/autofreeze/auto_freeze/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/autohash/auto_hash/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/context/authorization_context/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/context/service_context/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/context/transaction_context/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/architecture_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/cant_modify_immutable_attribute_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/combined_errors/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/configuration_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/core/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/field_errors/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/non_hashable_value_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/none_not_allowed_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/not_callable_predicate_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/result_access_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/rule_violation_error/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/errors/validation_error/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/messages/command/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/messages/decorators/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/messages/event/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/messages/message/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/messages/query/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/meta/final_abc_meta/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/meta/final_meta/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/ports/_check_methods/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/ports/_inbound_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/ports/_outbound_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/ports/_port/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/result/err/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/result/ok/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/result/result/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/rules/validation_rule/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/specification/base/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/specification/composable/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/specification/expression/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/specification/logical_operators/and_specification/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/specification/logical_operators/not_specification/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/foundation/specification/logical_operators/or_specification/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/caching/in_memory_cache/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/errors/repository_errors/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/event_buses/event_bus_base/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/event_buses/in_memory_event_bus/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/event_buses/in_memory_event_bus_base/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/event_stores/event_store_base/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/event_stores/in_memory_event_store/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/event_stores/in_memory_event_store_base/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/file_system/os_file_system/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/http_client/urllib_client/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/logging/stdlib_logger/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/message_bus/in_memory_message_bus/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/message_bus/message_bus_command_sender/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/message_bus/message_bus_event_publisher/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/message_bus/message_bus_query_fetcher/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/repositories/aggregate_repository/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/repositories/in_memory_read_repository/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/repositories/in_memory_repository/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/repositories/in_memory_write_repository/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/serialization/serializable/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/serialization/_dict_message_codec/</loc>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/serialization/_message_codec/</loc>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/infrastructure/unit_of_work/in_memory_unit_of_work/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/presenter_contract/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/adapters/presentation_adapter/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/adapters/request_adapter/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/adapters/response_adapter/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/builtin/error_handling_middleware/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/builtin/logging_middleware/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/builtin/timing_middleware/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/builtin/validation_middleware/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/errors/error_message_model/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/errors/error_presenter/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/errors/error_status_code_mapper/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/errors/error_view_model/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/middleware/middleware/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/middleware/next_handler/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/autodoc/presentation/middleware/pipeline/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/domain/aggregates/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/domain/entities/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/domain/errors/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
+    </url>
+    <url>
+         <loc>https://forging-blocks-org.github.io/dev/reference/domain/messages/</loc>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/domain/permissions/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/domain/specifications/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/domain/validators/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/domain/value-objects/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/auto-freeze/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/context/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/auto-decorators/</loc>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/foundation/errors/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/foundation/identified/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/foundation/mappers/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/messages/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/foundation/meta/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/foundation/ports/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/foundation/result/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/foundation/rules/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/specifications/</loc>
-         <lastmod>2026-07-22</lastmod>
-    </url>
-    <url>
-         <loc>https://forging-blocks-org.github.io/dev/reference/foundation/value-objects/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/infrastructure/adapters/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/infrastructure/messaging/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/infrastructure/persistence/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/presentation/adapters/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/presentation/error-handling/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
     <url>
          <loc>https://forging-blocks-org.github.io/dev/reference/presentation/middleware/</loc>
-         <lastmod>2026-07-22</lastmod>
+         <lastmod>2026-07-24</lastmod>
     </url>
 </urlset>
