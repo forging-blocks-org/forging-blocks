@@ -1,6 +1,7 @@
 """ForgingBlocks foundation modules."""
 
 from .autoeq import auto_eq
+from .autofreeze.auto_freeze import auto_freeze
 from .autohash import auto_hash
 from .errors import (
     ArchitectureError,
@@ -34,6 +35,7 @@ from .rules import ValidationRule
 
 __all__ = [
     "auto_eq",
+    "auto_freeze",
     "auto_hash",
     "ArchitectureError",
     "ConfigurationError",
