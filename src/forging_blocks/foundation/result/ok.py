@@ -6,13 +6,11 @@ side of the Either monad (the ``Right`` in Haskell / Scala).
 """
 
 from collections.abc import Callable
-from typing import TypeVar, cast
+from typing import cast
 
 from forging_blocks.foundation.errors import ResultAccessError
 
 from .result import Result
-
-OkType = TypeVar("OkType", bound="Ok[object, object]")
 
 
 class Ok[ValueType, ErrorType](Result[ValueType, ErrorType]):
