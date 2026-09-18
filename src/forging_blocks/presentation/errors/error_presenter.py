@@ -75,6 +75,13 @@ class ErrorPresenter:
         """
         return ErrorViewModel(messages=tuple(self._to_message_models(error)))
 
+    def _from_composite_error(
+        self, error: CombinedErrors[Error[object]] | FieldErrors[Error[object]]
+    ) -> list[ErrorMessageModel]:
+        if isinstance(error, CombinedErrors):
+            return self._from_combined_errors(error)
+        return self._from_field_errors(error)
+
     def _to_message_models(self, error: object) -> list[ErrorMessageModel]:
         """Dispatch *error* to the appropriate converter.
 
@@ -82,19 +89,17 @@ class ErrorPresenter:
         checked before the generic ``Error`` branch because they
         subclass it.
         """
-        match error:
-            case CombinedErrors():
-                return self._from_combined_errors(cast(CombinedErrors[Error[object]], error))
-            case FieldErrors():
-                return self._from_field_errors(cast(FieldErrors[Error[object]], error))
-            case Error():
-                return self._from_framework_error(cast(Error[object], error))
-            case Err():
-                return self._from_result_err(cast(Err[object, object], error))
-            case Exception():
-                return self._from_exception(error)
-            case _:
-                return self._from_unknown(error)
+        if isinstance(error, (CombinedErrors, FieldErrors)):
+            return self._from_composite_error(
+                cast(CombinedErrors[Error[object]] | FieldErrors[Error[object]], error)
+            )
+        if isinstance(error, Error):
+            return self._from_framework_error(cast(Error[object], error))
+        if isinstance(error, Err):
+            return self._from_result_err(cast(Err[object, object], error))
+        if isinstance(error, Exception):
+            return self._from_exception(error)
+        return self._from_unknown(error)
 
     def _from_framework_error(self, error: Error[object]) -> list[ErrorMessageModel]:
         """Convert a framework ``Error`` whose ``ErrorMetadata`` may hold

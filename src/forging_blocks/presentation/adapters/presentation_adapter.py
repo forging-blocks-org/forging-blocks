@@ -11,7 +11,7 @@ An optional ``Pipeline`` wraps the use case in cross-cutting middleware
 """
 
 from dataclasses import replace
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, NoReturn, cast
 
 from forging_blocks.foundation.result import Result
 from forging_blocks.presentation.adapters.request_adapter import RequestAdapter
@@ -98,6 +98,57 @@ class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
         self._unwrap_use_case_result = unwrap_use_case_result
         self._status_mapper = ErrorStatusCodeMapper()
 
+    def _adapt_request(self, raw_request: RawRequest) -> UseCaseInput:
+        return self._request_adapter.adapt(raw_request)
+
+    def _handle_request_adaptation_error(self, exc: Exception) -> RawResponse:
+        if self._error_presenter is None:
+            raise exc
+        view_model = self._error_presenter.to_view_model(exc)
+        mapped = ErrorViewModel(
+            messages=tuple(replace(msg, status_code=400) for msg in view_model.messages)
+        )
+        return self._response_adapter.adapt_error(mapped)
+
+    async def _execute_use_case(self, use_case_input: UseCaseInput) -> UseCaseOutput:
+        if self._pipeline is not None:
+            return await self._pipeline.execute(use_case_input)
+        return await self._use_case.execute(use_case_input)
+
+    def _handle_execution_error(self, exc: Exception) -> RawResponse:
+        if self._error_presenter is None:
+            raise exc
+        view_model = self._error_presenter.to_view_model(exc)
+        mapped = self._status_mapper.map(view_model)
+        return self._response_adapter.adapt_error(mapped)
+
+    def _should_unwrap_result(self, output: object) -> bool:
+        return self._unwrap_use_case_result and isinstance(output, Result)
+
+    def _raise_unpresented_error(self, error_value: object) -> NoReturn:
+        if isinstance(error_value, BaseException):
+            raise error_value
+        raise RuntimeError(str(error_value))
+
+    def _handle_err_result(self, error_value: object) -> RawResponse:
+        if self._error_presenter is None:
+            self._raise_unpresented_error(error_value)
+        view_model = self._error_presenter.to_view_model(error_value)
+        mapped = self._status_mapper.map(view_model)
+        return self._response_adapter.adapt_error(mapped)
+
+    def _handle_result_output(self, result: Result[UseCaseOutput, object]) -> RawResponse:
+        if result.is_err:
+            return self._handle_err_result(result.error)
+        return self._response_adapter.adapt(result.value)
+
+    def _handle_use_case_output(
+        self, output: UseCaseOutput | Result[UseCaseOutput, object]
+    ) -> RawResponse:
+        if self._should_unwrap_result(output):
+            return self._handle_result_output(cast("Result[UseCaseOutput, object]", output))
+        return self._response_adapter.adapt(cast(UseCaseOutput, output))
+
     async def handle(self, raw_request: RawRequest) -> RawResponse:
         """Process *raw_request* through the full lifecycle.
 
@@ -125,39 +176,13 @@ class PresentationAdapter[RawRequest, UseCaseInput, UseCaseOutput, RawResponse]:
 
         """
         try:
-            use_case_input = self._request_adapter.adapt(raw_request)
+            use_case_input = self._adapt_request(raw_request)
         except Exception as exc:
-            if self._error_presenter is None:
-                raise
-            view_model = self._error_presenter.to_view_model(exc)
-            mapped = ErrorViewModel(
-                messages=tuple(replace(msg, status_code=400) for msg in view_model.messages)
-            )
-            return self._response_adapter.adapt_error(mapped)
+            return self._handle_request_adaptation_error(exc)
 
         try:
-            if self._pipeline is not None:
-                use_case_output = await self._pipeline.execute(use_case_input)
-            else:
-                use_case_output = await self._use_case.execute(use_case_input)
+            use_case_output = await self._execute_use_case(use_case_input)
         except Exception as exc:
-            if self._error_presenter is None:
-                raise
-            view_model = self._error_presenter.to_view_model(exc)
-            mapped = self._status_mapper.map(view_model)
-            return self._response_adapter.adapt_error(mapped)
+            return self._handle_execution_error(exc)
 
-        if self._unwrap_use_case_result and isinstance(use_case_output, Result):
-            result = cast("Result[UseCaseOutput, object]", use_case_output)
-            if result.is_err:
-                if self._error_presenter is None:
-                    error_value = result.error
-                    if isinstance(error_value, BaseException):
-                        raise error_value
-                    raise RuntimeError(str(error_value))
-                view_model = self._error_presenter.to_view_model(result.error)
-                mapped = self._status_mapper.map(view_model)
-                return self._response_adapter.adapt_error(mapped)
-            return self._response_adapter.adapt(result.value)
-
-        return self._response_adapter.adapt(use_case_output)
+        return self._handle_use_case_output(use_case_output)

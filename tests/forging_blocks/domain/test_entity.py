@@ -21,6 +21,11 @@ class Admin(User):
     pass
 
 
+class Order(Entity[int]):
+    def __init__(self, order_id: int) -> None:
+        self._id = order_id
+
+
 @pytest.mark.unit
 class TestUser:
     @pytest.fixture
@@ -227,3 +232,12 @@ class TestUser:
         draft_user._id = 42
         with pytest.raises(EntityIdModificationError):
             draft_user._id = 99
+
+    def test___setattr___when_id_assigned_before_freeze_then_allows_assignment(
+        self,
+    ) -> None:
+        order = Order(42)
+        assert order.id == 42
+        assert order.is_persisted() is True
+        with pytest.raises(EntityIdModificationError):
+            order._id = 99

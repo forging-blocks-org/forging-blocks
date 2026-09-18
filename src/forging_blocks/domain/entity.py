@@ -44,26 +44,18 @@ class Entity[TId: Hashable](ABC):
 
     _id: TId | None
 
+    def __init__(self, entity_id: TId | None) -> None:
+        object.__setattr__(self, "_id", entity_id)
+
     def __init_subclass__(cls, **kwargs: Any) -> None:
         """Automatically apply selective freeze to concrete subclasses."""
         super().__init_subclass__(**kwargs)
         if not inspect.isabstract(cls):
             auto_freeze(attrs=["_id"])(cls)
 
-    def __init__(self, entity_id: TId | None) -> None:
-        object.__setattr__(self, "_id", entity_id)
-
     def __setattr__(self, name: str, value: Any) -> None:
         """Prevent modification of '_id' once set to a non-None value."""
-        frozen_attrs = getattr(self, "_autofreeze__frozen_attrs", None)
-
-        if (
-            frozen_attrs is not None
-            and name in frozen_attrs
-            and name == "_id"
-            and getattr(self, "_id", None) is not None
-            and value != self._id
-        ):
+        if self._is_forbidden_id_modification(name, value):
             raise EntityIdModificationError(
                 class_name=self.__class__.__name__,
                 attribute_name=name,
@@ -117,3 +109,20 @@ class Entity[TId: Hashable](ABC):
     def is_persisted(self) -> bool:
         """Return True if the entity has a defined identifier (i.e., is persisted)."""
         return self._id is not None
+
+    def _is_id_frozen(self) -> bool:
+        frozen_attrs: frozenset[str] | set[str] | None = getattr(
+            self, "_autofreeze__frozen_attrs", None
+        )
+        return frozen_attrs is not None and "_id" in frozen_attrs
+
+    def _id_value_changed(self, value: Any) -> bool:
+        current_id = getattr(self, "_id", None)
+        return current_id is not None and value != current_id
+
+    def _is_forbidden_id_modification(self, name: str, value: Any) -> bool:
+        if name != "_id":
+            return False
+        if not self._is_id_frozen():
+            return False
+        return self._id_value_changed(value)

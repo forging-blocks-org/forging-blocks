@@ -23,16 +23,16 @@ class FieldResolver:
     """
 
     @classmethod
-    def resolve(
-        cls,
-        class_: type[object],
-        fields: Sequence[str] | None = None,
-    ) -> list[str]:
-        if fields is not None:
-            return list(fields)
-
+    def _dataclass_fields(cls, class_: type[object]) -> list[str] | None:
         if dataclasses.is_dataclass(class_):
             return [f.name for f in dataclasses.fields(class_)]
+        return None
+
+    @classmethod
+    def _resolve_from_class(cls, class_: type[object]) -> list[str] | None:
+        dc_fields = cls._dataclass_fields(class_)
+        if dc_fields is not None:
+            return dc_fields
 
         slots = cls._collect_slots(class_)
         if slots:
@@ -41,6 +41,22 @@ class FieldResolver:
         annotations = cls._collect_annotations(class_)
         if annotations:
             return sorted(annotations)
+
+        return None
+
+    @classmethod
+    def resolve(
+        cls,
+        class_: type[object],
+        fields: Sequence[str] | None = None,
+    ) -> list[str]:
+        """Resolve field names contributing to equality for a class."""
+        if fields is not None:
+            return list(fields)
+
+        resolved = cls._resolve_from_class(class_)
+        if resolved is not None:
+            return resolved
 
         msg = (
             f"Cannot determine eq fields for non-dataclass {class_.__name__}. "

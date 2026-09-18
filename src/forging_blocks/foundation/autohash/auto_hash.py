@@ -119,6 +119,27 @@ class _AutoHashDecorator:
         type.__setattr__(class_, "__auto_hash_fields__", _field_names)
         return class_
 
+    @staticmethod
+    def _dataclass_field_names(class_: type[object]) -> list[str] | None:
+        if dataclasses.is_dataclass(class_):
+            return [f.name for f in dataclasses.fields(class_)]
+        return None
+
+    def _resolve_from_class(self, class_: type[object]) -> list[str] | None:
+        dc_fields = self._dataclass_field_names(class_)
+        if dc_fields is not None:
+            return dc_fields
+
+        slots = self._collect_slots(class_)
+        if slots:
+            return sorted(slots)
+
+        annotations = self._collect_annotations(class_)
+        if annotations:
+            return sorted(annotations)
+
+        return None
+
     def _resolve_field_names(self, class_: type[object]) -> list[str]:
         """Determine which field names contribute to ``__hash__``.
 
@@ -141,16 +162,9 @@ class _AutoHashDecorator:
         if self._fields is not None:
             return list(self._fields)
 
-        if dataclasses.is_dataclass(class_):
-            return [f.name for f in dataclasses.fields(class_)]
-
-        slots = self._collect_slots(class_)
-        if slots:
-            return sorted(slots)
-
-        annotations = self._collect_annotations(class_)
-        if annotations:
-            return sorted(annotations)
+        resolved = self._resolve_from_class(class_)
+        if resolved is not None:
+            return resolved
 
         msg = (
             f"Cannot determine hash fields for {class_.__name__}. "

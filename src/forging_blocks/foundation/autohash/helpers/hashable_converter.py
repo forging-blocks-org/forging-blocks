@@ -34,12 +34,32 @@ class HashableConverter:
     """
 
     @classmethod
+    def _convert_sequence(
+        cls,
+        value: tuple[object, ...] | list[object],
+        field_name: str | None,
+    ) -> tuple[Hashable, ...]:
+        return tuple(cls.convert(v, field_name=field_name) for v in value)
+
+    @classmethod
+    def _convert_set(
+        cls,
+        value: frozenset[object] | set[object],
+        field_name: str | None,
+    ) -> frozenset[Hashable]:
+        return frozenset(cls.convert(v, field_name=field_name) for v in value)
+
+    @classmethod
+    def _convert_dict(
+        cls,
+        value: dict[object, object],
+        field_name: str | None,
+    ) -> frozenset[tuple[object, Hashable]]:
+        return frozenset((k, cls.convert(v, field_name=field_name)) for k, v in value.items())
+
+    @classmethod
     def convert(cls, value: object, field_name: str | None = None) -> Hashable:
         """Convert *value* to a hashable equivalent.
-
-        Uses structural pattern matching for type dispatch, ensuring that
-        tuple and frozenset are handled before the generic Hashable arm so
-        nested unhashable contents are recursively converted.
 
         Args:
             value: Any value that may appear as a field on a decorated class.
@@ -53,33 +73,14 @@ class HashableConverter:
                 custom non-hashable object).
 
         """
-        match value:
-            case tuple():
-                converted = (
-                    cls.convert(v, field_name=field_name) for v in cast("tuple[object, ...]", value)
-                )
-                return tuple(converted)
-            case frozenset():
-                converted = (
-                    cls.convert(v, field_name=field_name) for v in cast("frozenset[object]", value)
-                )
-                return frozenset(converted)
-            case _ if isinstance(value, Hashable):
-                return value
-            case list():
-                converted = (
-                    cls.convert(v, field_name=field_name) for v in cast("list[object]", value)
-                )
-                return tuple(converted)
-            case dict():
-                return frozenset(
-                    (k, cls.convert(v, field_name=field_name))
-                    for k, v in cast("dict[object, object]", value).items()
-                )
-            case set():
-                converted = (
-                    cls.convert(v, field_name=field_name) for v in cast("set[object]", value)
-                )
-                return frozenset(converted)
-            case _:
-                raise NonHashableValueError(type(value).__name__, field_name=field_name)
+        if isinstance(value, (tuple, list)):
+            return cls._convert_sequence(
+                cast("tuple[object, ...] | list[object]", value), field_name
+            )
+        if isinstance(value, (frozenset, set)):
+            return cls._convert_set(cast("frozenset[object] | set[object]", value), field_name)
+        if isinstance(value, dict):
+            return cls._convert_dict(cast("dict[object, object]", value), field_name)
+        if isinstance(value, Hashable):
+            return value
+        raise NonHashableValueError(type(value).__name__, field_name=field_name)

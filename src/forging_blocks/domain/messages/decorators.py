@@ -81,6 +81,110 @@ class _PatchedMessage(Protocol):
     ) -> Self: ...
 
 
+def _frozen_setattr(self: object, name: str, value: object) -> None:
+    """Raise FrozenInstanceError for attribute assignment after init."""
+    if getattr(self, "__init_finished__", False):
+        raise dataclasses.FrozenInstanceError(f"cannot assign to field {name!r}")
+    object.__setattr__(self, name, value)
+
+
+def _resolve_abstract_methods_to_remove(
+    dc_cls: type[Any], abstract_methods: frozenset[str]
+) -> set[str]:
+    """Resolve which abstract methods to remove from the dataclass."""
+    to_remove: set[str] = set()
+    patched = cast(Any, dc_cls)
+    if "_payload" in abstract_methods:
+        patched._payload = property(lambda self: self.get_payload_fields())
+        to_remove.add("_payload")
+    if "value" in abstract_methods:
+        patched.value = property(lambda self: self.get_payload_fields())
+        to_remove.add("value")
+    if "from_payload_fields" in abstract_methods:
+        to_remove.add("from_payload_fields")
+    return to_remove
+
+
+def _patch_abstract_methods(dc_cls: type[Any]) -> None:
+    """Patch abstract methods on the decorated message dataclass."""
+    abstract_methods: frozenset[str] = getattr(dc_cls, "__abstractmethods__", frozenset())
+    to_remove = _resolve_abstract_methods_to_remove(dc_cls, abstract_methods)
+    if to_remove:
+        dc_cls.__abstractmethods__ = frozenset(abstract_methods - to_remove)
+
+
+def _validate_patched_message(dc_cls: type[Any]) -> None:
+    """Validate that the decorated class satisfies the _PatchedMessage protocol."""
+    if not isinstance(dc_cls, _PatchedMessage):
+        raise TypeError(
+            f"{dc_cls.__name__!r} does not satisfy _PatchedMessage after decoration. "
+            "This is a bug in message_dataclass."
+        )
+
+
+def _create_message_init(
+    original_init: Callable[..., None],
+) -> Callable[..., None]:
+    """Create the custom __init__ for message dataclasses."""
+
+    def new_init(
+        self: Any,
+        *args: Any,
+        metadata: MessageMetadata | None = None,
+        **kwargs: Any,
+    ) -> None:
+        object.__setattr__(self, "__init_finished__", False)
+        original_init(self, *args, **kwargs)
+        effective_type = type(self).__name__
+        object.__setattr__(
+            self, "_metadata", metadata or MessageMetadata(message_type=effective_type)
+        )
+        object.__setattr__(self, "__init_finished__", True)
+
+    return new_init
+
+
+def _create_from_payload_fields(
+    dc_cls: type[Any],
+) -> classmethod[Any, Any, Any]:
+    """Create the from_payload_fields classmethod for message dataclasses."""
+
+    def from_payload_fields(
+        cls: type[Any],
+        data: dict[str, object],
+        metadata: MessageMetadata,
+    ) -> Any:
+        fields = cast(Any, dc_cls).__dataclass_fields__
+        unknown = data.keys() - fields.keys()
+        if unknown:
+            raise TypeError(f"Unknown field(s) in payload for {cls.__name__}: {sorted(unknown)}")
+        return cls(metadata=metadata, **data)
+
+    return classmethod(from_payload_fields)
+
+
+def _wrap_message_dataclass(cls: type[_M]) -> type[_M]:
+    """Decorate and patch a concrete message class."""
+    dc_cls: type[_M] = dataclass(frozen=False, eq=False)(cls)
+    dc_cls.__setattr__ = _frozen_setattr
+
+    def get_payload_fields(self: _M) -> dict[str, object]:
+        return {
+            name: getattr(self, name)
+            for name in cast(Any, dc_cls).__dataclass_fields__
+            if not name.startswith("_") and name not in ("metadata",)
+        }
+
+    patched = cast(Any, dc_cls)
+    patched.__init__ = _create_message_init(dc_cls.__init__)
+    patched.get_payload_fields = get_payload_fields
+    patched.from_payload_fields = _create_from_payload_fields(dc_cls)
+
+    _patch_abstract_methods(dc_cls)
+    _validate_patched_message(dc_cls)
+    return dc_cls
+
+
 @overload
 def message_dataclass(cls: type[_M]) -> type[_M]: ...
 
@@ -114,85 +218,7 @@ def message_dataclass(
     Returns:
         The decorated class (or a wrapper when called with keyword arguments).
     """
-
-    def wrap(cls: type[_M]) -> type[_M]:
-        dc_cls: type[_M] = dataclass(frozen=False, eq=False)(cls)
-
-        original_init = dc_cls.__init__
-
-        def frozen_setattr(self: object, name: str, value: object) -> None:
-            """Raise FrozenInstanceError for attribute assignment after init."""
-            if getattr(self, "__init_finished__", False):
-                raise dataclasses.FrozenInstanceError(f"cannot assign to field {name!r}")
-            object.__setattr__(self, name, value)
-
-        def new_init(
-            self: _M,
-            *args: Any,
-            metadata: MessageMetadata | None = None,
-            **kwargs: Any,
-        ) -> None:
-            object.__setattr__(self, "__init_finished__", False)
-            original_init(self, *args, **kwargs)
-            effective_type = type(self).__name__
-            object.__setattr__(
-                self, "_metadata", metadata or MessageMetadata(message_type=effective_type)
-            )
-            object.__setattr__(self, "__init_finished__", True)
-
-        dc_cls.__setattr__ = frozen_setattr
-
-        def get_payload_fields(self: _M) -> dict[str, object]:
-            return {
-                name: getattr(self, name)
-                for name in cast(Any, dc_cls).__dataclass_fields__
-                if not name.startswith("_") and name not in ("metadata",)
-            }
-
-        @classmethod
-        def from_payload_fields(
-            cls: type[_M],
-            data: dict[str, object],
-            metadata: MessageMetadata,
-        ) -> _M:
-            fields = cast(Any, dc_cls).__dataclass_fields__
-            unknown = data.keys() - fields.keys()
-            if unknown:
-                raise TypeError(
-                    f"Unknown field(s) in payload for {cls.__name__}: {sorted(unknown)}"
-                )
-            return cls(metadata=metadata, **data)
-
-        patched = cast(Any, dc_cls)
-        patched.__init__ = new_init
-        patched.get_payload_fields = get_payload_fields
-        patched.from_payload_fields = from_payload_fields
-
-        abstract_methods: frozenset[str] = getattr(dc_cls, "__abstractmethods__", frozenset())
-        if "_payload" in abstract_methods:
-            patched._payload = property(lambda self: self.get_payload_fields())
-            dc_cls.__abstractmethods__ = frozenset(
-                m for m in dc_cls.__abstractmethods__ if m != "_payload"
-            )
-        if "value" in abstract_methods:
-            patched.value = property(lambda self: self.get_payload_fields())
-            dc_cls.__abstractmethods__ = frozenset(
-                m for m in dc_cls.__abstractmethods__ if m != "value"
-            )
-        if "from_payload_fields" in abstract_methods:
-            dc_cls.__abstractmethods__ = frozenset(
-                m for m in dc_cls.__abstractmethods__ if m != "from_payload_fields"
-            )
-
-        if not isinstance(dc_cls, _PatchedMessage):
-            raise TypeError(
-                f"{dc_cls.__name__!r} does not satisfy _PatchedMessage after decoration. "
-                "This is a bug in message_dataclass."
-            )
-
-        return cast(type[_M], dc_cls)
-
-    return wrap if cls is None else wrap(cls)
+    return _wrap_message_dataclass if cls is None else _wrap_message_dataclass(cls)
 
 
 event_dataclass = message_dataclass

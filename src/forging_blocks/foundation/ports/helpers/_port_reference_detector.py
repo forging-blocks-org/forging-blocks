@@ -6,7 +6,7 @@ a specific port type.
 """
 
 from types import UnionType
-from typing import get_args, get_origin
+from typing import cast, get_args, get_origin
 
 
 class PortReferenceDetector:
@@ -39,15 +39,25 @@ class PortReferenceDetector:
         self._collect(parameter_type, found)
         return found
 
+    def _collect_type_args(self, parameter_type: object, found: set[type]) -> None:
+        for argument in get_args(parameter_type):
+            self._collect(argument, found)
+
+    def _is_target_port(self, parameter_type: object) -> bool:
+        if not isinstance(parameter_type, type):
+            return False
+        return self._target_port in parameter_type.__mro__
+
+    def _is_generic_with_origin(self, parameter_type: object) -> bool:
+        origin = get_origin(parameter_type)
+        return origin is not None and origin is not parameter_type
+
     def _collect(self, parameter_type: object, found: set[type]) -> None:
         if isinstance(parameter_type, UnionType):
-            for argument in get_args(parameter_type):
-                self._collect(argument, found)
+            self._collect_type_args(parameter_type, found)
             return
-        if isinstance(parameter_type, type) and self._target_port in parameter_type.__mro__:
-            found.add(parameter_type)
+        if self._is_target_port(parameter_type):
+            found.add(cast(type, parameter_type))
             return
-        origin = get_origin(parameter_type)
-        if origin is not None and origin is not parameter_type:
-            for argument in get_args(parameter_type):
-                self._collect(argument, found)
+        if self._is_generic_with_origin(parameter_type):
+            self._collect_type_args(parameter_type, found)

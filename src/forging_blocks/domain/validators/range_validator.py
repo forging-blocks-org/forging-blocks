@@ -34,31 +34,41 @@ class RangeValidator(ValidationRule):
         self._minimum_value = minimum_value
         self._maximum_value = maximum_value
 
-    def validate(self, value: Any) -> list[RuleViolationError]:
+    def _check_type(self, value: Any) -> RuleViolationError | None:
         if not isinstance(value, (int, float)):
-            return [
-                RuleViolatedError(
-                    ErrorMessage(f"'{self._field}' must be a number."),
-                    ErrorMetadata(context={"field": self._field, "code": "invalid_type"}),
-                )
-            ]
+            return RuleViolatedError(
+                ErrorMessage(f"'{self._field}' must be a number."),
+                ErrorMetadata(context={"field": self._field, "code": "invalid_type"}),
+            )
+        return None
+
+    def _check_minimum(self, value: int | float) -> RuleViolationError | None:
+        if self._minimum_value is not None and value < self._minimum_value:
+            return RuleViolatedError(
+                ErrorMessage(f"'{self._field}' must be at least {self._minimum_value}."),
+                ErrorMetadata(context={"field": self._field, "code": "minimum_value"}),
+            )
+        return None
+
+    def _check_maximum(self, value: int | float) -> RuleViolationError | None:
+        if self._maximum_value is not None and value > self._maximum_value:
+            return RuleViolatedError(
+                ErrorMessage(f"'{self._field}' must be at most {self._maximum_value}."),
+                ErrorMetadata(context={"field": self._field, "code": "maximum_value"}),
+            )
+        return None
+
+    def validate(self, value: Any) -> list[RuleViolationError]:
+        """Validate that the given value is a number within the configured range."""
+        type_error = self._check_type(value)
+        if type_error is not None:
+            return [type_error]
 
         errors: list[RuleViolationError] = []
-
-        if self._minimum_value is not None and value < self._minimum_value:
-            errors.append(
-                RuleViolatedError(
-                    ErrorMessage(f"'{self._field}' must be at least {self._minimum_value}."),
-                    ErrorMetadata(context={"field": self._field, "code": "minimum_value"}),
-                )
-            )
-
-        if self._maximum_value is not None and value > self._maximum_value:
-            errors.append(
-                RuleViolatedError(
-                    ErrorMessage(f"'{self._field}' must be at most {self._maximum_value}."),
-                    ErrorMetadata(context={"field": self._field, "code": "maximum_value"}),
-                )
-            )
-
+        minimum_error = self._check_minimum(value)
+        if minimum_error is not None:
+            errors.append(minimum_error)
+        maximum_error = self._check_maximum(value)
+        if maximum_error is not None:
+            errors.append(maximum_error)
         return errors
