@@ -1,6 +1,4 @@
-# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
-"""Tests for the auto_freeze decorator."""
-
+# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false, reportAttributeAccessIssue=false, reportUnusedVariable=false
 from __future__ import annotations
 
 from typing import Any
@@ -80,6 +78,55 @@ class TestAutoFreezeDecorator:
         instance.name = "new name"
         assert instance.name == "new name"
 
+    def test_when_full_freeze_deletes_attribute_then_raises_error(self) -> None:
+        class MyClass:
+            def __init__(self, value: int) -> None:
+                self.value = value
+
+        instance = auto_freeze(MyClass)(42)
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            del instance.value
+
+    def test_when_selective_freeze_deletes_frozen_attribute_then_raises_error(self) -> None:
+        class MyClass:
+            def __init__(self, frozen: int, mutable: int) -> None:
+                self.frozen = frozen
+                self.mutable = mutable
+
+        decorated = auto_freeze(attrs=["frozen"])(MyClass)
+        instance = decorated(1, 2)
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            del instance.frozen
+
+        del instance.mutable
+        assert not hasattr(instance, "mutable")
+
+    def test_when_selective_freeze_marker_is_modified_then_raises_error(self) -> None:
+        class MyClass:
+            def __init__(self, value: int) -> None:
+                self.value = value
+
+        decorated = auto_freeze(attrs=["value"])(MyClass)
+        instance = decorated(1)
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            delattr(instance, "_autofreeze__frozen_attrs")
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            instance.__setattr__("_autofreeze__frozen_attrs", set())
+
+        @auto_freeze
+        class FullClass:
+            def __init__(self, value: int) -> None:
+                self.value = value
+
+        full_instance = FullClass(1)
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            delattr(full_instance, "_autofreeze__frozen")
+
     def test_when_init_raises_then_instance_not_frozen(self) -> None:
         class MyClass:
             def __init__(self, value: int) -> None:
@@ -145,34 +192,31 @@ class TestAutoFreezeDecorator:
         with pytest.raises(CantModifyImmutableAttributeError):
             instance.value = 99
 
-    def test_when_class_has_custom_setattr_then_class_handles_freezing(self) -> None:
-        """When a class has custom __setattr__, it must handle frozen checks itself."""
-
+    def test_when_class_has_custom_mutators_then_decorator_handles_freezing(self) -> None:
         class MyClass:
             def __init__(self, value: int) -> None:
                 self._value = value
+                self.other = "other"
 
             def __setattr__(self, name: str, value: Any) -> None:
-                if getattr(self, "_autofreeze__frozen", False):
-                    raise CantModifyImmutableAttributeError(
-                        class_name=self.__class__.__name__,
-                        attribute_name=name,
-                    )
                 if name == "_value" and value < 0:
                     raise ValueError("value must be non-negative")
                 object.__setattr__(self, name, value)
 
-        decorated = auto_freeze(MyClass)
-        instance = decorated(10)
+            def __delattr__(self, name: str) -> None:
+                object.__delattr__(self, name)
 
-        with pytest.raises(CantModifyImmutableAttributeError):
-            instance._value = -5
+        decorated = auto_freeze(attrs=["_value"])(MyClass)
+        instance = decorated(10)
 
         with pytest.raises(CantModifyImmutableAttributeError):
             instance._value = 20
 
         with pytest.raises(CantModifyImmutableAttributeError):
-            instance._value = 30
+            del instance._value
+
+        del instance.other
+        assert not hasattr(instance, "other")
 
     def test_when_class_has_slots_then_works_correctly(self) -> None:
         class Slotted:

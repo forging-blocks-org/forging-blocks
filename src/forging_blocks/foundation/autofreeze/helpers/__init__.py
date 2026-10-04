@@ -3,6 +3,9 @@
 These are implementation details and not part of the public API.
 """
 
+from forging_blocks.foundation.autofreeze.helpers.frozen_delattr_handler import (
+    FrozenDelattrHandler,
+)
 from forging_blocks.foundation.autofreeze.helpers.frozen_init_wrapper import (
     FrozenInitWrapper,
 )
@@ -14,6 +17,7 @@ from forging_blocks.foundation.autofreeze.helpers.frozen_state_manager import Fr
 
 __all__ = [
     "FrozenInitWrapper",
+    "FrozenDelattrHandler",
     "FrozenSetattrHandler",
     "FrozenStateConfig",
     "FrozenStateManager",

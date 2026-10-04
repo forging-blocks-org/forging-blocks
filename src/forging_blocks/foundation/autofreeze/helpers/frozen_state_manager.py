@@ -19,6 +19,7 @@ from forging_blocks.foundation.autofreeze.helpers._frozen_state_constants import
     FROZEN_ATTRS_FLAG,
     FROZEN_FLAG,
     INIT_DEPTH_FLAG,
+    INTERNAL_STATE_ATTRIBUTES,
 )
 from forging_blocks.foundation.autofreeze.helpers.frozen_state_config import FrozenStateConfig
 
@@ -134,7 +135,7 @@ class FrozenStateManager:
     def _erase_init_depth(cls, instance: object) -> None:
         try:
             object.__delattr__(instance, INIT_DEPTH_FLAG)
-        except (AttributeError, TypeError):
+        except AttributeError, TypeError:
             pass
         cls._init_depth_fallback.pop(cls._fallback_key(instance), None)
 
@@ -191,6 +192,11 @@ class FrozenStateManager:
                 cls._qualname_of(instance),
                 attrs,
             )
+
+    @classmethod
+    def is_internal_attribute(cls, name: str) -> bool:
+        """Return whether *name* stores internal freeze state."""
+        return name in INTERNAL_STATE_ATTRIBUTES
 
     @classmethod
     def get_state(cls, instance: object) -> FrozenStateConfig:

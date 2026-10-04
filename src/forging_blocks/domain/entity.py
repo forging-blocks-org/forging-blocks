@@ -51,7 +51,7 @@ class Entity[TId: Hashable](ABC):
         """Automatically apply selective freeze to concrete subclasses."""
         super().__init_subclass__(**kwargs)
         if not inspect.isabstract(cls):
-            auto_freeze(attrs=["_id"])(cls)
+            auto_freeze(attrs=["_id"], custom_mutator_attrs=["_id"])(cls)
 
     def __setattr__(self, name: str, value: Any) -> None:
         """Prevent modification of '_id' once set to a non-None value."""
