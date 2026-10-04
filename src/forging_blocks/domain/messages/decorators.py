@@ -34,58 +34,26 @@ Example:
 import dataclasses
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Protocol, Self, TypeVar, cast, overload, runtime_checkable
+from typing import Any, TypeVar, cast, overload
 
+from forging_blocks.domain.messages.helpers._patched_message import _PatchedMessage
 from forging_blocks.domain.messages.message import Message, MessageMetadata
 
 _M = TypeVar("_M", bound="Message[Any]")
 
 
-@runtime_checkable
-class _PatchedMessage(Protocol):
-    """Structural type describing a message class after decorator patching.
-
-    This protocol allows pyright to verify that the patched attributes exist
-    and have the correct signatures, replacing attribute assignment suppressions
-    with a proper type-safe cast boundary.
-
-    Example:
-        ```python
-        @message_dataclass
-        class OrderCreated(Event[dict[str, object]]):
-            order_id: str
-
-
-        decorated = OrderCreated
-        assert isinstance(decorated, _PatchedMessage)
-
-        fields = decorated.get_payload_fields()
-        assert fields == {"order_id": "order_id"}
-
-        from_payload = decorated.from_payload_fields(
-            {"order_id": "ORD-001"},
-            metadata=MessageMetadata(),
-        )
-        assert isinstance(from_payload, OrderCreated)
-        assert from_payload.order_id == "ORD-001"
-        ```
-    """
-
-    def get_payload_fields(self) -> dict[str, object]: ...
-
-    @classmethod
-    def from_payload_fields(
-        cls,
-        data: dict[str, object],
-        metadata: MessageMetadata,
-    ) -> Self: ...
-
-
 def _frozen_setattr(self: object, name: str, value: object) -> None:
     """Raise FrozenInstanceError for attribute assignment after init."""
-    if getattr(self, "__init_finished__", False):
+    if name == "__init_finished__" or getattr(self, "__init_finished__", False):
         raise dataclasses.FrozenInstanceError(f"cannot assign to field {name!r}")
     object.__setattr__(self, name, value)
+
+
+def _frozen_delattr(self: object, name: str) -> None:
+    """Raise FrozenInstanceError for attribute deletion after init."""
+    if name == "__init_finished__" or getattr(self, "__init_finished__", False):
+        raise dataclasses.FrozenInstanceError(f"cannot delete field {name!r}")
+    object.__delattr__(self, name)
 
 
 def _resolve_abstract_methods_to_remove(
@@ -167,6 +135,7 @@ def _wrap_message_dataclass(cls: type[_M]) -> type[_M]:
     """Decorate and patch a concrete message class."""
     dc_cls: type[_M] = dataclass(frozen=False, eq=False)(cls)
     dc_cls.__setattr__ = _frozen_setattr
+    dc_cls.__delattr__ = _frozen_delattr
 
     def get_payload_fields(self: _M) -> dict[str, object]:
         return {
@@ -201,10 +170,10 @@ def message_dataclass(
     """Decorate a class as a message dataclass.
 
     The decorator applies ``@dataclass(frozen=False)`` and then replaces
-    ``__setattr__`` with a custom implementation that raises
-    ``FrozenInstanceError`` after ``__init__`` completes.  It also
-    patches ``get_payload_fields`` and ``from_payload_fields`` onto the
-    class so that payload data is automatically derived from its fields.
+    ``__setattr__`` and ``__delattr__`` with custom implementations that raise
+    ``FrozenInstanceError`` after ``__init__`` completes. It also patches
+    ``get_payload_fields`` and ``from_payload_fields`` onto the class so that
+    payload data is automatically derived from its fields.
 
     When the decorated class inherits from an abstract base (e.g.
     `Event`, `Command`, `Query`), the decorator
