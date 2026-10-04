@@ -10,7 +10,7 @@ from collections.abc import Callable, Sequence
 from functools import wraps
 from typing import Any
 
-from forging_blocks.foundation.autofreeze.helpers.frozen_state import (
+from forging_blocks.foundation.autofreeze.helpers.frozen_state_manager import (
     FrozenStateManager,
 )
 

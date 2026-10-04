@@ -9,10 +9,8 @@ from forging_blocks.foundation.autofreeze.helpers.frozen_init_wrapper import (
 from forging_blocks.foundation.autofreeze.helpers.frozen_setattr_handler import (
     FrozenSetattrHandler,
 )
-from forging_blocks.foundation.autofreeze.helpers.frozen_state import (
-    FrozenStateConfig,
-    FrozenStateManager,
-)
+from forging_blocks.foundation.autofreeze.helpers.frozen_state_config import FrozenStateConfig
+from forging_blocks.foundation.autofreeze.helpers.frozen_state_manager import FrozenStateManager
 
 __all__ = [
     "FrozenInitWrapper",

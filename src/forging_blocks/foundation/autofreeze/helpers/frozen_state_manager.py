@@ -14,12 +14,13 @@ import weakref
 from collections.abc import Sequence
 from typing import cast
 
+from forging_blocks.foundation.autofreeze.helpers._frozen_state_constants import (
+    AUTO_FREEZE_MARKER,
+    FROZEN_ATTRS_FLAG,
+    FROZEN_FLAG,
+    INIT_DEPTH_FLAG,
+)
 from forging_blocks.foundation.autofreeze.helpers.frozen_state_config import FrozenStateConfig
-
-_AUTO_FREEZE_MARKER = "__auto_freeze_applied"
-_FROZEN_FLAG = "_autofreeze__frozen"
-_FROZEN_ATTRS_FLAG = "_autofreeze__frozen_attrs"
-_INIT_DEPTH_FLAG = "_autofreeze__init_depth"
 
 
 class FrozenStateManager:
@@ -68,9 +69,6 @@ class FrozenStateManager:
     _init_depth_fallback: dict[_RefKey, tuple[str, int]] = {}
     _frozen_fallback: dict[_RefKey, tuple[str, bool]] = {}
     _frozen_attrs_fallback: dict[_RefKey, tuple[str, set[str]]] = {}
-    # ------------------------------------------------------------------
-    # key management
-    # ------------------------------------------------------------------
 
     @classmethod
     def _fallback_key(cls, instance: object) -> _RefKey:
@@ -86,8 +84,6 @@ class FrozenStateManager:
         try:
             ref: weakref.ReferenceType[object] = weakref.ref(instance, cls._cleanup_fallback)
         except TypeError:
-            # Instance does not support weak references (slotted without
-            # ``__weakref__``).  No cleanup; entries persist until exit.
             pass
         else:
             cls._refs_by_id[iid] = ref
@@ -101,7 +97,6 @@ class FrozenStateManager:
         `_refs_by_id`.  Called automatically by the runtime when the
         referent is garbage-collected.
         """
-        # Find the id that maps to this ref.
         for iid, cached in list(cls._refs_by_id.items()):
             if cached is ref:
                 del cls._refs_by_id[iid]
@@ -110,10 +105,6 @@ class FrozenStateManager:
                 cls._frozen_attrs_fallback.pop(iid, None)
                 return
 
-    # ------------------------------------------------------------------
-    # init depth
-    # ------------------------------------------------------------------
-
     @classmethod
     def _qualname_of(cls, instance: object) -> str:
         return type(instance).__qualname__
@@ -121,7 +112,7 @@ class FrozenStateManager:
     @classmethod
     def _read_init_depth(cls, instance: object) -> int:
         try:
-            return cast(int, getattr(instance, _INIT_DEPTH_FLAG))
+            return cast(int, getattr(instance, INIT_DEPTH_FLAG))
         except AttributeError:
             key = cls._fallback_key(instance)
             entry = cls._init_depth_fallback.get(key)
@@ -132,7 +123,7 @@ class FrozenStateManager:
     @classmethod
     def _write_init_depth(cls, instance: object, depth: int) -> None:
         try:
-            object.__setattr__(instance, _INIT_DEPTH_FLAG, depth)
+            object.__setattr__(instance, INIT_DEPTH_FLAG, depth)
         except AttributeError:
             cls._init_depth_fallback[cls._fallback_key(instance)] = (
                 cls._qualname_of(instance),
@@ -142,23 +133,17 @@ class FrozenStateManager:
     @classmethod
     def _erase_init_depth(cls, instance: object) -> None:
         try:
-            object.__delattr__(instance, _INIT_DEPTH_FLAG)
+            object.__delattr__(instance, INIT_DEPTH_FLAG)
         except (AttributeError, TypeError):
-            # Instance cannot have the tracking attribute removed
-            # (e.g., it was never set, or the class is slotted).
-            # Fallback map cleanup happens unconditionally below.
             pass
         cls._init_depth_fallback.pop(cls._fallback_key(instance), None)
 
-    # ------------------------------------------------------------------
-    # frozen flag
-    # ------------------------------------------------------------------
     @classmethod
     def _read_is_frozen(cls, instance: object) -> bool:
         if cls._read_init_depth(instance) > 0:
             return False
         try:
-            return cast("bool", getattr(instance, _FROZEN_FLAG))
+            return cast("bool", getattr(instance, FROZEN_FLAG))
         except AttributeError:
             key = cls._fallback_key(instance)
             entry = cls._frozen_fallback.get(key)
@@ -173,23 +158,19 @@ class FrozenStateManager:
     @classmethod
     def _write_is_frozen(cls, instance: object, value: bool) -> None:
         try:
-            object.__setattr__(instance, _FROZEN_FLAG, value)
+            object.__setattr__(instance, FROZEN_FLAG, value)
         except AttributeError:
             cls._frozen_fallback[cls._fallback_key(instance)] = (
                 cls._qualname_of(instance),
                 value,
             )
 
-    # ------------------------------------------------------------------
-    # frozen attrs
-    # ------------------------------------------------------------------
-
     @classmethod
     def _read_frozen_attrs(cls, instance: object) -> set[str] | None:
         if cls._read_init_depth(instance) > 0:
             return None
         try:
-            return cast("set[str] | None", getattr(instance, _FROZEN_ATTRS_FLAG))
+            return cast("set[str] | None", getattr(instance, FROZEN_ATTRS_FLAG))
         except AttributeError:
             key = cls._fallback_key(instance)
             entry = cls._frozen_attrs_fallback.get(key)
@@ -204,16 +185,12 @@ class FrozenStateManager:
     @classmethod
     def _write_frozen_attrs(cls, instance: object, attrs: set[str]) -> None:
         try:
-            object.__setattr__(instance, _FROZEN_ATTRS_FLAG, attrs)
+            object.__setattr__(instance, FROZEN_ATTRS_FLAG, attrs)
         except AttributeError:
             cls._frozen_attrs_fallback[cls._fallback_key(instance)] = (
                 cls._qualname_of(instance),
                 attrs,
             )
-
-    # ------------------------------------------------------------------
-    # public api
-    # ------------------------------------------------------------------
 
     @classmethod
     def get_state(cls, instance: object) -> FrozenStateConfig:
@@ -226,12 +203,12 @@ class FrozenStateManager:
     @classmethod
     def mark_as_decorated(cls, init_method: object) -> None:
         """Tag *init_method* so that ``is_decorated`` returns ``True``."""
-        object.__setattr__(init_method, _AUTO_FREEZE_MARKER, True)
+        object.__setattr__(init_method, AUTO_FREEZE_MARKER, True)
 
     @classmethod
     def is_decorated(cls, init_method: object) -> bool:
         """Return ``True`` when *init_method* was already wrapped by auto_freeze."""
-        return hasattr(init_method, _AUTO_FREEZE_MARKER)
+        return hasattr(init_method, AUTO_FREEZE_MARKER)
 
     @classmethod
     def increment_init_depth(cls, instance: object) -> None:
