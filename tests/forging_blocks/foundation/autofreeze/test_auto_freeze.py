@@ -303,7 +303,7 @@ class TestFrozenStateManagerStaleFallback:
     def test_read_is_frozen_when_stale_qualifier_then_deletes_entry_and_returns_false(
         self,
     ) -> None:
-        from forging_blocks.foundation.autofreeze.helpers.frozen_state import (
+        from forging_blocks.foundation.autofreeze.helpers.frozen_state_manager import (
             FrozenStateManager,
         )
 
@@ -325,7 +325,7 @@ class TestFrozenStateManagerStaleFallback:
     def test_read_frozen_attrs_when_stale_qualifier_then_deletes_entry_and_returns_none(
         self,
     ) -> None:
-        from forging_blocks.foundation.autofreeze.helpers.frozen_state import (
+        from forging_blocks.foundation.autofreeze.helpers.frozen_state_manager import (
             FrozenStateManager,
         )
 

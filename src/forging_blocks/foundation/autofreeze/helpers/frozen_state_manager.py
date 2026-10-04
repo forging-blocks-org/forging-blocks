@@ -68,9 +68,6 @@ class FrozenStateManager:
     _init_depth_fallback: dict[_RefKey, tuple[str, int]] = {}
     _frozen_fallback: dict[_RefKey, tuple[str, bool]] = {}
     _frozen_attrs_fallback: dict[_RefKey, tuple[str, set[str]]] = {}
-    # ------------------------------------------------------------------
-    # key management
-    # ------------------------------------------------------------------
 
     @classmethod
     def _fallback_key(cls, instance: object) -> _RefKey:
@@ -86,8 +83,6 @@ class FrozenStateManager:
         try:
             ref: weakref.ReferenceType[object] = weakref.ref(instance, cls._cleanup_fallback)
         except TypeError:
-            # Instance does not support weak references (slotted without
-            # ``__weakref__``).  No cleanup; entries persist until exit.
             pass
         else:
             cls._refs_by_id[iid] = ref
@@ -101,7 +96,6 @@ class FrozenStateManager:
         `_refs_by_id`.  Called automatically by the runtime when the
         referent is garbage-collected.
         """
-        # Find the id that maps to this ref.
         for iid, cached in list(cls._refs_by_id.items()):
             if cached is ref:
                 del cls._refs_by_id[iid]
@@ -109,10 +103,6 @@ class FrozenStateManager:
                 cls._frozen_fallback.pop(iid, None)
                 cls._frozen_attrs_fallback.pop(iid, None)
                 return
-
-    # ------------------------------------------------------------------
-    # init depth
-    # ------------------------------------------------------------------
 
     @classmethod
     def _qualname_of(cls, instance: object) -> str:
@@ -144,15 +134,9 @@ class FrozenStateManager:
         try:
             object.__delattr__(instance, _INIT_DEPTH_FLAG)
         except (AttributeError, TypeError):
-            # Instance cannot have the tracking attribute removed
-            # (e.g., it was never set, or the class is slotted).
-            # Fallback map cleanup happens unconditionally below.
             pass
         cls._init_depth_fallback.pop(cls._fallback_key(instance), None)
 
-    # ------------------------------------------------------------------
-    # frozen flag
-    # ------------------------------------------------------------------
     @classmethod
     def _read_is_frozen(cls, instance: object) -> bool:
         if cls._read_init_depth(instance) > 0:
@@ -180,10 +164,6 @@ class FrozenStateManager:
                 value,
             )
 
-    # ------------------------------------------------------------------
-    # frozen attrs
-    # ------------------------------------------------------------------
-
     @classmethod
     def _read_frozen_attrs(cls, instance: object) -> set[str] | None:
         if cls._read_init_depth(instance) > 0:
@@ -210,10 +190,6 @@ class FrozenStateManager:
                 cls._qualname_of(instance),
                 attrs,
             )
-
-    # ------------------------------------------------------------------
-    # public api
-    # ------------------------------------------------------------------
 
     @classmethod
     def get_state(cls, instance: object) -> FrozenStateConfig:

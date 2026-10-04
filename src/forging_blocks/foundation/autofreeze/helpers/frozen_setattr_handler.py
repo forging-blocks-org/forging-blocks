@@ -7,7 +7,7 @@ at write time.
 from collections.abc import Callable
 from typing import Any
 
-from forging_blocks.foundation.autofreeze.helpers.frozen_state import (
+from forging_blocks.foundation.autofreeze.helpers.frozen_state_manager import (
     FrozenStateManager,
 )
 from forging_blocks.foundation.errors.cant_modify_immutable_attribute_error import (
