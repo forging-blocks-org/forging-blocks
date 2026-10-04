@@ -65,6 +65,7 @@ def auto_freeze[T](
     class_: type[T],
     *,
     attrs: Sequence[str] | None = None,
+    custom_mutator_attrs: Sequence[str] | None = None,
 ) -> type[T]: ...
 
 
@@ -73,6 +74,7 @@ def auto_freeze[T](
     class_: None = None,
     *,
     attrs: Sequence[str] | None = None,
+    custom_mutator_attrs: Sequence[str] | None = None,
 ) -> Callable[[type[T]], type[T]]: ...
 
 
@@ -80,6 +82,7 @@ def auto_freeze[T](
     class_: type[T] | None = None,
     *,
     attrs: Sequence[str] | None = None,
+    custom_mutator_attrs: Sequence[str] | None = None,
 ) -> type[T] | Callable[[type[T]], type[T]]:
     """Automatically freeze class instances after ``__init__`` completes.
 
@@ -93,13 +96,19 @@ def auto_freeze[T](
         attrs: Optional attribute names for selective freezing. If ``None``,
             the whole instance is frozen. When provided, only those attributes
             are frozen.
+        custom_mutator_attrs: Attributes whose existing custom mutators own
+            domain-specific validation before generic freeze checks. This is
+            an internal policy used by domain types such as ``Entity``.
 
     Returns:
         The decorated class if *class_* is provided; otherwise a callable
         that can be used as a decorator.
 
     """
-    decorator = _AutoFreezeDecorator(attrs=attrs)
+    decorator = _AutoFreezeDecorator(
+        attrs=attrs,
+        custom_mutator_attrs=custom_mutator_attrs,
+    )
 
     if class_ is not None:
         return decorator(class_)

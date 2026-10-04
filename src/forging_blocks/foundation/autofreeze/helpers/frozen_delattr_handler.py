@@ -19,15 +19,23 @@ class FrozenDelattrHandler:
     class's original deletion behavior.
     """
 
-    def __init__(self, target_class: type[object]) -> None:
+    def __init__(
+        self,
+        target_class: type[object],
+        *,
+        custom_mutator_attrs: frozenset[str] = frozenset(),
+    ) -> None:
         """Initialize with the class whose delattr may be overridden.
 
         Args:
             target_class: The class being decorated by ``@auto_freeze``.
+            custom_mutator_attrs: Frozen attributes whose domain-owned
+                mutator should receive deletion before generic checks.
 
         """
         self.original_delattr: Callable[[object, str], None] = target_class.__delattr__
         self.has_custom_delattr: bool = self.original_delattr is not object.__delattr__
+        self.custom_mutator_attrs = custom_mutator_attrs
 
     def create_frozen_delattr(self) -> Callable[[object, str], None]:
         """Build a ``__delattr__`` that enforces freeze rules.
@@ -38,12 +46,15 @@ class FrozenDelattrHandler:
         """
 
         def frozen_delattr(instance: object, name: str) -> None:
+            if self.has_custom_delattr and name in self.custom_mutator_attrs:
+                self.original_delattr(instance, name)
+                return
+
             if FrozenStateManager.is_internal_attribute(name):
                 raise CantModifyImmutableAttributeError(
                     class_name=type(instance).__name__,
                     attribute_name=name,
                 )
-
             state = FrozenStateManager.get_state(instance)
             if state.is_full_freeze or (
                 state.frozen_attrs is not None and name in state.frozen_attrs

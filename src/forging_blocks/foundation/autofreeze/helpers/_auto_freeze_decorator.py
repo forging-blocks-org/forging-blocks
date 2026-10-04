@@ -21,9 +21,15 @@ class AutoFreezeDecorator:
     on the target class.
     """
 
-    def __init__(self, *, attrs: Sequence[str] | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        attrs: Sequence[str] | None = None,
+        custom_mutator_attrs: Sequence[str] | None = None,
+    ) -> None:
         """Initialize the decorator with selective-freeze attributes."""
         self._attrs = attrs
+        self._custom_mutator_attrs = frozenset(custom_mutator_attrs or ())
 
     def __call__[T](self, class_: type[T]) -> type[T]:
         if inspect.isabstract(class_):
@@ -34,10 +40,16 @@ class AutoFreezeDecorator:
         init_wrapper = FrozenInitWrapper(class_.__init__, class_, self._attrs)
         class_.__init__ = init_wrapper.wrap()
 
-        setattr_handler = FrozenSetattrHandler(class_)
+        setattr_handler = FrozenSetattrHandler(
+            class_,
+            custom_mutator_attrs=self._custom_mutator_attrs,
+        )
         class_.__setattr__ = setattr_handler.create_frozen_setattr()
 
-        delattr_handler = FrozenDelattrHandler(class_)
+        delattr_handler = FrozenDelattrHandler(
+            class_,
+            custom_mutator_attrs=self._custom_mutator_attrs,
+        )
         class_.__delattr__ = delattr_handler.create_frozen_delattr()
 
         return class_
