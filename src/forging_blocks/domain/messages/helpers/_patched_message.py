@@ -6,7 +6,7 @@ from forging_blocks.domain.messages.message import MessageMetadata
 
 
 @runtime_checkable
-class _PatchedMessage(Protocol):
+class PatchedMessage(Protocol):
     """Structural type describing a message class after decorator patching.
 
     This protocol allows pyright to verify that the patched attributes exist

@@ -36,7 +36,9 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any, TypeVar, cast, overload
 
-from forging_blocks.domain.messages.helpers._patched_message import _PatchedMessage
+from forging_blocks.domain.messages.helpers._patched_message import (
+    PatchedMessage as _PatchedMessage,
+)
 from forging_blocks.domain.messages.message import Message, MessageMetadata
 
 _M = TypeVar("_M", bound="Message[Any]")
