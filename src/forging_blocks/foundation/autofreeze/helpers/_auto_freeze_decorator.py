@@ -13,7 +13,7 @@ from forging_blocks.foundation.autofreeze.helpers.frozen_state_manager import (
 )
 
 
-class _AutoFreezeDecorator:
+class AutoFreezeDecorator:
     """Callable class that applies auto-freeze behaviour to a target class.
 
     Injects a ``__setattr__`` that prevents modifications to frozen attributes.
@@ -75,4 +75,4 @@ class _AutoFreezeDecorator:
         return class_
 
 
-__all__ = ["_AutoFreezeDecorator"]
+__all__ = ["AutoFreezeDecorator"]

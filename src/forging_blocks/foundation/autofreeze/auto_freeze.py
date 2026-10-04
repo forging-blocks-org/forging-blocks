@@ -52,7 +52,7 @@ from collections.abc import Callable, Sequence
 from typing import overload
 
 from forging_blocks.foundation.autofreeze.helpers._auto_freeze_decorator import (
-    _AutoFreezeDecorator,
+    AutoFreezeDecorator as _AutoFreezeDecorator,
 )
 
 
