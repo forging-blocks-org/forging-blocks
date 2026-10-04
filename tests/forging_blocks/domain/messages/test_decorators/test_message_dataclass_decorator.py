@@ -2,7 +2,7 @@
 
 """Unit tests for message dataclass decorators."""
 
-from typing import cast
+from typing import Self, cast
 
 import pytest
 
@@ -54,20 +54,13 @@ class TestMessageDataclassDecorator:
         class Shipped(Event[dict[str, object]]):
             tracking_code: str
 
-        # Same message_id, different field data — must be equal
         a = Shipped(
             tracking_code="TRK-001",
-            metadata=MessageMetadata(
-                message_type="Shipped",
-                message_id=shared_id,
-            ),
+            metadata=MessageMetadata(message_type="Shipped", message_id=shared_id),
         )
         b = Shipped(
             tracking_code="TRK-002",
-            metadata=MessageMetadata(
-                message_type="Shipped",
-                message_id=shared_id,
-            ),
+            metadata=MessageMetadata(message_type="Shipped", message_id=shared_id),
         )
 
         assert a.tracking_code != b.tracking_code, "precondition: field data differs"
@@ -144,3 +137,70 @@ class TestMessageDataclassDecorator:
 
         with pytest.raises(dataclasses.FrozenInstanceError, match="cannot assign to field"):
             msg.tracking_code = "changed"
+
+    def test_delattr_on_frozen_message_raises_frozen_instance_error(self) -> None:
+        from forging_blocks.domain.messages.decorators import event_dataclass
+        from forging_blocks.domain.messages.event import Event
+
+        @event_dataclass
+        class Shipped(Event[dict[str, object]]):
+            tracking_code: str
+
+        msg = Shipped(tracking_code="TRK-001")
+        import dataclasses
+
+        with pytest.raises(dataclasses.FrozenInstanceError, match="cannot delete field"):
+            del msg.tracking_code
+
+    def test_marker_mutation_on_frozen_message_raises_frozen_instance_error(self) -> None:
+        from forging_blocks.domain.messages.decorators import event_dataclass
+        from forging_blocks.domain.messages.event import Event
+
+        @event_dataclass
+        class Shipped(Event[dict[str, object]]):
+            tracking_code: str
+
+        msg = Shipped(tracking_code="TRK-001")
+        import dataclasses
+
+        with pytest.raises(dataclasses.FrozenInstanceError, match="cannot delete field"):
+            delattr(msg, "__init_finished__")
+
+        with pytest.raises(dataclasses.FrozenInstanceError, match="cannot assign to field"):
+            msg.__setattr__("__init_finished__", False)
+
+    def test_delattr_during_message_initialization_is_allowed(self) -> None:
+        from forging_blocks.domain.messages.decorators import event_dataclass
+        from forging_blocks.domain.messages.event import Event
+        from forging_blocks.domain.messages.message import MessageMetadata
+
+        @event_dataclass
+        class Discarded(Event[dict[str, object]]):
+            tracking_code: str
+
+            def __init__(self, tracking_code: str) -> None:
+                object.__setattr__(self, "tracking_code", tracking_code)
+                del self.tracking_code
+                super().__init__()
+
+            @property
+            def _payload(self) -> dict[str, object]:
+                return {"tracking_code": self.tracking_code}
+
+            @classmethod
+            def from_payload_fields(
+                cls,
+                data: dict[str, object],
+                metadata: MessageMetadata,
+            ) -> Self:
+                message = cls(tracking_code=cast(str, data["tracking_code"]))
+                object.__setattr__(message, "_metadata", metadata)
+                return message
+
+            @property
+            def value(self) -> dict[str, object]:
+                return self._payload
+
+        message = Discarded(tracking_code="TRK-001")
+
+        assert not hasattr(message, "tracking_code")
