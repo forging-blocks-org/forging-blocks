@@ -14,12 +14,13 @@ import weakref
 from collections.abc import Sequence
 from typing import cast
 
+from forging_blocks.foundation.autofreeze.helpers._frozen_state_constants import (
+    AUTO_FREEZE_MARKER,
+    FROZEN_ATTRS_FLAG,
+    FROZEN_FLAG,
+    INIT_DEPTH_FLAG,
+)
 from forging_blocks.foundation.autofreeze.helpers.frozen_state_config import FrozenStateConfig
-
-_AUTO_FREEZE_MARKER = "__auto_freeze_applied"
-_FROZEN_FLAG = "_autofreeze__frozen"
-_FROZEN_ATTRS_FLAG = "_autofreeze__frozen_attrs"
-_INIT_DEPTH_FLAG = "_autofreeze__init_depth"
 
 
 class FrozenStateManager:
@@ -111,7 +112,7 @@ class FrozenStateManager:
     @classmethod
     def _read_init_depth(cls, instance: object) -> int:
         try:
-            return cast(int, getattr(instance, _INIT_DEPTH_FLAG))
+            return cast(int, getattr(instance, INIT_DEPTH_FLAG))
         except AttributeError:
             key = cls._fallback_key(instance)
             entry = cls._init_depth_fallback.get(key)
@@ -122,7 +123,7 @@ class FrozenStateManager:
     @classmethod
     def _write_init_depth(cls, instance: object, depth: int) -> None:
         try:
-            object.__setattr__(instance, _INIT_DEPTH_FLAG, depth)
+            object.__setattr__(instance, INIT_DEPTH_FLAG, depth)
         except AttributeError:
             cls._init_depth_fallback[cls._fallback_key(instance)] = (
                 cls._qualname_of(instance),
@@ -132,7 +133,7 @@ class FrozenStateManager:
     @classmethod
     def _erase_init_depth(cls, instance: object) -> None:
         try:
-            object.__delattr__(instance, _INIT_DEPTH_FLAG)
+            object.__delattr__(instance, INIT_DEPTH_FLAG)
         except (AttributeError, TypeError):
             pass
         cls._init_depth_fallback.pop(cls._fallback_key(instance), None)
@@ -142,7 +143,7 @@ class FrozenStateManager:
         if cls._read_init_depth(instance) > 0:
             return False
         try:
-            return cast("bool", getattr(instance, _FROZEN_FLAG))
+            return cast("bool", getattr(instance, FROZEN_FLAG))
         except AttributeError:
             key = cls._fallback_key(instance)
             entry = cls._frozen_fallback.get(key)
@@ -157,7 +158,7 @@ class FrozenStateManager:
     @classmethod
     def _write_is_frozen(cls, instance: object, value: bool) -> None:
         try:
-            object.__setattr__(instance, _FROZEN_FLAG, value)
+            object.__setattr__(instance, FROZEN_FLAG, value)
         except AttributeError:
             cls._frozen_fallback[cls._fallback_key(instance)] = (
                 cls._qualname_of(instance),
@@ -169,7 +170,7 @@ class FrozenStateManager:
         if cls._read_init_depth(instance) > 0:
             return None
         try:
-            return cast("set[str] | None", getattr(instance, _FROZEN_ATTRS_FLAG))
+            return cast("set[str] | None", getattr(instance, FROZEN_ATTRS_FLAG))
         except AttributeError:
             key = cls._fallback_key(instance)
             entry = cls._frozen_attrs_fallback.get(key)
@@ -184,7 +185,7 @@ class FrozenStateManager:
     @classmethod
     def _write_frozen_attrs(cls, instance: object, attrs: set[str]) -> None:
         try:
-            object.__setattr__(instance, _FROZEN_ATTRS_FLAG, attrs)
+            object.__setattr__(instance, FROZEN_ATTRS_FLAG, attrs)
         except AttributeError:
             cls._frozen_attrs_fallback[cls._fallback_key(instance)] = (
                 cls._qualname_of(instance),
@@ -202,12 +203,12 @@ class FrozenStateManager:
     @classmethod
     def mark_as_decorated(cls, init_method: object) -> None:
         """Tag *init_method* so that ``is_decorated`` returns ``True``."""
-        object.__setattr__(init_method, _AUTO_FREEZE_MARKER, True)
+        object.__setattr__(init_method, AUTO_FREEZE_MARKER, True)
 
     @classmethod
     def is_decorated(cls, init_method: object) -> bool:
         """Return ``True`` when *init_method* was already wrapped by auto_freeze."""
-        return hasattr(init_method, _AUTO_FREEZE_MARKER)
+        return hasattr(init_method, AUTO_FREEZE_MARKER)
 
     @classmethod
     def increment_init_depth(cls, instance: object) -> None:
