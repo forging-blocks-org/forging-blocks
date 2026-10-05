@@ -22,6 +22,9 @@ Key principles:
 - **Pattern matching supports, doesn't dominate** — Use when returned value matters to intent
 
 Commands: `poe test:unit` (fast), `poe test` (all), `poe test:e2e` (conditional).
+- `poetry run poe test:package` — library-only coverage with a hard 100% threshold.
+- `poetry run poe test:maintainer` — maintainer-script coverage kept separate from the library
+  gate.
 
 ---
 
@@ -124,6 +127,8 @@ class TestMain:
 poetry run poe test              # Run ALL tests (recommended default)
 poetry run poe test:unit         # Run unit tests only (fast feedback)
 poetry run poe test:integration  # Run integration tests only
+poetry run poe test:package        # Library-only coverage at 100%
+poetry run poe test:maintainer     # Maintainer-script coverage
 
 # Extended Commands (for comprehensive testing)
 poetry run poe test:e2e          # Run end-to-end tests only
