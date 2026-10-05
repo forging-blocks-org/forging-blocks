@@ -179,3 +179,36 @@ class TestValueObject:
 
         with pytest.raises(CantModifyImmutableAttributeError):
             vo._first = "changed"
+
+
+@pytest.mark.unit
+class TestValueObjectImmutability:
+    def test___delattr___when_value_object_is_frozen_then_raises_cant_modify_immutable(
+        self,
+    ) -> None:
+        vo = MultiComponentVO("hello", "world")
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            del vo._first
+
+    def test___delattr___when_deleting_freeze_marker_then_raises_cant_modify_immutable(
+        self,
+    ) -> None:
+        vo = MultiComponentVO("hello", "world")
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            delattr(vo, "_autofreeze__frozen")
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            vo._first = "changed"
+
+    def test___setattr___when_modifying_freeze_marker_then_raises_cant_modify_immutable(
+        self,
+    ) -> None:
+        vo = MultiComponentVO("hello", "world")
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            vo.__setattr__("_autofreeze__frozen", False)
+
+        with pytest.raises(CantModifyImmutableAttributeError):
+            vo._first = "changed"
