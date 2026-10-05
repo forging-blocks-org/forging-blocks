@@ -12,13 +12,16 @@ ForgingBlocks follows [Semantic Versioning 2.0.0](https://semver.org/) from v1.0
 
 The following constitute the public API, covered by these stability guarantees:
 
+- Symbols listed in `forging_blocks.__all__` (currently `__version__`).
 - Every symbol listed in `__all__` of:
     - `forging_blocks.foundation`
     - `forging_blocks.domain`
     - `forging_blocks.application`
+    - `forging_blocks.application.ports`
     - `forging_blocks.infrastructure`
     - `forging_blocks.presentation`
-- Public module-level functions and classes with docstrings that are **not** prefixed with `_`, even if absent from `__all__`.
+- Public module-level functions and classes with docstrings that are **not** prefixed with `_`,
+  even if absent from `__all__`.
 
 ## Breaking Changes
 
