@@ -37,7 +37,7 @@ class TestFrozenSetattrHandler:
     ) -> None:
         class CustomSetattr:
             value: int
-            assigned: tuple[str, int] | None
+            assigned: tuple[str, object] | None
 
             def __init__(self) -> None:
                 object.__setattr__(self, "value", 1)
