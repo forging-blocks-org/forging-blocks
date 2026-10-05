@@ -9,18 +9,12 @@ class User(Entity[int]):
         self.name = name
 
 
-class Order(Entity[int]):
-    def __init__(self, order_id: int) -> None:
-        self._id = order_id
-
-
-@pytest.fixture
-def draft_user() -> User:
-    return User(None, "Alice")
-
-
 @pytest.mark.unit
 class TestDraftUserLifecycle:
+    @pytest.fixture
+    def draft_user(self) -> User:
+        return User(None, "Alice")
+
     def test___delattr___when_draft_entity_then_raises_entity_id_deletion_error(
         self,
         draft_user: User,
@@ -36,7 +30,7 @@ class TestDraftUserLifecycle:
         self,
         draft_user: User,
     ) -> None:
-        draft_user._id = 42
+        draft_user.__setattr__("_id", 42)
 
         assert draft_user.id == 42
         assert draft_user.is_persisted() is True
@@ -62,6 +56,10 @@ class TestDraftUserLifecycle:
     def test___setattr___when_id_assigned_before_freeze_then_allows_assignment(
         self,
     ) -> None:
+        class Order(Entity[int]):
+            def __init__(self, order_id: int) -> None:
+                self._id = order_id
+
         order = Order(42)
 
         assert order.id == 42
