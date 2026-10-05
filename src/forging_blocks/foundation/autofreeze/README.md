@@ -30,4 +30,4 @@
 
 |Member|Description|
 |---|---|
-|`__setattr__` override|Blocks mutation of frozen attributes after `__init__` returns|
+|`__setattr__` and `__delattr__` overrides|Block frozen mutation and deletion after initialization|
