@@ -23,6 +23,16 @@ The following constitute the public API, covered by these stability guarantees:
 - Public module-level functions and classes with docstrings that are **not** prefixed with `_`,
   even if absent from `__all__`.
 
+### Frozen Facade Additions
+
+The following symbols are supported through the listed facade paths:
+
+|Facade|Symbols|
+|---|---|
+|`forging_blocks.foundation`|`Debuggable`|
+|`forging_blocks.application`|`TransactionError`|
+|`forging_blocks.application.ports`|`AuthorizationPort`, `ValidationPort`|
+
 ## Breaking Changes
 
 A change is **breaking** if any of the following occur:
