@@ -49,7 +49,10 @@ class TestDraftUserLifecycle:
         with pytest.raises(EntityIdModificationError):
             draft_user.__setattr__("_id", 99)
 
-    def test___setattr___when_id_assigned_before_freeze_then_allows_assignment(
+
+@pytest.mark.unit
+class TestOrderLifecycle:
+    def test___setattr___when_persisted_id_changes_then_raises_entity_id_modification_error(
         self,
     ) -> None:
         order = Order(42)
