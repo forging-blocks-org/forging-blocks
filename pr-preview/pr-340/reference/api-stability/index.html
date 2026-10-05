@@ -777,6 +777,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Public API Definition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frozen-facade-additions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Frozen Facade Additions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -7714,6 +7729,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Public API Definition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frozen-facade-additions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Frozen Facade Additions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -7777,12 +7807,16 @@
 
 
 <h1 id="api-stability">API Stability<a class="headerlink" href="#api-stability" title="Permanent link">&para;</a></h1>
+<p>This document defines the public API and compatibility policy for ForgingBlocks.</p>
 <h2 id="semver-policy">SemVer Policy<a class="headerlink" href="#semver-policy" title="Permanent link">&para;</a></h2>
 <p>ForgingBlocks follows <a href="https://semver.org/">Semantic Versioning 2.0.0</a> from v1.0.0 onward.</p>
 <ul>
-<li><strong>MAJOR</strong> (<code>1.X.Y</code> → <code>2.0.0</code>): Incompatible API changes — removals, signature changes, breaking behavioral changes.</li>
-<li><strong>MINOR</strong> (<code>1.X.Y</code> → <code>1.(X+1).0</code>): Backward-compatible additions — new symbols, new optional parameters, new modules.</li>
-<li><strong>PATCH</strong> (<code>1.X.Y</code> → <code>1.X.(Y+1)</code>): Backward-compatible bug fixes that restore documented behavior.</li>
+<li><strong>MAJOR</strong> (<code>1.X.Y</code> → <code>2.0.0</code>): Incompatible API changes:<br />
+  removals, signature changes, and breaking behavioral changes.</li>
+<li><strong>MINOR</strong> (<code>1.X.Y</code> → <code>1.(X+1).0</code>): Backward-compatible additions:<br />
+  new symbols, optional parameters, and modules.</li>
+<li><strong>PATCH</strong> (<code>1.X.Y</code> → <code>1.X.(Y+1)</code>): Backward-compatible bug fixes that restore documented<br />
+  behavior.</li>
 </ul>
 <h2 id="public-api-definition">Public API Definition<a class="headerlink" href="#public-api-definition" title="Permanent link">&para;</a></h2>
 <p>The following constitute the public API, covered by these stability guarantees:</p>
@@ -7800,12 +7834,38 @@
 <li>Public module-level functions and classes with docstrings that are <strong>not</strong> prefixed with <code>_</code>,<br />
   even if absent from <code>__all__</code>.</li>
 </ul>
+<h3 id="frozen-facade-additions">Frozen Facade Additions<a class="headerlink" href="#frozen-facade-additions" title="Permanent link">&para;</a></h3>
+<p>The following symbols are supported through the listed facade paths:</p>
+<table>
+<thead>
+<tr>
+<th>Facade</th>
+<th>Symbols</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>forging_blocks.foundation</code></td>
+<td><code>Debuggable</code></td>
+</tr>
+<tr>
+<td><code>forging_blocks.application</code></td>
+<td><code>TransactionError</code></td>
+</tr>
+<tr>
+<td><code>forging_blocks.application.ports</code></td>
+<td><code>AuthorizationPort</code>, <code>ValidationPort</code></td>
+</tr>
+</tbody>
+</table>
 <h2 id="breaking-changes">Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h2>
 <p>A change is <strong>breaking</strong> if any of the following occur:</p>
 <ul>
-<li>Removal of a public symbol (class, function, constant) from the public API.</li>
-<li>Signature change to a public callable: adding a required parameter, removing a parameter, changing a parameter type, or changing the return type.</li>
-<li>Behavioral change that breaks a documented contract (e.g., a method that previously returned <code>None</code> now raises; a <code>ValueError</code> replaced with a different exception type).</li>
+<li>Removal of a public symbol (class, function, or constant) from the public API.</li>
+<li>Signature change to a public callable: adding a required parameter, removing a parameter,<br />
+  changing a parameter type, or changing the return type.</li>
+<li>Behavioral change that breaks a documented contract, such as replacing <code>None</code> with an<br />
+  exception or replacing <code>ValueError</code> with a different exception type.</li>
 <li>Removal of a module from the public import path.</li>
 </ul>
 <h2 id="non-breaking-changes">Non-Breaking Changes<a class="headerlink" href="#non-breaking-changes" title="Permanent link">&para;</a></h2>
@@ -7822,16 +7882,21 @@
 <ul>
 <li>Internal helpers: modules named <code>_*</code> or under directories containing <code>helpers/</code>.</li>
 <li><code>_</code>-prefixed members, even on public classes.</li>
-<li>Undocumented behavior — any observed behavior not described in docstrings or reference documentation.</li>
-<li>Experimental features marked as such (none currently exist; if introduced, they will carry explicit opt-in warnings).</li>
+<li>Undocumented behavior: observed behavior not described in docstrings or reference<br />
+  documentation.</li>
+<li>Experimental features marked as such. None currently exist; if introduced, they will carry<br />
+  explicit opt-in warnings.</li>
 </ul>
 <h2 id="deprecation-process">Deprecation Process<a class="headerlink" href="#deprecation-process" title="Permanent link">&para;</a></h2>
 <p>When a public symbol must be removed or its contract changed incompatibly:</p>
 <ol>
-<li><strong>Deprecation release</strong> (MINOR): The symbol emits a <code>DeprecationWarning</code> when used. Its docstring is updated with a <code>.. deprecated:: X.Y</code> directive pointing to the replacement. The symbol remains fully functional.</li>
+<li><strong>Deprecation release</strong> (MINOR): The symbol emits a <code>DeprecationWarning</code> when used. Its<br />
+   docstring is updated with a <code>.. deprecated:: X.Y</code> directive pointing to the replacement.<br />
+   The symbol remains fully functional.</li>
 <li><strong>Removal release</strong> (next MAJOR, at least one minor version later): The symbol is removed.</li>
 </ol>
-<p>At least <strong>one minor version</strong> must elapse between deprecation and removal. This guarantees downstream consumers a full release cycle to migrate.</p>
+<p>At least <strong>one minor version</strong> must elapse between deprecation and removal. This guarantees<br />
+downstream consumers a full release cycle to migrate.</p>
 
 
 
