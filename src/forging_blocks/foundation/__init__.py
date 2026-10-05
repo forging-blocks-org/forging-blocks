@@ -3,6 +3,7 @@
 from .autoeq import auto_eq
 from .autofreeze.auto_freeze import auto_freeze
 from .autohash import auto_hash
+from .debuggable import Debuggable
 from .errors import (
     ArchitectureError,
     CantModifyImmutableAttributeError,
@@ -41,6 +42,7 @@ __all__ = [
     "auto_hash",
     "ArchitectureError",
     "ConfigurationError",
+    "Debuggable",
     "CombinedErrors",
     "CombinedRuleViolationErrors",
     "CombinedValidationErrors",
