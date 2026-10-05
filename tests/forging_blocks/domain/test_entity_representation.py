@@ -2,13 +2,7 @@ import copy
 
 import pytest
 
-from forging_blocks.domain import Entity
-
-
-class User(Entity[int]):
-    def __init__(self, entity_id: int | None = None, name: str = "") -> None:
-        super().__init__(entity_id)
-        self.name = name
+from tests.forging_blocks.domain.fixtures.user import User
 
 
 @pytest.mark.unit
