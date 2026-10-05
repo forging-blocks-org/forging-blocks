@@ -30,9 +30,6 @@ keywords = [
 homepage = "https://forging-blocks-org.github.io/forging-blocks"
 repository = "https://github.com/forging-blocks-org/forging-blocks"
 
-[project.scripts]
-repl = "IPython:start_ipython"
-
 [tool.poetry]
 packages = [{ include = "forging_blocks", from = "src" }]
 
@@ -47,7 +44,6 @@ pyright = "^1.1.404"
 poethepoet = "^0.37.0"
 libcst = "^1.8.6"
 rich = "^14.2.0"
-ipython = "^9.8.0"
 pytest-git = "^1.8.0"
 types-pyyaml = "^6.0.12.20250915"
 pyyaml = "^6.0.3"
@@ -154,6 +150,14 @@ type = "pyright"
 bandit = "bandit -r src -x tests"
 
 test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "pytest" }
+"test:package" = { shell = """
+pytest tests/ --ignore=tests/scripts -o addopts= \
+--cov=forging_blocks --cov-report=term-missing --cov-fail-under=100
+""" }
+"test:maintainer" = { shell = """
+pytest tests/scripts -o addopts= \
+--cov=scripts --cov-report=term-missing --cov-fail-under=90
+""" }
 "test:unit" = "pytest -m unit"
 "test:integration" = "pytest -m integration"
 "test:e2e" = "pytest -m e2e"
