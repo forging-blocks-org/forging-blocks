@@ -1,12 +1,8 @@
 import pytest
 
-from forging_blocks.domain import Entity, EntityIdDeletionError, EntityIdModificationError
-
-
-class User(Entity[int]):
-    def __init__(self, entity_id: int | None = None, name: str = "") -> None:
-        super().__init__(entity_id)
-        self.name = name
+from forging_blocks.domain import EntityIdDeletionError, EntityIdModificationError
+from tests.forging_blocks.domain.fixtures.order import Order
+from tests.forging_blocks.domain.fixtures.user import User
 
 
 @pytest.mark.unit
@@ -56,10 +52,6 @@ class TestDraftUserLifecycle:
     def test___setattr___when_id_assigned_before_freeze_then_allows_assignment(
         self,
     ) -> None:
-        class Order(Entity[int]):
-            def __init__(self, order_id: int) -> None:
-                self._id = order_id
-
         order = Order(42)
 
         assert order.id == 42
