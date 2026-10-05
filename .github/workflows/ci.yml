@@ -44,6 +44,10 @@ jobs:
         run: poetry install --no-interaction --with dev
         timeout-minutes: 15
 
+      - name: Run package-only coverage gate
+        run: poetry run poe test:package
+        timeout-minutes: 30
+
       - name: Validate Pipeline Env Contracts
         run: poetry run python scripts/pipeline/validate_env_contracts.py
         timeout-minutes: 5
