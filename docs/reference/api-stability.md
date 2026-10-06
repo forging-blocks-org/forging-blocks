@@ -28,6 +28,10 @@ The following constitute the public API, covered by these stability guarantees:
 - Public module-level functions and classes with docstrings that are **not** prefixed with `_`,
   even if absent from `__all__`.
 
+Changes to any `__all__` manifest follow the same SemVer rules: adding an exported symbol is
+non-breaking and belongs in a MINOR release, while removing an exported symbol requires a
+MAJOR release.
+
 ### Frozen Facade Additions
 
 The following symbols are supported through the listed facade paths:
