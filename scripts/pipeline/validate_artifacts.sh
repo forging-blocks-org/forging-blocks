@@ -26,13 +26,18 @@ trap 'rm -rf "$validation_dir"' EXIT
 validate_installed_artifact() {
   local artifact="$1"
   local target_dir="$2"
+  local expected_version
+  expected_version="$(poetry version -s)"
   python -m pip install --quiet --no-deps --target "$target_dir" "$artifact"
-  EXPECTED_VERSION="$(poetry version -s)" PYTHONPATH="$target_dir" python - <<'PY'
+  (
+    cd "$validation_dir"
+    EXPECTED_VERSION="$expected_version" PYTHONPATH="$target_dir" python - <<'PY'
 import importlib
 import os
 from importlib.metadata import Distribution, distribution
 from types import ModuleType
 from typing import cast
+
 expected_version: str = os.environ["EXPECTED_VERSION"]
 package: Distribution = distribution("forging-blocks")
 if package.version != expected_version:
@@ -48,24 +53,181 @@ package_module: ModuleType = importlib.import_module("forging_blocks")
 if package_module.__version__ != expected_version:
     raise SystemExit("Package __version__ does not match artifact metadata")
 
-facade_names: tuple[str, ...] = (
-    "forging_blocks",
-    "forging_blocks.foundation",
-    "forging_blocks.domain",
-    "forging_blocks.application",
-    "forging_blocks.application.ports",
-    "forging_blocks.infrastructure",
-    "forging_blocks.presentation",
-)
-for facade_name in facade_names:
+expected_exports: dict[str, tuple[str, ...]] = {
+    "forging_blocks.foundation": (
+        "auto_eq",
+        "auto_freeze",
+        "auto_hash",
+        "ArchitectureError",
+        "ConfigurationError",
+        "CombinedErrors",
+        "CombinedRuleViolationErrors",
+        "CombinedValidationErrors",
+        "CantModifyImmutableAttributeError",
+        "Err",
+        "Error",
+        "ErrorMessage",
+        "ErrorMetadata",
+        "FieldErrors",
+        "FieldReference",
+        "FinalABCMeta",
+        "FinalMeta",
+        "Identified",
+        "InboundPort",
+        "Mapper",
+        "NoneNotAllowedError",
+        "Ok",
+        "OutboundPort",
+        "Permission",
+        "Port",
+        "Result",
+        "ResultAccessError",
+        "RuleViolatedError",
+        "RuleViolationError",
+        "runtime_final",
+        "ValidationError",
+        "ValidationFailedError",
+        "ValidationFieldErrors",
+        "ValidationRule",
+    ),
+    "forging_blocks.domain": (
+        "AggregateRoot",
+        "AggregateVersion",
+        "AndSpecification",
+        "Command",
+        "CompositePermissionChecker",
+        "CompositeValidationRule",
+        "DraftEntityIsNotHashableError",
+        "EmailValidator",
+        "Entity",
+        "EntityIdDeletionError",
+        "EntityIdModificationError",
+        "EntityIdNoneError",
+        "Event",
+        "ExpressionSpecification",
+        "LengthValidator",
+        "Message",
+        "NotSpecification",
+        "OrSpecification",
+        "PermissionChecker",
+        "Query",
+        "RangeValidator",
+        "RequiredValidator",
+        "Specification",
+        "ValueObject",
+    ),
+    "forging_blocks.application": (
+        "ApplicationServicePort",
+        "AuthorizationPort",
+        "CachePort",
+        "CommandHandlerPort",
+        "CommandSenderPort",
+        "ConcurrencyError",
+        "EventBusError",
+        "EventBusPort",
+        "EventHandlerPort",
+        "EventPublisherPort",
+        "EventStoreError",
+        "EventStorePort",
+        "HttpClientPort",
+        "FileSystemPort",
+        "LoggerPort",
+        "MessageBusPort",
+        "MessageHandlerPort",
+        "NotifierPort",
+        "QueryFetcherPort",
+        "QueryHandlerPort",
+        "ReadOnlyRepositoryPort",
+        "RepositoryPort",
+        "SpecificationRepositoryPort",
+        "TransactionManagerPort",
+        "UnitOfWorkError",
+        "UnitOfWorkPort",
+        "UseCasePort",
+        "ValidationPort",
+        "WriteOnlyRepositoryPort",
+    ),
+    "forging_blocks.application.ports": (
+        "CachePort",
+        "CommandSenderPort",
+        "CommandHandlerPort",
+        "EventBusPort",
+        "EventHandlerPort",
+        "EventPublisherPort",
+        "EventStorePort",
+        "HttpClientPort",
+        "FileSystemPort",
+        "LoggerPort",
+        "MessageBusPort",
+        "MessageHandlerPort",
+        "NotifierPort",
+        "QueryFetcherPort",
+        "ReadOnlyRepositoryPort",
+        "RepositoryPort",
+        "WriteOnlyRepositoryPort",
+        "SpecificationRepositoryPort",
+        "TransactionManagerPort",
+        "UnitOfWorkPort",
+        "QueryHandlerPort",
+        "UseCasePort",
+    ),
+    "forging_blocks.infrastructure": (
+        "AggregateRepository",
+        "EventBusBase",
+        "EventStoreBase",
+        "InMemoryCache",
+        "InMemoryEventBus",
+        "InMemoryEventBusBase",
+        "InMemoryEventStore",
+        "InMemoryEventStoreBase",
+        "InMemoryMessageBus",
+        "InMemoryReadRepository",
+        "InMemoryRepository",
+        "InMemoryUnitOfWork",
+        "InMemoryWriteRepository",
+        "MessageBusCommandSender",
+        "MessageBusEventPublisher",
+        "MessageBusQueryFetcher",
+        "OSFileSystem",
+        "RepositoryError",
+        "RepositoryNotFoundError",
+        "DictMessageCodec",
+        "MessageCodec",
+        "StdlibLogger",
+        "URLLibClient",
+    ),
+    "forging_blocks.presentation": (
+        "ErrorHandlingMiddleware",
+        "ErrorMessageModel",
+        "ErrorPresenter",
+        "ErrorStatusCodeMapper",
+        "ErrorViewModel",
+        "LoggingMiddleware",
+        "Middleware",
+        "NextHandler",
+        "Pipeline",
+        "PresentationAdapter",
+        "PresenterPort",
+        "RequestAdapter",
+        "ResponseAdapter",
+        "TimingMiddleware",
+        "ValidationMiddleware",
+    ),
+}
+for facade_name, expected_names in expected_exports.items():
     facade: ModuleType = importlib.import_module(facade_name)
-    export_names: tuple[str, ...] = cast(
-        tuple[str, ...],
-        getattr(facade, "__all__", ()),
+    export_names: tuple[str, ...] = tuple(
+        cast(tuple[str, ...], getattr(facade, "__all__", ()))
     )
+    if export_names != expected_names:
+        raise SystemExit(
+            f"Export manifest mismatch for {facade_name}: "
+            f"expected {expected_names}, got {export_names}"
+        )
     for symbol_name in export_names:
         getattr(facade, symbol_name)
 PY
+  )
 }
 
 log "Installing and checking wheel outside source checkout"
