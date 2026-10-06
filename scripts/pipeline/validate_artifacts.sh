@@ -52,6 +52,11 @@ if list(package.entry_points):
 package_module: ModuleType = importlib.import_module("forging_blocks")
 if package_module.__version__ != expected_version:
     raise SystemExit("Package __version__ does not match artifact metadata")
+root_export_names: tuple[str, ...] = tuple(
+    cast(tuple[str, ...], getattr(package_module, "__all__", ()))
+)
+if root_export_names != ("__version__",):
+    raise SystemExit(f"Root export manifest mismatch: {root_export_names}")
 
 expected_exports: dict[str, tuple[str, ...]] = {
     "forging_blocks.foundation": (
@@ -60,6 +65,7 @@ expected_exports: dict[str, tuple[str, ...]] = {
         "auto_hash",
         "ArchitectureError",
         "ConfigurationError",
+        "Debuggable",
         "CombinedErrors",
         "CombinedRuleViolationErrors",
         "CombinedValidationErrors",
@@ -141,6 +147,7 @@ expected_exports: dict[str, tuple[str, ...]] = {
         "RepositoryPort",
         "SpecificationRepositoryPort",
         "TransactionManagerPort",
+        "TransactionError",
         "UnitOfWorkError",
         "UnitOfWorkPort",
         "UseCasePort",
@@ -148,6 +155,7 @@ expected_exports: dict[str, tuple[str, ...]] = {
         "WriteOnlyRepositoryPort",
     ),
     "forging_blocks.application.ports": (
+        "AuthorizationPort",
         "CachePort",
         "CommandSenderPort",
         "CommandHandlerPort",
@@ -169,6 +177,7 @@ expected_exports: dict[str, tuple[str, ...]] = {
         "TransactionManagerPort",
         "UnitOfWorkPort",
         "QueryHandlerPort",
+        "ValidationPort",
         "UseCasePort",
     ),
     "forging_blocks.infrastructure": (
