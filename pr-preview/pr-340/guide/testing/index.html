@@ -8119,7 +8119,10 @@ This makes your code easier to test without relying on internal details.</p>
 - <strong>Use fakes for Ports</strong> — Replace Port dependencies with fakes to verify behavior without infrastructure<br />
 - <strong>Don't mock what you don't own</strong> — Wrap external systems behind Ports, use fakes in tests<br />
 - <strong>Pattern matching supports, doesn't dominate</strong> — Use when returned value matters to intent</p>
-<p>Commands: <code>poe test:unit</code> (fast), <code>poe test</code> (all), <code>poe test:e2e</code> (conditional).</p>
+<p>Commands: <code>poe test:unit</code> (fast), <code>poe test</code> (all), <code>poe test:e2e</code> (conditional).<br />
+- <code>poetry run poe test:package</code> — library-only coverage with a hard 100% threshold.<br />
+- <code>poetry run poe test:maintainer</code> — maintainer-script coverage kept separate from the library<br />
+  gate.</p>
 <hr />
 <p>This project uses a <strong>3-tier testing architecture</strong> with clear separation of concerns:</p>
 <h3 id="unit-tests-pytestmarkunit"><strong>Unit Tests</strong> (<code>@pytest.mark.unit</code>)<a class="headerlink" href="#unit-tests-pytestmarkunit" title="Permanent link">&para;</a></h3>
@@ -8198,10 +8201,12 @@ This makes your code easier to test without relying on internal details.</p>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span><span class="nb">test</span><span class="w">              </span><span class="c1"># Run ALL tests (recommended default)</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:unit<span class="w">         </span><span class="c1"># Run unit tests only (fast feedback)</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:integration<span class="w">  </span><span class="c1"># Run integration tests only</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Extended Commands (for comprehensive testing)</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:e2e<span class="w">          </span><span class="c1"># Run end-to-end tests only</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:debug<span class="w">        </span><span class="c1"># Debug mode with verbose output</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:package<span class="w">        </span><span class="c1"># Library-only coverage at 100%</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:maintainer<span class="w">     </span><span class="c1"># Maintainer-script coverage</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># Extended Commands (for comprehensive testing)</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:e2e<span class="w">          </span><span class="c1"># Run end-to-end tests only</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:debug<span class="w">        </span><span class="c1"># Debug mode with verbose output</span>
 </span></code></pre></div>
 <p><strong>Understanding Test Results:</strong><br />
 - <code>poetry run poe test</code> runs <strong>ALL</strong> tests including E2E (complete confidence)<br />

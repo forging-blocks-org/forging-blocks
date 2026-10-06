@@ -7834,6 +7834,9 @@
 <li>Public module-level functions and classes with docstrings that are <strong>not</strong> prefixed with <code>_</code>,<br />
   even if absent from <code>__all__</code>.</li>
 </ul>
+<p>Changes to any <code>__all__</code> manifest follow the same SemVer rules: adding an exported symbol is<br />
+non-breaking and belongs in a MINOR release, while removing an exported symbol requires a<br />
+MAJOR release.</p>
 <h3 id="frozen-facade-additions">Frozen Facade Additions<a class="headerlink" href="#frozen-facade-additions" title="Permanent link">&para;</a></h3>
 <p>The following symbols are supported through the listed facade paths:</p>
 <table>
