@@ -5,10 +5,16 @@ MessageHandlerPort, ApplicationServicePort, AuthorizationPort, ValidationPort),
 outbound ports (RepositoryPort, UnitOfWorkPort, MessageBusPort, EventBusPort,
 EventStorePort, CachePort, LoggerPort, FileSystemPort, NotifierPort,
 HttpClientPort, TransactionManagerPort, and more), and application-level
-errors (ConcurrencyError, EventBusError, EventStoreError, UnitOfWorkError).
+errors (ConcurrencyError, EventBusError, EventStoreError, TransactionError, UnitOfWorkError).
 """
 
-from .errors import ConcurrencyError, EventBusError, EventStoreError, UnitOfWorkError
+from .errors import (
+    ConcurrencyError,
+    EventBusError,
+    EventStoreError,
+    TransactionError,
+    UnitOfWorkError,
+)
 from .ports import (
     CommandHandlerPort,
     CommandSenderPort,
@@ -62,6 +68,7 @@ __all__ = [
     "RepositoryPort",
     "SpecificationRepositoryPort",
     "TransactionManagerPort",
+    "TransactionError",
     "UnitOfWorkError",
     "UnitOfWorkPort",
     "UseCasePort",

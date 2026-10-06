@@ -4,11 +4,13 @@ Contains inbound and outbound port definitions.
 """
 
 from .inbound import (
+    AuthorizationPort,
     CommandHandlerPort,
     EventHandlerPort,
     MessageHandlerPort,
     QueryHandlerPort,
     UseCasePort,
+    ValidationPort,
 )
 from .outbound import (
     CachePort,
@@ -31,6 +33,7 @@ from .outbound import (
 )
 
 __all__ = [
+    "AuthorizationPort",
     "CachePort",
     "CommandSenderPort",
     "CommandHandlerPort",
@@ -52,5 +55,6 @@ __all__ = [
     "TransactionManagerPort",
     "UnitOfWorkPort",
     "QueryHandlerPort",
+    "ValidationPort",
     "UseCasePort",
 ]
