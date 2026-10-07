@@ -10,6 +10,7 @@ Depends on **Application** (for port definitions), **Domain** (for aggregate typ
 
 Infrastructure adapters implement the contracts defined by Application outbound ports.
 
+- An `InMemoryReadRepository` satisfies `ReadOnlyRepositoryPort` with a dictionary.
 - An `InMemoryWriteRepository` satisfies `WriteOnlyRepositoryPort` with a dictionary.
 - An `InMemoryRepository` combines read and write contracts for full CRUD access.
 - An `InMemoryEventBus` satisfies `EventBusPort` with in-process publish/subscribe.
