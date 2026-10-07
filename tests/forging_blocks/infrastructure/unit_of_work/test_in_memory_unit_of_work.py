@@ -201,3 +201,18 @@ class TestInMemoryUnitOfWork:
 
         with pytest.raises(ValueError, match="Cannot register aggregate with None id"):
             uow.register_modified(draft_aggregate)
+
+    async def test_commit_when_event_publishing_fails_then_rolls_back_state(
+        self, failing_publisher: FakeEventPublisher, aggregate: FakeAggregate
+    ) -> None:
+        uow = InMemoryUnitOfWork(failing_publisher)
+        aggregate.record_event(FakeEvent("data"))
+        uow.register_modified(aggregate)
+
+        with pytest.raises(UnitOfWorkError):
+            await uow.commit()
+
+        assert uow.committed is False
+        assert uow.rolled_back is True
+        assert len(uow._modified_aggregates) == 0
+        assert aggregate.uncommitted_changes == []
