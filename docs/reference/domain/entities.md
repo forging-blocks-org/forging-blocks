@@ -17,7 +17,7 @@ An Entity transitions through two states: draft (no ID) and identified (ID assig
 
 ## When to use
 
-Inherit from `Entity` when you need identity-based equality (`__eq__` / `__hash__` by ID) and the built-in lifecycle: draft → identified. The base class enforces that an ID, once set, cannot be changed or removed.
+Inherit from `Entity` when you need identity-based equality and the built-in lifecycle: draft → identified. Identified entities compare by type-qualified identity and hash by type plus ID. Draft entities compare by object identity and cannot be hashed.
 
 !!! note "Influence: Eric Evans"
     The focus on identity as a defining characteristic is inspired by *Domain-Driven Design* by Eric Evans. ForgingBlocks adopts this idea without requiring a full DDD tactical model.
