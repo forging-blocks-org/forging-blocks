@@ -24,10 +24,10 @@ from forging_blocks.foundation.ports import OutboundPort
 class UnitOfWorkPort(OutboundPort):
     """Contract for a transactional boundary.
 
-    A UnitOfWorkPort coordinates operations across multiple repositories and
-    outbound ports. It ensures that state changes and domain events are
-    published atomically.  Subclasses provide the concrete context-manager
-    behaviour (``__aenter__`` / ``__aexit__``).
+    A UnitOfWorkPort coordinates repository operations and event publication.
+    Implementations define the persistence and publication guarantees they can
+    provide. Subclasses provide the concrete context-manager behaviour
+    (``__aenter__`` / ``__aexit__``).
 
     Example:
         ```python
@@ -69,12 +69,13 @@ class UnitOfWorkPort(OutboundPort):
 
     @abstractmethod
     async def commit(self) -> None:
-        """Commit all changes in the Unit of Work.
+        """Commit the changes coordinated by the Unit of Work.
 
-        This operation should:
-            - Persist all modified aggregates.
-            - Publish domain events collected during the transaction.
-            - Ensure atomicity.
+        Implementations must publish queued events and establish a terminal
+        committed or rolled-back state. If publication fails, queued events
+        must be discarded and modified-aggregate tracking cleared before the
+        failure is raised. Events already published cannot be undone by this
+        contract.
 
         Raises:
             UnitOfWorkError: If commit fails.

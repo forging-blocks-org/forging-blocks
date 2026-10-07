@@ -101,18 +101,23 @@ class AggregateRepository[
         self._aggregate_type = aggregate_type
 
     async def save(self, aggregate: TAggregateRoot) -> None:
-        """Save an aggregate and its uncommitted events.
+        """Save an aggregate and its state-changing events.
 
-        Writes events to the event store first, then persists the aggregate
-        snapshot. If the event store write fails, the error is raised so the
-        Unit of Work can rollback and the aggregate retains its uncommitted
-        events.
+        Writes state-changing events to the event store first, then persists
+        the aggregate snapshot. Publication-only events recorded through
+        ``AggregateRoot.record_event`` remain available to the Unit of Work
+        but are not stored in the aggregate event stream.
 
-        The ``cast`` on ``uncommitted_changes`` bridges the gap between
+        The repository does not drain either event queue. The Unit of Work is
+        the authoritative event-drain boundary after publication. Saving the
+        same aggregate again before that drain attempts to append the same
+        state changes and raises a concurrency error.
+
+        The ``cast`` on ``state_changes`` bridges the gap between
         ``TAggregateRoot``'s bound (``AggregateRoot[UUID, Any]``) and the
         repository's ``EventPayloadType`` generic. The types are guaranteed to
         match at runtime by construction; the type system cannot express this
-        cross-TypeVar-bound relationship (see PEP 695, pyright
+        cross-TypeVar-bound relationship (see PEP 695 and Pyright's
         ``reportGeneralTypeIssues``).
 
         Args:
@@ -123,7 +128,7 @@ class AggregateRepository[
                 conflict, I/O error).
 
         """
-        events = cast(list[Event[EventPayloadType]], aggregate.uncommitted_changes)
+        events = cast(list[Event[EventPayloadType]], aggregate.state_changes)
         aggregate_id: UUID | None = aggregate.id
         if events and aggregate_id is not None:
             version = aggregate.version.value - len(events)
