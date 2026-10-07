@@ -95,8 +95,8 @@ validate_workflow_run() {
     fi
 
     if [[ "$conclusion" == "skipped" ]]; then
-        echo -e "${YELLOW}◐${NC} $workflow_type workflow was skipped (#$number, branch: $head_branch)"
-        return 0
+        echo -e "${RED}[FAIL]${NC} $workflow_type workflow was skipped (#$number, branch: $head_branch)"
+        return 1
     fi
 
     if [[ "$conclusion" == "success" ]]; then
