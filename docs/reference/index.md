@@ -11,10 +11,11 @@ Components:
 - **Infrastructure** — Technical adapters and implementations (Repositories, MessageCodec/DictMessageCodec).
 - **Presentation** — Input/output boundaries.
 
-Dependencies point inward: Infrastructure → Application, Domain, and Foundation;
-Presentation → Application and Foundation;
-Application → Domain and Foundation;
-Domain → Foundation.
+Dependencies point inward:
+- Infrastructure → Application, Domain, and Foundation;
+- Presentation → Application and Foundation;
+- Application → Domain and Foundation;
+- Domain → Foundation.
 
 ---
 ```mermaid
