@@ -22,7 +22,12 @@ The forging-blocks library is organized into five blocks, each with a distinct r
 - **Infrastructure** — Standard-library-backed implementations (in-memory repos, OS filesystem, HTTP, logging). Implements Application's outbound ports and uses Domain aggregate/event types where needed.
 - **Presentation** — Entry-point abstractions (adapters, middleware, error handling). Calls Application; stays thin.
 
-Dependency rules (inward-pointing): Foundation has no deps → Domain depends on Foundation → Application depends on Domain + Foundation; Infrastructure depends on Application, Domain, and Foundation; Presentation depends on Application + Foundation.
+Dependency rules (inward-pointing):
+- Foundation has no dependencies;
+- Domain depends on Foundation;
+- Application depends on Domain and Foundation;
+- Infrastructure depends on Application, Domain, and Foundation;
+- Presentation depends on Application and Foundation.
 
 **Block ≠ Layer**
 
