@@ -11,7 +11,7 @@ Components:
 - **Infrastructure** — Technical adapters and implementations (Repositories, MessageCodec/DictMessageCodec).
 - **Presentation** — Input/output boundaries.
 
-Dependencies point inward: Infrastructure/Presentation → Application → Domain, all depending on Foundation.
+Dependencies point inward: Infrastructure → Application, Domain, and Foundation; Presentation → Application and Foundation; Application → Domain and Foundation; Domain → Foundation.
 
 ---
 ```mermaid
@@ -20,6 +20,7 @@ flowchart LR
     A[Application<br/>Coordination & behavior] -->|depends on| D
     A -->|depends on| F
     I[Infrastructure<br/>Technical adapters] -->|depends on| A
+    I -->|depends on| D
     I -->|depends on| F
     P[Presentation<br/>Input boundaries] -->|depends on| A
     P -->|depends on| F
