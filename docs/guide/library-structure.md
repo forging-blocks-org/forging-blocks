@@ -19,10 +19,10 @@ The forging-blocks library is organized into five blocks, each with a distinct r
 - **Foundation** — Reusable low-level abstractions (`Result`, `Port`, `Mapper`, errors, meta utilities). No dependencies.
 - **Domain** — Problem space concepts (Entities, Value Objects, Aggregates, Domain Errors). Depends only on Foundation.
 - **Application** — Orchestration contracts (Use Cases, Message Handlers, Inbound/Outbound Ports). Depends on Domain + Foundation.
-- **Infrastructure** — Technology-agnostic implementations (in-memory repos, OS filesystem, stdlib logging). Implements Application's outbound ports.
+- **Infrastructure** — Standard-library-backed implementations (in-memory repos, OS filesystem, HTTP, logging). Implements Application's outbound ports and uses Domain aggregate/event types where needed.
 - **Presentation** — Entry-point abstractions (adapters, middleware, error handling). Calls Application; stays thin.
 
-Dependency rules (inward-pointing): Foundation has no deps → Domain depends on Foundation → Application depends on Domain + Foundation; Infrastructure and Presentation depend on Application + Foundation.
+Dependency rules (inward-pointing): Foundation has no deps → Domain depends on Foundation → Application depends on Domain + Foundation; Infrastructure depends on Application, Domain, and Foundation; Presentation depends on Application + Foundation.
 
 **Block ≠ Layer**
 
@@ -33,8 +33,7 @@ The library's five blocks and their dependency relationships:
 - **Foundation** – reusable, low-level abstractions.
 - **Domain** – problem-space concepts and rules.
 - **Application** – workflow contracts and coordination abstractions.
-- **Infrastructure** – technology-agnostic adapter implementations.
-- **Presentation** – entry-point and interaction abstractions.
+- **Infrastructure** – standard-library-backed adapter implementations.
 
 ```mermaid
 flowchart TD
@@ -78,7 +77,7 @@ Blocks are **named boundaries**. Code lives in exactly one block, imports respec
     - Foundation depends on nothing.
     - Domain depends only on Foundation.
     - Application depends on Domain and Foundation.
-    - Infrastructure depends on Application (for outbound port contracts) and Foundation.
+    - Infrastructure depends on Application, Domain, and Foundation.
     - Presentation depends on Application and Foundation.
 
     These rules maintain clear boundaries within the library itself.
@@ -91,12 +90,11 @@ Blocks are **named boundaries**. Code lives in exactly one block, imports respec
 Provides:
 
 - `Result`, `Ok`, `Err`
-- `Port` and port-related protocols (`InboundPort`, `OutboundPort`)
+- `Port` and port-related abstract base classes (`InboundPort`, `OutboundPort`)
 - `Identified` protocol for objects carrying an identity
 - `Mapper` protocol for structured transformation
 - `Debuggable` protocol for consistent debug representations
 - `Error` and its structured descendants (validation, rule violation, field, combined) for predictable error handling
-- `FinalMeta`, `FinalABCMeta`, and `runtime_final` for runtime enforcement of method finality
 
 The Foundation block contains abstractions that support the other blocks.
 
@@ -137,9 +135,9 @@ This block depends only on Foundation and knows nothing about HTTP, SQL, queues,
 
 The Application block provides:
 
-- **InboundPort abstractions** (`UseCase`, `ApplicationServicePort`, `MessageHandlerPort`) — contracts for operations the system offers
+- **InboundPort abstractions** (`UseCasePort`, `ApplicationServicePort`, `MessageHandlerPort`) — contracts for operations the system offers
 - **OutboundPort abstractions** (`RepositoryPort`, `MessageBusPort`, `NotifierPort`, `UnitOfWorkPort`) — contracts for dependencies the system needs
-- **Workflow base classes** that define the shape of business operations
+- **Workflow contracts** that define the shape of application operations
 
 The Application block depends on Domain types and defines abstract ports that Infrastructure implements. It contains no technical implementation details.
 
@@ -151,21 +149,22 @@ The Application block depends on Domain types and defines abstract ports that In
 ---
 
 ## Infrastructure
-**Responsibility:** provide technology-agnostic implementations of outbound port contracts.
+**Responsibility:** provide standard-library-backed implementations of outbound port contracts.
 
 The Infrastructure block ships with:
 
-- **In-memory repositories** (`InMemoryReadRepository`, `InMemoryWriteRepository`) and **event stores** (`InMemoryEventStore`)
+- **In-memory repositories** (`InMemoryReadRepository`, `InMemoryWriteRepository`, `InMemoryRepository`) and **event stores** (`InMemoryEventStore`)
 - **In-memory messaging** (`InMemoryMessageBus`, `InMemoryEventBus`)
-- **Stdlib-based implementations** (`OSFileSystem`, `StdlibLogger`)
+- **Standard-library adapters** (`OSFileSystem`, `URLLibClient`, `StdlibLogger`, `InMemoryCache`)
 - **Unit of Work** (`InMemoryUnitOfWork`)
 
-These are first-class implementations, not test doubles — they use only the Python standard library and carry no third-party dependencies.
+These are first-class implementations, not test doubles. The runtime package has no third-party dependencies.
 
 !!! note "Dependency Rule"
-    Infrastructure depends on Application (for outbound port contracts) and Foundation.
-    No third-party dependencies are allowed in this library.
-    Application-specific adapters (SQL databases, message brokers, HTTP clients) belong in consuming projects.
+    Infrastructure depends on Application for outbound port contracts, Domain for
+    aggregate and event types, and Foundation for shared abstractions. Application-
+    specific adapters (SQL databases, message brokers, HTTP clients) belong in
+    consuming projects.
 
 ---
 
