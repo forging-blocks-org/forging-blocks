@@ -41,7 +41,9 @@ MOCK
 
     rm -rf "$temp_dir"
 
-    local clean_output="$output"
+    # Strip ANSI color codes before checking
+    local clean_output
+    clean_output=$(echo "$output" | sed 's/\x1b\[[0-9;]*m//g')
 
     if echo "$clean_output" | grep -qE "$expected_pattern" &&
         [[ "$actual_status" -eq "$expected_status" ]]; then
