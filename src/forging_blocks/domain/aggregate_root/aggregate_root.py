@@ -63,6 +63,7 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
         self._validate_identity(aggregate_id)
         self._version = version or AggregateVersion(0)
         self._uncommitted_events: list[Event[EventPayloadType]] = []
+        self._publication_events: list[Event[EventPayloadType]] = []
         super().__init__(aggregate_id)
 
     @property
@@ -72,7 +73,12 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
 
     @property
     def uncommitted_changes(self) -> list[Event[EventPayloadType]]:
-        """Return a copy of uncommitted domain events recorded by this aggregate."""
+        """Return all queued events awaiting publication."""
+        return self._uncommitted_events.copy() + self._publication_events.copy()
+
+    @property
+    def state_changes(self) -> list[Event[EventPayloadType]]:
+        """Return queued events that represent aggregate state changes."""
         return self._uncommitted_events.copy()
 
     @classmethod
@@ -127,8 +133,9 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
 
         """
 
-        events = self._uncommitted_events.copy()
+        events = self.uncommitted_changes
         self._uncommitted_events.clear()
+        self._publication_events.clear()
         return events
 
     @runtime_final
@@ -158,6 +165,7 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
 
         """
         self._uncommitted_events.clear()
+        self._publication_events.clear()
 
     @runtime_final
     def record_event(self, domain_event: Event[EventPayloadType]) -> None:
@@ -184,7 +192,7 @@ class AggregateRoot[TId: Hashable, EventPayloadType](Entity[TId], metaclass=Fina
             ```
 
         """
-        self._uncommitted_events.append(domain_event)
+        self._publication_events.append(domain_event)
 
     @runtime_final
     def apply(self, event: Event[EventPayloadType]) -> None:
