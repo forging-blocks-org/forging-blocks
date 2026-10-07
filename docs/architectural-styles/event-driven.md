@@ -89,7 +89,8 @@ class Order(AggregateRoot[UUID, dict[str, object]]):
 
 ### 2. EventHandler that reacts to the event
 
-Handlers react to published events without the publisher knowing about them.
+The handler below consumes the `OrderShipped` event defined in the previous
+example. Handlers react to published events without the publisher knowing about them.
 
 ```python
 from forging_blocks.application.ports.inbound import EventHandlerPort
@@ -105,34 +106,42 @@ class OrderShippedNotifier(EventHandlerPort[dict[str, object]]):
         await self._notifier.notify(message)
 ```
 
-### 3. Publishing through MessageBusPort and subscribing handlers
+### 3. Publishing through the Unit of Work
 
-A message bus decouples publishers from subscribers. Handlers are registered
-for specific event types; the bus routes each event to the right handlers.
+The repository persists only state-changing events. The Unit of Work is the
+publication boundary: it publishes both state-changing events from `apply()` and
+publication-only events from `record_event()`, then drains both queues on success.
 
 ```python
-from forging_blocks.application.ports.inbound import ApplicationServicePort
-from forging_blocks.application.ports.outbound import MessageBusPort
+from typing import Protocol
 
 
-class PlaceOrderUseCase(ApplicationServicePort[PlaceOrderRequest, PlaceOrderResponse]):
-    def __init__(
-        self,
-        order_repo: OrderRepositoryPort,
-        event_bus: MessageBusPort[Event[dict[str, object]], None],
-    ) -> None:
-        self._order_repo = order_repo
-        self._event_bus = event_bus
+class Repository(Protocol):
+    async def save(self, aggregate: object) -> None:
+        ...
 
-    async def execute(self, request: PlaceOrderRequest) -> PlaceOrderResponse:
-        order = Order.create(request.customer_id, request.items)
-        await self._order_repo.save(order)
 
-        for event in order.collect_events():
-            await self._event_bus.dispatch(event)
+class UnitOfWork(Protocol):
+    def register_modified(self, aggregate: object) -> None:
+        ...
 
-        return PlaceOrderResponse(order_id=str(order.id))
+    async def commit(self) -> None:
+        ...
+
+
+async def persist_and_publish(
+    repository: Repository,
+    order: object,
+    unit_of_work: UnitOfWork,
+) -> None:
+    await repository.save(order)
+    unit_of_work.register_modified(order)
+    await unit_of_work.commit()
 ```
+
+If publication fails, the in-memory Unit of Work discards queued events and clears
+aggregate tracking before raising `UnitOfWorkError`. It cannot undo events already
+accepted by the publisher, and rollback does not undo repository writes.
 
 ---
 
