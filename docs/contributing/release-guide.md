@@ -47,14 +47,14 @@ The release process uses poe tasks with the `--execute` flag:
 
 ```bash
 # Always start with simulation (safe, no changes)
-poetry run poe release patch       # 0.3.6 → 0.3.7 (simulation)
-poetry run poe release minor       # 0.3.6 → 0.4.0 (simulation)
-poetry run poe release major       # 0.3.6 → 1.0.0 (simulation)
+poetry run poe release patch       # Prepare a patch release from the current version
+poetry run poe release minor       # Prepare a minor release from the current version
+poetry run poe release major       # Prepare a major release from the current version
 
-# Execute when ready (creates branch and PR)
-poetry run poe release patch --execute    # Actually performs the release
-poetry run poe release minor --execute    # Actually performs the release
-poetry run poe release major --execute    # Actually performs the release
+# Execute when ready (creates a release branch and PR)
+poetry run poe release patch --execute
+poetry run poe release minor --execute
+poetry run poe release major --execute
 ```
 
 ### What Happens Locally
@@ -72,10 +72,11 @@ When you run `poetry run poe release patch --execute`, the tooling automatically
 
 When the release PR is merged into `main`, GitHub Actions automatically:
 
-1. **Creates and pushes tag** (from branch name `release/vX.Y.Z`)
-2. **Builds and publishes** package to PyPI
-3. **Deploys versioned documentation** to GitHub Pages (e.g. `0.4.0`) and updates the `latest` alias
-4. **Creates GitHub Release** with changelog
+1. **Creates and pushes the version tag** from the release branch name
+2. **Validates the release version** and builds the package
+3. **Publishes the package to PyPI** with the PyPA trusted-publishing action
+4. **Deploys versioned documentation** and updates the `latest` alias
+5. **Creates the GitHub Release** with the generated changelog
 
 > **Important**: Publishing only happens after PR merge. If the PR is rejected, nothing gets released.
 ---
@@ -85,19 +86,19 @@ When the release PR is merged into `main`, GitHub Actions automatically:
 ForgingBlocks follows a **local-preparation + automated-publishing model**:
 
 - **Local tooling** (`poetry run poe release patch`) automatically:
-  - validates the release
-  - bumps the version
-  - generates the changelog
-  - creates the release branch
-  - commits changes
-  - opens a Pull Request
-- **GitHub Actions** automatically:
-  - creates and pushes tags (from branch name)
-  - validates the release candidate
-  - builds the package
-  - publishes to PyPI
-  - deploys versioned documentation (e.g. `0.4.0` → aliased as `latest`)
-  - creates the GitHub Release
+  - Validates the release.
+  - Bumps the version.
+  - Generates the changelog.
+  - Creates the release branch.
+  - Commits changes.
+  - Opens a Pull Request.
+
+- **GitHub Actions** automatically after the release PR is merged:
+  - Creates and pushes the version tag.
+  - Validates the release candidate and builds the package.
+  - Publishes to PyPI through the PyPA trusted-publishing action.
+  - Deploys versioned documentation and updates the `latest` alias.
+  - Creates the GitHub Release.
 
 ---
 
@@ -189,12 +190,10 @@ The tooling handles version bumping, changelog generation, branch creation, and 
 
 ## Publishing in GitHub Actions
 
-When the release Pull Request is merged into `main`, GitHub Actions automatically:
-
-1. **Creates and pushes the git tag** (extracted from release branch name)
-2. **Validates the release candidate** (runs CI checks and builds)
-3. **Publishes the package to PyPI** (using poetry publish)
-4. **Deploys documentation to GitHub Pages** (updates latest docs)
+1. **Creates and pushes the git tag** extracted from the release branch name
+2. **Validates the release candidate** and builds the package
+3. **Publishes the package to PyPI** with `pypa/gh-action-pypi-publish`
+4. **Deploys documentation to GitHub Pages** through the repository docs action
 
 ---
 
@@ -230,23 +229,22 @@ flowchart TD
 
 ```bash
 # Simulation mode (safe, no changes)
-poetry run poe release patch    # 0.3.6 → 0.3.7
-poetry run poe release minor    # 0.3.6 → 0.4.0
-poetry run poe release major    # 0.3.6 → 1.0.0
+poetry run poe release patch
+poetry run poe release minor
+poetry run poe release major
 
-# Execution mode (create release branch, and PR)
-poetry run poe release patch --execute    # 0.3.6 → 0.3.7
-poetry run poe release minor --execute    # 0.3.6 → 0.4.0
-poetry run poe release major --execute    # 0.3.6 → 1.0.0
+# Execution mode (creates a release branch and opens a PR)
+poetry run poe release patch --execute
+poetry run poe release minor --execute
+poetry run poe release major --execute
 ```
 
 ### Command Behavior
 
 | Mode | Creates Branch | Creates Tag | Opens PR | Safe to Run |
 |------|----------------|-------------|----------|-------------|
-| **Simulation** (default) | No | No | No | Yes — always safe |
-| **Execute** (`--execute`) | Yes | Yes | No | Caution — only when ready |
-> **Safety First**: Always run simulation mode first to validate the release.
+| **Simulation** (default) | No | No | No | Yes — no repository changes |
+| **Execute** (`--execute`) | Yes | No | Yes | Review the generated changes and PR |
 
 ---
 
@@ -264,32 +262,27 @@ Documentation is versioned using [mike](https://github.com/jimporter/mike). Each
 
 ### Doc Versions
 
-| Alias | URL | Updated |
-|-------|-----|---------|
-| `latest` | `https://forging-blocks-org.github.io/forging-blocks/` | On each release |
-| `dev` | `/forging-blocks/dev/` | Every push to `main` |
-| `0.4.0` | `/forging-blocks/0.4.0/` | Never (snapshot) |
+| Alias | Meaning |
+|-------|---------|
+| `dev` | Documentation generated from the current `main` branch |
+| `latest` | Alias for the most recent released documentation |
+| `vX.Y.Z` | Immutable documentation snapshot for a released version |
 
 ### Manual Docs Commands
 
 ```bash
-# Deploy current version as latest (one-time setup or manual release)
-poetry run poe docs:deploy-version 0.4.0
-
-# Serve docs locally with version selector
-poetry run poe docs:serve-versioned
-
-# List deployed versions
-poetry run poe docs:list-versions
-
-# Deploy dev version locally
-poetry run poe docs:deploy-version dev --dry-run
+poetry run poe docs:generate
+poetry run poe docs:build
+poetry run poe docs:serve
+poetry run poe docs:deploy:dev
+poetry run poe docs:deploy:release
+poetry run poe docs:versions
 ```
 
 ### How It Works
 
-- **`deploy-docs.yml`**: On every push to `main`, generates autodocs and deploys the `dev` version.
-- **`release.yml`**: After a release PR is merged and the package is published, deploys the versioned docs (e.g. `0.4.0`) and updates the `latest` alias.
+- **`deploy-docs.yml`** generates and deploys the `dev` documentation on pushes to `main`.
+- **`release.yml`** deploys the released documentation after the release workflow completes.
 
 The version selector in the docs header lets users switch between versions.
 
