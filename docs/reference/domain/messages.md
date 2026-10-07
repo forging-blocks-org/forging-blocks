@@ -6,7 +6,7 @@ Messages are immutable, architecture-neutral data carriers — **Command**, **Ev
 
 - **MessageMetadata** — Typed metadata container attached to every message at construction.
 
-All messages are frozen dataclasses. Their type communicates intent: a Command asks for action, an Event records a fact, a Query requests data. Serialization is handled by codecs in the infrastructure layer (see `DictMessageCodec`).
+Concrete messages are immutable data carriers. Classes decorated with `@message_dataclass` or one of its aliases are frozen dataclasses; manually implemented `Message` subclasses are not required to be dataclasses. Their type communicates intent: a Command asks for action, an Event records a fact, and a Query requests data.
 
 ## Types
 
@@ -22,7 +22,7 @@ The ``@message_dataclass`` decorator creates boilerplate-free, frozen message ty
 - `@event_dataclass` — For domain events
 - `@query_dataclass` — For queries
 
-All aliases are the same decorator; the name signals intent. Instances are frozen after construction.
+The aliases use the same decorator; the name signals intent. Decorated instances are frozen after construction.
 
 ## When to use
 
