@@ -7819,7 +7819,12 @@ domain-specific term — rather than replicating the library's internal naming.<
 <li><strong>Infrastructure</strong> — Standard-library-backed implementations (in-memory repos, OS filesystem, HTTP, logging). Implements Application's outbound ports and uses Domain aggregate/event types where needed.</li>
 <li><strong>Presentation</strong> — Entry-point abstractions (adapters, middleware, error handling). Calls Application; stays thin.</li>
 </ul>
-<p>Dependency rules (inward-pointing): Foundation has no deps → Domain depends on Foundation → Application depends on Domain + Foundation; Infrastructure depends on Application, Domain, and Foundation; Presentation depends on Application + Foundation.</p>
+<p>Dependency rules (inward-pointing):<br />
+- Foundation has no dependencies;<br />
+- Domain depends on Foundation;<br />
+- Application depends on Domain and Foundation;<br />
+- Infrastructure depends on Application, Domain, and Foundation;<br />
+- Presentation depends on Application and Foundation.</p>
 <p><strong>Block ≠ Layer</strong></p>
 <p>Blocks are architecture-neutral named boundaries within the library; they can be interpreted as layers if that mental model helps.</p>
 <p>The library's five blocks and their dependency relationships:</p>
