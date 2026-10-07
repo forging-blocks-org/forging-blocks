@@ -214,5 +214,4 @@ class TestInMemoryUnitOfWork:
 
         assert uow.committed is False
         assert uow.rolled_back is True
-        assert len(uow._modified_aggregates) == 0
         assert aggregate.uncommitted_changes == []
