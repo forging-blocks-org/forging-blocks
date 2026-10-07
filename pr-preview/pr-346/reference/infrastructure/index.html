@@ -7786,6 +7786,7 @@
 <h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
 <p>Infrastructure adapters implement the contracts defined by Application outbound ports.</p>
 <ul>
+<li>An <code>InMemoryReadRepository</code> satisfies <code>ReadOnlyRepositoryPort</code> with a dictionary.</li>
 <li>An <code>InMemoryWriteRepository</code> satisfies <code>WriteOnlyRepositoryPort</code> with a dictionary.</li>
 <li>An <code>InMemoryRepository</code> combines read and write contracts for full CRUD access.</li>
 <li>An <code>InMemoryEventBus</code> satisfies <code>EventBusPort</code> with in-process publish/subscribe.</li>
