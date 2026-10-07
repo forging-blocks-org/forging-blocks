@@ -19,6 +19,7 @@ run_test() {
     local test_name="$1"
     local json_data="$2"
     local expected_pattern="$3"
+    local expected_status="${4:-0}"
 
     local temp_dir
     temp_dir=$(mktemp -d)
@@ -35,20 +36,22 @@ MOCK
     chmod +x "$gh_mock"
 
     local output
-    output=$(PATH="$temp_dir:$PATH" bash "$SCRIPT" 2>&1 || true)
+    output=$(PATH="$temp_dir:$PATH" bash "$SCRIPT" 2>&1)
+    local actual_status=$?
 
     rm -rf "$temp_dir"
 
-    # Strip ANSI color codes before checking
-    local clean_output
-    clean_output=$(echo "$output" | sed 's/\x1b\[[0-9;]*m//g')
+    local clean_output="$output"
 
-    if echo "$clean_output" | grep -qE "$expected_pattern"; then
+    if echo "$clean_output" | grep -qE "$expected_pattern" &&
+        [[ "$actual_status" -eq "$expected_status" ]]; then
         echo -e "${GREEN}[OK]${NC} $test_name"
         ((passed++))
     else
         echo -e "${RED}[FAIL]${NC} $test_name"
         echo "  Expected pattern: $expected_pattern"
+        echo "  Expected status: $expected_status"
+        echo "  Actual status: $actual_status"
         echo "  Output:"
         echo "$clean_output" | head -15
         ((failed++))
@@ -79,7 +82,7 @@ json_failure='[
   {"number": 100, "name": "Release Pipeline", "status": "completed", "conclusion": "failure", "workflowName": "Release Pipeline", "headBranch": "release/v1.0.0", "createdAt": "2026-01-01T00:00:00Z", "event": "pull_request"}
 ]'
 
-run_test "Detects failed release workflow" "$json_failure" "Release.*failed"
+run_test "Detects failed release workflow" "$json_failure" "Release.*failed" 1
 
 echo ""
 echo -e "${YELLOW}[3/4] Skipped Release Workflow${NC}"
@@ -90,7 +93,7 @@ json_skipped='[
   {"number": 99, "name": "CI", "status": "completed", "conclusion": "success", "workflowName": "CI", "headBranch": "release/v1.0.0", "createdAt": "2026-01-01T00:00:00Z", "event": "pull_request"}
 ]'
 
-run_test "Detects skipped release workflow" "$json_skipped" "skipped"
+run_test "Detects skipped release workflow" "$json_skipped" "skipped" 1
 
 echo ""
 echo -e "${YELLOW}[4/4] No Release Workflow Found${NC}"
@@ -100,7 +103,7 @@ json_none='[
   {"number": 99, "name": "CI", "status": "completed", "conclusion": "success", "workflowName": "CI", "headBranch": "main", "createdAt": "2026-01-01T00:00:00Z", "event": "push"}
 ]'
 
-run_test "Handles missing release workflow" "$json_none" "No Release Pipeline"
+run_test "Handles missing release workflow" "$json_none" "No Release Pipeline" 1
 
 echo ""
 echo "╔════════════════════════════════════════════════════════════════╗"
