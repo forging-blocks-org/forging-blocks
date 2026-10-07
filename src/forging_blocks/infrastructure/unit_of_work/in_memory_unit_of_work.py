@@ -91,10 +91,15 @@ class InMemoryUnitOfWork[IdType, EventPayloadType](UnitOfWorkPort):
         self._modified_aggregates[aggregate.id] = aggregate
 
     async def commit(self) -> None:
-        """Commit all changes and publish collected domain events.
+        """Publish queued domain events and finalize the transaction.
+
+        A publication failure discards queued events, clears modified-aggregate
+        tracking, marks the transaction rolled back, and raises
+        ``UnitOfWorkError``. Events already accepted by the publisher cannot be
+        retracted by this in-memory implementation.
 
         Raises:
-            UnitOfWorkError: If commit fails.
+            UnitOfWorkError: If event publication fails.
 
         """
         try:
@@ -102,6 +107,7 @@ class InMemoryUnitOfWork[IdType, EventPayloadType](UnitOfWorkPort):
             self._clear_events()
             self._mark_committed()
         except Exception as exc:
+            await self.rollback()
             raise UnitOfWorkError(ErrorMessage(f"Failed to commit transaction: {exc}")) from exc
 
     async def rollback(self) -> None:
