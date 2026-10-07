@@ -6,6 +6,7 @@ from uuid import UUID, uuid7
 
 import pytest
 
+from forging_blocks.application.errors.concurrency_error import ConcurrencyError
 from forging_blocks.application.errors.event_store_error import EventStoreError
 from forging_blocks.domain.aggregate_root.aggregate_root import AggregateRoot
 from forging_blocks.domain.messages.event import Event
@@ -114,6 +115,37 @@ class TestAggregateRepository:
         retrieved = await repo.get_by_id(uuid7())
 
         assert retrieved is None
+
+    async def test_save_when_only_publication_event_is_recorded_then_does_not_persist(
+        self,
+    ) -> None:
+        event_store = InMemoryEventStoreBase[object]()
+        repo = AggregateRepository[object, FakeAggregate, UUID](
+            event_store=event_store, aggregate_type=FakeAggregate
+        )
+        aggregate = FakeAggregate(uuid7())
+        aggregate.record_event(FakeEvent("notification"))
+
+        await repo.save(aggregate)
+
+        result = await event_store.get_events(cast(UUID, aggregate.id))
+        assert result.is_ok
+        assert len(result.value) == 0
+
+    async def test_save_when_repeated_before_event_collection_then_raises_concurrency_error(
+        self,
+    ) -> None:
+        event_store = InMemoryEventStoreBase[object]()
+        repo = AggregateRepository[object, FakeAggregate, UUID](
+            event_store=event_store, aggregate_type=FakeAggregate
+        )
+        aggregate = FakeAggregate(uuid7())
+        aggregate.add_item("widget")
+
+        await repo.save(aggregate)
+
+        with pytest.raises(ConcurrencyError):
+            await repo.save(aggregate)
 
     async def test_save_with_multiple_events_persists_all(self) -> None:
         event_store = InMemoryEventStoreBase[object]()
