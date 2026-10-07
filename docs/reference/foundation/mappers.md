@@ -4,7 +4,7 @@ A **Mapper** is an explicit transformation between two types. It makes type conv
 
 ## Protocol
 
-`Mapper[SourceType, TargetType]` defines a single method: `map(source) → target`. It is a Protocol — any callable or object that satisfies the shape qualifies.
+`Mapper[SourceType, TargetType]` defines a single method: `map(source) → target`. It is a Protocol — any object implementing that method shape qualifies.
 
 ## When to use
 
