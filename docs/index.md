@@ -6,7 +6,7 @@ It doesn’t enforce any framework, library, or organizational approach.
 
 Instead, it gives you a **vocabulary** and **building blocks** for shaping ideas in a way that fits your project and your style.
 
-ForgingBlocks relies only on standard features available in **Python 3.14+** (such as `Protocols`, `Generics`, and Type Hints), keeping it lightweight and broadly compatible.
+ForgingBlocks relies only on standard features available in **Python 3.14+** (such as `Protocols`, `Generics`, and Type Hints), keeping it lightweight and broadly compatible. It has no runtime dependencies; development and documentation tools are separate dependencies.
 
 ---
 
@@ -20,7 +20,7 @@ Key points:
 - Small, composable abstractions (Result, Port, Entity, ValueObject, ApplicationServicePort, etc.)
 - Architecture-neutral — works with your preferred style
 - Focus on explicit outcomes, clear boundaries, and testability
-- Zero dependencies, lightweight
+- Zero runtime dependencies; development and documentation tools are separate dependencies.
 
 !!! note "Architecture-agnostic — no DDD required"
     ForgingBlocks does **not** require Domain-Driven Design (DDD). You can use only the **Foundation** block for utilities like `Result`, `Port`, and structured errors — without adopting entities, aggregates, or domain layers. The Domain, Application, and other blocks are optional. Pick what fits your project.
