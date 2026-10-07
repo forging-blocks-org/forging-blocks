@@ -31,7 +31,7 @@ class MyHandler(MessageHandlerPort[MyMessage, MyResult]):
         ...
 ```
 
-**`CommandHandlerPort[CommandPayloadType]`** — Fire-and-forget commands (result fixed to `None`).
+- **`CommandHandlerPort[CommandPayloadType]`** — Handles commands asynchronously with no result payload.
 
 ```python
 class ShipOrder(CommandHandlerPort[ShipOrderPayload]):
@@ -39,7 +39,7 @@ class ShipOrder(CommandHandlerPort[ShipOrderPayload]):
         ...
 ```
 
-**`EventHandlerPort[EventPayloadType]`** — Fire-and-forget domain events.
+- **`EventHandlerPort[EventPayloadType]`** — Handles domain events asynchronously with no result payload.
 
 ```python
 class OrderShippedHandler(EventHandlerPort[dict[str, object]]):
@@ -70,10 +70,9 @@ class OrderValidator(ValidationPort[dict[str, object], dict[str, object]]):
         ...
 ```
 
-### AuthorizationPort
-
+### AuthorizationPort[AuthorizationCheckContext]
 Checks permissions, evaluates resource-level access control, and retrieves
-effective user roles and permissions. No generic type parameters.
+effective user roles and permissions for an application-defined context.
 
 ## Outbound Ports
 
@@ -94,9 +93,9 @@ outside world. Infrastructure implements these.
   via external transport (queues, brokers, in-memory routers).
 - **`EventStorePort`** — Append-only persistence for event-sourced aggregates
   with optimistic concurrency.
-- **`CommandSenderPort`** — Async fire-and-forget command dispatch.
+- **`CommandSenderPort`** — Async command dispatch with no result payload; callers still await completion and errors.
 - **`EventPublisherPort`** — Publishes domain events to external consumers.
-- **`QueryFetcherPort`** — Asynchronous data retrieval from remote sources.
+- **`QueryFetcherPort`** — Asynchronous query dispatch and retrieval.
 - **`CachePort`** — Temporary key-value storage.
 - **`LoggerPort`** — Abstracted structured logging.
 - **`FileSystemPort`** — File read/write/delete operations.
@@ -109,8 +108,9 @@ outside world. Infrastructure implements these.
 
 ## Generic type parameters
 
-Application port classes carry generic type parameters with **no defaults**.
-Type arguments must be supplied at the point of inheritance:
+Generic application port classes require their declared type arguments at the point
+of inheritance. Non-generic ports include `UnitOfWorkPort`, `LoggerPort`, and
+`FileSystemPort`.
 
 ```python
 # ApplicationServicePort — 2 required type args
@@ -131,5 +131,4 @@ class MyRepo(RepositoryPort[MyAggregate, MyId]):
 ```
 
 Omitting type arguments (e.g. `class Foo(ApplicationServicePort):`) will
-trigger type-checker errors. Always specify them when inheriting from
-generic port classes.
+trigger type-checker errors. Always specify them when inheriting from a generic port class.
