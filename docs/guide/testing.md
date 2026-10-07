@@ -13,7 +13,7 @@ This guide covers **testing principles** and the **3-tier test structure** used 
 Test tiers:
 - **Unit** (`@pytest.mark.unit`) — Fast, isolated tests for pure business logic (Domain, Value Objects, Aggregates). Mocks/fakes OK for owned contracts.
 - **Integration** (`@pytest.mark.integration`) — Real/simulated external dependencies (repositories, message buses, APIs). Use fixtures/fakes, **not mocks**.
-- **E2E** (`@pytest.mark.e2e`) — Complete workflows from entry points (CLI, HTTP). Conditionally skipped; document full system behavior.
+- **E2E** (`@pytest.mark.e2e`) — Complete workflows from entry points (CLI, HTTP). Conditionally skipped unless the required environment and external setup are available.
 
 Key principles:
 - **Test intent first** — Focus on behavior, not `Result` representation
@@ -55,7 +55,7 @@ class TestPrepareReleaseService:
         fake_version_control.add_existing_tag(TagName("v1.0.0"))
 
         # Act: Test the business logic
-        input_data = PrepareReleaseInput(level=ReleaseLevel.PATCH)
+        input_data = PrepareReleaseInput(level="patch")
         result = await service.execute(input_data)
 
         # Assert: Verify behavior
@@ -95,7 +95,7 @@ class TestGitVersionControlIntegration:
 Complete workflow tests that exercise the entire system from entry points.
 
 ```bash
-poetry run poe test:e2e   # All currently skipped
+poetry run poe test:e2e   # Runs E2E tests; tests skip when required setup is absent
 ```
 
 **What's included:**
@@ -366,17 +366,18 @@ poetry run pytest --collect-only
 poetry run pytest --durations=10
 ```
 
-**3. Flaky Integration Tests**
+### **3. Flaky Integration Tests**
 ```bash
-# Run integration tests multiple times
-poetry run pytest -m integration --count=5
+# Run integration tests repeatedly without an additional pytest plugin
+for attempt in 1 2 3 4 5; do poetry run pytest -m integration || exit 1; done
 ```
 
-**4. Missing Test Markers**
+### **4. Missing Test Markers**
 ```bash
 # Find unmarked tests
 poetry run pytest --strict-markers
 ```
+
 
 ### Environment Issues
 
@@ -399,20 +400,18 @@ find /tmp -name "pytest-*" -type d -exec rm -rf {} +
 
 ---
 
-## Coverage Guidelines
+## Coverage Gates
 
-**Target Coverage:**
-- Unit tests: >95%
-- Integration tests: >60%
-- Overall: >90%
+The project keeps package coverage separate from maintainer-script coverage:
 
-**Coverage Exclusions:**
-- `__init__.py` files
-- Development/debug utilities
-- Platform-specific code
-- External library wrappers
+- `poetry run poe test:package` ignores `tests/scripts` and requires **100% coverage for `forging_blocks`**.
+- `poetry run poe test:maintainer` measures `scripts` separately and requires at least 90%.
+- The default `poetry run poe test` command uses the combined 90% project threshold.
 
-**Generate Coverage Report:**
+Coverage exclusions are defined centrally in `pyproject.toml` and include abstract
+methods, `pass` statements, type-checking branches, and `TypeVar`/`Generic` declarations.
+
+Generate a report with:
 ```bash
 # HTML report
 poetry run pytest --cov-report=html
