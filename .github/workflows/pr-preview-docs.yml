@@ -60,32 +60,32 @@ jobs:
           echo "do-deploy=$do_deploy" >> "$GITHUB_OUTPUT"
 
       - name: Set up Python
-        if: steps.docs-changed.outputs.build == 'true'
+        if: github.event.action != 'closed'
         uses: actions/setup-python@v6
         with:
           python-version: "3.14"
 
       - name: Setup Poetry
-        if: steps.docs-changed.outputs.build == 'true'
+        if: github.event.action != 'closed'
         uses: ./.github/actions/setup-poetry
 
       - name: Install documentation dependencies
-        if: steps.docs-changed.outputs.build == 'true'
+        if: github.event.action != 'closed'
         run: |
           poetry install --no-interaction --with docs
 
       - name: Generate documentation pages
-        if: steps.docs-changed.outputs.build == 'true'
+        if: github.event.action != 'closed'
         run: |
           poetry run python scripts/generate_autodoc_pages.py
 
       - name: Build documentation site
-        if: steps.docs-changed.outputs.build == 'true'
+        if: github.event.action != 'closed'
         run: |
           poetry run mkdocs build --strict
 
       - name: Deploy PR preview
-        if: steps.docs-changed.outputs.do-deploy == 'true' && github.event.action != 'closed'
+        if: github.event.action != 'closed'
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./site/
@@ -97,7 +97,7 @@ jobs:
           wait-for-pages-deployment: false
 
       - name: Remove PR preview
-        if: steps.docs-changed.outputs.do-deploy == 'true' && github.event.action == 'closed'
+        if: github.event.action == 'closed'
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./site/
