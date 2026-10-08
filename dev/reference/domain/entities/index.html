@@ -7737,7 +7737,7 @@
 <h2 id="lifecycle">Lifecycle<a class="headerlink" href="#lifecycle" title="Permanent link">&para;</a></h2>
 <p>An Entity transitions through two states: draft (no ID) and identified (ID assigned). The base class enforces that an ID, once set, cannot be changed or removed — violations raise <a href="../errors/">Domain Errors</a>.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Inherit from <code>Entity</code> when you need identity-based equality (<code>__eq__</code> / <code>__hash__</code> by ID) and the built-in lifecycle: draft → identified. The base class enforces that an ID, once set, cannot be changed or removed.</p>
+<p>Inherit from <code>Entity</code> when you need identity-based equality and the built-in lifecycle: draft → identified. Identified entities compare by type-qualified identity and hash by type plus ID. Draft entities compare by object identity and cannot be hashed.</p>
 <div class="admonition note">
 <p class="admonition-title">Influence: Eric Evans</p>
 <p>The focus on identity as a defining characteristic is inspired by <em>Domain-Driven Design</em> by Eric Evans. ForgingBlocks adopts this idea without requiring a full DDD tactical model.</p>

@@ -7749,7 +7749,8 @@
 - Deserialize transport formats (JSON, form data, query strings)<br />
 - Extract and normalize headers, parameters, and body<br />
 - Return a typed DTO or command for the use case</p>
-<p>Framework-aware. Stateless — produces a value, no side effects.</p>
+<p>Transport-specific implementations may be framework-aware. The protocol itself is<br />
+framework-agnostic and stateless — it produces a value without side effects.</p>
 <h2 id="when-to-use-requestadapter">When to use (RequestAdapter)<a class="headerlink" href="#when-to-use-requestadapter" title="Permanent link">&para;</a></h2>
 <p>Implement <code>RequestAdapter</code> for each transport your system supports — HTTP requests, CLI arguments, message queue payloads. The protocol is generic; your implementation handles the specific deserialization.</p>
 <h2 id="response-adapter">Response Adapter<a class="headerlink" href="#response-adapter" title="Permanent link">&para;</a></h2>
@@ -7761,13 +7762,13 @@
 <h2 id="presentation-adapter">Presentation Adapter<a class="headerlink" href="#presentation-adapter" title="Permanent link">&para;</a></h2>
 <p><code>PresentationAdapter</code> orchestrates the full request/response lifecycle:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>1. RequestAdapter.adapt(raw)  → use-case input
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>2. ApplicationServicePort.execute(input)     → output or Result
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>2. ApplicationServicePort.execute(input)     → declared output type
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>3a. Success  → ResponseAdapter.adapt(output)
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>3b. Err/Exception → ErrorPresenter → ErrorStatusCodeMapper → ResponseAdapter.adapt_error()
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>3b. Result.Err or exception → ErrorPresenter → ErrorStatusCodeMapper → ResponseAdapter.adapt_error()
 </span></code></pre></div>
 <p>Key design:</p>
 <ul>
-<li>Handles both <code>Result.Err</code> and raised exceptions. Callers choose their style.</li>
+<li>Handles raised exceptions and can handle <code>Result.Err</code> when the adapter is configured to unwrap use-case results.</li>
 <li>When <code>ErrorPresenter</code> is <code>None</code>, exceptions propagate unchanged.</li>
 </ul>
 <p>See <a href="../error-handling/">Error Handling</a> for how errors are converted and rendered.</p>

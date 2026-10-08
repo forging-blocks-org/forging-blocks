@@ -7725,18 +7725,18 @@
 
 
 <h1 id="meta-utilities">Meta Utilities<a class="headerlink" href="#meta-utilities" title="Permanent link">&para;</a></h1>
-<p>Foundation provides <strong>runtime enforcement</strong> through metaclasses and decorators. Unlike <code>typing.final</code> or <code>ABC</code>, which are static-analysis hints, these enforce constraints at runtime.</p>
+<p>Foundation provides <strong>runtime enforcement</strong> through metaclasses and decorators. <code>ABC</code> and <code>ABCMeta</code> enforce abstract contracts at runtime; <code>FinalMeta</code> and <code>FinalABCMeta</code> enforce <code>@runtime_final</code> method overrides at runtime.</p>
 <h2 id="metaclasses">Metaclasses<a class="headerlink" href="#metaclasses" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>FinalMeta</strong> — Prevents subclassing at runtime. Inheriting from a class with this metaclass raises <code>TypeError</code>.</li>
-<li><strong>FinalABCMeta</strong> — Combines <code>FinalMeta</code> with <code>ABCMeta</code>. Prevents subclassing and requires abstract method implementation.</li>
+<li><strong>FinalMeta</strong> — Prevents overriding inherited <code>@runtime_final</code> methods at runtime. It does not prevent subclassing.</li>
+<li><strong>FinalABCMeta</strong> — Combines that method-override check with <code>ABCMeta</code>, which still allows concrete subclasses after they implement abstract methods.</li>
 </ul>
 <h2 id="decorators">Decorators<a class="headerlink" href="#decorators" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>@runtime_final</strong> — Prevents a method from being overridden in subclasses. Raises <code>TypeError</code> if a child class attempts to override it.</li>
 </ul>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Use <code>FinalMeta</code> or <code>FinalABCMeta</code> when a class must never be subclassed — framework-level base classes, sealed hierarchies, security boundaries. Use <code>@runtime_final</code> on methods that subclasses should call but never override.</p>
+<p>Use <code>FinalMeta</code> or <code>FinalABCMeta</code> when a class must protect selected methods from being overridden. Use <code>@runtime_final</code> on methods that subclasses should call but never override.</p>
 
 
 

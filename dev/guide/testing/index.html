@@ -753,6 +753,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#3-flaky-integration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Flaky Integration Tests
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-missing-test-markers" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Missing Test Markers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#environment-issues" class="md-nav__link">
     <span class="md-ellipsis">
       Environment Issues
@@ -767,9 +785,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#coverage-guidelines" class="md-nav__link">
+  <a href="#coverage-gates" class="md-nav__link">
     <span class="md-ellipsis">
-      Coverage Guidelines
+      Coverage Gates
     </span>
   </a>
   
@@ -8057,6 +8075,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#3-flaky-integration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Flaky Integration Tests
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-missing-test-markers" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Missing Test Markers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#environment-issues" class="md-nav__link">
     <span class="md-ellipsis">
       Environment Issues
@@ -8071,9 +8107,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#coverage-guidelines" class="md-nav__link">
+  <a href="#coverage-gates" class="md-nav__link">
     <span class="md-ellipsis">
-      Coverage Guidelines
+      Coverage Gates
     </span>
   </a>
   
@@ -8113,7 +8149,7 @@ This makes your code easier to test without relying on internal details.</p>
 <p>Test tiers:<br />
 - <strong>Unit</strong> (<code>@pytest.mark.unit</code>) — Fast, isolated tests for pure business logic (Domain, Value Objects, Aggregates). Mocks/fakes OK for owned contracts.<br />
 - <strong>Integration</strong> (<code>@pytest.mark.integration</code>) — Real/simulated external dependencies (repositories, message buses, APIs). Use fixtures/fakes, <strong>not mocks</strong>.<br />
-- <strong>E2E</strong> (<code>@pytest.mark.e2e</code>) — Complete workflows from entry points (CLI, HTTP). Conditionally skipped; document full system behavior.</p>
+- <strong>E2E</strong> (<code>@pytest.mark.e2e</code>) — Complete workflows from entry points (CLI, HTTP). Conditionally skipped unless the required environment and external setup are available.</p>
 <p>Key principles:<br />
 - <strong>Test intent first</strong> — Focus on behavior, not <code>Result</code> representation<br />
 - <strong>Use fakes for Ports</strong> — Replace Port dependencies with fakes to verify behavior without infrastructure<br />
@@ -8145,7 +8181,7 @@ This makes your code easier to test without relying on internal details.</p>
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="n">fake_version_control</span><span class="o">.</span><span class="n">add_existing_tag</span><span class="p">(</span><span class="n">TagName</span><span class="p">(</span><span class="s2">&quot;v1.0.0&quot;</span><span class="p">))</span>
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="c1"># Act: Test the business logic</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="n">input_data</span> <span class="o">=</span> <span class="n">PrepareReleaseInput</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">ReleaseLevel</span><span class="o">.</span><span class="n">PATCH</span><span class="p">)</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="n">input_data</span> <span class="o">=</span> <span class="n">PrepareReleaseInput</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;patch&quot;</span><span class="p">)</span>
 </span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
 </span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        <span class="c1"># Assert: Verify behavior</span>
@@ -8176,7 +8212,7 @@ This makes your code easier to test without relying on internal details.</p>
 </span></code></pre></div></p>
 <h3 id="end-to-end-tests-pytestmarke2e"><strong>End-to-End Tests</strong> (<code>@pytest.mark.e2e</code>)<a class="headerlink" href="#end-to-end-tests-pytestmarke2e" title="Permanent link">&para;</a></h3>
 <p>Complete workflow tests that exercise the entire system from entry points.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:e2e<span class="w">   </span><span class="c1"># All currently skipped</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>test:e2e<span class="w">   </span><span class="c1"># Runs E2E tests; tests skip when required setup is absent</span>
 </span></code></pre></div>
 <p><strong>What's included:</strong><br />
 - Presentation layer entry points (CLI, HTTP handlers)<br />
@@ -8393,14 +8429,14 @@ This lets you verify behavior without involving infrastructure.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Profile test execution</span>
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--durations<span class="o">=</span><span class="m">10</span>
 </span></code></pre></div></p>
-<p><strong>3. Flaky Integration Tests</strong><br />
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Run integration tests multiple times</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-m<span class="w"> </span>integration<span class="w"> </span>--count<span class="o">=</span><span class="m">5</span>
-</span></code></pre></div></p>
-<p><strong>4. Missing Test Markers</strong><br />
+<h3 id="3-flaky-integration-tests"><strong>3. Flaky Integration Tests</strong><a class="headerlink" href="#3-flaky-integration-tests" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Run integration tests repeatedly without an additional pytest plugin</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">for</span><span class="w"> </span>attempt<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">5</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-m<span class="w"> </span>integration<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</span></code></pre></div>
+<h3 id="4-missing-test-markers"><strong>4. Missing Test Markers</strong><a class="headerlink" href="#4-missing-test-markers" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Find unmarked tests</span>
 </span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--strict-markers
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h3 id="environment-issues">Environment Issues<a class="headerlink" href="#environment-issues" title="Permanent link">&para;</a></h3>
 <p><strong>Git Configuration</strong><br />
 Integration tests require git to be configured:<br />
@@ -8416,17 +8452,16 @@ Test artifacts are automatically cleaned up, but manual cleanup:<br />
 </span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>find<span class="w"> </span>/tmp<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;pytest-*&quot;</span><span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-exec<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="o">{}</span><span class="w"> </span>+
 </span></code></pre></div></p>
 <hr />
-<h2 id="coverage-guidelines">Coverage Guidelines<a class="headerlink" href="#coverage-guidelines" title="Permanent link">&para;</a></h2>
-<p><strong>Target Coverage:</strong><br />
-- Unit tests: &gt;95%<br />
-- Integration tests: &gt;60%<br />
-- Overall: &gt;90%</p>
-<p><strong>Coverage Exclusions:</strong><br />
-- <code>__init__.py</code> files<br />
-- Development/debug utilities<br />
-- Platform-specific code<br />
-- External library wrappers</p>
-<p><strong>Generate Coverage Report:</strong><br />
+<h2 id="coverage-gates">Coverage Gates<a class="headerlink" href="#coverage-gates" title="Permanent link">&para;</a></h2>
+<p>The project keeps package coverage separate from maintainer-script coverage:</p>
+<ul>
+<li><code>poetry run poe test:package</code> ignores <code>tests/scripts</code> and requires <strong>100% coverage for <code>forging_blocks</code></strong>.</li>
+<li><code>poetry run poe test:maintainer</code> measures <code>scripts</code> separately and requires at least 90%.</li>
+<li>The default <code>poetry run poe test</code> command uses the combined 90% project threshold.</li>
+</ul>
+<p>Coverage exclusions are defined centrally in <code>pyproject.toml</code> and include abstract<br />
+methods, <code>pass</code> statements, type-checking branches, and <code>TypeVar</code>/<code>Generic</code> declarations.</p>
+<p>Generate a report with:<br />
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># HTML report</span>
 </span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov-report<span class="o">=</span>html
 </span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>

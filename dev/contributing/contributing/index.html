@@ -7619,6 +7619,21 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Documentation">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
   <a href="#release-process-maintainers-only" class="md-nav__link">
     <span class="md-ellipsis">
@@ -7843,6 +7858,21 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Documentation">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
   <a href="#release-process-maintainers-only" class="md-nav__link">
     <span class="md-ellipsis">
@@ -7911,7 +7941,8 @@ This guide is meant to help you orient yourself.</p>
 <p>The documentation mirrors this structure:</p>
 <ul>
 <li>The <strong>Guide</strong> explains how to read and use the toolkit.</li>
-<li>The <strong>Reference</strong> provides technical details for each module and abstraction.</li>
+<li>The <strong>Reference</strong> provides precise details for each block and abstraction.</li>
+<li>The <strong>Architectural Styles</strong> section shows optional interpretations from the literature.</li>
 </ul>
 <p>Understanding this separation will make contributing easier.</p>
 <hr />
@@ -7999,22 +8030,22 @@ This guide is meant to help you orient yourself.</p>
 </span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># CI simulation</span>
 </span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>ci:check<span class="w">          </span><span class="c1"># Run full CI suite</span>
 </span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>ci:simulate<span class="w">       </span><span class="c1"># Include documentation build</span>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="c1"># Documentation</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:build<span class="w">           </span><span class="c1"># Build documentation</span>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:serve<span class="w">           </span><span class="c1"># Serve docs locally</span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:generate<span class="w">        </span><span class="c1"># Generate API reference</span>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:deploy-version<span class="w">  </span><span class="c1"># Deploy versioned docs (see --help)</span>
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:serve-versioned<span class="w"> </span><span class="c1"># Serve with version selector</span>
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:list-versions<span class="w">   </span><span class="c1"># List deployed versions</span>
+</span></code></pre></div>
+<h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:build<span class="w">           </span><span class="c1"># Build documentation with strict validation</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:serve<span class="w">           </span><span class="c1"># Serve the current docs locally</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:generate<span class="w">        </span><span class="c1"># Generate API reference pages</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:deploy:dev<span class="w">      </span><span class="c1"># Deploy the dev docs version</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:deploy:release<span class="w">  </span><span class="c1"># Deploy the current release version and aliases</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:versions<span class="w">        </span><span class="c1"># List mike-managed documentation versions</span>
 </span></code></pre></div>
 <h3 id="release-process-maintainers-only">Release Process (Maintainers Only)<a class="headerlink" href="#release-process-maintainers-only" title="Permanent link">&para;</a></h3>
 <p>For maintainers preparing releases, see detailed instructions in <a href="https://forging-blocks-org.github.io/forging-blocks/dev/contributing/release-guide/">Release Guide</a>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Prepare release (simulation)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Execute release (creates branch and PR)</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w"> </span>--execute
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Prepare release (simulation)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Execute release (creates branch and PR)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w"> </span>--execute
 </span></code></pre></div>
 
 

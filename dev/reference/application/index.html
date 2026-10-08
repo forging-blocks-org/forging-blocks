@@ -7789,7 +7789,7 @@
 1. Receives a request through an inbound port.<br />
 2. Coordinates domain objects.<br />
 3. Invokes outbound ports for persistence or side effects.<br />
-4. Returns a <code>Result[OutputType, Error]</code>.</p>
+4. Returns its declared <code>ResponseType</code>, often a <code>Result[OutputType, Error]</code> when explicit success/failure handling is useful.</p>
 <p>A <code>MessageHandlerPort</code> follows the same pattern but reacts to a single message type — commands, events, or queries.</p>
 <p>Ports define <em>what</em> the application needs, never <em>how</em>. Outbound ports like <code>RepositoryPort</code> or <code>EventBusPort</code> are contracts. Infrastructure implements them. The Application block composes them without knowing their implementation.</p>
 <hr />
@@ -7797,9 +7797,9 @@
 <p>Wire up a use case step by step:</p>
 <ol>
 <li>Define an inbound port for each system capability.</li>
-<li>Implement it as a <code>ApplicationServicePort</code> class.</li>
+<li>Implement it as an <code>ApplicationServicePort</code> class.</li>
 <li>Inject outbound ports through the constructor — repositories, event buses, loggers.</li>
-<li>Return <code>Result[OutputType, Error]</code> so callers handle both paths explicitly.</li>
+<li>Choose a typed response, often <code>Result[OutputType, Error]</code>, so callers handle both paths explicitly.</li>
 </ol>
 <p>Keep use cases thin. They orchestrate; domain objects decide. When a use case grows, extract domain logic into value objects or entities. When it needs new I/O, add an outbound port and implement it in Infrastructure.</p>
 <hr />

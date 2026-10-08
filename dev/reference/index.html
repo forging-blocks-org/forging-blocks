@@ -7714,13 +7714,18 @@
 - <strong>Application</strong> — Application layer patterns (ApplicationServicePort, CommandHandlerPort, RepositoryPort, EventStorePort).<br />
 - <strong>Infrastructure</strong> — Technical adapters and implementations (Repositories, MessageCodec/DictMessageCodec).<br />
 - <strong>Presentation</strong> — Input/output boundaries.</p>
-<p>Dependencies point inward: Infrastructure/Presentation → Application → Domain, all depending on Foundation.</p>
+<p>Dependencies point inward:<br />
+- Infrastructure → Application, Domain, and Foundation;<br />
+- Presentation → Application and Foundation;<br />
+- Application → Domain and Foundation;<br />
+- Domain → Foundation.</p>
 <hr />
 <pre class="mermaid"><code>flowchart LR
     D[Domain&lt;br/&gt;Problem-space concepts] --&gt;|depends on| F[Foundation&lt;br/&gt;Shared abstractions]
     A[Application&lt;br/&gt;Coordination &amp; behavior] --&gt;|depends on| D
     A --&gt;|depends on| F
     I[Infrastructure&lt;br/&gt;Technical adapters] --&gt;|depends on| A
+    I --&gt;|depends on| D
     I --&gt;|depends on| F
     P[Presentation&lt;br/&gt;Input boundaries] --&gt;|depends on| A
     P --&gt;|depends on| F</code></pre>

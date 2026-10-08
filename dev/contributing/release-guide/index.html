@@ -8127,14 +8127,14 @@ When the release PR is merged into <code>main</code> it will trigger the package
 <h3 id="release-commands">Release Commands<a class="headerlink" href="#release-commands" title="Permanent link">&para;</a></h3>
 <p>The release process uses poe tasks with the <code>--execute</code> flag:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Always start with simulation (safe, no changes)</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w">       </span><span class="c1"># 0.3.6 → 0.3.7 (simulation)</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w">       </span><span class="c1"># 0.3.6 → 0.4.0 (simulation)</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w">       </span><span class="c1"># 0.3.6 → 1.0.0 (simulation)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w">       </span><span class="c1"># Prepare a patch release from the current version</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w">       </span><span class="c1"># Prepare a minor release from the current version</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w">       </span><span class="c1"># Prepare a major release from the current version</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Execute when ready (creates branch and PR)</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># Actually performs the release</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># Actually performs the release</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># Actually performs the release</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Execute when ready (creates a release branch and PR)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w"> </span>--execute
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w"> </span>--execute
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w"> </span>--execute
 </span></code></pre></div>
 <h3 id="what-happens-locally">What Happens Locally<a class="headerlink" href="#what-happens-locally" title="Permanent link">&para;</a></h3>
 <p>When you run <code>poetry run poe release patch --execute</code>, the tooling automatically:</p>
@@ -8149,29 +8149,33 @@ When the release PR is merged into <code>main</code> it will trigger the package
 <h3 id="what-happens-after-merge">What Happens After Merge<a class="headerlink" href="#what-happens-after-merge" title="Permanent link">&para;</a></h3>
 <p>When the release PR is merged into <code>main</code>, GitHub Actions automatically:</p>
 <ol>
-<li><strong>Creates and pushes tag</strong> (from branch name <code>release/vX.Y.Z</code>)</li>
-<li><strong>Builds and publishes</strong> package to PyPI</li>
-<li><strong>Deploys versioned documentation</strong> to GitHub Pages (e.g. <code>0.4.0</code>) and updates the <code>latest</code> alias</li>
-<li><strong>Creates GitHub Release</strong> with changelog</li>
+<li><strong>Creates and pushes the version tag</strong> from the release branch name</li>
+<li><strong>Validates the release version</strong> and builds the package</li>
+<li><strong>Publishes the package to PyPI</strong> with the PyPA trusted-publishing action</li>
+<li><strong>Deploys versioned documentation</strong> and updates the <code>latest</code> alias</li>
+<li><strong>Creates the GitHub Release</strong> with the generated changelog</li>
 </ol>
 <h2 id="important-publishing-only-happens-after-pr-merge-if-the-pr-is-rejected-nothing-gets-released">&gt; <strong>Important</strong>: Publishing only happens after PR merge. If the PR is rejected, nothing gets released.<a class="headerlink" href="#important-publishing-only-happens-after-pr-merge-if-the-pr-is-rejected-nothing-gets-released" title="Permanent link">&para;</a></h2>
 <h2 id="mental-model-read-this-first">Mental Model (Read This First)<a class="headerlink" href="#mental-model-read-this-first" title="Permanent link">&para;</a></h2>
 <p>ForgingBlocks follows a <strong>local-preparation + automated-publishing model</strong>:</p>
 <ul>
 <li><strong>Local tooling</strong> (<code>poetry run poe release patch</code>) automatically:</li>
-<li>validates the release</li>
-<li>bumps the version</li>
-<li>generates the changelog</li>
-<li>creates the release branch</li>
-<li>commits changes</li>
-<li>opens a Pull Request</li>
-<li><strong>GitHub Actions</strong> automatically:</li>
-<li>creates and pushes tags (from branch name)</li>
-<li>validates the release candidate</li>
-<li>builds the package</li>
-<li>publishes to PyPI</li>
-<li>deploys versioned documentation (e.g. <code>0.4.0</code> → aliased as <code>latest</code>)</li>
-<li>creates the GitHub Release</li>
+<li>Validates the release.</li>
+<li>Bumps the version.</li>
+<li>Generates the changelog.</li>
+<li>Creates the release branch.</li>
+<li>Commits changes.</li>
+<li>
+<p>Opens a Pull Request.</p>
+</li>
+<li>
+<p><strong>GitHub Actions</strong> automatically after the release PR is merged:</p>
+</li>
+<li>Creates and pushes the version tag.</li>
+<li>Validates the release candidate and builds the package.</li>
+<li>Publishes to PyPI through the PyPA trusted-publishing action.</li>
+<li>Deploys versioned documentation and updates the <code>latest</code> alias.</li>
+<li>Creates the GitHub Release.</li>
 </ul>
 <hr />
 <h2 id="why-this-flow-design">Why This Flow Design?<a class="headerlink" href="#why-this-flow-design" title="Permanent link">&para;</a></h2>
@@ -8237,12 +8241,11 @@ When the release PR is merged into <code>main</code> it will trigger the package
 <p>The tooling handles version bumping, changelog generation, branch creation, and PR opening automatically.</p>
 <hr />
 <h2 id="publishing-in-github-actions">Publishing in GitHub Actions<a class="headerlink" href="#publishing-in-github-actions" title="Permanent link">&para;</a></h2>
-<p>When the release Pull Request is merged into <code>main</code>, GitHub Actions automatically:</p>
 <ol>
-<li><strong>Creates and pushes the git tag</strong> (extracted from release branch name)</li>
-<li><strong>Validates the release candidate</strong> (runs CI checks and builds)</li>
-<li><strong>Publishes the package to PyPI</strong> (using poetry publish)</li>
-<li><strong>Deploys documentation to GitHub Pages</strong> (updates latest docs)</li>
+<li><strong>Creates and pushes the git tag</strong> extracted from the release branch name</li>
+<li><strong>Validates the release candidate</strong> and builds the package</li>
+<li><strong>Publishes the package to PyPI</strong> with <code>pypa/gh-action-pypi-publish</code></li>
+<li><strong>Deploys documentation to GitHub Pages</strong> through the repository docs action</li>
 </ol>
 <hr />
 <h2 id="release-flow-diagram">Release Flow Diagram<a class="headerlink" href="#release-flow-diagram" title="Permanent link">&para;</a></h2>
@@ -8269,14 +8272,14 @@ When the release PR is merged into <code>main</code> it will trigger the package
 <h2 id="release-commands-reference">Release Commands Reference<a class="headerlink" href="#release-commands-reference" title="Permanent link">&para;</a></h2>
 <h3 id="available-commands">Available Commands<a class="headerlink" href="#available-commands" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Simulation mode (safe, no changes)</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w">    </span><span class="c1"># 0.3.6 → 0.3.7</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w">    </span><span class="c1"># 0.3.6 → 0.4.0</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w">    </span><span class="c1"># 0.3.6 → 1.0.0</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Execution mode (create release branch, and PR)</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># 0.3.6 → 0.3.7</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># 0.3.6 → 0.4.0</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w"> </span>--execute<span class="w">    </span><span class="c1"># 0.3.6 → 1.0.0</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Execution mode (creates a release branch and opens a PR)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>patch<span class="w"> </span>--execute
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>minor<span class="w"> </span>--execute
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>release<span class="w"> </span>major<span class="w"> </span>--execute
 </span></code></pre></div>
 <h3 id="command-behavior">Command Behavior<a class="headerlink" href="#command-behavior" title="Permanent link">&para;</a></h3>
 <table>
@@ -8295,21 +8298,14 @@ When the release PR is merged into <code>main</code> it will trigger the package
 <td>No</td>
 <td>No</td>
 <td>No</td>
-<td>Yes — always safe</td>
+<td>Yes — no repository changes</td>
 </tr>
 <tr>
 <td><strong>Execute</strong> (<code>--execute</code>)</td>
 <td>Yes</td>
-<td>Yes</td>
 <td>No</td>
-<td>Caution — only when ready</td>
-</tr>
-<tr>
-<td>&gt; <strong>Safety First</strong>: Always run simulation mode first to validate the release.</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>Yes</td>
+<td>Review the generated changes and PR</td>
 </tr>
 </tbody>
 </table>
@@ -8328,45 +8324,36 @@ When the release PR is merged into <code>main</code> it will trigger the package
 <thead>
 <tr>
 <th>Alias</th>
-<th>URL</th>
-<th>Updated</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>latest</code></td>
-<td><code>https://forging-blocks-org.github.io/forging-blocks/</code></td>
-<td>On each release</td>
-</tr>
-<tr>
 <td><code>dev</code></td>
-<td><code>/forging-blocks/dev/</code></td>
-<td>Every push to <code>main</code></td>
+<td>Documentation generated from the current <code>main</code> branch</td>
 </tr>
 <tr>
-<td><code>0.4.0</code></td>
-<td><code>/forging-blocks/0.4.0/</code></td>
-<td>Never (snapshot)</td>
+<td><code>latest</code></td>
+<td>Alias for the most recent released documentation</td>
+</tr>
+<tr>
+<td><code>vX.Y.Z</code></td>
+<td>Immutable documentation snapshot for a released version</td>
 </tr>
 </tbody>
 </table>
 <h3 id="manual-docs-commands">Manual Docs Commands<a class="headerlink" href="#manual-docs-commands" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Deploy current version as latest (one-time setup or manual release)</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:deploy-version<span class="w"> </span><span class="m">0</span>.4.0
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Serve docs locally with version selector</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:serve-versioned
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># List deployed versions</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:list-versions
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># Deploy dev version locally</span>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:deploy-version<span class="w"> </span>dev<span class="w"> </span>--dry-run
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:generate
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:build
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:serve
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:deploy:dev
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:deploy:release
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>poetry<span class="w"> </span>run<span class="w"> </span>poe<span class="w"> </span>docs:versions
 </span></code></pre></div>
 <h3 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong><code>deploy-docs.yml</code></strong>: On every push to <code>main</code>, generates autodocs and deploys the <code>dev</code> version.</li>
-<li><strong><code>release.yml</code></strong>: After a release PR is merged and the package is published, deploys the versioned docs (e.g. <code>0.4.0</code>) and updates the <code>latest</code> alias.</li>
+<li><strong><code>deploy-docs.yml</code></strong> generates and deploys the <code>dev</code> documentation on pushes to <code>main</code>.</li>
+<li><strong><code>release.yml</code></strong> deploys the released documentation after the release workflow completes.</li>
 </ul>
 <p>The version selector in the docs header lets users switch between versions.</p>
 <hr />

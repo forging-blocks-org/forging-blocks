@@ -7788,7 +7788,7 @@
 <p>Each abstraction serves one focused purpose:</p>
 <ul>
 <li><code>Result</code> replaces exceptions for predictable control flow.</li>
-<li><code>Port</code> defines boundaries as protocols — what is expected, not how.</li>
+<li><code>Port</code> defines abstract-base-class boundaries — what is expected, not how.</li>
 <li><code>Error</code> gives structure to failure with messages and metadata.</li>
 </ul>
 <p>These are not patterns you must use everywhere. They are tools you reach for when plain Python types stop communicating intent clearly enough.</p>
@@ -7797,7 +7797,7 @@
 <p>Start with the abstractions that give the most immediate value:</p>
 <ol>
 <li><strong><code>Result</code></strong> — Replace functions that return <code>None</code> on failure or raise exceptions for control flow. Return <code>Ok(value)</code> or <code>Err(error)</code> instead.</li>
-<li><strong><code>Port</code></strong> — Define a protocol for any dependency you might swap later: repositories, event buses, loggers.</li>
+<li><strong><code>Port</code></strong> — Define an abstract port contract for any dependency you might swap later: repositories, event buses, loggers.</li>
 </ol>
 <p>The Foundation block is pure Python — standard library only. It introduces no framework dependencies.</p>
 <hr />
@@ -7810,7 +7810,7 @@
 <li><strong><a href="../domain/permissions/">Permissions</a></strong> — Enum-like permission definitions with membership checking.</li>
 <li><strong><a href="mappers/">Mappers</a></strong> — Explicit transformations between types.</li>
 <li><strong><a href="identified/">Identified</a></strong> — Protocol for objects carrying an identifier.</li>
-<li><strong><a href="meta/">Meta Utilities</a></strong> — Runtime enforcement (final, sealed, abstract).</li>
+<li><strong><a href="meta/">Meta Utilities</a></strong> — Runtime enforcement (<code>FinalMeta</code>, <code>FinalABCMeta</code>, <code>runtime_final</code>).</li>
 <li><strong><a href="rules/">Rules</a></strong> — Composable validation rules (ValidationRule).</li>
 </ul>
 <hr />

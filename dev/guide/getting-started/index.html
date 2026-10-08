@@ -7807,7 +7807,7 @@ make its rules visible and reusable.</p>
 </span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
 </span></code></pre></div>
 <p><code>ValueObject</code> gives you value-based equality, hashability, and immutability<br />
-automatically via <code>auto_hash</code> and <code>auto_freeze</code>, so that you<br />
+automatically via <code>auto_eq</code>, <code>auto_hash</code>, and <code>auto_freeze</code>, so that you<br />
 can focus on the rules of <em>your</em> value.</p>
 <hr />
 <h2 id="providing-a-fallback-with-get_value_or_else">Providing a fallback with <code>get_value_or_else</code><a class="headerlink" href="#providing-a-fallback-with-get_value_or_else" title="Permanent link">&para;</a></h2>

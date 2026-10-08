@@ -7743,30 +7743,37 @@
 
 
 <h1 id="messaging-and-events">Messaging and Events<a class="headerlink" href="#messaging-and-events" title="Permanent link">&para;</a></h1>
-<p>The messaging layer routes commands, queries, and events between application<br />
-and domain components. Three building blocks compose to form the full pipeline:</p>
+<p>The messaging layer routes commands, queries, and events between application and<br />
+domain components. Its contracts remain separate because they provide different<br />
+delivery semantics:</p>
 <ul>
-<li><strong>Message Bus</strong> — dispatches any message to the right handler (commands, queries, events).<br />
-<code>MessageBusCommandSender</code>, <code>MessageBusEventPublisher</code>, and <code>MessageBusQueryFetcher</code> are thin port-satisfying wrappers<br />
-  around the bus that expose narrower, role-specific interfaces.</li>
-<li><strong>Event Store</strong> — an append-only log that records domain events chronologically.<br />
-  Enables rebuilding aggregate state from history (event sourcing).</li>
-<li><strong>Event Bus</strong> — publish/subscribe delivery of domain events to registered handlers.<br />
-  Sits behind <code>EventPublisherPort</code> so subscribers can be composed and replaced.</li>
+<li><strong>Message Bus</strong> — Asynchronous dispatch for commands, queries, or events.<br />
+<code>MessageBusCommandSender</code>, <code>MessageBusEventPublisher</code>, and <code>MessageBusQueryFetcher</code><br />
+  are role-specific wrappers around <code>MessageBusPort</code>.</li>
+<li><strong>Event Store</strong> — An append-only log that records domain events chronologically.<br />
+  It enables rebuilding aggregate state from history.</li>
+<li><strong>Event Bus</strong> — Publish/subscribe delivery through <code>EventBusPort</code>.<br />
+<code>EventPublisherPort</code> is a separate publication contract; its shipped adapter<br />
+  delegates to a <code>MessageBusPort</code>.</li>
 </ul>
 <h2 id="message-bus">Message Bus<a class="headerlink" href="#message-bus" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>In-Memory Message Bus</strong> — Synchronous dispatcher routing commands, queries, and events to registered handlers.</li>
-<li><strong>Command Sender</strong> — Thin adapter implementing <code>CommandSenderPort</code>; fire-and-forget.</li>
-<li><strong>Event Publisher</strong> — Thin adapter implementing <code>EventPublisherPort</code>; publishes domain events.</li>
-<li><strong>Query Fetcher</strong> — Thin adapter implementing <code>QueryFetcherPort</code>; dispatches queries, returns typed results.</li>
+<li><strong>In-Memory Message Bus</strong> — In-process asynchronous dispatcher routing messages to registered handlers.</li>
+<li><strong>Command Sender</strong> — Thin adapter implementing <code>CommandSenderPort</code>; callers await dispatch completion without a result payload.</li>
+<li><strong>Event Publisher</strong> — Thin adapter implementing <code>EventPublisherPort</code>; delegates event publication to a <code>MessageBusPort</code>.</li>
+<li><strong>Query Fetcher</strong> — Thin adapter implementing <code>QueryFetcherPort</code>; dispatches queries and returns typed results.</li>
 </ul>
 <h2 id="event-store">Event Store<a class="headerlink" href="#event-store" title="Permanent link">&para;</a></h2>
-<p>Append-only event log storing domain events chronologically. Supports <code>append</code> with optimistic concurrency (expected version check) and <code>get_events</code> for aggregate rebuilding.</p>
+<p>Append-only event log storing domain events chronologically. Supports<br />
+<code>append_events</code> with optimistic concurrency and <code>get_events</code> for aggregate rebuilding.</p>
 <h2 id="event-bus">Event Bus<a class="headerlink" href="#event-bus" title="Permanent link">&para;</a></h2>
-<p>Publish/subscribe mechanism delivering domain events to registered handlers. Synchronous delivery to all subscribers.</p>
+<p>Publish/subscribe mechanism delivering domain events to registered handlers through<br />
+<code>EventBusPort</code>. The in-memory implementation exposes an asynchronous API and awaits<br />
+handlers sequentially.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Use the in-memory message bus for tests and development. Register handlers at startup, dispatch messages at runtime. Use <code>MessageBusCommandSender</code>, <code>MessageBusEventPublisher</code>, and <code>MessageBusQueryFetcher</code> as thin wrappers that satisfy the corresponding port protocols.</p>
+<p>Use the in-memory message and event buses for tests and development. Register handlers<br />
+at startup, dispatch messages at runtime, and select <code>EventPublisherPort</code> when a<br />
+Unit of Work should publish aggregate events through a separate publisher boundary.</p>
 
 
 

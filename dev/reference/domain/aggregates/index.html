@@ -7714,11 +7714,11 @@
 <li>Controls mutation of internal state</li>
 <li>Protects invariants across related entities</li>
 <li>Tracks version via <code>AggregateVersion</code> for optimistic concurrency</li>
-<li>Collects domain events for publishing on commit</li>
+<li>Collects state-changing and publication-only domain events for later dispatch</li>
 </ul>
-<p>The <code>AggregateRoot</code> base class provides identity-based equality (via <a href="../entities/">Entity</a>), domain event collection, and an abstract <code>apply(event)</code> method for event sourcing.</p>
+<p>The <code>AggregateRoot</code> base class provides identity-based equality (via <a href="../entities/">Entity</a>), version tracking, and event queues. The concrete runtime-final <code>apply(event)</code> method delegates state mutation to the abstract <code>_handle(event)</code> hook.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Inherit from <code>AggregateRoot</code> when you need a consistency boundary with version tracking (<code>AggregateVersion</code>) and automatic domain event collection. The base class provides identity equality (via <code>Entity</code>). Override <code>_handle(event)</code> — not <code>apply()</code> — to define state transitions: <code>apply()</code> is <code>@runtime_final</code> and delegates to <code>_handle</code> after version and event bookkeeping.</p>
+<p>Inherit from <code>AggregateRoot</code> when you need a consistency boundary with version tracking (<code>AggregateVersion</code>) and event collection. Use <code>apply()</code> for a new state transition, <code>replay()</code> to restore state from stored events without queuing them, and <code>record_event()</code> for a publication-only event that does not mutate aggregate state. The Unit of Work publishes and drains both queues; <code>AggregateRepository</code> persists only state-changing events.</p>
 <div class="admonition note">
 <p class="admonition-title">Influence: Vaughn Vernon</p>
 <p>The emphasis on consistency boundaries and controlled mutation is inspired by Vaughn Vernon. ForgingBlocks provides aggregates when boundaries matter, without requiring their use everywhere.</p>

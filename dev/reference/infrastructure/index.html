@@ -7786,20 +7786,21 @@
 <h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
 <p>Infrastructure adapters implement the contracts defined by Application outbound ports.</p>
 <ul>
-<li>An <code>InMemoryWriteRepository</code> satisfies <code>RepositoryPort</code> with a dictionary.</li>
+<li>An <code>InMemoryReadRepository</code> satisfies <code>ReadOnlyRepositoryPort</code> with a dictionary.</li>
+<li>An <code>InMemoryWriteRepository</code> satisfies <code>WriteOnlyRepositoryPort</code> with a dictionary.</li>
+<li>An <code>InMemoryRepository</code> combines read and write contracts for full CRUD access.</li>
 <li>An <code>InMemoryEventBus</code> satisfies <code>EventBusPort</code> with in-process publish/subscribe.</li>
 <li>Each adapter encapsulates a technology choice behind a port interface.</li>
 </ul>
-<p>The Application block only sees the port. You swap the adapter without touching application or domain code. A test injects an in-memory store. Production injects a PostgreSQL adapter. Same port, different implementation.</p>
 <hr />
 <h2 id="how-to-use">How to use<a class="headerlink" href="#how-to-use" title="Permanent link">&para;</a></h2>
 <p>Start with in-memory implementations for fast feedback during development. They require no external services and run in tests. Graduate to real adapters when you need persistence, messaging, or external integration.</p>
-<p>Adapters are composable:</p>
+<p>Adapters are composable in a consuming application's composition root:</p>
 <ul>
-<li>A <code>UnitOfWork</code> wraps multiple repositories.</li>
-<li>A <code>MessageBus</code> dispatches to multiple handlers.</li>
+<li>A Unit of Work can coordinate registered aggregate event publication.</li>
+<li>A Message Bus dispatches messages to registered handlers.</li>
 </ul>
-<p>Wire them together at startup — a composition root — and pass the resulting graph into the Application layer.</p>
+<p>Wire them together at startup and pass the resulting graph into the Application layer.</p>
 <hr />
 <h2 id="core-abstractions">Core abstractions<a class="headerlink" href="#core-abstractions" title="Permanent link">&para;</a></h2>
 <ul>
@@ -7824,7 +7825,8 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Unit of Work</p>
-<p>Coordinates multiple repository operations within a transactional boundary.</p>
+<p>Coordinates registered aggregate event publication and queue draining; database<br />
+transaction rollback is adapter-specific.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Message Bus</p>

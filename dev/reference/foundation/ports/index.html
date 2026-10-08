@@ -7784,25 +7784,27 @@ or <code>OutboundPort</code> instead.</p>
 <p><code>InboundPort</code> extends <code>Port</code> and marks the <strong>driving side</strong> of the hexagon:<br />
 use cases, message handlers, presenters — anything infrastructure calls <em>into</em>.</p>
 <p>Its <code>__init_subclass__</code> is decorated <code>@runtime_final</code> and runs<br />
-<code>InboundDependencyValidator</code> on every concrete subclass, raising<br />
-<code>ArchitectureError</code> if any <code>__init__</code> parameter references another<br />
-<code>InboundPort</code>. The rule: <strong>inbound ports may only depend on outbound ports.</strong></p>
+<code>InboundDependencyValidator</code> on every concrete subclass. The validator compares<br />
+declared <code>PortLevel</code> values: an inward dependency is allowed, while an outward,<br />
+same-level, or unknown-level dependency raises <code>ArchitectureError</code>. Without<br />
+declared levels, an inbound port may not depend on another inbound port.</p>
 <h2 id="outboundport">OutboundPort<a class="headerlink" href="#outboundport" title="Permanent link">&para;</a></h2>
 <p><code>OutboundPort</code> extends <code>Port</code> and marks the <strong>driven side</strong> of the hexagon:<br />
 repositories, event buses, loggers, caches — anything the application core<br />
 calls <em>out to</em>.</p>
 <p>Its <code>__init_subclass__</code> is decorated <code>@runtime_final</code> and runs<br />
-<code>OutboundDependencyValidator</code> on every concrete subclass, raising<br />
-<code>ArchitectureError</code> if any <code>__init__</code> parameter references an<br />
-<code>InboundPort</code>. The rule: <strong>outbound ports may only depend on other outbound ports.</strong></p>
+<code>OutboundDependencyValidator</code> on every concrete subclass. The validator applies<br />
+the same level-aware rule: inward dependencies are allowed, while outward,<br />
+same-level, or unknown-level references to inbound ports raise <code>ArchitectureError</code>.<br />
+Outbound ports may otherwise depend on outbound ports.</p>
 <h2 id="check_methods">check_methods<a class="headerlink" href="#check_methods" title="Permanent link">&para;</a></h2>
 <p><code>check_methods(subclass, *method_names)</code> is a utility for<br />
 <code>__subclasshook__</code> consumers. It returns <code>True</code> when <em>subclass</em> has<br />
 all the named callable attributes, enabling structural subtype checks<br />
 without explicit inheritance.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Extend <code>InboundPort</code> for protocols that define how a component is called.<br />
-Extend <code>OutboundPort</code> for protocols that define what a component depends on.<br />
+<p>Extend <code>InboundPort</code> for contracts that define how a component is called.<br />
+Extend <code>OutboundPort</code> for contracts that define what a component depends on.<br />
 The <code>__init_subclass__</code> validation catches architectural drift at the point<br />
 of definition — no runtime check, no CI plugin needed.</p>
 <div class="admonition note">

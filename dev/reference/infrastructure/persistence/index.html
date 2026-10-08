@@ -7734,18 +7734,22 @@ dictionaries; swap in a real database adapter behind the same <code>RepositoryPo
 <li><strong>InMemory Repository</strong> — Shared identity-keyed storage: <code>get_by_id</code>, <code>save</code>, <code>delete_by_id</code></li>
 <li><strong>In-Memory Write Repository</strong> — Dictionary-backed identity-keyed store for testing</li>
 <li><strong>In-Memory Read Repository</strong> — Query-oriented read store for CQRS projections</li>
-<li><strong>Aggregate Repository</strong> — Integrates with <code>UnitOfWorkPort</code> and <code>EventBusPort</code>;<br />
-  tracks new and dirty aggregates, publishes collected events on commit</li>
+<li><strong>Aggregate Repository</strong> — Appends state-changing aggregate events to an event store and<br />
+  caches aggregate snapshots. It does not own Unit of Work or event-publisher state.</li>
 </ul>
 <h2 id="unit-of-work">Unit of Work<a class="headerlink" href="#unit-of-work" title="Permanent link">&para;</a></h2>
-<p>Manages a transactional boundary around repository operations. Tracks new and dirty<br />
-aggregates, flushes events on commit, provides <code>commit</code>/<code>rollback</code> semantics.<br />
-Multiple repository operations within a single use case are treated as one atomic unit.</p>
+<p><code>InMemoryUnitOfWork</code> tracks aggregates explicitly registered with <code>register_modified()</code>.<br />
+On commit it publishes both state-changing and publication-only events through its<br />
+<code>EventPublisherPort</code>, then drains their queues. On publication failure it discards<br />
+queued events and clears tracking before raising <code>UnitOfWorkError</code>; already published<br />
+events cannot be undone.</p>
+<p>Rollback discards queued aggregate events and tracking. It does not undo repository<br />
+writes, so database-level atomicity remains the responsibility of a different adapter.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Use the in-memory implementations for tests and development — no external dependencies.<br />
-<code>InMemoryRepository</code> gives you <code>get_by_id</code>/<code>save</code>/<code>delete_by_id</code>; extend it for domain-specific<br />
-queries. Use <code>AggregateRepository</code> when you need <code>UnitOfWorkPort</code> integration and event<br />
-publishing.</p>
+<p>Use the in-memory repositories for tests and development — no external services are<br />
+required. Use <code>AggregateRepository</code> for event-store append plus snapshot caching.<br />
+Use <code>InMemoryUnitOfWork</code> when an application needs one event-publication boundary for<br />
+registered aggregates.</p>
 
 
 

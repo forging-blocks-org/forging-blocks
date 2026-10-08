@@ -7761,24 +7761,25 @@
 
 
 <h1 id="technical-adapters">Technical Adapters<a class="headerlink" href="#technical-adapters" title="Permanent link">&para;</a></h1>
-<p>Technical adapters implement the outbound ports defined by the Application layer — they<br />
-are the "other side" of the port/adapter boundary. Forging Blocks ships technology-agnostic<br />
-implementations that depend only on the Python standard library, so applications can use<br />
-them at runtime without pulling in third-party dependencies.</p>
-<p>The adapters below all satisfy their corresponding port contracts. In tests, use them<br />
-directly; in production, swap in real implementations (database, HTTP client, filesystem)<br />
-behind the same port interface.</p>
+<p>Technical adapters implement the outbound ports defined by the Application layer when<br />
+such a port exists. Forging Blocks ships standard-library-backed implementations, so<br />
+applications can use them without third-party runtime dependencies.</p>
+<p>Use these adapters directly in tests or development; in production, replace them<br />
+behind the same port interface when a different technology is required.</p>
 <h2 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h2>
 <p>A standard-library logging adapter implementing <code>LoggerPort</code>. Provides <code>debug</code>, <code>info</code>, <code>warning</code>, and <code>error</code> methods — all accept <code>*args: str</code> for <code>%</code>-style formatting (delegates to <code>logging.Logger</code>).</p>
 <h2 id="http-client">HTTP Client<a class="headerlink" href="#http-client" title="Permanent link">&para;</a></h2>
-<p>A <code>urllib</code>-based HTTP client implementing <code>HttpClientPort</code>. Supports GET, POST, headers, and timeout configuration.</p>
+<p>An <code>http.client</code>-backed asynchronous HTTP adapter implementing <code>HttpClientPort</code>. It<br />
+supports request methods, URLs, headers, and UTF-8 string bodies/responses; it exposes<br />
+no timeout option.</p>
 <h2 id="file-system">File System<a class="headerlink" href="#file-system" title="Permanent link">&para;</a></h2>
 <p>An OS-level filesystem adapter implementing <code>FileSystemPort</code>. All operations are <code>async</code>. Supports <code>read</code>, <code>write</code>, <code>delete</code>, <code>exists</code>, and directory listing.</p>
 <h2 id="caching">Caching<a class="headerlink" href="#caching" title="Permanent link">&para;</a></h2>
 <p>A dictionary-backed key-value cache implementing <code>CachePort</code>. Supports <code>get</code>, <code>set</code>, <code>delete</code>, and <code>clear</code>.</p>
 <h2 id="serialization">Serialization<a class="headerlink" href="#serialization" title="Permanent link">&para;</a></h2>
-<p><code>MessageCodec</code> is an abstract codec base that defines <code>encode</code> / <code>decode</code> for bidirectional message serialization. <code>DictMessageCodec</code> is the concrete <code>dict[str, object]</code> implementation that ships with Forging Blocks.</p>
-<p>These adapters implement the corresponding outbound ports from Application. Use the in-memory versions for tests; swap to real implementations (database, HTTP, filesystem) in production.</p>
+<p><code>MessageCodec</code> is a standalone abstract codec base that defines <code>encode</code> / <code>decode</code><br />
+for bidirectional message serialization. <code>DictMessageCodec</code> is the concrete<br />
+<code>dict[str, object]</code> implementation that ships with Forging Blocks.</p>
 
 
 

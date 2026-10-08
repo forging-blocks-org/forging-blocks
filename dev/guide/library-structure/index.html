@@ -7816,10 +7816,15 @@ domain-specific term — rather than replicating the library's internal naming.<
 <li><strong>Foundation</strong> — Reusable low-level abstractions (<code>Result</code>, <code>Port</code>, <code>Mapper</code>, errors, meta utilities). No dependencies.</li>
 <li><strong>Domain</strong> — Problem space concepts (Entities, Value Objects, Aggregates, Domain Errors). Depends only on Foundation.</li>
 <li><strong>Application</strong> — Orchestration contracts (Use Cases, Message Handlers, Inbound/Outbound Ports). Depends on Domain + Foundation.</li>
-<li><strong>Infrastructure</strong> — Technology-agnostic implementations (in-memory repos, OS filesystem, stdlib logging). Implements Application's outbound ports.</li>
+<li><strong>Infrastructure</strong> — Standard-library-backed implementations (in-memory repos, OS filesystem, HTTP, logging). Implements Application's outbound ports and uses Domain aggregate/event types where needed.</li>
 <li><strong>Presentation</strong> — Entry-point abstractions (adapters, middleware, error handling). Calls Application; stays thin.</li>
 </ul>
-<p>Dependency rules (inward-pointing): Foundation has no deps → Domain depends on Foundation → Application depends on Domain + Foundation; Infrastructure and Presentation depend on Application + Foundation.</p>
+<p>Dependency rules (inward-pointing):<br />
+- Foundation has no dependencies;<br />
+- Domain depends on Foundation;<br />
+- Application depends on Domain and Foundation;<br />
+- Infrastructure depends on Application, Domain, and Foundation;<br />
+- Presentation depends on Application and Foundation.</p>
 <p><strong>Block ≠ Layer</strong></p>
 <p>Blocks are architecture-neutral named boundaries within the library; they can be interpreted as layers if that mental model helps.</p>
 <p>The library's five blocks and their dependency relationships:</p>
@@ -7827,8 +7832,7 @@ domain-specific term — rather than replicating the library's internal naming.<
 <li><strong>Foundation</strong> – reusable, low-level abstractions.</li>
 <li><strong>Domain</strong> – problem-space concepts and rules.</li>
 <li><strong>Application</strong> – workflow contracts and coordination abstractions.</li>
-<li><strong>Infrastructure</strong> – technology-agnostic adapter implementations.</li>
-<li><strong>Presentation</strong> – entry-point and interaction abstractions.</li>
+<li><strong>Infrastructure</strong> – standard-library-backed adapter implementations.</li>
 </ul>
 <pre class="mermaid"><code>flowchart TD
     P[Presentation]
@@ -7865,7 +7869,7 @@ domain-specific term — rather than replicating the library's internal naming.<
 <li>Foundation depends on nothing.</li>
 <li>Domain depends only on Foundation.</li>
 <li>Application depends on Domain and Foundation.</li>
-<li>Infrastructure depends on Application (for outbound port contracts) and Foundation.</li>
+<li>Infrastructure depends on Application, Domain, and Foundation.</li>
 <li>Presentation depends on Application and Foundation.</li>
 </ul>
 <p>These rules maintain clear boundaries within the library itself.</p>
@@ -7876,12 +7880,11 @@ domain-specific term — rather than replicating the library's internal naming.<
 <p>Provides:</p>
 <ul>
 <li><code>Result</code>, <code>Ok</code>, <code>Err</code></li>
-<li><code>Port</code> and port-related protocols (<code>InboundPort</code>, <code>OutboundPort</code>)</li>
+<li><code>Port</code> and port-related abstract base classes (<code>InboundPort</code>, <code>OutboundPort</code>)</li>
 <li><code>Identified</code> protocol for objects carrying an identity</li>
 <li><code>Mapper</code> protocol for structured transformation</li>
 <li><code>Debuggable</code> protocol for consistent debug representations</li>
 <li><code>Error</code> and its structured descendants (validation, rule violation, field, combined) for predictable error handling</li>
-<li><code>FinalMeta</code>, <code>FinalABCMeta</code>, and <code>runtime_final</code> for runtime enforcement of method finality</li>
 </ul>
 <p>The Foundation block contains abstractions that support the other blocks.</p>
 <div class="admonition note">
@@ -7915,9 +7918,9 @@ It defines the core building blocks that other blocks depend on.</p>
 <p><strong>Responsibility:</strong> define workflow contracts and coordination abstractions.</p>
 <p>The Application block provides:</p>
 <ul>
-<li><strong>InboundPort abstractions</strong> (<code>UseCase</code>, <code>ApplicationServicePort</code>, <code>MessageHandlerPort</code>) — contracts for operations the system offers</li>
+<li><strong>InboundPort abstractions</strong> (<code>UseCasePort</code>, <code>ApplicationServicePort</code>, <code>MessageHandlerPort</code>) — contracts for operations the system offers</li>
 <li><strong>OutboundPort abstractions</strong> (<code>RepositoryPort</code>, <code>MessageBusPort</code>, <code>NotifierPort</code>, <code>UnitOfWorkPort</code>) — contracts for dependencies the system needs</li>
-<li><strong>Workflow base classes</strong> that define the shape of business operations</li>
+<li><strong>Workflow contracts</strong> that define the shape of application operations</li>
 </ul>
 <p>The Application block depends on Domain types and defines abstract ports that Infrastructure implements. It contains no technical implementation details.</p>
 <div class="admonition note">
@@ -7928,20 +7931,21 @@ Infrastructure implements the OutboundPort contracts (Dependency Inversion Princ
 </div>
 <hr />
 <h2 id="infrastructure">Infrastructure<a class="headerlink" href="#infrastructure" title="Permanent link">&para;</a></h2>
-<p><strong>Responsibility:</strong> provide technology-agnostic implementations of outbound port contracts.</p>
+<p><strong>Responsibility:</strong> provide standard-library-backed implementations of outbound port contracts.</p>
 <p>The Infrastructure block ships with:</p>
 <ul>
-<li><strong>In-memory repositories</strong> (<code>InMemoryReadRepository</code>, <code>InMemoryWriteRepository</code>) and <strong>event stores</strong> (<code>InMemoryEventStore</code>)</li>
+<li><strong>In-memory repositories</strong> (<code>InMemoryReadRepository</code>, <code>InMemoryWriteRepository</code>, <code>InMemoryRepository</code>) and <strong>event stores</strong> (<code>InMemoryEventStore</code>)</li>
 <li><strong>In-memory messaging</strong> (<code>InMemoryMessageBus</code>, <code>InMemoryEventBus</code>)</li>
-<li><strong>Stdlib-based implementations</strong> (<code>OSFileSystem</code>, <code>StdlibLogger</code>)</li>
+<li><strong>Standard-library adapters</strong> (<code>OSFileSystem</code>, <code>URLLibClient</code>, <code>StdlibLogger</code>, <code>InMemoryCache</code>)</li>
 <li><strong>Unit of Work</strong> (<code>InMemoryUnitOfWork</code>)</li>
 </ul>
-<p>These are first-class implementations, not test doubles — they use only the Python standard library and carry no third-party dependencies.</p>
+<p>These are first-class implementations, not test doubles. The runtime package has no third-party dependencies.</p>
 <div class="admonition note">
 <p class="admonition-title">Dependency Rule</p>
-<p>Infrastructure depends on Application (for outbound port contracts) and Foundation.<br />
-No third-party dependencies are allowed in this library.<br />
-Application-specific adapters (SQL databases, message brokers, HTTP clients) belong in consuming projects.</p>
+<p>Infrastructure depends on Application for outbound port contracts, Domain for<br />
+aggregate and event types, and Foundation for shared abstractions. Application-<br />
+specific adapters (SQL databases, message brokers, HTTP clients) belong in<br />
+consuming projects.</p>
 </div>
 <hr />
 <h2 id="presentation">Presentation<a class="headerlink" href="#presentation" title="Permanent link">&para;</a></h2>

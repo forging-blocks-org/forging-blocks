@@ -7749,8 +7749,8 @@
 <p>Use <code>Result</code> when failure is part of normal behavior — validation, parsing, rule evaluation, boundary checks. Return <code>Ok(value)</code> for success, <code>Err(error)</code> for failure.</p>
 <h2 id="variants">Variants<a class="headerlink" href="#variants" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Ok[ValueType]</strong> — Wraps a successful value. <code>is_ok</code> is <code>True</code>, <code>is_err</code> is <code>False</code>.</li>
-<li><strong>Err[ErrorType]</strong> — Wraps an error. <code>is_ok</code> is <code>False</code>, <code>is_err</code> is <code>True</code>.</li>
+<li><strong>Ok[ValueType, ErrorType]</strong> — Wraps a successful value. <code>is_ok</code> is <code>True</code>, <code>is_err</code> is <code>False</code>.</li>
+<li><strong>Err[ValueType, ErrorType]</strong> — Wraps an error. <code>is_ok</code> is <code>False</code>, <code>is_err</code> is <code>True</code>.</li>
 </ul>
 <p>Both support structural pattern matching through <code>__match_args__</code>.</p>
 <h2 id="common-operations">Common operations<a class="headerlink" href="#common-operations" title="Permanent link">&para;</a></h2>
@@ -7765,10 +7765,10 @@
 <li><code>get_value_or_else(fn)</code> — Compute fallback from the error</li>
 </ul>
 <h2 id="design">Design<a class="headerlink" href="#design" title="Permanent link">&para;</a></h2>
-<p><code>Result</code> is a <code>Protocol</code> — <code>Ok</code> and <code>Err</code> are concrete implementations. You construct <code>Ok(...)</code> or <code>Err(...)</code> but type-annotate with <code>Result[ValueType, ErrorType]</code>.</p>
+<p><code>Result</code> is a <code>Protocol</code> — <code>Ok</code> and <code>Err</code> are concrete implementations. You construct <code>Ok(...)</code> or <code>Err(...)</code> but type-annotate with <code>Result[ValueType, ErrorType]</code>; the error type is not constrained to the framework <code>Error</code> class.</p>
 <div class="admonition note">
 <p class="admonition-title">Related</p>
-<p>See <a href="../errors/">Errors</a> for the <code>Error</code> type used as the error payload in <code>Err</code>.</p>
+<p>See <a href="../errors/">Errors</a> for the framework <code>Error</code> type commonly used as the error payload in <code>Err</code>.</p>
 </div>
 
 

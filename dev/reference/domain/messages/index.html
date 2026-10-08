@@ -7748,7 +7748,7 @@
 <ul>
 <li><strong>MessageMetadata</strong> — Typed metadata container attached to every message at construction.</li>
 </ul>
-<p>All messages are frozen dataclasses. Their type communicates intent: a Command asks for action, an Event records a fact, a Query requests data. Serialization is handled by codecs in the infrastructure layer (see <code>DictMessageCodec</code>).</p>
+<p>Concrete messages are immutable data carriers. Classes decorated with <code>@message_dataclass</code> or one of its aliases are frozen dataclasses; manually implemented <code>Message</code> subclasses are not required to be dataclasses. Their type communicates intent: a Command asks for action, an Event records a fact, and a Query requests data.</p>
 <h2 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Command</strong> — An intent to do something. Handled by a <code>CommandHandlerPort</code>. No return value.</li>
@@ -7762,7 +7762,7 @@
 <li><code>@event_dataclass</code> — For domain events</li>
 <li><code>@query_dataclass</code> — For queries</li>
 </ul>
-<p>All aliases are the same decorator; the name signals intent. Instances are frozen after construction.</p>
+<p>The aliases use the same decorator; the name signals intent. Decorated instances are frozen after construction.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
 <p>Annotate a class with <code>@command_dataclass</code>, <code>@event_dataclass</code>, or <code>@query_dataclass</code>. The decorator handles freezing and wires up reconstruction via <code>from_payload_fields</code>. Choose the alias that matches the message's role — command for intent, event for facts, query for data requests.</p>
 <div class="admonition note">

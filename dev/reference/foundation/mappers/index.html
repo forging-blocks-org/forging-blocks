@@ -7709,7 +7709,7 @@
 <h1 id="mappers">Mappers<a class="headerlink" href="#mappers" title="Permanent link">&para;</a></h1>
 <p>A <strong>Mapper</strong> is an explicit transformation between two types. It makes type conversion visible and testable.</p>
 <h2 id="protocol">Protocol<a class="headerlink" href="#protocol" title="Permanent link">&para;</a></h2>
-<p><code>Mapper[SourceType, TargetType]</code> defines a single method: <code>map(source) → target</code>. It is a Protocol — any callable or object that satisfies the shape qualifies.</p>
+<p><code>Mapper[SourceType, TargetType]</code> defines a single method: <code>map(source) → target</code>. It is a Protocol — any object implementing that method shape qualifies.</p>
 <h2 id="when-to-use">When to use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
 <p>Use <code>Mapper</code> when data crosses a boundary: entity → DTO, DTO → domain object, persistence model → read model. It keeps transformation logic in one place rather than scattered across call sites.</p>
 

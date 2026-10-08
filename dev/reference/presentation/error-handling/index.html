@@ -7767,22 +7767,22 @@ Three components compose to form the pipeline:</p>
 <ol>
 <li><strong>ErrorPresenter</strong> adapts errors into view models — it understands framework<br />
 <code>Error</code> objects, <code>Result.Err</code> values, plain exceptions, and aggregate errors.</li>
-<li><strong>ErrorStatusCodeMapper</strong> assigns HTTP-like status codes so clients can<br />
-   distinguish validation errors (400) from rule violations (409).</li>
-<li><strong>ErrorViewModel</strong> carries the structured output — a list of messages with<br />
-   title, detail, field, code, and status fields.</li>
+<li><strong>ErrorStatusCodeMapper</strong> assigns HTTP-like status codes. Validation errors map<br />
+   to 400, rule violations to 409, and generic aggregate/field errors to 422.</li>
+<li><strong>ErrorViewModel</strong> carries the structured output — an immutable tuple of messages<br />
+   with title, detail, field, code, and status fields.</li>
 </ol>
 <h2 id="error-presenter">Error Presenter<a class="headerlink" href="#error-presenter" title="Permanent link">&para;</a></h2>
 <p><code>ErrorPresenter</code> converts errors into <code>ErrorViewModel</code> instances.</p>
 <p>It handles framework <code>Error</code> objects, <code>Result.Err</code> values, plain exceptions, and unknown types. Aggregate errors like <code>CombinedErrors</code> and <code>FieldErrors</code> are recursively decomposed into individual messages.</p>
 <h2 id="error-status-code-mapper">Error Status Code Mapper<a class="headerlink" href="#error-status-code-mapper" title="Permanent link">&para;</a></h2>
 <p><code>ErrorStatusCodeMapper</code> assigns HTTP-like status codes:<br />
-- Validation errors → 400<br />
+- Validation errors, including validation field/combined validation errors → 400<br />
 - Rule violations → 409<br />
-- Aggregate/field errors → 422<br />
+- Generic aggregate/field errors → 422<br />
 - Unknown → 500</p>
 <h2 id="error-view-model">Error View Model<a class="headerlink" href="#error-view-model" title="Permanent link">&para;</a></h2>
-<p><code>ErrorViewModel</code> holds a list of <code>ErrorMessageModel</code> entries. Each message carries:<br />
+<p><code>ErrorViewModel</code> holds an immutable tuple of <code>ErrorMessageModel</code> entries. Each message carries:<br />
 - <code>title</code> — Human-readable summary<br />
 - <code>detail</code> — Optional longer explanation<br />
 - <code>field</code> — Optional field reference (e.g. <code>"username"</code>)<br />
