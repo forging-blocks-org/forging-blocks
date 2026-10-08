@@ -25,40 +25,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detect docs changes
-        id: docs-changed
-        env:
-          ACTION: ${{ github.event.action }}
-          BASE_REF: ${{ github.base_ref }}
-          HEAD_REF: ${{ github.head_ref }}
-        run: |
-          set -euo pipefail
-
-          if [ "$ACTION" = "closed" ]; then
-            build="false"
-            do_deploy="true"
-          else
-            if ! git rev-parse "origin/$BASE_REF" >/dev/null 2>&1; then
-              git fetch origin "$BASE_REF"
-            fi
-
-            MERGE_BASE=$(git merge-base "origin/$BASE_REF" HEAD)
-
-            CHANGED_FILES=$(git diff --name-only "$MERGE_BASE..HEAD" || true)
-
-            if echo "$CHANGED_FILES" \
-                | grep -qE '^(docs/|mkdocs\.yml|pyproject\.toml)'; then
-              build="true"
-              do_deploy="true"
-            else
-              build="false"
-              do_deploy="false"
-            fi
-          fi
-
-          echo "build=$build" >> "$GITHUB_OUTPUT"
-          echo "do-deploy=$do_deploy" >> "$GITHUB_OUTPUT"
-
       - name: Set up Python
         if: github.event.action != 'closed'
         uses: actions/setup-python@v6
