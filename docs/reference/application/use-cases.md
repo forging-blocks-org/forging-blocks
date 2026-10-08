@@ -7,7 +7,7 @@ A **Use Case** represents a cohesive unit of application behavior.
 Characteristics:
 - Expresses a system capability
 - Coordinates domain operations
-- Returns an explicit result
+- Returns its declared response type, often an explicit `Result`
 - Does not depend on infrastructure
 
 !!! note "Use cases as coordination"
@@ -15,7 +15,7 @@ Characteristics:
 
 ## When to use
 
-Implement `ApplicationServicePort` for any system capability that coordinates domain objects and outbound ports. Return `Result[OutputType, Error]` so callers handle both outcomes. Keep the class thin — it orchestrates, domain objects decide.
+Implement `ApplicationServicePort` for any system capability that coordinates domain objects and outbound ports. Return a `Result[OutputType, Error]` when callers should handle success and failure explicitly; the port also supports other typed response shapes. Keep the class thin — it orchestrates, domain objects decide.
 
 ```python
 class CreateOrderUseCase(ApplicationServicePort[CreateOrderRequest, Result[str, OrderError]]):

@@ -1,19 +1,20 @@
 # Technical Adapters
 
-Technical adapters implement the outbound ports defined by the Application layer — they
-are the "other side" of the port/adapter boundary. Forging Blocks ships technology-agnostic
-implementations that depend only on the Python standard library, so applications can use
-them at runtime without pulling in third-party dependencies.
+Technical adapters implement the outbound ports defined by the Application layer when
+such a port exists. Forging Blocks ships standard-library-backed implementations, so
+applications can use them without third-party runtime dependencies.
 
-The adapters below all satisfy their corresponding port contracts. In tests, use them
-directly; in production, swap in real implementations (database, HTTP client, filesystem)
-behind the same port interface.
+Use these adapters directly in tests or development; in production, replace them
+behind the same port interface when a different technology is required.
 
 ## Logging
 A standard-library logging adapter implementing `LoggerPort`. Provides `debug`, `info`, `warning`, and `error` methods — all accept `*args: str` for ``%``-style formatting (delegates to `logging.Logger`).
 
 ## HTTP Client
-A `urllib`-based HTTP client implementing `HttpClientPort`. Supports GET, POST, headers, and timeout configuration.
+
+An `http.client`-backed asynchronous HTTP adapter implementing `HttpClientPort`. It
+supports request methods, URLs, headers, and UTF-8 string bodies/responses; it exposes
+no timeout option.
 
 ## File System
 An OS-level filesystem adapter implementing `FileSystemPort`. All operations are `async`. Supports `read`, `write`, `delete`, `exists`, and directory listing.
@@ -23,6 +24,6 @@ A dictionary-backed key-value cache implementing `CachePort`. Supports `get`, `s
 
 ## Serialization
 
-`MessageCodec` is an abstract codec base that defines `encode` / `decode` for bidirectional message serialization. `DictMessageCodec` is the concrete ``dict[str, object]`` implementation that ships with Forging Blocks.
-
-These adapters implement the corresponding outbound ports from Application. Use the in-memory versions for tests; swap to real implementations (database, HTTP, filesystem) in production.
+`MessageCodec` is a standalone abstract codec base that defines `encode` / `decode`
+for bidirectional message serialization. `DictMessageCodec` is the concrete
+`dict[str, object]` implementation that ships with Forging Blocks.

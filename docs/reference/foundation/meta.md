@@ -1,11 +1,11 @@
 # Meta Utilities
 
-Foundation provides **runtime enforcement** through metaclasses and decorators. Unlike `typing.final` or `ABC`, which are static-analysis hints, these enforce constraints at runtime.
+Foundation provides **runtime enforcement** through metaclasses and decorators. `ABC` and `ABCMeta` enforce abstract contracts at runtime; `FinalMeta` and `FinalABCMeta` enforce `@runtime_final` method overrides at runtime.
 
 ## Metaclasses
 
-- **FinalMeta** — Prevents subclassing at runtime. Inheriting from a class with this metaclass raises `TypeError`.
-- **FinalABCMeta** — Combines `FinalMeta` with `ABCMeta`. Prevents subclassing and requires abstract method implementation.
+- **FinalMeta** — Prevents overriding inherited `@runtime_final` methods at runtime. It does not prevent subclassing.
+- **FinalABCMeta** — Combines that method-override check with `ABCMeta`, which still allows concrete subclasses after they implement abstract methods.
 
 ## Decorators
 
@@ -13,4 +13,4 @@ Foundation provides **runtime enforcement** through metaclasses and decorators. 
 
 ## When to use
 
-Use `FinalMeta` or `FinalABCMeta` when a class must never be subclassed — framework-level base classes, sealed hierarchies, security boundaries. Use `@runtime_final` on methods that subclasses should call but never override.
+Use `FinalMeta` or `FinalABCMeta` when a class must protect selected methods from being overridden. Use `@runtime_final` on methods that subclasses should call but never override.

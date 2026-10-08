@@ -31,9 +31,10 @@ or `OutboundPort` instead.
 use cases, message handlers, presenters — anything infrastructure calls *into*.
 
 Its ``__init_subclass__`` is decorated ``@runtime_final`` and runs
-``InboundDependencyValidator`` on every concrete subclass, raising
-``ArchitectureError`` if any ``__init__`` parameter references another
-`InboundPort`. The rule: **inbound ports may only depend on outbound ports.**
+``InboundDependencyValidator`` on every concrete subclass. The validator compares
+declared ``PortLevel`` values: an inward dependency is allowed, while an outward,
+same-level, or unknown-level dependency raises ``ArchitectureError``. Without
+declared levels, an inbound port may not depend on another inbound port.
 
 ## OutboundPort
 
@@ -42,9 +43,10 @@ repositories, event buses, loggers, caches — anything the application core
 calls *out to*.
 
 Its ``__init_subclass__`` is decorated ``@runtime_final`` and runs
-``OutboundDependencyValidator`` on every concrete subclass, raising
-``ArchitectureError`` if any ``__init__`` parameter references an
-`InboundPort`. The rule: **outbound ports may only depend on other outbound ports.**
+``OutboundDependencyValidator`` on every concrete subclass. The validator applies
+the same level-aware rule: inward dependencies are allowed, while outward,
+same-level, or unknown-level references to inbound ports raise ``ArchitectureError``.
+Outbound ports may otherwise depend on outbound ports.
 
 ## check_methods
 
@@ -55,8 +57,8 @@ without explicit inheritance.
 
 ## When to use
 
-Extend `InboundPort` for protocols that define how a component is called.
-Extend `OutboundPort` for protocols that define what a component depends on.
+Extend `InboundPort` for contracts that define how a component is called.
+Extend `OutboundPort` for contracts that define what a component depends on.
 The ``__init_subclass__`` validation catches architectural drift at the point
 of definition — no runtime check, no CI plugin needed.
 

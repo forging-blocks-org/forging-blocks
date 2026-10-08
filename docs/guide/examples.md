@@ -161,6 +161,7 @@ from forging_blocks.foundation import (
     ErrorMessage,
     FieldReference,
     ValidationError,
+    ValidationFailedError,
     ValidationFieldErrors,
 )
 
@@ -169,7 +170,7 @@ def validate_email(value: str) -> list[ValidationError]:
     errors: list[ValidationError] = []
     if "@" not in value:
         errors.append(
-            ValidationError(ErrorMessage("email must contain '@'"))
+            ValidationFailedError(ErrorMessage("email must contain '@'"))
         )
     return errors
 
@@ -178,7 +179,7 @@ def validate_name(value: str) -> list[ValidationError]:
     errors: list[ValidationError] = []
     if not value.strip():
         errors.append(
-            ValidationError(ErrorMessage("name must not be empty"))
+            ValidationFailedError(ErrorMessage("name must not be empty"))
         )
     return errors
 

@@ -120,7 +120,7 @@ class InMemoryCustomerRepository(CustomerRepositoryPort):
         return list(self._store.values())
 
     async def save(self, aggregate: "Customer") -> None:
-        self._store[aggregate.id] = aggregate  # type: ignore[assignment]
+        self._store[aggregate.id] = aggregate
 
     async def delete_by_id(self, id: UUID) -> None:
         self._store.pop(id, None)

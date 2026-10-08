@@ -10,23 +10,23 @@ Depends on **Application** (for port definitions), **Domain** (for aggregate typ
 
 Infrastructure adapters implement the contracts defined by Application outbound ports.
 
-- An `InMemoryWriteRepository` satisfies `RepositoryPort` with a dictionary.
+- An `InMemoryReadRepository` satisfies `ReadOnlyRepositoryPort` with a dictionary.
+- An `InMemoryWriteRepository` satisfies `WriteOnlyRepositoryPort` with a dictionary.
+- An `InMemoryRepository` combines read and write contracts for full CRUD access.
 - An `InMemoryEventBus` satisfies `EventBusPort` with in-process publish/subscribe.
 - Each adapter encapsulates a technology choice behind a port interface.
-
-The Application block only sees the port. You swap the adapter without touching application or domain code. A test injects an in-memory store. Production injects a PostgreSQL adapter. Same port, different implementation.
 
 ---
 ## How to use
 
 Start with in-memory implementations for fast feedback during development. They require no external services and run in tests. Graduate to real adapters when you need persistence, messaging, or external integration.
 
-Adapters are composable:
+Adapters are composable in a consuming application's composition root:
 
-- A `UnitOfWork` wraps multiple repositories.
-- A `MessageBus` dispatches to multiple handlers.
+- A Unit of Work can coordinate registered aggregate event publication.
+- A Message Bus dispatches messages to registered handlers.
 
-Wire them together at startup — a composition root — and pass the resulting graph into the Application layer.
+Wire them together at startup and pass the resulting graph into the Application layer.
 
 ---
 ## Core abstractions
@@ -51,7 +51,8 @@ Wire them together at startup — a composition root — and pass the resulting 
     Persists and retrieves domain aggregates. Implements `RepositoryPort`.
 
 !!! note "Unit of Work"
-    Coordinates multiple repository operations within a transactional boundary.
+    Coordinates registered aggregate event publication and queue draining; database
+    transaction rollback is adapter-specific.
 
 !!! note "Message Bus"
     Dispatches commands, queries, and events to registered handlers.

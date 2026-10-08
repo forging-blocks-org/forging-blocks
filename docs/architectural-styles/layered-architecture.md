@@ -67,7 +67,7 @@ class OrderController:
     async def post(self, body: dict[str, object]) -> dict[str, object]:
         request = PlaceOrderRequest(
             customer_id=str(body["customer_id"]),
-            items=list(body["items"]),  # type: ignore[arg-type]
+            items=list(body["items"]),
         )
         response = await self._use_case.execute(request)
         return {"order_id": response.order_id}
@@ -77,6 +77,8 @@ class OrderController:
 
 The application layer orchestrates domain objects and delegates persistence
 through outbound ports. It has no knowledge of concrete infrastructure.
+The domain construction call is schematic because the library does not prescribe
+a specific order model.
 
 ```python
 # === Application layer — use case ===
@@ -103,7 +105,7 @@ class PlaceOrderUseCase(ApplicationServicePort[PlaceOrderRequest, PlaceOrderResp
             if customer is None:
                 raise ValueError("Customer not found")
 
-            order = Order.create(str(customer.id), request.items)
+            order = construct_order(customer, request.items)
             await self._order_repo.save(order)
             return PlaceOrderResponse(order_id=str(order.id))
 ```
