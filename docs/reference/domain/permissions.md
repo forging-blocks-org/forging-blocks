@@ -7,9 +7,18 @@ Composable permission-checking strategies for authorization decisions. Each chec
 `PermissionChecker[PermissionCheckContext]` is a `Protocol` that any permission-checking implementation must satisfy. The context type is provided by the application.
 
 ```python
-class PermissionChecker[PermissionCheckContext](Protocol):
-    async def check(self, context: PermissionCheckContext, permission: Permission) -> bool:
-        ...
+from forging_blocks.domain.permissions import PermissionChecker
+from forging_blocks.foundation import Permission
+
+type PermissionCheckContext = object
+
+
+async def check_permission(
+    checker: PermissionChecker[PermissionCheckContext],
+    context: PermissionCheckContext,
+    permission: Permission,
+) -> bool:
+    return await checker.check(context, permission)
 ```
 
 Implementations may internally use synchronous logic, but must expose an `async def check(...)` method — callers always `await` the result.
@@ -31,6 +40,7 @@ result = await checker.check(context, Permission.READ)
 Applications define concrete `PermissionChecker` implementations that inspect their own context type. A role-based checker might look up permissions from a role-to-permission mapping:
 
 ```python
+from forging_blocks.foundation import Permission
 from forging_blocks.domain.permissions import PermissionChecker
 
 class RoleBasedChecker[PermissionCheckContext](PermissionChecker[PermissionCheckContext]):
@@ -49,7 +59,7 @@ A resource-based checker would similarly inspect resource metadata on the contex
 
 ## When to use
 
-Use `CompositePermissionChecker` to combine multiple checkers when authorization depends on multiple factors — an admin role OR ownership of a document, for example. Define application-specific `PermissionChecker` subclasses for role-driven authorization (RBAC), resource-level access control, or any custom authorization logic.
+Use `CompositePermissionChecker` to combine multiple checkers when authorization depends on multiple factors — an admin role OR ownership of a document, for example. Define application-specific `PermissionChecker` implementations for role-driven authorization (RBAC), resource-level access control, or any custom authorization logic.
 
 All checkers operate on the foundation `Permission` type and an application-defined context, keeping the domain free of infrastructure concerns.
 

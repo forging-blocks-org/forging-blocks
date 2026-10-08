@@ -40,7 +40,8 @@ ForgingBlocks is organized around **explicit responsibility boundaries**.
 The documentation mirrors this structure:
 
 - The **Guide** explains how to read and use the toolkit.
-- The **Reference** provides technical details for each module and abstraction.
+- The **Reference** provides precise details for each block and abstraction.
+- The **Architectural Styles** section shows optional interpretations from the literature.
 
 Understanding this separation will make contributing easier.
 
@@ -151,14 +152,16 @@ poetry run poe bandit            # Security scanning
 # CI simulation
 poetry run poe ci:check          # Run full CI suite
 poetry run poe ci:simulate       # Include documentation build
+```
 
-# Documentation
-poetry run poe docs:build           # Build documentation
-poetry run poe docs:serve           # Serve docs locally
-poetry run poe docs:generate        # Generate API reference
-poetry run poe docs:deploy-version  # Deploy versioned docs (see --help)
-poetry run poe docs:serve-versioned # Serve with version selector
-poetry run poe docs:list-versions   # List deployed versions
+## Documentation
+```bash
+poetry run poe docs:build           # Build documentation with strict validation
+poetry run poe docs:serve           # Serve the current docs locally
+poetry run poe docs:generate        # Generate API reference pages
+poetry run poe docs:deploy:dev      # Deploy the dev docs version
+poetry run poe docs:deploy:release  # Deploy the current release version and aliases
+poetry run poe docs:versions        # List mike-managed documentation versions
 ```
 
 ### Release Process (Maintainers Only)

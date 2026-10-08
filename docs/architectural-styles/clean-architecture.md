@@ -96,10 +96,20 @@ Dependencies are injected at construction time.
 ```python
 # === Application layer (use case) ===
 from dataclasses import dataclass
+from typing import Protocol
 
 from forging_blocks.application.ports.inbound import ApplicationServicePort
 from forging_blocks.application.ports.outbound import UnitOfWorkPort
 
+
+class Order:
+    def __init__(self, customer_id: str, items: list[str]) -> None:
+        self.id = customer_id
+
+
+class OrderRepositoryPort(Protocol):
+    async def save(self, order: Order) -> None:
+        ...
 
 @dataclass(frozen=True)
 class PlaceOrderRequest:
@@ -123,7 +133,7 @@ class PlaceOrderUseCase(ApplicationServicePort[PlaceOrderRequest, PlaceOrderResp
 
     async def execute(self, request: PlaceOrderRequest) -> PlaceOrderResponse:
         async with self._uow:
-            order = Order.create(request.customer_id, request.items)
+            order = Order(request.customer_id, request.items)
             await self._order_repo.save(order)
             return PlaceOrderResponse(order_id=str(order.id))
 ```

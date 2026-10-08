@@ -9,7 +9,8 @@ Responsibilities:
 - Extract and normalize headers, parameters, and body
 - Return a typed DTO or command for the use case
 
-Framework-aware. Stateless — produces a value, no side effects.
+Transport-specific implementations may be framework-aware. The protocol itself is
+framework-agnostic and stateless — it produces a value without side effects.
 
 ## When to use (RequestAdapter)
 
@@ -31,14 +32,14 @@ Handles both happy and error paths. Produces the final transport response.
 
 ```
 1. RequestAdapter.adapt(raw)  → use-case input
-2. ApplicationServicePort.execute(input)     → output or Result
+2. ApplicationServicePort.execute(input)     → declared output type
 3a. Success  → ResponseAdapter.adapt(output)
-3b. Err/Exception → ErrorPresenter → ErrorStatusCodeMapper → ResponseAdapter.adapt_error()
+3b. Result.Err or exception → ErrorPresenter → ErrorStatusCodeMapper → ResponseAdapter.adapt_error()
 ```
 
 Key design:
 
-- Handles both `Result.Err` and raised exceptions. Callers choose their style.
+- Handles raised exceptions and can handle `Result.Err` when the adapter is configured to unwrap use-case results.
 - When `ErrorPresenter` is `None`, exceptions propagate unchanged.
 
 See [Error Handling](error-handling.md) for how errors are converted and rendered.

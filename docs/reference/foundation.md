@@ -13,7 +13,7 @@ Foundation is the bottom layer. Every other block imports from it.
 Each abstraction serves one focused purpose:
 
 - `Result` replaces exceptions for predictable control flow.
-- `Port` defines boundaries as protocols — what is expected, not how.
+- `Port` defines abstract-base-class boundaries — what is expected, not how.
 - `Error` gives structure to failure with messages and metadata.
 
 These are not patterns you must use everywhere. They are tools you reach for when plain Python types stop communicating intent clearly enough.
@@ -24,7 +24,7 @@ These are not patterns you must use everywhere. They are tools you reach for whe
 Start with the abstractions that give the most immediate value:
 
 1. **`Result`** — Replace functions that return `None` on failure or raise exceptions for control flow. Return `Ok(value)` or `Err(error)` instead.
-2. **`Port`** — Define a protocol for any dependency you might swap later: repositories, event buses, loggers.
+2. **`Port`** — Define an abstract port contract for any dependency you might swap later: repositories, event buses, loggers.
 
 The Foundation block is pure Python — standard library only. It introduces no framework dependencies.
 
@@ -38,7 +38,7 @@ The Foundation block is pure Python — standard library only. It introduces no 
 - **[Permissions](domain/permissions.md)** — Enum-like permission definitions with membership checking.
 - **[Mappers](foundation/mappers.md)** — Explicit transformations between types.
 - **[Identified](foundation/identified.md)** — Protocol for objects carrying an identifier.
-- **[Meta Utilities](foundation/meta.md)** — Runtime enforcement (final, sealed, abstract).
+- **[Meta Utilities](foundation/meta.md)** — Runtime enforcement (`FinalMeta`, `FinalABCMeta`, `runtime_final`).
 - **[Rules](foundation/rules.md)** — Composable validation rules (ValidationRule).
 
 ---

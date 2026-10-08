@@ -10,8 +10,8 @@ Use `Result` when failure is part of normal behavior — validation, parsing, ru
 
 ## Variants
 
-- **Ok[ValueType]** — Wraps a successful value. `is_ok` is `True`, `is_err` is `False`.
-- **Err[ErrorType]** — Wraps an error. `is_ok` is `False`, `is_err` is `True`.
+- **Ok[ValueType, ErrorType]** — Wraps a successful value. `is_ok` is `True`, `is_err` is `False`.
+- **Err[ValueType, ErrorType]** — Wraps an error. `is_ok` is `False`, `is_err` is `True`.
 
 Both support structural pattern matching through `__match_args__`.
 
@@ -28,7 +28,7 @@ Both support structural pattern matching through `__match_args__`.
 
 ## Design
 
-`Result` is a `Protocol` — `Ok` and `Err` are concrete implementations. You construct `Ok(...)` or `Err(...)` but type-annotate with `Result[ValueType, ErrorType]`.
+`Result` is a `Protocol` — `Ok` and `Err` are concrete implementations. You construct `Ok(...)` or `Err(...)` but type-annotate with `Result[ValueType, ErrorType]`; the error type is not constrained to the framework `Error` class.
 
 !!! note "Related"
-    See [Errors](errors.md) for the `Error` type used as the error payload in `Err`.
+    See [Errors](errors.md) for the framework `Error` type commonly used as the error payload in `Err`.

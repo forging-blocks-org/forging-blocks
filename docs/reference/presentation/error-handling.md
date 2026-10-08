@@ -6,10 +6,10 @@ Three components compose to form the pipeline:
 
 1. **ErrorPresenter** adapts errors into view models — it understands framework
    `Error` objects, `Result.Err` values, plain exceptions, and aggregate errors.
-2. **ErrorStatusCodeMapper** assigns HTTP-like status codes so clients can
-   distinguish validation errors (400) from rule violations (409).
-3. **ErrorViewModel** carries the structured output — a list of messages with
-   title, detail, field, code, and status fields.
+2. **ErrorStatusCodeMapper** assigns HTTP-like status codes. Validation errors map
+   to 400, rule violations to 409, and generic aggregate/field errors to 422.
+3. **ErrorViewModel** carries the structured output — an immutable tuple of messages
+   with title, detail, field, code, and status fields.
 
 ## Error Presenter
 
@@ -20,14 +20,14 @@ It handles framework `Error` objects, `Result.Err` values, plain exceptions, and
 ## Error Status Code Mapper
 
 `ErrorStatusCodeMapper` assigns HTTP-like status codes:
-- Validation errors → 400
+- Validation errors, including validation field/combined validation errors → 400
 - Rule violations → 409
-- Aggregate/field errors → 422
+- Generic aggregate/field errors → 422
 - Unknown → 500
 
 ## Error View Model
 
-`ErrorViewModel` holds a list of `ErrorMessageModel` entries. Each message carries:
+`ErrorViewModel` holds an immutable tuple of `ErrorMessageModel` entries. Each message carries:
 - `title` — Human-readable summary
 - `detail` — Optional longer explanation
 - `field` — Optional field reference (e.g. `"username"`)

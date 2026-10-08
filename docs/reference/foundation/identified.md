@@ -4,7 +4,7 @@
 
 ## Protocol
 
-Requires a single property: `id` — returning a unique identifier for the object. Any class with an `id` property satisfies the protocol automatically.
+Requires a single property: `id` — returning an identifier that may be `None` for a draft. The protocol does not enforce uniqueness or lifecycle rules; those belong to the implementing type.
 
 ## When to use
 

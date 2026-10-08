@@ -10,18 +10,23 @@ dictionaries; swap in a real database adapter behind the same `RepositoryPort` f
 - **InMemory Repository** — Shared identity-keyed storage: `get_by_id`, `save`, `delete_by_id`
 - **In-Memory Write Repository** — Dictionary-backed identity-keyed store for testing
 - **In-Memory Read Repository** — Query-oriented read store for CQRS projections
-- **Aggregate Repository** — Integrates with `UnitOfWorkPort` and `EventBusPort`;
-  tracks new and dirty aggregates, publishes collected events on commit
+- **Aggregate Repository** — Appends state-changing aggregate events to an event store and
+  caches aggregate snapshots. It does not own Unit of Work or event-publisher state.
 
 ## Unit of Work
 
-Manages a transactional boundary around repository operations. Tracks new and dirty
-aggregates, flushes events on commit, provides `commit`/`rollback` semantics.
-Multiple repository operations within a single use case are treated as one atomic unit.
+`InMemoryUnitOfWork` tracks aggregates explicitly registered with `register_modified()`.
+On commit it publishes both state-changing and publication-only events through its
+`EventPublisherPort`, then drains their queues. On publication failure it discards
+queued events and clears tracking before raising `UnitOfWorkError`; already published
+events cannot be undone.
+
+Rollback discards queued aggregate events and tracking. It does not undo repository
+writes, so database-level atomicity remains the responsibility of a different adapter.
 
 ## When to use
 
-Use the in-memory implementations for tests and development — no external dependencies.
-`InMemoryRepository` gives you `get_by_id`/`save`/`delete_by_id`; extend it for domain-specific
-queries. Use `AggregateRepository` when you need `UnitOfWorkPort` integration and event
-publishing.
+Use the in-memory repositories for tests and development — no external services are
+required. Use `AggregateRepository` for event-store append plus snapshot caching.
+Use `InMemoryUnitOfWork` when an application needs one event-publication boundary for
+registered aggregates.

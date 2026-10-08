@@ -49,31 +49,40 @@ graph LR
 ### 1. Command and CommandHandler — write side
 
 Commands express intent to change state. The handler uses a write-only
-repository to persist the aggregate.
+repository to persist the aggregate. The following is schematic wiring; the
+concrete `Order` aggregate appears in the separate write-model example below.
 
 ```python
-# === Command ===
+from uuid import UUID
+
+from forging_blocks.application.ports.inbound import CommandHandlerPort
+from forging_blocks.application.ports.outbound import WriteOnlyRepositoryPort
 from forging_blocks.domain.messages.command import Command
 from forging_blocks.domain.messages.decorators import command_dataclass
+
+class Order:
+    def __init__(self, order_id: UUID) -> None:
+        self.id = order_id
+        self._items: list[str] = []
+
+    def add_item(self, item: str, price: float) -> None:
+        self._items.append(item)
 
 
 @command_dataclass
 class CreateOrder(Command[dict[str, object]]):
-    customer_id: str
+    customer_id: UUID
     items: list[str]
 
 
-# === CommandHandler ===
-from forging_blocks.application.ports.inbound import CommandHandlerPort
-from forging_blocks.application.ports.outbound import WriteOnlyRepositoryPort
-
-
 class CreateOrderHandler(CommandHandlerPort[dict[str, object]]):
-    def __init__(self, order_repo: WriteOnlyRepositoryPort["Order", str]) -> None:
+    def __init__(self, order_repo: WriteOnlyRepositoryPort["Order", UUID]) -> None:
         self._order_repo = order_repo
 
     async def handle(self, command: CreateOrder) -> None:
-        order = Order.create(command.customer_id, command.items)
+        order = Order(command.customer_id)
+        for item in command.items:
+            order.add_item(item, 0.0)
         await self._order_repo.save(order)
 ```
 
@@ -120,10 +129,13 @@ In CQRS, the write model may differ from the read model. The write side
 works with the full aggregate; the read side serves a lightweight projection.
 
 ```python
+from dataclasses import dataclass
+
 # === Write model (command side) — full aggregate ===
 from uuid import UUID
 
 from forging_blocks.domain.aggregate_root import AggregateRoot
+from forging_blocks.domain.messages.event import Event
 
 
 class Order(AggregateRoot[UUID, dict[str, object]]):
@@ -137,8 +149,11 @@ class Order(AggregateRoot[UUID, dict[str, object]]):
         self._items.append(item)
         self._total += price
 
+    def _handle(self, event: Event[dict[str, object]]) -> None:
+        pass
 
-# === Read model (query side) — denormalised projection ===
+
+# === Read model (query side) — lightweight projection ===
 @dataclass(frozen=True)
 class OrderSummary:
     order_id: str
