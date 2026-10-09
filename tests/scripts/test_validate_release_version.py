@@ -29,7 +29,10 @@ def run_validator(release_version: str | None) -> subprocess.CompletedProcess[st
 
 @pytest.mark.unit
 class TestValidateReleaseVersion:
-    @pytest.mark.parametrize("release_version", ["0.0.0", "1.2.3", "10.20.30"])
+    @pytest.mark.parametrize(
+        "release_version",
+        ["0.0.0", "1.2.3", "10.20.30", "v0.6.0", "v1.2.3"],
+    )
     def test_when_version_is_normalized_semver_then_succeeds(
         self,
         release_version: str,
@@ -41,7 +44,19 @@ class TestValidateReleaseVersion:
 
     @pytest.mark.parametrize(
         "release_version",
-        ["v1.2.3", "1.2", "1.2.3.4", "01.2.3", "1.2.3-alpha", "1.2.3+build"],
+        [
+            "vv1.2.3",
+            "v1.2",
+            "v1.2.3.4",
+            "v01.2.3",
+            "v1.2.3-alpha",
+            "v1.2.3+build",
+            "1.2",
+            "1.2.3.4",
+            "01.2.3",
+            "1.2.3-alpha",
+            "1.2.3+build",
+        ],
     )
     def test_when_version_is_not_normalized_semver_then_fails(
         self,
