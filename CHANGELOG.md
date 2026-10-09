@@ -1,3 +1,13 @@
+## [0.6.1] - 2026-10-09
+
+### Bug Fixes
+
+- **pipeline**: Accept tag-prefixed release versions
+
+### Testing
+
+- **pipeline**: Cover tag-prefixed release versions
+
 ## [0.6.0] - 2026-10-09
 
 ### Features
