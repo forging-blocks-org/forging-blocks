@@ -1,3 +1,147 @@
+## [0.6.0] - 2026-10-09
+
+### Features
+
+- **ports**: Add PortLevel depth ordering base
+- **ports**: Add level relation and comparator
+- **ports**: Expose referenced ports from detector
+- **ports**: Enforce inward-only port dependencies
+- **autofreeze**: Enforce deletion immutability
+
+### Bug Fixes
+
+- **autofreeze**: Preserve private decorator import boundary
+- **autofreeze**: Preserve domain mutator policies
+- **messages**: Preserve internal protocol type boundary
+- **release**: Reject malformed release versions
+- **release**: Reject malformed release versions
+- **release**: Validate artifact context and exports
+- **api**: Export Debuggable from foundation facade
+- **api**: Export TransactionError from application facade
+- **api**: Export inbound ports from ports facade
+- **api**: Declare root public manifest
+- **release**: Align artifact export manifest
+- **api**: Freeze public facade exports
+- **release**: Reject skipped workflow evidence
+- **release**: Reject skipped workflow evidence
+- **application**: Define UnitOfWork failure contract
+- **domain**: Separate state and publication events
+- **infrastructure**: Persist only state events
+- **infrastructure**: Roll back failed event publication
+- **domain**: Define aggregate event lifecycle
+- **ci**: Gate PR preview steps by event
+- **ci**: Remove PR preview path detection
+
+### Refactor
+
+- **foundation**: Extract helpers from validate_no_runtime_final_override
+- **foundation**: Extract dataclass and class resolution helpers in FieldResolver
+- **foundation**: Extract sequence set and dict converters in HashableConverter
+- **foundation**: Extract field resolution helpers in auto_hash
+- **foundation**: Extract type collection helpers in PortReferenceDetector
+- **domain**: Extract type and bound validation helpers in RangeValidator
+- **domain**: Extract id modification guard helpers in Entity
+- **domain**: Extract message dataclass wrapping and patching helpers
+- **presentation**: Extract composite error handling in ErrorPresenter
+- **presentation**: Extract request execution and error handling helpers in PresentationAdapter
+- **autofreeze**: Extract frozen state config
+- **autofreeze**: Rename frozen state manager
+- **autofreeze**: Extract state constants
+- **autofreeze**: Extract decorator implementation
+- **messages**: Internalize patched message protocol
+
+### Documentation
+
+- **autofreeze**: Document deletion protection
+- **test**: Document separate coverage gates
+- **api**: Document root and nested facades
+- **api**: Record frozen facade additions
+- **api**: Wrap stability policy prose
+- **api**: Clarify export manifest versioning
+- Fix clean architecture example
+- Align CQRS examples
+- Align event-driven lifecycle
+- Remove example suppressions
+- Clarify layered example
+- Update contribution commands
+- Sync release workflow
+- Sync usage examples
+- Sync getting started
+- Sync library structure
+- Repair testing guide
+- Update documentation index
+- Sync application reference
+- Sync application ports
+- Sync use case reference
+- Sync aggregate reference
+- Sync entity reference
+- Sync message reference
+- Sync permission reference
+- Sync foundation reference
+- Sync identified reference
+- Sync mapper reference
+- Sync metadata reference
+- Sync foundation ports
+- Sync result reference
+- Update reference index
+- Sync infrastructure reference
+- Sync adapter reference
+- Sync messaging reference
+- Sync persistence reference
+- Sync presentation adapters
+- Sync error handling reference
+- Format dependency summary
+- Separate dependency summary
+- Format dependency rules
+- Document read repository adapter
+
+### Testing
+
+- Use different PortLevel leafs to exercise super class
+- **domain**: Test id assignment during entity construction before freeze
+- **autofreeze**: Colocate state manager tests
+- **autofreeze**: Cover custom mutation delegation
+- **messages**: Mirror decorator test structure
+- **autofreeze**: Cover custom deletion delegation
+- **autofreeze**: Cover custom assignment delegation
+- **autofreeze**: Add helper test package marker
+- **entity**: Cover identity deletion error metadata
+- **entity**: Cover identity modification error metadata
+- **entity**: Organize identity behavior coverage
+- **entity**: Cover draft lifecycle behavior
+- **value-object**: Cover deletion and marker tampering
+- **entity**: Keep identity tests in TestEntity
+- **entity**: Move lifecycle fixture into test class
+- **entity**: Isolate equality and hashing coverage
+- **entity**: Isolate representation and copy coverage
+- **entity**: Extract shared User fixture
+- **entity**: Reuse shared User fixture in equality tests
+- **entity**: Reuse shared User fixture in representation tests
+- **entity**: Reuse shared fixtures in lifecycle tests
+- **entity**: Add shared fixture package
+- **entity**: Extract shared Order fixture
+- **entity**: Extract User implementation fixture
+- **entity**: Clarify order lifecycle coverage
+- **autofreeze**: Correct custom setter annotation
+- **autofreeze**: Complete Issue 327 immutability coverage
+- **package**: Reject published console entry points
+- **api**: Cover public facade exports
+- **release**: Assert remote validator exit status
+- **release**: Preserve colored output assertions
+- **infrastructure**: Cover event persistence boundaries
+- **infrastructure**: Cover failed publication cleanup
+- **infrastructure**: Assert failed commit behavior
+
+### Continuous Integration
+
+- **test**: Enforce package-only coverage gate
+- **release**: Verify built artifacts outside checkout
+- **release**: Verify built artifacts outside checkout
+
+### Miscellaneous Tasks
+
+- Add forging-blocks route to homepage url
+
 ## [0.5.0] - 2026-08-06
 
 ### Features
