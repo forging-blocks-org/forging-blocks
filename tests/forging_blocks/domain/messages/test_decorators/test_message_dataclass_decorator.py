@@ -68,6 +68,18 @@ class TestMessageDataclassDecorator:
         assert message.tags == []
         assert message._payload == {"tags": []}
 
+    def test_role_decorator_without_inheritance_supports_slots(self) -> None:
+        """Decorator-only messages support classes that define slots."""
+
+        @event_dataclass
+        class SlottedEvent:
+            __slots__ = ("customer_id",)
+            customer_id: str
+
+        message = SlottedEvent(customer_id="customer-1")
+
+        assert message._payload == {"customer_id": "customer-1"}
+
     @pytest.mark.parametrize("decorator", [command_dataclass, event_dataclass, query_dataclass])
     def test_role_decorator_accepts_parentheses(self, decorator: Any) -> None:
         """Role decorators support both direct and parenthesized invocation."""
