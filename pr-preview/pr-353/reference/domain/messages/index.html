@@ -7774,14 +7774,19 @@
 <li><strong>Query</strong> — A request for data. Handled by a <code>QueryHandlerPort</code>. Returns a typed result.</li>
 </ul>
 <h2 id="message-dataclass-decorator">Message dataclass decorator<a class="headerlink" href="#message-dataclass-decorator" title="Permanent link">&para;</a></h2>
-<p>The <code>@message_dataclass</code> decorator creates boilerplate-free, frozen message types. It also supplies the <code>_payload</code>, <code>value</code>, and <code>from_payload_fields</code> behavior required by the message base classes.</p>
-<p>The role-specific aliases use the same decorator implementation, but make the message's architectural intent visible:</p>
+<p>The <code>@message_dataclass</code> decorator creates boilerplate-free, frozen message<br />
+types. It also supplies the <code>_payload</code>, <code>value</code>, and<br />
+<code>from_payload_fields</code> behavior required by the message base classes.</p>
+<p>The role-specific aliases use the same decorator implementation, but make the<br />
+message's architectural intent visible:</p>
 <ul>
 <li><code>@command_dataclass</code> — an intent to perform an action</li>
 <li><code>@event_dataclass</code> — a fact that something already happened</li>
 <li><code>@query_dataclass</code> — a request for data without changing state</li>
 </ul>
-<p>The alias does not change runtime behavior. Its advantage is communication: readers, handlers, and type checkers can see the message role immediately.</p>
+<p>The alias does not change runtime behavior.<br />
+Its advantage is communication: readers, handlers, and type checkers can see the<br />
+message role immediately.</p>
 <h2 id="which-option-should-i-use">Which option should I use?<a class="headerlink" href="#which-option-should-i-use" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -7809,9 +7814,15 @@
 </tr>
 </tbody>
 </table>
-<p>Prefer the first option for application messages. Use the generic decorator when the message is deliberately role-neutral. Choose a manual subclass only when the generated dataclass construction or reconstruction is not sufficient.</p>
+<p>Prefer the first option for application messages.<br />
+Use the generic decorator when the message is deliberately role-neutral.<br />
+Choose a manual subclass only when the generated dataclass construction or<br />
+reconstruction is not sufficient.</p>
 <h2 id="inheritance-patterns">Inheritance patterns<a class="headerlink" href="#inheritance-patterns" title="Permanent link">&para;</a></h2>
-<p>Inherit the concrete message from the role that owns its handler contract, then decorate the concrete class. The decorator recognizes the abstract message members and supplies their implementations:</p>
+<p>Inherit the concrete message from the role that owns its handler contract, then<br />
+decorate the concrete class.<br />
+The decorator recognizes the abstract message members and supplies their<br />
+implementations:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">command_dataclass</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.command</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -7820,7 +7831,10 @@
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 </span></code></pre></div>
-<p>This pattern is useful because <code>RegisterCustomer</code> is both a frozen data carrier and a <code>Command</code>. Command handlers can accept <code>Command</code> values, while the concrete class keeps its typed fields and automatic payload reconstruction.</p>
+<p>This pattern is useful because <code>RegisterCustomer</code> is both a frozen data carrier<br />
+and a <code>Command</code>.<br />
+Command handlers can accept <code>Command</code> values, while the concrete class keeps its<br />
+typed fields and automatic payload reconstruction.</p>
 <p>Use the matching role for the message's meaning:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">event_dataclass</span><span class="p">,</span> <span class="n">query_dataclass</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.event</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span>
@@ -7834,7 +7848,8 @@
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">FindCustomer</span><span class="p">(</span><span class="n">Query</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
 </span></code></pre></div>
-<p>The same decorator can be used without a role-specific base when the message is intentionally neutral:</p>
+<p>The same decorator can be used without a role-specific base when the message is<br />
+intentionally neutral:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">message_dataclass</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.message</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
@@ -7842,7 +7857,11 @@
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">CustomerSnapshot</span><span class="p">(</span><span class="n">Message</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
 </span></code></pre></div>
-<p>A manual subclass is appropriate when you need behavior such as a custom payload object, non-standard validation, or a special serialization format. In that case, implement the abstract <code>_payload</code>, <code>value</code>, and <code>from_payload_fields</code> members yourself; the decorator is no longer reducing meaningful boilerplate.</p>
+<p>A manual subclass is appropriate when you need behavior such as a custom payload<br />
+object, non-standard validation, or a special serialization format.<br />
+In that case, implement the abstract <code>_payload</code>, <code>value</code>, and<br />
+<code>from_payload_fields</code> members yourself.<br />
+The decorator is no longer reducing meaningful boilerplate.</p>
 <div class="admonition note">
 <p class="admonition-title">Related</p>
 <p>See <a href="../../application/use-cases/">Application Use Cases &amp; Handlers</a> for how messages are processed.</p>
