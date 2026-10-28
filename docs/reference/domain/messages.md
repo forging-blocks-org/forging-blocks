@@ -27,9 +27,11 @@ message's architectural intent visible:
 - `@event_dataclass` — a fact that something already happened
 - `@query_dataclass` — a request for data without changing state
 
-The alias does not change runtime behavior.
-Its advantage is communication: readers, handlers, and type checkers can see the
-message role immediately.
+For a plain class, a role-specific alias adds the corresponding message base at
+runtime. If the class already inherits from that base, the decorator preserves the
+existing class hierarchy.
+The alias therefore communicates the message role to readers, handlers, and type
+checkers while also providing the matching runtime contract.
 
 ## Which option should I use?
 
