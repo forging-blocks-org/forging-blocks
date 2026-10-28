@@ -12,4 +12,4 @@ class ErrorMetadata[T]:
         ```
     """
 
-    context: dict[str, T] = field(default_factory=lambda: {})
+    context: dict[str, T] = field(default_factory=dict)
