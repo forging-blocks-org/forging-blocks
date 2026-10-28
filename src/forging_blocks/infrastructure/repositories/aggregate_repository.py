@@ -117,8 +117,8 @@ class AggregateRepository[
         ``TAggregateRoot``'s bound (``AggregateRoot[UUID, Any]``) and the
         repository's ``EventPayloadType`` generic. The types are guaranteed to
         match at runtime by construction; the type system cannot express this
-        cross-TypeVar-bound relationship (see PEP 695 and Pyright's
-        ``reportGeneralTypeIssues``).
+        cross-TypeVar-bound relationship (see PEP 695 and the checker's
+        general type diagnostics).
 
         Args:
             aggregate: The aggregate to save.
@@ -171,7 +171,11 @@ class AggregateRepository[
         if not events:
             return None
 
-        aggregate = self._aggregate_type.reconstitute(entity_id, events)
+        aggregate_type = cast(
+            type[AggregateRoot[TId, EventPayloadType]],
+            self._aggregate_type,
+        )
+        aggregate = cast(TAggregateRoot, aggregate_type.reconstitute(entity_id, events))
         await super().save(aggregate)
 
         return aggregate
