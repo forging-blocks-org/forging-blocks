@@ -1,15 +1,59 @@
 """Unit tests for message dataclass decorators."""
 
-from typing import Self, cast
+from typing import Any, Self, cast
 
 import pytest
 
+from forging_blocks.domain.messages.command import Command
+from forging_blocks.domain.messages.decorators import (
+    command_dataclass,
+    event_dataclass,
+    message_dataclass,
+    query_dataclass,
+)
+from forging_blocks.domain.messages.event import Event
 from forging_blocks.domain.messages.message import Message
+from forging_blocks.domain.messages.query import Query
 
 
 @pytest.mark.unit
 class TestMessageDataclassDecorator:
     """Tests for the message_dataclass decorator internals."""
+
+    @pytest.mark.parametrize(
+        ("decorator", "base_type"),
+        [
+            (command_dataclass, Command),
+            (event_dataclass, Event),
+            (query_dataclass, Query),
+        ],
+    )
+    def test_role_decorator_without_inheritance_creates_message(
+        self, decorator: Any, base_type: type[Any]
+    ) -> None:
+        """Role decorators create a message without explicit inheritance."""
+
+        @decorator
+        class PlainMessage:
+            customer_id: str
+
+        message = PlainMessage(customer_id="customer-1")
+
+        assert isinstance(message, base_type)
+        assert message._payload == {"customer_id": "customer-1"}
+        assert message.message_id is not None
+
+    def test_message_decorator_without_inheritance_creates_neutral_message(self) -> None:
+        """The generic decorator creates a neutral Message without inheritance."""
+
+        @message_dataclass
+        class PlainMessage:
+            customer_id: str
+
+        message = PlainMessage(customer_id="customer-1")
+
+        assert isinstance(message, Message)
+        assert message._payload == {"customer_id": "customer-1"}
 
     def test_message_dataclass_when_patched_message_check_fails_then_type_error(
         self,
