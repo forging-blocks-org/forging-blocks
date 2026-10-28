@@ -1,12 +1,3 @@
-# pyright: reportPrivateUsage=false
-# pyright: reportMissingTypeArgument=false
-# pyright: reportUnknownParameterType=false
-# pyright: reportUnknownMemberType=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportUnknownArgumentType=false
-# pyright: reportMissingParameterType=false
-# pyright: reportIncompatibleMethodOverride=false
-# pyright: reportUnusedClass=false
 import pytest
 
 from forging_blocks.foundation.errors.core import ErrorMessage, ErrorMetadata
