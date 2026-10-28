@@ -9,7 +9,7 @@ from forging_blocks.domain.messages.message import MessageMetadata
 class PatchedMessage(Protocol):
     """Structural type describing a message class after decorator patching.
 
-    This protocol allows pyright to verify that the patched attributes exist
+    This protocol allows the type checker to verify that the patched attributes exist
     and have the correct signatures, replacing attribute assignment suppressions
     with a type-safe cast boundary.
     """
