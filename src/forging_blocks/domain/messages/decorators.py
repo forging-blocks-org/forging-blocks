@@ -145,6 +145,11 @@ def _ensure_message_base(cls: type[Any], base: type[Any]) -> type[Any]:
         return cls
 
     namespace = dict(vars(cls))
+    slot_names = namespace.pop("__slots__", ())
+    if isinstance(slot_names, str):
+        slot_names = (slot_names,)
+    for slot_name in slot_names:
+        namespace.pop(slot_name, None)
     namespace.pop("__dict__", None)
     namespace.pop("__weakref__", None)
     wrapped = type(cls.__name__, (cls, base), namespace)
