@@ -104,7 +104,7 @@ class CreateTaskService(CreateTaskUseCase):
 !!! note "Generic type parameters are required"
     Port classes like `ApplicationServicePort` have **no defaults** on their
     generic type parameters. Inheriting as `ApplicationServicePort[Input, Output]`
-    is mandatory — omitting the type arguments will trigger pyright errors.
+    is mandatory — omitting the type arguments will trigger type-checking errors.
 
 ### Fake repository
 

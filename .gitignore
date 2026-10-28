@@ -52,7 +52,7 @@ hypothesis/
 .pytest_cache/
 tests/__pycache__/
 
-# MyPy / Pyright
+# MyPy / Pyrefly
 .mypy_cache/
 .dmypy.json
 .pyre/
