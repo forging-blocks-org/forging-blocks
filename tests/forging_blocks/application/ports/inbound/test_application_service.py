@@ -35,4 +35,4 @@ class TestApplicationService:
             pass
 
         with pytest.raises(TypeError, match="abstract"):
-            IncompleteService()  # pyright: ignore[reportAbstractUsage] — intentional runtime check
+            IncompleteService()

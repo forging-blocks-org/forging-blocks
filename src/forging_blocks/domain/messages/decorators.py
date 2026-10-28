@@ -58,6 +58,11 @@ def _frozen_delattr(self: object, name: str) -> None:
     object.__delattr__(self, name)
 
 
+def _payload_property(self: Any) -> dict[str, object]:
+    """Return payload fields for a dynamically patched message property."""
+    return self.get_payload_fields()
+
+
 def _resolve_abstract_methods_to_remove(
     dc_cls: type[Any], abstract_methods: frozenset[str]
 ) -> set[str]:
@@ -65,10 +70,10 @@ def _resolve_abstract_methods_to_remove(
     to_remove: set[str] = set()
     patched = cast(Any, dc_cls)
     if "_payload" in abstract_methods:
-        patched._payload = property(lambda self: self.get_payload_fields())
+        patched._payload = property(_payload_property)
         to_remove.add("_payload")
     if "value" in abstract_methods:
-        patched.value = property(lambda self: self.get_payload_fields())
+        patched.value = property(_payload_property)
         to_remove.add("value")
     if "from_payload_fields" in abstract_methods:
         to_remove.add("from_payload_fields")
@@ -130,7 +135,7 @@ def _create_from_payload_fields(
             raise TypeError(f"Unknown field(s) in payload for {cls.__name__}: {sorted(unknown)}")
         return cls(metadata=metadata, **data)
 
-    return classmethod(from_payload_fields)
+    return cast(classmethod[Any, Any, Any], classmethod(from_payload_fields))
 
 
 def _wrap_message_dataclass(cls: type[_M]) -> type[_M]:

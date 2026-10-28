@@ -4,6 +4,8 @@ Provides structured error types for save failures, deletion of
 non-existent aggregates, and retrieval errors.
 """
 
+from typing import cast
+
 from forging_blocks.foundation.errors.base.error import Error
 from forging_blocks.foundation.errors.builtin.runtime_error_mixin import RuntimeErrorMixin
 from forging_blocks.foundation.errors.core import ErrorMessage
@@ -51,4 +53,7 @@ class RepositoryNotFoundError[MetadataValueType = object](RepositoryError[Metada
             A RepositoryNotFoundError with a descriptive message.
 
         """
-        return cls(ErrorMessage(f"Aggregate with id '{entity_id}' not found."))
+        return cast(
+            RepositoryNotFoundError[MetadataValueType],
+            cls(ErrorMessage(f"Aggregate with id '{entity_id}' not found.")),
+        )

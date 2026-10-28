@@ -1,4 +1,3 @@
-# pyright: reportPrivateUsage=false, reportMissingTypeArgument=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportMissingParameterType=false, reportIncompatibleMethodOverride=false, reportUnusedClass=false, reportFunctionMemberAccess=false
 import os
 import subprocess
 from pathlib import Path
@@ -377,7 +376,7 @@ class TestReleaseWorkflow:
         def failing_push(branch: ReleaseBranchName) -> None:
             raise RuntimeError("Push failed")
 
-        version_control.push = failing_push  # pyright: ignore[reportAttributeAccessIssue]
+        version_control.push = failing_push
 
         request = PrepareReleaseInput(level="minor", dry_run=False)
 
