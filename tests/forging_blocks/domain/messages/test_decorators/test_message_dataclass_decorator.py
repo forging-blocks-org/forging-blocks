@@ -1,5 +1,6 @@
 """Unit tests for message dataclass decorators."""
 
+from dataclasses import field
 from typing import Any, Self, cast
 
 import pytest
@@ -54,6 +55,43 @@ class TestMessageDataclassDecorator:
 
         assert isinstance(message, Message)
         assert message._payload == {"customer_id": "customer-1"}
+
+    def test_role_decorator_without_inheritance_supports_default_factory_fields(self) -> None:
+        """Decorator-only messages support dataclass field factories."""
+
+        @event_dataclass
+        class PlainEvent:
+            tags: list[str] = field(default_factory=list)
+
+        message = PlainEvent()
+
+        assert message.tags == []
+        assert message._payload == {"tags": []}
+
+    @pytest.mark.parametrize("decorator", [command_dataclass, event_dataclass, query_dataclass])
+    def test_role_decorator_accepts_parentheses(self, decorator: Any) -> None:
+        """Role decorators support both direct and parenthesized invocation."""
+
+        @decorator()
+        class PlainMessage:
+            customer_id: str
+
+        assert PlainMessage(customer_id="customer-1")._payload == {"customer_id": "customer-1"}
+
+    def test_role_decorator_without_inheritance_preserves_custom_constructor(self) -> None:
+        """Decorator-only messages retain constructor validation."""
+
+        @event_dataclass
+        class ValidatedEvent:
+            value: int
+
+            def __init__(self, value: int) -> None:
+                if value < 0:
+                    raise ValueError("value must be non-negative")
+                self.value = value
+
+        with pytest.raises(ValueError, match="non-negative"):
+            ValidatedEvent(-1)
 
     def test_message_dataclass_when_patched_message_check_fails_then_type_error(
         self,
