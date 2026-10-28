@@ -144,11 +144,12 @@ def _ensure_message_base(cls: type[Any], base: type[Any]) -> type[Any]:
     if issubclass(cls, Message):
         return cls
 
-    wrapped = type(cls.__name__, (cls, base), {})
+    namespace = dict(vars(cls))
+    namespace.pop("__dict__", None)
+    namespace.pop("__weakref__", None)
+    wrapped = type(cls.__name__, (cls, base), namespace)
     wrapped.__module__ = cls.__module__
     wrapped.__qualname__ = cls.__qualname__
-    wrapped.__doc__ = cls.__doc__
-    wrapped.__annotations__ = getattr(cls, "__annotations__", {})
     return wrapped
 
 
@@ -220,16 +221,24 @@ def message_dataclass(
     return _message_dataclass_for_base(Message, cls)
 
 
-def event_dataclass(cls: type[Any]) -> type[Any]:
+def event_dataclass(cls: type[Any] | None = None) -> type[Any] | Callable[[type[Any]], type[Any]]:
     """Decorate a class as an event, adding the Event base when needed."""
+    if cls is None:
+        return lambda target: _message_dataclass_for_base(Event, target)
     return _message_dataclass_for_base(Event, cls)
 
 
-def command_dataclass(cls: type[Any]) -> type[Any]:
+def command_dataclass(
+    cls: type[Any] | None = None,
+) -> type[Any] | Callable[[type[Any]], type[Any]]:
     """Decorate a class as a command, adding the Command base when needed."""
+    if cls is None:
+        return lambda target: _message_dataclass_for_base(Command, target)
     return _message_dataclass_for_base(Command, cls)
 
 
-def query_dataclass(cls: type[Any]) -> type[Any]:
+def query_dataclass(cls: type[Any] | None = None) -> type[Any] | Callable[[type[Any]], type[Any]]:
     """Decorate a class as a query, adding the Query base when needed."""
+    if cls is None:
+        return lambda target: _message_dataclass_for_base(Query, target)
     return _message_dataclass_for_base(Query, cls)
