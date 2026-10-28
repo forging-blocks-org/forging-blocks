@@ -40,13 +40,13 @@ pytest-cov = "^5.0.0"
 pytest-asyncio = "^1.0.0"
 bandit = "^1.7.10"
 pre-commit = "^4.2.0"
-pyright = "^1.1.404"
 poethepoet = "^0.37.0"
 libcst = "^1.8.6"
 rich = "^14.2.0"
 pytest-git = "^1.8.0"
 types-pyyaml = "^6.0.12.20250915"
 pyyaml = "^6.0.3"
+pyrefly = "^1.4.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.6.1"
@@ -68,32 +68,6 @@ priority = "explicit"
 [build-system]
 requires = ["poetry-core>=1.9.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.pyright]
-pythonVersion = "3.14"
-venvPath = "."
-venv = ".venv"
-
-include = ["src", "tests", "scripts"]
-extraPaths = ["src", "scripts"]
-exclude = [
-  "**/site",
-  "**/__pycache__",
-  "**/.venv",
-  "**/build",
-  "**/dist",
-  "**/.mypy_cache",
-  "**/.ruff_cache",
-  "**/node_modules",
-  "scripts/**",
-  "tests/**",
-]
-executionEnvironments = [
-  { root = "src" }
-]
-typeCheckingMode = "strict"
-reportMissingImports = true
-reportMissingTypeStubs = false
 
 [tool.ruff]
 target-version = "py314"
@@ -146,7 +120,7 @@ markers = [
 
 [tool.poe.tasks]
 
-type = "pyright"
+type = "pyrefly check"
 bandit = "bandit -r src -x tests"
 
 test = { env = { "RUN_GITHUB_CLI_TESTS" = "1", "RUN_E2E_TESTS" = "1" }, cmd = "pytest" }
@@ -233,3 +207,35 @@ echo '  gh run list --workflow validate-release.yml'
 """
 
 release = { cmd = "python -m scripts.release.presentation", env = { "PYTHONPATH" = "src:scripts:scripts/release" } }
+
+[tool.pyrefly]
+preset = "strict"
+project-includes = [
+    "src",
+    "tests",
+    "scripts",
+]
+project-excludes = [
+    "**/site",
+    "**/__pycache__",
+    "**/.venv",
+    "**/build",
+    "**/dist",
+    "**/.mypy_cache",
+    "**/.ruff_cache",
+    "**/node_modules",
+    "scripts/**/*",
+    "tests/**/*",
+]
+search-path = [
+    "src",
+    "scripts",
+]
+python-version = "3.14.0"
+infer-with-first-use = false
+
+[tool.pyrefly.errors]
+missing-import = "error"
+untyped-import = "ignore"
+method-assign = false
+missing-override-decorator = false
