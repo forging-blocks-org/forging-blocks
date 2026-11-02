@@ -3,8 +3,8 @@
 Provides ``@message_dataclass`` (and its aliases ``@event_dataclass``,
 ``@command_dataclass``, ``@query_dataclass``) to reduce boilerplate when
 defining message types.  The decorated class is a frozen dataclass whose
-fields are automatically exposed via ``get_payload_fields()`` and are used
-by ``from_payload_fields()`` for reconstruction.
+fields are automatically exposed via the ``payload_fields`` property and are
+used by ``from_payload_fields()`` for reconstruction.
 
 Example:
     ```python
@@ -61,7 +61,7 @@ def _frozen_delattr(self: object, name: str) -> None:
 
 def _payload_property(self: Any) -> dict[str, object]:
     """Return payload fields for a dynamically patched message property."""
-    return self.get_payload_fields()
+    return self.payload_fields
 
 
 def _resolve_abstract_methods_to_remove(
@@ -165,7 +165,7 @@ def _wrap_message_dataclass(cls: type[Any]) -> type[Any]:
     mutable_cls.__setattr__ = _frozen_setattr
     mutable_cls.__delattr__ = _frozen_delattr
 
-    def get_payload_fields(self: Any) -> dict[str, object]:
+    def payload_fields(self: Any) -> dict[str, object]:
         return {
             name: getattr(self, name)
             for name in cast(Any, dc_cls).__dataclass_fields__
@@ -174,7 +174,7 @@ def _wrap_message_dataclass(cls: type[Any]) -> type[Any]:
 
     patched = cast(Any, dc_cls)
     patched.__init__ = _create_message_init(dc_cls.__init__)
-    patched.get_payload_fields = get_payload_fields
+    patched.payload_fields = property(payload_fields)
     patched.from_payload_fields = _create_from_payload_fields(dc_cls)
 
     _patch_abstract_methods(dc_cls)
@@ -206,7 +206,7 @@ def message_dataclass(
     The decorator applies ``@dataclass(frozen=False)`` and then replaces
     ``__setattr__`` and ``__delattr__`` with custom implementations that raise
     ``FrozenInstanceError`` after ``__init__`` completes. It also patches
-    ``get_payload_fields`` and ``from_payload_fields`` onto the class so that
+    the ``payload_fields`` property and ``from_payload_fields`` onto the class so that
     payload data is automatically derived from its fields.
 
     When the decorated class inherits from an abstract base (e.g.

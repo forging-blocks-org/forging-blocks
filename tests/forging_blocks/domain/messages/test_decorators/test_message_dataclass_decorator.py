@@ -216,7 +216,7 @@ class TestMessageDataclassDecorator:
         assert result.tracking_code == "TRK-001"
         assert result.metadata.message_type == "Shipped"
 
-    def test_get_payload_fields_returns_non_private_dataclass_fields(self) -> None:
+    def test_payload_fields_returns_non_private_dataclass_fields(self) -> None:
         from forging_blocks.domain.messages.decorators import event_dataclass
         from forging_blocks.domain.messages.event import Event
 
@@ -225,7 +225,7 @@ class TestMessageDataclassDecorator:
             tracking_code: str
 
         msg = Shipped(tracking_code="TRK-001")
-        result = msg.get_payload_fields()
+        result = msg.payload_fields
         assert result == {"tracking_code": "TRK-001"}
 
     def test_setattr_on_frozen_message_raises_frozen_instance_error(self) -> None:

@@ -18,40 +18,26 @@ class Command[RawCommandType](Message[RawCommandType]):
 
     Example:
         ```python
-        class CreateOrderPayload:
-            def __init__(self, customer_id: str, items: list) -> None:
-                self.customer_id = customer_id
-                self.items = items
+        from forging_blocks.domain.messages.decorators import command_dataclass
 
 
-        class CreateOrder(Command[CreateOrderPayload]):
-            def __init__(
-                self, customer_id: str, items: list, metadata: MessageMetadata | None = None
-            ):
-                super().__init__(metadata)
-                self._customer_id = customer_id
-                self._items = items
+        @command_dataclass
+        class CreateOrder:
+            customer_id: str
+            items: tuple[str, ...]
 
-            @property
-            def _payload(self) -> CreateOrderPayload:
-                return CreateOrderPayload(
-                    customer_id=self._customer_id,
-                    items=self._items,
-                )
 
-            @classmethod
-            def from_payload_fields(
-                cls, data: CreateOrderPayload, metadata: MessageMetadata
-            ) -> "CreateOrder":
-                return cls(
-                    customer_id=data.customer_id,
-                    items=data.items,
-                    metadata=metadata,
-                )
+        command = CreateOrder(
+            customer_id="customer-1",
+            items=("coffee", "tea"),
+        )
 
-            @property
-            def value(self) -> CreateOrderPayload:
-                return self._payload
+        assert isinstance(command, Command)
+        assert command.command_id == command.message_id
+        assert command.payload_fields == {
+            "customer_id": "customer-1",
+            "items": ("coffee", "tea"),
+        }
         ```
 
     """
