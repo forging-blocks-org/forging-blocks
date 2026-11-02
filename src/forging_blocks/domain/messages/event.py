@@ -36,7 +36,7 @@ class Event[RawEventType](Message[RawEventType]):
 
         assert isinstance(event, Event)
         assert event.occurred_at == event.created_at
-        assert event.get_payload_fields() == {
+        assert event.payload_fields == {
             "order_id": "order-1",
             "customer_id": "customer-1",
             "total": 99.95,

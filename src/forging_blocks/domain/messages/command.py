@@ -34,7 +34,7 @@ class Command[RawCommandType](Message[RawCommandType]):
 
         assert isinstance(command, Command)
         assert command.command_id == command.message_id
-        assert command.get_payload_fields() == {
+        assert command.payload_fields == {
             "customer_id": "customer-1",
             "items": ("coffee", "tea"),
         }

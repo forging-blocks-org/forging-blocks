@@ -27,7 +27,7 @@ class Query[QueryPayloadType](Message[QueryPayloadType]):
         query = GetOrder(order_id="order-1")
 
         assert isinstance(query, Query)
-        assert query.get_payload_fields() == {"order_id": "order-1"}
+        assert query.payload_fields == {"order_id": "order-1"}
         assert query.message_id == query.metadata.message_id
         ```
 
