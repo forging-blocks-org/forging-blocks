@@ -34,14 +34,15 @@ Example:
 import dataclasses
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, TypeVar, cast, overload
+from typing import Any, cast, overload
 
+from forging_blocks.domain.messages.command import Command
+from forging_blocks.domain.messages.event import Event
 from forging_blocks.domain.messages.helpers._patched_message import (
     PatchedMessage as _PatchedMessage,
 )
 from forging_blocks.domain.messages.message import Message, MessageMetadata
-
-_M = TypeVar("_M", bound="Message[Any]")
+from forging_blocks.domain.messages.query import Query
 
 
 def _frozen_setattr(self: object, name: str, value: object) -> None:
@@ -138,13 +139,33 @@ def _create_from_payload_fields(
     return cast(classmethod[Any, Any, Any], classmethod(from_payload_fields))
 
 
-def _wrap_message_dataclass(cls: type[_M]) -> type[_M]:
-    """Decorate and patch a concrete message class."""
-    dc_cls: type[_M] = dataclass(frozen=False, eq=False)(cls)
-    dc_cls.__setattr__ = _frozen_setattr
-    dc_cls.__delattr__ = _frozen_delattr
+def _ensure_message_base(cls: type[Any], base: type[Any]) -> type[Any]:
+    """Create a message subclass when the decorated class has no message base."""
+    if issubclass(cls, Message):
+        return cls
 
-    def get_payload_fields(self: _M) -> dict[str, object]:
+    namespace = dict(vars(cls))
+    slot_names = namespace.pop("__slots__", ())
+    if isinstance(slot_names, str):
+        slot_names = (slot_names,)
+    for slot_name in slot_names:
+        namespace.pop(slot_name, None)
+    namespace.pop("__dict__", None)
+    namespace.pop("__weakref__", None)
+    wrapped = type(cls.__name__, (cls, base), namespace)
+    wrapped.__module__ = cls.__module__
+    wrapped.__qualname__ = cls.__qualname__
+    return wrapped
+
+
+def _wrap_message_dataclass(cls: type[Any]) -> type[Any]:
+    """Decorate and patch a concrete message class."""
+    dc_cls: type[Any] = dataclass(frozen=False, eq=False)(cls)
+    mutable_cls = cast(Any, dc_cls)
+    mutable_cls.__setattr__ = _frozen_setattr
+    mutable_cls.__delattr__ = _frozen_delattr
+
+    def get_payload_fields(self: Any) -> dict[str, object]:
         return {
             name: getattr(self, name)
             for name in cast(Any, dc_cls).__dataclass_fields__
@@ -162,18 +183,24 @@ def _wrap_message_dataclass(cls: type[_M]) -> type[_M]:
 
 
 @overload
-def message_dataclass(cls: type[_M]) -> type[_M]: ...
+def message_dataclass(cls: type[Any]) -> type[Any]: ...
 
 
 @overload
 def message_dataclass(
     cls: None = None,
-) -> Callable[[type[_M]], type[_M]]: ...
+) -> Callable[[type[Any]], type[Any]]: ...
+
+
+def _message_dataclass_for_base(base: type[Any], cls: type[Any]) -> type[Any]:
+    """Decorate a class with a selected message role."""
+    message_cls = _ensure_message_base(cls, base)
+    return _wrap_message_dataclass(message_cls)
 
 
 def message_dataclass(
-    cls: type[_M] | None = None,
-) -> type[_M] | Callable[[type[_M]], type[_M]]:
+    cls: type[Any] | None = None,
+) -> type[Any] | Callable[[type[Any]], type[Any]]:
     """Decorate a class as a message dataclass.
 
     The decorator applies ``@dataclass(frozen=False)`` and then replaces
@@ -194,14 +221,29 @@ def message_dataclass(
     Returns:
         The decorated class (or a wrapper when called with keyword arguments).
     """
-    return _wrap_message_dataclass if cls is None else _wrap_message_dataclass(cls)
+    if cls is None:
+        return lambda target: _message_dataclass_for_base(Message, target)
+    return _message_dataclass_for_base(Message, cls)
 
 
-event_dataclass = message_dataclass
-"""Alias for ``@message_dataclass`` intended for domain events."""
+def event_dataclass(cls: type[Any] | None = None) -> type[Any] | Callable[[type[Any]], type[Any]]:
+    """Decorate a class as an event, adding the Event base when needed."""
+    if cls is None:
+        return lambda target: _message_dataclass_for_base(Event, target)
+    return _message_dataclass_for_base(Event, cls)
 
-command_dataclass = message_dataclass
-"""Alias for ``@message_dataclass`` intended for commands."""
 
-query_dataclass = message_dataclass
-"""Alias for ``@message_dataclass`` intended for queries."""
+def command_dataclass(
+    cls: type[Any] | None = None,
+) -> type[Any] | Callable[[type[Any]], type[Any]]:
+    """Decorate a class as a command, adding the Command base when needed."""
+    if cls is None:
+        return lambda target: _message_dataclass_for_base(Command, target)
+    return _message_dataclass_for_base(Command, cls)
+
+
+def query_dataclass(cls: type[Any] | None = None) -> type[Any] | Callable[[type[Any]], type[Any]]:
+    """Decorate a class as a query, adding the Query base when needed."""
+    if cls is None:
+        return lambda target: _message_dataclass_for_base(Query, target)
+    return _message_dataclass_for_base(Query, cls)

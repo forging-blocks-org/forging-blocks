@@ -27,22 +27,44 @@ message's architectural intent visible:
 - `@event_dataclass` — a fact that something already happened
 - `@query_dataclass` — a request for data without changing state
 
-The alias does not change runtime behavior.
-Its advantage is communication: readers, handlers, and type checkers can see the
-message role immediately.
+For a plain class, a role-specific alias adds the corresponding message base at
+runtime. If the class already inherits from that base, the decorator preserves the
+existing class hierarchy.
+The alias therefore communicates the message role to readers, handlers, and type
+checkers while also providing the matching runtime contract.
 
 ## Which option should I use?
 
 | Option | Use it when | Main advantage |
 | --- | --- | --- |
-| A role-specific alias and base class | The message is clearly a command, event, or query | Makes handler contracts and architectural intent explicit |
-| ``@message_dataclass`` with ``Message`` | The message is role-neutral or shared by multiple workflows | Keeps reusable message types independent of CQRS roles |
+| A role-specific decorator without inheritance | The message is a simple concrete command, event, or query | Minimal code while retaining the role-specific message type |
+| A role-specific decorator and base class | Handlers or public APIs need the explicit `Command`, `Event`, or `Query` type | Makes handler contracts and architectural intent explicit |
+| ``@message_dataclass`` without inheritance | The message is role-neutral or shared by multiple workflows | Keeps reusable message types independent of CQRS roles |
 | A manual ``Message`` subclass | Construction, validation, serialization, or mutation rules do not fit the decorator | Gives complete control, at the cost of more boilerplate |
 
-Prefer the first option for application messages.
-Use the generic decorator when the message is deliberately role-neutral.
+Prefer a role-specific decorator without inheritance for simple concrete
+messages. Add the matching base class when a handler or public API should accept
+messages through the explicit ``Command``, ``Event``, or ``Query`` contract.
+Use the generic decorator without inheritance for role-neutral messages.
 Choose a manual subclass only when the generated dataclass construction or
 reconstruction is not sufficient.
+
+## Decorator-only pattern
+
+A role-specific decorator can add the corresponding message role automatically.
+Inheritance is not required for a simple concrete message:
+
+```python
+from forging_blocks.domain.messages.decorators import event_dataclass
+
+@event_dataclass
+class CustomerRegistered:
+    customer_id: str
+```
+
+``CustomerRegistered`` is an ``Event`` with generated metadata, payload
+reconstruction, and frozen fields. This is the shortest option when callers do
+not need to spell the ``Event`` base class in a type annotation.
 
 ## Inheritance patterns
 
@@ -82,15 +104,14 @@ class FindCustomer(Query[dict[str, str]]):
     customer_id: str
 ```
 
-The same decorator can be used without a role-specific base when the message is
+The generic decorator also works without inheritance when the message is
 intentionally neutral:
 
 ```python
 from forging_blocks.domain.messages.decorators import message_dataclass
-from forging_blocks.domain.messages.message import Message
 
 @message_dataclass
-class CustomerSnapshot(Message[dict[str, str]]):
+class CustomerSnapshot:
     customer_id: str
 ```
 
