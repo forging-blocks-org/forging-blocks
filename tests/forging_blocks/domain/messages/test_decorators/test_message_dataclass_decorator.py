@@ -68,12 +68,15 @@ class TestMessageDataclassDecorator:
         assert message.tags == []
         assert message._payload == {"tags": []}
 
-    def test_role_decorator_without_inheritance_supports_slots(self) -> None:
+    @pytest.mark.parametrize("slot_definition", [("customer_id",), "customer_id"])
+    def test_role_decorator_without_inheritance_supports_slots(
+        self, slot_definition: tuple[str, ...] | str
+    ) -> None:
         """Decorator-only messages support classes that define slots."""
 
         @event_dataclass
         class SlottedEvent:
-            __slots__ = ("customer_id",)
+            __slots__ = slot_definition
             customer_id: str
 
         message = SlottedEvent(customer_id="customer-1")
@@ -104,6 +107,15 @@ class TestMessageDataclassDecorator:
 
         with pytest.raises(ValueError, match="non-negative"):
             ValidatedEvent(-1)
+
+    def test_message_decorator_accepts_parentheses(self) -> None:
+        """The generic decorator supports parenthesized invocation."""
+
+        @message_dataclass()
+        class PlainMessage:
+            customer_id: str
+
+        assert PlainMessage(customer_id="customer-1")._payload == {"customer_id": "customer-1"}
 
     def test_message_dataclass_when_patched_message_check_fails_then_type_error(
         self,
