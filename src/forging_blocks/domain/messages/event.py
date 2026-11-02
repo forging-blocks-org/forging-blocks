@@ -18,41 +18,29 @@ class Event[RawEventType](Message[RawEventType]):
 
     Example:
         ```python
-        class OrderCreatedPayload:
-            def __init__(self, order_id: str, customer_id: str, total: float) -> None:
-                self.order_id = order_id
-                self.customer_id = customer_id
-                self.total = total
+        from forging_blocks.domain.messages.decorators import event_dataclass
 
 
-        class OrderCreated(Event[OrderCreatedPayload]):
-            def __init__(self, order_id: str, customer_id: str, total: float):
-                super().__init__()
-                self._order_id = order_id
-                self._customer_id = customer_id
-                self._total = total
+        @event_dataclass
+        class OrderCreated:
+            order_id: str
+            customer_id: str
+            total: float
 
-            @property
-            def _payload(self) -> OrderCreatedPayload:
-                return OrderCreatedPayload(
-                    order_id=self._order_id,
-                    customer_id=self._customer_id,
-                    total=self._total,
-                )
 
-            @classmethod
-            def from_payload_fields(
-                cls, data: OrderCreatedPayload, metadata: MessageMetadata
-            ) -> "OrderCreated":
-                return cls(
-                    order_id=data.order_id,
-                    customer_id=data.customer_id,
-                    total=data.total,
-                )
+        event = OrderCreated(
+            order_id="order-1",
+            customer_id="customer-1",
+            total=99.95,
+        )
 
-            @property
-            def value(self) -> OrderCreatedPayload:
-                return self._payload
+        assert isinstance(event, Event)
+        assert event.occurred_at == event.created_at
+        assert event.get_payload_fields() == {
+            "order_id": "order-1",
+            "customer_id": "customer-1",
+            "total": 99.95,
+        }
         ```
 
     """

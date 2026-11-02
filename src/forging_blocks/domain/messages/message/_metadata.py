@@ -23,14 +23,19 @@ class MessageMetadata(ValueObject[dict[str, object]]):
 
     Example:
         ```python
-        metadata = MessageMetadata(message_type="OrderCreated")
+        from datetime import datetime, timezone
+        from uuid import UUID
 
-        # Or with custom values
+        metadata = MessageMetadata(message_type="OrderCreated")
+        assert metadata.message_type == "OrderCreated"
+        assert metadata.message_id is not None
+
         custom_metadata = MessageMetadata(
             message_type="UserCreated",
             message_id=UUID("123e4567-e89b-12d3-a456-426614174000"),
             created_at=datetime(2025, 6, 11, 19, 36, 6, tzinfo=timezone.utc),
         )
+        assert custom_metadata.value["message_type"] == "UserCreated"
         ```
 
     """

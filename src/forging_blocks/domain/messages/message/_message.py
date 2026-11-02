@@ -25,37 +25,25 @@ class Message[MessageRawType](ABC):
     `MessageMetadata`, enforced via `auto_hash` and
     `auto_eq` with ``fields=["message_id"]``.
 
-    This class should not be used directly.  Import `Event` or
-    `Command` instead.
+    This class should not be used directly. Import `Event`, `Command`, or
+    `Query` for role-specific messages, or use `@message_dataclass` for a
+    role-neutral concrete message.
 
     Example:
         ```python
-        from forging_blocks.domain.messages.command import Command
+        from forging_blocks.domain.messages.decorators import message_dataclass
 
 
-        class PlaceOrder(Command[str]):
-            def __init__(self, description: str) -> None:
-                super().__init__()
-                self.description = description
-
-            @property
-            def _payload(self) -> str:
-                return self.description
-
-            @classmethod
-            def from_payload_fields(
-                cls, payload: str, metadata: MessageMetadata | None = None
-            ) -> PlaceOrder:
-                return cls(payload)
-
-            @property
-            def value(self) -> str:
-                return self.description
+        @message_dataclass
+        class Notification:
+            text: str
 
 
-        cmd = PlaceOrder("Buy groceries")
-        print(cmd.message_id)  # unique identifier
-        print(cmd.description)  # "Buy groceries"
+        notification = Notification(text="Order received")
+
+        assert isinstance(notification, Message)
+        assert notification.value == {"text": "Order received"}
+        assert notification.message_id == notification.metadata.message_id
         ```
     """
 

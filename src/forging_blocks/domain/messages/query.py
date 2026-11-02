@@ -16,29 +16,19 @@ class Query[QueryPayloadType](Message[QueryPayloadType]):
 
     Example:
         ```python
-        class GetOrderPayload:
-            def __init__(self, order_id: str) -> None:
-                self.order_id = order_id
+        from forging_blocks.domain.messages.decorators import query_dataclass
 
 
-        class GetOrder(Query[GetOrderPayload]):
-            def __init__(self, order_id: str):
-                super().__init__()
-                self._order_id = order_id
+        @query_dataclass
+        class GetOrder:
+            order_id: str
 
-            @property
-            def _payload(self) -> GetOrderPayload:
-                return GetOrderPayload(order_id=self._order_id)
 
-            @classmethod
-            def from_payload_fields(
-                cls, data: GetOrderPayload, metadata: MessageMetadata
-            ) -> "GetOrder":
-                return cls(order_id=data.order_id)
+        query = GetOrder(order_id="order-1")
 
-            @property
-            def value(self) -> GetOrderPayload:
-                return self._payload
+        assert isinstance(query, Query)
+        assert query.get_payload_fields() == {"order_id": "order-1"}
+        assert query.message_id == query.metadata.message_id
         ```
 
     """
