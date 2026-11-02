@@ -1,0 +1,58 @@
+/* ============================================================
+   BADWOLF — Mermaid Adapter
+   ============================================================ */
+
+.mermaid {
+  background-color: var(--bw-bg-root) !important;
+  padding: 1.25rem;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.mermaid rect {
+  fill: var(--bw-bg-elevated) !important;
+  stroke: var(--bw-border-neutral) !important;
+  stroke-width: 2px !important;
+  rx: 6px;
+  ry: 6px;
+}
+
+.mermaid text {
+  fill: var(--bw-fg-primary) !important;
+}
+
+.mermaid path {
+  stroke: var(--bw-fg-muted) !important;
+  stroke-width: 2px !important;
+}
+
+.mermaid marker path {
+  fill: var(--bw-fg-muted) !important;
+}
+
+.mermaid rect.highlighted {
+  stroke: var(--bw-accent-orange-dark) !important;
+}
+
+.mermaid .highlighted path {
+  stroke: var(--bw-accent-orange) !important;
+  stroke-width: 3px !important;
+}
+
+.mermaid .cluster rect {
+  fill: var(--bw-bg-root) !important;
+  stroke: var(--bw-accent-red) !important;
+}
+
+.mermaid .cluster text {
+  fill: var(--bw-accent-yellow) !important;
+}
+
+.mermaid g:hover rect {
+  fill: var(--bw-bg-hover) !important;
+}
+
+.mermaid g:hover path {
+  stroke: var(--bw-accent-yellow) !important;
+}
