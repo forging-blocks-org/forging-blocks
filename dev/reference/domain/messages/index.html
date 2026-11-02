@@ -1199,6 +1199,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#decorator-only-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decorator-only pattern
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#inheritance-patterns" class="md-nav__link">
     <span class="md-ellipsis">
       Inheritance patterns
@@ -7728,6 +7737,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#decorator-only-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decorator-only pattern
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#inheritance-patterns" class="md-nav__link">
     <span class="md-ellipsis">
       Inheritance patterns
@@ -7784,9 +7802,11 @@ message's architectural intent visible:</p>
 <li><code>@event_dataclass</code> — a fact that something already happened</li>
 <li><code>@query_dataclass</code> — a request for data without changing state</li>
 </ul>
-<p>The alias does not change runtime behavior.<br />
-Its advantage is communication: readers, handlers, and type checkers can see the<br />
-message role immediately.</p>
+<p>For a plain class, a role-specific alias adds the corresponding message base at<br />
+runtime. If the class already inherits from that base, the decorator preserves the<br />
+existing class hierarchy.<br />
+The alias therefore communicates the message role to readers, handlers, and type<br />
+checkers while also providing the matching runtime contract.</p>
 <h2 id="which-option-should-i-use">Which option should I use?<a class="headerlink" href="#which-option-should-i-use" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -7798,12 +7818,17 @@ message role immediately.</p>
 </thead>
 <tbody>
 <tr>
-<td>A role-specific alias and base class</td>
-<td>The message is clearly a command, event, or query</td>
+<td>A role-specific decorator without inheritance</td>
+<td>The message is a simple concrete command, event, or query</td>
+<td>Minimal code while retaining the role-specific message type</td>
+</tr>
+<tr>
+<td>A role-specific decorator and base class</td>
+<td>Handlers or public APIs need the explicit <code>Command</code>, <code>Event</code>, or <code>Query</code> type</td>
 <td>Makes handler contracts and architectural intent explicit</td>
 </tr>
 <tr>
-<td><code>@message_dataclass</code> with <code>Message</code></td>
+<td><code>@message_dataclass</code> without inheritance</td>
 <td>The message is role-neutral or shared by multiple workflows</td>
 <td>Keeps reusable message types independent of CQRS roles</td>
 </tr>
@@ -7814,48 +7839,61 @@ message role immediately.</p>
 </tr>
 </tbody>
 </table>
-<p>Prefer the first option for application messages.<br />
-Use the generic decorator when the message is deliberately role-neutral.<br />
+<p>Prefer a role-specific decorator without inheritance for simple concrete<br />
+messages. Add the matching base class when a handler or public API should accept<br />
+messages through the explicit <code>Command</code>, <code>Event</code>, or <code>Query</code> contract.<br />
+Use the generic decorator without inheritance for role-neutral messages.<br />
 Choose a manual subclass only when the generated dataclass construction or<br />
 reconstruction is not sufficient.</p>
+<h2 id="decorator-only-pattern">Decorator-only pattern<a class="headerlink" href="#decorator-only-pattern" title="Permanent link">&para;</a></h2>
+<p>A role-specific decorator can add the corresponding message role automatically.<br />
+Inheritance is not required for a simple concrete message:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">event_dataclass</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nd">@event_dataclass</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">CustomerRegistered</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
+</span></code></pre></div>
+<p><code>CustomerRegistered</code> is an <code>Event</code> with generated metadata, payload<br />
+reconstruction, and frozen fields. This is the shortest option when callers do<br />
+not need to spell the <code>Event</code> base class in a type annotation.</p>
 <h2 id="inheritance-patterns">Inheritance patterns<a class="headerlink" href="#inheritance-patterns" title="Permanent link">&para;</a></h2>
 <p>Inherit the concrete message from the role that owns its handler contract, then<br />
 decorate the concrete class.<br />
 The decorator recognizes the abstract message members and supplies their<br />
 implementations:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">command_dataclass</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.command</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nd">@command_dataclass</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">RegisterCustomer</span><span class="p">(</span><span class="n">Command</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">command_dataclass</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.command</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nd">@command_dataclass</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">RegisterCustomer</span><span class="p">(</span><span class="n">Command</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 </span></code></pre></div>
 <p>This pattern is useful because <code>RegisterCustomer</code> is both a frozen data carrier<br />
 and a <code>Command</code>.<br />
 Command handlers can accept <code>Command</code> values, while the concrete class keeps its<br />
 typed fields and automatic payload reconstruction.</p>
 <p>Use the matching role for the message's meaning:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">event_dataclass</span><span class="p">,</span> <span class="n">query_dataclass</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.event</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.query</span><span class="w"> </span><span class="kn">import</span> <span class="n">Query</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nd">@event_dataclass</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">CustomerRegistered</span><span class="p">(</span><span class="n">Event</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="nd">@query_dataclass</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">FindCustomer</span><span class="p">(</span><span class="n">Query</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">event_dataclass</span><span class="p">,</span> <span class="n">query_dataclass</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.event</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.query</span><span class="w"> </span><span class="kn">import</span> <span class="n">Query</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nd">@event_dataclass</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">CustomerRegistered</span><span class="p">(</span><span class="n">Event</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="nd">@query_dataclass</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">FindCustomer</span><span class="p">(</span><span class="n">Query</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
 </span></code></pre></div>
-<p>The same decorator can be used without a role-specific base when the message is<br />
+<p>The generic decorator also works without inheritance when the message is<br />
 intentionally neutral:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">message_dataclass</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.message</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nd">@message_dataclass</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">CustomerSnapshot</span><span class="p">(</span><span class="n">Message</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">forging_blocks.domain.messages.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">message_dataclass</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nd">@message_dataclass</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">CustomerSnapshot</span><span class="p">:</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
 </span></code></pre></div>
 <p>A manual subclass is appropriate when you need behavior such as a custom payload<br />
 object, non-standard validation, or a special serialization format.<br />
