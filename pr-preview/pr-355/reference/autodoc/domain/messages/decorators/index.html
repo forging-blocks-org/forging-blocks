@@ -7793,8 +7793,8 @@
 <p>Provides <code>@message_dataclass</code> (and its aliases <code>@event_dataclass</code>,<br />
 <code>@command_dataclass</code>, <code>@query_dataclass</code>) to reduce boilerplate when<br />
 defining message types.  The decorated class is a frozen dataclass whose<br />
-fields are automatically exposed via <code>get_payload_fields()</code> and are used<br />
-by <code>from_payload_fields()</code> for reconstruction.</p>
+fields are automatically exposed via the <code>payload_fields</code> property and are<br />
+used by <code>from_payload_fields()</code> for reconstruction.</p>
 
 
 <details class="example" open>
@@ -7862,7 +7862,7 @@ by <code>from_payload_fields()</code> for reconstruction.</p>
 <p>The decorator applies <code>@dataclass(frozen=False)</code> and then replaces<br />
 <code>__setattr__</code> and <code>__delattr__</code> with custom implementations that raise<br />
 <code>FrozenInstanceError</code> after <code>__init__</code> completes. It also patches<br />
-<code>get_payload_fields</code> and <code>from_payload_fields</code> onto the class so that<br />
+the <code>payload_fields</code> property and <code>from_payload_fields</code> onto the class so that<br />
 payload data is automatically derived from its fields.</p>
 <p>When the decorated class inherits from an abstract base (e.g.<br />
 <code>Event</code>, <code>Command</code>, <code>Query</code>), the decorator<br />
@@ -7960,7 +7960,7 @@ automatically patches <code>_payload</code>, <code>value</code>, and<br />
 </span><span id="__span-0-206"><a id="__codelineno-0-206" name="__codelineno-0-206"></a><span class="sd">    The decorator applies ``@dataclass(frozen=False)`` and then replaces</span>
 </span><span id="__span-0-207"><a id="__codelineno-0-207" name="__codelineno-0-207"></a><span class="sd">    ``__setattr__`` and ``__delattr__`` with custom implementations that raise</span>
 </span><span id="__span-0-208"><a id="__codelineno-0-208" name="__codelineno-0-208"></a><span class="sd">    ``FrozenInstanceError`` after ``__init__`` completes. It also patches</span>
-</span><span id="__span-0-209"><a id="__codelineno-0-209" name="__codelineno-0-209"></a><span class="sd">    ``get_payload_fields`` and ``from_payload_fields`` onto the class so that</span>
+</span><span id="__span-0-209"><a id="__codelineno-0-209" name="__codelineno-0-209"></a><span class="sd">    the ``payload_fields`` property and ``from_payload_fields`` onto the class so that</span>
 </span><span id="__span-0-210"><a id="__codelineno-0-210" name="__codelineno-0-210"></a><span class="sd">    payload data is automatically derived from its fields.</span>
 </span><span id="__span-0-211"><a id="__codelineno-0-211" name="__codelineno-0-211"></a>
 </span><span id="__span-0-212"><a id="__codelineno-0-212" name="__codelineno-0-212"></a><span class="sd">    When the decorated class inherits from an abstract base (e.g.</span>
